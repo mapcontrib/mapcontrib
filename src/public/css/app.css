@@ -100,11 +100,14 @@ fieldset[disabled] .form-control {
 #user_toolbar .share_btn {
   background: #72bf7b;
 }
+#user_toolbar .contrib_btn {
+  background: #e85657;
+}
 #user_toolbar .edit_btn {
   background: #f8981d;
 }
 #edit_toolbar {
-  top: 238px;
+  top: 301px;
   right: -63px;
   -webkit-transition: all ease-out 0.2s;
   -moz-transition: all ease-out 0.2s;
