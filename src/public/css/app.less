@@ -70,6 +70,26 @@ fieldset[disabled] .form-control {
 }
 
 
+#control_toolbar,
+#help_toolbar,
+#user_toolbar,
+#edit_toolbar {
+
+	position: fixed;
+	z-index: 1000;
+	width: @toolbarBtnSize;
+
+	.btn {
+
+		width: @toolbarBtnSize;
+		height: @toolbarBtnSize;
+		font-size: 1.6em;
+		padding: 10px 16px;
+		.border-radius(0);
+	}
+}
+
+
 #control_toolbar {
 
 	position: fixed;
@@ -87,26 +107,6 @@ fieldset[disabled] .form-control {
 		.border-radius(0);
 		color: @anthracite;
 		background: #fff;
-	}
-}
-
-
-#control_toolbar,
-#help_toolbar,
-#user_toolbar,
-#edit_toolbar {
-
-	position: fixed;
-	z-index: 1000;
-	width: @toolbarBtnSize;
-
-	.btn {
-
-		width: @toolbarBtnSize;
-		height: @toolbarBtnSize;
-		font-size: 1.6em;
-		padding: 10px 16px;
-		.border-radius(0);
 	}
 }
 
