@@ -173,8 +173,8 @@ fieldset[disabled] .form-control {
   position: fixed;
   z-index: 1005;
   bottom: 0;
-  right: -50%;
-  width: 50%;
+  right: -400px;
+  width: 400px;
   -webkit-transition: all ease-out 0.2s;
   -moz-transition: all ease-out 0.2s;
   -ms-transition: all ease-out 0.2s;
