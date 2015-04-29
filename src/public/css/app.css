@@ -149,6 +149,7 @@ fieldset .form-control {
   -ms-transition: all ease-out 0.2s;
   -o-transition: all ease-out 0.2s;
   transition: all ease-out 0.2s;
+  color: #fff;
 }
 .column.open {
   -webkit-transform: translate(-300px, 0);
@@ -157,22 +158,30 @@ fieldset .form-control {
   -o-transform: translate(-300px, 0);
   transform: translate(-300px, 0);
 }
+.column a {
+  color: #fff;
+  text-decoration: underline;
+}
+.column a:hover,
+.column a:focus {
+  text-decoration: none;
+}
 .column header {
   height: 40px;
   border: 1px solid transparent;
 }
 .column header h2 {
-  font-size: 20px;
+  font-size: 24px;
   line-height: 40px;
   margin: 0 0 0 10px;
-  color: #fff;
 }
 .column header .close_btn {
+  margin-top: 3px;
   color: #fff;
 }
 .column .content {
   position: absolute;
-  top: 50px;
+  top: 60px;
   bottom: 0;
   left: 0;
   right: 0;

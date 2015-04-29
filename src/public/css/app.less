@@ -220,10 +220,23 @@ fieldset .form-control {
 	right: -300px;
 	width: 300px;
 	.transition(all ease-out .2s);
+	color: #fff;
 
 	&.open {
 
 		.transform( translate(-300px, 0) );
+	}
+
+	a {
+
+		color: #fff;
+		text-decoration: underline;
+
+		&:hover,
+		&:focus {
+
+			text-decoration: none;
+		}
 	}
 
 	header {
@@ -233,14 +246,14 @@ fieldset .form-control {
 
 		h2 {
 
-			font-size: 20px;
+			font-size: 24px;
 			line-height: 40px;
 			margin: 0 0 0 10px;
-			color: #fff;
 		}
 
 		.close_btn {
 
+			margin-top: 3px;
 			color: #fff;
 		}
 	}
@@ -248,7 +261,7 @@ fieldset .form-control {
 	.content {
 
 		position: absolute;
-		top: 50px;
+		top: 60px;
 		bottom: 0;
 		left: 0;
 		right: 0;
