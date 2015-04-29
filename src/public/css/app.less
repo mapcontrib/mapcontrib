@@ -3,11 +3,24 @@
 
 
 @orange: #F8981D;
+
+@lightRed: #EB7E7F;
 @red: #E85657;
-@pink: #EB7E7F;
-@blue: #0099CC;
-@lightBlue: #67C2D4;
-@green: #72BF7B;
+@darkRed: #A50A05;
+
+@purple: #553445;
+
+@lightBlue: #6ECBEA;
+@blue: #38B8E2;
+@darkBlue: #1C9BC6;
+
+@turquoise: #00B6AD;
+@darkTurquoise: #5B8583;
+
+@lightGreen: #27AE60;
+@green: #1D9650;
+@darkGreen: #0E7138;
+
 @anthracite: #282B30;
 @lightAnthracite: #3B3F45;
 
@@ -70,10 +83,7 @@ fieldset[disabled] .form-control {
 }
 
 
-#control_toolbar,
-#help_toolbar,
-#user_toolbar,
-#edit_toolbar {
+.toolbar {
 
 	position: fixed;
 	z-index: 1000;
@@ -141,7 +151,7 @@ fieldset[disabled] .form-control {
 
 	.share_btn {
 
-		background: @green;
+		background: @lightGreen;
 	}
 
 	.contrib_btn {
@@ -180,7 +190,14 @@ fieldset[disabled] .form-control {
 	}
 }
 
-#edit_column {
+
+
+
+
+
+
+
+.column {
 
 	position: fixed;
 	z-index: 1010;
@@ -189,7 +206,6 @@ fieldset[disabled] .form-control {
 	right: -300px;
 	width: 300px;
 	.transition(all ease-out .2s);
-	background: @orange;
 
 	&.open {
 
@@ -218,12 +234,32 @@ fieldset[disabled] .form-control {
 	.content {
 
 		position: absolute;
-		top: 40px;
+		top: 50px;
 		bottom: 0;
 		left: 0;
 		right: 0;
 		overflow: auto;
 	}
+}
+
+
+
+#user_column {
+
+	background: @blue;
+
+	.content .btn {
+
+		background: @darkBlue;
+		color: #fff;
+	}
+}
+
+
+
+#edit_column {
+
+	background: @orange;
 }
 
 

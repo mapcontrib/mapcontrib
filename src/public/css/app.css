@@ -28,7 +28,7 @@ fieldset[disabled] .form-control {
   right: 0;
   height: 40px;
   color: #fff;
-  background: #67c2d4;
+  background: #6ecbea;
   text-align: center;
   line-height: 40px;
 }
@@ -37,18 +37,12 @@ fieldset[disabled] .form-control {
   line-height: 40px;
   margin: 0;
 }
-#control_toolbar,
-#help_toolbar,
-#user_toolbar,
-#edit_toolbar {
+.toolbar {
   position: fixed;
   z-index: 1000;
   width: 63px;
 }
-#control_toolbar .btn,
-#help_toolbar .btn,
-#user_toolbar .btn,
-#edit_toolbar .btn {
+.toolbar .btn {
   width: 63px;
   height: 63px;
   font-size: 1.6em;
@@ -85,7 +79,7 @@ fieldset[disabled] .form-control {
 }
 #help_toolbar .help_btn {
   background: #fff;
-  color: #0099cc;
+  color: #38b8e2;
 }
 #user_toolbar {
   top: 40px;
@@ -95,10 +89,10 @@ fieldset[disabled] .form-control {
   color: #fff;
 }
 #user_toolbar .user_btn {
-  background: #0099cc;
+  background: #38b8e2;
 }
 #user_toolbar .share_btn {
-  background: #72bf7b;
+  background: #27ae60;
 }
 #user_toolbar .contrib_btn {
   background: #e85657;
@@ -130,7 +124,7 @@ fieldset[disabled] .form-control {
 #edit_toolbar .tile_btn {
   background: #f8981d;
 }
-#edit_column {
+.column {
   position: fixed;
   z-index: 1010;
   top: 40px;
@@ -142,35 +136,44 @@ fieldset[disabled] .form-control {
   -ms-transition: all ease-out 0.2s;
   -o-transition: all ease-out 0.2s;
   transition: all ease-out 0.2s;
-  background: #f8981d;
 }
-#edit_column.open {
+.column.open {
   -webkit-transform: translate(-300px, 0);
   -moz-transform: translate(-300px, 0);
   -ms-transform: translate(-300px, 0);
   -o-transform: translate(-300px, 0);
   transform: translate(-300px, 0);
 }
-#edit_column header {
+.column header {
   height: 40px;
   border: 1px solid transparent;
 }
-#edit_column header h2 {
+.column header h2 {
   font-size: 20px;
   line-height: 40px;
   margin: 0 0 0 10px;
   color: #fff;
 }
-#edit_column header .close_btn {
+.column header .close_btn {
   color: #fff;
 }
-#edit_column .content {
+.column .content {
   position: absolute;
-  top: 40px;
+  top: 50px;
   bottom: 0;
   left: 0;
   right: 0;
   overflow: auto;
+}
+#user_column {
+  background: #38b8e2;
+}
+#user_column .content .btn {
+  background: #1c9bc6;
+  color: #fff;
+}
+#edit_column {
+  background: #f8981d;
 }
 #tip_of_the_day {
   position: fixed;

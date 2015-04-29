@@ -54,20 +54,25 @@ function (
 			'editPoiButton': '#edit_toolbar .poi_btn',
 			'editTileButton': '#edit_toolbar .tile_btn',
 
+			'userColumn': '#user_column',
 			'editColumn': '#edit_column',
 		},
 
 		regions: {
 
 			'tipOfTheDay': '#rg_tip_of_the_day',
-			'editContent': '@ui.editColumn .content',
+			'editContent': '@ui.editWindow .content',
 		},
 
 		events: {
 
 			'click @ui.controlZoomInButton': 'onZoomIn',
 			'click @ui.controlZoomOutButton': 'onZoomOut',
-			'click @ui.userEditButton': 'onEdit',
+
+			'click @ui.userUserButton': 'onClickUser',
+			'click @ui.userColumn .close_btn': 'onCloseUser',
+
+			'click @ui.userEditButton': 'onClickEdit',
 			'click @ui.editColumn .close_btn': 'onCloseEdit',
 		},
 
@@ -116,14 +121,26 @@ function (
 			this._map.zoomOut();
 		},
 
-		onEdit: function () {
+		onClickEdit: function () {
 
+			this.ui.userEditButton.blur();
 			this.ui.editToolbar.toggleClass('open');
 		},
 
 		onCloseEdit: function () {
 
 			this.ui.editColumn.removeClass('open');
+		},
+
+		onClickUser: function () {
+
+			this.ui.userUserButton.blur();
+			this.ui.userColumn.addClass('open');
+		},
+
+		onCloseUser: function () {
+
+			this.ui.userColumn.removeClass('open');
 		},
 	});
 });
