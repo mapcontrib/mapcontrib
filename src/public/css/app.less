@@ -1,0 +1,320 @@
+
+@import 'base.less';
+
+
+@orange: #F8981D;
+
+@lightRed: #EB7E7F;
+@red: #E85657;
+@darkRed: #A50A05;
+
+@purple: #553445;
+
+@lightBlue: #6ECBEA;
+@blue: #38B8E2;
+@darkBlue: #1C9BC6;
+
+@turquoise: #00B6AD;
+@darkTurquoise: #5B8583;
+
+@lightGreen: #27AE60;
+@green: #1D9650;
+@darkGreen: #0E7138;
+
+@anthracite: #282B30;
+@lightAnthracite: #3B3F45;
+
+
+@titleHeight: 40px;
+@toolbarBtnSize: 63px;
+
+
+
+
+
+.nowrap {
+
+	white-space: nowrap;
+}
+
+
+input[disabled],
+select[disabled],
+textarea[disabled],
+.form-control[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+
+	cursor: default;
+}
+
+input,
+select,
+textarea,
+button,
+.btn,
+.form-control,
+fieldset .form-control {
+
+	.border-radius(0);
+}
+
+
+
+
+#main_map {
+
+	position: fixed;
+	top: @titleHeight;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+
+#title {
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: @titleHeight;
+
+	color: #fff;
+	background: @lightBlue;
+	text-align: center;
+	line-height: @titleHeight;
+
+	h1 {
+
+		font-size: 20px;
+		line-height: @titleHeight;
+		margin: 0;
+	}
+}
+
+
+.toolbar {
+
+	position: fixed;
+	z-index: 1000;
+	width: @toolbarBtnSize;
+
+	.btn {
+
+		width: @toolbarBtnSize;
+		height: @toolbarBtnSize;
+		font-size: 1.6em;
+		padding: 10px 16px;
+		.border-radius(0);
+	}
+}
+
+
+#control_toolbar {
+
+	position: fixed;
+	z-index: 1000;
+	top: @titleHeight;
+	left: 0;
+	width: @toolbarBtnSize;
+
+	.btn {
+
+		width: @toolbarBtnSize;
+		height: @toolbarBtnSize;
+		font-size: 1.6em;
+		padding: 10px 16px;
+		.border-radius(0);
+		color: @lightAnthracite;
+		background: #fff;
+	}
+}
+
+
+#help_toolbar {
+
+	bottom: 0;
+	left: 0;
+
+	.help_btn {
+
+		background: #fff;
+		color: @blue;
+	}
+}
+
+
+#user_toolbar {
+
+	top: @titleHeight;
+	right: 0;
+
+	.btn {
+
+		color: #fff;
+	}
+
+	.user_btn {
+
+		background: @blue;
+	}
+
+	.share_btn {
+
+		background: @lightGreen;
+	}
+
+	.contrib_btn {
+
+		background: @red;
+	}
+
+	.edit_btn {
+
+		background: @orange;
+	}
+}
+
+
+#edit_toolbar {
+
+	top: @titleHeight + (@toolbarBtnSize * 4) + 9;
+	right: @toolbarBtnSize * -1;
+	.transition(all ease-out .2s);
+
+	&.open {
+
+		.transform( translate(-100%, 0) );
+	}
+
+	.btn {
+
+		color: #fff;
+	}
+
+	.settings_btn,
+	.poi_btn,
+	.tile_btn {
+
+		background: @orange;
+	}
+}
+
+
+
+
+
+
+
+
+.column {
+
+	position: fixed;
+	z-index: 1010;
+	top: @titleHeight;
+	bottom: 0;
+	right: -300px;
+	width: 300px;
+	.transition(all ease-out .2s);
+	color: #fff;
+
+	&.open {
+
+		.transform( translate(-300px, 0) );
+	}
+
+	a {
+
+		color: #fff;
+		text-decoration: underline;
+
+		&:hover,
+		&:focus {
+
+			text-decoration: none;
+		}
+	}
+
+	header {
+
+		height: 40px;
+		border: 1px solid transparent;
+
+		h2 {
+
+			font-size: 24px;
+			line-height: 40px;
+			margin: 0 0 0 10px;
+		}
+
+		.close_btn {
+
+			margin-top: 3px;
+			color: #fff;
+		}
+	}
+
+	.content {
+
+		position: absolute;
+		top: 60px;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		overflow: auto;
+
+		input {
+
+			border: transparent;
+		}
+	}
+}
+
+
+
+#user_column {
+
+	background: @blue;
+
+	.content .btn {
+
+		background: @darkBlue;
+		color: #fff;
+	}
+}
+
+
+
+#edit_column {
+
+	background: @orange;
+}
+
+
+
+#tip_of_the_day {
+
+	position: fixed;
+	z-index: 1005;
+	bottom: 0;
+	right: -400px;
+	width: 400px;
+	.transition(all ease-out .2s);
+	background: @lightAnthracite;
+	color: #fff;
+
+	&.open {
+
+		.transform( translate(-100%, 0) );
+	}
+
+	.btn {
+
+		background: @anthracite;
+		color: #fff;
+	}
+}

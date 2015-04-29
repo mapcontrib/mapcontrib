@@ -1,0 +1,227 @@
+/* Default values */
+/* Functions */
+.nowrap {
+  white-space: nowrap;
+}
+input[disabled],
+select[disabled],
+textarea[disabled],
+.form-control[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  cursor: default;
+}
+input,
+select,
+textarea,
+button,
+.btn,
+.form-control,
+fieldset .form-control {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+#main_map {
+  position: fixed;
+  top: 40px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+#title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  color: #fff;
+  background: #6ecbea;
+  text-align: center;
+  line-height: 40px;
+}
+#title h1 {
+  font-size: 20px;
+  line-height: 40px;
+  margin: 0;
+}
+.toolbar {
+  position: fixed;
+  z-index: 1000;
+  width: 63px;
+}
+.toolbar .btn {
+  width: 63px;
+  height: 63px;
+  font-size: 1.6em;
+  padding: 10px 16px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+#control_toolbar {
+  position: fixed;
+  z-index: 1000;
+  top: 40px;
+  left: 0;
+  width: 63px;
+}
+#control_toolbar .btn {
+  width: 63px;
+  height: 63px;
+  font-size: 1.6em;
+  padding: 10px 16px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  color: #3b3f45;
+  background: #fff;
+}
+#help_toolbar {
+  bottom: 0;
+  left: 0;
+}
+#help_toolbar .help_btn {
+  background: #fff;
+  color: #38b8e2;
+}
+#user_toolbar {
+  top: 40px;
+  right: 0;
+}
+#user_toolbar .btn {
+  color: #fff;
+}
+#user_toolbar .user_btn {
+  background: #38b8e2;
+}
+#user_toolbar .share_btn {
+  background: #27ae60;
+}
+#user_toolbar .contrib_btn {
+  background: #e85657;
+}
+#user_toolbar .edit_btn {
+  background: #f8981d;
+}
+#edit_toolbar {
+  top: 301px;
+  right: -63px;
+  -webkit-transition: all ease-out 0.2s;
+  -moz-transition: all ease-out 0.2s;
+  -ms-transition: all ease-out 0.2s;
+  -o-transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
+}
+#edit_toolbar.open {
+  -webkit-transform: translate(-100%, 0);
+  -moz-transform: translate(-100%, 0);
+  -ms-transform: translate(-100%, 0);
+  -o-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
+}
+#edit_toolbar .btn {
+  color: #fff;
+}
+#edit_toolbar .settings_btn,
+#edit_toolbar .poi_btn,
+#edit_toolbar .tile_btn {
+  background: #f8981d;
+}
+.column {
+  position: fixed;
+  z-index: 1010;
+  top: 40px;
+  bottom: 0;
+  right: -300px;
+  width: 300px;
+  -webkit-transition: all ease-out 0.2s;
+  -moz-transition: all ease-out 0.2s;
+  -ms-transition: all ease-out 0.2s;
+  -o-transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
+  color: #fff;
+}
+.column.open {
+  -webkit-transform: translate(-300px, 0);
+  -moz-transform: translate(-300px, 0);
+  -ms-transform: translate(-300px, 0);
+  -o-transform: translate(-300px, 0);
+  transform: translate(-300px, 0);
+}
+.column a {
+  color: #fff;
+  text-decoration: underline;
+}
+.column a:hover,
+.column a:focus {
+  text-decoration: none;
+}
+.column header {
+  height: 40px;
+  border: 1px solid transparent;
+}
+.column header h2 {
+  font-size: 24px;
+  line-height: 40px;
+  margin: 0 0 0 10px;
+}
+.column header .close_btn {
+  margin-top: 3px;
+  color: #fff;
+}
+.column .content {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}
+.column .content input {
+  border: transparent;
+}
+#user_column {
+  background: #38b8e2;
+}
+#user_column .content .btn {
+  background: #1c9bc6;
+  color: #fff;
+}
+#edit_column {
+  background: #f8981d;
+}
+#tip_of_the_day {
+  position: fixed;
+  z-index: 1005;
+  bottom: 0;
+  right: -400px;
+  width: 400px;
+  -webkit-transition: all ease-out 0.2s;
+  -moz-transition: all ease-out 0.2s;
+  -ms-transition: all ease-out 0.2s;
+  -o-transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
+  background: #3b3f45;
+  color: #fff;
+}
+#tip_of_the_day.open {
+  -webkit-transform: translate(-100%, 0);
+  -moz-transform: translate(-100%, 0);
+  -ms-transform: translate(-100%, 0);
+  -o-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
+}
+#tip_of_the_day .btn {
+  background: #282b30;
+  color: #fff;
+}
