@@ -1,0 +1,126 @@
+/* Default values */
+/* Functions */
+.nowrap {
+  white-space: nowrap;
+}
+input[disabled],
+select[disabled],
+textarea[disabled],
+.form-control[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  cursor: default;
+}
+#main_map {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+#control_toolbar {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 63px;
+}
+#control_toolbar .btn {
+  width: 63px;
+  height: 63px;
+  font-size: 1.6em;
+  padding: 10px 16px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  color: #333333;
+  background: #fff;
+}
+#control_toolbar,
+#help_toolbar,
+#edit_toolbar {
+  position: fixed;
+  z-index: 1000;
+  width: 63px;
+}
+#control_toolbar .btn,
+#help_toolbar .btn,
+#edit_toolbar .btn {
+  width: 63px;
+  height: 63px;
+  font-size: 1.6em;
+  padding: 10px 16px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+#help_toolbar {
+  bottom: 0;
+  left: 0;
+}
+#help_toolbar .help_btn {
+  background: #fff;
+  color: #0099cc;
+}
+#edit_toolbar {
+  top: 0;
+  right: 0;
+}
+#edit_toolbar .btn {
+  color: #fff;
+}
+#edit_toolbar .user_btn {
+  background: #0099cc;
+}
+#edit_toolbar .edit_btn {
+  background: #f8981d;
+}
+#edit_column {
+  position: fixed;
+  z-index: 1010;
+  top: 0;
+  bottom: 0;
+  right: -300px;
+  width: 300px;
+  -webkit-transition: all ease-out 0.2s;
+  -moz-transition: all ease-out 0.2s;
+  -ms-transition: all ease-out 0.2s;
+  -o-transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
+  background: #f8981d;
+}
+#edit_column.open {
+  -webkit-transform: translate(-300px, 0);
+  -moz-transform: translate(-300px, 0);
+  -ms-transform: translate(-300px, 0);
+  -o-transform: translate(-300px, 0);
+  transform: translate(-300px, 0);
+}
+#edit_column header {
+  height: 40px;
+  border: 1px solid transparent;
+}
+#edit_column header h2 {
+  font-size: 20px;
+  line-height: 40px;
+  margin: 0 0 0 10px;
+  color: #fff;
+}
+#edit_column header .close_btn {
+  color: #fff;
+}
+#edit_column .content {
+  position: absolute;
+  top: 40px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}

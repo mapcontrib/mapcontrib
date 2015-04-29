@@ -1,0 +1,162 @@
+
+@import 'base.less';
+
+
+@orange: #F8981D;
+@blue: #0099CC;
+@green: #72BF7B;
+@anthracite: #333;
+
+
+
+.nowrap {
+
+	white-space: nowrap;
+}
+
+
+input[disabled],
+select[disabled],
+textarea[disabled],
+.form-control[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+
+	cursor: default;
+}
+
+
+
+
+#main_map {
+
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+
+#control_toolbar {
+
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	width: 63px;
+
+	.btn {
+
+		width: 63px;
+		height: 63px;
+		font-size: 1.6em;
+		padding: 10px 16px;
+		.border-radius(0);
+		color: @anthracite;
+		background: #fff;
+	}
+}
+
+
+#control_toolbar,
+#help_toolbar,
+#edit_toolbar {
+
+	position: fixed;
+	z-index: 1000;
+	width: 63px;
+
+	.btn {
+
+		width: 63px;
+		height: 63px;
+		font-size: 1.6em;
+		padding: 10px 16px;
+		.border-radius(0);
+	}
+}
+
+
+#help_toolbar {
+
+	bottom: 0;
+	left: 0;
+
+	.help_btn {
+
+		background: #fff;
+		color: @blue;
+	}
+}
+
+
+#edit_toolbar {
+
+	top: 0;
+	right: 0;
+
+	.btn {
+
+		color: #fff;
+	}
+
+	.user_btn {
+
+		background: @blue;
+	}
+
+	.edit_btn {
+
+		background: @orange;
+	}
+}
+
+#edit_column {
+
+	position: fixed;
+	z-index: 1010;
+	top: 0;
+	bottom: 0;
+	right: -300px;
+	width: 300px;
+	.transition(all ease-out .2s);
+	background: @orange;
+
+	&.open {
+
+		.transform( translate(-300px, 0) );
+	}
+
+	header {
+
+		height: 40px;
+		border: 1px solid transparent;
+
+		h2 {
+
+			font-size: 20px;
+			line-height: 40px;
+			margin: 0 0 0 10px;
+			color: #fff;
+		}
+
+		.close_btn {
+
+			color: #fff;
+		}
+	}
+
+	.content {
+
+		position: absolute;
+		top: 40px;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		overflow: auto;
+	}
+}
