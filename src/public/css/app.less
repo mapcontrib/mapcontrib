@@ -29,6 +29,9 @@
 @toolbarBtnSize: 63px;
 
 
+
+
+
 .nowrap {
 
 	white-space: nowrap;
@@ -46,6 +49,17 @@ textarea[readonly],
 fieldset[disabled] .form-control {
 
 	cursor: default;
+}
+
+input,
+select,
+textarea,
+button,
+.btn,
+.form-control,
+fieldset .form-control {
+
+	.border-radius(0);
 }
 
 
@@ -239,6 +253,11 @@ fieldset[disabled] .form-control {
 		left: 0;
 		right: 0;
 		overflow: auto;
+
+		input {
+
+			border: transparent;
+		}
 	}
 }
 

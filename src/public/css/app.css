@@ -14,6 +14,19 @@ textarea[readonly],
 fieldset[disabled] .form-control {
   cursor: default;
 }
+input,
+select,
+textarea,
+button,
+.btn,
+.form-control,
+fieldset .form-control {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
 #main_map {
   position: fixed;
   top: 40px;
@@ -164,6 +177,9 @@ fieldset[disabled] .form-control {
   left: 0;
   right: 0;
   overflow: auto;
+}
+.column .content input {
+  border: transparent;
 }
 #user_column {
   background: #38b8e2;
