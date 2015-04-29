@@ -3,10 +3,17 @@
 
 
 @orange: #F8981D;
+@red: #E85657;
+@pink: #EB7E7F;
 @blue: #0099CC;
+@lightBlue: #67C2D4;
 @green: #72BF7B;
-@anthracite: #333;
+@anthracite: #282B30;
+@lightAnthracite: #3B3F45;
 
+
+@titleHeight: 40px;
+@toolbarBtnSize: 63px;
 
 
 .nowrap {
@@ -34,10 +41,32 @@ fieldset[disabled] .form-control {
 #main_map {
 
 	position: fixed;
-	top: 0;
+	top: @titleHeight;
 	bottom: 0;
 	left: 0;
 	right: 0;
+}
+
+
+#title {
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: @titleHeight;
+
+	color: #fff;
+	background: @lightBlue;
+	text-align: center;
+	line-height: @titleHeight;
+
+	h1 {
+
+		font-size: 20px;
+		line-height: @titleHeight;
+		margin: 0;
+	}
 }
 
 
@@ -45,14 +74,14 @@ fieldset[disabled] .form-control {
 
 	position: fixed;
 	z-index: 1000;
-	top: 0;
+	top: @titleHeight;
 	left: 0;
-	width: 63px;
+	width: @toolbarBtnSize;
 
 	.btn {
 
-		width: 63px;
-		height: 63px;
+		width: @toolbarBtnSize;
+		height: @toolbarBtnSize;
 		font-size: 1.6em;
 		padding: 10px 16px;
 		.border-radius(0);
@@ -64,16 +93,17 @@ fieldset[disabled] .form-control {
 
 #control_toolbar,
 #help_toolbar,
+#user_toolbar,
 #edit_toolbar {
 
 	position: fixed;
 	z-index: 1000;
-	width: 63px;
+	width: @toolbarBtnSize;
 
 	.btn {
 
-		width: 63px;
-		height: 63px;
+		width: @toolbarBtnSize;
+		height: @toolbarBtnSize;
 		font-size: 1.6em;
 		padding: 10px 16px;
 		.border-radius(0);
@@ -94,9 +124,9 @@ fieldset[disabled] .form-control {
 }
 
 
-#edit_toolbar {
+#user_toolbar {
 
-	top: 0;
+	top: @titleHeight;
 	right: 0;
 
 	.btn {
@@ -109,7 +139,37 @@ fieldset[disabled] .form-control {
 		background: @blue;
 	}
 
+	.share_btn {
+
+		background: @green;
+	}
+
 	.edit_btn {
+
+		background: @orange;
+	}
+}
+
+
+#edit_toolbar {
+
+	top: @titleHeight + (@toolbarBtnSize * 3) + 9;
+	right: @toolbarBtnSize * -1;
+	.transition(all ease-out .2s);
+
+	&.open {
+
+		.transform( translate(-100%, 0) );
+	}
+
+	.btn {
+
+		color: #fff;
+	}
+
+	.settings_btn,
+	.poi_btn,
+	.tile_btn {
 
 		background: @orange;
 	}
@@ -119,7 +179,7 @@ fieldset[disabled] .form-control {
 
 	position: fixed;
 	z-index: 1010;
-	top: 0;
+	top: @titleHeight;
 	bottom: 0;
 	right: -300px;
 	width: 300px;
@@ -158,5 +218,30 @@ fieldset[disabled] .form-control {
 		left: 0;
 		right: 0;
 		overflow: auto;
+	}
+}
+
+
+
+#tip_of_the_day {
+
+	position: fixed;
+	z-index: 1005;
+	bottom: 0;
+	right: -50%;
+	width: 50%;
+	.transition(all ease-out .2s);
+	background: @lightAnthracite;
+	color: #fff;
+
+	&.open {
+
+		.transform( translate(-100%, 0) );
+	}
+
+	.btn {
+
+		background: @anthracite;
+		color: #fff;
 	}
 }

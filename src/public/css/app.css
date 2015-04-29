@@ -16,15 +16,31 @@ fieldset[disabled] .form-control {
 }
 #main_map {
   position: fixed;
-  top: 0;
+  top: 40px;
   bottom: 0;
   left: 0;
   right: 0;
 }
+#title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  color: #fff;
+  background: #67c2d4;
+  text-align: center;
+  line-height: 40px;
+}
+#title h1 {
+  font-size: 20px;
+  line-height: 40px;
+  margin: 0;
+}
 #control_toolbar {
   position: fixed;
   z-index: 1000;
-  top: 0;
+  top: 40px;
   left: 0;
   width: 63px;
 }
@@ -38,11 +54,12 @@ fieldset[disabled] .form-control {
   -ms-border-radius: 0;
   -o-border-radius: 0;
   border-radius: 0;
-  color: #333333;
+  color: #282b30;
   background: #fff;
 }
 #control_toolbar,
 #help_toolbar,
+#user_toolbar,
 #edit_toolbar {
   position: fixed;
   z-index: 1000;
@@ -50,6 +67,7 @@ fieldset[disabled] .form-control {
 }
 #control_toolbar .btn,
 #help_toolbar .btn,
+#user_toolbar .btn,
 #edit_toolbar .btn {
   width: 63px;
   height: 63px;
@@ -69,23 +87,50 @@ fieldset[disabled] .form-control {
   background: #fff;
   color: #0099cc;
 }
-#edit_toolbar {
-  top: 0;
+#user_toolbar {
+  top: 40px;
   right: 0;
+}
+#user_toolbar .btn {
+  color: #fff;
+}
+#user_toolbar .user_btn {
+  background: #0099cc;
+}
+#user_toolbar .share_btn {
+  background: #72bf7b;
+}
+#user_toolbar .edit_btn {
+  background: #f8981d;
+}
+#edit_toolbar {
+  top: 238px;
+  right: -63px;
+  -webkit-transition: all ease-out 0.2s;
+  -moz-transition: all ease-out 0.2s;
+  -ms-transition: all ease-out 0.2s;
+  -o-transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
+}
+#edit_toolbar.open {
+  -webkit-transform: translate(-100%, 0);
+  -moz-transform: translate(-100%, 0);
+  -ms-transform: translate(-100%, 0);
+  -o-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
 }
 #edit_toolbar .btn {
   color: #fff;
 }
-#edit_toolbar .user_btn {
-  background: #0099cc;
-}
-#edit_toolbar .edit_btn {
+#edit_toolbar .settings_btn,
+#edit_toolbar .poi_btn,
+#edit_toolbar .tile_btn {
   background: #f8981d;
 }
 #edit_column {
   position: fixed;
   z-index: 1010;
-  top: 0;
+  top: 40px;
   bottom: 0;
   right: -300px;
   width: 300px;
@@ -123,4 +168,29 @@ fieldset[disabled] .form-control {
   left: 0;
   right: 0;
   overflow: auto;
+}
+#tip_of_the_day {
+  position: fixed;
+  z-index: 1005;
+  bottom: 0;
+  right: -50%;
+  width: 50%;
+  -webkit-transition: all ease-out 0.2s;
+  -moz-transition: all ease-out 0.2s;
+  -ms-transition: all ease-out 0.2s;
+  -o-transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
+  background: #3b3f45;
+  color: #fff;
+}
+#tip_of_the_day.open {
+  -webkit-transform: translate(-100%, 0);
+  -moz-transform: translate(-100%, 0);
+  -ms-transform: translate(-100%, 0);
+  -o-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
+}
+#tip_of_the_day .btn {
+  background: #282b30;
+  color: #fff;
 }

@@ -8,6 +8,8 @@ define([
 	'bootstrap',
 	'templates',
 	'leaflet',
+
+	'view/tipOfTheDay',
 ],
 function (
 
@@ -16,7 +18,9 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
-	L
+	L,
+
+	tipOfTheDayView
 ) {
 
 	'use strict';
@@ -28,20 +32,42 @@ function (
 		ui: {
 
 			'map': '#main_map',
-			'zoomInBtn': '.zoom_in_btn',
-			'zoomOutBtn': '.zoom_out_btn',
-			'locateBtn': '.locate_btn',
-			'userBtn': '.user_btn',
-			'editBtn': '.edit_btn',
+			'toolbarButtons': '.toolbar .toolbar_btn',
+
+			'controlToolbar': '#control_toolbar',
+			'controlZoomInButton': '#control_toolbar .zoom_in_btn',
+			'controlZoomOutButton': '#control_toolbar .zoom_out_btn',
+			'controlLocateButton': '#control_toolbar .locate_btn',
+			'controlPoiButton': '#control_toolbar .poi_btn',
+			'controlTileButton': '#control_toolbar .tile_btn',
+
+			'userToolbar': '#user_toolbar',
+			'userUserButton': '#user_toolbar .user_btn',
+			'userShareButton': '#user_toolbar .share_btn',
+			'userEditButton': '#user_toolbar .edit_btn',
+
+			'helpToolbar': '#help_toolbar',
+			'helpHelpButton': '#help_toolbar .help_btn',
+
+			'editToolbar': '#edit_toolbar',
+			'editSettingsButton': '#edit_toolbar .settings_btn',
+			'editPoiButton': '#edit_toolbar .poi_btn',
+			'editTileButton': '#edit_toolbar .tile_btn',
+
 			'editColumn': '#edit_column',
-			'helpBtn': '.help_btn',
+		},
+
+		regions: {
+
+			'tipOfTheDay': '#rg_tip_of_the_day',
+			'editContent': '@ui.editColumn .content',
 		},
 
 		events: {
 
-			'click @ui.zoomInBtn': 'onZoomIn',
-			'click @ui.zoomOutBtn': 'onZoomOut',
-			'click @ui.editBtn': 'onEdit',
+			'click @ui.controlZoomInButton': 'onZoomIn',
+			'click @ui.controlZoomOutButton': 'onZoomOut',
+			'click @ui.userEditButton': 'onEdit',
 			'click @ui.editColumn .close_btn': 'onCloseEdit',
 		},
 
@@ -54,7 +80,7 @@ function (
 
 		onRender: function () {
 
-			var tooltipOptions = {
+			this.ui.toolbarButtons.tooltip({
 
 				'container': 'body',
 				'delay': {
@@ -62,14 +88,9 @@ function (
 					'show': 500,
 					'hide': 0
 				}
-			};
+			});
 
-			this.ui.zoomInBtn.tooltip( tooltipOptions );
-			this.ui.zoomOutBtn.tooltip( tooltipOptions );
-			this.ui.locateBtn.tooltip( tooltipOptions );
-			this.ui.userBtn.tooltip( tooltipOptions );
-			this.ui.editBtn.tooltip( tooltipOptions );
-			this.ui.helpBtn.tooltip( tooltipOptions );
+			this.getRegion('tipOfTheDay').show( new tipOfTheDayView() );
 		},
 
 		onShow: function () {
@@ -95,10 +116,9 @@ function (
 			this._map.zoomOut();
 		},
 
-		onEdit: function (e) {
+		onEdit: function () {
 
-			this.ui.editBtn.blur();
-			this.ui.editColumn.addClass('open');
+			this.ui.editToolbar.toggleClass('open');
 		},
 
 		onCloseEdit: function () {
