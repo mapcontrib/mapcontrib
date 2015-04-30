@@ -54,7 +54,7 @@ require(['config'], function (config) {
 
 						'column': columnBehavior,
 					};
-				}
+				};
 
 
 				// this._model = {
