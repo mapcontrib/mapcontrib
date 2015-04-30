@@ -3,10 +3,11 @@
 
 
 @orange: #F8981D;
+@darkOrange: darken(#F8981D, 10%);
 
 @lightRed: #EB7E7F;
 @red: #E85657;
-@darkRed: #A50A05;
+@darkRed: #D51D1E;
 
 @purple: #553445;
 
@@ -26,6 +27,7 @@
 
 
 @titleHeight: 40px;
+@columnTitleHeight: 50px;
 @toolbarBtnSize: 63px;
 
 
@@ -196,7 +198,7 @@ fieldset .form-control {
 		color: #fff;
 	}
 
-	.settings_btn,
+	.setting_btn,
 	.poi_btn,
 	.tile_btn {
 
@@ -241,19 +243,18 @@ fieldset .form-control {
 
 	header {
 
-		height: 40px;
+		height: @columTitleHeight;
 		border: 1px solid transparent;
 
 		h2 {
 
 			font-size: 24px;
-			line-height: 40px;
+			line-height: @columTitleHeight;
 			margin: 0 0 0 10px;
 		}
 
 		.close_btn {
 
-			margin-top: 3px;
 			color: #fff;
 		}
 	}
@@ -261,7 +262,7 @@ fieldset .form-control {
 	.content {
 
 		position: absolute;
-		top: 60px;
+		top: @columTitleHeight + 20;
 		bottom: 0;
 		left: 0;
 		right: 0;
@@ -288,10 +289,42 @@ fieldset .form-control {
 }
 
 
+#share_column {
 
-#edit_column {
+	background: @green;
+
+	.content .btn {
+
+		background: @darkGreen;
+		color: #fff;
+	}
+}
+
+
+#contrib_column {
+
+	background: @red;
+
+	.content .btn {
+
+		background: @darkRed;
+		color: #fff;
+	}
+}
+
+
+
+#edit_setting_column,
+#edit_poi_column,
+#edit_tile_column {
 
 	background: @orange;
+
+	.content .btn {
+
+		background: @darkOrange;
+		color: #fff;
+	}
 }
 
 

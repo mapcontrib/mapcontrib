@@ -9,6 +9,8 @@ require(['config'], function (config) {
 		'marionette',
 		'templates',
 		'router',
+
+		'behavior/column',
 	],
 	function (
 
@@ -16,7 +18,9 @@ require(['config'], function (config) {
 		Backbone,
 		Marionette,
 		templates,
-		router
+		router,
+
+		columnBehavior
 	) {
 
 		'use strict';
@@ -28,6 +32,7 @@ require(['config'], function (config) {
 				isLogged: false,
 			},
 			_region: {},
+			_behavior: {},
 			_view: {},
 			_model: {},
 			_modelCalcul: {},
@@ -41,6 +46,15 @@ require(['config'], function (config) {
 			initialize: function(options) {
 
 				var self = this;
+
+
+				Marionette.Behaviors.behaviorsLookup = function() {
+
+					return {
+
+						'column': columnBehavior,
+					};
+				}
 
 
 				// this._model = {
@@ -83,6 +97,10 @@ require(['config'], function (config) {
 
 					'initObjects': function () { self.initObjects(); },
 					'loadData': function () { self.loadData(); },
+					'registerBehavior': function (name, behavior) {
+
+						self._behavior[name] = behavior;
+					},
 					'registerView': function (name, view) {
 
 						self._view[name] = view;

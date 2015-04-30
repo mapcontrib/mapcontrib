@@ -132,7 +132,7 @@ fieldset .form-control {
 #edit_toolbar .btn {
   color: #fff;
 }
-#edit_toolbar .settings_btn,
+#edit_toolbar .setting_btn,
 #edit_toolbar .poi_btn,
 #edit_toolbar .tile_btn {
   background: #f8981d;
@@ -167,21 +167,20 @@ fieldset .form-control {
   text-decoration: none;
 }
 .column header {
-  height: 40px;
+  height: 50px;
   border: 1px solid transparent;
 }
 .column header h2 {
   font-size: 24px;
-  line-height: 40px;
+  line-height: 50px;
   margin: 0 0 0 10px;
 }
 .column header .close_btn {
-  margin-top: 3px;
   color: #fff;
 }
 .column .content {
   position: absolute;
-  top: 60px;
+  top: 70px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -197,8 +196,30 @@ fieldset .form-control {
   background: #1c9bc6;
   color: #fff;
 }
-#edit_column {
+#share_column {
+  background: #1d9650;
+}
+#share_column .content .btn {
+  background: #0e7138;
+  color: #fff;
+}
+#contrib_column {
+  background: #e85657;
+}
+#contrib_column .content .btn {
+  background: #d51d1e;
+  color: #fff;
+}
+#edit_setting_column,
+#edit_poi_column,
+#edit_tile_column {
   background: #f8981d;
+}
+#edit_setting_column .content .btn,
+#edit_poi_column .content .btn,
+#edit_tile_column .content .btn {
+  background: #db7e07;
+  color: #fff;
 }
 #tip_of_the_day {
   position: fixed;
