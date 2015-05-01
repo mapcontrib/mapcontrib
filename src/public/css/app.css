@@ -142,8 +142,9 @@ fieldset .form-control {
   z-index: 1010;
   top: 40px;
   bottom: 0;
-  right: -300px;
+  left: 100%;
   width: 300px;
+  max-width: 100%;
   -webkit-transition: all ease-out 0.2s;
   -moz-transition: all ease-out 0.2s;
   -ms-transition: all ease-out 0.2s;
@@ -152,11 +153,11 @@ fieldset .form-control {
   color: #fff;
 }
 .column.open {
-  -webkit-transform: translate(-300px, 0);
-  -moz-transform: translate(-300px, 0);
-  -ms-transform: translate(-300px, 0);
-  -o-transform: translate(-300px, 0);
-  transform: translate(-300px, 0);
+  -webkit-transform: translate(-100%, 0);
+  -moz-transform: translate(-100%, 0);
+  -ms-transform: translate(-100%, 0);
+  -o-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
 }
 .column a {
   color: #fff;
@@ -225,8 +226,9 @@ fieldset .form-control {
   position: fixed;
   z-index: 1005;
   bottom: 0;
-  right: -400px;
+  left: 100%;
   width: 400px;
+  max-width: 100%;
   -webkit-transition: all ease-out 0.2s;
   -moz-transition: all ease-out 0.2s;
   -ms-transition: all ease-out 0.2s;
