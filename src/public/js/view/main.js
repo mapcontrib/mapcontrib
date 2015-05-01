@@ -111,6 +111,10 @@ function (
 					'show': 500,
 					'hide': 0
 				}
+			})
+			.on('click', function () {
+
+				$(this).blur();
 			});
 
 
@@ -156,43 +160,36 @@ function (
 
 		onClickUser: function () {
 
-			this.ui.userButton.blur();
 			this._userColumnView.open();
 		},
 
 		onClickShare: function () {
 
-			this.ui.shareButton.blur();
 			this._shareColumnView.open();
 		},
 
 		onClickContrib: function () {
 
-			this.ui.contribButton.blur();
 			this._contribColumnView.open();
 		},
 
 		onClickEdit: function () {
 
-			this.ui.editButton.blur();
 			this.ui.editToolbar.toggleClass('open');
 		},
 
 		onClickEditSetting: function () {
 
-			this.ui.editSettingButton.blur();
 			this._editSettingColumnView.open();
 		},
 
 		onClickEditPoi: function () {
 
-			this.ui.editPoiButton.blur();
 			this._editPoiColumnView.open();
 		},
 
 		onClickEditTile: function () {
 
-			this.ui.editTileButton.blur();
 			this._editTileColumnView.open();
 		},
 	});
