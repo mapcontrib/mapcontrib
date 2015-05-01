@@ -1,5 +1,8 @@
 /* Default values */
 /* Functions */
+/* Colors */
+/* Dimensions */
+/* Layers */
 .nowrap {
   white-space: nowrap;
 }
@@ -29,6 +32,7 @@ fieldset .form-control {
 }
 #main_map {
   position: fixed;
+  z-index: 1000;
   top: 40px;
   bottom: 0;
   left: 0;
@@ -36,6 +40,7 @@ fieldset .form-control {
 }
 #title {
   position: fixed;
+  z-index: 1040;
   top: 0;
   left: 0;
   right: 0;
@@ -52,7 +57,7 @@ fieldset .form-control {
 }
 .toolbar {
   position: fixed;
-  z-index: 1000;
+  z-index: 1010;
   width: 63px;
 }
 .toolbar .btn {
@@ -68,7 +73,6 @@ fieldset .form-control {
 }
 #control_toolbar {
   position: fixed;
-  z-index: 1000;
   top: 40px;
   left: 0;
   width: 63px;
@@ -139,7 +143,7 @@ fieldset .form-control {
 }
 .column {
   position: fixed;
-  z-index: 1010;
+  z-index: 1030;
   top: 40px;
   bottom: 0;
   left: 100%;
@@ -224,7 +228,7 @@ fieldset .form-control {
 }
 #tip_of_the_day {
   position: fixed;
-  z-index: 1005;
+  z-index: 1020;
   bottom: 0;
   left: 100%;
   width: 400px;

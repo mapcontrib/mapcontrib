@@ -2,6 +2,7 @@
 @import 'base.less';
 
 
+/* Colors */
 @orange: #F8981D;
 @darkOrange: darken(#F8981D, 10%);
 
@@ -26,11 +27,18 @@
 @lightAnthracite: #3B3F45;
 
 
+/* Dimensions */
 @titleHeight: 40px;
 @columnTitleHeight: 50px;
 @toolbarBtnSize: 63px;
 
 
+/* Layers */
+@mapZIndex: 1000;
+@toolbarZIndex: 1010;
+@tipOfTheDayZIndex: 1020;
+@columnZIndex: 1030;
+@titleZIndex: 1040;
 
 
 
@@ -70,6 +78,7 @@ fieldset .form-control {
 #main_map {
 
 	position: fixed;
+	z-index: @mapZIndex;
 	top: @titleHeight;
 	bottom: 0;
 	left: 0;
@@ -80,6 +89,7 @@ fieldset .form-control {
 #title {
 
 	position: fixed;
+	z-index: @titleZIndex;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -102,7 +112,7 @@ fieldset .form-control {
 .toolbar {
 
 	position: fixed;
-	z-index: 1000;
+	z-index: @toolbarZIndex;
 	width: @toolbarBtnSize;
 
 	.btn {
@@ -119,7 +129,6 @@ fieldset .form-control {
 #control_toolbar {
 
 	position: fixed;
-	z-index: 1000;
 	top: @titleHeight;
 	left: 0;
 	width: @toolbarBtnSize;
@@ -216,7 +225,7 @@ fieldset .form-control {
 .column {
 
 	position: fixed;
-	z-index: 1010;
+	z-index: @columnZIndex;
 	top: @titleHeight;
 	bottom: 0;
 	left: 100%;
@@ -333,7 +342,7 @@ fieldset .form-control {
 #tip_of_the_day {
 
 	position: fixed;
-	z-index: 1005;
+	z-index: @tipOfTheDayZIndex;
 	bottom: 0;
 	left: 100%;
 	width: 400px;
