@@ -64,7 +64,7 @@ this["JST"]["tipOfTheDay.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<section id="tip_of_the_day" class="open">\n\t<div class="container-fluid">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<h3>Le saviez-vous ?</h3>\n\t\t\t\t<p>\n\t\t\t\t\tIl est possible de modifier cette carte est d\'en enregistrer une copie dans votre profil !\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row prepend-xs-tiny append-xs-tiny">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<button type="button"class="btn ok_btn">Oui, je le savais déjà</button>\n\t\t\t\t<button type="button"class="btn close_btn pull-right">Fermer</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '\n<section id="tip_of_the_day" class="open">\n\t<div class="container-fluid">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<h3>Le saviez-vous ?</h3>\n\t\t\t\t<p>\n\t\t\t\t\tIl est possible de modifier cette carte est d\'en enregistrer une copie dans votre profil !\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row prepend-xs-tiny append-xs-tiny">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<button type="button"class="btn ok_btn">Je le savais déjà</button>\n\t\t\t\t<button type="button"class="btn close_btn pull-right">Fermer</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
