@@ -54,6 +54,9 @@ fieldset .form-control {
   font-size: 20px;
   line-height: 40px;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .toolbar {
   position: fixed;
