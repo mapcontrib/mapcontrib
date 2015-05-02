@@ -111,7 +111,7 @@ fieldset .form-control {
 #user_toolbar .user_btn {
   background: #38b8e2;
 }
-#user_toolbar .share_btn {
+#user_toolbar .link_btn {
   background: #27ae60;
 }
 #user_toolbar .contrib_btn {
@@ -204,10 +204,10 @@ fieldset .form-control {
   background: #1c9bc6;
   color: #fff;
 }
-#share_column {
+#link_column {
   background: #1d9650;
 }
-#share_column .content .btn {
+#link_column .content .btn {
   background: #0e7138;
   color: #fff;
 }
