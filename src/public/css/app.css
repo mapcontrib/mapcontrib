@@ -251,7 +251,18 @@ fieldset .form-control {
   -o-transform: translate(-100%, 0);
   transform: translate(-100%, 0);
 }
+#tip_of_the_day a {
+  color: #fff;
+  text-decoration: underline;
+}
+#tip_of_the_day a:hover,
+#tip_of_the_day a:focus {
+  text-decoration: none;
+}
 #tip_of_the_day .btn {
   background: #282b30;
   color: #fff;
+}
+#tip_of_the_day p {
+  text-align: justify;
 }
