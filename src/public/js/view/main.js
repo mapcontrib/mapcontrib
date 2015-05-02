@@ -10,7 +10,7 @@ define([
 	'leaflet',
 
 	'view/userColumn',
-	'view/shareColumn',
+	'view/linkColumn',
 	'view/contribColumn',
 	'view/editSettingColumn',
 	'view/editPoiColumn',
@@ -27,7 +27,7 @@ function (
 	L,
 
 	userColumnView,
-	shareColumnView,
+	linkColumnView,
 	contribColumnView,
 	editSettingColumnView,
 	editPoiColumnView,
@@ -55,7 +55,7 @@ function (
 
 			'userToolbar': '#user_toolbar',
 			'userButton': '#user_toolbar .user_btn',
-			'shareButton': '#user_toolbar .share_btn',
+			'linkButton': '#user_toolbar .link_btn',
 			'contribButton': '#user_toolbar .contrib_btn',
 			'editButton': '#user_toolbar .edit_btn',
 
@@ -71,7 +71,7 @@ function (
 		regions: {
 
 			'userColumn': '#rg_user_column',
-			'shareColumn': '#rg_share_column',
+			'linkColumn': '#rg_link_column',
 			'contribColumn': '#rg_contrib_column',
 			'editSettingColumn': '#rg_edit_setting_column',
 			'editPoiColumn': '#rg_edit_poi_column',
@@ -86,7 +86,7 @@ function (
 			'click @ui.zoomOutButton': 'onZoomOut',
 
 			'click @ui.userButton': 'onClickUser',
-			'click @ui.shareButton': 'onClickShare',
+			'click @ui.linkButton': 'onClickShare',
 			'click @ui.contribButton': 'onClickContrib',
 			'click @ui.editButton': 'onClickEdit',
 			'click @ui.editSettingButton': 'onClickEditSetting',
@@ -119,14 +119,14 @@ function (
 
 
 			this._userColumnView = new userColumnView();
-			this._shareColumnView = new shareColumnView();
+			this._linkColumnView = new linkColumnView();
 			this._contribColumnView = new contribColumnView();
 			this._editSettingColumnView = new editSettingColumnView();
 			this._editPoiColumnView = new editPoiColumnView();
 			this._editTileColumnView = new editTileColumnView();
 
 			this.getRegion('userColumn').show( this._userColumnView );
-			this.getRegion('shareColumn').show( this._shareColumnView );
+			this.getRegion('linkColumn').show( this._linkColumnView );
 			this.getRegion('contribColumn').show( this._contribColumnView );
 			this.getRegion('editSettingColumn').show( this._editSettingColumnView );
 			this.getRegion('editPoiColumn').show( this._editPoiColumnView );
@@ -165,7 +165,7 @@ function (
 
 		onClickShare: function () {
 
-			this._shareColumnView.open();
+			this._linkColumnView.open();
 		},
 
 		onClickContrib: function () {
