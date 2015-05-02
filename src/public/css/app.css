@@ -171,7 +171,8 @@ fieldset .form-control {
   text-decoration: underline;
 }
 .column a:hover,
-.column a:focus {
+.column a:focus,
+.column a.btn {
   text-decoration: none;
 }
 .column header {
@@ -256,7 +257,8 @@ fieldset .form-control {
   text-decoration: underline;
 }
 #tip_of_the_day a:hover,
-#tip_of_the_day a:focus {
+#tip_of_the_day a:focus,
+#tip_of_the_day a.btn {
   text-decoration: none;
 }
 #tip_of_the_day .btn {
