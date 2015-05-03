@@ -289,7 +289,7 @@ fieldset .form-control {
   z-index: 1050;
   top: 50%;
   left: 50%;
-  min-width: 500px;
+  width: 500px;
   max-width: 100%;
   -webkit-transition: all ease-out 0.2s;
   -moz-transition: all ease-out 0.2s;

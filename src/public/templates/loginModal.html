@@ -3,9 +3,7 @@
 		<div class="container-fluid content">
 			<div class="row">
 				<div class="col-xs-12">
-					<p class="text-center">
-						<img src="img/osm_128.png" alt="OpenStreetMap" width="128" height="128" />
-					</p>
+					<img src="img/osm_128.png" alt="OpenStreetMap" width="128" height="128" class="img-responsive center-block" />
 					<p class="text-center">
 						Pour plus de simplicité, OpenMapper a seulement besoin<br>
 						de se connecter à votre compte OpenStreetMap.
@@ -15,7 +13,8 @@
 			<div class="row">
 				<div class="col-xs-12 prepend-xs-1">
 					<button type="button" class="btn btn-default close_btn">Fermer</button>
-					<a href="/auth/openstreetmap" class="btn btn-primary pull-right">Se connecter ou créer un compte</a>
+					<a href="/auth/openstreetmap" class="btn btn-primary pull-right hidden-xs">Se connecter ou créer un compte</a>
+					<a href="/auth/openstreetmap" class="btn btn-primary pull-right visible-xs">Se connecter</a>
 				</div>
 			</div>
 		</div>
