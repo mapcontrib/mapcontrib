@@ -1,16 +1,9 @@
 
-/* Default values */
-
-@default_radius: 5px;
-@area_radius: 5px;
-@area_padding_x: 15px;
-@area_padding_y: 15px;
-
-
 
 /* Functions */
 
 .border-radius (@radius: @default_radius) {
+
 	-webkit-border-radius: @radius;
 	-moz-border-radius: @radius;
 	-ms-border-radius: @radius;
@@ -19,6 +12,7 @@
 }
 
 .box-shadow (@shadow) {
+
 	-webkit-box-shadow: @shadow;
 	-moz-box-shadow: @shadow;
 	-ms-box-shadow: @shadow;
@@ -27,6 +21,7 @@
 }
 
 .text-shadow (@shadow) {
+
 	-webkit-text-shadow: @shadow;
 	-moz-text-shadow: @shadow;
 	-ms-text-shadow: @shadow;
@@ -34,8 +29,8 @@
 	text-shadow: @shadow;
 }
 
-.transform (@arg)
-{
+.transform (@arg) {
+
 	-webkit-transform: @arg;
 	-moz-transform: @arg;
 	-ms-transform: @arg;
@@ -43,8 +38,8 @@
 	transform: @arg;
 }
 
-.transition (@arg)
-{
+.transition (@arg) {
+
 	-webkit-transition: @arg;
 	-moz-transition: @arg;
 	-ms-transition: @arg;
@@ -53,6 +48,7 @@
 }
 
 .transition-duration (@time) {
+
 	-webkit-transition-duration: @time;
 	-moz-transition-duration: @time;
 	-ms-transition-duration: @time;
@@ -61,6 +57,7 @@
 }
 
 .transition-timing_function (@arg) {
+
 	-webkit-transition-timing-function: @arg;
 	-moz-transition-timing-function: @arg;
 	-ms-transition-timing-function: @arg;
@@ -69,6 +66,7 @@
 }
 
 .transition-property (@property) {
+
 	-webkit-transition-property: @property;
 	-moz-transition-property: @property;
 	-ms-transition-property: @property;
