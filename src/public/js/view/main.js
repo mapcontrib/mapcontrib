@@ -90,7 +90,7 @@ function (
 			'click @ui.zoomOutButton': 'onZoomOut',
 
 			'click @ui.userButton': 'onClickUser',
-			'click @ui.linkButton': 'onClickShare',
+			'click @ui.linkButton': 'onClickLink',
 			'click @ui.contribButton': 'onClickContrib',
 			'click @ui.editButton': 'onClickEdit',
 			'click @ui.editSettingButton': 'onClickEditSetting',
@@ -173,7 +173,7 @@ function (
 			// this._userColumnView.open();
 		},
 
-		onClickShare: function () {
+		onClickLink: function () {
 
 			this._linkColumnView.open();
 		},
