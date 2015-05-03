@@ -78,9 +78,7 @@ module.exports = function(grunt) {
 
 			options: {
 
-				'-W004': true,
 				'-W099': true, // Mixed spaces and tabs
-				'-W055': true, // A constructor name should start with an uppercase letter
 				ignores: [
 
 					'src/public/js/require.js'

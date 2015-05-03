@@ -21,7 +21,7 @@ require(['config'], function (config) {
 		Marionette,
 		animationFrame,
 		templates,
-		router,
+		Router,
 
 		columnBehavior,
 		modalBehavior
@@ -29,7 +29,7 @@ require(['config'], function (config) {
 
 		'use strict';
 
-		var app = Marionette.Application.extend({
+		var App = Marionette.Application.extend({
 
 			_var: {
 
@@ -66,7 +66,7 @@ require(['config'], function (config) {
 
 				// this._model = {
 				//
-				// 	'user': new userModel(),
+				// 	'user': new UserModel(),
 				// };
 
 
@@ -155,7 +155,7 @@ require(['config'], function (config) {
 
 				var self = this;
 
-				// this._collection.stuff = new stuffCollection();
+				// this._collection.stuff = new StuffCollection();
 			},
 
 
@@ -170,7 +170,7 @@ require(['config'], function (config) {
 
 				var self = this;
 
-				this._router = new router();
+				this._router = new Router();
 
 				this._radio.reqres.setHandler('router', function () { return self._router; });
 
@@ -184,6 +184,6 @@ require(['config'], function (config) {
 		});
 
 
-		new app().start();
+		new App().start();
 	});
 });

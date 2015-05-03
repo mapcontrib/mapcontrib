@@ -27,14 +27,14 @@ function (
 	templates,
 	L,
 
-	loginModalView,
-	userColumnView,
-	linkColumnView,
-	contribColumnView,
-	editSettingColumnView,
-	editPoiColumnView,
-	editTileColumnView,
-	tipOfTheDayView
+	LoginModalView,
+	UserColumnView,
+	LinkColumnView,
+	ContribColumnView,
+	EditSettingColumnView,
+	EditPoiColumnView,
+	EditTileColumnView,
+	TipOfTheDayView
 ) {
 
 	'use strict';
@@ -122,12 +122,12 @@ function (
 			});
 
 
-			this._userColumnView = new userColumnView();
-			this._linkColumnView = new linkColumnView();
-			this._contribColumnView = new contribColumnView();
-			this._editSettingColumnView = new editSettingColumnView();
-			this._editPoiColumnView = new editPoiColumnView();
-			this._editTileColumnView = new editTileColumnView();
+			this._userColumnView = new UserColumnView();
+			this._linkColumnView = new LinkColumnView();
+			this._contribColumnView = new ContribColumnView();
+			this._editSettingColumnView = new EditSettingColumnView();
+			this._editPoiColumnView = new EditPoiColumnView();
+			this._editTileColumnView = new EditTileColumnView();
 
 			this.getRegion('userColumn').show( this._userColumnView );
 			this.getRegion('linkColumn').show( this._linkColumnView );
@@ -136,7 +136,7 @@ function (
 			this.getRegion('editPoiColumn').show( this._editPoiColumnView );
 			this.getRegion('editTileColumn').show( this._editTileColumnView );
 
-			this.getRegion('tipOfTheDay').show( new tipOfTheDayView() );
+			this.getRegion('tipOfTheDay').show( new TipOfTheDayView() );
 		},
 
 		onShow: function () {
@@ -166,7 +166,7 @@ function (
 
 			var self = this;
 
-			this._loginModalView = new loginModalView();
+			this._loginModalView = new LoginModalView();
 
 			this.getRegion('loginModal').show( this._loginModalView );
 

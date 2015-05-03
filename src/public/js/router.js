@@ -16,7 +16,7 @@ function (
 	Backbone,
 	settings,
 
-	mainView
+	MainView
 ) {
 
 	'use strict';
@@ -40,7 +40,7 @@ function (
 			// this._user = this._radio.reqres.request('model', 'user');
 		},
 
-		showScreen: function (view, options){
+		showScreen: function (View, options){
 
 			var self = this,
 			currentScreen = this._currentScreen;
@@ -52,7 +52,7 @@ function (
 			}
 
 
-			var viewInstance = new view( options );
+			var viewInstance = new View( options );
 			this._radio.reqres.request('region', 'root').show( viewInstance );
 
 			this._currentScreen = viewInstance;
@@ -60,7 +60,7 @@ function (
 
 		routeDefault: function (){
 
-			this.showScreen( mainView );
+			this.showScreen( MainView );
 		},
 	});
 });
