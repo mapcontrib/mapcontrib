@@ -9,6 +9,7 @@ define([
 	'templates',
 	'leaflet',
 
+	'view/loginModal',
 	'view/userColumn',
 	'view/linkColumn',
 	'view/contribColumn',
@@ -26,6 +27,7 @@ function (
 	templates,
 	L,
 
+	loginModalView,
 	userColumnView,
 	linkColumnView,
 	contribColumnView,
@@ -69,6 +71,8 @@ function (
 		},
 
 		regions: {
+
+			'loginModal': '#rg_login_modal',
 
 			'userColumn': '#rg_user_column',
 			'linkColumn': '#rg_link_column',
@@ -160,7 +164,13 @@ function (
 
 		onClickUser: function () {
 
-			this._userColumnView.open();
+			var self = this;
+
+			this._loginModalView = new loginModalView();
+
+			this.getRegion('loginModal').show( this._loginModalView );
+
+			// this._userColumnView.open();
 		},
 
 		onClickShare: function () {

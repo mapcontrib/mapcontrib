@@ -39,6 +39,7 @@
 @tipOfTheDayZIndex: 1020;
 @columnZIndex: 1030;
 @titleZIndex: 1040;
+@modalZIndex: 1050;
 
 
 
@@ -382,5 +383,44 @@ fieldset .form-control {
 	p {
 
 		text-align: justify;
+	}
+}
+
+
+/* .modal is reserved by Bootstrap */
+.pop_modal {
+
+	position: fixed;
+	z-index: @modalZIndex;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.6);
+	opacity: 0;
+	.transition( all ease-out 0.2s );
+
+	.pop {
+
+		background: #fff;
+		position: fixed;
+		z-index: @modalZIndex;
+		top: 50%;
+		left: 50%;
+		min-width: 500px;
+		max-width: 100%;
+		.transition( all ease-out 0.2s );
+		.transform( translate(-50%, -45%) );
+		padding: 30px 15px;
+	}
+
+	&.open {
+
+		opacity: 1;
+
+		.pop {
+
+			.transform( translate(-50%, -50%) );
+		}
 	}
 }

@@ -7,20 +7,24 @@ require(['config'], function (config) {
 		'underscore',
 		'backbone',
 		'marionette',
+		'animationFrame',
 		'templates',
 		'router',
 
 		'behavior/column',
+		'behavior/modal',
 	],
 	function (
 
 		_,
 		Backbone,
 		Marionette,
+		animationFrame,
 		templates,
 		router,
 
-		columnBehavior
+		columnBehavior,
+		modalBehavior
 	) {
 
 		'use strict';
@@ -47,12 +51,15 @@ require(['config'], function (config) {
 
 				var self = this;
 
+				// requestAnimationFrame polyfill
+				animationFrame.shim();
 
 				Marionette.Behaviors.behaviorsLookup = function() {
 
 					return {
 
 						'column': columnBehavior,
+						'modal': modalBehavior,
 					};
 				};
 

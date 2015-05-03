@@ -267,3 +267,49 @@ fieldset .form-control {
 #tip_of_the_day p {
   text-align: justify;
 }
+/* .modal is reserved by Bootstrap */
+.pop_modal {
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  -webkit-transition: all ease-out 0.2s;
+  -moz-transition: all ease-out 0.2s;
+  -ms-transition: all ease-out 0.2s;
+  -o-transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
+}
+.pop_modal .pop {
+  background: #fff;
+  position: fixed;
+  z-index: 1050;
+  top: 50%;
+  left: 50%;
+  min-width: 500px;
+  max-width: 100%;
+  -webkit-transition: all ease-out 0.2s;
+  -moz-transition: all ease-out 0.2s;
+  -ms-transition: all ease-out 0.2s;
+  -o-transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
+  -webkit-transform: translate(-50%, -45%);
+  -moz-transform: translate(-50%, -45%);
+  -ms-transform: translate(-50%, -45%);
+  -o-transform: translate(-50%, -45%);
+  transform: translate(-50%, -45%);
+  padding: 30px 15px;
+}
+.pop_modal.open {
+  opacity: 1;
+}
+.pop_modal.open .pop {
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

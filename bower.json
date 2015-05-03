@@ -11,6 +11,7 @@
     "backbone-validation": "~0.9.2",
     "marionette": "~2.4.1",
     "requirejs": "~2.1.16",
-    "leaflet": "~0.7.3"
+    "leaflet": "~0.7.3",
+    "animationFrame": "~0.2.4"
   }
 }
