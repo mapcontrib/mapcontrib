@@ -169,6 +169,7 @@ passport.use(new OpenStreetMapStrategy({
 
 app.get('/auth/openstreetmap', passport.authenticate('openstreetmap'));
 
+
 app.get('/auth/openstreetmap/callback', passport.authenticate('openstreetmap', {
 
 	'successRedirect': '/',
@@ -179,6 +180,17 @@ app.get('/auth/openstreetmap/callback', passport.authenticate('openstreetmap', {
 
 
 
+
+function isLoggedIn(req, res, next) {
+
+	// if user is authenticated in the session, carry on
+	if ( req.isAuthenticated() ) {
+
+		return next();
+	}
+
+	res.sendStatus(401);
+}
 
 
 
@@ -194,13 +206,6 @@ function logout(req, res) {
 
 
 function apiPost(req, res, content_type) {
-
-	if (!req.user) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
 
 	if (req.body.userId !== req.user) {
 
@@ -237,14 +242,6 @@ function apiPost(req, res, content_type) {
 
 function apiGetAllUser(req, res) {
 
-	if (!req.user || !req.session.is_admin) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
-
 	var collection = database.collection('user');
 
 	collection.find()
@@ -272,14 +269,6 @@ function apiGetAllUser(req, res) {
 
 
 function apiGetUser(req, res) {
-
-	if (!req.user) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
 
 	var _id = req.params._id;
 
@@ -406,7 +395,7 @@ function apiGet(req, res, content_type) {
 
 function apiPutUser(req, res) {
 
-	if (!req.user || req.user !== req.params._id) {
+	if (req.user !== req.params._id) {
 
 		res.sendStatus(401);
 
@@ -449,13 +438,6 @@ function apiPutUser(req, res) {
 
 function apiPut(req, res, content_type) {
 
-	if (!req.user) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
 	if (req.params._id.length != 24) {
 
 		res.sendStatus(400);
@@ -492,13 +474,6 @@ function apiPut(req, res, content_type) {
 
 function apiDelete(req, res, content_type) {
 
-	if (!req.user) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
 	if (req.params._id.length != 24) {
 
 		res.sendStatus(400);
@@ -533,12 +508,10 @@ function apiDelete(req, res, content_type) {
 
 
 
-app.get		('/api/user/logout',	logout);
-
-app.get		('/api/user',					apiGetAllUser);
-app.get		('/api/user/:_id',				apiGetUser);
-// app.post	('/api/user',					apiPostUser);
-// app.put		('/api/user/:_id',				apiPutUser);
+app.get('/api/user', isLoggedIn, apiGetAllUser);
+app.get('/api/user/logout',	logout);
+app.get('/api/user/:_id', isLoggedIn, apiGetUser);
+app.put('/api/user/:_id', isLoggedIn, apiPutUser);
 
 
 var list_content_types = [
@@ -548,11 +521,39 @@ var list_content_types = [
 
 list_content_types.forEach(function (content_type) {
 
-	app.post	('/api/'+ content_type,				function (req, res){ return apiPost(req, res, content_type); });
-	app.get		('/api/'+ content_type,				function (req, res){ return apiGetAll(req, res, content_type); });
-	app.get		('/api/'+ content_type +'/:_id',	function (req, res){ return apiGet(req, res, content_type); });
-	app.put		('/api/'+ content_type +'/:_id',	function (req, res){ return apiPut(req, res, content_type); });
-	app.delete	('/api/'+ content_type +'/:_id',	function (req, res){ return apiDelete(req, res, content_type); });
+	app.post(
+
+		'/api/'+ content_type,
+		isLoggedIn,
+		function (req, res){ return apiPost(req, res, content_type); }
+	);
+
+	app.get(
+
+		'/api/'+ content_type,
+		function (req, res){ return apiGetAll(req, res, content_type); }
+	);
+
+	app.get(
+
+		'/api/'+ content_type +'/:_id',
+		function (req, res){ return apiGet(req, res, content_type); }
+	);
+
+	app.put(
+
+		'/api/'+ content_type +'/:_id', isLoggedIn,
+		isLoggedIn,
+		function (req, res){ return apiPut(req, res, content_type); }
+	);
+
+	app.delete(
+
+		'/api/'+ content_type +'/:_id', isLoggedIn,
+		isLoggedIn,
+		function (req, res){ return apiDelete(req, res, content_type); }
+	);
+
 });
 
 
