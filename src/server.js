@@ -113,7 +113,7 @@ passport.use(new OpenStreetMapStrategy({
 
 		'consumerKey': 'Ftd4DGWeGoHCo9ldIFsRFSXf3P2GlOug9WQnN29Y',
 		'consumerSecret': 'ujsqYBCLfAew7Gbz3zbBpixZiiUlSvF6xyAK4SXx',
-		'callbackURL': 'http://localhost:8080/auth/openstreetmap/callback',
+		'callbackURL': '/auth/openstreetmap/callback',
 		'passReqToCallback': true,
 	},
 	function(req, token, tokenSecret, profile, done) {
