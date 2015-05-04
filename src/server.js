@@ -82,9 +82,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-passport.serializeUser(function(userId, done) {
+passport.serializeUser(function(user, done) {
 
-	done(null, userId);
+	done(null, user.id);
 });
 
 
@@ -97,13 +97,7 @@ passport.deserializeUser(function(userId, done) {
 		'_id': userId
 	}, function (err, user) {
 
-		if (err) {
-
-			done(null, false);
-			return;
-		}
-
-		done(null, userId);
+		done(err, user);
 	});
 });
 
@@ -130,6 +124,8 @@ passport.use(new OpenStreetMapStrategy({
 
 			'osmId': profile.id,
 			'displayName': profile.displayName,
+			'token': token,
+			'tokenSecret': tokenSecret,
 		};
 
 
@@ -140,25 +136,17 @@ passport.use(new OpenStreetMapStrategy({
 
 			if (err) {
 
-				done(null, false);
-				return;
+				return done(err);
 			}
 
 			if (user) {
 
-				done(null, user._id.toString());
-				return;
+				return done(null, user);
 			}
 
 			collection.insert(userData, {'safe': true}, function (err, results) {
 
-				if(err) {
-
-					done(err, null);
-					return;
-				}
-
-				done(null, results[0]._id.toString());
+				done(err, results[0]);
 			});
 		});
 	}
@@ -171,6 +159,16 @@ app.get('/auth/openstreetmap', passport.authenticate('openstreetmap'));
 
 
 app.get('/auth/openstreetmap/callback', passport.authenticate('openstreetmap', {
+
+	'successRedirect': '/',
+	'failureRedirect': '/#oups'
+}));
+
+
+app.get('/connect/openstreetmap', passport.authorize('openstreetmap'));
+
+
+app.get('/connect/openstreetmap/callback', passport.authorize('openstreetmap', {
 
 	'successRedirect': '/',
 	'failureRedirect': '/#oups'
