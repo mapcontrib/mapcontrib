@@ -27,6 +27,7 @@ function (
 		routes: {
 
 			'': 'routeDefault',
+			'oups': 'routeDefault',
 		},
 
 
@@ -37,7 +38,7 @@ function (
 			this._currentScreen = null;
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
-			// this._user = this._radio.reqres.request('model', 'user');
+			this._user = this._radio.reqres.request('model', 'user');
 		},
 
 		showScreen: function (View, options){

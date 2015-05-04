@@ -107,8 +107,10 @@ fieldset .form-control {
 #user_toolbar .btn {
   color: #fff;
 }
+#user_toolbar .login_btn,
 #user_toolbar .user_btn {
   background: #38b8e2;
+  font-weight: bold;
 }
 #user_toolbar .link_btn {
   background: #27ae60;

@@ -56,6 +56,7 @@ function (
 			'controlTileButton': '#control_toolbar .tile_btn',
 
 			'userToolbar': '#user_toolbar',
+			'loginButton': '#user_toolbar .login_btn',
 			'userButton': '#user_toolbar .user_btn',
 			'linkButton': '#user_toolbar .link_btn',
 			'contribButton': '#user_toolbar .contrib_btn',
@@ -89,6 +90,7 @@ function (
 			'click @ui.zoomInButton': 'onZoomIn',
 			'click @ui.zoomOutButton': 'onZoomOut',
 
+			'click @ui.loginButton': 'onClickLogin',
 			'click @ui.userButton': 'onClickUser',
 			'click @ui.linkButton': 'onClickLink',
 			'click @ui.contribButton': 'onClickContrib',
@@ -120,6 +122,30 @@ function (
 
 				$(this).blur();
 			});
+
+
+
+			if ( this._radio.reqres.request('var', 'isLogged') ) {
+
+				var user = this._radio.reqres.request('model', 'user'),
+				letters = user.get('displayName')
+				.toUpperCase()
+				.split(' ')
+				.splice(0, 2)
+				.map(function (name) {
+
+					return name[0];
+				})
+				.join('');
+
+				this.ui.loginButton.addClass('hide');
+				this.ui.userButton.html(letters).removeClass('hide');
+			}
+			else {
+
+				this.ui.loginButton.removeClass('hide');
+				this.ui.userButton.addClass('hide');
+			}
 
 
 			this._userColumnView = new UserColumnView();
@@ -162,15 +188,18 @@ function (
 			this._map.zoomOut();
 		},
 
-		onClickUser: function () {
+		onClickLogin: function () {
 
 			var self = this;
 
 			this._loginModalView = new LoginModalView();
 
 			this.getRegion('loginModal').show( this._loginModalView );
+		},
 
-			// this._userColumnView.open();
+		onClickUser: function () {
+
+			this._userColumnView.open();
 		},
 
 		onClickLink: function () {

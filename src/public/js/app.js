@@ -13,6 +13,8 @@ require(['config'], function (config) {
 
 		'behavior/column',
 		'behavior/modal',
+
+		'model/user',
 	],
 	function (
 
@@ -24,7 +26,9 @@ require(['config'], function (config) {
 		Router,
 
 		columnBehavior,
-		modalBehavior
+		modalBehavior,
+
+		UserModel
 	) {
 
 		'use strict';
@@ -64,10 +68,10 @@ require(['config'], function (config) {
 				};
 
 
-				// this._model = {
-				//
-				// 	'user': new UserModel(),
-				// };
+				this._model = {
+
+					'user': new UserModel(),
+				};
 
 
 				this._radio = Backbone.Wreqr.radio.channel('global');
@@ -127,28 +131,26 @@ require(['config'], function (config) {
 
 				this.initObjects();
 
-				// this._model.user.set('_id', 'me');
-				//
-				// this._model.user.fetch({
-				//
-				// 	success: function (model) {
-				//
-				// 		if (!model.get('error')) {
-				//
-				// 			self._radio.vent.trigger('session:logged');
-				//
-				// 			self.loadData();
-				// 		}
-				//
-				// 		self.launch();
-				// 	},
-				// 	error: function () {
-				//
-				// 		self.launch();
-				// 	}
-				// });
+				this._model.user.set('_id', 'me');
 
-				this.launch();
+				this._model.user.fetch({
+
+					success: function (model) {
+
+						if (!model.get('error')) {
+
+							self._radio.vent.trigger('session:logged');
+
+							self.loadData();
+						}
+
+						self.launch();
+					},
+					error: function () {
+
+						self.launch();
+					}
+				});
 			},
 
 			initObjects: function () {

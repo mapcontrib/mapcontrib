@@ -18,11 +18,13 @@ function (
 	return Backbone.Model.extend({
 
 		idAttribute: '_id',
+
 		urlRoot: settings.apiPath + 'user',
+
 		defaults: {
-			'structure_id': undefined,
-			'nom': undefined,
-			'login': undefined
+
+			'osmId': undefined,
+			'displayName': undefined,
 		}
 	});
 });

@@ -59,7 +59,7 @@ function (
 
 			if (e.target !== this.ui.modal[0]) {
 
-				return false;
+				return;
 			}
 
 			this.onClose();

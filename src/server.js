@@ -13,6 +13,9 @@ db_options = {
 };
 
 
+
+
+
 // Dépendances
 var mongo = require('mongodb'),
 fs = require('fs'),
@@ -55,15 +58,15 @@ errorHandler = require('errorhandler'),
 app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('port', http_port);
-app.use(logger('dev'));
-app.use(methodOverride());
-app.use(session({ resave: true,
-                  saveUninitialized: true,
-                  secret: secret_key }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({ resave: true,
+                  saveUninitialized: true,
+                  secret: secret_key }));
+app.set('port', http_port);
+app.use(logger('dev'));
+app.use(methodOverride());
 app.use(multer({ 'dest': path.join(__dirname, 'upload') }));
 app.use(serveStatic(path.join(__dirname, 'public')));
 
@@ -72,90 +75,136 @@ app.use(serveStatic(path.join(__dirname, 'public')));
 
 
 
+var passport = require('passport'),
+OpenStreetMapStrategy = require('passport-openstreetmap').Strategy;
 
-function authenticate(req, res) {
+app.use(passport.initialize());
+app.use(passport.session());
 
-	if (!req.query.login || !req.query.password) {
 
-		res.status(400).send({
+passport.serializeUser(function(userId, done) {
 
-			'error': 'Parametre manquant'
-		});
+	done(null, userId);
+});
 
-		return true;
-	}
 
-	if(!login_pattern.test(req.query.login)) {
-
-		res.status(400).send({
-
-			'error': 'Mauvais parametre'
-		});
-
-		return true;
-	}
-
+passport.deserializeUser(function(userId, done) {
 
 	var collection = database.collection('user');
 
-	collection.find({
+	collection.findOne({
 
-		'login': req.query.login,
-		'password': req.query.password
-	})
-	.toArray(function (err, results) {
+		'_id': userId
+	}, function (err, user) {
 
-		if(err) {
+		if (err) {
 
-			res.sendStatus(500);
-
-			return true;
+			done(null, false);
+			return;
 		}
 
-		if (results.length === 0) {
-
-			res.sendStatus(404);
-
-			return true;
-		}
-
-		var user = results[0];
-		user._id = user._id.toString();
-
-		delete(user.password);
-
-		req.session.user_id = user._id;
-		req.session.structure_id = user.structure_id;
-		req.session.is_admin = user.is_admin;
-
-		res.send(user);
+		done(null, userId);
 	});
-};
+});
+
+
+
+passport.use(new OpenStreetMapStrategy({
+
+		'consumerKey': 'Ftd4DGWeGoHCo9ldIFsRFSXf3P2GlOug9WQnN29Y',
+		'consumerSecret': 'ujsqYBCLfAew7Gbz3zbBpixZiiUlSvF6xyAK4SXx',
+		'callbackURL': 'http://localhost:8080/auth/openstreetmap/callback',
+		'passReqToCallback': true,
+	},
+	function(req, token, tokenSecret, profile, done) {
+
+		if (req.user) {
+
+			done(null, false);
+			return;
+		}
+
+
+		var collection = database.collection('user'),
+		userData = {
+
+			'osmId': profile.id,
+			'displayName': profile.displayName,
+		};
+
+
+		collection.findOne({
+
+			'osmId': userData.osmId
+		}, function (err, user) {
+
+			if (err) {
+
+				done(null, false);
+				return;
+			}
+
+			if (user) {
+
+				done(null, user._id.toString());
+				return;
+			}
+
+			collection.insert(userData, {'safe': true}, function (err, results) {
+
+				if(err) {
+
+					done(err, null);
+					return;
+				}
+
+				done(null, results[0]._id.toString());
+			});
+		});
+	}
+));
 
 
 
 
-function deauthenticate(req, res) {
+app.get('/auth/openstreetmap', passport.authenticate('openstreetmap'));
+
+app.get('/auth/openstreetmap/callback', passport.authenticate('openstreetmap', {
+
+	'successRedirect': '/',
+	'failureRedirect': '/#oups'
+}));
+
+
+
+
+
+
+
+
+
+
+function logout(req, res) {
 
 	req.session.destroy();
 	res.sendStatus(200);
 
 	return true;
-};
+}
 
 
 
 
 function apiPost(req, res, content_type) {
 
-	if (!req.session.user_id || !req.session.structure_id) {
+	if (!req.user) {
 
 		res.sendStatus(401);
 
 		return true;
 	}
 
-	if (req.body.structure_id != req.session.structure_id) {
+	if (req.body.userId !== req.user) {
 
 		res.status(400).send({
 
@@ -182,76 +231,15 @@ function apiPost(req, res, content_type) {
 
 		res.send(result);
 	});
-};
+}
 
-
-
-
-function apiPostStructure(req, res) {
-
-	if (!req.session.user_id || !req.session.is_admin) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
-
-	var collection = database.collection('structure');
-
-	collection.insert(req.body, {'safe': true}, function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		var result = results[0];
-		result._id = result._id.toString();
-
-		res.send(result);
-	});
-};
-
-
-
-
-function apiPostUser(req, res) {
-
-	if (!req.session.user_id || !req.session.is_admin) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
-
-	var collection = database.collection('user');
-
-	collection.insert(req.body, {'safe': true}, function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		var result = results[0];
-		result._id = result._id.toString();
-
-		res.send(result);
-	});
-};
 
 
 
 
 function apiGetAllUser(req, res) {
 
-	if (!req.session.user_id || !req.session.is_admin) {
+	if (!req.user || !req.session.is_admin) {
 
 		res.sendStatus(401);
 
@@ -281,13 +269,13 @@ function apiGetAllUser(req, res) {
 
 		res.send(results);
 	});
-};
+}
 
 
 
 function apiGetUser(req, res) {
 
-	if (!req.session.user_id || !req.session.structure_id) {
+	if (!req.user) {
 
 		res.sendStatus(401);
 
@@ -297,12 +285,15 @@ function apiGetUser(req, res) {
 
 	var _id = req.params._id;
 
-	// Appeler api/user/me permet de vérifier qu'on a une session ouverte ou non
-	// C'est normalement la première requête envoyée depuis l'application
-	// Cela retourne son propre JSON d'utilisateur
 	if (req.params._id == 'me') {
 
-		_id = req.session.user_id;
+		_id = req.user;
+	}
+	else if (req.user !== req.params._id) {
+
+		res.sendStatus(401);
+
+		return true;
 	}
 	else if (req.params._id.length != 24) {
 
@@ -317,8 +308,7 @@ function apiGetUser(req, res) {
 
 	collection.find({
 
-		'_id': new mongo.ObjectID(_id),
-		'structure_id': req.session.structure_id
+		'_id': new mongo.ObjectID(_id)
 	})
 	.toArray(function (err, results) {
 
@@ -339,25 +329,14 @@ function apiGetUser(req, res) {
 		var user = results[0];
 		user._id = user._id.toString();
 
-		delete(user.password);
-
 		res.send(user);
 	});
-};
+}
 
 
+function apiGetAll(req, res, content_type) {
 
-function apiGetAllStructure(req, res) {
-
-	if (!req.session.user_id || !req.session.is_admin) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
-
-	var collection = database.collection('structure');
+	var collection = database.collection(content_type);
 
 	collection.find()
 	.toArray(function (err, results) {
@@ -379,106 +358,12 @@ function apiGetAllStructure(req, res) {
 
 		res.send(results);
 	});
-};
-
-
-function apiGetStructure(req, res) {
-
-	if (!req.session.user_id || !req.session.structure_id) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
-	if (req.params._id.length != 24) {
-
-		res.sendStatus(400);
-
-		return true;
-	}
-
-
-
-	var collection = database.collection('structure');
-
-	collection.find({
-
-		'_id': new mongo.ObjectID(req.params._id)
-	})
-	.toArray(function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		if (results.length === 0) {
-
-			res.sendStatus(404);
-
-			return true;
-		}
-
-		var result = results[0];
-		result._id = result._id.toString();
-
-		res.send(result);
-	});
-};
-
-
-
-function apiGetAll(req, res, content_type) {
-
-	if (!req.session.user_id || !req.session.structure_id) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
-
-	var collection = database.collection(content_type);
-
-	collection.find({
-
-		'structure_id': req.session.structure_id
-	})
-	.toArray(function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		if (results.length > 0) {
-
-			results.forEach(function (result) {
-
-				result._id = result._id.toString();
-			});
-		}
-
-		res.send(results);
-	});
-};
+}
 
 
 
 function apiGet(req, res, content_type) {
 
-	if (!req.session.user_id || !req.session.structure_id) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
 	if (req.params._id.length != 24) {
 
 		res.sendStatus(400);
@@ -491,8 +376,7 @@ function apiGet(req, res, content_type) {
 
 	collection.find({
 
-		'_id': new mongo.ObjectID(req.params._id),
-		'structure_id': req.session.structure_id
+		'_id': new mongo.ObjectID(req.params._id)
 	})
 	.toArray(function (err, results) {
 
@@ -515,57 +399,16 @@ function apiGet(req, res, content_type) {
 
 		res.send(result);
 	});
-};
+}
 
 
 
 
-
-function apiPutStructure(req, res) {
-
-	if (!req.session.user_id) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
-	if (req.params._id.length != 24) {
-
-		res.sendStatus(400);
-
-		return true;
-	}
-
-
-	var new_json = req.body,
-	collection = database.collection('structure');
-
-	delete(new_json._id);
-
-	collection.update({
-
-		'_id': new mongo.ObjectID(req.params._id)
-	},
-	new_json,
-	{'safe': true},
-	function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		res.send({});
-	});
-};
 
 
 function apiPutUser(req, res) {
 
-	if (!req.session.user_id) {
+	if (!req.user || req.user !== req.params._id) {
 
 		res.sendStatus(401);
 
@@ -602,13 +445,13 @@ function apiPutUser(req, res) {
 
 		res.send({});
 	});
-};
+}
 
 
 
 function apiPut(req, res, content_type) {
 
-	if (!req.session.user_id || !req.session.structure_id) {
+	if (!req.user) {
 
 		res.sendStatus(401);
 
@@ -630,8 +473,7 @@ function apiPut(req, res, content_type) {
 
 	collection.update({
 
-		'_id': new mongo.ObjectID(req.params._id),
-		'structure_id': req.session.structure_id
+		'_id': new mongo.ObjectID(req.params._id)
 	},
 	new_json,
 	{'safe': true},
@@ -646,13 +488,13 @@ function apiPut(req, res, content_type) {
 
 		res.send({});
 	});
-};
+}
 
 
 
 function apiDelete(req, res, content_type) {
 
-	if (!req.session.user_id || !req.session.structure_id) {
+	if (!req.user) {
 
 		res.sendStatus(401);
 
@@ -674,8 +516,7 @@ function apiDelete(req, res, content_type) {
 
 	collection.remove({
 
-		'_id': new mongo.ObjectID(req.params._id),
-		'structure_id': req.session.structure_id
+		'_id': new mongo.ObjectID(req.params._id)
 	},
 	{'safe': true},
 	function (err) {
@@ -689,28 +530,22 @@ function apiDelete(req, res, content_type) {
 
 		res.send({});
 	});
-};
+}
 
 
 
 
-app.get		('/api/user/authenticate',		authenticate);
-app.get		('/api/user/deauthenticate',	deauthenticate);
+app.get		('/api/user/logout',	logout);
 
 app.get		('/api/user',					apiGetAllUser);
 app.get		('/api/user/:_id',				apiGetUser);
-app.post	('/api/user',					apiPostUser);
-app.put		('/api/user/:_id',				apiPutUser);
-
-app.get		('/api/structure',				apiGetAllStructure);
-app.get		('/api/structure/:_id',			apiGetStructure);
-app.post	('/api/structure',				apiPostStructure);
-app.put		('/api/structure/:_id',			apiPutStructure);
+// app.post	('/api/user',					apiPostUser);
+// app.put		('/api/user/:_id',				apiPutUser);
 
 
 var list_content_types = [
 
-	'stuff'
+	// 'stuff'
 ];
 
 list_content_types.forEach(function (content_type) {
