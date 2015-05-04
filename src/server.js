@@ -186,10 +186,8 @@ app.get('/auth/openstreetmap/callback', passport.authenticate('openstreetmap', {
 
 function logout(req, res) {
 
-	req.session.destroy();
+	req.logout();
 	res.sendStatus(200);
-
-	return true;
 }
 
 
