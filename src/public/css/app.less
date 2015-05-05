@@ -274,6 +274,12 @@ fieldset .form-control {
 		}
 	}
 
+	.nav a {
+
+		text-decoration: none;
+	}
+
+
 	header {
 
 		height: @columnTitleHeight;
@@ -314,10 +320,19 @@ fieldset .form-control {
 
 	background: @blue;
 
-	.content .btn {
+	.content .btn,
+	.content .nav a {
 
 		background: @darkBlue;
 		color: #fff;
+
+		&:hover,
+		&:focus,
+		&.active {
+
+
+			background: darken(@darkBlue, 4%);
+		}
 	}
 }
 

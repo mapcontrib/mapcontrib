@@ -186,6 +186,9 @@ fieldset .form-control {
 .column a.btn {
   text-decoration: none;
 }
+.column .nav a {
+  text-decoration: none;
+}
 .column header {
   height: 50px;
   border: 1px solid transparent;
@@ -212,9 +215,18 @@ fieldset .form-control {
 #user_column {
   background: #38b8e2;
 }
-#user_column .content .btn {
+#user_column .content .btn,
+#user_column .content .nav a {
   background: #1c9bc6;
   color: #fff;
+}
+#user_column .content .btn:hover,
+#user_column .content .nav a:hover,
+#user_column .content .btn:focus,
+#user_column .content .nav a:focus,
+#user_column .content .btn.active,
+#user_column .content .nav a.active {
+  background: #198db4;
 }
 #link_column {
   background: #1d9650;
