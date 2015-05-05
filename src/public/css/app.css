@@ -22,7 +22,8 @@ textarea,
 button,
 .btn,
 .form-control,
-fieldset .form-control {
+fieldset .form-control,
+.nav > li > a {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   -ms-border-radius: 0;
