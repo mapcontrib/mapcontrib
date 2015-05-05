@@ -119,7 +119,7 @@ passport.use(new OpenStreetMapStrategy({
 
 		if (req.user) {
 
-			return done(null, req.user);
+			return done(null, false);
 		}
 
 
