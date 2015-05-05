@@ -231,16 +231,34 @@ fieldset .form-control {
 #link_column {
   background: #1d9650;
 }
-#link_column .content .btn {
+#link_column .content .btn,
+#link_column .content .nav a {
   background: #0e7138;
   color: #fff;
+}
+#link_column .content .btn:hover,
+#link_column .content .nav a:hover,
+#link_column .content .btn:focus,
+#link_column .content .nav a:focus,
+#link_column .content .btn.active,
+#link_column .content .nav a.active {
+  background: #0c5f2f;
 }
 #contrib_column {
   background: #e85657;
 }
-#contrib_column .content .btn {
+#contrib_column .content .btn,
+#contrib_column .content .nav a {
   background: #d51d1e;
   color: #fff;
+}
+#contrib_column .content .btn:hover,
+#contrib_column .content .nav a:hover,
+#contrib_column .content .btn:focus,
+#contrib_column .content .nav a:focus,
+#contrib_column .content .btn.active,
+#contrib_column .content .nav a.active {
+  background: #c31b1b;
 }
 #edit_setting_column,
 #edit_poi_column,
@@ -249,9 +267,32 @@ fieldset .form-control {
 }
 #edit_setting_column .content .btn,
 #edit_poi_column .content .btn,
-#edit_tile_column .content .btn {
+#edit_tile_column .content .btn,
+#edit_setting_column .content .nav a,
+#edit_poi_column .content .nav a,
+#edit_tile_column .content .nav a {
   background: #db7e07;
   color: #fff;
+}
+#edit_setting_column .content .btn:hover,
+#edit_poi_column .content .btn:hover,
+#edit_tile_column .content .btn:hover,
+#edit_setting_column .content .nav a:hover,
+#edit_poi_column .content .nav a:hover,
+#edit_tile_column .content .nav a:hover,
+#edit_setting_column .content .btn:focus,
+#edit_poi_column .content .btn:focus,
+#edit_tile_column .content .btn:focus,
+#edit_setting_column .content .nav a:focus,
+#edit_poi_column .content .nav a:focus,
+#edit_tile_column .content .nav a:focus,
+#edit_setting_column .content .btn.active,
+#edit_poi_column .content .btn.active,
+#edit_tile_column .content .btn.active,
+#edit_setting_column .content .nav a.active,
+#edit_poi_column .content .nav a.active,
+#edit_tile_column .content .nav a.active {
+  background: #c77306;
 }
 #tip_of_the_day {
   position: fixed;
@@ -287,6 +328,11 @@ fieldset .form-control {
 #tip_of_the_day .btn {
   background: #282b30;
   color: #fff;
+}
+#tip_of_the_day .btn:hover,
+#tip_of_the_day .btn:focus,
+#tip_of_the_day .btn.active {
+  background: #1f2125;
 }
 #tip_of_the_day p {
   text-align: justify;

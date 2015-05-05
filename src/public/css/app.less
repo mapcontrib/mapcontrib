@@ -330,7 +330,6 @@ fieldset .form-control {
 		&:focus,
 		&.active {
 
-
 			background: darken(@darkBlue, 4%);
 		}
 	}
@@ -341,10 +340,18 @@ fieldset .form-control {
 
 	background: @green;
 
-	.content .btn {
+	.content .btn,
+	.content .nav a {
 
 		background: @darkGreen;
 		color: #fff;
+
+		&:hover,
+		&:focus,
+		&.active {
+
+			background: darken(@darkGreen, 4%);
+		}
 	}
 }
 
@@ -353,10 +360,18 @@ fieldset .form-control {
 
 	background: @red;
 
-	.content .btn {
+	.content .btn,
+	.content .nav a {
 
 		background: @darkRed;
 		color: #fff;
+
+		&:hover,
+		&:focus,
+		&.active {
+
+			background: darken(@darkRed, 4%);
+		}
 	}
 }
 
@@ -368,10 +383,18 @@ fieldset .form-control {
 
 	background: @orange;
 
-	.content .btn {
+	.content .btn,
+	.content .nav a {
 
 		background: @darkOrange;
 		color: #fff;
+
+		&:hover,
+		&:focus,
+		&.active {
+
+			background: darken(@darkOrange, 4%);
+		}
 	}
 }
 
@@ -411,6 +434,13 @@ fieldset .form-control {
 
 		background: @anthracite;
 		color: #fff;
+
+		&:hover,
+		&:focus,
+		&.active {
+
+			background: darken(@anthracite, 4%);
+		}
 	}
 
 	p {
