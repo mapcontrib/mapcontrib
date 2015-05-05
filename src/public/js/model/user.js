@@ -25,8 +25,9 @@ function (
 
 			'osmId': undefined,
 			'displayName': undefined,
-			'tocken': undefined,
-			'tockenSecret': undefined,
+			'avatar': undefined,
+			'token': undefined,
+			'tokenSecret': undefined,
 		}
 	});
 });

@@ -128,6 +128,7 @@ function (
 			if ( this._radio.reqres.request('var', 'isLogged') ) {
 
 				var user = this._radio.reqres.request('model', 'user'),
+				avatar = user.get('avatar'),
 				letters = user.get('displayName')
 				.toUpperCase()
 				.split(' ')
@@ -138,8 +139,22 @@ function (
 				})
 				.join('');
 
+
+				if (avatar) {
+
+					this.ui.userButton
+					.addClass('avatar')
+					.html('<img src="'+ avatar +'" alt="'+ letters +'">');
+				}
+				else {
+
+					this.ui.userButton
+					.removeClass('avatar')
+					.html(letters);
+				}
+
 				this.ui.loginButton.addClass('hide');
-				this.ui.userButton.html(letters).removeClass('hide');
+				this.ui.userButton.removeClass('hide');
 			}
 			else {
 

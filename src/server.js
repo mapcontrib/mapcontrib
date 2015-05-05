@@ -128,6 +128,7 @@ passport.use(new OpenStreetMapStrategy({
 
 			'osmId': profile.id,
 			'displayName': profile.displayName,
+			'avatar': profile._xml2json.user.img['@'].href,
 			'token': token,
 			'tokenSecret': tokenSecret,
 		};
