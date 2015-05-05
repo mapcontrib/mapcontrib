@@ -146,12 +146,38 @@ passport.use(new OpenStreetMapStrategy({
 
 			if (user) {
 
-				return done(null, user);
+				for ( var key in userData) {
+
+					user[key] = userData[key];
+				}
+
+				collection.update({
+
+					'_id': user._id
+				},
+				user,
+				{ 'safe': true },
+				function (err, results) {
+
+					if (results) {
+
+						return done(err, user);
+					}
+
+					return done(err);
+				});
+
+				return;
 			}
 
 			collection.insert(userData, {'safe': true}, function (err, results) {
 
-				done(err, results[0]);
+				if (results) {
+
+					return done(err, results[0]);
+				}
+
+				return done(err);
 			});
 		});
 	}
