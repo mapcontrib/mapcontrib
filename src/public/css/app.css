@@ -134,11 +134,11 @@ fieldset .form-control {
 #edit_toolbar {
   top: 301px;
   right: -63px;
-  -webkit-transition: all ease-out 0.2s;
-  -moz-transition: all ease-out 0.2s;
-  -ms-transition: all ease-out 0.2s;
-  -o-transition: all ease-out 0.2s;
-  transition: all ease-out 0.2s;
+  -webkit-transition: transform ease-out 0.2s;
+  -moz-transition: transform ease-out 0.2s;
+  -ms-transition: transform ease-out 0.2s;
+  -o-transition: transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
 }
 #edit_toolbar.open {
   -webkit-transform: translate(-100%, 0);
@@ -163,11 +163,11 @@ fieldset .form-control {
   left: 100%;
   width: 300px;
   max-width: 100%;
-  -webkit-transition: all ease-out 0.2s;
-  -moz-transition: all ease-out 0.2s;
-  -ms-transition: all ease-out 0.2s;
-  -o-transition: all ease-out 0.2s;
-  transition: all ease-out 0.2s;
+  -webkit-transition: transform ease-out 0.2s;
+  -moz-transition: transform ease-out 0.2s;
+  -ms-transition: transform ease-out 0.2s;
+  -o-transition: transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
   color: #fff;
 }
 .column.open {
@@ -301,11 +301,11 @@ fieldset .form-control {
   left: 100%;
   width: 500px;
   max-width: 100%;
-  -webkit-transition: all ease-out 0.2s;
-  -moz-transition: all ease-out 0.2s;
-  -ms-transition: all ease-out 0.2s;
-  -o-transition: all ease-out 0.2s;
-  transition: all ease-out 0.2s;
+  -webkit-transition: transform ease-out 0.2s;
+  -moz-transition: transform ease-out 0.2s;
+  -ms-transition: transform ease-out 0.2s;
+  -o-transition: transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
   background: #3b3f45;
   color: #fff;
 }
@@ -347,11 +347,11 @@ fieldset .form-control {
   right: 0;
   background: rgba(0, 0, 0, 0.6);
   opacity: 0;
-  -webkit-transition: all ease-out 0.2s;
-  -moz-transition: all ease-out 0.2s;
-  -ms-transition: all ease-out 0.2s;
-  -o-transition: all ease-out 0.2s;
-  transition: all ease-out 0.2s;
+  -webkit-transition: opacity ease-out 0.2s;
+  -moz-transition: opacity ease-out 0.2s;
+  -ms-transition: opacity ease-out 0.2s;
+  -o-transition: opacity ease-out 0.2s;
+  transition: opacity ease-out 0.2s;
 }
 .pop_modal .pop {
   background: #fff;
@@ -361,11 +361,11 @@ fieldset .form-control {
   left: 50%;
   width: 500px;
   max-width: 100%;
-  -webkit-transition: all ease-out 0.2s;
-  -moz-transition: all ease-out 0.2s;
-  -ms-transition: all ease-out 0.2s;
-  -o-transition: all ease-out 0.2s;
-  transition: all ease-out 0.2s;
+  -webkit-transition: transform ease-out 0.2s;
+  -moz-transition: transform ease-out 0.2s;
+  -ms-transition: transform ease-out 0.2s;
+  -o-transition: transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
   -webkit-transform: translate(-50%, -45%);
   -moz-transform: translate(-50%, -45%);
   -ms-transform: translate(-50%, -45%);

@@ -217,7 +217,7 @@ fieldset .form-control {
 
 	top: @titleHeight + (@toolbarBtnSize * 4) + 9;
 	right: @toolbarBtnSize * -1;
-	.transition(all ease-out .2s);
+	.transition( transform ease-out .2s );
 
 	&.open {
 
@@ -253,7 +253,7 @@ fieldset .form-control {
 	left: 100%;
 	width: 300px;
 	max-width: 100%;
-	.transition(all ease-out .2s);
+	.transition( transform ease-out .2s );
 	color: #fff;
 
 	&.open {
@@ -408,7 +408,7 @@ fieldset .form-control {
 	left: 100%;
 	width: 500px;
 	max-width: 100%;
-	.transition(all ease-out .2s);
+	.transition( transform ease-out .2s );
 	background: @lightAnthracite;
 	color: #fff;
 
@@ -461,7 +461,7 @@ fieldset .form-control {
 	right: 0;
 	background: rgba(0, 0, 0, 0.6);
 	opacity: 0;
-	.transition( all ease-out 0.2s );
+	.transition( opacity ease-out 0.2s );
 
 	.pop {
 
@@ -472,7 +472,7 @@ fieldset .form-control {
 		left: 50%;
 		width: 500px;
 		max-width: 100%;
-		.transition( all ease-out 0.2s );
+		.transition( transform ease-out 0.2s );
 		.transform( translate(-50%, -45%) );
 		padding: 30px 15px;
 	}
