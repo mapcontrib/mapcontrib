@@ -84,7 +84,7 @@ app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
 
-	done(null, user.id);
+	done(null, user._id.toString());
 });
 
 
@@ -94,10 +94,15 @@ passport.deserializeUser(function(userId, done) {
 
 	collection.findOne({
 
-		'_id': userId
+		'_id': new mongo.ObjectID(userId)
 	}, function (err, user) {
 
-		done(err, user);
+		if (user) {
+
+			return done(null, userId);
+		}
+
+		return done(err);
 	});
 });
 
@@ -114,8 +119,7 @@ passport.use(new OpenStreetMapStrategy({
 
 		if (req.user) {
 
-			done(null, false);
-			return;
+			return done(null, req.user);
 		}
 
 
@@ -181,7 +185,6 @@ app.get('/connect/openstreetmap/callback', passport.authorize('openstreetmap', {
 
 function isLoggedIn(req, res, next) {
 
-	// if user is authenticated in the session, carry on
 	if ( req.isAuthenticated() ) {
 
 		return next();
@@ -270,17 +273,17 @@ function apiGetUser(req, res) {
 
 	var _id = req.params._id;
 
-	if (req.params._id == 'me') {
+	if ( req.params._id === 'me' ) {
 
 		_id = req.user;
 	}
-	else if (req.user !== req.params._id) {
+	else if ( req.user !== req.params._id ) {
 
 		res.sendStatus(401);
 
 		return true;
 	}
-	else if (req.params._id.length != 24) {
+	else if ( req.params._id.length !== 24 ) {
 
 		res.sendStatus(404);
 
