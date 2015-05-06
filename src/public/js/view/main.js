@@ -132,12 +132,17 @@ function (
 				letters = user.get('displayName')
 				.toUpperCase()
 				.split(' ')
-				.splice(0, 2)
+				.splice(0, 3)
 				.map(function (name) {
 
 					return name[0];
 				})
 				.join('');
+
+				if (letters.length > 3) {
+
+					letters = letters[0];
+				}
 
 
 				if (avatar) {
