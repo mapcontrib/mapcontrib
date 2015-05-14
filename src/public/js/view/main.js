@@ -91,6 +91,7 @@ function (
 
 			'click @ui.zoomInButton': 'onClickZoomIn',
 			'click @ui.zoomOutButton': 'onClickZoomOut',
+			'click @ui.locateButton': 'onClickLocate',
 			'click @ui.expandScreenButton': 'onClickExpandScreen',
 			'click @ui.compressScreenButton': 'onClickCompressScreen',
 
@@ -233,6 +234,16 @@ function (
 		onClickZoomOut: function () {
 
 			this._map.zoomOut();
+		},
+
+		onClickLocate: function () {
+
+			this._map.locate({
+
+				'setView': true,
+				'enableHighAccuracy': true,
+				'maximumAge': 60 * 1000, // 60 seconds
+			});
 		},
 
 		onClickExpandScreen: function () {
