@@ -17,7 +17,8 @@ requirejs.config({
 		'jquery': '../bower_components/jquery/dist/jquery.min',
 		'math.format': '../bower_components/math.format/math.format',
 		'leaflet': '../bower_components/leaflet/dist/leaflet',
-		'animationFrame': '../bower_components/animationFrame/AnimationFrame.min',
+		'animationFrame-polyfill': '../bower_components/animationFrame/AnimationFrame.min',
+		'fullscreen-polyfill': '../bower_components/Fullscreen-API-Polyfill/fullscreen-api-polyfill',
 	},
 
 	shim: {

@@ -7,7 +7,8 @@ require(['config'], function (config) {
 		'underscore',
 		'backbone',
 		'marionette',
-		'animationFrame',
+		'animationFrame-polyfill',
+		'fullscreen-polyfill',
 		'templates',
 		'router',
 
@@ -21,7 +22,8 @@ require(['config'], function (config) {
 		_,
 		Backbone,
 		Marionette,
-		animationFrame,
+		animationFramePolyfill,
+		fullscreenPolyfill,
 		templates,
 		Router,
 
@@ -56,7 +58,7 @@ require(['config'], function (config) {
 				var self = this;
 
 				// requestAnimationFrame polyfill
-				animationFrame.shim();
+				animationFramePolyfill.shim();
 
 				Marionette.Behaviors.behaviorsLookup = function() {
 

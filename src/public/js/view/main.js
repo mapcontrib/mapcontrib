@@ -52,6 +52,8 @@ function (
 			'zoomInButton': '#control_toolbar .zoom_in_btn',
 			'zoomOutButton': '#control_toolbar .zoom_out_btn',
 			'locateButton': '#control_toolbar .locate_btn',
+			'expandScreenButton': '#control_toolbar .expand_screen_btn',
+			'compressScreenButton': '#control_toolbar .compress_screen_btn',
 			'controlPoiButton': '#control_toolbar .poi_btn',
 			'controlTileButton': '#control_toolbar .tile_btn',
 
@@ -87,8 +89,10 @@ function (
 
 		events: {
 
-			'click @ui.zoomInButton': 'onZoomIn',
-			'click @ui.zoomOutButton': 'onZoomOut',
+			'click @ui.zoomInButton': 'onClickZoomIn',
+			'click @ui.zoomOutButton': 'onClickZoomOut',
+			'click @ui.expandScreenButton': 'onClickExpandScreen',
+			'click @ui.compressScreenButton': 'onClickCompressScreen',
 
 			'click @ui.loginButton': 'onClickLogin',
 			'click @ui.userButton': 'onClickUser',
@@ -108,6 +112,9 @@ function (
 		},
 
 		onRender: function () {
+
+			var self = this;
+
 
 			this.ui.toolbarButtons.tooltip({
 
@@ -183,6 +190,26 @@ function (
 			this.getRegion('editTileColumn').show( this._editTileColumnView );
 
 			this.getRegion('tipOfTheDay').show( new TipOfTheDayView() );
+
+
+
+			if ( !document.fullscreenEnabled) {
+
+				this.ui.expandScreenButton.addClass('hide');
+				this.ui.compressScreenButton.addClass('hide');
+			}
+
+			$(window).on('fullscreenchange', function () {
+
+				if ( document.fullscreenElement ) {
+
+					self.onExpandScreen();
+				}
+				else {
+
+					self.onCompressScreen();
+				}
+			});
 		},
 
 		onShow: function () {
@@ -198,14 +225,36 @@ function (
 			.addTo(this._map);
 		},
 
-		onZoomIn: function () {
+		onClickZoomIn: function () {
 
 			this._map.zoomIn();
 		},
 
-		onZoomOut: function () {
+		onClickZoomOut: function () {
 
 			this._map.zoomOut();
+		},
+
+		onClickExpandScreen: function () {
+
+			document.documentElement.requestFullscreen();
+		},
+
+		onClickCompressScreen: function () {
+
+			document.exitFullscreen();
+		},
+
+		onExpandScreen: function () {
+
+			this.ui.expandScreenButton.addClass('hide');
+			this.ui.compressScreenButton.removeClass('hide');
+		},
+
+		onCompressScreen: function () {
+
+			this.ui.compressScreenButton.addClass('hide');
+			this.ui.expandScreenButton.removeClass('hide');
 		},
 
 		onClickLogin: function () {
