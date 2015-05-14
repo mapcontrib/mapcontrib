@@ -52,6 +52,7 @@ function (
 			'zoomInButton': '#control_toolbar .zoom_in_btn',
 			'zoomOutButton': '#control_toolbar .zoom_out_btn',
 			'locateButton': '#control_toolbar .locate_btn',
+			'locateWaitButton': '#control_toolbar .locate_wait_btn',
 			'expandScreenButton': '#control_toolbar .expand_screen_btn',
 			'compressScreenButton': '#control_toolbar .compress_screen_btn',
 			'controlPoiButton': '#control_toolbar .poi_btn',
@@ -92,6 +93,7 @@ function (
 			'click @ui.zoomInButton': 'onClickZoomIn',
 			'click @ui.zoomOutButton': 'onClickZoomOut',
 			'click @ui.locateButton': 'onClickLocate',
+			'click @ui.locateWaitButton': 'onClickLocateWait',
 			'click @ui.expandScreenButton': 'onClickExpandScreen',
 			'click @ui.compressScreenButton': 'onClickCompressScreen',
 
@@ -215,9 +217,21 @@ function (
 
 		onShow: function () {
 
+			var self = this;
+
 			this._map = L.map(this.ui.map[0], { 'zoomControl': false });
 
-			this._map.setView([44.82921, -0.5834], 12);
+			this._map
+			.setView([44.82921, -0.5834], 12)
+			.on('locationfound', function () {
+
+				self.onLocationFound();
+			})
+			.on('locationerror', function () {
+
+				self.onLocationError();
+			});
+
 
 			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
@@ -238,12 +252,32 @@ function (
 
 		onClickLocate: function () {
 
+			this.ui.locateButton.addClass('hide');
+			this.ui.locateWaitButton.removeClass('hide');
+
 			this._map.locate({
 
 				'setView': true,
 				'enableHighAccuracy': true,
 				'maximumAge': 60 * 1000, // 60 seconds
 			});
+		},
+
+		onClickLocateWait: function () {
+
+			this._map.stopLocate();
+		},
+
+		onLocationFound: function () {
+
+			this.ui.locateWaitButton.addClass('hide');
+			this.ui.locateButton.removeClass('hide');
+		},
+
+		onLocationError: function () {
+
+			this.ui.locateWaitButton.addClass('hide');
+			this.ui.locateButton.removeClass('hide');
 		},
 
 		onClickExpandScreen: function () {
