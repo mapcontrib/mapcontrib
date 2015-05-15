@@ -332,9 +332,22 @@ fieldset .form-control {
 		right: 0;
 		overflow: auto;
 
-		input {
+		input,
+		.btn-primary {
 
-			border: transparent;
+			border-color: transparent;
+		}
+
+		.help-block {
+
+			color: #fff;
+		}
+
+		.table-bordered,
+		.table-bordered th,
+		.table-bordered td, {
+
+			border-color: #fff;
 		}
 	}
 }
@@ -361,11 +374,6 @@ fieldset .form-control {
 
 				background: darken(@darkBlue, 4%);
 			}
-		}
-
-		.btn-primary {
-
-			border-color: darken(@darkBlue, 4%);
 		}
 
 		.btn-default {
@@ -409,11 +417,6 @@ fieldset .form-control {
 			}
 		}
 
-		.btn-primary {
-
-			border-color: darken(@darkGreen, 4%);
-		}
-
 		.btn-default {
 
 			background: transparent;
@@ -453,11 +456,6 @@ fieldset .form-control {
 
 				background: darken(@darkRed, 4%);
 			}
-		}
-
-		.btn-primary {
-
-			border-color: darken(@darkRed, 4%);
 		}
 
 		.btn-default {
@@ -502,11 +500,6 @@ fieldset .form-control {
 
 				background: darken(@darkOrange, 4%);
 			}
-		}
-
-		.btn-primary {
-
-			border-color: darken(@darkOrange, 4%);
 		}
 
 		.btn-default {

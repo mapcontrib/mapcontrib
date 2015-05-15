@@ -17,6 +17,8 @@ define([
 	'view/editPoiColumn',
 	'view/editTileColumn',
 	'view/tipOfTheDay',
+
+	'model/profile',
 ],
 function (
 
@@ -34,7 +36,9 @@ function (
 	EditSettingColumnView,
 	EditPoiColumnView,
 	EditTileColumnView,
-	TipOfTheDayView
+	TipOfTheDayView,
+
+	ProfileModel
 ) {
 
 	'use strict';
@@ -46,6 +50,7 @@ function (
 		ui: {
 
 			'map': '#main_map',
+			'title': '#title h1',
 			'toolbarButtons': '.toolbar .toolbar_btn',
 
 			'controlToolbar': '#control_toolbar',
@@ -112,6 +117,18 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			this.model = new ProfileModel({
+
+				'_id': '5249c43c6e789470197b5973',
+			});
+
+			this.model.fetch({
+
+				'async': false,
+			});
+
+			this.listenTo(this.model, 'change:name', this.setTitle);
 		},
 
 		onRender: function () {
@@ -170,20 +187,22 @@ function (
 
 				this.ui.loginButton.addClass('hide');
 				this.ui.userButton.removeClass('hide');
+				this.ui.editButton.removeClass('hide');
 			}
 			else {
 
 				this.ui.loginButton.removeClass('hide');
 				this.ui.userButton.addClass('hide');
+				this.ui.editButton.addClass('hide');
 			}
 
 
 			this._userColumnView = new UserColumnView();
-			this._linkColumnView = new LinkColumnView();
-			this._contribColumnView = new ContribColumnView();
-			this._editSettingColumnView = new EditSettingColumnView();
-			this._editPoiColumnView = new EditPoiColumnView();
-			this._editTileColumnView = new EditTileColumnView();
+			this._linkColumnView = new LinkColumnView({ 'model': this.model });
+			this._contribColumnView = new ContribColumnView({ 'model': this.model });
+			this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
+			this._editPoiColumnView = new EditPoiColumnView({ 'model': this.model });
+			this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
 
 			this.getRegion('userColumn').show( this._userColumnView );
 			this.getRegion('linkColumn').show( this._linkColumnView );
@@ -217,12 +236,20 @@ function (
 
 		onShow: function () {
 
-			var self = this;
+			var self = this,
+			center = this.model.get('center'),
+			zoomLevel = this.model.get('zoomLevel');
 
 			this._map = L.map(this.ui.map[0], { 'zoomControl': false });
 
+			this._radio.reqres.removeHandler('map');
+			this._radio.reqres.setHandler('map', function () {
+
+				return self._map;
+			});
+
 			this._map
-			.setView([44.82921, -0.5834], 12)
+			.setView([center.lat, center.lng], zoomLevel)
 			.on('locationfound', function () {
 
 				self.onLocationFound();
@@ -238,6 +265,11 @@ function (
 				'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 			})
 			.addTo(this._map);
+		},
+
+		setTitle: function () {
+
+			this.ui.title.html( this.model.get('name') );
 		},
 
 		onClickZoomIn: function () {
@@ -278,6 +310,9 @@ function (
 
 			this.ui.locateWaitButton.addClass('hide');
 			this.ui.locateButton.removeClass('hide');
+
+			// FIXME
+			// Give some feedback to the user
 		},
 
 		onClickExpandScreen: function () {

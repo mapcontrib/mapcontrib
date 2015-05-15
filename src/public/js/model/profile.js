@@ -19,16 +19,20 @@ function (
 
 		idAttribute: '_id',
 
-		urlRoot: settings.apiPath + 'user',
+		urlRoot: settings.apiPath + 'profile',
 
 		defaults: {
 
 			'userId': undefined,
-			'title': undefined,
+			'name': undefined,
 			'pois': [], // amenity, tag, icon, preset
 			'tiles': [],
 			'zoomLevel': undefined,
-			'center': undefined,
+			'center': {
+
+				'lat': undefined,
+				'lng': undefined,
+			},
 		}
 	});
 });

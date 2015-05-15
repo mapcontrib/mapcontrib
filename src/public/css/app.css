@@ -257,8 +257,17 @@ fieldset .form-control:active {
   right: 0;
   overflow: auto;
 }
-.column .content input {
-  border: transparent;
+.column .content input,
+.column .content .btn-primary {
+  border-color: transparent;
+}
+.column .content .help-block {
+  color: #fff;
+}
+.column .content .table-bordered,
+.column .content .table-bordered th,
+.column .content .table-bordered td {
+  border-color: #fff;
 }
 #user_column {
   background: #22b0df;
@@ -279,9 +288,6 @@ fieldset .form-control:active {
 #user_column .content .btn-primary.focus,
 #user_column .content .nav a.focus {
   background: #198aaf;
-}
-#user_column .content .btn-primary {
-  border-color: #198aaf;
 }
 #user_column .content .btn-default {
   background: transparent;
@@ -315,9 +321,6 @@ fieldset .form-control:active {
 #link_column .content .nav a.focus {
   background: #115a30;
 }
-#link_column .content .btn-primary {
-  border-color: #115a30;
-}
 #link_column .content .btn-default {
   background: transparent;
   border-color: #22b05e;
@@ -349,9 +352,6 @@ fieldset .form-control:active {
 #contrib_column .content .btn-primary.focus,
 #contrib_column .content .nav a.focus {
   background: #ba191a;
-}
-#contrib_column .content .btn-primary {
-  border-color: #ba191a;
 }
 #contrib_column .content .btn-default {
   background: transparent;
@@ -410,11 +410,6 @@ fieldset .form-control:active {
 #edit_poi_column .content .nav a.focus,
 #edit_tile_column .content .nav a.focus {
   background: #c77306;
-}
-#edit_setting_column .content .btn-primary,
-#edit_poi_column .content .btn-primary,
-#edit_tile_column .content .btn-primary {
-  border-color: #c77306;
 }
 #edit_setting_column .content .btn-default,
 #edit_poi_column .content .btn-default,

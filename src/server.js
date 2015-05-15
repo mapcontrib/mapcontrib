@@ -544,7 +544,7 @@ app.put('/api/user/:_id', isLoggedIn, apiPutUser);
 
 var list_content_types = [
 
-	// 'stuff'
+	'profile'
 ];
 
 list_content_types.forEach(function (content_type) {
