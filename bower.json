@@ -13,6 +13,6 @@
     "requirejs": "~2.1.16",
     "leaflet": "~0.7.3",
     "animationFrame": "~0.2.4",
-    "Fullscreen-API-Polyfill": "git@github.com:GuillaumeAmat/Fullscreen-API-Polyfill.git#GuillaumeAmat-patch-firefox-fullscreenEnabled"
+    "Fullscreen-API-Polyfill": "*"
   }
 }
