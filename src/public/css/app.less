@@ -4,27 +4,28 @@
 
 /* Colors */
 @orange: #F8981D;
-@darkOrange: darken(#F8981D, 10%);
+@darkOrange: darken(@orange, 10%);
 
 @lightRed: #EB7E7F;
 @red: #E85657;
-@darkRed: #D51D1E;
+@darkRed: darken(@red, 17%);
 
 @purple: #553445;
+@darkPurple: darken(@purple, 15%);
 
 @lightBlue: #6ECBEA;
 @blue: #38B8E2;
-@darkBlue: #1C9BC6;
+@darkBlue: darken(@blue, 12%);
 
 @turquoise: #00B6AD;
-@darkTurquoise: #5B8583;
+@darkTurquoise: darken(@turquoise, 10%);
 
 @lightGreen: #27AE60;
 @green: #1D9650;
-@darkGreen: #0E7138;
+@darkGreen: darken(@green, 10%);
 
-@anthracite: #282B30;
-@lightAnthracite: #3B3F45;
+@anthracite: #3B3F45;
+@darkAnthracite: darken(@anthracite, 10%);
 
 
 /* Dimensions */
@@ -62,16 +63,32 @@ fieldset[disabled] .form-control {
 	cursor: default;
 }
 
-input,
-select,
-textarea,
 button,
 .btn,
-.form-control,
-fieldset .form-control,
 .nav > li > a {
 
 	.border-radius(0);
+}
+
+input,
+select,
+textarea,
+.form-control,
+fieldset .form-control {
+
+	border-color: transparent;
+	.border-radius(0);
+	.box-shadow(none);
+
+	&:hover,
+	&.focus,
+	&:focus,
+	&.active,
+	&:active {
+
+		border-color: transparent;
+		.box-shadow(none);
+	}
 }
 
 
@@ -145,7 +162,7 @@ fieldset .form-control,
 		font-size: 1.6em;
 		padding: 10px 16px;
 		.border-radius(0);
-		color: @lightAnthracite;
+		color: @anthracite;
 		background: #fff;
 	}
 }
@@ -268,7 +285,10 @@ fieldset .form-control,
 		text-decoration: underline;
 
 		&:hover,
+		&:active,
+		&.active,
 		&:focus,
+		&.focus,
 		&.btn {
 
 			text-decoration: none;
@@ -319,7 +339,7 @@ fieldset .form-control,
 
 #user_column {
 
-	background: @blue;
+	background: darken(@blue, 5%);
 
 	.content .btn,
 	.content .nav a {
@@ -328,8 +348,10 @@ fieldset .form-control,
 		color: #fff;
 
 		&:hover,
+		&:active,
+		&.active,
 		&:focus,
-		&.active {
+		&.focus {
 
 			background: darken(@darkBlue, 4%);
 		}
@@ -339,7 +361,7 @@ fieldset .form-control,
 
 #link_column {
 
-	background: @green;
+	background: darken(@green, 5%);
 
 	.content .btn,
 	.content .nav a {
@@ -348,8 +370,10 @@ fieldset .form-control,
 		color: #fff;
 
 		&:hover,
+		&:active,
+		&.active,
 		&:focus,
-		&.active {
+		&.focus {
 
 			background: darken(@darkGreen, 4%);
 		}
@@ -359,7 +383,7 @@ fieldset .form-control,
 
 #contrib_column {
 
-	background: @red;
+	background: darken(@red, 5%);
 
 	.content .btn,
 	.content .nav a {
@@ -368,8 +392,10 @@ fieldset .form-control,
 		color: #fff;
 
 		&:hover,
+		&:active,
+		&.active,
 		&:focus,
-		&.active {
+		&.focus {
 
 			background: darken(@darkRed, 4%);
 		}
@@ -382,7 +408,7 @@ fieldset .form-control,
 #edit_poi_column,
 #edit_tile_column {
 
-	background: @orange;
+	background: darken(@orange, 5%);
 
 	.content .btn,
 	.content .nav a {
@@ -391,8 +417,10 @@ fieldset .form-control,
 		color: #fff;
 
 		&:hover,
+		&:active,
+		&.active,
 		&:focus,
-		&.active {
+		&.focus {
 
 			background: darken(@darkOrange, 4%);
 		}
@@ -410,7 +438,7 @@ fieldset .form-control,
 	width: 500px;
 	max-width: 100%;
 	.transition( transform ease-out .2s );
-	background: @lightAnthracite;
+	background: @anthracite;
 	color: #fff;
 
 	&.open {
@@ -424,7 +452,10 @@ fieldset .form-control,
 		text-decoration: underline;
 
 		&:hover,
+		&:active,
+		&.active,
 		&:focus,
+		&.focus,
 		&.btn {
 
 			text-decoration: none;
@@ -433,14 +464,16 @@ fieldset .form-control,
 
 	.btn {
 
-		background: @anthracite;
+		background: @darkAnthracite;
 		color: #fff;
 
 		&:hover,
+		&:active,
+		&.active,
 		&:focus,
-		&.active {
+		&.focus {
 
-			background: darken(@anthracite, 4%);
+			background: darken(@darkAnthracite, 4%);
 		}
 	}
 
