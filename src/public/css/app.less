@@ -4,27 +4,31 @@
 
 /* Colors */
 @orange: #F8981D;
+@lightOrange: lighten(@orange, 8%);
 @darkOrange: darken(@orange, 10%);
 
-@lightRed: #EB7E7F;
 @red: #E85657;
+@lightRed: lighten(@red, 3%);
 @darkRed: darken(@red, 17%);
 
 @purple: #553445;
-@darkPurple: darken(@purple, 15%);
+@lightPurple: lighten(@purple, 3%);
+@darkPurple: darken(@purple, 14%);
 
-@lightBlue: #6ECBEA;
 @blue: #38B8E2;
+@lightBlue: lighten(@blue, 8%);
 @darkBlue: darken(@blue, 12%);
 
 @turquoise: #00B6AD;
+@lightTurquoise: lighten(@turquoise, 1%);
 @darkTurquoise: darken(@turquoise, 10%);
 
-@lightGreen: #27AE60;
 @green: #1D9650;
+@lightGreen: lighten(@green, 2%);
 @darkGreen: darken(@green, 10%);
 
 @anthracite: #3B3F45;
+@lightAnthracite: lighten(@anthracite, 8%);
 @darkAnthracite: darken(@anthracite, 10%);
 
 
@@ -341,19 +345,43 @@ fieldset .form-control {
 
 	background: darken(@blue, 5%);
 
-	.content .btn,
-	.content .nav a {
+	.content {
 
-		background: @darkBlue;
-		color: #fff;
+		.btn-primary,
+		.nav a {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+			background: @darkBlue;
+			color: #fff;
 
-			background: darken(@darkBlue, 4%);
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: darken(@darkBlue, 4%);
+			}
+		}
+
+		.btn-primary {
+
+			border-color: darken(@darkBlue, 4%);
+		}
+
+		.btn-default {
+
+			background: transparent;
+			border-color: lighten(@lightBlue, 8%);
+			color: #fff;
+
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: @lightBlue;
+			}
 		}
 	}
 }
@@ -363,19 +391,43 @@ fieldset .form-control {
 
 	background: darken(@green, 5%);
 
-	.content .btn,
-	.content .nav a {
+	.content {
 
-		background: @darkGreen;
-		color: #fff;
+		.btn-primary,
+		.nav a {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+			background: @darkGreen;
+			color: #fff;
 
-			background: darken(@darkGreen, 4%);
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: darken(@darkGreen, 4%);
+			}
+		}
+
+		.btn-primary {
+
+			border-color: darken(@darkGreen, 4%);
+		}
+
+		.btn-default {
+
+			background: transparent;
+			border-color: lighten(@lightGreen, 4%);
+			color: #fff;
+
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: @lightGreen;
+			}
 		}
 	}
 }
@@ -385,19 +437,43 @@ fieldset .form-control {
 
 	background: darken(@red, 5%);
 
-	.content .btn,
-	.content .nav a {
+	.content {
 
-		background: @darkRed;
-		color: #fff;
+		.btn-primary,
+		.nav a {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+			background: @darkRed;
+			color: #fff;
 
-			background: darken(@darkRed, 4%);
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: darken(@darkRed, 4%);
+			}
+		}
+
+		.btn-primary {
+
+			border-color: darken(@darkRed, 4%);
+		}
+
+		.btn-default {
+
+			background: transparent;
+			border-color: lighten(@lightRed, 8%);
+			color: #fff;
+
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: @lightRed;
+			}
 		}
 	}
 }
@@ -410,19 +486,43 @@ fieldset .form-control {
 
 	background: darken(@orange, 5%);
 
-	.content .btn,
-	.content .nav a {
+	.content {
 
-		background: @darkOrange;
-		color: #fff;
+		.btn-primary,
+		.nav a {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+			background: @darkOrange;
+			color: #fff;
 
-			background: darken(@darkOrange, 4%);
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: darken(@darkOrange, 4%);
+			}
+		}
+
+		.btn-primary {
+
+			border-color: darken(@darkOrange, 4%);
+		}
+
+		.btn-default {
+
+			background: transparent;
+			border-color: lighten(@lightOrange, 8%);
+			color: #fff;
+
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: @lightOrange;
+			}
 		}
 	}
 }

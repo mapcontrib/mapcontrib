@@ -90,7 +90,7 @@ fieldset .form-control:active {
   right: 0;
   height: 40px;
   color: #fff;
-  background: #6ecbea;
+  background: #5cc5e7;
   text-align: center;
   line-height: 40px;
 }
@@ -168,7 +168,7 @@ fieldset .form-control:active {
   max-height: 100%;
 }
 #user_toolbar .link_btn {
-  background: #27ae60;
+  background: #1f9f55;
 }
 #user_toolbar .contrib_btn {
   background: #e85657;
@@ -263,108 +263,182 @@ fieldset .form-control:active {
 #user_column {
   background: #22b0df;
 }
-#user_column .content .btn,
+#user_column .content .btn-primary,
 #user_column .content .nav a {
   background: #1c98c1;
   color: #fff;
 }
-#user_column .content .btn:hover,
+#user_column .content .btn-primary:hover,
 #user_column .content .nav a:hover,
-#user_column .content .btn:active,
+#user_column .content .btn-primary:active,
 #user_column .content .nav a:active,
-#user_column .content .btn.active,
+#user_column .content .btn-primary.active,
 #user_column .content .nav a.active,
-#user_column .content .btn:focus,
+#user_column .content .btn-primary:focus,
 #user_column .content .nav a:focus,
-#user_column .content .btn.focus,
+#user_column .content .btn-primary.focus,
 #user_column .content .nav a.focus {
   background: #198aaf;
+}
+#user_column .content .btn-primary {
+  border-color: #198aaf;
+}
+#user_column .content .btn-default {
+  background: transparent;
+  border-color: #7fd1ec;
+  color: #fff;
+}
+#user_column .content .btn-default:hover,
+#user_column .content .btn-default:active,
+#user_column .content .btn-default.active,
+#user_column .content .btn-default:focus,
+#user_column .content .btn-default.focus {
+  background: #5cc5e7;
 }
 #link_column {
   background: #198145;
 }
-#link_column .content .btn,
+#link_column .content .btn-primary,
 #link_column .content .nav a {
   background: #156b39;
   color: #fff;
 }
-#link_column .content .btn:hover,
+#link_column .content .btn-primary:hover,
 #link_column .content .nav a:hover,
-#link_column .content .btn:active,
+#link_column .content .btn-primary:active,
 #link_column .content .nav a:active,
-#link_column .content .btn.active,
+#link_column .content .btn-primary.active,
 #link_column .content .nav a.active,
-#link_column .content .btn:focus,
+#link_column .content .btn-primary:focus,
 #link_column .content .nav a:focus,
-#link_column .content .btn.focus,
+#link_column .content .btn-primary.focus,
 #link_column .content .nav a.focus {
   background: #115a30;
+}
+#link_column .content .btn-primary {
+  border-color: #115a30;
+}
+#link_column .content .btn-default {
+  background: transparent;
+  border-color: #22b05e;
+  color: #fff;
+}
+#link_column .content .btn-default:hover,
+#link_column .content .btn-default:active,
+#link_column .content .btn-default.active,
+#link_column .content .btn-default:focus,
+#link_column .content .btn-default.focus {
+  background: #1f9f55;
 }
 #contrib_column {
   background: #e54041;
 }
-#contrib_column .content .btn,
+#contrib_column .content .btn-primary,
 #contrib_column .content .nav a {
   background: #cc1c1d;
   color: #fff;
 }
-#contrib_column .content .btn:hover,
+#contrib_column .content .btn-primary:hover,
 #contrib_column .content .nav a:hover,
-#contrib_column .content .btn:active,
+#contrib_column .content .btn-primary:active,
 #contrib_column .content .nav a:active,
-#contrib_column .content .btn.active,
+#contrib_column .content .btn-primary.active,
 #contrib_column .content .nav a.active,
-#contrib_column .content .btn:focus,
+#contrib_column .content .btn-primary:focus,
 #contrib_column .content .nav a:focus,
-#contrib_column .content .btn.focus,
+#contrib_column .content .btn-primary.focus,
 #contrib_column .content .nav a.focus {
   background: #ba191a;
+}
+#contrib_column .content .btn-primary {
+  border-color: #ba191a;
+}
+#contrib_column .content .btn-default {
+  background: transparent;
+  border-color: #ef8788;
+  color: #fff;
+}
+#contrib_column .content .btn-default:hover,
+#contrib_column .content .btn-default:active,
+#contrib_column .content .btn-default.active,
+#contrib_column .content .btn-default:focus,
+#contrib_column .content .btn-default.focus {
+  background: #ea6364;
 }
 #edit_setting_column,
 #edit_poi_column,
 #edit_tile_column {
   background: #f48c08;
 }
-#edit_setting_column .content .btn,
-#edit_poi_column .content .btn,
-#edit_tile_column .content .btn,
+#edit_setting_column .content .btn-primary,
+#edit_poi_column .content .btn-primary,
+#edit_tile_column .content .btn-primary,
 #edit_setting_column .content .nav a,
 #edit_poi_column .content .nav a,
 #edit_tile_column .content .nav a {
   background: #db7e07;
   color: #fff;
 }
-#edit_setting_column .content .btn:hover,
-#edit_poi_column .content .btn:hover,
-#edit_tile_column .content .btn:hover,
+#edit_setting_column .content .btn-primary:hover,
+#edit_poi_column .content .btn-primary:hover,
+#edit_tile_column .content .btn-primary:hover,
 #edit_setting_column .content .nav a:hover,
 #edit_poi_column .content .nav a:hover,
 #edit_tile_column .content .nav a:hover,
-#edit_setting_column .content .btn:active,
-#edit_poi_column .content .btn:active,
-#edit_tile_column .content .btn:active,
+#edit_setting_column .content .btn-primary:active,
+#edit_poi_column .content .btn-primary:active,
+#edit_tile_column .content .btn-primary:active,
 #edit_setting_column .content .nav a:active,
 #edit_poi_column .content .nav a:active,
 #edit_tile_column .content .nav a:active,
-#edit_setting_column .content .btn.active,
-#edit_poi_column .content .btn.active,
-#edit_tile_column .content .btn.active,
+#edit_setting_column .content .btn-primary.active,
+#edit_poi_column .content .btn-primary.active,
+#edit_tile_column .content .btn-primary.active,
 #edit_setting_column .content .nav a.active,
 #edit_poi_column .content .nav a.active,
 #edit_tile_column .content .nav a.active,
-#edit_setting_column .content .btn:focus,
-#edit_poi_column .content .btn:focus,
-#edit_tile_column .content .btn:focus,
+#edit_setting_column .content .btn-primary:focus,
+#edit_poi_column .content .btn-primary:focus,
+#edit_tile_column .content .btn-primary:focus,
 #edit_setting_column .content .nav a:focus,
 #edit_poi_column .content .nav a:focus,
 #edit_tile_column .content .nav a:focus,
-#edit_setting_column .content .btn.focus,
-#edit_poi_column .content .btn.focus,
-#edit_tile_column .content .btn.focus,
+#edit_setting_column .content .btn-primary.focus,
+#edit_poi_column .content .btn-primary.focus,
+#edit_tile_column .content .btn-primary.focus,
 #edit_setting_column .content .nav a.focus,
 #edit_poi_column .content .nav a.focus,
 #edit_tile_column .content .nav a.focus {
   background: #c77306;
+}
+#edit_setting_column .content .btn-primary,
+#edit_poi_column .content .btn-primary,
+#edit_tile_column .content .btn-primary {
+  border-color: #c77306;
+}
+#edit_setting_column .content .btn-default,
+#edit_poi_column .content .btn-default,
+#edit_tile_column .content .btn-default {
+  background: transparent;
+  border-color: #fabc6c;
+  color: #fff;
+}
+#edit_setting_column .content .btn-default:hover,
+#edit_poi_column .content .btn-default:hover,
+#edit_tile_column .content .btn-default:hover,
+#edit_setting_column .content .btn-default:active,
+#edit_poi_column .content .btn-default:active,
+#edit_tile_column .content .btn-default:active,
+#edit_setting_column .content .btn-default.active,
+#edit_poi_column .content .btn-default.active,
+#edit_tile_column .content .btn-default.active,
+#edit_setting_column .content .btn-default:focus,
+#edit_poi_column .content .btn-default:focus,
+#edit_tile_column .content .btn-default:focus,
+#edit_setting_column .content .btn-default.focus,
+#edit_poi_column .content .btn-default.focus,
+#edit_tile_column .content .btn-default.focus {
+  background: #f9aa45;
 }
 #tip_of_the_day {
   position: fixed;
