@@ -9,6 +9,7 @@ require(['config'], function (config) {
 		'marionette',
 		'animationFrame-polyfill',
 		'fullscreen-polyfill',
+		'tools',
 		'templates',
 		'router',
 
@@ -24,6 +25,7 @@ require(['config'], function (config) {
 		Marionette,
 		animationFramePolyfill,
 		fullscreenPolyfill,
+		tools,
 		templates,
 		Router,
 
