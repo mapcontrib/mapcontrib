@@ -135,6 +135,7 @@ function (
 
 			var self = this;
 
+			document.title = this.model.get('name') + ' - OpenMapper';
 
 			this.ui.toolbarButtons.tooltip({
 
