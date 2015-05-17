@@ -40,6 +40,7 @@ function (
 		events: {
 
 			'submit': 'onSubmit',
+			'reset': 'onReset',
 		},
 
 		initialize: function () {
@@ -88,6 +89,11 @@ function (
 					console.error('nok');
 				},
 			});
-		}
+		},
+
+		onReset: function () {
+
+			this.close();
+		},
 	});
 });
