@@ -2,10 +2,12 @@
 
 define([
 
+	'jquery',
 	'math.format',
 ],
 function (
 
+	$
 ) {
 
 	'use strict';
