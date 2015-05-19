@@ -4,7 +4,7 @@
 			<i class="fa fa-close"></i>
 		</button>
 
-		<h2>Configuration</h2>
+		<h2 data-l10n-id="columnEditSettingTitle"></h2>
 	</header>
 
 	<div class="container-fluid content">
@@ -12,27 +12,27 @@
 			<div class="col-xs-12">
 				<form>
 					<div class="form-group append-xs-2">
-						<label for="profile_name" class="control-label">Nom du profil cartographique</label>
+						<label for="profile_name" class="control-label" data-l10n-id="editSettingColumn_profileName"></label>
 						<input type="text" class="form-control" id="profile_name" value="<%= name %>">
 					</div>
 					<div class="form-group append-xs-2">
-						<label class="control-label">Positionnement</label>
+						<label class="control-label" data-l10n-id="editSettingColumn_position"></label>
 						<div class="radio">
 							<label>
 								<input type="radio" name="profile_position" id="profile_position_keep_old" value="1" checked>
-								Garder les paramètres configurés
+								<span data-l10n-id="editSettingColumn_keepOld"></span>
 							</label>
 						</div>
 						<div class="radio">
 							<label>
 								<input type="radio" name="profile_position" id="profile_position_set_new" value="1">
-								Enregistrer les paramètres actuels
+								<span data-l10n-id="editSettingColumn_setNew"></span>
 							</label>
 						</div>
 					</div>
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary">Enregistrer</button>
-						<button type="reset" class="btn btn-default pull-right">Annuler</button>
+						<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>
+						<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>
 					</div>
 				</form>
 			</div>

@@ -47,6 +47,11 @@ function (
 
 		template: JST['main.html'],
 
+		behaviors: {
+
+			'l20n': {},
+		},
+
 		ui: {
 
 			'map': '#main_map',
@@ -135,22 +140,13 @@ function (
 
 			var self = this;
 
-			document.title = this.model.get('name') + ' - OpenMapper';
+			document.title = document.l10n.getSync('pageTitleWithMapName', {
 
-			this.ui.toolbarButtons.tooltip({
+				'map': {
 
-				'container': 'body',
-				'delay': {
-
-					'show': 500,
-					'hide': 0
+					'name': this.model.get('name')
 				}
-			})
-			.on('click', function () {
-
-				$(this).blur();
 			});
-
 
 
 			if ( this._radio.reqres.request('var', 'isLogged') ) {
@@ -240,6 +236,22 @@ function (
 			var self = this,
 			center = this.model.get('center'),
 			zoomLevel = this.model.get('zoomLevel');
+
+
+			this.ui.toolbarButtons.tooltip({
+
+				'container': 'body',
+				'delay': {
+
+					'show': 500,
+					'hide': 0
+				}
+			})
+			.on('click', function () {
+
+				$(this).blur();
+			});
+
 
 			this._map = L.map(this.ui.map[0], { 'zoomControl': false });
 

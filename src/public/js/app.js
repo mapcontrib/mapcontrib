@@ -63,6 +63,15 @@ require(['config'], function (config) {
 
 				var self = this;
 
+				document.l10n.addEventListener('error', function (err) {
+
+					console.error(err);
+				});
+				document.l10n.addEventListener('warning', function (err) {
+
+					console.warn(err);
+				});
+
 				// requestAnimationFrame polyfill
 				animationFramePolyfill.shim();
 

@@ -25,6 +25,7 @@ function (
 
 		behaviors: {
 
+			'l20n': {},
 			'column': {},
 		},
 
