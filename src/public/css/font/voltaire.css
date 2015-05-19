@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'Voltaire';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Voltaire'),
+      url(../../font/voltaire/Voltaire-Regular.woff2) format('woff2'),
+      url(../../font/voltaire/Voltaire-Regular.woff) format('woff'),
+      url(../../font/voltaire/Voltaire-Regular.ttf) format('ttf');
+}
