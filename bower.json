@@ -13,6 +13,7 @@
     "requirejs": "~2.1.16",
     "leaflet": "~0.7.3",
     "animationFrame": "~0.2.4",
-    "Fullscreen-API-Polyfill": "*"
+    "Fullscreen-API-Polyfill": "*",
+    "leaflet-layer-overpass": "~1.0.1"
   }
 }
