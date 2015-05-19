@@ -21,7 +21,7 @@ function (
 
 	return Marionette.LayoutView.extend({
 
-		template: JST['linkColumn.html'],
+		template: JST['shareColumn.html'],
 
 		behaviors: {
 
@@ -31,7 +31,7 @@ function (
 
 		ui: {
 
-			'column': '#link_column',
+			'column': '#share_column',
 		},
 
 		initialize: function () {

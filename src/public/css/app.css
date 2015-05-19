@@ -180,7 +180,7 @@ fieldset .form-control:active {
 #user_toolbar .user_btn.avatar img {
   max-height: 100%;
 }
-#user_toolbar .link_btn {
+#user_toolbar .share_btn {
   background: #1f9f55;
 }
 #user_toolbar .contrib_btn {
@@ -314,36 +314,36 @@ fieldset .form-control:active {
 #user_column .content .btn-default.focus {
   background: #5cc5e7;
 }
-#link_column {
+#share_column {
   background: #198145;
 }
-#link_column .content .btn-primary,
-#link_column .content .nav a {
+#share_column .content .btn-primary,
+#share_column .content .nav a {
   background: #156b39;
   color: #fff;
 }
-#link_column .content .btn-primary:hover,
-#link_column .content .nav a:hover,
-#link_column .content .btn-primary:active,
-#link_column .content .nav a:active,
-#link_column .content .btn-primary.active,
-#link_column .content .nav a.active,
-#link_column .content .btn-primary:focus,
-#link_column .content .nav a:focus,
-#link_column .content .btn-primary.focus,
-#link_column .content .nav a.focus {
+#share_column .content .btn-primary:hover,
+#share_column .content .nav a:hover,
+#share_column .content .btn-primary:active,
+#share_column .content .nav a:active,
+#share_column .content .btn-primary.active,
+#share_column .content .nav a.active,
+#share_column .content .btn-primary:focus,
+#share_column .content .nav a:focus,
+#share_column .content .btn-primary.focus,
+#share_column .content .nav a.focus {
   background: #115a30;
 }
-#link_column .content .btn-default {
+#share_column .content .btn-default {
   background: transparent;
   border-color: #22b05e;
   color: #fff;
 }
-#link_column .content .btn-default:hover,
-#link_column .content .btn-default:active,
-#link_column .content .btn-default.active,
-#link_column .content .btn-default:focus,
-#link_column .content .btn-default.focus {
+#share_column .content .btn-default:hover,
+#share_column .content .btn-default:active,
+#share_column .content .btn-default.active,
+#share_column .content .btn-default:focus,
+#share_column .content .btn-default.focus {
   background: #1f9f55;
 }
 #contrib_column {

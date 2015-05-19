@@ -6,4 +6,4 @@
 
 <pageTitle "{{ openmapper }}">
 
-<columnLinkTitle "{{ share }}">
+<columnShareTitle "{{ share }}">
