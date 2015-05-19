@@ -5,15 +5,12 @@ define([
 	'underscore',
 	'backbone',
 	'marionette',
-	'bootstrap',
 ],
 function (
 
 	_,
 	Backbone,
-	Marionette,
-	Bootstrap,
-	templates
+	Marionette
 ) {
 
 	'use strict';
