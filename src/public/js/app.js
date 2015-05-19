@@ -32,9 +32,9 @@ require(['config'], function (config) {
 		templates,
 		Router,
 
-		l20nBehavior,
-		columnBehavior,
-		modalBehavior,
+		L20nBehavior,
+		ColumnBehavior,
+		ModalBehavior,
 
 		UserModel
 	) {
@@ -70,9 +70,9 @@ require(['config'], function (config) {
 
 					return {
 
-						'l20n': l20nBehavior,
-						'column': columnBehavior,
-						'modal': modalBehavior,
+						'l20n': L20nBehavior,
+						'column': ColumnBehavior,
+						'modal': ModalBehavior,
 					};
 				};
 
