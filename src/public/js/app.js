@@ -10,9 +10,11 @@ require(['config'], function (config) {
 		'animationFrame-polyfill',
 		'fullscreen-polyfill',
 		'tools',
+		'l20n',
 		'templates',
 		'router',
 
+		'behavior/l20n',
 		'behavior/column',
 		'behavior/modal',
 
@@ -26,9 +28,11 @@ require(['config'], function (config) {
 		animationFramePolyfill,
 		fullscreenPolyfill,
 		tools,
+		L20n,
 		templates,
 		Router,
 
+		l20nBehavior,
 		columnBehavior,
 		modalBehavior,
 
@@ -66,6 +70,7 @@ require(['config'], function (config) {
 
 					return {
 
+						'l20n': l20nBehavior,
 						'column': columnBehavior,
 						'modal': modalBehavior,
 					};

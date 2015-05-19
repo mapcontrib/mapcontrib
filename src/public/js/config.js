@@ -21,6 +21,7 @@ requirejs.config({
 		'animationFrame-polyfill': '../bower_components/animationFrame/AnimationFrame.min',
 		'fullscreen-polyfill': '../bower_components/Fullscreen-API-Polyfill/fullscreen-api-polyfill',
 		'tools': 'tools',
+		'l20n': '../bower_components/l20n/l20n.min',
 	},
 
 	shim: {

@@ -1,0 +1,9 @@
+<openmapper "OpenMapper">
+
+<share "Share">
+
+
+
+<pageTitle "{{ openmapper }}">
+
+<columnLinkTitle "{{ share }}">
