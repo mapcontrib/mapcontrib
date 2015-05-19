@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 
 					'*'
 				],
-				dest: 'src/public/fonts/'
+				dest: 'src/public/font/'
 			},
 		},
 
