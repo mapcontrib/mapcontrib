@@ -38,5 +38,9 @@ requirejs.config({
 
 			deps: ['jquery']
 		},
+		'leaflet-layer-overpass': {
+
+			deps: ['leaflet']
+		},
 	}
 });

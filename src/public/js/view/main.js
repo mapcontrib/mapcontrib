@@ -8,6 +8,7 @@ define([
 	'bootstrap',
 	'templates',
 	'leaflet',
+	'leaflet-layer-overpass',
 
 	'view/loginModal',
 	'view/userColumn',
@@ -28,6 +29,7 @@ function (
 	Bootstrap,
 	templates,
 	L,
+	overpasseLayer,
 
 	LoginModalView,
 	UserColumnView,
@@ -278,6 +280,108 @@ function (
 				'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 			})
 			.addTo(this._map);
+
+
+			this._poiIds = [];
+
+			this._mapLayers = {
+
+				'recycling': L.layerGroup([
+
+					new L.OverPassLayer({
+
+						// 'endpoint': 'http://api.openstreetmap.fr/oapi/',
+						'endpoint': 'http://overpass.osm.rambler.ru/cgi/',
+						'minzoom': 14,
+						'query': "(node(BBOX)['amenity'='recycling'];relation(BBOX)['amenity'='recycling'];way(BBOX)['amenity'='recycling']);out body center;>;out;",
+						'callback': function(data){
+
+							var wayBodyNodes = {};
+
+							data.elements.forEach(function (e) {
+
+								if ( e.tags ) {
+
+									return;
+								}
+
+								wayBodyNodes[e.id] = e;
+							});
+
+
+							data.elements.forEach(function (e) {
+
+								var pos,
+								popupContent = '';
+
+								if( !e.tags ) {
+
+									return;
+								}
+
+								if ( self._poiIds.indexOf(e.id) > -1 ) {
+
+									return;
+								}
+
+								self._poiIds.push(e.id);
+
+
+								if(e.tags.name) {
+
+									popupContent += '<h3>' + e.tags.name + '</h3>';
+								}
+								else {
+
+									popupContent += '<h3 class="text-muted">Sans nom</h3>';
+								}
+
+
+								if(e.type === 'node') {
+
+									pos = new L.LatLng(e.lat, e.lon);
+								}
+								else {
+
+									pos = new L.LatLng(e.center.lat, e.center.lon);
+
+									if ( e.nodes ) {
+
+										var nodePositions = [];
+
+										e.nodes.forEach(function (node) {
+
+											if ( wayBodyNodes[node] ) {
+
+												nodePositions.push(
+
+													L.latLng(
+
+														wayBodyNodes[node].lat,
+														wayBodyNodes[node].lon
+													)
+												);
+											}
+										});
+
+										self._map.addLayer(
+
+											L.polygon( nodePositions ).bindPopup(popupContent)
+										);
+									}
+								}
+
+								self._map.addLayer(
+
+									L.marker(pos).bindPopup(popupContent)
+								);
+							});
+						}
+					}),
+				]),
+			};
+
+			this._map.addLayer(this._mapLayers.recycling);
 		},
 
 		setTitle: function () {
