@@ -120,7 +120,7 @@ module.exports = function(grunt) {
 					appDir: 'src',
 					baseUrl: 'public/js',
 					dir: 'dist',
-					mainConfigFile: 'src/public/js/config.js',
+					mainConfigFile: 'src/public/js/requireConfig.js',
 					findNestedDependencies: true,
 					removeCombined: true,
 					skipDirOptimize: true,

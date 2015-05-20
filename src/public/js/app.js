@@ -1,6 +1,6 @@
 
 
-require(['config'], function (config) {
+require(['requireConfig'], function () {
 
 	require([
 
