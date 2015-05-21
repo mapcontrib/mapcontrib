@@ -95,6 +95,9 @@ fieldset .form-control:active {
   left: 0;
   right: 0;
 }
+#main_map .leaflet-control-minZoomIndicator {
+  display: none !important;
+}
 #title {
   position: fixed;
   z-index: 1040;
