@@ -12,7 +12,7 @@ define([
 
 	'view/loginModal',
 	'view/userColumn',
-	'view/shareColumn',
+	'view/linkColumn',
 	'view/contribColumn',
 	'view/editSettingColumn',
 	'view/editPoiColumn',
@@ -33,7 +33,7 @@ function (
 
 	LoginModalView,
 	UserColumnView,
-	ShareColumnView,
+	LinkColumnView,
 	ContribColumnView,
 	EditSettingColumnView,
 	EditPoiColumnView,
@@ -73,7 +73,7 @@ function (
 			'userToolbar': '#user_toolbar',
 			'loginButton': '#user_toolbar .login_btn',
 			'userButton': '#user_toolbar .user_btn',
-			'shareButton': '#user_toolbar .share_btn',
+			'linkButton': '#user_toolbar .link_btn',
 			'contribButton': '#user_toolbar .contrib_btn',
 			'editButton': '#user_toolbar .edit_btn',
 
@@ -91,7 +91,7 @@ function (
 			'loginModal': '#rg_login_modal',
 
 			'userColumn': '#rg_user_column',
-			'shareColumn': '#rg_share_column',
+			'linkColumn': '#rg_link_column',
 			'contribColumn': '#rg_contrib_column',
 			'editSettingColumn': '#rg_edit_setting_column',
 			'editPoiColumn': '#rg_edit_poi_column',
@@ -111,7 +111,7 @@ function (
 
 			'click @ui.loginButton': 'onClickLogin',
 			'click @ui.userButton': 'onClickUser',
-			'click @ui.shareButton': 'onClickShare',
+			'click @ui.linkButton': 'onClickLink',
 			'click @ui.contribButton': 'onClickContrib',
 			'click @ui.editButton': 'onClickEdit',
 			'click @ui.editSettingButton': 'onClickEditSetting',
@@ -197,14 +197,14 @@ function (
 
 
 			this._userColumnView = new UserColumnView();
-			this._shareColumnView = new ShareColumnView({ 'model': this.model });
+			this._linkColumnView = new LinkColumnView({ 'model': this.model });
 			this._contribColumnView = new ContribColumnView({ 'model': this.model });
 			this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
 			this._editPoiColumnView = new EditPoiColumnView({ 'model': this.model });
 			this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
 
 			this.getRegion('userColumn').show( this._userColumnView );
-			this.getRegion('shareColumn').show( this._shareColumnView );
+			this.getRegion('linkColumn').show( this._linkColumnView );
 			this.getRegion('contribColumn').show( this._contribColumnView );
 			this.getRegion('editSettingColumn').show( this._editSettingColumnView );
 			this.getRegion('editPoiColumn').show( this._editPoiColumnView );
@@ -482,9 +482,9 @@ function (
 			this._userColumnView.open();
 		},
 
-		onClickShare: function () {
+		onClickLink: function () {
 
-			this._shareColumnView.open();
+			this._linkColumnView.open();
 		},
 
 		onClickContrib: function () {

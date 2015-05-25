@@ -23,7 +23,7 @@
 <buttonTileTooltip title:"Affichage des fonds de carte">
 <buttonLoginTooltip title:"{{ login }}">
 <buttonUserTooltip title:"Mon compte">
-<buttonShareTooltip title:"Partager">
+<buttonLinkTooltip title:"Partager">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
 <buttonEditTooltip title:"Modifier le profil cartographique">
 <buttonEditSettingTooltip title:"Configuration générale">
@@ -33,7 +33,7 @@
 
 
 <columnUserTitle "Mon compte">
-<columnShareTitle "Partager">
+<columnLinkTitle "Partager">
 <columnContribTitle "Ajouter un marqueur">
 <columnEditSettingTitle "Configuration">
 <columnEditPoiTitle "Centres d'intérêt">
@@ -57,10 +57,10 @@ de se connecter à votre compte OpenStreetMap.
 """>
 
 
-/* Share column */
-<shareColumn_publicProfile "Ce profil est accessible par tout le monde.">
-<shareColumn_linkLabel "Communiquez le lien ci-dessous&nbsp;:">
-<shareColumn_integrateCode "Ou intégrez le code suivant à votre site internet&nbsp;:">
+/* Link column */
+<linkColumn_publicProfile "Ce profil est accessible par tout le monde.">
+<linkColumn_linkLabel "Communiquez le lien ci-dessous&nbsp;:">
+<linkColumn_integrateCode "Ou intégrez le code suivant à votre site internet&nbsp;:">
 
 
 /* Edit settings column */

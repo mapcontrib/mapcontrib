@@ -23,7 +23,7 @@
 <buttonTileTooltip title:"Background display">
 <buttonLoginTooltip title:"{{ login }}">
 <buttonUserTooltip title:"My account">
-<buttonShareTooltip title:"Share">
+<buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
 <buttonEditTooltip title:"Modify the cartographic profile">
 <buttonEditSettingTooltip title:"Main settings">
@@ -33,7 +33,7 @@
 
 
 <columnUserTitle "My account">
-<columnShareTitle "Share">
+<columnLinkTitle "Share">
 <columnContribTitle "Add a marker">
 <columnEditSettingTitle "Settings">
 <columnEditPoiTitle "Points of interest">
@@ -57,10 +57,10 @@ to connect to your OpenStreetMap account.
 """>
 
 
-/* Share column */
-<shareColumn_publicProfile "This profile is available by everyone.">
-<shareColumn_linkLabel "Share the link below:">
-<shareColumn_integrateCode "Or integrate the following code in your website:">
+/* Link column */
+<linkColumn_publicProfile "This profile is available by everyone.">
+<linkColumn_linkLabel "Share the link below:">
+<linkColumn_integrateCode "Or integrate the following code in your website:">
 
 
 /* Edit settings column */
