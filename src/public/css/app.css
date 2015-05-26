@@ -114,6 +114,11 @@ fieldset .form-control:active {
   height: 40px;
   text-align: center;
   line-height: 40px;
+  -webkit-transition: all ease-out 0.2s;
+  -moz-transition: all ease-out 0.2s;
+  -ms-transition: all ease-out 0.2s;
+  -o-transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
 }
 #title h1 {
   font-size: 20px;
