@@ -115,7 +115,7 @@ function (
 
 			this._radio.commands.execute('setTitleColor', this.model.get('color'));
 
-			this.render();
+			this.ui.column.one('transitionend', this.render);
 
 			this.close();
 		},
