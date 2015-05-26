@@ -57,6 +57,7 @@ function (
 		ui: {
 
 			'map': '#main_map',
+			'titleWrapper': '#title',
 			'title': '#title h1',
 			'toolbarButtons': '.toolbar .toolbar_btn',
 
@@ -135,7 +136,11 @@ function (
 				'async': false,
 			});
 
+			this._currentTitleColor = this.model.get('color');
+
 			this.listenTo(this.model, 'change:name', this.setTitle);
+
+			this._radio.commands.setHandler('setTitleColor', this.commandSetTitleColor, this);
 		},
 
 		onRender: function () {
@@ -401,6 +406,20 @@ function (
 		setTitle: function () {
 
 			this.ui.title.html( this.model.get('name') );
+		},
+
+		commandSetTitleColor: function (color) {
+
+			if ( this._currentTitleColor === color ) {
+
+				return;
+			}
+			
+			this.ui.titleWrapper
+			.addClass( color )
+			.removeClass( this._currentTitleColor );
+
+			this._currentTitleColor = color;
 		},
 
 		onClickZoomIn: function () {

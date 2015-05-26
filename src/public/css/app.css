@@ -112,8 +112,6 @@ fieldset .form-control:active {
   left: 0;
   right: 0;
   height: 40px;
-  color: #fff;
-  background: #5cc5e7;
   text-align: center;
   line-height: 40px;
 }
@@ -124,6 +122,72 @@ fieldset .form-control:active {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+#title.blue,
+.btn-color.blue,
+#title.purple,
+.btn-color.purple,
+#title.turquoise,
+.btn-color.turquoise,
+#title.orange,
+.btn-color.orange,
+#title.green,
+.btn-color.green,
+#title.red,
+.btn-color.red,
+#title.anthracite,
+.btn-color.anthracite {
+  color: #fff;
+}
+#title.blue,
+.btn-color.blue {
+  background: #38b8e2;
+}
+#title.purple,
+.btn-color.purple {
+  background: #553445;
+}
+#title.turquoise,
+.btn-color.turquoise {
+  background: #00b6ad;
+}
+#title.orange,
+.btn-color.orange {
+  background: #f8981d;
+}
+#title.green,
+.btn-color.green {
+  background: #1d9650;
+}
+#title.red,
+.btn-color.red {
+  background: #e85657;
+}
+#title.anthracite,
+.btn-color.anthracite {
+  background: #3b3f45;
+}
+#title.white,
+.btn-color.white {
+  background: #fff;
+  color: #3b3f45;
+}
+.btn-color {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+.btn-color:hover,
+.btn-color:focus,
+.btn-color.focus,
+.btn-color:active,
+.btn-color.active {
+  color: #fff;
+}
+.btn-color.white:hover,
+.btn-color.white:focus,
+.btn-color.white.focus,
+.btn-color.white:active,
+.btn-color.white.active {
+  color: #3b3f45;
 }
 .toolbar {
   position: fixed;

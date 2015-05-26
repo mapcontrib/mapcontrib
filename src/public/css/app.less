@@ -141,8 +141,6 @@ fieldset .form-control {
 	right: 0;
 	height: @titleHeight;
 
-	color: #fff;
-	background: @lightBlue;
 	text-align: center;
 	line-height: @titleHeight;
 
@@ -156,6 +154,67 @@ fieldset .form-control {
 		text-overflow: ellipsis;
 	}
 }
+
+
+
+#title,
+.btn-color {
+
+	&.blue,
+	&.purple,
+	&.turquoise,
+	&.orange,
+	&.green,
+	&.red,
+	&.anthracite {
+
+		color: #fff;
+	}
+
+	&.blue { background: @blue; }
+	&.purple { background: @purple; }
+	&.turquoise { background: @turquoise; }
+	&.orange { background: @orange; }
+	&.green { background: @green; }
+	&.red { background: @red; }
+	&.anthracite { background: @anthracite; }
+
+	&.white {
+
+		background: #fff;
+		color: @anthracite;
+	}
+}
+
+
+
+.btn-color {
+
+	border-color: rgba(255, 255, 255, 0.8);
+
+	&:hover,
+	&:focus,
+	&.focus,
+	&:active,
+	&.active {
+
+		color: #fff;
+	}
+
+	&.white {
+
+		&:hover,
+		&:focus,
+		&.focus,
+		&:active,
+		&.active {
+
+			color: @anthracite;
+		}
+	}
+}
+
+
 
 
 .toolbar {

@@ -25,6 +25,7 @@ function (
 
 			'userId': undefined,
 			'name': undefined,
+			'color': 'blue',
 			'pois': [], // amenity, tag, icon, preset
 			'tiles': [],
 			'zoomLevel': undefined,

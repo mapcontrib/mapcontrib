@@ -34,11 +34,16 @@ function (
 			'column': '#edit_setting_column',
 
 			'profileName': '#profile_name',
+			'colorButtons': '.colorButtons .btn',
 			'profilePositionKeepOld': '#profile_position_keep_old',
 			'profilePositionSetNew': '#profile_position_set_new',
 		},
 
 		events: {
+
+			'mouseover @ui.colorButtons': 'onOverColorButtons',
+			'mouseleave @ui.colorButtons': 'onLeaveColorButtons',
+			'click @ui.colorButtons': 'onClickColorButtons',
 
 			'submit': 'onSubmit',
 			'reset': 'onReset',
@@ -49,6 +54,16 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			this._oldModel = this.model.clone();
+		},
+
+		onRender: function () {
+
+			this.ui.colorButtons
+			.filter( '.'+ this.model.get('color') )
+			.find('i')
+			.addClass('fa-check');
 		},
 
 		open: function () {
@@ -82,6 +97,8 @@ function (
 
 				'success': function () {
 
+					self._oldModel = self.model.clone();
+
 					self.close();
 				},
 				'error': function () {
@@ -94,7 +111,32 @@ function (
 
 		onReset: function () {
 
+			this.model.set( this._oldModel.toJSON() );
+
+			this._radio.commands.execute('setTitleColor', this.model.get('color'));
+
+			this.render();
+
 			this.close();
+		},
+
+		onOverColorButtons: function (e) {
+
+			this._radio.commands.execute('setTitleColor', e.target.dataset.color);
+		},
+
+		onLeaveColorButtons: function (e) {
+
+			this._radio.commands.execute('setTitleColor', this.model.get('color'));
+		},
+
+		onClickColorButtons: function (e) {
+
+			$('i', this.ui.colorButtons).removeClass('fa-check');
+
+			e.target.querySelector('i').classList.add('fa-check');
+
+			this.model.set('color', e.target.dataset.color);
 		},
 	});
 });

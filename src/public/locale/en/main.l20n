@@ -65,6 +65,7 @@ to connect to your OpenStreetMap account.
 
 /* Edit settings column */
 <editSettingColumn_profileName "Cartographic profile name">
+<editSettingColumn_color "Color">
 <editSettingColumn_position "Location">
 <editSettingColumn_keepOld "Keep old parameters">
 <editSettingColumn_setNew "Set the new ones">
