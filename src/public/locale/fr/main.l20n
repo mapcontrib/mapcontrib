@@ -13,6 +13,7 @@
 <pageTitleWithMapName "{{ $map.name }} - {{ openmapper }}">
 
 
+<buttonDescriptionTooltip title:"Lire la description">
 <buttonZoomInTooltip title:"Vue rapprochée">
 <buttonZoomOutTooltip title:"Vue éloignée">
 <buttonLocateTooltip title:"Afficher mon emplacement">

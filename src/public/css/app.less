@@ -141,19 +141,87 @@ fieldset .form-control {
 	right: 0;
 	height: @titleHeight;
 
-	text-align: center;
-	line-height: @titleHeight;
-
-	.transition( all ease-out .2s );
+	.transition( all ease-out .3s );
 
 	h1 {
 
+		display: inline-block;
+		position: relative;
+		left: 50%;
+		.transform( translate(-50%, 0) );
 		font-size: 20px;
 		line-height: @titleHeight;
 		margin: 0;
+		max-width: 100%;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		.transition( all ease-out .3s );
+	}
+
+	.description_btn {
+
+		color: #fff;
+		position: fixed;
+		top: 0;
+		right: 0;
+		padding: 8px 12px 10px 12px;
+
+		&:hover,
+		&:focus,
+		&.focus,
+		&:active,
+		&.active {
+
+			color: #fff;
+		}
+	}
+
+	.description {
+
+		display: none;
+		margin-top: 60px;
+		animation-duration: .4s;
+		animation-timing-function: ease-in-out;
+		animation-fill-mode: forwards;
+	}
+
+	&.open {
+
+		height: 100%;
+
+		h1 {
+
+			left: 0;
+			.transform( translate(0, 30px) );
+			font-size: 36px;
+			line-height: 50px;
+			max-width: none;
+			white-space: normal;
+			overflow: visible;
+		}
+
+		.description {
+
+			display: block;
+			animation-name: titleExpand;
+			animation-direction: normal;
+		}
+	}
+}
+
+
+@keyframes titleExpand {
+
+	0% {
+
+		opacity: 0;
+	}
+
+
+	100% {
+
+		opacity: 1;
 	}
 }
 

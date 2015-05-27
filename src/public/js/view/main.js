@@ -59,6 +59,7 @@ function (
 			'map': '#main_map',
 			'titleWrapper': '#title',
 			'title': '#title h1',
+			'descriptionButton': '#title .description_btn',
 			'toolbarButtons': '.toolbar .toolbar_btn',
 
 			'controlToolbar': '#control_toolbar',
@@ -102,6 +103,8 @@ function (
 		},
 
 		events: {
+
+			'click @ui.descriptionButton': 'onClickDescription',
 
 			'click @ui.zoomInButton': 'onClickZoomIn',
 			'click @ui.zoomOutButton': 'onClickZoomOut',
@@ -154,6 +157,12 @@ function (
 					'name': this.model.get('name')
 				}
 			});
+
+
+			if ( this.model.get('description') ) {
+
+				this.ui.descriptionButton.removeClass('hide');
+			}
 
 
 			if ( this._radio.reqres.request('var', 'isLogged') ) {
@@ -245,7 +254,9 @@ function (
 			zoomLevel = this.model.get('zoomLevel');
 
 
-			this.ui.toolbarButtons.tooltip({
+			this.ui.descriptionButton
+			.add(this.ui.toolbarButtons)
+			.tooltip({
 
 				'container': 'body',
 				'delay': {
@@ -414,12 +425,17 @@ function (
 
 				return;
 			}
-			
+
 			this.ui.titleWrapper
 			.addClass( color )
 			.removeClass( this._currentTitleColor );
 
 			this._currentTitleColor = color;
+		},
+
+		onClickDescription: function () {
+
+			this.ui.titleWrapper.toggleClass('open');
 		},
 
 		onClickZoomIn: function () {
