@@ -110,8 +110,8 @@ passport.deserializeUser(function(userId, done) {
 
 passport.use(new OpenStreetMapStrategy({
 
-		'consumerKey': 'Ftd4DGWeGoHCo9ldIFsRFSXf3P2GlOug9WQnN29Y',
-		'consumerSecret': 'ujsqYBCLfAew7Gbz3zbBpixZiiUlSvF6xyAK4SXx',
+		'consumerKey': 'wPfXjdZViPvrRWSlenSWBsAWhYKarmOkOKk5WS4U',
+		'consumerSecret': 'kaBZXTHZHKSk2jvBUr8vzk7JRI1cryFI08ubv7Du',
 		'callbackURL': '/auth/openstreetmap/callback',
 		'passReqToCallback': true,
 	},
