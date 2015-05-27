@@ -1,10 +1,19 @@
 {
   "description": "Rudomap",
   "version": "0.1.0",
+  "license": "MIT",
   "author": {
     "name": "Guillaume AMAT",
     "email": "guillaume@amat.io"
   },
+  "contributors": [{
+    "name": "Guillaume AMAT",
+    "email": "guillaume@amat.io"
+  },
+  {
+    "name": "Vincent BERGEOT",
+    "email": "vincent.bergeot@numetlib.fr"
+  }],
   "devDependencies": {
     "bower": "~1.2.7",
     "less": "~1.5.0",
