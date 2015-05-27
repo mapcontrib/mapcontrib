@@ -13,6 +13,7 @@
 <pageTitleWithMapName "{{ $map.name }} - {{ openmapper }}">
 
 
+<buttonDescriptionTooltip title:"Read the description">
 <buttonZoomInTooltip title:"Zoom in">
 <buttonZoomOutTooltip title:"Zoom out">
 <buttonLocateTooltip title:"Show my location">
@@ -65,6 +66,7 @@ to connect to your OpenStreetMap account.
 
 /* Edit settings column */
 <editSettingColumn_profileName "Cartographic profile name">
+<editSettingColumn_profileDescription "Description">
 <editSettingColumn_color "Color">
 <editSettingColumn_position "Location">
 <editSettingColumn_keepOld "Keep old parameters">

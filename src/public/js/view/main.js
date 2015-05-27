@@ -7,9 +7,11 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
+	'const',
 	'leaflet',
 	'leaflet-layer-overpass',
 
+	'view/mainTitle',
 	'view/loginModal',
 	'view/userColumn',
 	'view/linkColumn',
@@ -28,9 +30,11 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
+	CONST,
 	L,
 	overpasseLayer,
 
+	MainTitleView,
 	LoginModalView,
 	UserColumnView,
 	LinkColumnView,
@@ -57,8 +61,6 @@ function (
 		ui: {
 
 			'map': '#main_map',
-			'titleWrapper': '#title',
-			'title': '#title h1',
 			'toolbarButtons': '.toolbar .toolbar_btn',
 
 			'controlToolbar': '#control_toolbar',
@@ -88,6 +90,8 @@ function (
 		},
 
 		regions: {
+
+			'mainTitle': '#rg_main_title',
 
 			'loginModal': '#rg_login_modal',
 
@@ -135,25 +139,11 @@ function (
 
 				'async': false,
 			});
-
-			this._currentTitleColor = this.model.get('color');
-
-			this.listenTo(this.model, 'change:name', this.setTitle);
-
-			this._radio.commands.setHandler('setTitleColor', this.commandSetTitleColor, this);
 		},
 
 		onRender: function () {
 
 			var self = this;
-
-			document.title = document.l10n.getSync('pageTitleWithMapName', {
-
-				'map': {
-
-					'name': this.model.get('name')
-				}
-			});
 
 
 			if ( this._radio.reqres.request('var', 'isLogged') ) {
@@ -208,6 +198,9 @@ function (
 			this._editPoiColumnView = new EditPoiColumnView({ 'model': this.model });
 			this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
 
+
+			this.getRegion('mainTitle').show( new MainTitleView({ 'model': this.model }) );
+
 			this.getRegion('userColumn').show( this._userColumnView );
 			this.getRegion('linkColumn').show( this._linkColumnView );
 			this.getRegion('contribColumn').show( this._contribColumnView );
@@ -250,8 +243,8 @@ function (
 				'container': 'body',
 				'delay': {
 
-					'show': 500,
-					'hide': 0
+					'show': CONST.tooltip.showDelay,
+					'hide': CONST.tooltip.hideDelay
 				}
 			})
 			.on('click', function () {
@@ -401,25 +394,6 @@ function (
 			};
 
 			this._map.addLayer(this._mapLayers.recycling);
-		},
-
-		setTitle: function () {
-
-			this.ui.title.html( this.model.get('name') );
-		},
-
-		commandSetTitleColor: function (color) {
-
-			if ( this._currentTitleColor === color ) {
-
-				return;
-			}
-			
-			this.ui.titleWrapper
-			.addClass( color )
-			.removeClass( this._currentTitleColor );
-
-			this._currentTitleColor = color;
 		},
 
 		onClickZoomIn: function () {
