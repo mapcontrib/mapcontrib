@@ -34,6 +34,7 @@ function (
 			'column': '#edit_setting_column',
 
 			'profileName': '#profile_name',
+			'profileDescription': '#profile_description',
 			'colorButtons': '.colorButtons .btn',
 			'profilePositionKeepOld': '#profile_position_keep_old',
 			'profilePositionSetNew': '#profile_position_set_new',
@@ -86,6 +87,7 @@ function (
 			mapZoomLevel = map.getZoom();
 
 			this.model.set('name', this.ui.profileName.val());
+			this.model.set('description', this.ui.profileDescription.val());
 
 			if ( this.ui.profilePositionSetNew.prop('checked') === true ) {
 

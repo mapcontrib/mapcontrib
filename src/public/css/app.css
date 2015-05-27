@@ -361,6 +361,12 @@ fieldset .form-control:active {
 .column .content .table-bordered td {
   border-color: #fff;
 }
+.column .content textarea {
+  resize: vertical;
+}
+.column .content .control-label + .radio {
+  margin-top: 0;
+}
 #user_column {
   background: #22b0df;
 }
