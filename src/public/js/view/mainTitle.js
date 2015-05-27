@@ -7,6 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
+    'const',
 ],
 function (
 
@@ -14,7 +15,8 @@ function (
 	Backbone,
 	Marionette,
 	Bootstrap,
-	templates
+	templates,
+    CONST
 ) {
 
 	'use strict';
@@ -81,8 +83,8 @@ function (
 				'container': 'body',
 				'delay': {
 
-					'show': 500,
-					'hide': 0
+					'show': CONST.tooltip.showDelay,
+					'hide': CONST.tooltip.hideDelay
 				}
 			})
 			.on('click', function () {

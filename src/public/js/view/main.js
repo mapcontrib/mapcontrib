@@ -7,6 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
+	'const',
 	'leaflet',
 	'leaflet-layer-overpass',
 
@@ -29,6 +30,7 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
+	CONST,
 	L,
 	overpasseLayer,
 
@@ -241,8 +243,8 @@ function (
 				'container': 'body',
 				'delay': {
 
-					'show': 500,
-					'hide': 0
+					'show': CONST.tooltip.showDelay,
+					'hide': CONST.tooltip.hideDelay
 				}
 			})
 			.on('click', function () {
