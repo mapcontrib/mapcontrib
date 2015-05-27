@@ -6,14 +6,16 @@
     "name": "Guillaume AMAT",
     "email": "guillaume@amat.io"
   },
-  "contributors": [{
-    "name": "Guillaume AMAT",
-    "email": "guillaume@amat.io"
-  },
-  {
-    "name": "Vincent BERGEOT",
-    "email": "vincent.bergeot@numetlib.fr"
-  }],
+  "contributors": [
+    {
+      "name": "Guillaume AMAT",
+      "email": "guillaume@amat.io"
+    },
+    {
+      "name": "Vincent BERGEOT",
+      "email": "vincent.bergeot@numetlib.fr"
+    }
+  ],
   "devDependencies": {
     "bower": "~1.2.7",
     "less": "~1.5.0",
@@ -39,6 +41,7 @@
     "multer": "~0.1.8",
     "serve-static": "~1.9.2",
     "passport": "~0.2.1",
-    "passport-openstreetmap": "~0.1.2"
+    "passport-openstreetmap": "~0.1.2",
+    "connect-mongo": "~0.8.1"
   }
 }

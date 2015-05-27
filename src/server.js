@@ -55,15 +55,27 @@ bodyParser = require('body-parser'),
 serveStatic = require('serve-static'),
 cookieParser = require('cookie-parser'),
 errorHandler = require('errorhandler'),
+MongoStore = require('connect-mongo')(session);
 app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ resave: true,
-                  saveUninitialized: true,
-                  secret: secret_key }));
+
+app.use(session({
+
+	resave: true,
+    saveUninitialized: true,
+    secret: secret_key,
+	store: new MongoStore({
+
+		'host': db_host,
+		'port': db_port,
+		'db': db_name,
+	}),
+}));
+
 app.set('port', http_port);
 app.use(logger('dev'));
 app.use(methodOverride());
