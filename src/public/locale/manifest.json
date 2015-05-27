@@ -1,0 +1,13 @@
+{
+    "locales": [
+
+        "en",
+        "fr"
+    ],
+    "default_locale": "en",
+    "resources": [
+
+        "{{locale}}/main.l20n",
+        "{{locale}}/tipOfTheDay.l20n"
+    ]
+}

@@ -1,0 +1,73 @@
+<plural($n) {
+
+    $n == 0 ? "zero" :
+    $n == 1 ? "one" :
+    "many"
+}>
+
+
+<rudomap "Rudomap">
+
+
+<pageTitle "{{ rudomap }}">
+<pageTitleWithMapName "{{ $map.name }} - {{ rudomap }}">
+
+
+<buttonDescriptionTooltip title:"Lire la description">
+<buttonZoomInTooltip title:"Vue rapprochée">
+<buttonZoomOutTooltip title:"Vue éloignée">
+<buttonLocateTooltip title:"Afficher mon emplacement">
+<buttonLocateWaitTooltip title:"Annuler la recherche de mon emplacement">
+<buttonExpandScreenTooltip title:"Passer en plein écran">
+<buttonCompressScreenTooltip title:"Quitter le plein écran">
+<buttonPoiTooltip title:"Affichage des centres d'intérêts">
+<buttonTileTooltip title:"Affichage des fonds de carte">
+<buttonLoginTooltip title:"{{ login }}">
+<buttonUserTooltip title:"Mon compte">
+<buttonLinkTooltip title:"Partager">
+<buttonContribTooltip title:"Ajouter une donnée manquante">
+<buttonEditTooltip title:"Modifier le profil cartographique">
+<buttonEditSettingTooltip title:"Configuration générale">
+<buttonEditPoiTooltip title:"Centres d'intérêts">
+<buttonEditTileTooltip title:"Fonds de carte">
+<buttonHelpTooltip title:"Aide">
+
+
+<columnUserTitle "Mon compte">
+<columnLinkTitle "Partager">
+<columnContribTitle "Ajouter un marqueur">
+<columnEditSettingTitle "Configuration">
+<columnEditPoiTitle "Centres d'intérêt">
+<columnEditTileTitle "Fonds de carte">
+
+
+<myProfiles "Mes profils">
+<preferences "Préférences">
+<login "Se connecter">
+<loginOrSubscribe "Se connecter ou créer un compte">
+<logout "Se déconnecter">
+<close "Fermer">
+<save "Enregistrer">
+<cancel "Annuler">
+
+
+/* Login modal */
+<loginModal_explanation """
+Pour plus de simplicité, Rudomap a seulement besoin<br>
+de se connecter à votre compte OpenStreetMap.
+""">
+
+
+/* Link column */
+<linkColumn_publicProfile "Ce profil est accessible par tout le monde.">
+<linkColumn_linkLabel "Communiquez le lien ci-dessous&nbsp;:">
+<linkColumn_integrateCode "Ou intégrez le code suivant à votre site internet&nbsp;:">
+
+
+/* Edit settings column */
+<editSettingColumn_profileName "Nom du profil cartographique">
+<editSettingColumn_profileDescription "Description">
+<editSettingColumn_color "Couleur">
+<editSettingColumn_position "Positionnement">
+<editSettingColumn_keepOld "Garder les paramètres configurés">
+<editSettingColumn_setNew "Enregistrer les paramètres actuels">
