@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mongo openmapper data.js
+mongo rudomap data.js

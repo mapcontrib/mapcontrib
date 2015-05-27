@@ -6,11 +6,11 @@
 }>
 
 
-<openmapper "OpenMapper">
+<rudomap "Rudomap">
 
 
-<pageTitle "{{ openmapper }}">
-<pageTitleWithMapName "{{ $map.name }} - {{ openmapper }}">
+<pageTitle "{{ rudomap }}">
+<pageTitleWithMapName "{{ $map.name }} - {{ rudomap }}">
 
 
 <buttonDescriptionTooltip title:"Read the description">
@@ -53,7 +53,7 @@
 
 /* Login modal */
 <loginModal_explanation """
-To keep it simple, OpenMapper only needs<br>
+To keep it simple, Rudomap only needs<br>
 to connect to your OpenStreetMap account.
 """>
 

@@ -5,7 +5,7 @@ login_pattern = /^[a-zA-Z0-9\-]{3,}$/,
 http_port = 8080,
 db_host = '127.0.0.1',
 db_port = '27017',
-db_name = 'openmapper',
+db_name = 'rudomap',
 db_options = {
 
 	'auto_reconnect': true,
