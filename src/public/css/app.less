@@ -53,6 +53,25 @@
 
 
 
+
+
+@keyframes appear {
+
+	0% {
+
+		opacity: 0;
+	}
+
+
+	100% {
+
+		opacity: 1;
+	}
+}
+
+
+
+
 h1, h2, h3, h4, h5, h6,
 .control-label {
 
@@ -205,24 +224,9 @@ fieldset .form-control {
 		.description {
 
 			display: block;
-			animation-name: titleExpand;
+			animation-name: appear;
 			animation-direction: normal;
 		}
-	}
-}
-
-
-@keyframes titleExpand {
-
-	0% {
-
-		opacity: 0;
-	}
-
-
-	100% {
-
-		opacity: 1;
 	}
 }
 
@@ -808,22 +812,45 @@ fieldset .form-control {
 	z-index: @titleZIndex;
 	width: 0;
 	height: 0;
+	overflow: auto;
 	.transition( all ease-out .3s );
 	background: #fff;
+
+	h2 {
+
+		font-size: 36px;
+	}
+
+	.close_btn {
+
+		position: fixed;
+		top: 0;
+		right: 0;
+		color: @anthracite;
+	}
+
+	h2,
+	p,
+	.close_btn {
+
+		display: none;
+		animation-duration: .4s;
+		animation-timing-function: ease-in-out;
+		animation-fill-mode: forwards;
+	}
 
 	&.open {
 
 		width: 100%;
 		height: 100%;
-	}
 
-	.close_btn {
+		h2,
+		p,
+		.close_btn {
 
-		color: @anthracite;
-	}
-
-	h2 {
-
-		font-size: 36px;
+			display: block;
+			animation-name: appear;
+			animation-direction: normal;
+		}
 	}
 }
