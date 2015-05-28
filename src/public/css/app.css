@@ -416,6 +416,15 @@ fieldset .form-control:active {
 .column .content .btn-primary {
   border-color: transparent;
 }
+.column .content .btn-primary,
+.column .content .nav a {
+  color: #fff;
+}
+.column .content .btn-default {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
 .column .content .help-block {
   color: #fff;
 }
@@ -443,7 +452,6 @@ fieldset .form-control:active {
 #user_column .content .btn-primary,
 #user_column .content .nav a {
   background: #1c98c1;
-  color: #fff;
 }
 #user_column .content .btn-primary:hover,
 #user_column .content .nav a:hover,
@@ -456,11 +464,6 @@ fieldset .form-control:active {
 #user_column .content .btn-primary.focus,
 #user_column .content .nav a.focus {
   background: #198aaf;
-}
-#user_column .content .btn-default {
-  background: transparent;
-  border-color: #7fd1ec;
-  color: #fff;
 }
 #user_column .content .btn-default:hover,
 #user_column .content .btn-default:active,
@@ -478,7 +481,6 @@ fieldset .form-control:active {
 #link_column .content .btn-primary,
 #link_column .content .nav a {
   background: #156b39;
-  color: #fff;
 }
 #link_column .content .btn-primary:hover,
 #link_column .content .nav a:hover,
@@ -491,11 +493,6 @@ fieldset .form-control:active {
 #link_column .content .btn-primary.focus,
 #link_column .content .nav a.focus {
   background: #115a30;
-}
-#link_column .content .btn-default {
-  background: transparent;
-  border-color: #22b05e;
-  color: #fff;
 }
 #link_column .content .btn-default:hover,
 #link_column .content .btn-default:active,
@@ -513,7 +510,6 @@ fieldset .form-control:active {
 #contrib_column .content .btn-primary,
 #contrib_column .content .nav a {
   background: #cc1c1d;
-  color: #fff;
 }
 #contrib_column .content .btn-primary:hover,
 #contrib_column .content .nav a:hover,
@@ -526,11 +522,6 @@ fieldset .form-control:active {
 #contrib_column .content .btn-primary.focus,
 #contrib_column .content .nav a.focus {
   background: #ba191a;
-}
-#contrib_column .content .btn-default {
-  background: transparent;
-  border-color: #ef8788;
-  color: #fff;
 }
 #contrib_column .content .btn-default:hover,
 #contrib_column .content .btn-default:active,
@@ -554,7 +545,6 @@ fieldset .form-control:active {
 #edit_poi_column .content .nav a,
 #edit_tile_column .content .nav a {
   background: #db7e07;
-  color: #fff;
 }
 #edit_setting_column .content .btn-primary:hover,
 #edit_poi_column .content .btn-primary:hover,
@@ -587,13 +577,6 @@ fieldset .form-control:active {
 #edit_poi_column .content .nav a.focus,
 #edit_tile_column .content .nav a.focus {
   background: #c77306;
-}
-#edit_setting_column .content .btn-default,
-#edit_poi_column .content .btn-default,
-#edit_tile_column .content .btn-default {
-  background: transparent;
-  border-color: #fabc6c;
-  color: #fff;
 }
 #edit_setting_column .content .btn-default:hover,
 #edit_poi_column .content .btn-default:hover,
