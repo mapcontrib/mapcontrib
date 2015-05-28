@@ -144,6 +144,12 @@ function (
 
 				'async': false,
 			});
+
+			this._radio.vent.on('session:unlogged', function (){
+
+				self.renderUserButtonNotLogged();
+				self.hideEditTools();
+			});
 		},
 
 		onRender: function () {
@@ -153,46 +159,13 @@ function (
 
 			if ( this._radio.reqres.request('var', 'isLogged') ) {
 
-				var user = this._radio.reqres.request('model', 'user'),
-				avatar = user.get('avatar'),
-				letters = user.get('displayName')
-				.toUpperCase()
-				.split(' ')
-				.splice(0, 3)
-				.map(function (name) {
-
-					return name[0];
-				})
-				.join('');
-
-				if (letters.length > 3) {
-
-					letters = letters[0];
-				}
-
-
-				if (avatar) {
-
-					this.ui.userButton
-					.addClass('avatar')
-					.html('<img src="'+ avatar +'" alt="'+ letters +'">');
-				}
-				else {
-
-					this.ui.userButton
-					.removeClass('avatar')
-					.html(letters);
-				}
-
-				this.ui.loginButton.addClass('hide');
-				this.ui.userButton.removeClass('hide');
-				this.ui.editButton.removeClass('hide');
+				this.renderUserButtonLogged();
+				this.showEditTools();
 			}
 			else {
 
-				this.ui.loginButton.removeClass('hide');
-				this.ui.userButton.addClass('hide');
-				this.ui.editButton.addClass('hide');
+				this.renderUserButtonNotLogged();
+				this.hideEditTools();
 			}
 
 
@@ -399,6 +372,60 @@ function (
 			};
 
 			this._map.addLayer(this._mapLayers.recycling);
+		},
+
+		renderUserButtonLogged: function () {
+
+			var user = this._radio.reqres.request('model', 'user'),
+			avatar = user.get('avatar'),
+			letters = user.get('displayName')
+			.toUpperCase()
+			.split(' ')
+			.splice(0, 3)
+			.map(function (name) {
+
+				return name[0];
+			})
+			.join('');
+
+			if (letters.length > 3) {
+
+				letters = letters[0];
+			}
+
+
+			if (avatar) {
+
+				this.ui.userButton
+				.addClass('avatar')
+				.html('<img src="'+ avatar +'" alt="'+ letters +'">');
+			}
+			else {
+
+				this.ui.userButton
+				.removeClass('avatar')
+				.html(letters);
+			}
+
+			this.ui.loginButton.addClass('hide');
+			this.ui.userButton.removeClass('hide');
+		},
+
+		renderUserButtonNotLogged: function () {
+
+			this.ui.loginButton.removeClass('hide');
+			this.ui.userButton.addClass('hide');
+		},
+
+		showEditTools: function () {
+
+			this.ui.editButton.removeClass('hide');
+		},
+
+		hideEditTools: function () {
+
+			this.ui.editButton.addClass('hide');
+			this.ui.editToolbar.removeClass('open');
 		},
 
 		onClickZoomIn: function () {

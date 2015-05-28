@@ -32,6 +32,12 @@ function (
 		ui: {
 
 			'column': '#user_column',
+			'logoutItem': '.logout_item',
+		},
+
+		events: {
+
+			'click @ui.logoutItem': 'close',
 		},
 
 		initialize: function () {

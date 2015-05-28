@@ -93,8 +93,18 @@ require(['requireConfig'], function () {
 
 
 				this._radio = Backbone.Wreqr.radio.channel('global');
-				this._radio.vent.on('session:logged', function (){ self._var.isLogged = true; });
-				this._radio.vent.on('session:unlogged', function (){ self._var.isLogged = false; });
+
+				this._radio.vent.on('session:logged', function (){
+
+					self._var.isLogged = true;
+				});
+
+				this._radio.vent.on('session:unlogged', function (){
+
+					self._var.isLogged = false;
+					
+					self._model.user = new UserModel();
+				});
 
 
 				this._radio.reqres.setHandlers({

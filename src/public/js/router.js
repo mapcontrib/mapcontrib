@@ -28,6 +28,8 @@ function (
 
 			'': 'routeDefault',
 			'oups': 'routeDefault',
+
+			'logout': 'routeLogout',
 		},
 
 
@@ -62,6 +64,23 @@ function (
 		routeDefault: function (){
 
 			this.showScreen( MainView );
+		},
+
+		routeLogout: function (){
+
+			$.ajax({
+
+				type: 'GET',
+				url: settings.apiPath +'user/logout',
+				dataType: 'json',
+				context: this,
+				complete: function () {
+
+					this.navigate('');
+
+					this._radio.vent.trigger('session:unlogged');
+				}
+			});
 		},
 	});
 });
