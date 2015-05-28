@@ -51,6 +51,12 @@
 <cancel "Cancel">
 
 
+/* Help */
+<helpTitle "Help">
+<helpText1 "Rudomap is a <a>free software</a>. It can creates cartographic profiles.">
+<helpText2 "Those cartographic profiles are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
+
+
 /* Login modal */
 <loginModal_explanation """
 To keep it simple, Rudomap only needs<br>

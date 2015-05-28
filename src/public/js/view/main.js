@@ -82,6 +82,8 @@ function (
 
 			'helpToolbar': '#help_toolbar',
 			'helpButton': '#help_toolbar .help_btn',
+			'help': '#help',
+			'helpCloseButton': '#help .close_btn',
 
 			'editToolbar': '#edit_toolbar',
 			'editSettingButton': '#edit_toolbar .setting_btn',
@@ -113,6 +115,9 @@ function (
 			'click @ui.locateWaitButton': 'onClickLocateWait',
 			'click @ui.expandScreenButton': 'onClickExpandScreen',
 			'click @ui.compressScreenButton': 'onClickCompressScreen',
+
+			'click @ui.helpButton': 'onClickHelp',
+			'click @ui.helpCloseButton': 'onClickHelpClose',
 
 			'click @ui.loginButton': 'onClickLogin',
 			'click @ui.userButton': 'onClickUser',
@@ -459,6 +464,16 @@ function (
 
 			this.ui.compressScreenButton.addClass('hide');
 			this.ui.expandScreenButton.removeClass('hide');
+		},
+
+		onClickHelp: function () {
+
+			this.ui.help.addClass('open');
+		},
+
+		onClickHelpClose: function () {
+
+			this.ui.help.removeClass('open');
 		},
 
 		onClickLogin: function () {

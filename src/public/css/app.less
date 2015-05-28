@@ -777,3 +777,31 @@ fieldset .form-control {
 		}
 	}
 }
+
+#help {
+
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index: @titleZIndex;
+	width: 0;
+	height: 0;
+	.transition( all ease-out .3s );
+	background: #fff;
+
+	&.open {
+
+		width: 100%;
+		height: 100%;
+	}
+
+	.close_btn {
+
+		color: @anthracite;
+	}
+
+	h2 {
+
+		font-size: 36px;
+	}
+}
