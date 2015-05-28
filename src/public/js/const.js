@@ -8,8 +8,8 @@ define([], function () {
 
 		'tooltip': {
 
-				'showDelay': 500, // ms
-				'hideDelay': 0, // ms
+			'showDelay': 500, // ms
+			'hideDelay': 0, // ms
 		},
 	};
 });
