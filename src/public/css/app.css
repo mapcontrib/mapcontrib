@@ -430,6 +430,13 @@ fieldset .form-control:active {
 .column .content .control-label + .radio {
   margin-top: 0;
 }
+.column .content .form-group-footer {
+  position: sticky;
+  bottom: 0;
+  padding: 16px 0;
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
 #user_column {
   background: #22b0df;
 }
@@ -461,6 +468,9 @@ fieldset .form-control:active {
 #user_column .content .btn-default:focus,
 #user_column .content .btn-default.focus {
   background: #5cc5e7;
+}
+#user_column .content .form-group-footer {
+  background: #22b0df;
 }
 #link_column {
   background: #198145;
@@ -494,6 +504,9 @@ fieldset .form-control:active {
 #link_column .content .btn-default.focus {
   background: #1f9f55;
 }
+#link_column .content .form-group-footer {
+  background: #198145;
+}
 #contrib_column {
   background: #e54041;
 }
@@ -525,6 +538,9 @@ fieldset .form-control:active {
 #contrib_column .content .btn-default:focus,
 #contrib_column .content .btn-default.focus {
   background: #ea6364;
+}
+#contrib_column .content .form-group-footer {
+  background: #e54041;
 }
 #edit_setting_column,
 #edit_poi_column,
@@ -595,6 +611,11 @@ fieldset .form-control:active {
 #edit_poi_column .content .btn-default.focus,
 #edit_tile_column .content .btn-default.focus {
   background: #f9aa45;
+}
+#edit_setting_column .content .form-group-footer,
+#edit_poi_column .content .form-group-footer,
+#edit_tile_column .content .form-group-footer {
+  background: #f48c08;
 }
 #tip_of_the_day {
   position: fixed;
