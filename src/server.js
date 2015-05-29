@@ -55,7 +55,7 @@ bodyParser = require('body-parser'),
 serveStatic = require('serve-static'),
 cookieParser = require('cookie-parser'),
 errorHandler = require('errorhandler'),
-MongoStore = require('connect-mongo')(session);
+MongoStore = require('connect-mongo')(session),
 app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
