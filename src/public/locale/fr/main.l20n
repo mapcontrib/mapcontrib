@@ -33,12 +33,6 @@
 <buttonHelpTooltip title:"Aide">
 
 
-<columnUserTitle "Mon compte">
-<columnLinkTitle "Partager">
-<columnContribTitle "Ajouter un marqueur">
-<columnEditSettingTitle "Configuration">
-<columnEditPoiTitle "Centres d'intérêt">
-<columnEditTileTitle "Fonds de carte">
 
 
 <myProfiles "Mes profils">
@@ -64,16 +58,40 @@ de se connecter à votre compte OpenStreetMap.
 """>
 
 
+/* User column */
+<userColumn_title "Mon compte">
+
+
+/* Contribution column */
+<contribColumn_title "Ajouter un marqueur">
+
+
 /* Link column */
+<linkColumn_title "Partager">
 <linkColumn_publicProfile "Ce profil est accessible par tout le monde.">
 <linkColumn_linkLabel "Communiquez le lien ci-dessous&nbsp;:">
 <linkColumn_integrateCode "Ou intégrez le code suivant à votre site internet&nbsp;:">
 
 
 /* Edit settings column */
+<editSettingColumn_title "Configuration">
 <editSettingColumn_profileName "Nom du profil cartographique">
 <editSettingColumn_profileDescription "Description">
 <editSettingColumn_color "Couleur">
 <editSettingColumn_position "Positionnement">
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
+
+
+/* Edit POI column */
+<editPoiColumn_title "Centres d'intérêt">
+<editPoiColumn_clickButton "Cliquez sur le bouton ci-dessous">
+<editPoiColumn_addLayer "Ajouter une couche">
+
+
+/* Add POI layer column */
+<editPoiAddLayerColumn_title "Ajouter sdfqsdf qdsfq df qsd fq sdf">
+
+
+/* Edit tiles column */
+<editTileColumn_title "Fonds de carte">

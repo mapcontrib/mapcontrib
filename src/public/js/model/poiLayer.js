@@ -19,21 +19,17 @@ function (
 
 		idAttribute: '_id',
 
-		urlRoot: settings.apiPath + 'profile',
+		urlRoot: settings.apiPath + 'poiLayer',
 
 		defaults: {
 
-			'userId': undefined,
+			'profileId': undefined,
 			'name': undefined,
 			'description': undefined,
-			'color': 'blue',
-			'tiles': [],
-			'zoomLevel': undefined,
-			'center': {
-
-				'lat': undefined,
-				'lng': undefined,
-			},
+			'overpassRequest': undefined,
+			'minZoom': 14,
+			'popupContent': undefined,
+			'order': undefined,
 		}
 	});
 });

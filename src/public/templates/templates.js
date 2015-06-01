@@ -4,7 +4,17 @@ this["JST"]["contribColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="contrib_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="columnContribTitle"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="contrib_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="contribColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+
+}
+return __p
+};
+
+this["JST"]["editPoiAddLayerColumn.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<section id="edit_poi_add_layer_column" class="column open">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editPoiAddLayerColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
@@ -14,7 +24,7 @@ this["JST"]["editPoiColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="edit_poi_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="columnEditPoiTitle"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="edit_poi_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editPoiColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<div class="rg_layer_list"></div>\n\n\t\t\t\t<div class="sticky-footer">\n\t\t\t\t\t<button type="button" class="btn btn-primary btn-block" data-l10n-id="editPoiColumn_addLayer"></button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
@@ -24,11 +34,11 @@ this["JST"]["editSettingColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="edit_setting_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="columnEditSettingTitle"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="profile_name" class="control-label" data-l10n-id="editSettingColumn_profileName"></label>\n\t\t\t\t\t\t<input type="text" class="form-control" id="profile_name" value="' +
+__p += '<section id="edit_setting_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editSettingColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="profile_name" class="control-label" data-l10n-id="editSettingColumn_profileName"></label>\n\t\t\t\t\t\t<input type="text" class="form-control" id="profile_name" value="' +
 ((__t = ( name )) == null ? '' : __t) +
 '">\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="profile_description" class="control-label" data-l10n-id="editSettingColumn_profileDescription"></label>\n\t\t\t\t\t\t<textarea rows="3" class="form-control" id="profile_description">' +
 ((__t = ( description )) == null ? '' : __t) +
-'</textarea>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="profile_name" class="control-label" data-l10n-id="editSettingColumn_color"></label>\n\t\t\t\t\t\t<div class="colorButtons">\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color orange" data-color="orange"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color red" data-color="red"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color purple" data-color="purple"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color blue" data-color="blue"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color turquoise" data-color="turquoise"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color green" data-color="green"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color white" data-color="white"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color anthracite" data-color="anthracite"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label class="control-label" data-l10n-id="editSettingColumn_position"></label>\n\t\t\t\t\t\t<div class="radio">\n\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t<input type="radio" name="profile_position" id="profile_position_keep_old" value="1" checked>\n\t\t\t\t\t\t\t\t<span data-l10n-id="editSettingColumn_keepOld"></span>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="radio">\n\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t<input type="radio" name="profile_position" id="profile_position_set_new" value="1">\n\t\t\t\t\t\t\t\t<span data-l10n-id="editSettingColumn_setNew"></span>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group form-group-footer">\n\t\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+'</textarea>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="profile_name" class="control-label" data-l10n-id="editSettingColumn_color"></label>\n\t\t\t\t\t\t<div class="colorButtons">\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color orange" data-color="orange"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color red" data-color="red"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color purple" data-color="purple"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color blue" data-color="blue"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color turquoise" data-color="turquoise"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color green" data-color="green"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color white" data-color="white"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color anthracite" data-color="anthracite"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label class="control-label" data-l10n-id="editSettingColumn_position"></label>\n\t\t\t\t\t\t<div class="radio">\n\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t<input type="radio" name="profile_position" id="profile_position_keep_old" value="1" checked>\n\t\t\t\t\t\t\t\t<span data-l10n-id="editSettingColumn_keepOld"></span>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="radio">\n\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t<input type="radio" name="profile_position" id="profile_position_set_new" value="1">\n\t\t\t\t\t\t\t\t<span data-l10n-id="editSettingColumn_setNew"></span>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group sticky-footer">\n\t\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
@@ -38,7 +48,7 @@ this["JST"]["editTileColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="edit_tile_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="columnEditTileTitle"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="edit_tile_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editTileColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
@@ -48,7 +58,7 @@ this["JST"]["linkColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="link_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="columnLinkTitle"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12 append-xs-tiny">\n\t\t\t\t<p data-l10n-id="linkColumn_publicProfile"></p>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_linkLabel"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<input type="text" class="form-control" readonly="readonly">\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_integrateCode"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<textarea class="form-control" readonly="readonly"></textarea>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="link_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="linkColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12 append-xs-tiny">\n\t\t\t\t<p data-l10n-id="linkColumn_publicProfile"></p>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_linkLabel"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<input type="text" class="form-control" readonly="readonly">\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_integrateCode"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<textarea class="form-control" readonly="readonly"></textarea>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
@@ -90,6 +100,28 @@ __p += '<div id="title" class="' +
 return __p
 };
 
+this["JST"]["poiLayerListEmpty.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<p class="text-center"><em data-l10n-id="editPoiColumn_clickButton"></em></p>\n';
+
+}
+return __p
+};
+
+this["JST"]["poiLayerListItem.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<div class="reorder_icon"><i class="fa fa-bars fa-fw"></i></div>\n' +
+((__t = ( name )) == null ? '' : __t) +
+'\n<button type="button" class="btn remove_btn"><i class="fa fa-trash"></i></button>\n';
+
+}
+return __p
+};
+
 this["JST"]["tipOfTheDay.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
@@ -104,7 +136,7 @@ this["JST"]["userColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="user_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="columnUserTitle"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<nav>\n\t\t\t\t\t<ul class="nav nav-pills nav-stacked">\n\t\t\t\t\t\t<li role="presentation"><a href="#" data-l10n-id="myProfiles"></a></li>\n\t\t\t\t\t\t<li role="presentation"><a href="#" data-l10n-id="preferences"></a></li>\n\t\t\t\t\t\t<li role="presentation"><a href="#logout" data-l10n-id="logout" class="logout_item"></a></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</nav>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="user_column" class="column">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="userColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<nav>\n\t\t\t\t\t<ul class="nav nav-pills nav-stacked">\n\t\t\t\t\t\t<li role="presentation"><a href="#" data-l10n-id="myProfiles"></a></li>\n\t\t\t\t\t\t<li role="presentation"><a href="#" data-l10n-id="preferences"></a></li>\n\t\t\t\t\t\t<li role="presentation"><a href="#logout" data-l10n-id="logout" class="logout_item"></a></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</nav>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p

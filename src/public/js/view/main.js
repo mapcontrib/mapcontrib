@@ -22,6 +22,8 @@ define([
 	'view/tipOfTheDay',
 
 	'model/profile',
+
+	'collection/poiLayer',
 ],
 function (
 
@@ -44,7 +46,9 @@ function (
 	EditTileColumnView,
 	TipOfTheDayView,
 
-	ProfileModel
+	ProfileModel,
+
+	PoiLayerCollection
 ) {
 
 	'use strict';
@@ -143,7 +147,34 @@ function (
 			this.model.fetch({
 
 				'async': false,
+				'error': function () {
+
+					// FIXME
+					console.error('nok');
+				},
 			});
+
+
+			this._poiLayers = new PoiLayerCollection(null, { 'profileId': '5249c43c6e789470197b5973' });
+
+			this._poiLayers.fetch({
+
+				'success': function () {
+
+					self.onLoadPoiLayers();
+				},
+				'error': function () {
+
+					// FIXME
+					console.error('nok');
+				},
+			});
+
+			this._radio.reqres.setHandler('poiLayers', function () {
+
+				return this._poiLayers;
+			}, this);
+
 
 			this._radio.vent.on('session:unlogged', function (){
 
@@ -256,20 +287,24 @@ function (
 				'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 			})
 			.addTo(this._map);
+		},
 
+		onLoadPoiLayers: function () {
+
+			var self = this;
 
 			this._poiIds = [];
 
-			this._mapLayers = {
+			_.each(this._poiLayers.models, function (poiLayerModel) {
 
-				'recycling': L.layerGroup([
+				this._map.addLayer(
 
 					new L.OverPassLayer({
 
 						// 'endpoint': 'http://api.openstreetmap.fr/oapi/',
 						'endpoint': 'http://overpass.osm.rambler.ru/cgi/',
-						'minzoom': 14,
-						'query': "(node(BBOX)['amenity'='recycling'];relation(BBOX)['amenity'='recycling'];way(BBOX)['amenity'='recycling']);out body center;>;out;",
+						'minzoom': poiLayerModel.get('minZoom'),
+						'query': poiLayerModel.get('overpassRequest'),
 						'callback': function(data){
 
 							var wayBodyNodes = {};
@@ -367,11 +402,10 @@ function (
 								);
 							});
 						}
-					}),
-				]),
-			};
+					})
+				);
 
-			this._map.addLayer(this._mapLayers.recycling);
+			}, this);
 		},
 
 		renderUserButtonLogged: function () {

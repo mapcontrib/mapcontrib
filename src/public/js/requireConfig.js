@@ -15,6 +15,8 @@ requirejs.config({
 		'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap.min',
 		'bootstrap-more': '../bower_components/bootstrap-more/bootstrap-more',
 		'jquery': '../bower_components/jquery/dist/jquery.min',
+		'jquery-ui-sortable': '../bower_components/jquery-ui-sortable/jquery-ui-sortable.min',
+		'jquery-ui-touch-punch': '../bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min',
 		'math.format': '../bower_components/math.format/math.format',
 		'leaflet': '../bower_components/leaflet/dist/leaflet',
 		'leaflet-layer-overpass': '../bower_components/leaflet-layer-overpass/dist/OverPassLayer.min',
@@ -41,6 +43,14 @@ requirejs.config({
 		'leaflet-layer-overpass': {
 
 			deps: ['leaflet']
+		},
+		'jquery-ui-sortable': {
+
+			deps: ['jquery']
+		},
+		'jquery-ui-touch-punch': {
+
+			deps: ['jquery-ui-sortable']
 		},
 	}
 });

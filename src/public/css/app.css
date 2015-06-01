@@ -50,13 +50,15 @@ input,
 select,
 textarea,
 .form-control,
+.list-group-item,
+.list-group-item:first-child,
+.list-group-item:last-child,
 fieldset .form-control {
-  border-color: transparent;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
-  border-radius: 0;
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  -ms-border-radius: 0 !important;
+  -o-border-radius: 0 !important;
+  border-radius: 0 !important;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -67,33 +69,51 @@ input:hover,
 select:hover,
 textarea:hover,
 .form-control:hover,
+.list-group-item:hover,
+.list-group-item:first-child:hover,
+.list-group-item:last-child:hover,
 fieldset .form-control:hover,
 input.focus,
 select.focus,
 textarea.focus,
 .form-control.focus,
+.list-group-item.focus,
+.list-group-item:first-child.focus,
+.list-group-item:last-child.focus,
 fieldset .form-control.focus,
 input:focus,
 select:focus,
 textarea:focus,
 .form-control:focus,
+.list-group-item:focus,
+.list-group-item:first-child:focus,
+.list-group-item:last-child:focus,
 fieldset .form-control:focus,
 input.active,
 select.active,
 textarea.active,
 .form-control.active,
+.list-group-item.active,
+.list-group-item:first-child.active,
+.list-group-item:last-child.active,
 fieldset .form-control.active,
 input:active,
 select:active,
 textarea:active,
 .form-control:active,
+.list-group-item:active,
+.list-group-item:first-child:active,
+.list-group-item:last-child:active,
 fieldset .form-control:active {
-  border-color: transparent;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
   -o-box-shadow: none;
   box-shadow: none;
+}
+.list-group {
+  /* Fixes a placement bug on items when they are moved/dragged more than once */
+  position: relative;
 }
 #main_map {
   position: fixed;
@@ -387,10 +407,150 @@ fieldset .form-control:active {
 .column a:focus,
 .column a.focus,
 .column a.btn {
+  color: #fff;
   text-decoration: none;
 }
-.column .nav a {
+.column .nav a,
+.column a.list-group-item {
   text-decoration: none;
+}
+.column input,
+.column select,
+.column textarea,
+.column .form-control,
+.column fieldset .form-control {
+  border-color: transparent;
+}
+.column input:hover,
+.column select:hover,
+.column textarea:hover,
+.column .form-control:hover,
+.column fieldset .form-control:hover,
+.column input.focus,
+.column select.focus,
+.column textarea.focus,
+.column .form-control.focus,
+.column fieldset .form-control.focus,
+.column input:focus,
+.column select:focus,
+.column textarea:focus,
+.column .form-control:focus,
+.column fieldset .form-control:focus,
+.column input.active,
+.column select.active,
+.column textarea.active,
+.column .form-control.active,
+.column fieldset .form-control.active,
+.column input:active,
+.column select:active,
+.column textarea:active,
+.column .form-control:active,
+.column fieldset .form-control:active {
+  border-color: transparent;
+}
+.column input,
+.column .btn-primary {
+  border-color: transparent;
+}
+.column .btn-primary,
+.column .btn-link,
+.column .nav a {
+  color: #fff;
+}
+.column .list-group {
+  background: inherit;
+}
+.column .btn-default,
+.column .list-group-item {
+  background: inherit;
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+.column .btn-default:hover,
+.column .list-group-item:hover,
+.column .btn-default.focus,
+.column .list-group-item.focus,
+.column .btn-default:focus,
+.column .list-group-item:focus,
+.column .btn-default.active,
+.column .list-group-item.active,
+.column .btn-default:active,
+.column .list-group-item:active {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+.column .list-group-item {
+  border-top-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+.column .list-group-item:first-child {
+  border-top-color: rgba(255, 255, 255, 0.4);
+}
+.column .list-group-item:last-child {
+  border-bottom-color: rgba(255, 255, 255, 0.4);
+}
+.column .list-group.reorderable .list-group-item {
+  padding-left: 30px;
+}
+.column .list-group.reorderable .list-group-item .reorder_icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 6px;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: move;
+}
+.column .list-group.removeable .list-group-item {
+  padding-right: 46px;
+}
+.column .list-group.removeable .list-group-item .remove_btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 40px;
+  background: transparent;
+  border-color: transparent;
+  color: #fff;
+  visibility: hidden;
+}
+.column .list-group.removeable .list-group-item .remove_btn:hover,
+.column .list-group.removeable .list-group-item .remove_btn.focus,
+.column .list-group.removeable .list-group-item .remove_btn:focus,
+.column .list-group.removeable .list-group-item .remove_btn.active,
+.column .list-group.removeable .list-group-item .remove_btn:active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+.column .list-group.removeable .list-group-item:hover .remove_btn,
+.column .list-group.removeable .list-group-item.focus .remove_btn,
+.column .list-group.removeable .list-group-item:focus .remove_btn,
+.column .list-group.removeable .list-group-item.active .remove_btn,
+.column .list-group.removeable .list-group-item:active .remove_btn {
+  visibility: visible;
+}
+.column .help-block {
+  color: #fff;
+}
+.column .table-bordered,
+.column .table-bordered th,
+.column .table-bordered td {
+  border-color: #fff;
+}
+.column textarea {
+  resize: vertical;
+}
+.column .control-label + .radio {
+  margin-top: 0;
+}
+.column .sticky-footer {
+  position: sticky;
+  bottom: 0;
+  padding: 20px 0;
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
 }
 .column header {
   height: 50px;
@@ -412,125 +572,106 @@ fieldset .form-control:active {
   right: 0;
   overflow: auto;
 }
-.column .content input,
-.column .content .btn-primary {
-  border-color: transparent;
-}
-.column .content .btn-primary,
-.column .content .nav a {
-  color: #fff;
-}
-.column .content .btn-default {
-  background: transparent;
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #fff;
-}
-.column .content .help-block {
-  color: #fff;
-}
-.column .content .table-bordered,
-.column .content .table-bordered th,
-.column .content .table-bordered td {
-  border-color: #fff;
-}
-.column .content textarea {
-  resize: vertical;
-}
-.column .content .control-label + .radio {
-  margin-top: 0;
-}
-.column .content .form-group-footer {
-  position: sticky;
-  bottom: 0;
-  padding: 16px 0;
-  margin: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.4);
-}
 #user_column {
   background: #22b0df;
 }
-#user_column .content .btn-primary,
-#user_column .content .nav a {
+#user_column .btn-primary,
+#user_column .nav a {
   background: #1c98c1;
 }
-#user_column .content .btn-primary:hover,
-#user_column .content .nav a:hover,
-#user_column .content .btn-primary:active,
-#user_column .content .nav a:active,
-#user_column .content .btn-primary.active,
-#user_column .content .nav a.active,
-#user_column .content .btn-primary:focus,
-#user_column .content .nav a:focus,
-#user_column .content .btn-primary.focus,
-#user_column .content .nav a.focus {
+#user_column .btn-primary:hover,
+#user_column .nav a:hover,
+#user_column .btn-primary:active,
+#user_column .nav a:active,
+#user_column .btn-primary.active,
+#user_column .nav a.active,
+#user_column .btn-primary:focus,
+#user_column .nav a:focus,
+#user_column .btn-primary.focus,
+#user_column .nav a.focus {
   background: #198aaf;
 }
-#user_column .content .btn-default:hover,
-#user_column .content .btn-default:active,
-#user_column .content .btn-default.active,
-#user_column .content .btn-default:focus,
-#user_column .content .btn-default.focus {
+#user_column .btn-default:hover,
+#user_column a.list-group-item:hover,
+#user_column .btn-default:active,
+#user_column a.list-group-item:active,
+#user_column .btn-default.active,
+#user_column a.list-group-item.active,
+#user_column .btn-default:focus,
+#user_column a.list-group-item:focus,
+#user_column .btn-default.focus,
+#user_column a.list-group-item.focus {
   background: #5cc5e7;
 }
-#user_column .content .form-group-footer {
+#user_column .sticky-footer {
   background: #22b0df;
 }
 #link_column {
   background: #198145;
 }
-#link_column .content .btn-primary,
-#link_column .content .nav a {
+#link_column .btn-primary,
+#link_column .nav a {
   background: #156b39;
 }
-#link_column .content .btn-primary:hover,
-#link_column .content .nav a:hover,
-#link_column .content .btn-primary:active,
-#link_column .content .nav a:active,
-#link_column .content .btn-primary.active,
-#link_column .content .nav a.active,
-#link_column .content .btn-primary:focus,
-#link_column .content .nav a:focus,
-#link_column .content .btn-primary.focus,
-#link_column .content .nav a.focus {
+#link_column .btn-primary:hover,
+#link_column .nav a:hover,
+#link_column .btn-primary:active,
+#link_column .nav a:active,
+#link_column .btn-primary.active,
+#link_column .nav a.active,
+#link_column .btn-primary:focus,
+#link_column .nav a:focus,
+#link_column .btn-primary.focus,
+#link_column .nav a.focus {
   background: #115a30;
 }
-#link_column .content .btn-default:hover,
-#link_column .content .btn-default:active,
-#link_column .content .btn-default.active,
-#link_column .content .btn-default:focus,
-#link_column .content .btn-default.focus {
+#link_column .btn-default:hover,
+#link_column a.list-group-item:hover,
+#link_column .btn-default:active,
+#link_column a.list-group-item:active,
+#link_column .btn-default.active,
+#link_column a.list-group-item.active,
+#link_column .btn-default:focus,
+#link_column a.list-group-item:focus,
+#link_column .btn-default.focus,
+#link_column a.list-group-item.focus {
   background: #1f9f55;
 }
-#link_column .content .form-group-footer {
+#link_column .sticky-footer {
   background: #198145;
 }
 #contrib_column {
   background: #e54041;
 }
-#contrib_column .content .btn-primary,
-#contrib_column .content .nav a {
+#contrib_column .btn-primary,
+#contrib_column .nav a {
   background: #cc1c1d;
 }
-#contrib_column .content .btn-primary:hover,
-#contrib_column .content .nav a:hover,
-#contrib_column .content .btn-primary:active,
-#contrib_column .content .nav a:active,
-#contrib_column .content .btn-primary.active,
-#contrib_column .content .nav a.active,
-#contrib_column .content .btn-primary:focus,
-#contrib_column .content .nav a:focus,
-#contrib_column .content .btn-primary.focus,
-#contrib_column .content .nav a.focus {
+#contrib_column .btn-primary:hover,
+#contrib_column .nav a:hover,
+#contrib_column .btn-primary:active,
+#contrib_column .nav a:active,
+#contrib_column .btn-primary.active,
+#contrib_column .nav a.active,
+#contrib_column .btn-primary:focus,
+#contrib_column .nav a:focus,
+#contrib_column .btn-primary.focus,
+#contrib_column .nav a.focus {
   background: #ba191a;
 }
-#contrib_column .content .btn-default:hover,
-#contrib_column .content .btn-default:active,
-#contrib_column .content .btn-default.active,
-#contrib_column .content .btn-default:focus,
-#contrib_column .content .btn-default.focus {
+#contrib_column .btn-default:hover,
+#contrib_column a.list-group-item:hover,
+#contrib_column .btn-default:active,
+#contrib_column a.list-group-item:active,
+#contrib_column .btn-default.active,
+#contrib_column a.list-group-item.active,
+#contrib_column .btn-default:focus,
+#contrib_column a.list-group-item:focus,
+#contrib_column .btn-default.focus,
+#contrib_column a.list-group-item.focus {
   background: #ea6364;
 }
-#contrib_column .content .form-group-footer {
+#contrib_column .sticky-footer {
   background: #e54041;
 }
 #edit_setting_column,
@@ -538,66 +679,81 @@ fieldset .form-control:active {
 #edit_tile_column {
   background: #f48c08;
 }
-#edit_setting_column .content .btn-primary,
-#edit_poi_column .content .btn-primary,
-#edit_tile_column .content .btn-primary,
-#edit_setting_column .content .nav a,
-#edit_poi_column .content .nav a,
-#edit_tile_column .content .nav a {
+#edit_setting_column .btn-primary,
+#edit_poi_column .btn-primary,
+#edit_tile_column .btn-primary,
+#edit_setting_column .nav a,
+#edit_poi_column .nav a,
+#edit_tile_column .nav a {
   background: #db7e07;
 }
-#edit_setting_column .content .btn-primary:hover,
-#edit_poi_column .content .btn-primary:hover,
-#edit_tile_column .content .btn-primary:hover,
-#edit_setting_column .content .nav a:hover,
-#edit_poi_column .content .nav a:hover,
-#edit_tile_column .content .nav a:hover,
-#edit_setting_column .content .btn-primary:active,
-#edit_poi_column .content .btn-primary:active,
-#edit_tile_column .content .btn-primary:active,
-#edit_setting_column .content .nav a:active,
-#edit_poi_column .content .nav a:active,
-#edit_tile_column .content .nav a:active,
-#edit_setting_column .content .btn-primary.active,
-#edit_poi_column .content .btn-primary.active,
-#edit_tile_column .content .btn-primary.active,
-#edit_setting_column .content .nav a.active,
-#edit_poi_column .content .nav a.active,
-#edit_tile_column .content .nav a.active,
-#edit_setting_column .content .btn-primary:focus,
-#edit_poi_column .content .btn-primary:focus,
-#edit_tile_column .content .btn-primary:focus,
-#edit_setting_column .content .nav a:focus,
-#edit_poi_column .content .nav a:focus,
-#edit_tile_column .content .nav a:focus,
-#edit_setting_column .content .btn-primary.focus,
-#edit_poi_column .content .btn-primary.focus,
-#edit_tile_column .content .btn-primary.focus,
-#edit_setting_column .content .nav a.focus,
-#edit_poi_column .content .nav a.focus,
-#edit_tile_column .content .nav a.focus {
+#edit_setting_column .btn-primary:hover,
+#edit_poi_column .btn-primary:hover,
+#edit_tile_column .btn-primary:hover,
+#edit_setting_column .nav a:hover,
+#edit_poi_column .nav a:hover,
+#edit_tile_column .nav a:hover,
+#edit_setting_column .btn-primary:active,
+#edit_poi_column .btn-primary:active,
+#edit_tile_column .btn-primary:active,
+#edit_setting_column .nav a:active,
+#edit_poi_column .nav a:active,
+#edit_tile_column .nav a:active,
+#edit_setting_column .btn-primary.active,
+#edit_poi_column .btn-primary.active,
+#edit_tile_column .btn-primary.active,
+#edit_setting_column .nav a.active,
+#edit_poi_column .nav a.active,
+#edit_tile_column .nav a.active,
+#edit_setting_column .btn-primary:focus,
+#edit_poi_column .btn-primary:focus,
+#edit_tile_column .btn-primary:focus,
+#edit_setting_column .nav a:focus,
+#edit_poi_column .nav a:focus,
+#edit_tile_column .nav a:focus,
+#edit_setting_column .btn-primary.focus,
+#edit_poi_column .btn-primary.focus,
+#edit_tile_column .btn-primary.focus,
+#edit_setting_column .nav a.focus,
+#edit_poi_column .nav a.focus,
+#edit_tile_column .nav a.focus {
   background: #c77306;
 }
-#edit_setting_column .content .btn-default:hover,
-#edit_poi_column .content .btn-default:hover,
-#edit_tile_column .content .btn-default:hover,
-#edit_setting_column .content .btn-default:active,
-#edit_poi_column .content .btn-default:active,
-#edit_tile_column .content .btn-default:active,
-#edit_setting_column .content .btn-default.active,
-#edit_poi_column .content .btn-default.active,
-#edit_tile_column .content .btn-default.active,
-#edit_setting_column .content .btn-default:focus,
-#edit_poi_column .content .btn-default:focus,
-#edit_tile_column .content .btn-default:focus,
-#edit_setting_column .content .btn-default.focus,
-#edit_poi_column .content .btn-default.focus,
-#edit_tile_column .content .btn-default.focus {
+#edit_setting_column .btn-default:hover,
+#edit_poi_column .btn-default:hover,
+#edit_tile_column .btn-default:hover,
+#edit_setting_column a.list-group-item:hover,
+#edit_poi_column a.list-group-item:hover,
+#edit_tile_column a.list-group-item:hover,
+#edit_setting_column .btn-default:active,
+#edit_poi_column .btn-default:active,
+#edit_tile_column .btn-default:active,
+#edit_setting_column a.list-group-item:active,
+#edit_poi_column a.list-group-item:active,
+#edit_tile_column a.list-group-item:active,
+#edit_setting_column .btn-default.active,
+#edit_poi_column .btn-default.active,
+#edit_tile_column .btn-default.active,
+#edit_setting_column a.list-group-item.active,
+#edit_poi_column a.list-group-item.active,
+#edit_tile_column a.list-group-item.active,
+#edit_setting_column .btn-default:focus,
+#edit_poi_column .btn-default:focus,
+#edit_tile_column .btn-default:focus,
+#edit_setting_column a.list-group-item:focus,
+#edit_poi_column a.list-group-item:focus,
+#edit_tile_column a.list-group-item:focus,
+#edit_setting_column .btn-default.focus,
+#edit_poi_column .btn-default.focus,
+#edit_tile_column .btn-default.focus,
+#edit_setting_column a.list-group-item.focus,
+#edit_poi_column a.list-group-item.focus,
+#edit_tile_column a.list-group-item.focus {
   background: #f9aa45;
 }
-#edit_setting_column .content .form-group-footer,
-#edit_poi_column .content .form-group-footer,
-#edit_tile_column .content .form-group-footer {
+#edit_setting_column .sticky-footer,
+#edit_poi_column .sticky-footer,
+#edit_tile_column .sticky-footer {
   background: #f48c08;
 }
 #tip_of_the_day {

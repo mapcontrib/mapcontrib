@@ -33,12 +33,6 @@
 <buttonHelpTooltip title:"Help">
 
 
-<columnUserTitle "My account">
-<columnLinkTitle "Share">
-<columnContribTitle "Add a marker">
-<columnEditSettingTitle "Settings">
-<columnEditPoiTitle "Points of interest">
-<columnEditTileTitle "Backgrounds">
 
 
 <myProfiles "My profiles">
@@ -64,16 +58,36 @@ to connect to your OpenStreetMap account.
 """>
 
 
+/* User column */
+<userColumn_title "My account">
+
+
+/* Contribution column */
+<contribColumn_title "Add a marker">
+
+
 /* Link column */
+<linkColumn_title "Share">
 <linkColumn_publicProfile "This profile is available by everyone.">
 <linkColumn_linkLabel "Share the link below:">
 <linkColumn_integrateCode "Or integrate the following code in your website:">
 
 
 /* Edit settings column */
+<editSettingColumn_title "Settings">
 <editSettingColumn_profileName "Cartographic profile name">
 <editSettingColumn_profileDescription "Description">
 <editSettingColumn_color "Color">
 <editSettingColumn_position "Location">
 <editSettingColumn_keepOld "Keep old parameters">
 <editSettingColumn_setNew "Set the new ones">
+
+
+/* Edit POI column */
+<editPoiColumn_title "Points of interest">
+<editPoiColumn_clickButton "Click the button below">
+<editPoiColumn_addLayer "Add a layer">
+
+
+/* Edit tiles column */
+<editTileColumn_title "Backgrounds">

@@ -2,6 +2,7 @@
 // Configuration
 var secret_key = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})',
 login_pattern = /^[a-zA-Z0-9\-]{3,}$/,
+id_pattern = /^[a-zA-Z0-9]{24}$/,
 http_port = 8080,
 db_host = '127.0.0.1',
 db_port = '27017',
@@ -361,11 +362,56 @@ function apiGetUser(req, res) {
 }
 
 
+function apiGetPoiLayers(req, res) {
+
+	if ( !req.params.profileId || !id_pattern.test( req.params.profileId ) ) {
+
+		res.sendStatus(404);
+
+		return true;
+	}
+
+
+	var collection = database.collection('poiLayer');
+
+	collection.find({
+
+		'profileId': req.params.profileId,
+	})
+	.toArray(function (err, results) {
+
+		if(err) {
+
+			res.sendStatus(500);
+
+			return true;
+		}
+
+		if (results.length > 0) {
+
+			results.forEach(function (result) {
+
+				result._id = result._id.toString();
+			});
+		}
+
+		res.send(results);
+	});
+}
+
+
+
 function apiGetAll(req, res, content_type) {
 
-	var collection = database.collection(content_type);
+	var collection = database.collection(content_type),
+	query = {};
 
-	collection.find()
+	if ( req.query.profileId && id_pattern.test( req.query.profileId ) ) {
+
+		query.profileId = req.query.profileId;
+	}
+
+	collection.find( query )
 	.toArray(function (err, results) {
 
 		if(err) {
@@ -553,10 +599,13 @@ app.get('/api/user/logout',	logout);
 app.get('/api/user/:_id', isLoggedIn, apiGetUser);
 app.put('/api/user/:_id', isLoggedIn, apiPutUser);
 
+app.get('/api/profile/:profileId/poiLayers', isLoggedIn, apiGetPoiLayers);
+
 
 var list_content_types = [
 
-	'profile'
+	'profile',
+	'poiLayer',
 ];
 
 list_content_types.forEach(function (content_type) {

@@ -110,10 +110,12 @@ input,
 select,
 textarea,
 .form-control,
+.list-group-item,
+.list-group-item:first-child,
+.list-group-item:last-child,
 fieldset .form-control {
 
-	border-color: transparent;
-	.border-radius(0);
+	.border-radius(0) !important;
 	.box-shadow(none);
 
 	&:hover,
@@ -122,9 +124,14 @@ fieldset .form-control {
 	&.active,
 	&:active {
 
-		border-color: transparent;
 		.box-shadow(none);
 	}
+}
+
+.list-group {
+
+	/* Fixes a placement bug on items when they are moved/dragged more than once */
+	position: relative;
 }
 
 
@@ -452,15 +459,180 @@ fieldset .form-control {
 		&.focus,
 		&.btn {
 
+			color: #fff;
 			text-decoration: none;
 		}
 	}
 
-	.nav a {
+	.nav a,
+	a.list-group-item {
 
 		text-decoration: none;
 	}
 
+	input,
+	select,
+	textarea,
+	.form-control,
+	fieldset .form-control {
+
+		border-color: transparent;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			border-color: transparent;
+		}
+	}
+
+	input,
+	.btn-primary {
+
+		border-color: transparent;
+	}
+
+	.btn-primary,
+	.btn-link,
+	.nav a {
+
+		color: #fff;
+	}
+
+	.list-group {
+
+		background: inherit;
+	}
+
+	.btn-default,
+	.list-group-item {
+
+		background: inherit;
+		border-color: rgba(255, 255, 255, .4);
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			border-color: rgba(255, 255, 255, .5);
+			color: #fff;
+		}
+	}
+
+	.list-group-item {
+
+		border-top-color: rgba(255, 255, 255, .2);
+		border-bottom-color: rgba(255, 255, 255, .2);
+
+		&:first-child {
+
+			border-top-color: rgba(255, 255, 255, .4);
+		}
+
+		&:last-child {
+
+			border-bottom-color: rgba(255, 255, 255, .4);
+		}
+	}
+
+	.list-group.reorderable {
+
+		.list-group-item {
+
+			padding-left: 30px;
+
+			.reorder_icon {
+
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: inline-block;
+				height: 40px;
+				line-height: 40px;
+				padding: 0 6px;
+				color: rgba(255, 255, 255, .4);
+				cursor: move;
+			}
+		}
+	}
+
+	.list-group.removeable {
+
+		.list-group-item {
+
+			padding-right: 46px;
+
+			.remove_btn {
+
+				position: absolute;
+				top: 0;
+				right: 0;
+				height: 40px;
+				background: transparent;
+				border-color: transparent;
+				color: #fff;
+				visibility: hidden;
+
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
+
+					background: rgba(255, 255, 255, .2);
+					color: #fff;
+				}
+			}
+
+			&:hover,
+			&.focus,
+			&:focus,
+			&.active,
+			&:active {
+
+				.remove_btn {
+
+					visibility: visible;
+				}
+			}
+		}
+	}
+
+	.help-block {
+
+		color: #fff;
+	}
+
+	.table-bordered,
+	.table-bordered th,
+	.table-bordered td, {
+
+		border-color: #fff;
+	}
+
+	textarea {
+
+		resize: vertical;
+	}
+
+	.control-label + .radio {
+
+		margin-top: 0;
+	}
+
+	.sticky-footer {
+
+		position: sticky;
+		bottom: 0;
+		padding: 20px 0;
+		margin: 0;
+		border-top: 1px solid rgba(255, 255, 255, .4);
+	}
 
 	header {
 
@@ -488,56 +660,6 @@ fieldset .form-control {
 		left: 0;
 		right: 0;
 		overflow: auto;
-
-		input,
-		.btn-primary {
-
-			border-color: transparent;
-		}
-
-		.btn-primary,
-		.nav a {
-
-			color: #fff;
-		}
-
-		.btn-default {
-
-			background: transparent;
-			border-color: rgba(255, 255, 255, .4);
-			color: #fff;
-		}
-
-		.help-block {
-
-			color: #fff;
-		}
-
-		.table-bordered,
-		.table-bordered th,
-		.table-bordered td, {
-
-			border-color: #fff;
-		}
-
-		textarea {
-
-			resize: vertical;
-		}
-
-		.control-label + .radio {
-
-			margin-top: 0;
-		}
-
-		.form-group-footer {
-
-			position: sticky;
-			bottom: 0;
-			padding: 16px 0;
-			margin: 0;
-			border-top: 1px solid rgba(255, 255, 255, .4);
-		}
 	}
 }
 
@@ -547,39 +669,37 @@ fieldset .form-control {
 
 	background: darken(@blue, 5%);
 
-	.content {
+	.btn-primary,
+	.nav a {
 
-		.btn-primary,
-		.nav a {
+		background: @darkBlue;
 
-			background: @darkBlue;
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
 
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkBlue, 4%);
-			}
+			background: darken(@darkBlue, 4%);
 		}
+	}
 
-		.btn-default {
+	.btn-default,
+	a.list-group-item {
 
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
 
-				background: @lightBlue;
-			}
+			background: @lightBlue;
 		}
+	}
 
-		.form-group-footer {
+	.sticky-footer {
 
-			background: darken(@blue, 5%);
-		}
+		background: darken(@blue, 5%);
 	}
 }
 
@@ -588,39 +708,37 @@ fieldset .form-control {
 
 	background: darken(@green, 5%);
 
-	.content {
+	.btn-primary,
+	.nav a {
 
-		.btn-primary,
-		.nav a {
+		background: @darkGreen;
 
-			background: @darkGreen;
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
 
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkGreen, 4%);
-			}
+			background: darken(@darkGreen, 4%);
 		}
+	}
 
-		.btn-default {
+	.btn-default,
+	a.list-group-item {
 
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
 
-				background: @lightGreen;
-			}
+			background: @lightGreen;
 		}
+	}
 
-		.form-group-footer {
+	.sticky-footer {
 
-			background: darken(@green, 5%);
-		}
+		background: darken(@green, 5%);
 	}
 }
 
@@ -629,39 +747,37 @@ fieldset .form-control {
 
 	background: darken(@red, 5%);
 
-	.content {
+	.btn-primary,
+	.nav a {
 
-		.btn-primary,
-		.nav a {
+		background: @darkRed;
 
-			background: @darkRed;
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
 
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkRed, 4%);
-			}
+			background: darken(@darkRed, 4%);
 		}
+	}
 
-		.btn-default {
+	.btn-default,
+	a.list-group-item {
 
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
 
-				background: @lightRed;
-			}
+			background: @lightRed;
 		}
+	}
 
-		.form-group-footer {
+	.sticky-footer {
 
-			background: darken(@red, 5%);
-		}
+		background: darken(@red, 5%);
 	}
 }
 
@@ -673,39 +789,37 @@ fieldset .form-control {
 
 	background: darken(@orange, 5%);
 
-	.content {
+	.btn-primary,
+	.nav a {
 
-		.btn-primary,
-		.nav a {
+		background: @darkOrange;
 
-			background: @darkOrange;
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
 
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkOrange, 4%);
-			}
+			background: darken(@darkOrange, 4%);
 		}
+	}
 
-		.btn-default {
+	.btn-default,
+	a.list-group-item {
 
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
 
-				background: @lightOrange;
-			}
+			background: @lightOrange;
 		}
+	}
 
-		.form-group-footer {
+	.sticky-footer {
 
-			background: darken(@orange, 5%);
-		}
+		background: darken(@orange, 5%);
 	}
 }
 
