@@ -23,6 +23,6 @@ function (
 
 		model: userModel,
 
-		comparator: 'nom'
+		comparator: 'displayName',
 	});
 });
