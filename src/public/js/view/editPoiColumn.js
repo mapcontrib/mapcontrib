@@ -41,6 +41,12 @@ function (
 		ui: {
 
 			'column': '#edit_poi_column',
+			'addButton': '.add_btn',
+		},
+
+		events: {
+
+			'click @ui.addButton': 'onClickAdd',
 		},
 
 		initialize: function () {
@@ -66,6 +72,11 @@ function (
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		onClickAdd: function () {
+
+			this._radio.commands.execute('showPoiLayer');
 		},
 	});
 });

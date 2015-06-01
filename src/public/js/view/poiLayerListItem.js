@@ -44,6 +44,13 @@ function (
 			'click @ui.remove_btn': 'onClickRemove',
 		},
 
+		initialize: function () {
+
+			var self = this;
+
+			this._radio = Backbone.Wreqr.radio.channel('global');
+		},
+
 		onRender: function () {
 
 			this.el.id = 'poi-layer-'+ this.model.cid;
@@ -51,7 +58,7 @@ function (
 
 		onClick: function () {
 
-			console.log('click');
+			this._radio.commands.execute( 'showPoiLayer', this.model.get('_id') );
 		},
 
 		onClickRemove: function (e) {

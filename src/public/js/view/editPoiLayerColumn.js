@@ -21,7 +21,7 @@ function (
 
 	return Marionette.ItemView.extend({
 
-		template: JST['editPoiAddLayerColumn.html'],
+		template: JST['editPoiLayerColumn.html'],
 
 		behaviors: {
 
@@ -31,9 +31,12 @@ function (
 
 		ui: {
 
-			'column': '#edit_poi_add_layer_column',
+			'column': '#edit_poi_layer_column',
 
 			'layerName': '#layer_name',
+			'layerDescription': '#layer_description',
+			'layerOverpassRequest': '#layer_overpass_request',
+			'layerPopupContent': '#layer_popup_content',
 		},
 
 		events: {
@@ -65,34 +68,32 @@ function (
 
 			e.preventDefault();
 
-			// var self = this,
-			// map = this._radio.reqres.request('map'),
-			// mapCenter = map.getCenter(),
-			// mapZoomLevel = map.getZoom();
-			//
-			// this.model.set('name', this.ui.profileName.val());
-			// this.model.set('description', this.ui.profileDescription.val());
-			//
-			// if ( this.ui.profilePositionSetNew.prop('checked') === true ) {
-			//
-			// 	this.model.set('center', mapCenter);
-			// 	this.model.set('zoomLevel', mapZoomLevel);
-			// }
-			//
-			// this.model.save({}, {
-			//
-			// 	'success': function () {
-			//
-			// 		self._oldModel = self.model.clone();
-			//
-			// 		self.close();
-			// 	},
-			// 	'error': function () {
-			//
-			// 		// FIXME
-			// 		console.error('nok');
-			// 	},
-			// });
+			var self = this;
+
+			this.model.set('name', this.ui.layerName.val());
+			this.model.set('description', this.ui.layerDescription.val());
+			this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
+			this.model.set('popupContent', this.ui.layerPopupContent.val());
+
+			if ( !this.model.get('_id') ) {
+
+				this._radio.reqres.request('poiLayers').add( this.model );
+			}
+
+			this.model.save({}, {
+
+				'success': function () {
+
+					self._oldModel = self.model.clone();
+
+					self.close();
+				},
+				'error': function () {
+
+					// FIXME
+					console.error('nok');
+				},
+			});
 		},
 
 		onReset: function () {

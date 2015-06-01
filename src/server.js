@@ -248,17 +248,6 @@ function logout(req, res) {
 
 function apiPost(req, res, content_type) {
 
-	if (req.body.userId !== req.user) {
-
-		res.status(400).send({
-
-			'error': 'Mauvais parametre'
-		});
-
-		return true;
-	}
-
-
 	var collection = database.collection(content_type);
 
 	collection.insert(req.body, {'safe': true}, function (err, results) {

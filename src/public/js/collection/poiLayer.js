@@ -31,11 +31,16 @@ function (
 		initialize: function (models, options) {
 
 			this.options = options;
-			
+
 			this.on('add', this.onAdd);
 		},
 
 		onAdd: function (model) {
+
+			if (model.get('_id')) {
+
+				return;
+			}
 
 			var max_order_model = _.max( this.models, function (model) {
 

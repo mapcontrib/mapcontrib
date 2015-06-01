@@ -18,10 +18,12 @@ define([
 	'view/contribColumn',
 	'view/editSettingColumn',
 	'view/editPoiColumn',
+	'view/editPoiLayerColumn',
 	'view/editTileColumn',
 	'view/tipOfTheDay',
 
 	'model/profile',
+	'model/poiLayer',
 
 	'collection/poiLayer',
 ],
@@ -43,10 +45,12 @@ function (
 	ContribColumnView,
 	EditSettingColumnView,
 	EditPoiColumnView,
+	EditPoiLayerColumnView,
 	EditTileColumnView,
 	TipOfTheDayView,
 
 	ProfileModel,
+	PoiLayerModel,
 
 	PoiLayerCollection
 ) {
@@ -106,6 +110,7 @@ function (
 			'contribColumn': '#rg_contrib_column',
 			'editSettingColumn': '#rg_edit_setting_column',
 			'editPoiColumn': '#rg_edit_poi_column',
+			'editPoiLayerColumn': '#rg_edit_poi_layer_column',
 			'editTileColumn': '#rg_edit_tile_column',
 
 			'tipOfTheDay': '#rg_tip_of_the_day',
@@ -173,6 +178,11 @@ function (
 			this._radio.reqres.setHandler('poiLayers', function () {
 
 				return this._poiLayers;
+			}, this);
+
+			this._radio.commands.setHandler('showPoiLayer', function (layerId) {
+
+				self.onCommandShowPoiLayer( layerId );
 			}, this);
 
 
@@ -297,6 +307,7 @@ function (
 
 			_.each(this._poiLayers.models, function (poiLayerModel) {
 
+				console.log(poiLayerModel.get('overpassRequest'));
 				this._map.addLayer(
 
 					new L.OverPassLayer({
@@ -461,6 +472,37 @@ function (
 			this.ui.editButton.addClass('hide');
 			this.ui.editToolbar.removeClass('open');
 		},
+
+
+
+		onCommandShowPoiLayer: function (layerId) {
+
+			var view;
+
+			if (layerId) {
+
+				view = new EditPoiLayerColumnView({
+
+					'model': this._poiLayers.findWhere({ '_id': layerId })
+				});
+			}
+			else {
+
+				view = new EditPoiLayerColumnView({
+
+					'model': new PoiLayerModel({ 'profileId': this.model.get('_id') })
+				});
+			}
+
+			this.getRegion('editPoiLayerColumn').show( view );
+
+			window.requestAnimationFrame(function () {
+
+				view.open();
+			});
+		},
+
+
 
 		onClickZoomIn: function () {
 
