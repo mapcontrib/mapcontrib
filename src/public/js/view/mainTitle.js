@@ -122,18 +122,18 @@ function (
 
 		setDescription: function () {
 
-            var description = this.model.get('description');
+			var description = this.model.get('description');
 
-            if ( description ) {
+			if ( description ) {
 
-	             this.ui.description.html( description );
-                 this.ui.descriptionButton.removeClass('hide');
-            }
-            else {
+				this.ui.description.html( description );
+				this.ui.descriptionButton.removeClass('hide');
+			}
+			else {
 
-	             this.ui.description.html('');
-                 this.ui.descriptionButton.addClass('hide');
-            }
+				this.ui.description.html('');
+				this.ui.descriptionButton.addClass('hide');
+			}
 		},
 
 		onClickDescription: function () {
