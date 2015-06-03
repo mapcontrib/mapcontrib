@@ -27,6 +27,20 @@ function (
 			'click @ui.closeBtn': 'onClickClose',
 		},
 
+		initialize: function () {
+
+			var self = this;
+
+			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			this.listenTo(this._radio.vent, 'column:closeAll', this.onClose);
+		},
+
+		onDestroy: function () {
+
+			this.stopListening(this._radio.vent, 'column:closeAll');
+		},
+
 		onOpen: function () {
 
 			this.ui.column.addClass('open');

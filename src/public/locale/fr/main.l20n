@@ -58,6 +58,10 @@ de se connecter à votre compte OpenStreetMap.
 """>
 
 
+/* POI column */
+<poiColumn_title "Centres d'intérêts">
+
+
 /* User column */
 <userColumn_title "Mon compte">
 

@@ -49,6 +49,8 @@ function (
 
 		open: function () {
 
+			this._radio.vent.trigger('column:closeAll');
+
 			this.triggerMethod('open');
 		},
 

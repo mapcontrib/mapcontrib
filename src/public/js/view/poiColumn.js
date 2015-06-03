@@ -21,7 +21,7 @@ function (
 
 	return Marionette.LayoutView.extend({
 
-		template: JST['editTileColumn.html'],
+		template: JST['poiColumn.html'],
 
 		behaviors: {
 
@@ -31,7 +31,7 @@ function (
 
 		ui: {
 
-			'column': '#edit_tile_column',
+			'column': '#poi_column',
 		},
 
 		initialize: function () {

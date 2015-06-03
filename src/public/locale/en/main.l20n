@@ -58,6 +58,10 @@ to connect to your OpenStreetMap account.
 """>
 
 
+/* POI column */
+<poiColumn_title "Points of interest">
+
+
 /* User column */
 <userColumn_title "My account">
 

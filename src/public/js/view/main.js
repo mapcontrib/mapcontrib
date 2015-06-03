@@ -13,6 +13,7 @@ define([
 
 	'view/mainTitle',
 	'view/loginModal',
+	'view/poiColumn',
 	'view/userColumn',
 	'view/linkColumn',
 	'view/contribColumn',
@@ -40,6 +41,7 @@ function (
 
 	MainTitleView,
 	LoginModalView,
+	PoiColumnView,
 	UserColumnView,
 	LinkColumnView,
 	ContribColumnView,
@@ -105,6 +107,7 @@ function (
 
 			'loginModal': '#rg_login_modal',
 
+			'poiColumn': '#rg_poi_column',
 			'userColumn': '#rg_user_column',
 			'linkColumn': '#rg_link_column',
 			'contribColumn': '#rg_contrib_column',
@@ -124,6 +127,7 @@ function (
 			'click @ui.locateWaitButton': 'onClickLocateWait',
 			'click @ui.expandScreenButton': 'onClickExpandScreen',
 			'click @ui.compressScreenButton': 'onClickCompressScreen',
+			'click @ui.controlPoiButton': 'onClickPoi',
 
 			'click @ui.helpButton': 'onClickHelp',
 			'click @ui.helpCloseButton': 'onClickHelpClose',
@@ -210,6 +214,7 @@ function (
 			}
 
 
+			this._poiColumnView = new PoiColumnView();
 			this._userColumnView = new UserColumnView();
 			this._linkColumnView = new LinkColumnView({ 'model': this.model });
 			this._contribColumnView = new ContribColumnView({ 'model': this.model });
@@ -220,6 +225,7 @@ function (
 
 			this.getRegion('mainTitle').show( new MainTitleView({ 'model': this.model }) );
 
+			this.getRegion('poiColumn').show( this._poiColumnView );
 			this.getRegion('userColumn').show( this._userColumnView );
 			this.getRegion('linkColumn').show( this._linkColumnView );
 			this.getRegion('contribColumn').show( this._contribColumnView );
@@ -597,6 +603,11 @@ function (
 
 			this.ui.compressScreenButton.addClass('hide');
 			this.ui.expandScreenButton.removeClass('hide');
+		},
+
+		onClickPoi: function () {
+
+			this._poiColumnView.open();
 		},
 
 		onClickHelp: function () {

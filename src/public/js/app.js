@@ -102,7 +102,7 @@ require(['requireConfig'], function () {
 				this._radio.vent.on('session:unlogged', function (){
 
 					self._var.isLogged = false;
-					
+
 					self._model.user = new UserModel();
 				});
 

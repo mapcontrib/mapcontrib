@@ -39,6 +39,8 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			this._radio.vent.trigger('column:closeAll');
 		},
 
 		close: function () {

@@ -30,6 +30,10 @@
 @lightGreen: lighten(@green, 2%);
 @darkGreen: darken(@green, 10%);
 
+@gray: #eee;
+@lightGray: lighten(@gray, 2%);
+@darkGray: darken(@gray, 4%);
+
 @anthracite: #3B3F45;
 @lightAnthracite: lighten(@anthracite, 8%);
 @darkAnthracite: darken(@anthracite, 10%);
@@ -71,6 +75,10 @@
 
 
 
+body {
+
+	color: @anthracite;
+}
 
 h1, h2, h3, h4, h5, h6,
 .control-label {
@@ -436,108 +444,26 @@ fieldset .form-control {
 	z-index: @columnZIndex;
 	top: @titleHeight;
 	bottom: 0;
-	left: 100%;
 	width: 300px;
 	max-width: 100%;
 	.transition( transform ease-out .2s );
-	color: #fff;
+	background: #fff;
 
-	&.open {
+	&.right {
 
+		right: 0;
+		.transform( translate(100%, 0) );
+	}
+
+	&.left {
+
+		left: 0;
 		.transform( translate(-100%, 0) );
 	}
 
-	a {
+	&.open {
 
-		color: #fff;
-		text-decoration: underline;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus,
-		&.btn {
-
-			color: #fff;
-			text-decoration: none;
-		}
-	}
-
-	.nav a,
-	a.list-group-item {
-
-		text-decoration: none;
-	}
-
-	input,
-	select,
-	textarea,
-	.form-control,
-	fieldset .form-control {
-
-		border-color: transparent;
-
-		&:hover,
-		&.focus,
-		&:focus,
-		&.active,
-		&:active {
-
-			border-color: transparent;
-		}
-	}
-
-	input,
-	.btn-primary {
-
-		border-color: transparent;
-	}
-
-	.btn-primary,
-	.btn-link,
-	.nav a {
-
-		color: #fff;
-	}
-
-	.list-group {
-
-		background: inherit;
-	}
-
-	.btn-default,
-	.list-group-item {
-
-		background: inherit;
-		border-color: rgba(255, 255, 255, .4);
-		color: #fff;
-
-		&:hover,
-		&.focus,
-		&:focus,
-		&.active,
-		&:active {
-
-			border-color: rgba(255, 255, 255, .5);
-			color: #fff;
-		}
-	}
-
-	.list-group-item {
-
-		border-top-color: rgba(255, 255, 255, .2);
-		border-bottom-color: rgba(255, 255, 255, .2);
-
-		&:first-child {
-
-			border-top-color: rgba(255, 255, 255, .4);
-		}
-
-		&:last-child {
-
-			border-bottom-color: rgba(255, 255, 255, .4);
-		}
+		.transform( translate(0, 0) );
 	}
 
 	.list-group.reorderable {
@@ -555,7 +481,7 @@ fieldset .form-control {
 				height: 40px;
 				line-height: 40px;
 				padding: 0 6px;
-				color: rgba(255, 255, 255, .4);
+				color: @lightAnthracite;
 				cursor: move;
 			}
 		}
@@ -575,7 +501,7 @@ fieldset .form-control {
 				height: 40px;
 				background: transparent;
 				border-color: transparent;
-				color: #fff;
+				color: @anthracite;
 				visibility: hidden;
 
 				&:hover,
@@ -584,8 +510,8 @@ fieldset .form-control {
 				&.active,
 				&:active {
 
-					background: rgba(255, 255, 255, .2);
-					color: #fff;
+					background: lighten(@anthracite, 80%);
+					color: @anthracite;
 				}
 			}
 
@@ -601,18 +527,6 @@ fieldset .form-control {
 				}
 			}
 		}
-	}
-
-	.help-block {
-
-		color: #fff;
-	}
-
-	.table-bordered,
-	.table-bordered th,
-	.table-bordered td, {
-
-		border-color: #fff;
 	}
 
 	textarea {
@@ -631,13 +545,12 @@ fieldset .form-control {
 		bottom: 0;
 		padding: 20px 0;
 		margin: 0;
-		border-top: 1px solid rgba(255, 255, 255, .4);
+		border-top: 1px solid @lightAnthracite;
 	}
 
 	header {
 
 		height: @columnTitleHeight;
-		border: 1px solid transparent;
 
 		h2 {
 
@@ -648,7 +561,7 @@ fieldset .form-control {
 
 		.close_btn {
 
-			color: #fff;
+			color: @lightAnthracite;
 		}
 	}
 
@@ -661,11 +574,189 @@ fieldset .form-control {
 		right: 0;
 		overflow: auto;
 	}
+
+	.nav a {
+
+		color: @anthracite;
+		background: @gray;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			color: @anthracite;
+			background: @darkGray;
+		}
+	}
+
+
+
+	&.blue,
+	&.green,
+	&.red,
+	&.orange {
+
+		color: #fff;
+
+		a {
+
+			color: #fff;
+			text-decoration: underline;
+
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus,
+			&.btn {
+
+				color: #fff;
+				text-decoration: none;
+			}
+		}
+
+		.nav a,
+		a.list-group-item {
+
+			text-decoration: none;
+		}
+
+		input,
+		select,
+		textarea,
+		.form-control,
+		fieldset .form-control {
+
+			border-color: transparent;
+
+			&:hover,
+			&.focus,
+			&:focus,
+			&.active,
+			&:active {
+
+				border-color: transparent;
+			}
+		}
+
+		input,
+		.btn-primary {
+
+			border-color: transparent;
+		}
+
+		.btn-primary,
+		.btn-link,
+		.nav a {
+
+			color: #fff;
+		}
+
+		.list-group {
+
+			background: inherit;
+		}
+
+		.btn-default,
+		.list-group-item {
+
+			background: inherit;
+			border-color: rgba(255, 255, 255, .4);
+			color: #fff;
+
+			&:hover,
+			&.focus,
+			&:focus,
+			&.active,
+			&:active {
+
+				border-color: rgba(255, 255, 255, .5);
+				color: #fff;
+			}
+		}
+
+		.list-group-item {
+
+			border-top-color: rgba(255, 255, 255, .2);
+			border-bottom-color: rgba(255, 255, 255, .2);
+
+			&:first-child {
+
+				border-top-color: rgba(255, 255, 255, .4);
+			}
+
+			&:last-child {
+
+				border-bottom-color: rgba(255, 255, 255, .4);
+			}
+		}
+
+		.list-group.reorderable {
+
+			.list-group-item {
+
+				.reorder_icon {
+
+					color: rgba(255, 255, 255, .4);
+				}
+			}
+		}
+
+		.list-group.removeable {
+
+			.list-group-item {
+
+				.remove_btn {
+
+					background: transparent;
+					border-color: transparent;
+					color: #fff;
+
+					&:hover,
+					&.focus,
+					&:focus,
+					&.active,
+					&:active {
+
+						background: rgba(255, 255, 255, .2);
+						color: #fff;
+					}
+				}
+			}
+		}
+
+		.help-block {
+
+			color: #fff;
+		}
+
+		.table-bordered,
+		.table-bordered th,
+		.table-bordered td, {
+
+			border-color: #fff;
+		}
+
+		.sticky-footer {
+
+			border-top: 1px solid rgba(255, 255, 255, .4);
+		}
+
+		header {
+
+			.close_btn {
+
+				color: #fff;
+			}
+		}
+	}
 }
 
 
 
-#user_column {
+.column.blue {
 
 	background: darken(@blue, 5%);
 
@@ -704,7 +795,7 @@ fieldset .form-control {
 }
 
 
-#link_column {
+.column.green {
 
 	background: darken(@green, 5%);
 
@@ -743,7 +834,7 @@ fieldset .form-control {
 }
 
 
-#contrib_column {
+.column.red {
 
 	background: darken(@red, 5%);
 
@@ -783,10 +874,7 @@ fieldset .form-control {
 
 
 
-#edit_setting_column,
-#edit_poi_column,
-#edit_poi_layer_column,
-#edit_tile_column {
+.column.orange {
 
 	background: darken(@orange, 5%);
 
