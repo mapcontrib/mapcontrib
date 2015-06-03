@@ -78,7 +78,7 @@ module.exports = function(grunt) {
 
 			options: {
 
-				'-W099': true, // Mixed spaces and tabs
+				'laxbreak': true, // W014
 				ignores: [
 
 					'src/public/js/require.js'
@@ -191,6 +191,11 @@ module.exports = function(grunt) {
 		'concat:libraries_css',
 		'copy:requirejs',
 		'copy:font_awesome',
+	]);
+
+	grunt.registerTask('pre-commit', [
+
+		'jshint',
 	]);
 
 	grunt.registerTask('build', [
