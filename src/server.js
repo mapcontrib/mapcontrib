@@ -588,7 +588,7 @@ app.get('/api/user/logout',	logout);
 app.get('/api/user/:_id', isLoggedIn, apiGetUser);
 app.put('/api/user/:_id', isLoggedIn, apiPutUser);
 
-app.get('/api/profile/:profileId/poiLayers', isLoggedIn, apiGetPoiLayers);
+app.get('/api/profile/:profileId/poiLayers', apiGetPoiLayers);
 
 
 var list_content_types = [

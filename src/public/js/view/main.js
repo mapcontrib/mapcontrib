@@ -303,120 +303,150 @@ function (
 
 			var self = this;
 
-			this._poiIds = [];
+			this._mapLayers = {};
 
 			_.each(this._poiLayers.models, function (poiLayerModel) {
 
-				console.log(poiLayerModel.get('overpassRequest'));
-				this._map.addLayer(
-
-					new L.OverPassLayer({
-
-						// 'endpoint': 'http://api.openstreetmap.fr/oapi/',
-						'endpoint': 'http://overpass.osm.rambler.ru/cgi/',
-						'minzoom': poiLayerModel.get('minZoom'),
-						'query': poiLayerModel.get('overpassRequest'),
-						'callback': function(data){
-
-							var wayBodyNodes = {};
-
-							data.elements.forEach(function (e) {
-
-								if ( e.tags ) {
-
-									return;
-								}
-
-								wayBodyNodes[e.id] = e;
-							});
-
-
-							data.elements.forEach(function (e) {
-
-								var pos,
-								popupContent = '';
-
-								if( !e.tags ) {
-
-									return;
-								}
-
-								if ( self._poiIds.indexOf(e.id) > -1 ) {
-
-									return;
-								}
-
-								self._poiIds.push(e.id);
-
-
-								if(e.tags.name) {
-
-									popupContent += '<h3>' + e.tags.name + '</h3>';
-								}
-								else {
-
-									popupContent += '<h3 class="text-muted">Sans nom</h3>';
-								}
-
-
-								if(e.type === 'node') {
-
-									pos = new L.LatLng(e.lat, e.lon);
-								}
-								else {
-
-									pos = new L.LatLng(e.center.lat, e.center.lon);
-
-									if ( e.nodes ) {
-
-										var nodePositions = [];
-
-										e.nodes.forEach(function (node) {
-
-											if ( wayBodyNodes[node] ) {
-
-												nodePositions.push(
-
-													L.latLng(
-
-														wayBodyNodes[node].lat,
-														wayBodyNodes[node].lon
-													)
-												);
-											}
-										});
-
-										self._map.addLayer(
-
-											L.polygon( nodePositions ).bindPopup(popupContent)
-										);
-									}
-								}
-
-								self._map.addLayer(
-
-									L.marker(pos, {
-
-										'icon': L.icon({
-
-											iconUrl: 'img/leaf-green.png',
-											shadowUrl: 'img/leaf-shadow.png',
-
-											iconSize:     [38, 95], // size of the icon
-											shadowSize:   [50, 64], // size of the shadow
-											iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-											shadowAnchor: [4, 62],  // the same for the shadow
-											popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-										})
-									})
-									.bindPopup(popupContent)
-								);
-							});
-						}
-					})
-				);
+				this.addPoiLayer( poiLayerModel );
 
 			}, this);
+
+			this._poiLayers.on('add', function (model) {
+
+				this.addPoiLayer(model);
+			}, this);
+
+			this._poiLayers.on('destroy', function (model) {
+
+				this.removePoiLayer(model);
+			}, this);
+		},
+
+		addPoiLayer: function (poiLayerModel) {
+
+			var self = this,
+			layerGroup = L.layerGroup();
+
+			layerGroup._poiIds = [];
+
+			layerGroup.addLayer(
+
+				new L.OverPassLayer({
+
+					// 'endpoint': 'http://api.openstreetmap.fr/oapi/',
+					'endpoint': 'http://overpass.osm.rambler.ru/cgi/',
+					'minzoom': poiLayerModel.get('minZoom'),
+					'query': poiLayerModel.get('overpassRequest'),
+					'callback': function(data) {
+
+						var wayBodyNodes = {};
+
+						data.elements.forEach(function (e) {
+
+							if ( e.tags ) {
+
+								return;
+							}
+
+							wayBodyNodes[e.id] = e;
+						});
+
+
+						data.elements.forEach(function (e) {
+
+							var pos,
+							popupContent = '';
+
+							if( !e.tags ) {
+
+								return;
+							}
+
+							if ( layerGroup._poiIds.indexOf(e.id) > -1 ) {
+
+								return;
+							}
+
+							layerGroup._poiIds.push(e.id);
+
+
+							if(e.tags.name) {
+
+								popupContent += '<h3>' + e.tags.name + '</h3>';
+							}
+							else {
+
+								popupContent += '<h3 class="text-muted">Sans nom</h3>';
+							}
+
+
+							if(e.type === 'node') {
+
+								pos = new L.LatLng(e.lat, e.lon);
+							}
+							else {
+
+								pos = new L.LatLng(e.center.lat, e.center.lon);
+
+								if ( e.nodes ) {
+
+									var nodePositions = [];
+
+									e.nodes.forEach(function (node) {
+
+										if ( wayBodyNodes[node] ) {
+
+											nodePositions.push(
+
+												L.latLng(
+
+													wayBodyNodes[node].lat,
+													wayBodyNodes[node].lon
+												)
+											);
+										}
+									});
+
+									layerGroup.addLayer(
+
+										L.polygon( nodePositions ).bindPopup(popupContent)
+									);
+								}
+							}
+
+							layerGroup.addLayer(
+
+								L.marker(pos, {
+
+									'icon': L.icon({
+
+										iconUrl: 'img/leaf-green.png',
+										shadowUrl: 'img/leaf-shadow.png',
+
+										iconSize:     [38, 95], // size of the icon
+										shadowSize:   [50, 64], // size of the shadow
+										iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+										shadowAnchor: [4, 62],  // the same for the shadow
+										popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+									})
+								})
+								.bindPopup(popupContent)
+							);
+						});
+					}
+				})
+			);
+
+			this._mapLayers[ poiLayerModel.cid ] = layerGroup;
+
+			this._map.addLayer( this._mapLayers[ poiLayerModel.cid ] );
+		},
+
+		removePoiLayer: function (poiLayerModel) {
+
+			this._map.removeLayer( this._mapLayers[ poiLayerModel.cid ] );
+
+			delete( this._mapLayers[ poiLayerModel.cid ] );
 		},
 
 		renderUserButtonLogged: function () {
