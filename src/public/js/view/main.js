@@ -426,7 +426,7 @@ function (
 										}
 									});
 
-									var polygon = L.polygon( nodePositions );
+									var polygon = L.polygon( nodePositions, CONST.map.wayPolygonOptions );
 
 									if ( popupContent ) {
 
