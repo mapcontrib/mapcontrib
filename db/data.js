@@ -30,10 +30,10 @@ db.poiLayer.insert({
 	'_id' : ObjectId('5249c43c6e789470197b5974'),
 	'profileId': '5249c43c6e789470197b5973',
 	'name': 'Déchèteries',
-	'description': 'Liste des déchèteries contenues dans la bounding box',
+	'description': 'Déchèteries, centres de tri, etc.',
 	'overpassRequest': "(node['amenity'='recycling']['recycling_type'='centre'](BBOX);relation['amenity'='recycling']['recycling_type'='centre'](BBOX);way['amenity'='recycling']['recycling_type'='centre'](BBOX));out body center;>;out skel;",
 	'minZoom': 14,
-	'popupContent': '',
+	'popupContent': '#Nom : {name}\n\n_Amenity :_ {amenity}',
 	'order': 0,
 });
 
@@ -42,9 +42,9 @@ db.poiLayer.insert({
 	'_id' : ObjectId('5249c43c6e789470197b5975'),
 	'profileId': '5249c43c6e789470197b5973',
 	'name': 'Poubelles',
-	'description': 'Liste des poubelles contenues dans la bounding box',
+	'description': 'Poubelles de toutes sortes',
 	'overpassRequest': "(node['amenity'='waste_basket'](BBOX);relation['amenity'='waste_basket'](BBOX);way['amenity'='waste_basket'](BBOX));out body center;>;out skel;",
 	'minZoom': 14,
-	'popupContent': '',
+	'popupContent': '#Nom : {name}\n\n_Amenity :_ {amenity}',
 	'order': 1,
 });

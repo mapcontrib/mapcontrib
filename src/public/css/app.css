@@ -136,6 +136,23 @@ fieldset .form-control:active {
   -o-border-radius: 0;
   border-radius: 0;
 }
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content {
+  margin: 20px;
+}
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h1 {
+  font-size: 24px;
+}
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h2 {
+  font-size: 18px;
+}
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h3 {
+  font-size: 14px;
+}
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h4,
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h5,
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h6 {
+  font-size: 16px;
+}
 #main_map .leaflet-control-minZoomIndicator {
   display: none !important;
 }

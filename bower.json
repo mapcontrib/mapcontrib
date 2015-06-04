@@ -18,6 +18,7 @@
     "l20n": "~1.0.2",
     "jquery-ui-sortable": "*",
     "jqueryui-touch-punch": "*",
-    "awesome-bootstrap-checkbox": "~0.3.4"
+    "awesome-bootstrap-checkbox": "~0.3.4",
+    "markdown": "~0.5.0"
   }
 }

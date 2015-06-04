@@ -10,6 +10,7 @@ define([
 	'const',
 	'leaflet',
 	'leaflet-layer-overpass',
+	'markdown',
 
 	'view/mainTitle',
 	'view/loginModal',
@@ -38,6 +39,7 @@ function (
 	CONST,
 	L,
 	overpasseLayer,
+	markdown,
 
 	MainTitleView,
 	LoginModalView,
@@ -371,9 +373,6 @@ function (
 
 						data.elements.forEach(function (e) {
 
-							var pos,
-							popupContent = '';
-
 							if( !e.tags ) {
 
 								return;
@@ -387,14 +386,17 @@ function (
 							layerGroup._poiIds.push(e.id);
 
 
-							if(e.tags.name) {
+							var pos, re,
+							popupContent = markdown.toHTML( poiLayerModel.get('popupContent') );
 
-								popupContent += '<h3>' + e.tags.name + '</h3>';
-							}
-							else {
+							for (var k in e.tags) {
 
-								popupContent += '<h3 class="text-muted">Sans nom</h3>';
+								re = new RegExp('{'+ k +'}', 'g');
+
+								popupContent = popupContent.replace( re, e.tags[k] );
 							}
+
+							popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
 
 
 							if(e.type === 'node') {

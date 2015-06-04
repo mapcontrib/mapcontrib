@@ -24,6 +24,7 @@ requirejs.config({
 		'fullscreen-polyfill': '../bower_components/Fullscreen-API-Polyfill/fullscreen-api-polyfill',
 		'tools': 'tools',
 		'l20n': '../bower_components/l20n/l20n.min',
+		'markdown': '../bower_components/markdown/lib/markdown',
 	},
 
 	shim: {
@@ -51,6 +52,10 @@ requirejs.config({
 		'jquery-ui-touch-punch': {
 
 			deps: ['jquery-ui-sortable']
+		},
+		'markdown': {
+
+			exports: 'markdown'
 		},
 	}
 });
