@@ -63,7 +63,7 @@ function (
 
 			return {
 
-				'description': markdown.toHTML( this.model.get('description') )
+				'description': markdown.toHTML( this.model.get('description') ),
 			};
 		},
 
@@ -132,7 +132,7 @@ function (
 
 		setDescription: function () {
 
-			var description = this.model.get('description');
+			var description = markdown.toHTML( this.model.get('description') );
 
 			if ( description ) {
 
