@@ -118,6 +118,9 @@ fieldset .form-control:active {
   /* Fixes a placement bug on items when they are moved/dragged more than once */
   position: relative;
 }
+.list-group .list-group-item label .help-block {
+  margin-bottom: 0;
+}
 #main_map {
   position: fixed;
   z-index: 1000;

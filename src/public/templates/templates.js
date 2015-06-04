@@ -160,9 +160,11 @@ __p += '<div class="checkbox">\n\t<input type="checkbox" id="poi_layer_visibilit
 ((__t = ( _id )) == null ? '' : __t) +
 '" class="visibility_checkbox" value="1">\n\t<label for="poi_layer_visibility_' +
 ((__t = ( _id )) == null ? '' : __t) +
-'">' +
+'">\n\t\t' +
 ((__t = ( name )) == null ? '' : __t) +
-'</label>\n</div>\n';
+'\n\t\t<div class="help-block">\n\t\t\t' +
+((__t = ( description )) == null ? '' : __t) +
+'\n\t\t</div>\n\t</label>\n</div>\n';
 
 }
 return __p
