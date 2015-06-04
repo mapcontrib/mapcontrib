@@ -29,6 +29,9 @@ h6,
 .nowrap {
   white-space: nowrap;
 }
+textarea.font-monospace {
+  font-size: 12px;
+}
 input[disabled],
 select[disabled],
 textarea[disabled],
