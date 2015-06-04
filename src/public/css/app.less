@@ -143,7 +143,8 @@ fieldset .form-control {
 
 	.list-group-item {
 
-		label .help-block {
+		label .help-block,
+		label .help-block p:last-child {
 
 			margin-bottom: 0;
 		}
@@ -809,6 +810,16 @@ fieldset .form-control {
 		.help-block {
 
 			color: #fff;
+
+		}
+
+		input[type="text"] + .help-block,
+		textarea + .help-block {
+
+			background: rgba(255, 255, 255, .15);
+			padding: 4px 6px;
+			margin-top: 0;
+			font-size: 12px;
 		}
 
 		.table-bordered,

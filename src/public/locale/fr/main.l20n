@@ -13,6 +13,9 @@
 <pageTitleWithMapName "{{ $map.name }} - {{ rudomap }}">
 
 
+<markdownAvailable "Format Markdown disponible">
+
+
 <buttonDescriptionTooltip title:"Lire la description">
 <buttonZoomInTooltip title:"Vue rapprochée">
 <buttonZoomOutTooltip title:"Vue éloignée">

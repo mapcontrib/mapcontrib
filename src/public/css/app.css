@@ -118,7 +118,8 @@ fieldset .form-control:active {
   /* Fixes a placement bug on items when they are moved/dragged more than once */
   position: relative;
 }
-.list-group .list-group-item label .help-block {
+.list-group .list-group-item label .help-block,
+.list-group .list-group-item label .help-block p:last-child {
   margin-bottom: 0;
 }
 #main_map {
@@ -878,6 +879,19 @@ fieldset .form-control:active {
 .column.red .help-block,
 .column.orange .help-block {
   color: #fff;
+}
+.column.blue input[type="text"] + .help-block,
+.column.green input[type="text"] + .help-block,
+.column.red input[type="text"] + .help-block,
+.column.orange input[type="text"] + .help-block,
+.column.blue textarea + .help-block,
+.column.green textarea + .help-block,
+.column.red textarea + .help-block,
+.column.orange textarea + .help-block {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 6px;
+  margin-top: 0;
+  font-size: 12px;
 }
 .column.blue .table-bordered,
 .column.green .table-bordered,

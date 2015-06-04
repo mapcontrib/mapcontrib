@@ -5,12 +5,14 @@ define([
 	'underscore',
 	'backbone',
 	'settings',
+	'markdown',
 ],
 function (
 
 	_,
 	Backbone,
-	settings
+	settings,
+	markdown
 ) {
 
 	'use strict';
@@ -51,6 +53,14 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
 			this._layerIsVisible = true;
+		},
+
+		templateHelpers: function () {
+
+			return {
+
+				'description': markdown.toHTML( this.model.get('description') ),
+			};
 		},
 
 		onRender: function () {
