@@ -507,6 +507,44 @@ fieldset .form-control:active {
 .column.orange {
   color: #fff;
 }
+.column.blue input[type="radio"] + label::before,
+.column.green input[type="radio"] + label::before,
+.column.red input[type="radio"] + label::before,
+.column.orange input[type="radio"] + label::before {
+  background-color: transparent;
+  border-color: #fff;
+}
+.column.blue input[type="radio"] + label::after,
+.column.green input[type="radio"] + label::after,
+.column.red input[type="radio"] + label::after,
+.column.orange input[type="radio"] + label::after {
+  background-color: transparent;
+}
+.column.blue input[type="radio"]:checked + label::before,
+.column.green input[type="radio"]:checked + label::before,
+.column.red input[type="radio"]:checked + label::before,
+.column.orange input[type="radio"]:checked + label::before {
+  border-color: #fff;
+}
+.column.blue input[type="radio"]:checked + label::after,
+.column.green input[type="radio"]:checked + label::after,
+.column.red input[type="radio"]:checked + label::after,
+.column.orange input[type="radio"]:checked + label::after {
+  background-color: #fff;
+}
+.column.blue input[type="checkbox"] + label::before,
+.column.green input[type="checkbox"] + label::before,
+.column.red input[type="checkbox"] + label::before,
+.column.orange input[type="checkbox"] + label::before {
+  background-color: transparent;
+  border-color: #fff;
+}
+.column.blue input[type="checkbox"] + label::after,
+.column.green input[type="checkbox"] + label::after,
+.column.red input[type="checkbox"] + label::after,
+.column.orange input[type="checkbox"] + label::after {
+  color: #fff;
+}
 .column.blue a,
 .column.green a,
 .column.red a,

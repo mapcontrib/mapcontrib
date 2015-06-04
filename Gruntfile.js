@@ -57,6 +57,7 @@ module.exports = function(grunt) {
 					'src/public/bower_components/font-awesome/css/font-awesome.min.css',
 					'src/public/bower_components/bootstrap/dist/css/bootstrap.min.css',
 					'src/public/bower_components/bootstrap-more/bootstrap-more.css',
+					'src/public/bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
 					'src/public/bower_components/leaflet/dist/leaflet.css',
 				],
 				dest: 'src/public/css/libraries.css'

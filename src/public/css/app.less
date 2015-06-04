@@ -600,6 +600,53 @@ fieldset .form-control {
 
 		color: #fff;
 
+		input[type="radio"] {
+
+			& + label {
+
+				&::before {
+
+					background-color: transparent;
+					border-color: #fff;
+				}
+
+				&::after {
+
+					background-color: transparent;
+				}
+			}
+
+			&:checked + label {
+
+				&::before {
+
+					border-color: #fff;
+				}
+
+				&::after {
+
+					background-color: #fff;
+				}
+			}
+		}
+
+		input[type="checkbox"] {
+
+			& + label {
+
+				&::before {
+
+					background-color: transparent;
+					border-color: #fff;
+				}
+
+				&::after {
+
+					color: #fff;
+				}
+			}
+		}
+
 		a {
 
 			color: #fff;
