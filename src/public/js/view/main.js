@@ -426,31 +426,39 @@ function (
 										}
 									});
 
-									layerGroup.addLayer(
+									var polygon = L.polygon( nodePositions );
 
-										L.polygon( nodePositions ).bindPopup(popupContent)
-									);
+									if ( popupContent ) {
+
+										polygon.bindPopup(popupContent);
+									}
+
+									layerGroup.addLayer( polygon );
 								}
 							}
 
-							layerGroup.addLayer(
 
-								L.marker(pos, {
+							var marker = L.marker(pos, {
 
-									'icon': L.icon({
+								'icon': L.icon({
 
-										iconUrl: 'img/leaf-green.png',
-										shadowUrl: 'img/leaf-shadow.png',
+									iconUrl: 'img/leaf-green.png',
+									shadowUrl: 'img/leaf-shadow.png',
 
-										iconSize:     [38, 95], // size of the icon
-										shadowSize:   [50, 64], // size of the shadow
-										iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-										shadowAnchor: [4, 62],  // the same for the shadow
-										popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-									})
+									iconSize:     [38, 95], // size of the icon
+									shadowSize:   [50, 64], // size of the shadow
+									iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+									shadowAnchor: [4, 62],  // the same for the shadow
+									popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 								})
-								.bindPopup(popupContent)
-							);
+							});
+
+							if ( popupContent ) {
+
+								marker.bindPopup(popupContent);
+							}
+
+							layerGroup.addLayer( marker );
 						});
 					}
 				})
