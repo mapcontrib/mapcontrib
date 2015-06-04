@@ -208,7 +208,6 @@ fieldset .form-control:active {
 #title .description {
   display: none;
   margin-top: 60px;
-  white-space: pre;
   animation-duration: .4s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;

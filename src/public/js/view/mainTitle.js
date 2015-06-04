@@ -8,6 +8,7 @@ define([
 	'bootstrap',
 	'templates',
     'const',
+	'markdown',
 ],
 function (
 
@@ -16,7 +17,8 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
-    CONST
+    CONST,
+	markdown
 ) {
 
 	'use strict';
@@ -55,6 +57,14 @@ function (
 			this.listenTo(this.model, 'change:description', this.setDescription);
 
 			this._radio.commands.setHandler('ui:setTitleColor', this.commandSetTitleColor, this);
+		},
+
+		templateHelpers: function () {
+
+			return {
+
+				'description': markdown.toHTML( this.model.get('description') )
+			};
 		},
 
 		onRender: function () {
