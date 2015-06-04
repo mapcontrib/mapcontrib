@@ -13,7 +13,7 @@
 <pageTitleWithMapName "{{ $map.name }} - {{ rudomap }}">
 
 
-<markdownAvailable "Format Markdown disponible">
+<markdownAvailable "Format <a>Markdown</a> disponible">
 
 
 <buttonDescriptionTooltip title:"Lire la description">
