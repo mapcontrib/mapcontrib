@@ -7,8 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
-	'collection/poiLayer',
-	'view/poiLayerList',
+	'view/editPoiLayerList',
 ],
 function (
 
@@ -17,8 +16,7 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
-	PoiLayerCollection,
-	PoiLayerListView
+	EditPoiLayerListView
 ) {
 
 	'use strict';
@@ -59,9 +57,9 @@ function (
 		onRender: function () {
 
 			var poiLayers = this._radio.reqres.request('poiLayers'),
-			poiLayerListView = new PoiLayerListView({ 'collection': poiLayers });
+			editPoiLayerListView = new EditPoiLayerListView({ 'collection': poiLayers });
 
-			this.getRegion('layerList').show( poiLayerListView );
+			this.getRegion('layerList').show( editPoiLayerListView );
 		},
 
 		open: function () {
@@ -78,7 +76,7 @@ function (
 
 		onClickAdd: function () {
 
-			this._radio.commands.execute('showPoiLayer');
+			this._radio.commands.execute('column:showPoiLayer');
 		},
 	});
 });

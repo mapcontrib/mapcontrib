@@ -17,6 +17,6 @@ function (
 
 	return Marionette.ItemView.extend({
 
-		template: JST['poiLayerListEmpty.html'],
+		template: JST['editPoiLayerListEmpty.html'],
 	});
 });

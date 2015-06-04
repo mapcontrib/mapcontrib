@@ -134,23 +134,23 @@ require(['requireConfig'], function () {
 
 				this._radio.commands.setHandlers({
 
-					'initObjects': function () { self.initObjects(); },
-					'loadData': function () { self.loadData(); },
-					'registerBehavior': function (name, behavior) {
+					'app:initObjects': function () { self.initObjects(); },
+					'app:loadData': function () { self.loadData(); },
+					'app:registerBehavior': function (name, behavior) {
 
 						self._behavior[name] = behavior;
 					},
-					'registerView': function (name, view) {
+					'app:registerView': function (name, view) {
 
 						self._view[name] = view;
 					},
-					'registerRegion': function (name, region) {
+					'app:registerRegion': function (name, region) {
 
 						self._region[name] = region;
 					},
 				});
 
-				this._radio.commands.execute('registerRegion', 'root', this.getRegion('root'));
+				this._radio.commands.execute('app:registerRegion', 'root', this.getRegion('root'));
 			},
 
 			onStart: function (options) {

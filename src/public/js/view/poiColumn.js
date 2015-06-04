@@ -7,6 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
+	'view/poiLayerList',
 ],
 function (
 
@@ -14,7 +15,8 @@ function (
 	Backbone,
 	Marionette,
 	Bootstrap,
-	templates
+	templates,
+	PoiLayerListView
 ) {
 
 	'use strict';
@@ -29,6 +31,11 @@ function (
 			'column': {},
 		},
 
+		regions: {
+
+			'layerList': '.rg_layer_list',
+		},
+
 		ui: {
 
 			'column': '#poi_column',
@@ -39,6 +46,14 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+		},
+
+		onRender: function () {
+
+			var poiLayers = this._radio.reqres.request('poiLayers'),
+			poiLayerListView = new PoiLayerListView({ 'collection': poiLayers });
+
+			this.getRegion('layerList').show( poiLayerListView );
 		},
 
 		open: function () {

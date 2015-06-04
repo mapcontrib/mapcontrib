@@ -117,7 +117,7 @@ function (
 
 			this.model.set( this._oldModel.toJSON() );
 
-			this._radio.commands.execute('setTitleColor', this.model.get('color'));
+			this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
 
 			this.ui.column.one('transitionend', this.render);
 
@@ -126,12 +126,12 @@ function (
 
 		onOverColorButtons: function (e) {
 
-			this._radio.commands.execute('setTitleColor', e.target.dataset.color);
+			this._radio.commands.execute('ui:setTitleColor', e.target.dataset.color);
 		},
 
 		onLeaveColorButtons: function (e) {
 
-			this._radio.commands.execute('setTitleColor', this.model.get('color'));
+			this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
 		},
 
 		onClickColorButtons: function (e) {

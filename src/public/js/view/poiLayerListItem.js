@@ -35,13 +35,13 @@ function (
 
 		ui: {
 
-			'remove_btn': '.remove_btn'
+			'visibilityCheckbox': '.visibility_checkbox'
 		},
 
 		events: {
 
 			'click': 'onClick',
-			'click @ui.remove_btn': 'onClickRemove',
+			'click label': 'onClickLabel',
 		},
 
 		initialize: function () {
@@ -49,23 +49,36 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			this._layerIsVisible = true;
 		},
 
 		onRender: function () {
 
-			this.el.id = 'poi-layer-'+ this.model.cid;
+			this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
 		},
 
-		onClick: function () {
-
-			this._radio.commands.execute( 'showPoiLayer', this.model.get('_id') );
-		},
-
-		onClickRemove: function (e) {
+		onClick: function (e) {
 
 			e.stopPropagation();
 
-			this.model.destroy();
+			this._layerIsVisible = this._layerIsVisible ? false : true;
+
+			this.ui.visibilityCheckbox[0].checked = this._layerIsVisible;
+
+			if ( this._layerIsVisible ) {
+
+				this._radio.commands.execute( 'map:showPoiLayer', this.model );
+			}
+			else {
+
+				this._radio.commands.execute( 'map:hidePoiLayer', this.model );
+			}
+		},
+
+		onClickLabel: function (e) {
+
+			e.preventDefault();
 		},
 	});
 });

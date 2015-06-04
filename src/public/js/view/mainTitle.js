@@ -54,7 +54,7 @@ function (
 			this.listenTo(this.model, 'change:name', this.setTitle);
 			this.listenTo(this.model, 'change:description', this.setDescription);
 
-			this._radio.commands.setHandler('setTitleColor', this.commandSetTitleColor, this);
+			this._radio.commands.setHandler('ui:setTitleColor', this.commandSetTitleColor, this);
 		},
 
 		onRender: function () {

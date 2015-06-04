@@ -181,13 +181,24 @@ function (
 
 			this._radio.reqres.setHandler('poiLayers', function () {
 
-				return this._poiLayers;
-			}, this);
+				return self._poiLayers;
+			});
 
-			this._radio.commands.setHandler('showPoiLayer', function (layerId) {
+			this._radio.commands.setHandlers({
 
-				self.onCommandShowPoiLayer( layerId );
-			}, this);
+				'column:showPoiLayer': function (layerId) {
+
+					self.onCommandShowPoiLayer( layerId );
+				},
+				'map:showPoiLayer': function (poiLayerModel) {
+
+					self.showPoiLayer( poiLayerModel );
+				},
+				'map:hidePoiLayer': function (poiLayerModel) {
+
+					self.hidePoiLayer( poiLayerModel );
+				},
+			});
 
 
 			this._radio.vent.on('session:unlogged', function (){
@@ -445,14 +456,24 @@ function (
 
 			this._mapLayers[ poiLayerModel.cid ] = layerGroup;
 
-			this._map.addLayer( this._mapLayers[ poiLayerModel.cid ] );
+			this.showPoiLayer( poiLayerModel );
 		},
 
 		removePoiLayer: function (poiLayerModel) {
 
-			this._map.removeLayer( this._mapLayers[ poiLayerModel.cid ] );
+			this.hidePoiLayer( poiLayerModel );
 
 			delete( this._mapLayers[ poiLayerModel.cid ] );
+		},
+
+		showPoiLayer: function (poiLayerModel) {
+
+			this._map.addLayer( this._mapLayers[ poiLayerModel.cid ] );
+		},
+
+		hidePoiLayer: function (poiLayerModel) {
+
+			this._map.removeLayer( this._mapLayers[ poiLayerModel.cid ] );
 		},
 
 		renderUserButtonLogged: function () {
