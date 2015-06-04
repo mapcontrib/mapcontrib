@@ -60,6 +60,7 @@ to connect to your OpenStreetMap account.
 
 /* POI column */
 <poiColumn_title "Points of interest">
+<poiColumn_explanation "Select the points of interest you want to see on the map">
 
 
 /* User column */

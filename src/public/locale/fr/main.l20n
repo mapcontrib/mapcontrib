@@ -60,6 +60,7 @@ de se connecter à votre compte OpenStreetMap.
 
 /* POI column */
 <poiColumn_title "Centres d'intérêts">
+<poiColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte">
 
 
 /* User column */
