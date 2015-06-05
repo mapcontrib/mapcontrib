@@ -30,6 +30,9 @@ function (
 			'minZoom': 14,
 			'popupContent': undefined,
 			'order': undefined,
+			'marker': 'marker1',
+			'markerColor': 'orange',
+			'markerIcon': undefined,
 		}
 	});
 });

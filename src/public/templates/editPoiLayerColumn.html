@@ -12,23 +12,39 @@
 			<div class="col-xs-12">
 				<form>
 					<div class="form-group append-xs-1">
-						<label for="layer_name" class="control-label" data-l10n-id="editSettingColumn_layerName"></label>
+						<label for="layer_name" class="control-label" data-l10n-id="editPoiLayerColumn_layerName"></label>
 						<input type="text" class="form-control" id="layer_name" value="<%= name %>">
 					</div>
 
 					<div class="form-group append-xs-1">
-						<label for="layer_description" class="control-label" data-l10n-id="editSettingColumn_layerDescription"></label>
+						<label for="layer_description" class="control-label" data-l10n-id="editPoiLayerColumn_layerDescription"></label>
 						<textarea rows="1" class="form-control" id="layer_description"><%= description %></textarea>
 						<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
 					</div>
 
 					<div class="form-group append-xs-1">
-						<label for="layer_overpass_request" class="control-label" data-l10n-id="editSettingColumn_layerOverpassRequest"></label>
+						<label for="layer_overpass_request" class="control-label" data-l10n-id="editPoiLayerColumn_layerOverpassRequest"></label>
 						<textarea rows="7" class="form-control font-monospace" id="layer_overpass_request"><%= overpassRequest %></textarea>
 					</div>
 
 					<div class="form-group append-xs-1">
-						<label for="layer_popup_content" class="control-label" data-l10n-id="editSettingColumn_layerPopupContent"></label>
+						<label class="control-label" data-l10n-id="editPoiLayerColumn_color"></label>
+						<div class="colorButtons">
+							<button type="button" class="btn btn-xs btn-color green" data-color="green"><div><i class="fa fa-fw"></i></div></button>
+							<button type="button" class="btn btn-xs btn-color blue" data-color="blue"><div><i class="fa fa-fw"></i></div></button>
+							<button type="button" class="btn btn-xs btn-color purple" data-color="purple"><div><i class="fa fa-fw"></i></div></button>
+							<button type="button" class="btn btn-xs btn-color red" data-color="red"><div><i class="fa fa-fw"></i></div></button>
+							<button type="button" class="btn btn-xs btn-color orange" data-color="orange"><div><i class="fa fa-fw"></i></div></button>
+							<button type="button" class="btn btn-xs btn-color yellow" data-color="yellow"><div><i class="fa fa-fw"></i></div></button>
+							<button type="button" class="btn btn-xs btn-color brown" data-color="brown"><div><i class="fa fa-fw"></i></div></button>
+							<br class="append-xs-tiny">
+							<button type="button" class="btn btn-xs btn-color gray" data-color="gray"><div><i class="fa fa-fw"></i></div></button>
+							<button type="button" class="btn btn-xs btn-color dark-gray" data-color="darkGrey"><div><i class="fa fa-fw"></i></div></button>
+						</div>
+					</div>
+
+					<div class="form-group append-xs-1">
+						<label for="layer_popup_content" class="control-label" data-l10n-id="editPoiLayerColumn_layerPopupContent"></label>
 						<textarea rows="3" class="form-control font-monospace" id="layer_popup_content"><%= popupContent %></textarea>
 						<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
 					</div>

@@ -99,10 +99,11 @@ to connect to your OpenStreetMap account.
 
 /* Edit POI layer column */
 <editPoiLayerColumn_title "Layer edit">
-<editSettingColumn_layerName "Name">
-<editSettingColumn_layerDescription "Description">
-<editSettingColumn_layerOverpassRequest "Overpass request">
-<editSettingColumn_layerPopupContent "Popup content">
+<editPoiLayerColumn_layerName "Name">
+<editPoiLayerColumn_layerDescription "Description">
+<editPoiLayerColumn_layerOverpassRequest "Overpass request">
+<editPoiLayerColumn_color "Couleur des marqueurs">
+<editPoiLayerColumn_layerPopupContent "Popup content">
 
 
 /* Edit tiles column */

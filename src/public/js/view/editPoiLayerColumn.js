@@ -7,6 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
+	'text!icons.json',
 ],
 function (
 
@@ -14,7 +15,8 @@ function (
 	Backbone,
 	Marionette,
 	Bootstrap,
-	templates
+	templates,
+	icons
 ) {
 
 	'use strict';
@@ -52,6 +54,8 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
 			this._oldModel = this.model.clone();
+
+			console.log(JSON.parse(icons));
 		},
 
 		open: function () {

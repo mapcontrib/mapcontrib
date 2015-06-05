@@ -358,7 +358,18 @@ function (
 					'query': poiLayerModel.get('overpassRequest'),
 					'callback': function(data) {
 
-						var wayBodyNodes = {};
+						var wayBodyNodes = {},
+						iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('marker') ]),
+						markerIcon = poiLayerModel.get('markerIcon'),
+						markerColor = poiLayerModel.get('markerColor');
+
+						iconOptions.className += ' '+ markerColor;
+
+						if ( markerIcon ) {
+
+							iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw fa-lg"></i>';
+						}
+
 
 						data.elements.forEach(function (e) {
 
@@ -438,19 +449,10 @@ function (
 							}
 
 
-							var marker = L.marker(pos, {
+							var icon = L.divIcon( iconOptions ),
+							marker = L.marker(pos, {
 
-								'icon': L.icon({
-
-									iconUrl: 'img/leaf-green.png',
-									shadowUrl: 'img/leaf-shadow.png',
-
-									iconSize:     [38, 95], // size of the icon
-									shadowSize:   [50, 64], // size of the shadow
-									iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-									shadowAnchor: [4, 62],  // the same for the shadow
-									popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-								})
+								'icon': icon
 							});
 
 							if ( popupContent ) {

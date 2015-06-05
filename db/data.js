@@ -35,6 +35,9 @@ db.poiLayer.insert({
 	'minZoom': 14,
 	'popupContent': '#Nom : {name}\n\n_Amenity :_ {amenity}',
 	'order': 0,
+	'marker': 'marker1',
+	'markerColor': 'green',
+	'markerIcon': 'recycle',
 });
 
 db.poiLayer.insert({
@@ -47,4 +50,7 @@ db.poiLayer.insert({
 	'minZoom': 14,
 	'popupContent': '#Nom : {name}\n\n_Amenity :_ {amenity}',
 	'order': 1,
+	'marker': 'marker1',
+	'markerColor': 'yellow',
+	'markerIcon': 'trash',
 });

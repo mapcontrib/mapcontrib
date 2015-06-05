@@ -7,7 +7,9 @@ requirejs.config({
 	paths: {
 
 		'templates': '../templates/templates',
+		'img': '../img',
 
+		'text': '../bower_components/text/text',
 		'underscore': '../bower_components/underscore/underscore',
 		'backbone': '../bower_components/backbone/backbone',
 		'backbone-validation': '../bower_components/backbone-validation/dist/backbone-validation-min',
