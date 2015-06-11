@@ -126,7 +126,8 @@
   fill: #888a85 !important;
 }
 .marker-1 .fa,
-.marker-2 .fa {
+.marker-2 .fa,
+.marker-3 .fa {
   top: 12px;
   left: 8px;
 }
