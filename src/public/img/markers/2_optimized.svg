@@ -1,22 +1,12 @@
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="42" width="36" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 36 42.000001">
-<metadata>
-<rdf:RDF>
-<cc:Work rdf:about="">
-<dc:format>image/svg+xml</dc:format>
-<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-<dc:title/>
-</cc:Work>
-</rdf:RDF>
-</metadata>
-<g fill-rule="evenodd" transform="translate(0 -1010.4)">
-<g fill="#fff">
-<rect transform="matrix(.49237 -.87039 .49237 .87039 0 0)" height="12.186" width="12.186" y="610.63" x="-586.26"/>
-<circle cx="18" cy="1028.4" r="18"/>
+<svg id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="42" width="36" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 36 42.000001">
+<g id="layer1" fill-rule="evenodd" transform="translate(0 -1010.4)">
+<g id="g4827" fill="#fff">
+<rect id="rect4829" transform="matrix(.49237 -.87039 .49237 .87039 0 0)" height="12.186" width="12.186" y="610.63" x="-586.26"/>
+<circle id="circle4831" cx="18" cy="1028.4" r="18"/>
 </g>
 <g id="colorized" fill="#c00" transform="matrix(.88889 0 0 .88889 2 114.6)">
-<rect transform="matrix(.49237 -.87039 .49237 .87039 0 0)" height="12.186" width="12.186" y="610.63" x="-586.26"/>
-<circle cy="1028.4" cx="18" r="18"/>
+<rect id="rect4140" transform="matrix(.49237 -.87039 .49237 .87039 0 0)" height="12.186" width="12.186" y="610.63" x="-586.26"/>
+<circle id="path4138" cy="1028" cx="18" r="18"/>
 </g>
 </g>
 </svg>

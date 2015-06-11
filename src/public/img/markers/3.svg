@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="52.571428"
-     inkscape:cx="19.334873"
-     inkscape:cy="4.104979"
+     inkscape:zoom="26.285714"
+     inkscape:cx="15.952383"
+     inkscape:cy="12.997866"
      inkscape:document-units="px"
-     inkscape:current-layer="g4194"
+     inkscape:current-layer="layer1"
      showgrid="true"
      units="px"
      inkscape:showpageshadow="false"
@@ -83,7 +83,7 @@
     </g>
     <g
        id="g4194"
-       transform="translate(-20,0)">
+       transform="matrix(1,0,0,1.1666638,-20,-175.05732)">
       <rect
          y="1044.3622"
          x="37"
@@ -101,7 +101,7 @@
     </g>
     <g
        id="colorized"
-       transform="matrix(0.88888883,0,0,0.88888883,2,114.59586)"
+       transform="matrix(0.88888883,0,0,0.88888883,2,114.26255)"
        inkscape:label="#g4823">
       <circle
          r="17.99999"
