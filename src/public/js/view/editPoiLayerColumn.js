@@ -7,7 +7,6 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
-	'text!icons.json',
 ],
 function (
 
@@ -15,8 +14,7 @@ function (
 	Backbone,
 	Marionette,
 	Bootstrap,
-	templates,
-	icons
+	templates
 ) {
 
 	'use strict';
@@ -39,10 +37,13 @@ function (
 			'layerDescription': '#layer_description',
 			'layerOverpassRequest': '#layer_overpass_request',
 			'layerPopupContent': '#layer_popup_content',
+
+			'editMarkerButton': '.edit_marker_btn',
 		},
 
 		events: {
 
+			'click @ui.editMarkerButton': 'onClickEditMarker',
 			'submit': 'onSubmit',
 			'reset': 'onReset',
 		},
@@ -54,8 +55,6 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
 			this._oldModel = this.model.clone();
-
-			console.log(JSON.parse(icons));
 		},
 
 		open: function () {
@@ -66,6 +65,11 @@ function (
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		onClickEditMarker: function () {
+
+			this._radio.commands.execute( 'modal:showEditPoiMarker', this.model.get('_id') );
 		},
 
 		onSubmit: function (e) {

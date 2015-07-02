@@ -5,57 +5,57 @@
 /* Dimensions */
 /* Layers */
 /* Functions */
-#edit_poi_layer_column .btn-color {
+.btn-marker-color {
   position: relative;
   color: #fff;
   padding: 0;
 }
-#edit_poi_layer_column .btn-color.gray {
+.btn-marker-color.gray {
   color: #888a85;
 }
-#edit_poi_layer_column .btn-color > div {
+.btn-marker-color > div {
   height: 20px;
   border-style: solid;
   border-width: 0 15px;
 }
-#edit_poi_layer_column .btn-color > div .fa {
+.btn-marker-color > div .fa {
   position: absolute;
   top: 4px;
   left: 8px;
 }
-#edit_poi_layer_column .btn-color.green > div {
+.btn-marker-color.green > div {
   border-left-color: #8ae234;
   border-right-color: #4e9a06;
 }
-#edit_poi_layer_column .btn-color.yellow > div {
+.btn-marker-color.yellow > div {
   border-left-color: #fce94f;
   border-right-color: #c4a000;
 }
-#edit_poi_layer_column .btn-color.orange > div {
+.btn-marker-color.orange > div {
   border-left-color: #fcaf3e;
   border-right-color: #ce5c00;
 }
-#edit_poi_layer_column .btn-color.red > div {
+.btn-marker-color.red > div {
   border-left-color: #ef2929;
   border-right-color: #a40000;
 }
-#edit_poi_layer_column .btn-color.purple > div {
+.btn-marker-color.purple > div {
   border-left-color: #ad7fa8;
   border-right-color: #5c3566;
 }
-#edit_poi_layer_column .btn-color.blue > div {
+.btn-marker-color.blue > div {
   border-left-color: #729fcf;
   border-right-color: #204a87;
 }
-#edit_poi_layer_column .btn-color.gray > div {
+.btn-marker-color.gray > div {
   border-left-color: #d3d7cf;
   border-right-color: #888a85;
 }
-#edit_poi_layer_column .btn-color.dark-gray > div {
+.btn-marker-color.dark-gray > div {
   border-left-color: #888a85;
   border-right-color: #333333;
 }
-#edit_poi_layer_column .btn-color.brown > div {
+.btn-marker-color.brown > div {
   border-left-color: #e9b96e;
   border-right-color: #8f5902;
 }

@@ -46,6 +46,7 @@
 <close "Fermer">
 <save "Enregistrer">
 <cancel "Annuler">
+<customize "Personnaliser">
 
 
 /* Help */
@@ -102,7 +103,7 @@ de se connecter à votre compte OpenStreetMap.
 <editPoiLayerColumn_layerName "Nom">
 <editPoiLayerColumn_layerDescription "Description">
 <editPoiLayerColumn_layerOverpassRequest "Requête Overpass">
-<editPoiLayerColumn_color "Couleur des marqueurs">
+<editPoiLayerColumn_marker "Marqueur">
 <editPoiLayerColumn_layerPopupContent "Contenu des bulles">
 
 

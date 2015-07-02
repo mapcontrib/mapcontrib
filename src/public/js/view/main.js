@@ -21,6 +21,7 @@ define([
 	'view/editSettingColumn',
 	'view/editPoiColumn',
 	'view/editPoiLayerColumn',
+	'view/editPoiMarkerModal',
 	'view/editTileColumn',
 	'view/tipOfTheDay',
 
@@ -50,6 +51,7 @@ function (
 	EditSettingColumnView,
 	EditPoiColumnView,
 	EditPoiLayerColumnView,
+	EditPoiMarkerModalView,
 	EditTileColumnView,
 	TipOfTheDayView,
 
@@ -116,6 +118,7 @@ function (
 			'editSettingColumn': '#rg_edit_setting_column',
 			'editPoiColumn': '#rg_edit_poi_column',
 			'editPoiLayerColumn': '#rg_edit_poi_layer_column',
+			'editPoiMarkerModal': '#rg_edit_poi_marker_modal',
 			'editTileColumn': '#rg_edit_tile_column',
 
 			'tipOfTheDay': '#rg_tip_of_the_day',
@@ -191,6 +194,10 @@ function (
 				'column:showPoiLayer': function (layerId) {
 
 					self.onCommandShowPoiLayer( layerId );
+				},
+				'modal:showEditPoiMarker': function (layerId) {
+
+					self.onCommandShowEditPoiMarker( layerId );
 				},
 				'map:showPoiLayer': function (poiLayerModel) {
 
@@ -569,6 +576,18 @@ function (
 
 				view.open();
 			});
+		},
+
+
+
+		onCommandShowEditPoiMarker: function (layerId) {
+
+			var view = new EditPoiMarkerModalView({
+
+				'model': this._poiLayers.findWhere({ '_id': layerId })
+			});
+
+			this.getRegion('editPoiMarkerModal').show( view );
 		},
 
 
