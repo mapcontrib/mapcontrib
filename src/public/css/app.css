@@ -1268,6 +1268,19 @@ fieldset .form-control:active {
   transform: translate(-50%, -45%);
   padding: 30px 15px;
 }
+.pop_modal .pop.no_padding {
+  padding: 0;
+}
+.pop_modal .pop.no_padding .nav-tabs {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.pop_modal .pop .nav-tabs {
+  background: #f3f3f3;
+}
+.pop_modal .pop .nav-tabs li a {
+  color: #3b3f45;
+}
 .pop_modal.open {
   opacity: 1;
 }

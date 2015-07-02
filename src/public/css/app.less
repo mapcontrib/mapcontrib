@@ -1092,6 +1092,27 @@ fieldset .form-control {
 		.transition( transform ease-out 0.2s );
 		.transform( translate(-50%, -45%) );
 		padding: 30px 15px;
+
+		&.no_padding {
+
+			padding: 0;
+
+			.nav-tabs {
+
+				margin-left: -15px;
+				margin-right: -15px;
+			}
+		}
+
+		.nav-tabs {
+
+			background: @lightGray;
+
+			li a {
+
+				color: @anthracite;
+			}
+		}
 	}
 
 	&.open {

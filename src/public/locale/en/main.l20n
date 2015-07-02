@@ -107,5 +107,12 @@ to connect to your OpenStreetMap account.
 <editPoiLayerColumn_layerPopupContent "Popup content">
 
 
+/* Edit POI marker modal */
+<editPoiMarkerModal_colorAndShape "Color and shape">
+<editPoiMarkerModal_icon "Icon">
+<editPoiMarkerModal_color "Color">
+<editPoiMarkerModal_shape "Shape">
+
+
 /* Edit tiles column */
 <editTileColumn_title "Backgrounds">

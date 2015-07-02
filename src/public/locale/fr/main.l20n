@@ -107,5 +107,12 @@ de se connecter à votre compte OpenStreetMap.
 <editPoiLayerColumn_layerPopupContent "Contenu des bulles">
 
 
+/* Edit POI marker modal */
+<editPoiMarkerModal_colorAndShape "Couleur et forme">
+<editPoiMarkerModal_icon "Icône">
+<editPoiMarkerModal_color "Couleur">
+<editPoiMarkerModal_shape "Forme">
+
+
 /* Edit tiles column */
 <editTileColumn_title "Fonds de carte">
