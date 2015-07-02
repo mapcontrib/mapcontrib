@@ -34,6 +34,12 @@ function (
 		ui: {
 
 			'modal': '#edit_poi_marker_modal',
+			'closeButton': '.close_btn',
+		},
+
+		events: {
+
+			'click @ui.closeButton': 'onClickClose',
 		},
 
 		initialize: function () {
@@ -48,6 +54,11 @@ function (
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		onClickClose: function () {
+
+			this.close();
 		},
 	});
 });
