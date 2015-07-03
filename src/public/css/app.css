@@ -412,22 +412,50 @@ fieldset .form-control:active {
   background: #fff;
   color: #3b3f45;
 }
-.btn-color {
+.btn-color,
+.btn-marker-color {
   border-color: rgba(255, 255, 255, 0.8);
 }
 .btn-color:hover,
+.btn-marker-color:hover,
 .btn-color:focus,
+.btn-marker-color:focus,
 .btn-color.focus,
+.btn-marker-color.focus,
 .btn-color:active,
-.btn-color.active {
+.btn-marker-color:active,
+.btn-color.active,
+.btn-marker-color.active {
   color: #fff;
 }
 .btn-color.white:hover,
+.btn-marker-color.white:hover,
 .btn-color.white:focus,
+.btn-marker-color.white:focus,
 .btn-color.white.focus,
+.btn-marker-color.white.focus,
 .btn-color.white:active,
-.btn-color.white.active {
+.btn-marker-color.white:active,
+.btn-color.white.active,
+.btn-marker-color.white.active {
   color: #3b3f45;
+}
+.btn-marker-shape {
+  background: transparent;
+}
+.btn-marker-shape:hover,
+.btn-marker-shape:focus,
+.btn-marker-shape.focus {
+  border-color: #e4e4e4;
+}
+.btn-marker-shape:active,
+.btn-marker-shape.active {
+  background: #e4e4e4;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
 }
 .toolbar {
   position: fixed;

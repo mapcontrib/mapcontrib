@@ -319,7 +319,8 @@ fieldset .form-control {
 
 
 
-.btn-color {
+.btn-color,
+.btn-marker-color {
 
 	border-color: rgba(255, 255, 255, 0.8);
 
@@ -342,6 +343,26 @@ fieldset .form-control {
 
 			color: @anthracite;
 		}
+	}
+}
+
+
+.btn-marker-shape {
+
+	background: transparent;
+
+	&:hover,
+	&:focus,
+	&.focus {
+
+		border-color: @darkGray;
+	}
+
+	&:active,
+	&.active {
+
+		background: @darkGray;
+		.box-shadow(none);
 	}
 }
 

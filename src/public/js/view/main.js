@@ -366,7 +366,7 @@ function (
 					'callback': function(data) {
 
 						var wayBodyNodes = {},
-						iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('marker') ]),
+						iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('markerShape') ]),
 						markerIcon = poiLayerModel.get('markerIcon'),
 						markerColor = poiLayerModel.get('markerColor');
 
