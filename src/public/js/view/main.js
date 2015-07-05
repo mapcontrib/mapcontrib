@@ -207,6 +207,10 @@ function (
 
 					self.hidePoiLayer( poiLayerModel );
 				},
+				'map:updatePoiLayerIcons': function (poiLayerModel) {
+
+					self.updatePoiLayerIcons( poiLayerModel );
+				},
 			});
 
 
@@ -366,16 +370,7 @@ function (
 					'callback': function(data) {
 
 						var wayBodyNodes = {},
-						iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('markerShape') ]),
-						markerIcon = poiLayerModel.get('markerIcon'),
-						markerColor = poiLayerModel.get('markerColor');
-
-						iconOptions.className += ' '+ markerColor;
-
-						if ( markerIcon ) {
-
-							iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw fa-lg"></i>';
-						}
+						icon = self.getPoiLayerIcon(poiLayerModel);
 
 
 						data.elements.forEach(function (e) {
@@ -456,8 +451,7 @@ function (
 							}
 
 
-							var icon = L.divIcon( iconOptions ),
-							marker = L.marker(pos, {
+							var marker = L.marker(pos, {
 
 								'icon': icon
 							});
@@ -493,6 +487,35 @@ function (
 		hidePoiLayer: function (poiLayerModel) {
 
 			this._map.removeLayer( this._mapLayers[ poiLayerModel.cid ] );
+		},
+
+		updatePoiLayerIcons: function (poiLayerModel) {
+
+			var self = this;
+
+			this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
+
+				if ( layer._icon ) {
+
+					layer.setIcon( self.getPoiLayerIcon( poiLayerModel ) );
+				}
+			});
+		},
+
+		getPoiLayerIcon: function (poiLayerModel) {
+
+			var iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('markerShape') ]),
+			markerIcon = poiLayerModel.get('markerIcon'),
+			markerColor = poiLayerModel.get('markerColor');
+
+			iconOptions.className += ' '+ markerColor;
+
+			if ( markerIcon ) {
+
+				iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw fa-lg"></i>';
+			}
+
+			return L.divIcon( iconOptions );
 		},
 
 		renderUserButtonLogged: function () {

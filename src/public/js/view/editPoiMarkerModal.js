@@ -94,6 +94,8 @@ function (
 
 			var self = this;
 
+			this._radio.commands.execute('map:updatePoiLayerIcons', this.model);
+
 			this.model.save({}, {
 
 				'success': function () {
