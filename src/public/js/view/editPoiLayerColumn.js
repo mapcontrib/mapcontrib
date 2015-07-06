@@ -83,8 +83,6 @@ function (
 			var html = this._radio.reqres.request('poiLayerHtmlIcon', this.model);
 
 			this.ui.markerWrapper.html( html );
-
-			this.bindUIElements();
 		},
 
 		onClickEditMarker: function () {
