@@ -41,12 +41,7 @@ function (
 
 		events: {
 
-			'mouseover @ui.colorButtons': 'onOverColorButtons',
-			'mouseleave @ui.colorButtons': 'onLeaveColorButtons',
 			'click @ui.colorButtons': 'onClickColorButtons',
-
-			'mouseover @ui.shapeButtons': 'onOverShapeButtons',
-			'mouseleave @ui.shapeButtons': 'onLeaveShapeButtons',
 			'click @ui.shapeButtons': 'onClickShapeButtons',
 
 			'submit': 'onSubmit',
@@ -112,14 +107,6 @@ function (
 			});
 		},
 
-		onOverColorButtons: function (e) {
-
-		},
-
-		onLeaveColorButtons: function (e) {
-
-		},
-
 		onClickColorButtons: function (e) {
 
 			$('i', this.ui.colorButtons).removeClass('fa-check');
@@ -127,14 +114,6 @@ function (
 			e.target.querySelector('i').classList.add('fa-check');
 
 			this.model.set('markerColor', e.target.dataset.color);
-		},
-
-		onOverShapeButtons: function (e) {
-
-		},
-
-		onLeaveShapeButtons: function (e) {
-
 		},
 
 		onClickShapeButtons: function (e) {
