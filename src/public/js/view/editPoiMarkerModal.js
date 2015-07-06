@@ -87,24 +87,7 @@ function (
 
 			e.preventDefault();
 
-			var self = this;
-
-			this._radio.commands.execute('map:updatePoiLayerIcons', this.model);
-
-			this.model.save({}, {
-
-				'success': function () {
-
-					self._oldModel = self.model.clone();
-
-					self.close();
-				},
-				'error': function () {
-
-					// FIXME
-					console.error('nok');
-				},
-			});
+			this.close();
 		},
 
 		onClickColorButtons: function (e) {

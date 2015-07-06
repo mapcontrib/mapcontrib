@@ -83,7 +83,7 @@ function (
 			var html = this._radio.reqres.request('poiLayerHtmlIcon', this.model);
 
 			this.ui.marker.replaceWith( html );
-			
+
 			this.bindUIElements();
 		},
 
@@ -96,7 +96,8 @@ function (
 
 			e.preventDefault();
 
-			var self = this;
+			var self = this,
+			updateMarkers = false;
 
 			this.model.set('name', this.ui.layerName.val());
 			this.model.set('description', this.ui.layerDescription.val());
@@ -108,11 +109,29 @@ function (
 				this._radio.reqres.request('poiLayers').add( this.model );
 			}
 
+			if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
+
+				updateMarkers = true;
+			}
+
+			if ( this._oldModel.get('markerIcon') !== this.model.get('markerIcon') ) {
+
+				updateMarkers = true;
+			}
+
+			if ( this._oldModel.get('markerShape') !== this.model.get('markerShape') ) {
+
+				updateMarkers = true;
+			}
+
 			this.model.save({}, {
 
 				'success': function () {
 
-					self._oldModel = self.model.clone();
+					if ( updateMarkers ) {
+
+						self._radio.commands.execute('map:updatePoiLayerIcons', self.model);
+					}
 
 					self.close();
 				},
