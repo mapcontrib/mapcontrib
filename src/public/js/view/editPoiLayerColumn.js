@@ -26,7 +26,10 @@ function (
 		behaviors: {
 
 			'l20n': {},
-			'column': {},
+			'column': {
+
+				'destroyOnClose': true,
+			},
 		},
 
 		ui: {

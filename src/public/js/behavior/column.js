@@ -17,6 +17,11 @@ function (
 
 	return Marionette.Behavior.extend({
 
+		defaults: {
+
+			'destroyOnClose': false,
+		},
+
 		ui: {
 
 			'closeBtn': '.close_btn',
@@ -27,7 +32,7 @@ function (
 			'click @ui.closeBtn': 'onClickClose',
 		},
 
-		initialize: function () {
+		initialize: function (options) {
 
 			var self = this;
 
@@ -48,7 +53,16 @@ function (
 
 		onClose: function () {
 
-			this.ui.column.removeClass('open');
+			var self = this;
+
+			this.ui.column.on('transitionend', function () {
+
+				if ( self.options.destroyOnClose ) {
+
+					self.view.destroy();
+				}
+			})
+			.removeClass('open');
 		},
 
 		onClickClose: function () {
