@@ -1387,6 +1387,14 @@ fieldset .form-control:active {
   animation-name: appear;
   animation-direction: normal;
 }
+.list-group .checkbox {
+  padding-right: 40px;
+}
+.list-group .checkbox .marker {
+  position: absolute;
+  top: 0;
+  right: -4px;
+}
 .icon-preview {
   position: absolute;
   top: 8px;

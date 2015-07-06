@@ -60,6 +60,7 @@ function (
 			return {
 
 				'description': markdown.toHTML( this.model.get('description') ),
+				'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
 			};
 		},
 

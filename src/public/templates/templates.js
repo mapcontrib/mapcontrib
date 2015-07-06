@@ -31,7 +31,7 @@ __p += '<section id="edit_poi_layer_column" class="column right orange">\n\t<hea
 '</textarea>\n\t\t\t\t\t\t<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_overpass_request" class="control-label" data-l10n-id="editPoiLayerColumn_layerOverpassRequest"></label>\n\t\t\t\t\t\t<textarea rows="7" class="form-control font-monospace" id="layer_overpass_request">' +
 ((__t = ( overpassRequest )) == null ? '' : __t) +
 '</textarea>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label class="control-label" data-l10n-id="editPoiLayerColumn_marker"></label>\n\t\t\t\t\t\t<div class="marker-form-widget">\n\t\t\t\t\t\t\t<div class="marker-wrapper">\n\t\t\t\t\t\t\t\t' +
-((__t = ( markerIcon )) == null ? '' : __t) +
+((__t = ( marker )) == null ? '' : __t) +
 '\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-default edit_marker_btn" data-l10n-id="customize"></button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_popup_content" class="control-label" data-l10n-id="editPoiLayerColumn_layerPopupContent"></label>\n\t\t\t\t\t\t<textarea rows="3" class="form-control font-monospace" id="layer_popup_content">' +
 ((__t = ( popupContent )) == null ? '' : __t) +
 '</textarea>\n\t\t\t\t\t\t<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group sticky-footer">\n\t\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
@@ -178,7 +178,9 @@ __p += '<div class="checkbox">\n\t<input type="checkbox" id="poi_layer_visibilit
 ((__t = ( name )) == null ? '' : __t) +
 '\n\t\t<div class="help-block">\n\t\t\t' +
 ((__t = ( description )) == null ? '' : __t) +
-'\n\t\t</div>\n\t</label>\n</div>\n';
+'\n\t\t</div>\n\t</label>\n\t' +
+((__t = ( marker )) == null ? '' : __t) +
+'\n</div>\n';
 
 }
 return __p

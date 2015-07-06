@@ -53,7 +53,7 @@ function (
 
 			return {
 
-				'markerIcon': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
+				'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
 			};
 		},
 
