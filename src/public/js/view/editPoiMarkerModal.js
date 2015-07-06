@@ -120,7 +120,7 @@ function (
 
 		updateIconPreview: function () {
 
-			var iconName = this.ui.iconName.val() ? this.ui.iconName.val() : 'home';
+			var iconName = this.ui.iconName.val();
 
 			this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
 
