@@ -19,6 +19,7 @@
     "jquery-ui-sortable": "*",
     "jqueryui-touch-punch": "*",
     "awesome-bootstrap-checkbox": "~0.3.4",
-    "markdown": "~0.5.0"
+    "markdown": "~0.5.0",
+    "text": "~2.0.14"
   }
 }

@@ -1,0 +1,12 @@
+<svg id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="42" width="36" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 36 42.000001">
+<g id="layer1" fill-rule="evenodd" transform="translate(0 -1010.4)">
+<g id="g4185" transform="matrix(1.125 0 0 1.1053 -2.25 -108.56)" fill="#fff">
+<circle id="circle4187" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" cx="18" cy="1028.4" r="16"/>
+<path id="path4189" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m7.2148 29.82 10.785 10.18 10.785-10.18z" transform="translate(0 1010.4)"/>
+</g>
+<g id="colorized" fill="#c00">
+<circle id="path4174" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" cy="1028.4" cx="18" r="16"/>
+<path id="path4176" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m7.2148 29.82 10.785 10.18 10.785-10.18z" transform="translate(0 1010.4)"/>
+</g>
+</g>
+</svg>

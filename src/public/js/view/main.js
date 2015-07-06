@@ -21,6 +21,7 @@ define([
 	'view/editSettingColumn',
 	'view/editPoiColumn',
 	'view/editPoiLayerColumn',
+	'view/editPoiMarkerModal',
 	'view/editTileColumn',
 	'view/tipOfTheDay',
 
@@ -50,6 +51,7 @@ function (
 	EditSettingColumnView,
 	EditPoiColumnView,
 	EditPoiLayerColumnView,
+	EditPoiMarkerModalView,
 	EditTileColumnView,
 	TipOfTheDayView,
 
@@ -116,6 +118,7 @@ function (
 			'editSettingColumn': '#rg_edit_setting_column',
 			'editPoiColumn': '#rg_edit_poi_column',
 			'editPoiLayerColumn': '#rg_edit_poi_layer_column',
+			'editPoiMarkerModal': '#rg_edit_poi_marker_modal',
 			'editTileColumn': '#rg_edit_tile_column',
 
 			'tipOfTheDay': '#rg_tip_of_the_day',
@@ -181,9 +184,16 @@ function (
 				},
 			});
 
-			this._radio.reqres.setHandler('poiLayers', function () {
+			this._radio.reqres.setHandlers({
 
-				return self._poiLayers;
+				'poiLayers': function (layerId) {
+
+					return self._poiLayers;
+				},
+				'poiLayerHtmlIcon': function (poiLayerModel) {
+
+					return self.getPoiLayerHtmlIcon( poiLayerModel );
+				},
 			});
 
 			this._radio.commands.setHandlers({
@@ -192,6 +202,10 @@ function (
 
 					self.onCommandShowPoiLayer( layerId );
 				},
+				'modal:showEditPoiMarker': function (layerId) {
+
+					self.onCommandShowEditPoiMarker( layerId );
+				},
 				'map:showPoiLayer': function (poiLayerModel) {
 
 					self.showPoiLayer( poiLayerModel );
@@ -199,6 +213,10 @@ function (
 				'map:hidePoiLayer': function (poiLayerModel) {
 
 					self.hidePoiLayer( poiLayerModel );
+				},
+				'map:updatePoiLayerIcons': function (poiLayerModel) {
+
+					self.updatePoiLayerIcons( poiLayerModel );
 				},
 			});
 
@@ -358,7 +376,9 @@ function (
 					'query': poiLayerModel.get('overpassRequest'),
 					'callback': function(data) {
 
-						var wayBodyNodes = {};
+						var wayBodyNodes = {},
+						icon = self.getPoiLayerIcon(poiLayerModel);
+
 
 						data.elements.forEach(function (e) {
 
@@ -440,17 +460,7 @@ function (
 
 							var marker = L.marker(pos, {
 
-								'icon': L.icon({
-
-									iconUrl: 'img/leaf-green.png',
-									shadowUrl: 'img/leaf-shadow.png',
-
-									iconSize:     [38, 95], // size of the icon
-									shadowSize:   [50, 64], // size of the shadow
-									iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-									shadowAnchor: [4, 62],  // the same for the shadow
-									popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-								})
+								'icon': icon
 							});
 
 							if ( popupContent ) {
@@ -484,6 +494,55 @@ function (
 		hidePoiLayer: function (poiLayerModel) {
 
 			this._map.removeLayer( this._mapLayers[ poiLayerModel.cid ] );
+		},
+
+		updatePoiLayerIcons: function (poiLayerModel) {
+
+			var self = this;
+
+			this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
+
+				if ( layer._icon ) {
+
+					layer.setIcon( self.getPoiLayerIcon( poiLayerModel ) );
+				}
+			});
+		},
+
+		getPoiLayerIcon: function (poiLayerModel) {
+
+			var iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('markerShape') ]),
+			markerIcon = poiLayerModel.get('markerIcon'),
+			markerColor = poiLayerModel.get('markerColor');
+
+			iconOptions.className += ' '+ markerColor;
+
+			if ( markerIcon ) {
+
+				iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
+			}
+
+			return L.divIcon( iconOptions );
+		},
+
+		getPoiLayerHtmlIcon: function (poiLayerModel) {
+
+			var html = '',
+			iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('markerShape') ]),
+			markerIcon = poiLayerModel.get('markerIcon'),
+			markerColor = poiLayerModel.get('markerColor');
+
+			html += '<div class="marker marker-1 '+ markerColor +'">';
+			html += iconOptions.html;
+
+			if ( markerIcon ) {
+
+				html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
+			}
+
+			html += '</div>';
+
+			return html;
 		},
 
 		renderUserButtonLogged: function () {
@@ -567,6 +626,18 @@ function (
 
 				view.open();
 			});
+		},
+
+
+
+		onCommandShowEditPoiMarker: function (layerId) {
+
+			var view = new EditPoiMarkerModalView({
+
+				'model': this._poiLayers.findWhere({ '_id': layerId })
+			});
+
+			this.getRegion('editPoiMarkerModal').show( view );
 		},
 
 

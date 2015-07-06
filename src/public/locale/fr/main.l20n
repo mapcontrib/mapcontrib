@@ -46,6 +46,7 @@
 <close "Fermer">
 <save "Enregistrer">
 <cancel "Annuler">
+<customize "Personnaliser">
 
 
 /* Help */
@@ -99,10 +100,20 @@ de se connecter à votre compte OpenStreetMap.
 
 /* Edit POI layer column */
 <editPoiLayerColumn_title "Édition de la couche">
-<editSettingColumn_layerName "Nom">
-<editSettingColumn_layerDescription "Description">
-<editSettingColumn_layerOverpassRequest "Requête Overpass">
-<editSettingColumn_layerPopupContent "Contenu des bulles">
+<editPoiLayerColumn_layerName "Nom">
+<editPoiLayerColumn_layerDescription "Description">
+<editPoiLayerColumn_layerOverpassRequest "Requête Overpass">
+<editPoiLayerColumn_marker "Marqueur">
+<editPoiLayerColumn_layerPopupContent "Contenu des bulles">
+
+
+/* Edit POI marker modal */
+<editPoiMarkerModal_colorAndShape "Couleur et forme">
+<editPoiMarkerModal_color "Couleur">
+<editPoiMarkerModal_shape "Forme">
+<editPoiMarkerModal_icon "Icône">
+<editPoiMarkerModal_iconDescription1 "Les icônes sont tirées de la collection Font Awesome.">
+<editPoiMarkerModal_iconDescription2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
 
 
 /* Edit tiles column */

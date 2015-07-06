@@ -1,10 +1,146 @@
 @import 'font/fira.css';
 @import 'font/voltaire.css';
 @import 'font/charissil.css';
-/* Functions */
 /* Colors */
 /* Dimensions */
 /* Layers */
+/* Functions */
+.btn-marker-color {
+  position: relative;
+  color: #fff;
+  padding: 0;
+}
+.btn-marker-color.gray {
+  color: #888a85;
+}
+.btn-marker-color > div {
+  height: 20px;
+  border-style: solid;
+  border-width: 0 15px;
+}
+.btn-marker-color > div .fa {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+}
+.btn-marker-color.green > div {
+  border-left-color: #8ae234;
+  border-right-color: #4e9a06;
+}
+.btn-marker-color.yellow > div {
+  border-left-color: #fce94f;
+  border-right-color: #c4a000;
+}
+.btn-marker-color.orange > div {
+  border-left-color: #fcaf3e;
+  border-right-color: #ce5c00;
+}
+.btn-marker-color.red > div {
+  border-left-color: #ef2929;
+  border-right-color: #a40000;
+}
+.btn-marker-color.purple > div {
+  border-left-color: #ad7fa8;
+  border-right-color: #5c3566;
+}
+.btn-marker-color.blue > div {
+  border-left-color: #729fcf;
+  border-right-color: #204a87;
+}
+.btn-marker-color.gray > div {
+  border-left-color: #d3d7cf;
+  border-right-color: #888a85;
+}
+.btn-marker-color.dark-gray > div {
+  border-left-color: #888a85;
+  border-right-color: #333333;
+}
+.btn-marker-color.brown > div {
+  border-left-color: #e9b96e;
+  border-right-color: #8f5902;
+}
+.marker {
+  position: relative;
+  display: inline-block;
+  cursor: default;
+}
+.marker .fa {
+  position: absolute;
+  font-size: 19px;
+}
+.marker.yellow .fa {
+  color: #c4a000;
+}
+.marker.yellow #colorized,
+.marker.yellow #colorized * {
+  fill: #fce94f !important;
+}
+.marker.orange .fa {
+  color: #ce5c00;
+}
+.marker.orange #colorized,
+.marker.orange #colorized * {
+  fill: #fcaf3e !important;
+}
+.marker.green .fa {
+  color: #4e9a06;
+}
+.marker.green #colorized,
+.marker.green #colorized * {
+  fill: #8ae234 !important;
+}
+.marker.blue .fa {
+  color: #204a87;
+}
+.marker.blue #colorized,
+.marker.blue #colorized * {
+  fill: #729fcf !important;
+}
+.marker.purple .fa {
+  color: #5c3566;
+}
+.marker.purple #colorized,
+.marker.purple #colorized * {
+  fill: #ad7fa8 !important;
+}
+.marker.brown .fa {
+  color: #8f5902;
+}
+.marker.brown #colorized,
+.marker.brown #colorized * {
+  fill: #e9b96e !important;
+}
+.marker.red .fa {
+  color: #a40000;
+}
+.marker.red #colorized,
+.marker.red #colorized * {
+  fill: #ef2929 !important;
+}
+.marker.gray .fa {
+  color: #888a85;
+}
+.marker.gray #colorized,
+.marker.gray #colorized * {
+  fill: #d3d7cf !important;
+}
+.marker.dark-gray .fa {
+  color: #333333;
+}
+.marker.dark-gray #colorized,
+.marker.dark-gray #colorized * {
+  fill: #888a85 !important;
+}
+.leaflet-container .marker {
+  display: block;
+  cursor: pointer;
+}
+.marker-1 .fa,
+.marker-2 .fa,
+.marker-3 .fa {
+  top: 9px;
+  left: 6px;
+}
 @keyframes appear {
   0% {
     opacity: 0;
@@ -238,70 +374,98 @@ fieldset .form-control:active {
   animation-direction: normal;
 }
 #title.blue,
-.btn-color.blue,
+#edit_setting_column .btn-color.blue,
 #title.purple,
-.btn-color.purple,
+#edit_setting_column .btn-color.purple,
 #title.turquoise,
-.btn-color.turquoise,
+#edit_setting_column .btn-color.turquoise,
 #title.orange,
-.btn-color.orange,
+#edit_setting_column .btn-color.orange,
 #title.green,
-.btn-color.green,
+#edit_setting_column .btn-color.green,
 #title.red,
-.btn-color.red,
+#edit_setting_column .btn-color.red,
 #title.anthracite,
-.btn-color.anthracite {
+#edit_setting_column .btn-color.anthracite {
   color: #fff;
 }
 #title.blue,
-.btn-color.blue {
+#edit_setting_column .btn-color.blue {
   background: #38b8e2;
 }
 #title.purple,
-.btn-color.purple {
+#edit_setting_column .btn-color.purple {
   background: #553445;
 }
 #title.turquoise,
-.btn-color.turquoise {
+#edit_setting_column .btn-color.turquoise {
   background: #00b6ad;
 }
 #title.orange,
-.btn-color.orange {
+#edit_setting_column .btn-color.orange {
   background: #f8981d;
 }
 #title.green,
-.btn-color.green {
+#edit_setting_column .btn-color.green {
   background: #1d9650;
 }
 #title.red,
-.btn-color.red {
+#edit_setting_column .btn-color.red {
   background: #e85657;
 }
 #title.anthracite,
-.btn-color.anthracite {
+#edit_setting_column .btn-color.anthracite {
   background: #3b3f45;
 }
 #title.white,
-.btn-color.white {
+#edit_setting_column .btn-color.white {
   background: #fff;
   color: #3b3f45;
 }
-.btn-color {
+.btn-color,
+.btn-marker-color {
   border-color: rgba(255, 255, 255, 0.8);
 }
 .btn-color:hover,
+.btn-marker-color:hover,
 .btn-color:focus,
+.btn-marker-color:focus,
 .btn-color.focus,
+.btn-marker-color.focus,
 .btn-color:active,
-.btn-color.active {
+.btn-marker-color:active,
+.btn-color.active,
+.btn-marker-color.active {
   color: #fff;
 }
 .btn-color.white:hover,
+.btn-marker-color.white:hover,
 .btn-color.white:focus,
+.btn-marker-color.white:focus,
 .btn-color.white.focus,
+.btn-marker-color.white.focus,
 .btn-color.white:active,
-.btn-color.white.active {
+.btn-marker-color.white:active,
+.btn-color.white.active,
+.btn-marker-color.white.active {
   color: #3b3f45;
+}
+.btn-marker-shape {
+  background: transparent;
+}
+.btn-marker-shape:hover,
+.btn-marker-shape:focus,
+.btn-marker-shape.focus {
+  border-color: #e4e4e4;
+}
+.btn-marker-shape:active,
+.btn-marker-shape.active {
+  background: #e4e4e4;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
 }
 .toolbar {
   position: fixed;
@@ -437,6 +601,20 @@ fieldset .form-control:active {
   -ms-transform: translate(0, 0);
   -o-transform: translate(0, 0);
   transform: translate(0, 0);
+}
+.column .marker-form-widget {
+  height: 42px;
+}
+.column .marker-form-widget .marker,
+.column .marker-form-widget .btn {
+  float: left;
+}
+.column .marker-form-widget .marker {
+  margin-left: 15px;
+  margin-right: 20px;
+}
+.column .marker-form-widget .btn {
+  margin-top: 4px;
 }
 .column .list-group.reorderable .list-group-item {
   padding-left: 30px;
@@ -1142,6 +1320,19 @@ fieldset .form-control:active {
   transform: translate(-50%, -45%);
   padding: 30px 15px;
 }
+.pop_modal .pop.no_padding {
+  padding: 0;
+}
+.pop_modal .pop.no_padding .nav-tabs {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.pop_modal .pop .nav-tabs {
+  background: #f3f3f3;
+}
+.pop_modal .pop .nav-tabs li a {
+  color: #3b3f45;
+}
 .pop_modal.open {
   opacity: 1;
 }
@@ -1195,4 +1386,12 @@ fieldset .form-control:active {
   display: block;
   animation-name: appear;
   animation-direction: normal;
+}
+.icon-preview {
+  position: absolute;
+  top: 8px;
+  right: 11px;
+  z-index: 10;
+  color: #4e535b;
+  font-size: 19px;
 }

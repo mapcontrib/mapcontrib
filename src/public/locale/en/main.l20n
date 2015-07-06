@@ -46,6 +46,7 @@
 <close "Close">
 <save "Save">
 <cancel "Cancel">
+<customize "Customize">
 
 
 /* Help */
@@ -99,10 +100,20 @@ to connect to your OpenStreetMap account.
 
 /* Edit POI layer column */
 <editPoiLayerColumn_title "Layer edit">
-<editSettingColumn_layerName "Name">
-<editSettingColumn_layerDescription "Description">
-<editSettingColumn_layerOverpassRequest "Overpass request">
-<editSettingColumn_layerPopupContent "Popup content">
+<editPoiLayerColumn_layerName "Name">
+<editPoiLayerColumn_layerDescription "Description">
+<editPoiLayerColumn_layerOverpassRequest "Overpass request">
+<editPoiLayerColumn_marker "Marker">
+<editPoiLayerColumn_layerPopupContent "Popup content">
+
+
+/* Edit POI marker modal */
+<editPoiMarkerModal_colorAndShape "Color and shape">
+<editPoiMarkerModal_color "Color">
+<editPoiMarkerModal_shape "Shape">
+<editPoiMarkerModal_icon "Icon">
+<editPoiMarkerModal_iconDescription1 "Icons come from the Font Awesome collection.">
+<editPoiMarkerModal_iconDescription2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
 
 
 /* Edit tiles column */

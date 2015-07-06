@@ -35,7 +35,7 @@ function (
 
 			'profileName': '#profile_name',
 			'profileDescription': '#profile_description',
-			'colorButtons': '.colorButtons .btn',
+			'colorButtons': '.color-buttons .btn',
 			'profilePositionKeepOld': '#profile_position_keep_old',
 			'profilePositionSetNew': '#profile_position_set_new',
 		},
