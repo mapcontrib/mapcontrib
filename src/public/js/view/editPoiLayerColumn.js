@@ -38,6 +38,7 @@ function (
 			'layerOverpassRequest': '#layer_overpass_request',
 			'layerPopupContent': '#layer_popup_content',
 
+			'marker': '.marker',
 			'editMarkerButton': '.edit_marker_btn',
 		},
 
@@ -63,6 +64,8 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
 			this._oldModel = this.model.clone();
+
+			this.model.on('change', this.updateMarkerIcon, this);
 		},
 
 		open: function () {
@@ -73,6 +76,15 @@ function (
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		updateMarkerIcon: function () {
+
+			var html = this._radio.reqres.request('poiLayerHtmlIcon', this.model);
+
+			this.ui.marker.replaceWith( html );
+			
+			this.bindUIElements();
 		},
 
 		onClickEditMarker: function () {
