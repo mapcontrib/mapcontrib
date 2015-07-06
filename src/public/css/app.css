@@ -66,7 +66,7 @@
 }
 .marker .fa {
   position: absolute;
-  font-size: 18px;
+  font-size: 19px;
 }
 .marker.yellow .fa {
   color: #c4a000;
@@ -138,7 +138,7 @@
 .marker-1 .fa,
 .marker-2 .fa,
 .marker-3 .fa {
-  top: 12px;
+  top: 9px;
   left: 6px;
 }
 @keyframes appear {
@@ -1386,4 +1386,12 @@ fieldset .form-control:active {
   display: block;
   animation-name: appear;
   animation-direction: normal;
+}
+.icon-preview {
+  position: absolute;
+  top: 8px;
+  right: 11px;
+  z-index: 10;
+  color: #4e535b;
+  font-size: 19px;
 }

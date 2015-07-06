@@ -34,8 +34,10 @@ function (
 		ui: {
 
 			'modal': '#edit_poi_marker_modal',
-			'colorButtons': '.colorButtons .btn',
-			'shapeButtons': '.shapeButtons .btn',
+			'colorButtons': '.color-buttons .btn',
+			'shapeButtons': '.shape-buttons .btn',
+			'iconName': '#marker_icon_name',
+			'iconPreview': '.icon-preview',
 			'closeButton': '.close_btn',
 		},
 
@@ -43,6 +45,7 @@ function (
 
 			'click @ui.colorButtons': 'onClickColorButtons',
 			'click @ui.shapeButtons': 'onClickShapeButtons',
+			'keyup @ui.iconName': 'onChangeIconName',
 
 			'submit': 'onSubmit',
 			'reset': 'onReset',
@@ -69,6 +72,8 @@ function (
 			this.ui.shapeButtons
 			.filter( '.'+ this.model.get('markerShape') )
 			.addClass('active');
+
+			this.updateIconPreview();
 		},
 
 		close: function () {
@@ -106,6 +111,20 @@ function (
 			e.target.classList.add('active');
 
 			this.model.set('markerShape', e.target.dataset.shape);
+		},
+
+		onChangeIconName: function (e) {
+
+			this.updateIconPreview();
+		},
+
+		updateIconPreview: function () {
+
+			var iconName = this.ui.iconName.val() ? this.ui.iconName.val() : 'home';
+
+			this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
+
+			this.model.set('markerIcon', iconName);
 		},
 	});
 });

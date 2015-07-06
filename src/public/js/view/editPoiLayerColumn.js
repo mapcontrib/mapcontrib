@@ -38,7 +38,7 @@ function (
 			'layerOverpassRequest': '#layer_overpass_request',
 			'layerPopupContent': '#layer_popup_content',
 
-			'marker': '.marker',
+			'markerWrapper': '.marker-wrapper',
 			'editMarkerButton': '.edit_marker_btn',
 		},
 
@@ -65,7 +65,7 @@ function (
 
 			this._oldModel = this.model.clone();
 
-			this.model.on('change', this.updateMarkerIcon, this);
+			this.listenTo(this.model, 'change', this.updateMarkerIcon);
 		},
 
 		open: function () {
@@ -82,7 +82,7 @@ function (
 
 			var html = this._radio.reqres.request('poiLayerHtmlIcon', this.model);
 
-			this.ui.marker.replaceWith( html );
+			this.ui.markerWrapper.html( html );
 
 			this.bindUIElements();
 		},

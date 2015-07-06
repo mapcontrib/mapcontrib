@@ -519,7 +519,7 @@ function (
 
 			if ( markerIcon ) {
 
-				iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw fa-lg"></i>';
+				iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
 			}
 
 			return L.divIcon( iconOptions );
@@ -537,7 +537,7 @@ function (
 
 			if ( markerIcon ) {
 
-				html += '<i class="fa fa-'+ markerIcon +' fa-fw fa-lg"></i>';
+				html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
 			}
 
 			html += '</div>';

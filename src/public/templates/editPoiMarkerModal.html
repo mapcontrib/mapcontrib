@@ -11,12 +11,12 @@
 							<li role="presentation"><a href="#marker_icon" aria-controls="marker_icon" role="tab" data-toggle="tab" data-l10n-id="editPoiMarkerModal_icon"></a></li>
 						</ul>
 
-						<div class="tab-content prepend-xs-1 append-xs-1">
+						<div class="tab-content prepend-xs-2 append-xs-2">
 							<div role="tabpanel" class="tab-pane fade in active" id="marker_color_and_shape">
 
 								<div class="form-group">
 									<label class="control-label" data-l10n-id="editPoiMarkerModal_color"></label>
-									<div class="colorButtons">
+									<div class="color-buttons">
 										<button type="button" class="btn btn-xs btn-marker-color green" data-color="green"><div><i class="fa fa-fw"></i></div></button>
 										<button type="button" class="btn btn-xs btn-marker-color blue" data-color="blue"><div><i class="fa fa-fw"></i></div></button>
 										<button type="button" class="btn btn-xs btn-marker-color purple" data-color="purple"><div><i class="fa fa-fw"></i></div></button>
@@ -31,7 +31,7 @@
 
 								<div class="form-group">
 									<label class="control-label" data-l10n-id="editPoiMarkerModal_shape"></label>
-									<div class="shapeButtons">
+									<div class="shape-buttons">
 										<button type="button" class="btn btn-marker-shape marker1" data-shape="marker1">
 											<img src="img/markers/1_optimized.svg" alt="" />
 										</button>
@@ -45,6 +45,17 @@
 								</div>
 							</div>
 							<div role="tabpanel" class="tab-pane fade" id="marker_icon">
+
+								<div class="form-group">
+									<p data-l10n-id="editPoiMarkerModal_iconDescription1"></p>
+									<p data-l10n-id="editPoiMarkerModal_iconDescription2"><a href="http://fortawesome.github.io/Font-Awesome/icons" target="_blank"></a></p>
+									<label for="marker_icon" class="control-label" data-l10n-id="editPoiMarkerModal_icon"></label>
+									<div class="input-group">
+										<span class="input-group-addon">fa-</span>
+										<input type="text" class="form-control" id="marker_icon_name" placeholder="home" value="<%= markerIcon %>">
+										<i class="fa fa-home icon-preview"></i>
+									</div>
+								</div>
 
 							</div>
 						</div>

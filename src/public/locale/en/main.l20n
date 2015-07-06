@@ -109,9 +109,11 @@ to connect to your OpenStreetMap account.
 
 /* Edit POI marker modal */
 <editPoiMarkerModal_colorAndShape "Color and shape">
-<editPoiMarkerModal_icon "Icon">
 <editPoiMarkerModal_color "Color">
 <editPoiMarkerModal_shape "Shape">
+<editPoiMarkerModal_icon "Icon">
+<editPoiMarkerModal_iconDescription1 "Icons come from the Font Awesome collection.">
+<editPoiMarkerModal_iconDescription2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
 
 
 /* Edit tiles column */
