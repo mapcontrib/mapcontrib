@@ -59,8 +59,14 @@
   border-left-color: #e9b96e;
   border-right-color: #8f5902;
 }
+.marker {
+  position: relative;
+  display: inline-block;
+  cursor: default;
+}
 .marker .fa {
   position: absolute;
+  font-size: 18px;
 }
 .marker.yellow .fa {
   color: #c4a000;
@@ -125,11 +131,15 @@
 .marker.dark-gray #colorized * {
   fill: #888a85 !important;
 }
+.leaflet-container .marker {
+  display: block;
+  cursor: pointer;
+}
 .marker-1 .fa,
 .marker-2 .fa,
 .marker-3 .fa {
   top: 12px;
-  left: 8px;
+  left: 6px;
 }
 @keyframes appear {
   0% {
@@ -591,6 +601,20 @@ fieldset .form-control:active {
   -ms-transform: translate(0, 0);
   -o-transform: translate(0, 0);
   transform: translate(0, 0);
+}
+.column .marker-form-widget {
+  height: 42px;
+}
+.column .marker-form-widget .marker,
+.column .marker-form-widget .btn {
+  float: left;
+}
+.column .marker-form-widget .marker {
+  margin-left: 15px;
+  margin-right: 20px;
+}
+.column .marker-form-widget .btn {
+  margin-top: 4px;
 }
 .column .list-group.reorderable .list-group-item {
   padding-left: 30px;

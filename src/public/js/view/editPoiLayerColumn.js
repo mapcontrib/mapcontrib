@@ -48,6 +48,14 @@ function (
 			'reset': 'onReset',
 		},
 
+		templateHelpers: function () {
+
+			return {
+
+				'markerIcon': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
+			};
+		},
+
 		initialize: function () {
 
 			var self = this;

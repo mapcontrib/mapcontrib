@@ -184,9 +184,16 @@ function (
 				},
 			});
 
-			this._radio.reqres.setHandler('poiLayers', function () {
+			this._radio.reqres.setHandlers({
 
-				return self._poiLayers;
+				'poiLayers': function (layerId) {
+
+					return self._poiLayers;
+				},
+				'poiLayerHtmlIcon': function (poiLayerModel) {
+
+					return self.getPoiLayerHtmlIcon( poiLayerModel );
+				},
 			});
 
 			this._radio.commands.setHandlers({
@@ -516,6 +523,26 @@ function (
 			}
 
 			return L.divIcon( iconOptions );
+		},
+
+		getPoiLayerHtmlIcon: function (poiLayerModel) {
+
+			var html = '',
+			iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('markerShape') ]),
+			markerIcon = poiLayerModel.get('markerIcon'),
+			markerColor = poiLayerModel.get('markerColor');
+
+			html += '<div class="marker marker-1 '+ markerColor +'">';
+			html += iconOptions.html;
+
+			if ( markerIcon ) {
+
+				html += '<i class="fa fa-'+ markerIcon +' fa-fw fa-lg"></i>';
+			}
+
+			html += '</div>';
+
+			return html;
 		},
 
 		renderUserButtonLogged: function () {
