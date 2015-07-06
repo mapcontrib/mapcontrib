@@ -118,11 +118,11 @@
 .marker.gray #colorized * {
   fill: #d3d7cf !important;
 }
-.marker.darkGray .fa {
+.marker.dark-gray .fa {
   color: #333333;
 }
-.marker.darkGray #colorized,
-.marker.darkGray #colorized * {
+.marker.dark-gray #colorized,
+.marker.dark-gray #colorized * {
   fill: #888a85 !important;
 }
 .marker-1 .fa,
