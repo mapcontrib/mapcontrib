@@ -239,6 +239,11 @@ function (
 
 				this.renderUserButtonLogged();
 				this.showEditTools();
+				
+				if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+
+					this.ui.editToolbar.toggleClass('open');
+				}
 			}
 			else {
 
@@ -287,11 +292,6 @@ function (
 					self.onCompressScreen();
 				}
 			});
-
-			if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
-
-				this.ui.editToolbar.toggleClass('open');
-			}
 		},
 
 		onShow: function () {
