@@ -10,6 +10,7 @@ define([], function () {
 
 		'apiPath': 'api/',
 
-		'maxFileSize': 800, // En Kbits
+		'largeScreenMinWidth': 800,
+		'largeScreenMinHeight': 600,
 	};
 });

@@ -7,6 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
+	'settings',
 	'const',
 	'leaflet',
 	'leaflet-layer-overpass',
@@ -37,6 +38,7 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
+	settings,
 	CONST,
 	L,
 	overpasseLayer,
@@ -285,6 +287,11 @@ function (
 					self.onCompressScreen();
 				}
 			});
+
+			if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+
+				this.ui.editToolbar.toggleClass('open');
+			}
 		},
 
 		onShow: function () {
