@@ -200,9 +200,9 @@ function (
 
 			this._radio.commands.setHandlers({
 
-				'column:showPoiLayer': function (layerId) {
+				'column:showPoiLayer': function (poiLayerModel) {
 
-					self.onCommandShowPoiLayer( layerId );
+					self.onCommandShowPoiLayer( poiLayerModel );
 				},
 				'modal:showEditPoiMarker': function (poiLayerModel) {
 
@@ -608,15 +608,15 @@ function (
 
 
 
-		onCommandShowPoiLayer: function (layerId) {
+		onCommandShowPoiLayer: function (poiLayerModel) {
 
 			var view;
 
-			if (layerId) {
+			if ( poiLayerModel ) {
 
 				view = new EditPoiLayerColumnView({
 
-					'model': this._poiLayers.findWhere({ '_id': layerId })
+					'model': poiLayerModel
 				});
 			}
 			else {

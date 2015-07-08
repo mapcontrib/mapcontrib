@@ -58,7 +58,7 @@ function (
 
 		onClick: function () {
 
-			this._radio.commands.execute( 'column:showPoiLayer', this.model.get('_id') );
+			this._radio.commands.execute( 'column:showPoiLayer', this.model );
 		},
 
 		onClickRemove: function (e) {
