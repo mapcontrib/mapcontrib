@@ -98,6 +98,7 @@ function (
 			e.preventDefault();
 
 			var self = this,
+			addToCollection = false,
 			updateMarkers = false;
 
 			this.model.set('name', this.ui.layerName.val());
@@ -107,7 +108,7 @@ function (
 
 			if ( !this.model.get('_id') ) {
 
-				this._radio.reqres.request('poiLayers').add( this.model );
+				addToCollection = true;
 			}
 
 			if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
@@ -128,6 +129,11 @@ function (
 			this.model.save({}, {
 
 				'success': function () {
+
+					if ( addToCollection ) {
+
+						self._radio.reqres.request('poiLayers').add( self.model );
+					}
 
 					if ( updateMarkers ) {
 
