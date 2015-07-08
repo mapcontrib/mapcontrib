@@ -90,7 +90,7 @@ function (
 
 		onClickEditMarker: function () {
 
-			this._radio.commands.execute( 'modal:showEditPoiMarker', this.model.get('_id') );
+			this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
 		},
 
 		onSubmit: function (e) {

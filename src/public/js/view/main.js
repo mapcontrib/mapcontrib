@@ -204,9 +204,9 @@ function (
 
 					self.onCommandShowPoiLayer( layerId );
 				},
-				'modal:showEditPoiMarker': function (layerId) {
+				'modal:showEditPoiMarker': function (poiLayerModel) {
 
-					self.onCommandShowEditPoiMarker( layerId );
+					self.onCommandShowEditPoiMarker( poiLayerModel );
 				},
 				'map:showPoiLayer': function (poiLayerModel) {
 
@@ -239,7 +239,7 @@ function (
 
 				this.renderUserButtonLogged();
 				this.showEditTools();
-				
+
 				if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
 
 					this.ui.editToolbar.toggleClass('open');
@@ -637,11 +637,11 @@ function (
 
 
 
-		onCommandShowEditPoiMarker: function (layerId) {
+		onCommandShowEditPoiMarker: function (poiLayerModel) {
 
 			var view = new EditPoiMarkerModalView({
 
-				'model': this._poiLayers.findWhere({ '_id': layerId })
+				'model': poiLayerModel
 			});
 
 			this.getRegion('editPoiMarkerModal').show( view );
