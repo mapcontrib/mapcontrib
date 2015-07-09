@@ -755,8 +755,6 @@ function (
 
 			if ( !this._seenZoomIndicatorNotification &&  this._map.getZoom() < this._minDataZoom ) {
 
-				console.log('anim frame', this._map.getZoom(), this._minDataZoom);
-
 				this._seenZoomIndicatorNotification = true;
 
 				this._zoomIndicatorNotificationView.open();
