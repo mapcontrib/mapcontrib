@@ -77,6 +77,8 @@ function (
 		ui: {
 
 			'map': '#main_map',
+			'zoomLevel': '#zoom_indicator .zoom',
+			'zoomData': '#zoom_indicator .data',
 			'toolbarButtons': '.toolbar .toolbar_btn',
 
 			'controlToolbar': '#control_toolbar',
@@ -326,6 +328,14 @@ function (
 
 			this._map
 			.setView([center.lat, center.lng], zoomLevel)
+			.on('zoomend', function (e) {
+
+				self.onZoomEnd(e);
+			})
+			.on('zoomlevelschange', function (e) {
+
+				self.onZoomLevelsChange(e);
+			})
 			.on('locationfound', function () {
 
 				self.onLocationFound();
@@ -335,6 +345,7 @@ function (
 				self.onLocationError();
 			});
 
+			this.updateZoomIndicator();
 
 			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
@@ -484,6 +495,8 @@ function (
 			this._mapLayers[ poiLayerModel.cid ] = layerGroup;
 
 			this.showPoiLayer( poiLayerModel );
+
+			this.updateZoomDataIndicator();
 		},
 
 		removePoiLayer: function (poiLayerModel) {
@@ -675,6 +688,56 @@ function (
 		onClickLocateWait: function () {
 
 			this._map.stopLocate();
+		},
+
+		updateZoomDataIndicator: function () {
+
+			var self = this,
+			nbZoom = this._map.getMaxZoom() - this._map.getMinZoom(),
+			minZoom = 100000;
+
+			_.each(this._poiLayers.models, function (poiLayerModel) {
+
+				if ( poiLayerModel.get('minZoom') < minZoom ) {
+
+					minZoom = poiLayerModel.get('minZoom');
+				}
+
+			}, this);
+
+			var left = Math.round( (100 / nbZoom) * minZoom );
+
+			window.requestAnimationFrame(function () {
+
+				self.ui.zoomData.css('left', left + '%');
+			});
+		},
+
+		updateZoomIndicator: function () {
+
+			var self = this,
+			nbZoom = this._map.getMaxZoom() - this._map.getMinZoom(),
+			step = Math.round( (100 / nbZoom) * this._map.getZoom() );
+
+			if (step > 100) {
+
+				step = 100;
+			}
+
+			window.requestAnimationFrame(function () {
+
+				self.ui.zoomLevel.css('left', step + '%');
+			});
+		},
+
+		onZoomEnd: function (e) {
+
+			this.updateZoomIndicator();
+		},
+
+		onZoomLevelsChange: function (e) {
+
+			this.updateZoomIndicator();
 		},
 
 		onLocationFound: function () {

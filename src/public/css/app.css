@@ -265,7 +265,7 @@ fieldset .form-control:active {
   position: fixed;
   z-index: 1000;
   top: 40px;
-  bottom: 0;
+  bottom: 10px;
   left: 0;
   right: 0;
 }
@@ -503,7 +503,7 @@ fieldset .form-control:active {
   background: #fff;
 }
 #help_toolbar {
-  bottom: 0;
+  bottom: 10px;
   left: 0;
 }
 #help_toolbar .help_btn {
@@ -1239,7 +1239,7 @@ fieldset .form-control:active {
 #tip_of_the_day {
   position: fixed;
   z-index: 1020;
-  bottom: 0;
+  bottom: 10px;
   left: 100%;
   width: 500px;
   max-width: 100%;
@@ -1402,4 +1402,32 @@ fieldset .form-control:active {
   z-index: 10;
   color: #4e535b;
   font-size: 19px;
+}
+#zoom_indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1001;
+  height: 10px;
+  background: #23262a;
+  overflow: hidden;
+}
+#zoom_indicator .data {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  background: #4e535b;
+}
+#zoom_indicator .zoom {
+  position: absolute;
+  margin-left: -2px;
+  width: 4px;
+  height: 100%;
+  -webkit-transition: left ease-out 0.2s;
+  -moz-transition: left ease-out 0.2s;
+  -ms-transition: left ease-out 0.2s;
+  -o-transition: left ease-out 0.2s;
+  transition: left ease-out 0.2s;
+  background: #f8981d;
 }

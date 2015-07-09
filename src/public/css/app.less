@@ -34,6 +34,7 @@
 
 
 /* Dimensions */
+@zoomIndicatorHeight: 10px;
 @titleHeight: 40px;
 @columnTitleHeight: 50px;
 @toolbarBtnSize: 63px;
@@ -41,6 +42,7 @@
 
 /* Layers */
 @mapZIndex: 1000;
+@zoomIndicatorZIndex: 1001;
 @toolbarZIndex: 1010;
 @tipOfTheDayZIndex: 1020;
 @columnZIndex: 1030;
@@ -167,7 +169,7 @@ fieldset .form-control {
 	position: fixed;
 	z-index: @mapZIndex;
 	top: @titleHeight;
-	bottom: 0;
+	bottom: @zoomIndicatorHeight;
 	left: 0;
 	right: 0;
 
@@ -408,7 +410,7 @@ fieldset .form-control {
 
 #help_toolbar {
 
-	bottom: 0;
+	bottom: @zoomIndicatorHeight;
 	left: 0;
 
 	.help_btn {
@@ -1059,7 +1061,7 @@ fieldset .form-control {
 
 	position: fixed;
 	z-index: @tipOfTheDayZIndex;
-	bottom: 0;
+	bottom: @zoomIndicatorHeight;
 	left: 100%;
 	width: 500px;
 	max-width: 100%;
@@ -1242,4 +1244,35 @@ fieldset .form-control {
 	z-index: 10;
 	color: @lightAnthracite;
 	font-size: 19px;
+}
+
+
+#zoom_indicator {
+
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: @zoomIndicatorZIndex;
+	height: @zoomIndicatorHeight;
+	background: @darkAnthracite;
+	overflow: hidden;
+
+	.data {
+
+		position: absolute;
+		right: 0;
+		height: 100%;
+		background: @lightAnthracite;
+	}
+
+	.zoom {
+
+		position: absolute;
+		margin-left: -2px;
+		width: 4px;
+		height: 100%;
+		.transition( left ease-out .2s );
+		background: @orange;
+	}
 }
