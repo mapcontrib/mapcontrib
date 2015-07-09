@@ -569,7 +569,7 @@ fieldset .form-control:active {
   position: fixed;
   z-index: 1030;
   top: 40px;
-  bottom: 0;
+  bottom: 10px;
   width: 300px;
   max-width: 100%;
   -webkit-transition: transform ease-out 0.2s;
