@@ -21,7 +21,7 @@ function (
 
 	return Marionette.LayoutView.extend({
 
-		template: JST['tipOfTheDay.html'],
+		template: JST['zoomIndicatorNotification.html'],
 
 		behavior: {
 
@@ -30,15 +30,14 @@ function (
 
 		ui: {
 
-			'window': '#tip_of_the_day',
-			'okBtn': '.ok_btn',
+			'window': '#zoom_indicator_notification',
+
 			'closeBtn': '.close_btn',
 			'content': '.content',
 		},
 
 		events: {
 
-			'click @ui.okBtn': 'onClickOk',
 			'click @ui.closeBtn': 'onClickClose',
 		},
 
@@ -49,21 +48,19 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 		},
 
-		onRender: function () {
+		open: function () {
 
-			this.ui.content
-			.html('<a href="https://openstreetmap.org" target="_blank"></a>')
-			.attr('data-l10n-id', 'tip1');
+			this.ui.window.addClass('open');
 		},
 
-		onClickOk: function () {
+		close: function () {
 
 			this.ui.window.removeClass('open');
 		},
 
 		onClickClose: function () {
 
-			this.ui.window.removeClass('open');
+			this.close();
 		},
 	});
 });

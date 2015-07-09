@@ -1236,7 +1236,7 @@ fieldset .form-control:active {
 .column.orange .sticky-footer {
   background: #f48c08;
 }
-#tip_of_the_day {
+.notification {
   position: fixed;
   z-index: 1020;
   bottom: 10px;
@@ -1250,39 +1250,53 @@ fieldset .form-control:active {
   transition: transform ease-out 0.2s;
   background: #3b3f45;
   color: #fff;
+  padding-bottom: 10px;
 }
-#tip_of_the_day.open {
+.notification.open {
   -webkit-transform: translate(-100%, 0);
   -moz-transform: translate(-100%, 0);
   -ms-transform: translate(-100%, 0);
   -o-transform: translate(-100%, 0);
   transform: translate(-100%, 0);
 }
-#tip_of_the_day a {
+.notification a {
   color: #fff;
   text-decoration: underline;
 }
-#tip_of_the_day a:hover,
-#tip_of_the_day a:active,
-#tip_of_the_day a.active,
-#tip_of_the_day a:focus,
-#tip_of_the_day a.focus,
-#tip_of_the_day a.btn {
+.notification a:hover,
+.notification a:active,
+.notification a.active,
+.notification a:focus,
+.notification a.focus,
+.notification a.btn {
   text-decoration: none;
 }
-#tip_of_the_day .btn {
+.notification .btn {
   background: #23262a;
   color: #fff;
 }
-#tip_of_the_day .btn:hover,
-#tip_of_the_day .btn:active,
-#tip_of_the_day .btn.active,
-#tip_of_the_day .btn:focus,
-#tip_of_the_day .btn.focus {
+.notification .btn:hover,
+.notification .btn:active,
+.notification .btn.active,
+.notification .btn:focus,
+.notification .btn.focus {
   background: #1a1c1f;
 }
-#tip_of_the_day p {
+.notification p {
   text-align: justify;
+}
+.notification .close_btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+}
+.notification .close_btn:hover,
+.notification .close_btn:active,
+.notification .close_btn.active,
+.notification .close_btn:focus,
+.notification .close_btn.focus {
+  background: transparent;
 }
 /* .modal is reserved by Bootstrap */
 .pop_modal {
@@ -1404,7 +1418,7 @@ fieldset .form-control:active {
   font-size: 19px;
 }
 #zoom_indicator {
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;

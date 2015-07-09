@@ -118,3 +118,8 @@ to connect to your OpenStreetMap account.
 
 /* Edit tiles column */
 <editTileColumn_title "Backgrounds">
+
+
+/* Zoom indicator notification */
+<zoomIndicatorNotification_title "Insufficiant zoom">
+<zoomIndicatorNotification_content "The datas related to this map will be visible when your zoom level will be in the area located at the right of the below indicator.">

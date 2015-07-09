@@ -24,7 +24,7 @@ define([
 	'view/editPoiLayerColumn',
 	'view/editPoiMarkerModal',
 	'view/editTileColumn',
-	'view/tipOfTheDay',
+	'view/zoomIndicatorNotification',
 
 	'model/profile',
 	'model/poiLayer',
@@ -55,7 +55,7 @@ function (
 	EditPoiLayerColumnView,
 	EditPoiMarkerModalView,
 	EditTileColumnView,
-	TipOfTheDayView,
+	ZoomIndicatorNotificationView,
 
 	ProfileModel,
 	PoiLayerModel,
@@ -125,7 +125,7 @@ function (
 			'editPoiMarkerModal': '#rg_edit_poi_marker_modal',
 			'editTileColumn': '#rg_edit_tile_column',
 
-			'tipOfTheDay': '#rg_tip_of_the_day',
+			'zoomIndicatorNotification': '#rg_zoom_indicator_notification',
 		},
 
 		events: {
@@ -154,6 +154,9 @@ function (
 		initialize: function () {
 
 			var self = this;
+
+			this._seenZoomIndicatorNotification = false;
+			this._minDataZoom = 0;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
@@ -262,6 +265,8 @@ function (
 			this._editPoiColumnView = new EditPoiColumnView({ 'model': this.model });
 			this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
 
+			this._zoomIndicatorNotificationView = new ZoomIndicatorNotificationView();
+
 
 			this.getRegion('mainTitle').show( new MainTitleView({ 'model': this.model }) );
 
@@ -273,7 +278,7 @@ function (
 			this.getRegion('editPoiColumn').show( this._editPoiColumnView );
 			this.getRegion('editTileColumn').show( this._editTileColumnView );
 
-			this.getRegion('tipOfTheDay').show( new TipOfTheDayView() );
+			this.getRegion('zoomIndicatorNotification').show( this._zoomIndicatorNotificationView );
 
 
 
@@ -365,6 +370,8 @@ function (
 				this.addPoiLayer( poiLayerModel );
 
 			}, this);
+
+			this.updateZoomDataIndicator();
 
 			this._poiLayers.on('add', function (model) {
 
@@ -495,8 +502,6 @@ function (
 			this._mapLayers[ poiLayerModel.cid ] = layerGroup;
 
 			this.showPoiLayer( poiLayerModel );
-
-			this.updateZoomDataIndicator();
 		},
 
 		removePoiLayer: function (poiLayerModel) {
@@ -707,9 +712,13 @@ function (
 
 			var left = Math.round( (100 / nbZoom) * minZoom );
 
+			this._minDataZoom = minZoom;
+
 			window.requestAnimationFrame(function () {
 
 				self.ui.zoomData.css('left', left + '%');
+
+				self.checkZoomIndicatorNotification();
 			});
 		},
 
@@ -727,6 +736,8 @@ function (
 			window.requestAnimationFrame(function () {
 
 				self.ui.zoomLevel.css('left', step + '%');
+
+				self.checkZoomIndicatorNotification();
 			});
 		},
 
@@ -738,6 +749,18 @@ function (
 		onZoomLevelsChange: function (e) {
 
 			this.updateZoomIndicator();
+		},
+
+		checkZoomIndicatorNotification: function () {
+
+			if ( !this._seenZoomIndicatorNotification &&  this._map.getZoom() < this._minDataZoom ) {
+
+				console.log('anim frame', this._map.getZoom(), this._minDataZoom);
+
+				this._seenZoomIndicatorNotification = true;
+
+				this._zoomIndicatorNotificationView.open();
+			}
 		},
 
 		onLocationFound: function () {

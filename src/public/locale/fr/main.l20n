@@ -118,3 +118,8 @@ de se connecter à votre compte OpenStreetMap.
 
 /* Edit tiles column */
 <editTileColumn_title "Fonds de carte">
+
+
+/* Zoom indicator notification */
+<zoomIndicatorNotification_title "Zoom insuffisant">
+<zoomIndicatorNotification_content "Les données de cette carte n'apparaitront que lorsque votre niveau de zoom se trouvera dans la zone située à droite de l'indicateur ci-dessous.">

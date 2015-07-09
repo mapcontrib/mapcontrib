@@ -44,7 +44,7 @@
 @mapZIndex: 1000;
 @zoomIndicatorZIndex: 1001;
 @toolbarZIndex: 1010;
-@tipOfTheDayZIndex: 1020;
+@notificationZIndex: 1020;
 @columnZIndex: 1030;
 @titleZIndex: 1040;
 @modalZIndex: 1050;
@@ -1057,10 +1057,10 @@ fieldset .form-control {
 
 
 
-#tip_of_the_day {
+.notification {
 
 	position: fixed;
-	z-index: @tipOfTheDayZIndex;
+	z-index: @notificationZIndex;
 	bottom: @zoomIndicatorHeight;
 	left: 100%;
 	width: 500px;
@@ -1068,6 +1068,7 @@ fieldset .form-control {
 	.transition( transform ease-out .2s );
 	background: @anthracite;
 	color: #fff;
+	padding-bottom: 10px;
 
 	&.open {
 
@@ -1108,6 +1109,23 @@ fieldset .form-control {
 	p {
 
 		text-align: justify;
+	}
+
+	.close_btn {
+
+		position: absolute;
+		top: 0;
+		right: 0;
+		background: transparent;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: transparent;
+		}
 	}
 }
 
@@ -1249,7 +1267,7 @@ fieldset .form-control {
 
 #zoom_indicator {
 
-	position: absolute;
+	position: fixed;
 	left: 0;
 	right: 0;
 	bottom: 0;
