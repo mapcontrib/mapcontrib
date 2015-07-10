@@ -759,6 +759,10 @@ function (
 
 				this._zoomIndicatorNotificationView.open();
 			}
+			else if ( this._map.getZoom() >= this._minDataZoom ) {
+
+				this._zoomIndicatorNotificationView.close();
+			}
 		},
 
 		onLocationFound: function () {
