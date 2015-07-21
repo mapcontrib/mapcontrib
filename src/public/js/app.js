@@ -214,6 +214,9 @@ require(['requireConfig'], function () {
 		});
 
 
-		new App().start();
+		document.l10n.ready( function () {
+
+			new App().start();
+		});
 	});
 });
