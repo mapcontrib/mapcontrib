@@ -172,7 +172,7 @@ module.exports = function(grunt) {
 
 				files: [
 
-					'src/bower_components/**/*.css'
+					'src/public/bower_components/**/*.css'
 				],
 				tasks: [
 
