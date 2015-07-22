@@ -24,6 +24,14 @@ define([
 
 		'map': {
 
+			'panPadding': {
+
+				'top': 10,
+				'left': 73,
+				'bottom': 20,
+				'right': 73,
+			},
+
 			'wayPolygonOptions': {
 
 				'color': '#F8981D',

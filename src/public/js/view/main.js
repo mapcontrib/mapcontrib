@@ -469,7 +469,15 @@ function (
 
 									if ( popupContent ) {
 
-										polygon.bindPopup(popupContent);
+										polygon.bindPopup(
+
+											L.popup({
+
+												'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
+												'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
+											})
+											.setContent( popupContent )
+										);
 									}
 
 									layerGroup.addLayer( polygon );
@@ -486,7 +494,15 @@ function (
 
 							if ( popupContent ) {
 
-								marker.bindPopup(popupContent);
+								marker.bindPopup(
+
+									L.popup({
+
+										'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
+										'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
+									})
+									.setContent( popupContent )
+								);
 							}
 
 							layerGroup.addLayer( marker );
