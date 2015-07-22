@@ -225,6 +225,10 @@ function (
 
 					self.updatePoiLayerIcons( poiLayerModel );
 				},
+				'map:updatePoiLayerPopups': function (poiLayerModel) {
+
+					self.updatePoiLayerPopups( poiLayerModel );
+				},
 			});
 
 
@@ -431,18 +435,8 @@ function (
 							layerGroup._poiIds.push(e.id);
 
 
-							var pos, re,
-							popupContent = markdown.toHTML( poiLayerModel.get('popupContent') );
-
-							for (var k in e.tags) {
-
-								re = new RegExp('{'+ k +'}', 'g');
-
-								popupContent = popupContent.replace( re, e.tags[k] );
-							}
-
-							popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
-
+							var pos,
+							popupContent = self.getPoiLayerPopupContent(poiLayerModel, e);
 
 							if(e.type === 'node') {
 
@@ -487,6 +481,8 @@ function (
 
 								'icon': icon
 							});
+
+							marker._dataFromOSM = e;
 
 							if ( popupContent ) {
 
@@ -568,6 +564,36 @@ function (
 			html += '</div>';
 
 			return html;
+		},
+
+		updatePoiLayerPopups: function (poiLayerModel) {
+
+			var self = this;
+
+			this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
+
+				if ( layer._popup ) {
+
+					layer.setPopupContent( self.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOSM ) );
+				}
+			});
+		},
+
+		getPoiLayerPopupContent: function (poiLayerModel, dataFromOSM) {
+
+			var re,
+			popupContent = markdown.toHTML( poiLayerModel.get('popupContent') );
+
+			for (var k in dataFromOSM.tags) {
+
+				re = new RegExp('{'+ k +'}', 'g');
+
+				popupContent = popupContent.replace( re, dataFromOSM.tags[k] );
+			}
+
+			popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
+
+			return popupContent;
 		},
 
 		renderUserButtonLogged: function () {

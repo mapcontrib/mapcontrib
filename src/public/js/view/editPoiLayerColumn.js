@@ -99,7 +99,8 @@ function (
 
 			var self = this,
 			addToCollection = false,
-			updateMarkers = false;
+			updateMarkers = false,
+			updatePopups = false;
 
 			this.model.set('name', this.ui.layerName.val());
 			this.model.set('description', this.ui.layerDescription.val());
@@ -126,6 +127,11 @@ function (
 				updateMarkers = true;
 			}
 
+			if ( this._oldModel.get('popupContent') !== this.model.get('popupContent') ) {
+
+				updatePopups = true;
+			}
+
 			this.model.save({}, {
 
 				'success': function () {
@@ -138,6 +144,11 @@ function (
 					if ( updateMarkers ) {
 
 						self._radio.commands.execute('map:updatePoiLayerIcons', self.model);
+					}
+
+					if ( updatePopups ) {
+
+						self._radio.commands.execute('map:updatePoiLayerPopups', self.model);
 					}
 
 					self.close();
