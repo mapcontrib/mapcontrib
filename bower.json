@@ -15,7 +15,7 @@
     "animationFrame": "~0.2.4",
     "Fullscreen-API-Polyfill": "*",
     "leaflet-layer-overpass": "~1.0.2",
-    "l20n": "~1.0.2",
+    "l20n": "~1.0.4",
     "jquery-ui-sortable": "*",
     "jqueryui-touch-punch": "*",
     "awesome-bootstrap-checkbox": "~0.3.4",
