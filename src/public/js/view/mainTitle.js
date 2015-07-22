@@ -99,7 +99,9 @@ function (
 			})
 			.on('click', function () {
 
-				$(this).blur();
+				$(this)
+				.blur()
+				.tooltip('hide');
 			});
 		},
 
