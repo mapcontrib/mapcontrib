@@ -172,7 +172,7 @@ function (
 						}
 					}
 
-					self.onNodeXmlReceived( nodeXml );
+					self.sendNewXml( nodeXml );
 				},
 				'error': function (jqXHR, textStatus, error) {
 
@@ -181,7 +181,7 @@ function (
 			});
 		},
 
-		onNodeXmlReceived: function (nodeXml) {
+		sendNewXml: function (nodeXml) {
 
 			var self = this,
 			nodeId = this.options.dataFromOSM.id,
