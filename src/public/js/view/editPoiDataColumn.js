@@ -262,8 +262,6 @@ function (
 
 		onReset: function () {
 
-			// this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
-
 			this.close();
 		},
 	});
