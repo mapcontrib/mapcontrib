@@ -1,5 +1,5 @@
+
 @import 'variables.less';
-@import 'base.less';
 
 .toolbar {
 
@@ -13,7 +13,7 @@
 		height: @toolbarBtnSize;
 		font-size: 1.6em;
 		padding: 10px 16px;
-		.border-radius(0);
+		border-radius: 0;
 	}
 }
 
@@ -31,7 +31,7 @@
 		height: @toolbarBtnSize;
 		font-size: 1.6em;
 		padding: 10px 16px;
-		.border-radius(0);
+		border-radius: 0;
 		color: @anthracite;
 		background: #fff;
 	}
@@ -105,11 +105,11 @@
 
 	top: @titleHeight + (@toolbarBtnSize * 4) + 9;
 	right: @toolbarBtnSize * -1;
-	.transition( transform ease-out .2s );
+	transition: transform ease-out .2s;
 
 	&.open {
 
-		.transform( translate(-100%, 0) );
+		transform: translate(-100%, 0);
 	}
 
 	.btn {

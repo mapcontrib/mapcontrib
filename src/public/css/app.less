@@ -1,7 +1,6 @@
 
 
 @import 'variables.less';
-@import 'base.less';
 @import 'toolbar.less';
 @import 'column.less';
 @import 'marker.less';
@@ -71,7 +70,7 @@ button,
 .btn,
 .nav > li > a {
 
-	.border-radius(0);
+	border-radius: 0;
 }
 
 input,
@@ -83,8 +82,8 @@ textarea,
 .list-group-item:last-child,
 fieldset .form-control {
 
-	.border-radius(0) !important;
-	.box-shadow(none);
+	border-radius: 0 !important;
+	box-shadow: none;
 
 	&:hover,
 	&.focus,
@@ -92,7 +91,7 @@ fieldset .form-control {
 	&.active,
 	&:active {
 
-		.box-shadow(none);
+		box-shadow: none;
 	}
 }
 
@@ -125,7 +124,7 @@ fieldset .form-control {
 
 	.leaflet-popup-content-wrapper {
 
-		.border-radius(0);
+		border-radius: 0;
 
 		.leaflet-popup-content {
 
@@ -169,14 +168,14 @@ fieldset .form-control {
 	right: 0;
 	height: @titleHeight;
 
-	.transition( all ease-out .3s );
+	transition: all ease-out .3s;
 
 	h1 {
 
 		display: inline-block;
 		position: relative;
 		left: 50%;
-		.transform( translate(-50%, 0) );
+		transform: translate(-50%, 0);
 		font-size: 20px;
 		line-height: @titleHeight;
 		margin: 0;
@@ -184,7 +183,7 @@ fieldset .form-control {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		.transition( all ease-out .3s );
+		transition: all ease-out .3s;
 	}
 
 	.description_btn {
@@ -221,7 +220,7 @@ fieldset .form-control {
 		h1 {
 
 			left: 0;
-			.transform( translate(0, 30px) );
+			transform: translate(0, 30px);
 			font-size: 36px;
 			line-height: 50px;
 			max-width: none;
@@ -314,7 +313,7 @@ fieldset .form-control {
 	&.active {
 
 		background: @darkGray;
-		.box-shadow(none);
+		box-shadow: none;
 	}
 }
 
@@ -334,14 +333,14 @@ fieldset .form-control {
 	left: 100%;
 	width: 500px;
 	max-width: 100%;
-	.transition( transform ease-out .2s );
+	transition: transform ease-out .2s;
 	background: @anthracite;
 	color: #fff;
 	padding-bottom: 10px;
 
 	&.open {
 
-		.transform( translate(-100%, 0) );
+		transform: translate(-100%, 0);
 	}
 
 	a {
@@ -410,7 +409,7 @@ fieldset .form-control {
 	right: 0;
 	background: rgba(0, 0, 0, 0.6);
 	opacity: 0;
-	.transition( opacity ease-out 0.2s );
+	transition: opacity ease-out 0.2s;
 
 	.pop {
 
@@ -421,8 +420,8 @@ fieldset .form-control {
 		left: 50%;
 		width: 500px;
 		max-width: 100%;
-		.transition( transform ease-out 0.2s );
-		.transform( translate(-50%, -45%) );
+		transition: transform ease-out 0.2s;
+		transform: translate(-50%, -45%);
 		padding: 30px 15px;
 
 		&.no_padding {
@@ -453,7 +452,7 @@ fieldset .form-control {
 
 		.pop {
 
-			.transform( translate(-50%, -50%) );
+			transform: translate(-50%, -50%);
 		}
 	}
 }
@@ -466,7 +465,7 @@ fieldset .form-control {
 	z-index: @titleZIndex;
 	width: 0;
 	height: 0;
-	.transition( all ease-out .3s );
+	transition: all ease-out .3s;
 	background: #fff;
 	overflow: hidden;
 
@@ -559,7 +558,7 @@ fieldset .form-control {
 		margin-left: -2px;
 		width: 4px;
 		height: 100%;
-		.transition( left ease-out .2s );
+		transition: left ease-out .2s;
 		background: @orange;
 	}
 }

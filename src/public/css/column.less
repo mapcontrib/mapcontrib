@@ -1,5 +1,5 @@
+
 @import 'variables.less';
-@import 'base.less';
 
 
 .column {
@@ -10,24 +10,24 @@
 	bottom: @zoomIndicatorHeight;
 	width: 300px;
 	max-width: 100%;
-	.transition( transform ease-out .2s );
+	transition: transform ease-out .2s;
 	background: #fff;
 
 	&.right {
 
 		right: 0;
-		.transform( translate(100%, 0) );
+		transform: translate(100%, 0);
 	}
 
 	&.left {
 
 		left: 0;
-		.transform( translate(-100%, 0) );
+		transform: translate(-100%, 0);
 	}
 
 	&.open {
 
-		.transform( translate(0, 0) );
+		transform: translate(0, 0);
 	}
 
 	.marker-form-widget {

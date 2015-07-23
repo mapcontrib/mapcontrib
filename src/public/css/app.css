@@ -4,7 +4,6 @@
 /* Colors */
 /* Dimensions */
 /* Layers */
-/* Functions */
 .toolbar {
   position: fixed;
   z-index: 1010;
@@ -15,10 +14,6 @@
   height: 63px;
   font-size: 1.6em;
   padding: 10px 16px;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
 }
 #control_toolbar {
@@ -32,10 +27,6 @@
   height: 63px;
   font-size: 1.6em;
   padding: 10px 16px;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
   color: #3b3f45;
   background: #fff;
@@ -82,18 +73,13 @@
 #edit_toolbar {
   top: 301px;
   right: -63px;
-  -webkit-transition: transform ease-out 0.2s;
-  -moz-transition: transform ease-out 0.2s;
-  -ms-transition: transform ease-out 0.2s;
-  -o-transition: transform ease-out 0.2s;
-  transition: transform ease-out 0.2s;
+  -webkit-transition: -webkit-transform ease-out 0.2s;
+          transition: transform ease-out 0.2s;
 }
 #edit_toolbar.open {
   -webkit-transform: translate(-100%, 0);
-  -moz-transform: translate(-100%, 0);
-  -ms-transform: translate(-100%, 0);
-  -o-transform: translate(-100%, 0);
-  transform: translate(-100%, 0);
+      -ms-transform: translate(-100%, 0);
+          transform: translate(-100%, 0);
 }
 #edit_toolbar .btn {
   color: #fff;
@@ -110,35 +96,26 @@
   bottom: 10px;
   width: 300px;
   max-width: 100%;
-  -webkit-transition: transform ease-out 0.2s;
-  -moz-transition: transform ease-out 0.2s;
-  -ms-transition: transform ease-out 0.2s;
-  -o-transition: transform ease-out 0.2s;
-  transition: transform ease-out 0.2s;
+  -webkit-transition: -webkit-transform ease-out 0.2s;
+          transition: transform ease-out 0.2s;
   background: #fff;
 }
 .column.right {
   right: 0;
   -webkit-transform: translate(100%, 0);
-  -moz-transform: translate(100%, 0);
-  -ms-transform: translate(100%, 0);
-  -o-transform: translate(100%, 0);
-  transform: translate(100%, 0);
+      -ms-transform: translate(100%, 0);
+          transform: translate(100%, 0);
 }
 .column.left {
   left: 0;
   -webkit-transform: translate(-100%, 0);
-  -moz-transform: translate(-100%, 0);
-  -ms-transform: translate(-100%, 0);
-  -o-transform: translate(-100%, 0);
-  transform: translate(-100%, 0);
+      -ms-transform: translate(-100%, 0);
+          transform: translate(-100%, 0);
 }
 .column.open {
   -webkit-transform: translate(0, 0);
-  -moz-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  -o-transform: translate(0, 0);
-  transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
 }
 .column .marker-form-widget {
   height: 42px;
@@ -203,6 +180,7 @@
   margin-top: 0;
 }
 .column .sticky-footer {
+  position: -webkit-sticky;
   position: sticky;
   bottom: 0;
   padding: 20px 0;
@@ -913,6 +891,14 @@
   top: 9px;
   left: 6px;
 }
+@-webkit-keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @keyframes appear {
   0% {
     opacity: 0;
@@ -954,10 +940,6 @@ fieldset[disabled] .form-control {
 button,
 .btn,
 .nav > li > a {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
 }
 input,
@@ -968,15 +950,7 @@ textarea,
 .list-group-item:first-child,
 .list-group-item:last-child,
 fieldset .form-control {
-  -webkit-border-radius: 0 !important;
-  -moz-border-radius: 0 !important;
-  -ms-border-radius: 0 !important;
-  -o-border-radius: 0 !important;
   border-radius: 0 !important;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -ms-box-shadow: none;
-  -o-box-shadow: none;
   box-shadow: none;
 }
 input:hover,
@@ -1019,10 +993,6 @@ textarea:active,
 .list-group-item:first-child:active,
 .list-group-item:last-child:active,
 fieldset .form-control:active {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -ms-box-shadow: none;
-  -o-box-shadow: none;
   box-shadow: none;
 }
 .list-group {
@@ -1042,10 +1012,6 @@ fieldset .form-control:active {
   right: 0;
 }
 #main_map .leaflet-popup-content-wrapper {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
 }
 #main_map .leaflet-popup-content-wrapper .leaflet-popup-content {
@@ -1076,20 +1042,15 @@ fieldset .form-control:active {
   right: 0;
   height: 40px;
   -webkit-transition: all ease-out 0.3s;
-  -moz-transition: all ease-out 0.3s;
-  -ms-transition: all ease-out 0.3s;
-  -o-transition: all ease-out 0.3s;
-  transition: all ease-out 0.3s;
+          transition: all ease-out 0.3s;
 }
 #title h1 {
   display: inline-block;
   position: relative;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
-  -moz-transform: translate(-50%, 0);
-  -ms-transform: translate(-50%, 0);
-  -o-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
   font-size: 20px;
   line-height: 40px;
   margin: 0;
@@ -1098,10 +1059,7 @@ fieldset .form-control:active {
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-transition: all ease-out 0.3s;
-  -moz-transition: all ease-out 0.3s;
-  -ms-transition: all ease-out 0.3s;
-  -o-transition: all ease-out 0.3s;
-  transition: all ease-out 0.3s;
+          transition: all ease-out 0.3s;
 }
 #title .description_btn {
   color: #fff;
@@ -1120,9 +1078,12 @@ fieldset .form-control:active {
 #title .description {
   display: none;
   margin-top: 60px;
-  animation-duration: .4s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+  -webkit-animation-duration: .4s;
+          animation-duration: .4s;
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 #title.open {
   height: 100%;
@@ -1130,10 +1091,8 @@ fieldset .form-control:active {
 #title.open h1 {
   left: 0;
   -webkit-transform: translate(0, 30px);
-  -moz-transform: translate(0, 30px);
-  -ms-transform: translate(0, 30px);
-  -o-transform: translate(0, 30px);
-  transform: translate(0, 30px);
+      -ms-transform: translate(0, 30px);
+          transform: translate(0, 30px);
   font-size: 36px;
   line-height: 50px;
   max-width: none;
@@ -1142,8 +1101,10 @@ fieldset .form-control:active {
 }
 #title.open .description {
   display: block;
-  animation-name: appear;
-  animation-direction: normal;
+  -webkit-animation-name: appear;
+          animation-name: appear;
+  -webkit-animation-direction: normal;
+          animation-direction: normal;
 }
 #title.blue,
 #edit_setting_column .btn-color.blue,
@@ -1233,10 +1194,6 @@ fieldset .form-control:active {
 .btn-marker-shape:active,
 .btn-marker-shape.active {
   background: #e4e4e4;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -ms-box-shadow: none;
-  -o-box-shadow: none;
   box-shadow: none;
 }
 .notification {
@@ -1246,21 +1203,16 @@ fieldset .form-control:active {
   left: 100%;
   width: 500px;
   max-width: 100%;
-  -webkit-transition: transform ease-out 0.2s;
-  -moz-transition: transform ease-out 0.2s;
-  -ms-transition: transform ease-out 0.2s;
-  -o-transition: transform ease-out 0.2s;
-  transition: transform ease-out 0.2s;
+  -webkit-transition: -webkit-transform ease-out 0.2s;
+          transition: transform ease-out 0.2s;
   background: #3b3f45;
   color: #fff;
   padding-bottom: 10px;
 }
 .notification.open {
   -webkit-transform: translate(-100%, 0);
-  -moz-transform: translate(-100%, 0);
-  -ms-transform: translate(-100%, 0);
-  -o-transform: translate(-100%, 0);
-  transform: translate(-100%, 0);
+      -ms-transform: translate(-100%, 0);
+          transform: translate(-100%, 0);
 }
 .notification a {
   color: #fff;
@@ -1312,10 +1264,7 @@ fieldset .form-control:active {
   background: rgba(0, 0, 0, 0.6);
   opacity: 0;
   -webkit-transition: opacity ease-out 0.2s;
-  -moz-transition: opacity ease-out 0.2s;
-  -ms-transition: opacity ease-out 0.2s;
-  -o-transition: opacity ease-out 0.2s;
-  transition: opacity ease-out 0.2s;
+          transition: opacity ease-out 0.2s;
 }
 .pop_modal .pop {
   background: #fff;
@@ -1325,16 +1274,11 @@ fieldset .form-control:active {
   left: 50%;
   width: 500px;
   max-width: 100%;
-  -webkit-transition: transform ease-out 0.2s;
-  -moz-transition: transform ease-out 0.2s;
-  -ms-transition: transform ease-out 0.2s;
-  -o-transition: transform ease-out 0.2s;
-  transition: transform ease-out 0.2s;
+  -webkit-transition: -webkit-transform ease-out 0.2s;
+          transition: transform ease-out 0.2s;
   -webkit-transform: translate(-50%, -45%);
-  -moz-transform: translate(-50%, -45%);
-  -ms-transform: translate(-50%, -45%);
-  -o-transform: translate(-50%, -45%);
-  transform: translate(-50%, -45%);
+      -ms-transform: translate(-50%, -45%);
+          transform: translate(-50%, -45%);
   padding: 30px 15px;
 }
 .pop_modal .pop.no_padding {
@@ -1355,10 +1299,8 @@ fieldset .form-control:active {
 }
 .pop_modal.open .pop {
   -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 #help {
   position: fixed;
@@ -1368,10 +1310,7 @@ fieldset .form-control:active {
   width: 0;
   height: 0;
   -webkit-transition: all ease-out 0.3s;
-  -moz-transition: all ease-out 0.3s;
-  -ms-transition: all ease-out 0.3s;
-  -o-transition: all ease-out 0.3s;
-  transition: all ease-out 0.3s;
+          transition: all ease-out 0.3s;
   background: #fff;
   overflow: hidden;
 }
@@ -1388,9 +1327,12 @@ fieldset .form-control:active {
 #help p,
 #help .close_btn {
   display: none;
-  animation-duration: .4s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+  -webkit-animation-duration: .4s;
+          animation-duration: .4s;
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 #help.open {
   width: 100%;
@@ -1401,8 +1343,10 @@ fieldset .form-control:active {
 #help.open p,
 #help.open .close_btn {
   display: block;
-  animation-name: appear;
-  animation-direction: normal;
+  -webkit-animation-name: appear;
+          animation-name: appear;
+  -webkit-animation-direction: normal;
+          animation-direction: normal;
 }
 .list-group .checkbox {
   padding-right: 40px;
@@ -1442,10 +1386,7 @@ fieldset .form-control:active {
   width: 4px;
   height: 100%;
   -webkit-transition: left ease-out 0.2s;
-  -moz-transition: left ease-out 0.2s;
-  -ms-transition: left ease-out 0.2s;
-  -o-transition: left ease-out 0.2s;
-  transition: left ease-out 0.2s;
+          transition: left ease-out 0.2s;
   background: #f8981d;
 }
 body .edit_poi_data {
