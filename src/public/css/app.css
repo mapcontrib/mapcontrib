@@ -760,8 +760,21 @@
   color: #fff;
   padding: 0;
 }
-.btn-marker-color.gray {
-  color: #888a85;
+.btn-marker-color.gray,
+.btn-marker-color.yellow {
+  color: #333333;
+}
+.btn-marker-color.gray:hover,
+.btn-marker-color.yellow:hover,
+.btn-marker-color.gray:focus,
+.btn-marker-color.yellow:focus,
+.btn-marker-color.gray.focus,
+.btn-marker-color.yellow.focus,
+.btn-marker-color.gray:active,
+.btn-marker-color.yellow:active,
+.btn-marker-color.gray.active,
+.btn-marker-color.yellow.active {
+  color: #333333;
 }
 .btn-marker-color > div {
   height: 20px;

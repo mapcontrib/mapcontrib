@@ -34,9 +34,19 @@
 	color: #fff;
 	padding: 0;
 
-	&.gray {
+	&.gray,
+	&.yellow {
 
-		color: @markerGrayDark;
+		color: @markerDarkGrayDark;
+
+		&:hover,
+		&:focus,
+		&.focus,
+		&:active,
+		&.active {
+
+			color: @markerDarkGrayDark;
+		}
 	}
 
 	& > div {
