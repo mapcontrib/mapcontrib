@@ -16,6 +16,12 @@ define([
 
 	return {
 
+		'pattern': {
+
+			'integer': /^[0-9]+$/,
+			'mongoId': /^[a-zA-Z0-9]{24}$/,
+		},
+
 		'tooltip': {
 
 			'showDelay': 500, // ms

@@ -1,48 +1,37 @@
 
-// Configuration
 var secret_key = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})',
-login_pattern = /^[a-zA-Z0-9\-]{3,}$/,
-id_pattern = /^[a-zA-Z0-9]{24}$/,
 http_port = 8080,
-db_host = '127.0.0.1',
-db_port = '27017',
-db_name = 'rudomap',
-db_options = {
+db = {
 
-	'auto_reconnect': true,
-	'safe': true
+	'host': '127.0.0.1',
+	'port': '27017',
+	'name': 'rudomap',
+	'options': {
+
+		'auto_reconnect': true,
+		'safe': true
+	}
 };
 
 
 
 
-
-// Dépendances
-var mongo = require('mongodb'),
-fs = require('fs'),
+var fs = require('fs'),
 path = require('path'),
-child_process = require('child_process'),
-
-mongo_client = new mongo.MongoClient(new mongo.Server(db_host, db_port), db_options),
-database = mongo_client.db(db_name),
 format = require('util').format;
 
 
+
+
+var mongo = require('mongodb'),
+mongo_client = new mongo.MongoClient(new mongo.Server(db.host, db.port), db.options),
+database = mongo_client.db(db.name);
 
 database.open(function (err, db) {
 
 	if(err) throw err;
 });
 
-
-
-
-var directory = path.join(__dirname, 'upload');
-
-if ( !fs.existsSync( directory ) ) {
-
-	fs.mkdirSync(directory);
-}
 
 
 
@@ -71,9 +60,9 @@ app.use(session({
     secret: secret_key,
 	store: new MongoStore({
 
-		'host': db_host,
-		'port': db_port,
-		'db': db_name,
+		'host': db.host,
+		'port': db.port,
+		'db': db.name,
 	}),
 }));
 
@@ -82,6 +71,36 @@ app.use(logger('dev'));
 app.use(methodOverride());
 app.use(multer({ 'dest': path.join(__dirname, 'upload') }));
 app.use(serveStatic(path.join(__dirname, 'public')));
+
+
+
+
+var requirejs = require('requirejs');
+
+requirejs.config({
+
+	nodeRequire: require,
+	baseUrl: path.join( __dirname, 'public', 'js' ),
+	paths: {
+
+		'underscore': '../bower_components/underscore/underscore',
+		'backbone': '../bower_components/backbone/backbone',
+		'text': '../bower_components/text/text',
+		'img': '../img',
+	}
+});
+
+var CONST = requirejs('const'),
+settings = requirejs('settings');
+
+
+
+var dataDirectory = path.join(__dirname, 'upload');
+
+if ( !fs.existsSync( dataDirectory ) ) {
+
+	fs.mkdirSync(dataDirectory);
+}
 
 
 
@@ -123,8 +142,8 @@ passport.deserializeUser(function(userId, done) {
 
 passport.use(new OpenStreetMapStrategy({
 
-		'consumerKey': 'wPfXjdZViPvrRWSlenSWBsAWhYKarmOkOKk5WS4U',
-		'consumerSecret': 'kaBZXTHZHKSk2jvBUr8vzk7JRI1cryFI08ubv7Du',
+		'consumerKey': settings.oauthConsumerKey,
+		'consumerSecret': settings.oauthSecret,
 		'callbackURL': '/auth/openstreetmap/callback',
 		'passReqToCallback': true,
 	},
@@ -353,7 +372,7 @@ function apiGetUser(req, res) {
 
 function apiGetPoiLayers(req, res) {
 
-	if ( !req.params.profileId || !id_pattern.test( req.params.profileId ) ) {
+	if ( !req.params.profileId || !CONST.pattern.mongoId.test( req.params.profileId ) ) {
 
 		res.sendStatus(404);
 
@@ -395,7 +414,7 @@ function apiGetAll(req, res, content_type) {
 	var collection = database.collection(content_type),
 	query = {};
 
-	if ( req.query.profileId && id_pattern.test( req.query.profileId ) ) {
+	if ( req.query.profileId && CONST.pattern.mongoId.test( req.query.profileId ) ) {
 
 		query.profileId = req.query.profileId;
 	}
