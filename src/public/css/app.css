@@ -1368,6 +1368,7 @@ fieldset .form-control:active {
   position: absolute;
   top: 0;
   right: -4px;
+  cursor: pointer;
 }
 .icon-preview {
   position: absolute;
