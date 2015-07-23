@@ -1448,3 +1448,12 @@ fieldset .form-control:active {
   transition: left ease-out 0.2s;
   background: #f8981d;
 }
+body .edit_poi_data {
+  display: none;
+}
+body .edit_poi_data button {
+  padding: 0;
+}
+body.user_logged .edit_poi_data {
+  display: block;
+}

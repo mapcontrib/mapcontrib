@@ -97,11 +97,15 @@ require(['requireConfig'], function () {
 				this._radio.vent.on('session:logged', function (){
 
 					self._var.isLogged = true;
+
+					$('body').addClass('user_logged');
 				});
 
 				this._radio.vent.on('session:unlogged', function (){
 
 					self._var.isLogged = false;
+
+					$('body').removeClass('user_logged');
 
 					self._model.user = new UserModel();
 				});

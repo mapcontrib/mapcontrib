@@ -51,6 +51,11 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			if ( !this._radio.reqres.request('var', 'isLogged') ) {
+
+				return false;
+			}
 		},
 
 		open: function () {
@@ -66,6 +71,11 @@ function (
 		},
 
 		onRender: function () {
+
+			if ( !this._radio.reqres.request('var', 'isLogged') ) {
+
+				return this;
+			}
 
 			var tag,
 			self = this,
@@ -91,6 +101,11 @@ function (
 		},
 
 		onSubmit: function (e) {
+
+			if ( !this._radio.reqres.request('var', 'isLogged') ) {
+
+				return false;
+			}
 
 			e.preventDefault();
 

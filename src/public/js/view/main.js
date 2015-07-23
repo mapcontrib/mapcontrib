@@ -630,7 +630,7 @@ function (
 				self._radio.commands.execute('editPoiData', dataFromOSM, poiLayerModel);
 			});
 
-			editButtonWrapper.className = 'text-center prepend-xs-1';
+			editButtonWrapper.className = 'text-center prepend-xs-1 edit_poi_data';
 			editButtonWrapper.appendChild( editButton );
 
 			globalWrapper.innerHTML = popupContent;
