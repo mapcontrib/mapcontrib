@@ -412,8 +412,7 @@ function (
 
 				new L.OverPassLayer({
 
-					// 'endpoint': 'http://api.openstreetmap.fr/oapi/',
-					'endpoint': 'http://overpass.osm.rambler.ru/cgi/',
+					'endpoint': settings.overpassServer,
 					'minzoom': poiLayerModel.get('minZoom'),
 					'query': poiLayerModel.get('overpassRequest'),
 					'callback': function(data) {
