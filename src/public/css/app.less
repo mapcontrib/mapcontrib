@@ -542,7 +542,7 @@ fieldset .form-control {
 	bottom: 0;
 	z-index: @zoomIndicatorZIndex;
 	height: @zoomIndicatorHeight;
-	background: @darkAnthracite;
+	background: @lightAnthracite;
 	overflow: hidden;
 
 	.data {
@@ -550,7 +550,7 @@ fieldset .form-control {
 		position: absolute;
 		right: 0;
 		height: 100%;
-		background: @lightAnthracite;
+		background: @green;
 	}
 
 	.zoom {
@@ -561,6 +561,45 @@ fieldset .form-control {
 		height: 100%;
 		transition: left ease-out .2s;
 		background: @orange;
+	}
+}
+
+
+#zoom_indicator_notification {
+
+	.fa-arrow-down {
+
+		animation-duration: 4s;
+		animation-fill-mode: both;
+		animation-iteration-count: infinite;
+		animation-name: bounce;
+		transform-origin: center bottom;
+	}
+}
+
+@keyframes bounce {
+
+	0%, 5%, 13%, 20%, 25% {
+
+		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+		transform: translate3d(0,0,0);
+	}
+
+	10%, 11% {
+
+		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+		transform: translate3d(0, -30px, 0);
+	}
+
+	17% {
+
+		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+		transform: translate3d(0, -15px, 0);
+	}
+
+	22% {
+
+		transform: translate3d(0,-4px,0);
 	}
 }
 

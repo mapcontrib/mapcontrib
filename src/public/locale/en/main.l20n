@@ -127,4 +127,4 @@ to connect to your OpenStreetMap account.
 
 /* Zoom indicator notification */
 <zoomIndicatorNotification_title "Insufficiant zoom">
-<zoomIndicatorNotification_content "The datas related to this map will be visible when your zoom level will be in the area located at the right of the below indicator.">
+<zoomIndicatorNotification_content "The datas related to this map will be visible when your zoom level will be in the green area below.">
