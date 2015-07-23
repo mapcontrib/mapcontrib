@@ -21,7 +21,14 @@ module.exports = function(grunt) {
 			build: [
 
 				'dist/public/bower_components',
+				'dist/public/css',
+				'dist/public/fonts',
+				'dist/public/img',
+				'dist/public/index.html',
+				'dist/public/js',
+				'dist/public/locale',
 				'dist/public/templates',
+				'dist/server.js',
 			]
 		},
 
@@ -130,7 +137,7 @@ module.exports = function(grunt) {
 					dir: 'dist',
 					mainConfigFile: 'src/public/js/requireConfig.js',
 					findNestedDependencies: true,
-					removeCombined: true,
+					removeCombined: false,
 					skipDirOptimize: true,
 					logLevel: 1,
 					modules: [
@@ -209,7 +216,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('build', [
 
 		'default',
-		'requirejs:build',
 		'clean:build',
+		'requirejs:build',
 	]);
 };
