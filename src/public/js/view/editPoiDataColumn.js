@@ -110,8 +110,7 @@ function (
 			e.preventDefault();
 
 			var self = this,
-			newTags = {},
-			nodeId = this.options.dataFromOSM.id;
+			newTags = {};
 
 
 			this.ui.fields
@@ -128,7 +127,7 @@ function (
 
 				'method': 'GET',
 				'dataType': 'xml',
-				'url': 'https://api.openstreetmap.org/api/0.6/node/'+ nodeId,
+				'url': 'https://api.openstreetmap.org/api/0.6/node/'+ this.options.dataFromOSM.id,
 				'success': function (nodeXml, jqXHR, textStatus) {
 
 					var oldTags = {},
@@ -152,6 +151,8 @@ function (
 							if ( oldTags[k] ) {
 
 								parentNode.removeChild( oldTags[k] );
+
+								delete self.options.dataFromOSM.tags[k];
 							}
 
 							continue;
@@ -170,6 +171,8 @@ function (
 
 							parentNode.appendChild(newTag);
 						}
+
+						self.options.dataFromOSM.tags[k] = newTags[k];
 					}
 
 					self.sendNewXml( nodeXml );
@@ -184,7 +187,6 @@ function (
 		sendNewXml: function (nodeXml) {
 
 			var self = this,
-			nodeId = this.options.dataFromOSM.id,
 			user = this._radio.reqres.request('model', 'user'),
 			auth = osmAuth({
 
@@ -224,7 +226,7 @@ function (
 				auth.xhr({
 
 					'method': 'PUT',
-					'path': '/api/0.6/node/'+ nodeId,
+					'path': '/api/0.6/node/'+ self.options.dataFromOSM.id,
 					'options': { 'header': { 'Content-Type': 'text/xml' } },
 					'content': data,
 				},
@@ -251,6 +253,7 @@ function (
 						else {
 
 							console.log("Successfully modification of an OSM object !");
+							self._radio.commands.execute('map:updatePoiPopup', self.options.poiLayerModel, self.options.dataFromOSM);
 						}
 					});
 				});

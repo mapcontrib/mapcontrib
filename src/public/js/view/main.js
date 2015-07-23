@@ -232,6 +232,10 @@ function (
 
 					self.updatePoiLayerPopups( poiLayerModel );
 				},
+				'map:updatePoiPopup': function (poiLayerModel, node) {
+
+					self.updatePoiPopup( poiLayerModel, node );
+				},
 				'editPoiData': function (dataFromOSM, poiLayerModel) {
 
 					self.onCommandEditPoiData( dataFromOSM, poiLayerModel );
@@ -597,10 +601,27 @@ function (
 
 			this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
 
-				if ( layer._popup ) {
+				if ( layer._dataFromOSM ) {
 
 					layer.setPopupContent( self.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOSM ) );
 				}
+			});
+		},
+
+		updatePoiPopup: function (poiLayerModel, node) {
+
+			var self = this;
+
+			this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
+
+				if ( !layer._dataFromOSM || layer._dataFromOSM.id !== node.id ) {
+
+					return;
+				}
+
+				layer._dataFromOSM = node;
+
+				layer.setPopupContent( self.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOSM ) );
 			});
 		},
 
