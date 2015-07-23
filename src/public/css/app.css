@@ -5,468 +5,6 @@
 /* Dimensions */
 /* Layers */
 /* Functions */
-.btn-marker-color {
-  position: relative;
-  color: #fff;
-  padding: 0;
-}
-.btn-marker-color.gray {
-  color: #888a85;
-}
-.btn-marker-color > div {
-  height: 20px;
-  border-style: solid;
-  border-width: 0 15px;
-}
-.btn-marker-color > div .fa {
-  position: absolute;
-  top: 4px;
-  left: 8px;
-}
-.btn-marker-color.green > div {
-  border-left-color: #8ae234;
-  border-right-color: #4e9a06;
-}
-.btn-marker-color.yellow > div {
-  border-left-color: #fce94f;
-  border-right-color: #c4a000;
-}
-.btn-marker-color.orange > div {
-  border-left-color: #fcaf3e;
-  border-right-color: #ce5c00;
-}
-.btn-marker-color.red > div {
-  border-left-color: #ef2929;
-  border-right-color: #a40000;
-}
-.btn-marker-color.purple > div {
-  border-left-color: #ad7fa8;
-  border-right-color: #5c3566;
-}
-.btn-marker-color.blue > div {
-  border-left-color: #729fcf;
-  border-right-color: #204a87;
-}
-.btn-marker-color.gray > div {
-  border-left-color: #d3d7cf;
-  border-right-color: #888a85;
-}
-.btn-marker-color.dark-gray > div {
-  border-left-color: #888a85;
-  border-right-color: #333333;
-}
-.btn-marker-color.brown > div {
-  border-left-color: #e9b96e;
-  border-right-color: #8f5902;
-}
-.marker {
-  position: relative;
-  display: inline-block;
-  cursor: default;
-}
-.marker .fa {
-  position: absolute;
-  font-size: 19px;
-}
-.marker.yellow .fa {
-  color: #c4a000;
-}
-.marker.yellow #colorized,
-.marker.yellow #colorized * {
-  fill: #fce94f !important;
-}
-.marker.orange .fa {
-  color: #ce5c00;
-}
-.marker.orange #colorized,
-.marker.orange #colorized * {
-  fill: #fcaf3e !important;
-}
-.marker.green .fa {
-  color: #4e9a06;
-}
-.marker.green #colorized,
-.marker.green #colorized * {
-  fill: #8ae234 !important;
-}
-.marker.blue .fa {
-  color: #204a87;
-}
-.marker.blue #colorized,
-.marker.blue #colorized * {
-  fill: #729fcf !important;
-}
-.marker.purple .fa {
-  color: #5c3566;
-}
-.marker.purple #colorized,
-.marker.purple #colorized * {
-  fill: #ad7fa8 !important;
-}
-.marker.brown .fa {
-  color: #8f5902;
-}
-.marker.brown #colorized,
-.marker.brown #colorized * {
-  fill: #e9b96e !important;
-}
-.marker.red .fa {
-  color: #a40000;
-}
-.marker.red #colorized,
-.marker.red #colorized * {
-  fill: #ef2929 !important;
-}
-.marker.gray .fa {
-  color: #888a85;
-}
-.marker.gray #colorized,
-.marker.gray #colorized * {
-  fill: #d3d7cf !important;
-}
-.marker.dark-gray .fa {
-  color: #333333;
-}
-.marker.dark-gray #colorized,
-.marker.dark-gray #colorized * {
-  fill: #888a85 !important;
-}
-.leaflet-container .marker {
-  display: block;
-  cursor: pointer;
-}
-.marker-1 .fa,
-.marker-2 .fa,
-.marker-3 .fa {
-  top: 9px;
-  left: 6px;
-}
-@keyframes appear {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-body {
-  color: #3b3f45;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.control-label {
-  font-family: 'Fira Sans';
-  font-weight: normal;
-}
-.nowrap {
-  white-space: nowrap;
-}
-textarea.font-monospace {
-  font-size: 12px;
-}
-input[disabled],
-select[disabled],
-textarea[disabled],
-.form-control[disabled],
-input[readonly],
-select[readonly],
-textarea[readonly],
-.form-control[readonly],
-fieldset[disabled] .form-control {
-  cursor: default;
-}
-button,
-.btn,
-.nav > li > a {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
-  border-radius: 0;
-}
-input,
-select,
-textarea,
-.form-control,
-.list-group-item,
-.list-group-item:first-child,
-.list-group-item:last-child,
-fieldset .form-control {
-  -webkit-border-radius: 0 !important;
-  -moz-border-radius: 0 !important;
-  -ms-border-radius: 0 !important;
-  -o-border-radius: 0 !important;
-  border-radius: 0 !important;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -ms-box-shadow: none;
-  -o-box-shadow: none;
-  box-shadow: none;
-}
-input:hover,
-select:hover,
-textarea:hover,
-.form-control:hover,
-.list-group-item:hover,
-.list-group-item:first-child:hover,
-.list-group-item:last-child:hover,
-fieldset .form-control:hover,
-input.focus,
-select.focus,
-textarea.focus,
-.form-control.focus,
-.list-group-item.focus,
-.list-group-item:first-child.focus,
-.list-group-item:last-child.focus,
-fieldset .form-control.focus,
-input:focus,
-select:focus,
-textarea:focus,
-.form-control:focus,
-.list-group-item:focus,
-.list-group-item:first-child:focus,
-.list-group-item:last-child:focus,
-fieldset .form-control:focus,
-input.active,
-select.active,
-textarea.active,
-.form-control.active,
-.list-group-item.active,
-.list-group-item:first-child.active,
-.list-group-item:last-child.active,
-fieldset .form-control.active,
-input:active,
-select:active,
-textarea:active,
-.form-control:active,
-.list-group-item:active,
-.list-group-item:first-child:active,
-.list-group-item:last-child:active,
-fieldset .form-control:active {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -ms-box-shadow: none;
-  -o-box-shadow: none;
-  box-shadow: none;
-}
-.list-group {
-  /* Fixes a placement bug on items when they are moved/dragged more than once */
-  position: relative;
-}
-.list-group .list-group-item label .help-block,
-.list-group .list-group-item label .help-block p:last-child {
-  margin-bottom: 0;
-}
-#main_map {
-  position: fixed;
-  z-index: 1000;
-  top: 40px;
-  bottom: 10px;
-  left: 0;
-  right: 0;
-}
-#main_map .leaflet-popup-content-wrapper {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
-  border-radius: 0;
-}
-#main_map .leaflet-popup-content-wrapper .leaflet-popup-content {
-  margin: 20px;
-}
-#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h1 {
-  font-size: 24px;
-}
-#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h2 {
-  font-size: 18px;
-}
-#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h3 {
-  font-size: 14px;
-}
-#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h4,
-#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h5,
-#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h6 {
-  font-size: 16px;
-}
-#main_map .leaflet-control-minZoomIndicator {
-  display: none !important;
-}
-#title {
-  position: fixed;
-  z-index: 1040;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  -webkit-transition: all ease-out 0.3s;
-  -moz-transition: all ease-out 0.3s;
-  -ms-transition: all ease-out 0.3s;
-  -o-transition: all ease-out 0.3s;
-  transition: all ease-out 0.3s;
-}
-#title h1 {
-  display: inline-block;
-  position: relative;
-  left: 50%;
-  -webkit-transform: translate(-50%, 0);
-  -moz-transform: translate(-50%, 0);
-  -ms-transform: translate(-50%, 0);
-  -o-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
-  font-size: 20px;
-  line-height: 40px;
-  margin: 0;
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-transition: all ease-out 0.3s;
-  -moz-transition: all ease-out 0.3s;
-  -ms-transition: all ease-out 0.3s;
-  -o-transition: all ease-out 0.3s;
-  transition: all ease-out 0.3s;
-}
-#title .description_btn {
-  color: #fff;
-  position: fixed;
-  top: 0;
-  right: 0;
-  padding: 8px 12px 10px 12px;
-}
-#title .description_btn:hover,
-#title .description_btn:focus,
-#title .description_btn.focus,
-#title .description_btn:active,
-#title .description_btn.active {
-  color: #fff;
-}
-#title .description {
-  display: none;
-  margin-top: 60px;
-  animation-duration: .4s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
-}
-#title.open {
-  height: 100%;
-}
-#title.open h1 {
-  left: 0;
-  -webkit-transform: translate(0, 30px);
-  -moz-transform: translate(0, 30px);
-  -ms-transform: translate(0, 30px);
-  -o-transform: translate(0, 30px);
-  transform: translate(0, 30px);
-  font-size: 36px;
-  line-height: 50px;
-  max-width: none;
-  white-space: normal;
-  overflow: visible;
-}
-#title.open .description {
-  display: block;
-  animation-name: appear;
-  animation-direction: normal;
-}
-#title.blue,
-#edit_setting_column .btn-color.blue,
-#title.purple,
-#edit_setting_column .btn-color.purple,
-#title.turquoise,
-#edit_setting_column .btn-color.turquoise,
-#title.orange,
-#edit_setting_column .btn-color.orange,
-#title.green,
-#edit_setting_column .btn-color.green,
-#title.red,
-#edit_setting_column .btn-color.red,
-#title.anthracite,
-#edit_setting_column .btn-color.anthracite {
-  color: #fff;
-}
-#title.blue,
-#edit_setting_column .btn-color.blue {
-  background: #38b8e2;
-}
-#title.purple,
-#edit_setting_column .btn-color.purple {
-  background: #553445;
-}
-#title.turquoise,
-#edit_setting_column .btn-color.turquoise {
-  background: #00b6ad;
-}
-#title.orange,
-#edit_setting_column .btn-color.orange {
-  background: #f8981d;
-}
-#title.green,
-#edit_setting_column .btn-color.green {
-  background: #1d9650;
-}
-#title.red,
-#edit_setting_column .btn-color.red {
-  background: #e85657;
-}
-#title.anthracite,
-#edit_setting_column .btn-color.anthracite {
-  background: #3b3f45;
-}
-#title.white,
-#edit_setting_column .btn-color.white {
-  background: #fff;
-  color: #3b3f45;
-}
-.btn-color,
-.btn-marker-color {
-  border-color: rgba(255, 255, 255, 0.8);
-}
-.btn-color:hover,
-.btn-marker-color:hover,
-.btn-color:focus,
-.btn-marker-color:focus,
-.btn-color.focus,
-.btn-marker-color.focus,
-.btn-color:active,
-.btn-marker-color:active,
-.btn-color.active,
-.btn-marker-color.active {
-  color: #fff;
-}
-.btn-color.white:hover,
-.btn-marker-color.white:hover,
-.btn-color.white:focus,
-.btn-marker-color.white:focus,
-.btn-color.white.focus,
-.btn-marker-color.white.focus,
-.btn-color.white:active,
-.btn-marker-color.white:active,
-.btn-color.white.active,
-.btn-marker-color.white.active {
-  color: #3b3f45;
-}
-.btn-marker-shape {
-  background: transparent;
-}
-.btn-marker-shape:hover,
-.btn-marker-shape:focus,
-.btn-marker-shape.focus {
-  border-color: #e4e4e4;
-}
-.btn-marker-shape:active,
-.btn-marker-shape.active {
-  background: #e4e4e4;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -ms-box-shadow: none;
-  -o-box-shadow: none;
-  box-shadow: none;
-}
 .toolbar {
   position: fixed;
   z-index: 1010;
@@ -1238,6 +776,468 @@ fieldset .form-control:active {
 }
 .column.orange .sticky-footer {
   background: #f48c08;
+}
+.btn-marker-color {
+  position: relative;
+  color: #fff;
+  padding: 0;
+}
+.btn-marker-color.gray {
+  color: #888a85;
+}
+.btn-marker-color > div {
+  height: 20px;
+  border-style: solid;
+  border-width: 0 15px;
+}
+.btn-marker-color > div .fa {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+}
+.btn-marker-color.green > div {
+  border-left-color: #8ae234;
+  border-right-color: #4e9a06;
+}
+.btn-marker-color.yellow > div {
+  border-left-color: #fce94f;
+  border-right-color: #c4a000;
+}
+.btn-marker-color.orange > div {
+  border-left-color: #fcaf3e;
+  border-right-color: #ce5c00;
+}
+.btn-marker-color.red > div {
+  border-left-color: #ef2929;
+  border-right-color: #a40000;
+}
+.btn-marker-color.purple > div {
+  border-left-color: #ad7fa8;
+  border-right-color: #5c3566;
+}
+.btn-marker-color.blue > div {
+  border-left-color: #729fcf;
+  border-right-color: #204a87;
+}
+.btn-marker-color.gray > div {
+  border-left-color: #d3d7cf;
+  border-right-color: #888a85;
+}
+.btn-marker-color.dark-gray > div {
+  border-left-color: #888a85;
+  border-right-color: #333333;
+}
+.btn-marker-color.brown > div {
+  border-left-color: #e9b96e;
+  border-right-color: #8f5902;
+}
+.marker {
+  position: relative;
+  display: inline-block;
+  cursor: default;
+}
+.marker .fa {
+  position: absolute;
+  font-size: 19px;
+}
+.marker.yellow .fa {
+  color: #c4a000;
+}
+.marker.yellow #colorized,
+.marker.yellow #colorized * {
+  fill: #fce94f !important;
+}
+.marker.orange .fa {
+  color: #ce5c00;
+}
+.marker.orange #colorized,
+.marker.orange #colorized * {
+  fill: #fcaf3e !important;
+}
+.marker.green .fa {
+  color: #4e9a06;
+}
+.marker.green #colorized,
+.marker.green #colorized * {
+  fill: #8ae234 !important;
+}
+.marker.blue .fa {
+  color: #204a87;
+}
+.marker.blue #colorized,
+.marker.blue #colorized * {
+  fill: #729fcf !important;
+}
+.marker.purple .fa {
+  color: #5c3566;
+}
+.marker.purple #colorized,
+.marker.purple #colorized * {
+  fill: #ad7fa8 !important;
+}
+.marker.brown .fa {
+  color: #8f5902;
+}
+.marker.brown #colorized,
+.marker.brown #colorized * {
+  fill: #e9b96e !important;
+}
+.marker.red .fa {
+  color: #a40000;
+}
+.marker.red #colorized,
+.marker.red #colorized * {
+  fill: #ef2929 !important;
+}
+.marker.gray .fa {
+  color: #888a85;
+}
+.marker.gray #colorized,
+.marker.gray #colorized * {
+  fill: #d3d7cf !important;
+}
+.marker.dark-gray .fa {
+  color: #333333;
+}
+.marker.dark-gray #colorized,
+.marker.dark-gray #colorized * {
+  fill: #888a85 !important;
+}
+.leaflet-container .marker {
+  display: block;
+  cursor: pointer;
+}
+.marker-1 .fa,
+.marker-2 .fa,
+.marker-3 .fa {
+  top: 9px;
+  left: 6px;
+}
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+body {
+  color: #3b3f45;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.control-label {
+  font-family: 'Fira Sans';
+  font-weight: normal;
+}
+.nowrap {
+  white-space: nowrap;
+}
+textarea.font-monospace {
+  font-size: 12px;
+}
+input[disabled],
+select[disabled],
+textarea[disabled],
+.form-control[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  cursor: default;
+}
+button,
+.btn,
+.nav > li > a {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+input,
+select,
+textarea,
+.form-control,
+.list-group-item,
+.list-group-item:first-child,
+.list-group-item:last-child,
+fieldset .form-control {
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  -ms-border-radius: 0 !important;
+  -o-border-radius: 0 !important;
+  border-radius: 0 !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+}
+input:hover,
+select:hover,
+textarea:hover,
+.form-control:hover,
+.list-group-item:hover,
+.list-group-item:first-child:hover,
+.list-group-item:last-child:hover,
+fieldset .form-control:hover,
+input.focus,
+select.focus,
+textarea.focus,
+.form-control.focus,
+.list-group-item.focus,
+.list-group-item:first-child.focus,
+.list-group-item:last-child.focus,
+fieldset .form-control.focus,
+input:focus,
+select:focus,
+textarea:focus,
+.form-control:focus,
+.list-group-item:focus,
+.list-group-item:first-child:focus,
+.list-group-item:last-child:focus,
+fieldset .form-control:focus,
+input.active,
+select.active,
+textarea.active,
+.form-control.active,
+.list-group-item.active,
+.list-group-item:first-child.active,
+.list-group-item:last-child.active,
+fieldset .form-control.active,
+input:active,
+select:active,
+textarea:active,
+.form-control:active,
+.list-group-item:active,
+.list-group-item:first-child:active,
+.list-group-item:last-child:active,
+fieldset .form-control:active {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+}
+.list-group {
+  /* Fixes a placement bug on items when they are moved/dragged more than once */
+  position: relative;
+}
+.list-group .list-group-item label .help-block,
+.list-group .list-group-item label .help-block p:last-child {
+  margin-bottom: 0;
+}
+#main_map {
+  position: fixed;
+  z-index: 1000;
+  top: 40px;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+}
+#main_map .leaflet-popup-content-wrapper {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content {
+  margin: 20px;
+}
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h1 {
+  font-size: 24px;
+}
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h2 {
+  font-size: 18px;
+}
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h3 {
+  font-size: 14px;
+}
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h4,
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h5,
+#main_map .leaflet-popup-content-wrapper .leaflet-popup-content h6 {
+  font-size: 16px;
+}
+#main_map .leaflet-control-minZoomIndicator {
+  display: none !important;
+}
+#title {
+  position: fixed;
+  z-index: 1040;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  -ms-transition: all ease-out 0.3s;
+  -o-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
+}
+#title h1 {
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  font-size: 20px;
+  line-height: 40px;
+  margin: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  -ms-transition: all ease-out 0.3s;
+  -o-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
+}
+#title .description_btn {
+  color: #fff;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 8px 12px 10px 12px;
+}
+#title .description_btn:hover,
+#title .description_btn:focus,
+#title .description_btn.focus,
+#title .description_btn:active,
+#title .description_btn.active {
+  color: #fff;
+}
+#title .description {
+  display: none;
+  margin-top: 60px;
+  animation-duration: .4s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+#title.open {
+  height: 100%;
+}
+#title.open h1 {
+  left: 0;
+  -webkit-transform: translate(0, 30px);
+  -moz-transform: translate(0, 30px);
+  -ms-transform: translate(0, 30px);
+  -o-transform: translate(0, 30px);
+  transform: translate(0, 30px);
+  font-size: 36px;
+  line-height: 50px;
+  max-width: none;
+  white-space: normal;
+  overflow: visible;
+}
+#title.open .description {
+  display: block;
+  animation-name: appear;
+  animation-direction: normal;
+}
+#title.blue,
+#edit_setting_column .btn-color.blue,
+#title.purple,
+#edit_setting_column .btn-color.purple,
+#title.turquoise,
+#edit_setting_column .btn-color.turquoise,
+#title.orange,
+#edit_setting_column .btn-color.orange,
+#title.green,
+#edit_setting_column .btn-color.green,
+#title.red,
+#edit_setting_column .btn-color.red,
+#title.anthracite,
+#edit_setting_column .btn-color.anthracite {
+  color: #fff;
+}
+#title.blue,
+#edit_setting_column .btn-color.blue {
+  background: #38b8e2;
+}
+#title.purple,
+#edit_setting_column .btn-color.purple {
+  background: #553445;
+}
+#title.turquoise,
+#edit_setting_column .btn-color.turquoise {
+  background: #00b6ad;
+}
+#title.orange,
+#edit_setting_column .btn-color.orange {
+  background: #f8981d;
+}
+#title.green,
+#edit_setting_column .btn-color.green {
+  background: #1d9650;
+}
+#title.red,
+#edit_setting_column .btn-color.red {
+  background: #e85657;
+}
+#title.anthracite,
+#edit_setting_column .btn-color.anthracite {
+  background: #3b3f45;
+}
+#title.white,
+#edit_setting_column .btn-color.white {
+  background: #fff;
+  color: #3b3f45;
+}
+.btn-color,
+.btn-marker-color {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+.btn-color:hover,
+.btn-marker-color:hover,
+.btn-color:focus,
+.btn-marker-color:focus,
+.btn-color.focus,
+.btn-marker-color.focus,
+.btn-color:active,
+.btn-marker-color:active,
+.btn-color.active,
+.btn-marker-color.active {
+  color: #fff;
+}
+.btn-color.white:hover,
+.btn-marker-color.white:hover,
+.btn-color.white:focus,
+.btn-marker-color.white:focus,
+.btn-color.white.focus,
+.btn-marker-color.white.focus,
+.btn-color.white:active,
+.btn-marker-color.white:active,
+.btn-color.white.active,
+.btn-marker-color.white.active {
+  color: #3b3f45;
+}
+.btn-marker-shape {
+  background: transparent;
+}
+.btn-marker-shape:hover,
+.btn-marker-shape:focus,
+.btn-marker-shape.focus {
+  border-color: #e4e4e4;
+}
+.btn-marker-shape:active,
+.btn-marker-shape.active {
+  background: #e4e4e4;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
 }
 .notification {
   position: fixed;
