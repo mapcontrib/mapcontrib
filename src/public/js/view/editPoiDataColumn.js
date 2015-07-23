@@ -110,7 +110,7 @@ function (
 			e.preventDefault();
 
 			var self = this,
-			newValues = {},
+			newTags = {},
 			nodeId = this.options.dataFromOSM.id;
 
 
@@ -120,7 +120,7 @@ function (
 
 				var tag = $(input).data('tag');
 
-				newValues[tag] = input.value;
+				newTags[tag] = input.value;
 			});
 
 
@@ -145,9 +145,9 @@ function (
 						oldTags[ tags[j].getAttribute('k') ] = tags[j];
 					}
 
-					for (var k in newValues) {
+					for (var k in newTags) {
 
-						if ( !newValues[k] ) {
+						if ( !newTags[k] ) {
 
 							if ( oldTags[k] ) {
 
@@ -159,14 +159,14 @@ function (
 
 						if ( oldTags[k] ) {
 
-							oldTags[k].setAttribute('v', newValues[k]);
+							oldTags[k].setAttribute('v', newTags[k]);
 						}
 						else {
 
 							var newTag = nodeXml.createElement('tag');
 
 							newTag.setAttribute('k', k);
-							newTag.setAttribute('v', newValues[k]);
+							newTag.setAttribute('v', newTags[k]);
 
 							parentNode.appendChild(newTag);
 						}
