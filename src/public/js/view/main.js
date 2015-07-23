@@ -24,6 +24,7 @@ define([
 	'view/editPoiLayerColumn',
 	'view/editPoiMarkerModal',
 	'view/editTileColumn',
+	'view/editPoiDataColumn',
 	'view/zoomIndicatorNotification',
 
 	'model/profile',
@@ -55,6 +56,7 @@ function (
 	EditPoiLayerColumnView,
 	EditPoiMarkerModalView,
 	EditTileColumnView,
+	EditPoiDataColumnView,
 	ZoomIndicatorNotificationView,
 
 	ProfileModel,
@@ -124,6 +126,7 @@ function (
 			'editPoiLayerColumn': '#rg_edit_poi_layer_column',
 			'editPoiMarkerModal': '#rg_edit_poi_marker_modal',
 			'editTileColumn': '#rg_edit_tile_column',
+			'editPoiDataColumn': '#rg_edit_poi_data_column',
 
 			'zoomIndicatorNotification': '#rg_zoom_indicator_notification',
 		},
@@ -228,6 +231,10 @@ function (
 				'map:updatePoiLayerPopups': function (poiLayerModel) {
 
 					self.updatePoiLayerPopups( poiLayerModel );
+				},
+				'editPoiData': function (dataFromOSM, poiLayerModel) {
+
+					self.onCommandEditPoiData( dataFromOSM, poiLayerModel );
 				},
 			});
 
@@ -600,6 +607,10 @@ function (
 		getPoiLayerPopupContent: function (poiLayerModel, dataFromOSM) {
 
 			var re,
+			self = this,
+			globalWrapper = document.createElement('div'),
+			editButtonWrapper = document.createElement('div'),
+			editButton = document.createElement('button'),
 			popupContent = markdown.toHTML( poiLayerModel.get('popupContent') );
 
 			for (var k in dataFromOSM.tags) {
@@ -611,7 +622,37 @@ function (
 
 			popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
 
-			return popupContent;
+			editButton.className = 'btn btn-link';
+			editButton.innerHTML = document.l10n.getSync('editTheseInformations');
+
+			$(editButton).on('click', function () {
+
+				self._radio.commands.execute('editPoiData', dataFromOSM, poiLayerModel);
+			});
+
+			editButtonWrapper.className = 'text-center prepend-xs-1';
+			editButtonWrapper.appendChild( editButton );
+
+			globalWrapper.innerHTML = popupContent;
+			globalWrapper.appendChild( editButtonWrapper );
+
+			return globalWrapper;
+		},
+
+		onCommandEditPoiData: function (dataFromOSM, poiLayerModel) {
+
+			var view = new EditPoiDataColumnView({
+
+				'dataFromOSM': dataFromOSM,
+				'poiLayerModel': poiLayerModel,
+			});
+
+			this.getRegion('editPoiDataColumn').show( view );
+
+			window.requestAnimationFrame(function () {
+
+				view.open();
+			});
 		},
 
 		renderUserButtonLogged: function () {

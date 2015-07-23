@@ -27,6 +27,7 @@ requirejs.config({
 		'tools': 'tools',
 		'l20n': '../bower_components/l20n/dist/html/l20n.min',
 		'markdown': '../bower_components/markdown/lib/markdown',
+		'osm-auth': '../bower_components/osm-auth/osmauth.min',
 	},
 
 	shim: {

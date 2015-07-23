@@ -702,6 +702,9 @@ fieldset .form-control:active {
   color: #3b3f45;
   background: #e4e4e4;
 }
+.column .fields label:first-letter {
+  text-transform: uppercase;
+}
 .column.blue,
 .column.green,
 .column.red,

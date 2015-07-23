@@ -47,6 +47,7 @@
 <save "Save">
 <cancel "Cancel">
 <customize "Customize">
+<editTheseInformations "Edit these informations">
 
 
 /* Help */
@@ -118,6 +119,10 @@ to connect to your OpenStreetMap account.
 
 /* Edit tiles column */
 <editTileColumn_title "Backgrounds">
+
+
+/* Edit POI data column */
+<editPoiDataColumn_title "Edit data">
 
 
 /* Zoom indicator notification */
