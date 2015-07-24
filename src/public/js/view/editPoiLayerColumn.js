@@ -38,6 +38,7 @@ function (
 
 			'layerName': '#layer_name',
 			'layerDescription': '#layer_description',
+			'layerDataEditable': '#layer_data_editable',
 			'layerOverpassRequest': '#layer_overpass_request',
 			'layerPopupContent': '#layer_popup_content',
 
@@ -69,6 +70,11 @@ function (
 			this._oldModel = this.model.clone();
 
 			this.listenTo(this.model, 'change', this.updateMarkerIcon);
+		},
+
+		onRender: function () {
+
+			this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
 		},
 
 		open: function () {
@@ -104,12 +110,18 @@ function (
 
 			this.model.set('name', this.ui.layerName.val());
 			this.model.set('description', this.ui.layerDescription.val());
+			this.model.set('dataEditable', this.ui.layerDataEditable.prop('checked'));
 			this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
 			this.model.set('popupContent', this.ui.layerPopupContent.val());
 
 			if ( !this.model.get('_id') ) {
 
 				addToCollection = true;
+			}
+
+			if ( this._oldModel.get('dataEditable') !== this.model.get('dataEditable') ) {
+
+				updatePopups = true;
 			}
 
 			if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {

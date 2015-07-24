@@ -176,7 +176,8 @@
 .column textarea {
   resize: vertical;
 }
-.column .control-label + .radio {
+.column .control-label + .radio,
+.column .control-label + .checkbox {
   margin-top: 0;
 }
 .column .sticky-footer {

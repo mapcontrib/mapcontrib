@@ -103,6 +103,8 @@ to connect to your OpenStreetMap account.
 <editPoiLayerColumn_title "Layer edit">
 <editPoiLayerColumn_layerName "Name">
 <editPoiLayerColumn_layerDescription "Description">
+<editPoiLayerColumn_data "OSM data">
+<editPoiLayerColumn_dataEditable "Allow to edit data">
 <editPoiLayerColumn_layerOverpassRequest "Overpass request">
 <editPoiLayerColumn_marker "Marker">
 <editPoiLayerColumn_layerPopupContent "Popup content">

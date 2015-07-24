@@ -26,6 +26,7 @@ function (
 			'profileId': undefined,
 			'name': undefined,
 			'description': undefined,
+			'dataEditable': true,
 			'overpassRequest': undefined,
 			'minZoom': 14,
 			'popupContent': undefined,

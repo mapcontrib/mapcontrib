@@ -666,19 +666,23 @@ function (
 
 			popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
 
-			editButton.className = 'btn btn-link';
-			editButton.innerHTML = document.l10n.getSync('editTheseInformations');
-
-			$(editButton).on('click', function () {
-
-				self._radio.commands.execute('editPoiData', dataFromOSM, poiLayerModel);
-			});
-
-			editButtonWrapper.className = 'text-center prepend-xs-1 edit_poi_data';
-			editButtonWrapper.appendChild( editButton );
-
 			globalWrapper.innerHTML = popupContent;
-			globalWrapper.appendChild( editButtonWrapper );
+
+			if ( poiLayerModel.get('dataEditable') ) {
+
+				editButton.className = 'btn btn-link';
+				editButton.innerHTML = document.l10n.getSync('editTheseInformations');
+
+				$(editButton).on('click', function () {
+
+					self._radio.commands.execute('editPoiData', dataFromOSM, poiLayerModel);
+				});
+
+				editButtonWrapper.className = 'text-center prepend-xs-1 edit_poi_data';
+				editButtonWrapper.appendChild( editButton );
+
+				globalWrapper.appendChild( editButtonWrapper );
+			}
 
 			return globalWrapper;
 		},
