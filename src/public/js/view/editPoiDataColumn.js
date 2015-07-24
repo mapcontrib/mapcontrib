@@ -72,6 +72,11 @@ function (
 
 		onRender: function () {
 
+			if ( !this.options.poiLayerModel.get('dataEditable') ) {
+
+				return this;
+			}
+
 			if ( !this._radio.reqres.request('var', 'isLogged') ) {
 
 				return this;
