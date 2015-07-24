@@ -447,8 +447,7 @@ function (
 							layerGroup._poiIds.push(e.id);
 
 
-							var pos,
-							popupContent = self.getPoiLayerPopupContent(poiLayerModel, e);
+							var pos;
 
 							if(e.type === 'node') {
 
@@ -479,25 +478,13 @@ function (
 
 									var polygon = L.polygon( nodePositions, CONST.map.wayPolygonOptions );
 
-									if ( popupContent ) {
-
-										polygon.bindPopup(
-
-											L.popup({
-
-												'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
-												'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
-											})
-											.setContent( popupContent )
-										);
-									}
-
 									layerGroup.addLayer( polygon );
 								}
 							}
 
 
-							var marker = L.marker(pos, {
+							var popupContent = self.getPoiLayerPopupContent(poiLayerModel, e),
+							marker = L.marker(pos, {
 
 								'icon': icon
 							});
