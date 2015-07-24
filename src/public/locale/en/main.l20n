@@ -57,10 +57,7 @@
 
 
 /* Login modal */
-<loginModal_explanation """
-To keep it simple, Rudomap only needs<br>
-to connect to your OpenStreetMap account.
-""">
+<loginModal_explanation "To keep it simple, Rudomap only needs to connect to your OpenStreetMap account.>
 
 
 /* POI column */
