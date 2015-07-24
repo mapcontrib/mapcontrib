@@ -583,13 +583,45 @@ function (
 
 		updatePoiLayerPopups: function (poiLayerModel) {
 
-			var self = this;
+			var popup,
+			popupContent,
+			self = this;
 
 			this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
 
 				if ( layer._dataFromOSM ) {
 
-					layer.setPopupContent( self.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOSM ) );
+					popup = layer.getPopup();
+					popupContent = self.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOSM );
+
+					if ( popupContent ) {
+
+						if ( popup ) {
+
+							popup.setPopupContent( popupContent );
+						}
+						else {
+
+							layer.bindPopup(
+
+								L.popup({
+
+									'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
+									'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
+								})
+								.setContent( popupContent )
+							);
+						}
+					}
+					else {
+
+						if ( popup ) {
+
+							layer
+							.closePopup()
+							.unbindPopup();
+						}
+					}
 				}
 			});
 		},
@@ -619,6 +651,11 @@ function (
 			editButtonWrapper = document.createElement('div'),
 			editButton = document.createElement('button'),
 			popupContent = markdown.toHTML( poiLayerModel.get('popupContent') );
+
+			if ( !poiLayerModel.get('popupContent') ) {
+
+				return '';
+			}
 
 			for (var k in dataFromOSM.tags) {
 
