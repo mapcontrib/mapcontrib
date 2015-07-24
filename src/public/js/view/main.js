@@ -374,6 +374,11 @@ function (
 				'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 			})
 			.addTo(this._map);
+
+			L.control.scale({
+
+				'position': 'bottomright',
+			}).addTo(this._map);
 		},
 
 		onLoadPoiLayers: function () {
