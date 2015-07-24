@@ -598,7 +598,7 @@ function (
 
 						if ( popup ) {
 
-							popup.setPopupContent( popupContent );
+							popup.setContent( popupContent );
 						}
 						else {
 
