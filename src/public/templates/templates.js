@@ -122,7 +122,7 @@ this["JST"]["editTileColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="edit_tile_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editTileColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="edit_tile_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editTileColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<div class="rg_tile_list prepend-xs-1"></div>\n\n\t\t\t\t<div class="sticky-footer">\n\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
