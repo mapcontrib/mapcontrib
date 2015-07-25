@@ -369,9 +369,9 @@ function (
 
 			this.updateZoomIndicator();
 
-			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			L.tileLayer(CONST.map.tiles[0].urlTemplate, {
 
-				'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+				'attribution': CONST.map.tiles[0].attribution,
 			})
 			.addTo(this._map);
 
