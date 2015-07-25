@@ -588,10 +588,23 @@
 .column.blue textarea + .help-block,
 .column.green textarea + .help-block,
 .column.red textarea + .help-block,
-.column.orange textarea + .help-block {
+.column.orange textarea + .help-block,
+.column.blue figure + figcaption,
+.column.green figure + figcaption,
+.column.red figure + figcaption,
+.column.orange figure + figcaption {
   background: rgba(255, 255, 255, 0.15);
   padding: 4px 6px;
   margin-top: 0;
+}
+.column.blue input[type="text"] + .help-block,
+.column.green input[type="text"] + .help-block,
+.column.red input[type="text"] + .help-block,
+.column.orange input[type="text"] + .help-block,
+.column.blue textarea + .help-block,
+.column.green textarea + .help-block,
+.column.red textarea + .help-block,
+.column.orange textarea + .help-block {
   font-size: 12px;
 }
 .column.blue .table-bordered,
@@ -1362,14 +1375,18 @@ fieldset .form-control:active {
   -webkit-animation-direction: normal;
           animation-direction: normal;
 }
-.list-group .checkbox {
+.rg_layer_list .checkbox {
   padding-right: 40px;
 }
-.list-group .checkbox .marker {
+.rg_layer_list .checkbox .marker {
   position: absolute;
   top: 0;
   right: -4px;
   cursor: pointer;
+}
+.tile_list .checkbox label figure {
+  overflow: hidden;
+  height: 120px;
 }
 .icon-preview {
   position: absolute;

@@ -19,7 +19,7 @@ function (
 
 	return Marionette.ItemView.extend({
 
-		template: JST['poiLayerListItem.html'],
+		template: JST['selectPoiLayerListItem.html'],
 
 		tagName: 'a',
 

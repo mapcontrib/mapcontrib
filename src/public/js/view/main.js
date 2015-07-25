@@ -15,7 +15,7 @@ define([
 
 	'view/mainTitle',
 	'view/loginModal',
-	'view/poiColumn',
+	'view/selectPoiColumn',
 	'view/userColumn',
 	'view/linkColumn',
 	'view/contribColumn',
@@ -47,7 +47,7 @@ function (
 
 	MainTitleView,
 	LoginModalView,
-	PoiColumnView,
+	SelectPoiColumnView,
 	UserColumnView,
 	LinkColumnView,
 	ContribColumnView,
@@ -216,6 +216,10 @@ function (
 
 					self.onCommandShowEditPoiMarker( poiLayerModel );
 				},
+				'map:setTileLayer': function (tileId) {
+
+					self.setTileLayer( tileId );
+				},
 				'map:showPoiLayer': function (poiLayerModel) {
 
 					self.showPoiLayer( poiLayerModel );
@@ -272,7 +276,7 @@ function (
 			}
 
 
-			this._poiColumnView = new PoiColumnView();
+			this._selectPoiColumnView = new SelectPoiColumnView();
 			this._userColumnView = new UserColumnView();
 			this._linkColumnView = new LinkColumnView({ 'model': this.model });
 			this._contribColumnView = new ContribColumnView({ 'model': this.model });
@@ -285,7 +289,7 @@ function (
 
 			this.getRegion('mainTitle').show( new MainTitleView({ 'model': this.model }) );
 
-			this.getRegion('poiColumn').show( this._poiColumnView );
+			this.getRegion('poiColumn').show( this._selectPoiColumnView );
 			this.getRegion('userColumn').show( this._userColumnView );
 			this.getRegion('linkColumn').show( this._linkColumnView );
 			this.getRegion('contribColumn').show( this._contribColumnView );
@@ -367,13 +371,8 @@ function (
 				self.onLocationError();
 			});
 
-			this.updateZoomIndicator();
 
-			L.tileLayer(CONST.map.tiles[0].urlTemplate, {
-
-				'attribution': CONST.map.tiles[0].attribution,
-			})
-			.addTo(this._map);
+			this.setTileLayer();
 
 			L.control.scale({
 
@@ -404,6 +403,50 @@ function (
 
 				this.removePoiLayer(model);
 			}, this);
+		},
+
+		setTileLayer: function (id) {
+
+			var tile, layer,
+			tiles = this.model.get('tiles');
+
+			if ( tiles.length === 0 ) {
+
+				tiles = ['osm'];
+			}
+
+			if ( !id ) {
+
+				id = tiles[0];
+			}
+
+			if ( !this._currentTileId ) {
+
+				this._currentTileId = 'osm';
+			}
+
+			if ( this._currentTileId === id ) {
+
+				return;
+			}
+
+			layer = L.tileLayer(CONST.map.tiles[ id ].urlTemplate, {
+
+				'attribution': CONST.map.tiles[ id ].attribution,
+				'minZoom': CONST.map.tiles[ id ].minZoom,
+				'maxZoom': CONST.map.tiles[ id ].maxZoom,
+			});
+
+			this._map.addLayer(layer);
+
+			if ( this._currentTileLayer ) {
+
+				this._map.removeLayer( this._currentTileLayer );
+			}
+
+			this._currentTileLayer = layer;
+
+			this.updateZoomIndicator();
 		},
 
 		addPoiLayer: function (poiLayerModel) {
@@ -942,7 +985,7 @@ function (
 
 		onClickPoi: function () {
 
-			this._poiColumnView.open();
+			this._selectPoiColumnView.open();
 		},
 
 		onClickHelp: function () {

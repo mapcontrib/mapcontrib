@@ -27,7 +27,7 @@ function (
 			'name': undefined,
 			'description': undefined,
 			'color': 'blue',
-			'tiles': [],
+			'tiles': ['osm'],
 			'zoomLevel': undefined,
 			'center': {
 

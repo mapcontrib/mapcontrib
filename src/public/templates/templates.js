@@ -122,7 +122,7 @@ this["JST"]["editTileColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="edit_tile_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editTileColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<div class="rg_tile_list prepend-xs-1"></div>\n\n\t\t\t\t<div class="sticky-footer">\n\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="edit_tile_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editTileColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="tile_list prepend-xs-1"></div>\n\n\t\t\t\t\t<div class="sticky-footer">\n\t\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
@@ -174,16 +174,6 @@ __p += '<div id="title" class="' +
 return __p
 };
 
-this["JST"]["poiColumn.html"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<section id="poi_column" class="column left white">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="poiColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="poiColumn_explanation"></p>\n\t\t\t\t<div class="rg_layer_list prepend-xs-1"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
-
-}
-return __p
-};
-
 this["JST"]["poiLayerList.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
@@ -196,13 +186,23 @@ __p += '<div class="reorder_icon"><i class="fa fa-bars fa-fw"></i></div>\n' +
 return __p
 };
 
-this["JST"]["poiLayerListItem.html"] = function(obj) {
+this["JST"]["selectPoiColumn.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<section id="poi_column" class="column left white">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="poiColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="poiColumn_explanation"></p>\n\t\t\t\t<div class="rg_layer_list prepend-xs-1"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+
+}
+return __p
+};
+
+this["JST"]["selectPoiLayerListItem.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="checkbox">\n\t<input type="checkbox" id="poi_layer_visibility_' +
 ((__t = ( _id )) == null ? '' : __t) +
-'" class="visibility_checkbox" value="1">\n\t<label for="poi_layer_visibility_' +
+'" class="visibility_checkbox styled" value="1">\n\t<label for="poi_layer_visibility_' +
 ((__t = ( _id )) == null ? '' : __t) +
 '">\n\t\t' +
 ((__t = ( name )) == null ? '' : __t) +
@@ -211,6 +211,28 @@ __p += '<div class="checkbox">\n\t<input type="checkbox" id="poi_layer_visibilit
 '\n\t\t</div>\n\t</label>\n\t' +
 ((__t = ( marker )) == null ? '' : __t) +
 '\n</div>\n';
+
+}
+return __p
+};
+
+this["JST"]["tileListItem.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<div class="checkbox append-xs-1">\n\t<input type="checkbox" id="tile_' +
+__e( id ) +
+'" class="tile_checkbox styled" value="' +
+__e( id ) +
+'"' +
+__e( checked ) +
+'>\n\t<label for="tile_' +
+__e( id ) +
+'">\n\t\t<figure>\n\t\t\t<img src="' +
+__e( thumbnail ) +
+'" alt="" />\n\t\t</figure>\n\t\t<figcaption>\n\t\t\t' +
+__e( name ) +
+'\n\t\t</figcaption>\n\t</label>\n</div>\n';
 
 }
 return __p
