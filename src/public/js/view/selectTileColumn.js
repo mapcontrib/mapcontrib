@@ -49,6 +49,8 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			this.listenTo(this.model, 'change:tiles', this.onChangeModelTiles);
 		},
 
 		onRender: function () {
@@ -84,6 +86,11 @@ function (
 		onClickTiles: function (e) {
 
 			this._radio.commands.execute('map:setTileLayer', e.target.value);
+		},
+
+		onChangeModelTiles: function () {
+
+			this.render();
 		},
 
 		open: function () {
