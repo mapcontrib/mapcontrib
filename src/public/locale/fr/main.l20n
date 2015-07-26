@@ -61,8 +61,12 @@
 
 
 /* POI column */
-<poiColumn_title "Centres d'intérêts">
-<poiColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte">
+<selectPoiColumn_title "Centres d'intérêts">
+<selectPoiColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte">
+
+
+/* Tile column */
+<selectTileColumn_title "Fonds de cartes">
 
 
 /* User column */

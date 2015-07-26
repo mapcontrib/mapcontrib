@@ -61,8 +61,12 @@
 
 
 /* POI column */
-<poiColumn_title "Points of interest">
-<poiColumn_explanation "Select the points of interest you want to see on the map">
+<selectPoiColumn_title "Points of interest">
+<selectPoiColumn_explanation "Select the points of interest you want to see on the map">
+
+
+/* Tile column */
+<selectTileColumn_title "Backgrounds">
 
 
 /* User column */

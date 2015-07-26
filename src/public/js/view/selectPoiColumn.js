@@ -38,7 +38,7 @@ function (
 
 		ui: {
 
-			'column': '#poi_column',
+			'column': '#select_poi_column',
 		},
 
 		initialize: function () {
