@@ -85,15 +85,19 @@ api = {
 
 	getAll: function (req, res) {
 
-		var collection = options.database.collection('poiLayer'),
-		query = {};
+		var collection = options.database.collection('poiLayer');
 
-		if ( req.params.profileId && options.CONST.pattern.mongoId.test( req.params.profileId ) ) {
+		if ( req.params.profileId ) {
 
-			query.profileId = req.params.profileId;
+			api.findFromProfileId( req, res, req.params.profileId, function (poiLayers) {
+
+				res.send(poiLayers);
+			});
+
+			return true;
 		}
 
-		collection.find( query )
+		collection.find()
 		.toArray(function (err, results) {
 
 			if(err) {
@@ -112,6 +116,43 @@ api = {
 			}
 
 			res.send(results);
+		});
+	},
+
+
+	findFromProfileId: function (req, res, profileId, callback) {
+
+		var collection = options.database.collection('poiLayer');
+
+		if ( !profileId || !options.CONST.pattern.mongoId.test( profileId ) ) {
+
+			res.sendStatus(400);
+
+			return true;
+		}
+
+		collection.find({
+
+			'profileId': profileId
+		})
+		.toArray(function (err, results) {
+
+			if(err) {
+
+				res.sendStatus(500);
+
+				return true;
+			}
+
+			if (results.length > 0) {
+
+				results.forEach(function (result) {
+
+					result._id = result._id.toString();
+				});
+			}
+
+			callback(results);
 		});
 	},
 

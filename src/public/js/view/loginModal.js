@@ -34,6 +34,14 @@ function (
 			'modal': '#login_modal',
 		},
 
+		templateHelpers: function () {
+
+			return {
+
+				'authCallback': window.location.pathname,
+			};
+		},
+
 		initialize: function () {
 
 			var self = this;

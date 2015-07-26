@@ -88,7 +88,7 @@ require(['requireConfig'], function () {
 
 				this._model = {
 
-					'user': new UserModel(),
+					'user': new UserModel( window.user ),
 				};
 
 
@@ -161,48 +161,10 @@ require(['requireConfig'], function () {
 
 				var self = this;
 
-				this.initObjects();
+				if ( this._model.user.get('_id') ) {
 
-				this._model.user.set('_id', 'me');
-
-				this._model.user.fetch({
-
-					success: function (model) {
-
-						if (!model.get('error')) {
-
-							self._radio.vent.trigger('session:logged');
-
-							self.loadData();
-						}
-
-						self.launch();
-					},
-					error: function () {
-
-						self.launch();
-					}
-				});
-			},
-
-			initObjects: function () {
-
-				var self = this;
-
-				// this._collection.stuff = new StuffCollection();
-			},
-
-
-			loadData: function () {
-
-				var self = this;
-
-				// this._collection.stuff.fetch();
-			},
-
-			launch: function () {
-
-				var self = this;
+					this._radio.vent.trigger('session:logged');
+				}
 
 				this._router = new Router();
 

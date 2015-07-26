@@ -18,8 +18,7 @@ api = {
 
 	post: function (req, res) {
 
-		var self = this,
-		collection = options.database.collection('profile'),
+		var collection = options.database.collection('profile'),
 		model = new ProfileModel(req.body);
 
 		if ( !model.isValid() ) {
@@ -102,7 +101,7 @@ api = {
 			}
 			else {
 
-				self.getNewFragment(profile, req, res);
+				api.getNewFragment(profile, req, res);
 			}
 		});
 	},
@@ -110,7 +109,7 @@ api = {
 
 	get: function (req, res) {
 
-		if ( !req.params._id || !options.CONST.pattern.fragment.test( req.params._id ) ) {
+		if ( !req.params._id || !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
 			res.sendStatus(400);
 
@@ -121,7 +120,7 @@ api = {
 
 		collection.find({
 
-			'fragment': req.params._id
+			'_id':  new mongo.ObjectID(req.params._id)
 		})
 		.toArray(function (err, results) {
 
@@ -149,16 +148,20 @@ api = {
 
 	getAll: function (req, res) {
 
-		var collection = options.database.collection('profile'),
-		query = {};
+		var collection = options.database.collection('profile');
 
-		if ( req.query.fragment && options.CONST.pattern.mongoId.test( req.query.fragment ) ) {
+		if ( req.query.fragment ) {
 
-			query.profileId = req.query.fragment;
+			api.findFromFragment( req, res, req.query.fragment, function (profile) {
+
+				res.send(profile);
+			});
+
+			return true;
 		}
 
 
-		collection.find( query )
+		collection.find()
 		.toArray(function (err, results) {
 
 			if(err) {
@@ -191,6 +194,45 @@ api = {
 			}
 
 			res.send(results);
+		});
+	},
+
+
+	findFromFragment: function (req, res, fragment, callback) {
+
+		var collection = options.database.collection('profile');
+
+		if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
+
+			res.sendStatus(400);
+
+			return true;
+		}
+
+		collection.find({
+
+			'fragment': fragment
+		})
+		.toArray(function (err, results) {
+
+			if(err) {
+
+				res.sendStatus(500);
+
+				return true;
+			}
+
+			if (results.length === 0) {
+
+				res.sendStatus(404);
+
+				return true;
+			}
+
+			var result = results[0];
+			result._id = result._id.toString();
+
+			callback(result);
 		});
 	},
 

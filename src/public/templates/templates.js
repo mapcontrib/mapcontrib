@@ -142,7 +142,11 @@ this["JST"]["loginModal.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="login_modal" class="pop_modal">\n\t<div class="pop">\n\t\t<div class="container-fluid content">\n\t\t\t<div class="row">\n\t\t\t\t<div class="col-xs-12">\n\t\t\t\t\t<img src="img/osm_128.png" alt="OpenStreetMap" width="128" height="128" class="img-responsive center-block" />\n\t\t\t\t\t<p class="text-center" data-l10n-id="loginModal_explanation"></p>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="row">\n\t\t\t\t<div class="col-xs-12 prepend-xs-1">\n\t\t\t\t\t<button type="button" class="btn btn-default close_btn" data-l10n-id="close"></button>\n\t\t\t\t\t<a href="/auth/openstreetmap" class="btn btn-primary pull-right hidden-xs" data-l10n-id="loginOrSubscribe"></a>\n\t\t\t\t\t<a href="/auth/openstreetmap" class="btn btn-primary pull-right visible-xs" data-l10n-id="login"></a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="login_modal" class="pop_modal">\n\t<div class="pop">\n\t\t<div class="container-fluid content">\n\t\t\t<div class="row">\n\t\t\t\t<div class="col-xs-12">\n\t\t\t\t\t<img src="img/osm_128.png" alt="OpenStreetMap" width="128" height="128" class="img-responsive center-block" />\n\t\t\t\t\t<p class="text-center" data-l10n-id="loginModal_explanation"></p>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="row">\n\t\t\t\t<div class="col-xs-12 prepend-xs-1">\n\t\t\t\t\t<button type="button" class="btn btn-default close_btn" data-l10n-id="close"></button>\n\t\t\t\t\t<a href="/auth?authCallback=' +
+__e( authCallback ) +
+'" class="btn btn-primary pull-right hidden-xs" data-l10n-id="loginOrSubscribe"></a>\n\t\t\t\t\t<a href="/auth?authCallback=' +
+__e( authCallback ) +
+'" class="btn btn-primary pull-right visible-xs" data-l10n-id="login"></a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p

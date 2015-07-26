@@ -18,7 +18,8 @@ db = {
 
 var fs = require('fs'),
 path = require('path'),
-format = require('util').format;
+format = require('util').format,
+Promise = require('es6-promise').Promise;
 
 
 
@@ -36,7 +37,8 @@ database.open(function (err, db) {
 
 
 
-var express = require('express'),
+var ejs = require('ejs'),
+express = require('express'),
 logger = require('morgan'),
 multer = require('multer'),
 methodOverride = require('method-override'),
@@ -48,6 +50,9 @@ errorHandler = require('errorhandler'),
 MongoStore = require('connect-mongo')(session),
 app = express();
 
+app.engine('html', ejs.renderFile);
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -91,7 +96,8 @@ requirejs.config({
 });
 
 var CONST = requirejs('const'),
-settings = requirejs('settings');
+settings = requirejs('settings'),
+_ = requirejs('underscore');
 
 
 
@@ -144,7 +150,7 @@ passport.use(new OpenStreetMapStrategy({
 
 		'consumerKey': settings.oauthConsumerKey,
 		'consumerSecret': settings.oauthSecret,
-		'callbackURL': '/auth/openstreetmap/callback',
+		'callbackURL': '/auth/callback',
 		'passReqToCallback': true,
 	},
 	function(req, token, tokenSecret, profile, done) {
@@ -153,7 +159,6 @@ passport.use(new OpenStreetMapStrategy({
 
 			return done(null, false);
 		}
-
 
 		var collection = database.collection('user'),
 		userData = {
@@ -193,24 +198,31 @@ passport.use(new OpenStreetMapStrategy({
 
 					if (results) {
 
+						req.session.user = user;
+
 						return done(err, user);
 					}
 
 					return done(err);
 				});
-
-				return;
 			}
+			else {
 
-			collection.insert(userData, {'safe': true}, function (err, results) {
+				collection.insert(userData, {'safe': true}, function (err, results) {
 
-				if (results) {
+					if (results) {
 
-					return done(err, results[0]);
-				}
+						result = results[0];
+						result._id = result._id.toString();
 
-				return done(err);
-			});
+						req.session.user = result;
+
+						return done(err, result);
+					}
+
+					return done(err);
+				});
+			}
 		});
 	}
 ));
@@ -218,24 +230,65 @@ passport.use(new OpenStreetMapStrategy({
 
 
 
-app.get('/auth/openstreetmap', passport.authenticate('openstreetmap'));
+app.get('/', function (req, res) {
+
+	res.redirect('/profile-s8c2d4');
+});
+
+app.get('/auth', function (req, res) {
+
+	if ( req.query.authCallback ) {
+
+		req.session.authCallback = req.query.authCallback;
+	}
+
+	passport.authenticate('openstreetmap')(req, res);
+});
 
 
-app.get('/auth/openstreetmap/callback', passport.authenticate('openstreetmap', {
+app.get('/auth/callback', function (req, res) {
 
-	'successRedirect': '/',
-	'failureRedirect': '/#oups'
-}));
+	var callbackUrl = '/';
+
+	if ( req.session.authCallback ) {
+
+		callbackUrl = req.session.authCallback;
+	}
+
+	passport.authenticate('openstreetmap', {
+
+		'successRedirect': callbackUrl,
+		'failureRedirect': callbackUrl +'/#oups'
+	})(req, res);
+});
 
 
-app.get('/connect/openstreetmap', passport.authorize('openstreetmap'));
+app.get('/connect', function (req, res) {
+
+	if ( req.query.authCallback ) {
+
+		req.session.authCallback = req.query.authCallback;
+	}
+
+	passport.authorize('openstreetmap')(req, res);
+});
 
 
-app.get('/connect/openstreetmap/callback', passport.authorize('openstreetmap', {
+app.get('/connect/callback', function (req, res) {
 
-	'successRedirect': '/',
-	'failureRedirect': '/#oups'
-}));
+	var callbackUrl = '/';
+
+	if ( req.session.authCallback ) {
+
+		callbackUrl = req.session.authCallback;
+	}
+
+	passport.authorize('openstreetmap', {
+
+		'successRedirect': callbackUrl,
+		'failureRedirect': callbackUrl +'/#oups'
+	})(req, res);
+});
 
 
 
@@ -256,9 +309,9 @@ function isLoggedIn (req, res, next) {
 
 
 var CONST = requirejs('const'),
-user = require('./api/user.js'),
-profile = require('./api/profile.js'),
-poiLayer = require('./api/poiLayer.js'),
+userApi = require('./api/user.js'),
+profileApi = require('./api/profile.js'),
+poiLayerApi = require('./api/poiLayer.js'),
 options = {
 
 	'CONST': CONST,
@@ -266,31 +319,56 @@ options = {
 };
 
 
-user.setOptions( options );
-profile.setOptions( options );
-poiLayer.setOptions( options );
+userApi.setOptions( options );
+profileApi.setOptions( options );
+poiLayerApi.setOptions( options );
 
 
-// app.get('/api/user', user.api.getAll);
-app.get('/api/user/:_id', user.api.get);
-app.post('/api/user', isLoggedIn, user.api.post);
-app.put('/api/user/:_id', isLoggedIn, user.api.put);
-// app.delete('/api/user/:_id', isLoggedIn, user.api.delete);
+app.get('/api/user/logout', userApi.api.logout);
+// app.get('/api/user', userApi.api.getAll);
+app.get('/api/user/:_id', userApi.api.get);
+app.post('/api/user', isLoggedIn, userApi.api.post);
+app.put('/api/user/:_id', isLoggedIn, userApi.api.put);
+// app.delete('/api/user/:_id', isLoggedIn, userApi.api.delete);
 
-app.get('/api/profile', profile.api.getAll);
-app.get('/api/profile/:_id', profile.api.get);
-app.post('/api/profile', isLoggedIn, profile.api.post);
-app.put('/api/profile/:_id', isLoggedIn, profile.api.put);
-// app.delete('/api/profile/:_id', isLoggedIn, profile.api.delete);
+app.get('/api/profile', profileApi.api.getAll);
+app.get('/api/profile/:_id', profileApi.api.get);
+app.post('/api/profile', isLoggedIn, profileApi.api.post);
+app.put('/api/profile/:_id', isLoggedIn, profileApi.api.put);
+// app.delete('/api/profile/:_id', isLoggedIn, profileApi.api.delete);
 
-app.get('/api/poiLayer', poiLayer.api.getAll);
-app.get('/api/profile/:profileId/poiLayers', poiLayer.api.getAll);
-app.get('/api/poiLayer/:_id', poiLayer.api.get);
-app.post('/api/poiLayer', isLoggedIn, poiLayer.api.post);
-app.put('/api/poiLayer/:_id', isLoggedIn, poiLayer.api.put);
-app.delete('/api/poiLayer/:_id', isLoggedIn, poiLayer.api.delete);
+app.get('/api/poiLayer', poiLayerApi.api.getAll);
+app.get('/api/profile/:profileId/poiLayers', poiLayerApi.api.getAll);
+app.get('/api/poiLayer/:_id', poiLayerApi.api.get);
+app.post('/api/poiLayer', isLoggedIn, poiLayerApi.api.post);
+app.put('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.put);
+app.delete('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.delete);
 
 
+app.get('/profile-:fragment', function (req, res) {
+
+	var json = {};
+
+	if ( req.session.user ) {
+
+		json.user = JSON.stringify( req.session.user );
+	}
+	else {
+
+		json.user = '{}';
+	}
+
+	profileApi.api.findFromFragment( req, res, req.params.fragment, function ( profileObject ) {
+
+		poiLayerApi.api.findFromProfileId( req, res, profileObject._id, function ( poiLayerObject ) {
+
+			json.profile = JSON.stringify( profileObject );
+			json.poiLayers = JSON.stringify( poiLayerObject );
+
+			res.render('profileMap', json);
+		});
+	});
+});
 
 
 

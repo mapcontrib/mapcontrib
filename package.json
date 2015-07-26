@@ -45,6 +45,8 @@
     "passport-openstreetmap": "~0.1.2",
     "connect-mongo": "~0.8.1",
     "requirejs": "~2.1.19",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "ejs": "~2.3.3",
+    "es6-promise": "~2.3.0"
   }
 }

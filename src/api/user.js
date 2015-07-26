@@ -46,19 +46,26 @@ api = {
 
 	get: function (req, res) {
 
-		var _id = req.params._id;
+		api.findFromId(req, res, req.params._id, function (user) {
 
-		if ( req.params._id === 'me' ) {
+			res.send(user);
+		});
+	},
+
+
+	findFromId: function (req, res, _id, callback) {
+
+		if ( _id === 'me' ) {
 
 			_id = req.user;
 		}
-		else if ( req.user !== req.params._id ) {
+		else if ( req.user !== _id ) {
 
 			res.sendStatus(401);
 
 			return true;
 		}
-		else if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
+		else if ( !options.CONST.pattern.mongoId.test( _id ) ) {
 
 			res.sendStatus(400);
 
@@ -90,7 +97,7 @@ api = {
 			var result = results[0];
 			result._id = result._id.toString();
 
-			res.send(result);
+			callback(result);
 		});
 	},
 
@@ -213,6 +220,9 @@ api = {
 	logout: function (req, res) {
 
 		req.logout();
+
+		delete req.session.user;
+
 		res.sendStatus(200);
 	},
 };

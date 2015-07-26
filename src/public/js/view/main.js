@@ -167,37 +167,10 @@ function (
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this.model = new ProfileModel();
+			this.model = new ProfileModel( window.profile );
 
-			this.model.fetch({
+			this._poiLayers = new PoiLayerCollection( window.poiLayers );
 
-				'async': false,
-				'data': {
-
-					'fragment': 's8c2d4',
-				},
-				'error': function () {
-
-					// FIXME
-					console.error('nok');
-				},
-			});
-
-
-			this._poiLayers = new PoiLayerCollection(null, { 'profileId': '5249c43c6e789470197b5973' });
-
-			this._poiLayers.fetch({
-
-				'success': function () {
-
-					self.onLoadPoiLayers();
-				},
-				'error': function () {
-
-					// FIXME
-					console.error('nok');
-				},
-			});
 
 			this._radio.reqres.setHandlers({
 
@@ -385,11 +358,8 @@ function (
 
 				'position': 'bottomright',
 			}).addTo(this._map);
-		},
 
-		onLoadPoiLayers: function () {
 
-			var self = this;
 
 			this._mapLayers = {};
 
