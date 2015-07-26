@@ -7,7 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
-	'view/poiLayerListItem',
+	'view/selectPoiLayerListItem',
 ],
 function (
 
@@ -16,14 +16,14 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
-	PoiLayerListItemView
+	SelectPoiLayerListItemView
 ) {
 
 	'use strict';
 
 	return Marionette.CollectionView.extend({
 
-		childView: PoiLayerListItemView,
+		childView: SelectPoiLayerListItemView,
 
 		className: 'list-group',
 	});

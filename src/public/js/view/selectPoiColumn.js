@@ -7,7 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
-	'view/poiLayerList',
+	'view/selectPoiLayerList',
 ],
 function (
 
@@ -16,14 +16,14 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
-	PoiLayerListView
+	SelectPoiLayerListView
 ) {
 
 	'use strict';
 
 	return Marionette.LayoutView.extend({
 
-		template: JST['poiColumn.html'],
+		template: JST['selectPoiColumn.html'],
 
 		behaviors: {
 
@@ -38,7 +38,7 @@ function (
 
 		ui: {
 
-			'column': '#poi_column',
+			'column': '#select_poi_column',
 		},
 
 		initialize: function () {
@@ -51,9 +51,9 @@ function (
 		onRender: function () {
 
 			var poiLayers = this._radio.reqres.request('poiLayers'),
-			poiLayerListView = new PoiLayerListView({ 'collection': poiLayers });
+			selectPoiLayerListView = new SelectPoiLayerListView({ 'collection': poiLayers });
 
-			this.getRegion('layerList').show( poiLayerListView );
+			this.getRegion('layerList').show( selectPoiLayerListView );
 		},
 
 		open: function () {

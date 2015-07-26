@@ -222,6 +222,16 @@
 .column .fields label:first-letter {
   text-transform: uppercase;
 }
+.column input[type="text"] + .help-block,
+.column textarea + .help-block,
+.column figure + figcaption {
+  padding: 4px 6px;
+  margin-top: 0;
+}
+.column input[type="text"] + .help-block,
+.column textarea + .help-block {
+  font-size: 12px;
+}
 .column.blue,
 .column.green,
 .column.red,
@@ -588,11 +598,12 @@
 .column.blue textarea + .help-block,
 .column.green textarea + .help-block,
 .column.red textarea + .help-block,
-.column.orange textarea + .help-block {
+.column.orange textarea + .help-block,
+.column.blue figure + figcaption,
+.column.green figure + figcaption,
+.column.red figure + figcaption,
+.column.orange figure + figcaption {
   background: rgba(255, 255, 255, 0.15);
-  padding: 4px 6px;
-  margin-top: 0;
-  font-size: 12px;
 }
 .column.blue .table-bordered,
 .column.green .table-bordered,
@@ -619,6 +630,11 @@
 .column.red header .close_btn,
 .column.orange header .close_btn {
   color: #fff;
+}
+.column.white input[type="text"] + .help-block,
+.column.white textarea + .help-block,
+.column.white figure + figcaption {
+  background: #eeeeee;
 }
 .column.blue {
   background: #22b0df;
@@ -1362,14 +1378,24 @@ fieldset .form-control:active {
   -webkit-animation-direction: normal;
           animation-direction: normal;
 }
-.list-group .checkbox {
+.rg_layer_list .checkbox {
   padding-right: 40px;
 }
-.list-group .checkbox .marker {
+.rg_layer_list .checkbox .marker {
   position: absolute;
   top: 0;
   right: -4px;
   cursor: pointer;
+}
+.tile_list .checkbox label,
+.tile_list .radio label {
+  display: block;
+}
+.tile_list .checkbox label figure,
+.tile_list .radio label figure {
+  background: #f3f3f3;
+  overflow: hidden;
+  height: 120px;
 }
 .icon-preview {
   position: absolute;

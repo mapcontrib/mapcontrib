@@ -186,6 +186,20 @@
 		}
 	}
 
+	input[type="text"] + .help-block,
+	textarea + .help-block,
+	figure + figcaption {
+
+		padding: 4px 6px;
+		margin-top: 0;
+	}
+
+	input[type="text"] + .help-block,
+	textarea + .help-block {
+
+		font-size: 12px;
+	}
+
 
 	&.blue,
 	&.green,
@@ -375,12 +389,10 @@
 		}
 
 		input[type="text"] + .help-block,
-		textarea + .help-block {
+		textarea + .help-block,
+		figure + figcaption {
 
 			background: rgba(255, 255, 255, .15);
-			padding: 4px 6px;
-			margin-top: 0;
-			font-size: 12px;
 		}
 
 		.table-bordered,
@@ -401,6 +413,16 @@
 
 				color: #fff;
 			}
+		}
+	}
+
+	&.white {
+
+		input[type="text"] + .help-block,
+		textarea + .help-block,
+		figure + figcaption {
+
+			background: @gray;
 		}
 	}
 }

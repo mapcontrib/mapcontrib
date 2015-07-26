@@ -15,7 +15,8 @@ define([
 
 	'view/mainTitle',
 	'view/loginModal',
-	'view/poiColumn',
+	'view/selectPoiColumn',
+	'view/selectTileColumn',
 	'view/userColumn',
 	'view/linkColumn',
 	'view/contribColumn',
@@ -47,7 +48,8 @@ function (
 
 	MainTitleView,
 	LoginModalView,
-	PoiColumnView,
+	SelectPoiColumnView,
+	SelectTileColumnView,
 	UserColumnView,
 	LinkColumnView,
 	ContribColumnView,
@@ -117,7 +119,8 @@ function (
 
 			'loginModal': '#rg_login_modal',
 
-			'poiColumn': '#rg_poi_column',
+			'selectPoiColumn': '#rg_select_poi_column',
+			'selectTileColumn': '#rg_select_tile_column',
 			'userColumn': '#rg_user_column',
 			'linkColumn': '#rg_link_column',
 			'contribColumn': '#rg_contrib_column',
@@ -139,7 +142,8 @@ function (
 			'click @ui.locateWaitButton': 'onClickLocateWait',
 			'click @ui.expandScreenButton': 'onClickExpandScreen',
 			'click @ui.compressScreenButton': 'onClickCompressScreen',
-			'click @ui.controlPoiButton': 'onClickPoi',
+			'click @ui.controlPoiButton': 'onClickSelectPoi',
+			'click @ui.controlTileButton': 'onClickSelectTile',
 
 			'click @ui.helpButton': 'onClickHelp',
 			'click @ui.helpCloseButton': 'onClickHelpClose',
@@ -216,6 +220,10 @@ function (
 
 					self.onCommandShowEditPoiMarker( poiLayerModel );
 				},
+				'map:setTileLayer': function (tileId) {
+
+					self.setTileLayer( tileId );
+				},
 				'map:showPoiLayer': function (poiLayerModel) {
 
 					self.showPoiLayer( poiLayerModel );
@@ -272,7 +280,8 @@ function (
 			}
 
 
-			this._poiColumnView = new PoiColumnView();
+			this._selectPoiColumnView = new SelectPoiColumnView();
+			this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
 			this._userColumnView = new UserColumnView();
 			this._linkColumnView = new LinkColumnView({ 'model': this.model });
 			this._contribColumnView = new ContribColumnView({ 'model': this.model });
@@ -285,7 +294,8 @@ function (
 
 			this.getRegion('mainTitle').show( new MainTitleView({ 'model': this.model }) );
 
-			this.getRegion('poiColumn').show( this._poiColumnView );
+			this.getRegion('selectPoiColumn').show( this._selectPoiColumnView );
+			this.getRegion('selectTileColumn').show( this._selectTileColumnView );
 			this.getRegion('userColumn').show( this._userColumnView );
 			this.getRegion('linkColumn').show( this._linkColumnView );
 			this.getRegion('contribColumn').show( this._contribColumnView );
@@ -367,13 +377,8 @@ function (
 				self.onLocationError();
 			});
 
-			this.updateZoomIndicator();
 
-			L.tileLayer(CONST.map.tiles[0].urlTemplate, {
-
-				'attribution': CONST.map.tiles[0].attribution,
-			})
-			.addTo(this._map);
+			this.setTileLayer();
 
 			L.control.scale({
 
@@ -404,6 +409,50 @@ function (
 
 				this.removePoiLayer(model);
 			}, this);
+		},
+
+		setTileLayer: function (id) {
+
+			var tile, layer,
+			tiles = this.model.get('tiles');
+
+			if ( tiles.length === 0 ) {
+
+				tiles = ['osm'];
+			}
+
+			if ( !id ) {
+
+				id = tiles[0];
+			}
+
+			if ( !this._currentTileId ) {
+
+				this._currentTileId = 'osm';
+			}
+
+			if ( this._currentTileId === id ) {
+
+				return;
+			}
+
+			layer = L.tileLayer(CONST.map.tiles[ id ].urlTemplate, {
+
+				'attribution': CONST.map.tiles[ id ].attribution,
+				'minZoom': CONST.map.tiles[ id ].minZoom,
+				'maxZoom': CONST.map.tiles[ id ].maxZoom,
+			});
+
+			this._map.addLayer(layer);
+
+			if ( this._currentTileLayer ) {
+
+				this._map.removeLayer( this._currentTileLayer );
+			}
+
+			this._currentTileLayer = layer;
+
+			this.updateZoomIndicator();
 		},
 
 		addPoiLayer: function (poiLayerModel) {
@@ -940,9 +989,14 @@ function (
 			this.ui.expandScreenButton.removeClass('hide');
 		},
 
-		onClickPoi: function () {
+		onClickSelectPoi: function () {
 
-			this._poiColumnView.open();
+			this._selectPoiColumnView.open();
+		},
+
+		onClickSelectTile: function () {
+
+			this._selectTileColumnView.open();
 		},
 
 		onClickHelp: function () {

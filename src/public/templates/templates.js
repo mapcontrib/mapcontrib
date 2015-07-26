@@ -122,7 +122,7 @@ this["JST"]["editTileColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="edit_tile_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editTileColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="edit_tile_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editTileColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="tile_list prepend-xs-1"></div>\n\n\t\t\t\t\t<div class="sticky-footer">\n\t\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
@@ -152,7 +152,7 @@ this["JST"]["main.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<header id="rg_main_title"></header>\n\n<div id="main_map"></div>\n\n\n<section id="help_toolbar" class="toolbar">\n\t<button type="button" class="btn toolbar_btn help_btn" data-l10n-id="buttonHelpTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-question-circle"></i>\n\t</button>\n</section>\n\n\n<section id="help">\n\t<button type="button" class="btn btn-link close_btn">\n\t\t<i class="fa fa-close"></i>\n\t</button>\n\n\n\t<div class="container content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">\n\t\t\t\t<h2 class="prepend-xs-2 append-xs-2" data-l10n-id="helpTitle"></h2>\n\n\t\t\t\t<p data-l10n-id="helpText1"><a href="https://en.wikipedia.org/wiki/Free_software"></a></p>\n\t\t\t\t<p data-l10n-id="helpText2"><a href="https://openstreetmap.org"></a></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n\n\n<section id="control_toolbar" class="toolbar">\n\t<button type="button" class="btn toolbar_btn zoom_in_btn" data-l10n-id="buttonZoomInTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-plus"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn zoom_out_btn append-xs-tiny" data-l10n-id="buttonZoomOutTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-minus"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn locate_btn append-xs-tiny" data-l10n-id="buttonLocateTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-location-arrow"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn locate_wait_btn append-xs-tiny hide" data-l10n-id="buttonLocateWaitTooltip" data-placement="right">\n\t\t<img src="img/locate_wait.gif" width="24" height="24" alt="">\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn expand_screen_btn append-xs-tiny" data-l10n-id="buttonExpandScreenTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-expand"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn compress_screen_btn append-xs-tiny hide" data-l10n-id="buttonCompressScreenTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-compress"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn poi_btn" data-l10n-id="buttonPoiTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-map-marker"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn tile_btn" data-l10n-id="buttonTileTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-th-large"></i>\n\t</button>\n</section>\n\n\n<section id="user_toolbar" class="toolbar">\n\t<button type="button" class="btn toolbar_btn login_btn" data-l10n-id="buttonLoginTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-user"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn user_btn hide" data-l10n-id="buttonUserTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-user"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn link_btn" data-l10n-id="buttonLinkTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-paper-plane"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn contrib_btn" data-l10n-id="buttonContribTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-thumb-tack"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn edit_btn hide" data-l10n-id="buttonEditTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-pencil"></i>\n\t</button>\n</section>\n\n\n<section id="edit_toolbar" class="toolbar">\n\t<button type="button" class="btn toolbar_btn setting_btn" data-l10n-id="buttonEditSettingTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-cog"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn poi_btn" data-l10n-id="buttonEditPoiTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-map-marker"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn tile_btn" data-l10n-id="buttonEditTileTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-th-large"></i>\n\t</button>\n</section>\n\n\n<div id="zoom_indicator">\n\t<div class="data"></div>\n\t<div class="zoom"></div>\n</div>\n\n\n\n\n<section id="rg_login_modal"></section>\n\n<section id="rg_poi_column"></section>\n<section id="rg_user_column"></section>\n<section id="rg_link_column"></section>\n<section id="rg_contrib_column"></section>\n<section id="rg_edit_setting_column"></section>\n<section id="rg_edit_poi_column"></section>\n<section id="rg_edit_poi_layer_column"></section>\n<section id="rg_edit_poi_marker_modal"></section>\n<section id="rg_edit_tile_column"></section>\n<section id="rg_edit_poi_data_column"></section>\n\n<section id="rg_zoom_indicator_notification"></section>\n';
+__p += '\n<header id="rg_main_title"></header>\n\n<div id="main_map"></div>\n\n\n<section id="help_toolbar" class="toolbar">\n\t<button type="button" class="btn toolbar_btn help_btn" data-l10n-id="buttonHelpTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-question-circle"></i>\n\t</button>\n</section>\n\n\n<section id="help">\n\t<button type="button" class="btn btn-link close_btn">\n\t\t<i class="fa fa-close"></i>\n\t</button>\n\n\n\t<div class="container content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">\n\t\t\t\t<h2 class="prepend-xs-2 append-xs-2" data-l10n-id="helpTitle"></h2>\n\n\t\t\t\t<p data-l10n-id="helpText1"><a href="https://en.wikipedia.org/wiki/Free_software"></a></p>\n\t\t\t\t<p data-l10n-id="helpText2"><a href="https://openstreetmap.org"></a></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n\n\n<section id="control_toolbar" class="toolbar">\n\t<button type="button" class="btn toolbar_btn zoom_in_btn" data-l10n-id="buttonZoomInTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-plus"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn zoom_out_btn append-xs-tiny" data-l10n-id="buttonZoomOutTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-minus"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn locate_btn append-xs-tiny" data-l10n-id="buttonLocateTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-location-arrow"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn locate_wait_btn append-xs-tiny hide" data-l10n-id="buttonLocateWaitTooltip" data-placement="right">\n\t\t<img src="img/locate_wait.gif" width="24" height="24" alt="">\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn expand_screen_btn append-xs-tiny" data-l10n-id="buttonExpandScreenTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-expand"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn compress_screen_btn append-xs-tiny hide" data-l10n-id="buttonCompressScreenTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-compress"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn poi_btn" data-l10n-id="buttonPoiTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-map-marker"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn tile_btn" data-l10n-id="buttonTileTooltip" data-placement="right">\n\t\t<i class="fa fa-fw fa-th-large"></i>\n\t</button>\n</section>\n\n\n<section id="user_toolbar" class="toolbar">\n\t<button type="button" class="btn toolbar_btn login_btn" data-l10n-id="buttonLoginTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-user"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn user_btn hide" data-l10n-id="buttonUserTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-user"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn link_btn" data-l10n-id="buttonLinkTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-paper-plane"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn contrib_btn" data-l10n-id="buttonContribTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-thumb-tack"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn edit_btn hide" data-l10n-id="buttonEditTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-pencil"></i>\n\t</button>\n</section>\n\n\n<section id="edit_toolbar" class="toolbar">\n\t<button type="button" class="btn toolbar_btn setting_btn" data-l10n-id="buttonEditSettingTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-cog"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn poi_btn" data-l10n-id="buttonEditPoiTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-map-marker"></i>\n\t</button>\n\n\t<button type="button" class="btn toolbar_btn tile_btn" data-l10n-id="buttonEditTileTooltip" data-placement="left">\n\t\t<i class="fa fa-fw fa-th-large"></i>\n\t</button>\n</section>\n\n\n<div id="zoom_indicator">\n\t<div class="data"></div>\n\t<div class="zoom"></div>\n</div>\n\n\n\n\n<section id="rg_login_modal"></section>\n\n<section id="rg_select_poi_column"></section>\n<section id="rg_select_tile_column"></section>\n<section id="rg_user_column"></section>\n<section id="rg_link_column"></section>\n<section id="rg_contrib_column"></section>\n<section id="rg_edit_setting_column"></section>\n<section id="rg_edit_poi_column"></section>\n<section id="rg_edit_poi_layer_column"></section>\n<section id="rg_edit_poi_marker_modal"></section>\n<section id="rg_edit_tile_column"></section>\n<section id="rg_edit_poi_data_column"></section>\n\n<section id="rg_zoom_indicator_notification"></section>\n';
 
 }
 return __p
@@ -174,16 +174,6 @@ __p += '<div id="title" class="' +
 return __p
 };
 
-this["JST"]["poiColumn.html"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<section id="poi_column" class="column left white">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="poiColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="poiColumn_explanation"></p>\n\t\t\t\t<div class="rg_layer_list prepend-xs-1"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
-
-}
-return __p
-};
-
 this["JST"]["poiLayerList.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
@@ -196,13 +186,23 @@ __p += '<div class="reorder_icon"><i class="fa fa-bars fa-fw"></i></div>\n' +
 return __p
 };
 
-this["JST"]["poiLayerListItem.html"] = function(obj) {
+this["JST"]["selectPoiColumn.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<section id="select_poi_column" class="column left white">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="selectPoiColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="selectPoiColumn_explanation"></p>\n\t\t\t\t<div class="rg_layer_list prepend-xs-1"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+
+}
+return __p
+};
+
+this["JST"]["selectPoiLayerListItem.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="checkbox">\n\t<input type="checkbox" id="poi_layer_visibility_' +
 ((__t = ( _id )) == null ? '' : __t) +
-'" class="visibility_checkbox" value="1">\n\t<label for="poi_layer_visibility_' +
+'" class="visibility_checkbox styled" value="1">\n\t<label for="poi_layer_visibility_' +
 ((__t = ( _id )) == null ? '' : __t) +
 '">\n\t\t' +
 ((__t = ( name )) == null ? '' : __t) +
@@ -211,6 +211,60 @@ __p += '<div class="checkbox">\n\t<input type="checkbox" id="poi_layer_visibilit
 '\n\t\t</div>\n\t</label>\n\t' +
 ((__t = ( marker )) == null ? '' : __t) +
 '\n</div>\n';
+
+}
+return __p
+};
+
+this["JST"]["selectTileColumn.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<section id="select_tile_column" class="column left white">\n\t<header>\n\t\t<button type="button" class="btn btn-link pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="selectTileColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<div class="tile_list prepend-xs-1"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+
+}
+return __p
+};
+
+this["JST"]["selectTileListItem.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<div class="radio append-xs-1">\n\t<input type="radio" name="select_tile_radio" id="select_tile_' +
+__e( id ) +
+'" class="tile_radio styled" value="' +
+__e( id ) +
+'"' +
+__e( checked ) +
+'>\n\t<label for="select_tile_' +
+__e( id ) +
+'">\n\t\t<figure>\n\t\t\t<img src="' +
+__e( thumbnail ) +
+'" alt="" />\n\t\t</figure>\n\t\t<figcaption>\n\t\t\t' +
+__e( name ) +
+'\n\t\t</figcaption>\n\t</label>\n</div>\n';
+
+}
+return __p
+};
+
+this["JST"]["tileListItem.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<div class="checkbox append-xs-1">\n\t<input type="checkbox" id="tile_' +
+__e( id ) +
+'" class="tile_checkbox styled" value="' +
+__e( id ) +
+'"' +
+__e( checked ) +
+'>\n\t<label for="tile_' +
+__e( id ) +
+'">\n\t\t<figure>\n\t\t\t<img src="' +
+__e( thumbnail ) +
+'" alt="" />\n\t\t</figure>\n\t\t<figcaption>\n\t\t\t' +
+__e( name ) +
+'\n\t\t</figcaption>\n\t</label>\n</div>\n';
 
 }
 return __p
