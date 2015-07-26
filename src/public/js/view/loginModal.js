@@ -38,7 +38,7 @@ function (
 
 			return {
 
-				'authCallback': window.location.pathname,
+				'authCallback': '/profile-'+ this.options.fragment,
 			};
 		},
 

@@ -984,7 +984,7 @@ function (
 
 			var self = this;
 
-			this._loginModalView = new LoginModalView();
+			this._loginModalView = new LoginModalView({ 'fragment': this.model.get('fragment') });
 
 			this.getRegion('loginModal').show( this._loginModalView );
 		},
