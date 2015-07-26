@@ -451,6 +451,7 @@ function (
 
 			this._currentTileLayer = layer;
 
+			this.updateZoomDataIndicator();
 			this.updateZoomIndicator();
 		},
 

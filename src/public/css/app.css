@@ -1419,6 +1419,8 @@ fieldset .form-control:active {
   position: absolute;
   right: 0;
   height: 100%;
+  -webkit-transition: left ease-out 0.2s;
+          transition: left ease-out 0.2s;
   background: #1d9650;
 }
 #zoom_indicator .zoom {
