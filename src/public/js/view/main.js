@@ -430,8 +430,7 @@ function (
 
 				this._currentTileId = 'osm';
 			}
-
-			if ( this._currentTileId === id ) {
+			else if ( this._currentTileId === id ) {
 
 				return;
 			}
