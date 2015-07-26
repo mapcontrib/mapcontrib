@@ -10,9 +10,16 @@ db.profile.insert({
 	'_id' : ObjectId('5249c43c6e789470197b5973'),
 	'name': 'Rudomap',
 	'description': 'Ceci est une description :)',
+	'fragment': 's8c2d4',
 	'color': 'blue',
 	'pois': [],
-	'tiles': [],
+	'tiles': [
+
+		'osmFr',
+		'osmRoads',
+		'transport',
+		'osmMonochrome',
+	],
 	'zoomLevel': 12,
 	'center': {
 

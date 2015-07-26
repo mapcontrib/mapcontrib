@@ -167,14 +167,15 @@ function (
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this.model = new ProfileModel({
-
-				'_id': '5249c43c6e789470197b5973',
-			});
+			this.model = new ProfileModel();
 
 			this.model.fetch({
 
 				'async': false,
+				'data': {
+
+					'fragment': 's8c2d4',
+				},
 				'error': function () {
 
 					// FIXME
