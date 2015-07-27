@@ -972,12 +972,30 @@ function (
 
 		onClickHelp: function () {
 
-			this.ui.help.addClass('open');
+			var self = this;
+
+			if ( this.ui.help.hasClass('open') ) {
+
+				this.ui.help.removeClass('open', function () {
+
+					self.ui.helpToolbar.removeClass('on_top');
+				});
+			}
+			else {
+
+				this.ui.helpToolbar.addClass('on_top');
+				this.ui.help.addClass('open');
+			}
 		},
 
 		onClickHelpClose: function () {
 
-			this.ui.help.removeClass('open');
+			var self = this;
+
+			this.ui.help.removeClass('open', function () {
+
+				self.ui.helpToolbar.removeClass('on_top');
+			});
 		},
 
 		onClickLogin: function () {

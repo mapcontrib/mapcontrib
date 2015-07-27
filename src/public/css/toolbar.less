@@ -37,10 +37,16 @@
 	bottom: @zoomIndicatorHeight;
 	left: 0;
 
+	&.on_top {
+
+		z-index: @modalZIndex + 1;
+	}
+	
 	.help_btn {
 
 		background: #fff;
 		color: @blue;
+
 	}
 }
 

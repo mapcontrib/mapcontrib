@@ -29,6 +29,9 @@
   bottom: 10px;
   left: 0;
 }
+#help_toolbar.on_top {
+  z-index: 1051;
+}
 #help_toolbar .help_btn {
   background: #fff;
   color: #38b8e2;
