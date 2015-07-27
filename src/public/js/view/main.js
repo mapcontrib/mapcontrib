@@ -305,13 +305,13 @@ function (
 			var self = this,
 			center = this.model.get('center'),
 			zoomLevel = this.model.get('zoomLevel'),
-			sessionMapState = sessionStorage.getItem('mapState');
+			storageMapState = localStorage.getItem('mapState-'+ this.model.get('fragment'));
 
-			if ( sessionMapState ) {
+			if ( storageMapState ) {
 
-				sessionMapState = JSON.parse( sessionMapState );
-				center = sessionMapState.center;
-				zoomLevel = sessionMapState.zoomLevel;
+				storageMapState = JSON.parse( storageMapState );
+				center = storageMapState.center;
+				zoomLevel = storageMapState.zoomLevel;
 			}
 
 			this.ui.toolbarButtons.tooltip({
@@ -893,7 +893,7 @@ function (
 
 		updateSessionMapState: function () {
 
-			sessionStorage.setItem('mapState', JSON.stringify( {
+			localStorage.setItem('mapState-'+ this.model.get('fragment'), JSON.stringify( {
 
 				'center': this._map.getCenter(),
 				'zoomLevel': this._map.getZoom(),
