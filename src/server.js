@@ -155,11 +155,6 @@ passport.use(new OpenStreetMapStrategy({
 	},
 	function(req, token, tokenSecret, profile, done) {
 
-		if (req.user) {
-
-			return done(null, false);
-		}
-
 		var collection = database.collection('user'),
 		userData = {
 
