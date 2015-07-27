@@ -1515,3 +1515,6 @@ body .edit_poi_data button {
 body.user_logged .edit_poi_data {
   display: block;
 }
+#help {
+  z-index: 1050;
+}
