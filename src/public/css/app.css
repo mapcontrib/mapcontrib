@@ -150,7 +150,6 @@
   background: transparent;
   border-color: transparent;
   color: #3b3f45;
-  visibility: hidden;
 }
 .column .list-group.removeable .list-group-item .remove_btn:hover,
 .column .list-group.removeable .list-group-item .remove_btn.focus,
@@ -159,13 +158,6 @@
 .column .list-group.removeable .list-group-item .remove_btn:active {
   background: #ffffff;
   color: #3b3f45;
-}
-.column .list-group.removeable .list-group-item:hover .remove_btn,
-.column .list-group.removeable .list-group-item.focus .remove_btn,
-.column .list-group.removeable .list-group-item:focus .remove_btn,
-.column .list-group.removeable .list-group-item.active .remove_btn,
-.column .list-group.removeable .list-group-item:active .remove_btn {
-  visibility: visible;
 }
 .column textarea {
   resize: vertical;
