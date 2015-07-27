@@ -304,8 +304,15 @@ function (
 
 			var self = this,
 			center = this.model.get('center'),
-			zoomLevel = this.model.get('zoomLevel');
+			zoomLevel = this.model.get('zoomLevel'),
+			sessionMapState = sessionStorage.getItem('mapState');
 
+			if ( sessionMapState ) {
+
+				sessionMapState = JSON.parse( sessionMapState );
+				center = sessionMapState.center;
+				zoomLevel = sessionMapState.zoomLevel;
+			}
 
 			this.ui.toolbarButtons.tooltip({
 
@@ -334,6 +341,10 @@ function (
 
 			this._map
 			.setView([center.lat, center.lng], zoomLevel)
+			.on('moveend', function (e) {
+
+				self.onMoveEnd();
+			})
 			.on('zoomend', function (e) {
 
 				self.onZoomEnd(e);
@@ -880,6 +891,15 @@ function (
 			});
 		},
 
+		updateSessionMapState: function () {
+
+			sessionStorage.setItem('mapState', JSON.stringify( {
+
+				'center': this._map.getCenter(),
+				'zoomLevel': this._map.getZoom(),
+			} ));
+		},
+
 		updateZoomIndicator: function () {
 
 			var self = this,
@@ -899,14 +919,21 @@ function (
 			});
 		},
 
+		onMoveEnd: function (e) {
+
+			this.updateSessionMapState();
+		},
+
 		onZoomEnd: function (e) {
 
 			this.updateZoomIndicator();
+			this.updateSessionMapState();
 		},
 
 		onZoomLevelsChange: function (e) {
 
 			this.updateZoomIndicator();
+			this.updateSessionMapState();
 		},
 
 		checkZoomIndicatorNotification: function () {
