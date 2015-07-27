@@ -410,7 +410,7 @@ function (
 
 			if ( !this._currentTileId ) {
 
-				this._currentTileId = 'osm';
+				this._currentTileId = tiles[0];
 			}
 			else if ( this._currentTileId === id ) {
 
@@ -431,6 +431,7 @@ function (
 				this._map.removeLayer( this._currentTileLayer );
 			}
 
+			this._currentTileId = id;
 			this._currentTileLayer = layer;
 
 			this.updateZoomDataIndicator();
