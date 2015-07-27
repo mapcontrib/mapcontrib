@@ -50,6 +50,17 @@ module.exports = function(grunt) {
 				],
 				dest: 'src/public/fonts/'
 			},
+
+			ionicons: {
+
+				expand: true,
+				cwd: 'src/public/bower_components/ionicons/fonts',
+				src: [
+
+					'*'
+				],
+				dest: 'src/public/fonts/'
+			},
 		},
 
 		concat: {
@@ -62,6 +73,7 @@ module.exports = function(grunt) {
 				},
 				src: [
 					'src/public/bower_components/font-awesome/css/font-awesome.min.css',
+					'src/public/bower_components/ionicons/css/ionicons.min.css',
 					'src/public/bower_components/bootstrap/dist/css/bootstrap.min.css',
 					'src/public/bower_components/bootstrap-more/bootstrap-more.css',
 					'src/public/bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
@@ -166,6 +178,14 @@ module.exports = function(grunt) {
 				],
 				tasks: ['copy:font_awesome']
 			},
+			copy_ionicons: {
+
+				files: [
+
+					'src/public/bower_components/ionicons/fonts/**/*'
+				],
+				tasks: ['copy:ionicons']
+			},
 			css: {
 
 				files: [
@@ -206,6 +226,7 @@ module.exports = function(grunt) {
 		'concat:libraries_css',
 		'copy:requirejs',
 		'copy:font_awesome',
+		'copy:ionicons',
 	]);
 
 	grunt.registerTask('pre-commit', [

@@ -7,13 +7,14 @@
 .toolbar {
   position: fixed;
   z-index: 1010;
-  width: 61px;
+  width: 50px;
 }
 .toolbar .btn {
-  width: 61px;
-  height: 61px;
-  font-size: 1.5em;
-  padding: 10px 16px;
+  width: 50px;
+  height: 50px;
+  font-size: 25px;
+  line-height: 25px;
+  padding: 0;
   border-radius: 0;
 }
 #control_toolbar {
@@ -64,8 +65,8 @@
   background: #f8981d;
 }
 #edit_toolbar {
-  top: 293px;
-  right: -61px;
+  top: 249px;
+  right: -50px;
   -webkit-transition: -webkit-transform ease-out 0.2s;
           transition: transform ease-out 0.2s;
 }
@@ -1058,7 +1059,7 @@ fieldset .form-control:active {
   display: none !important;
 }
 #main_map .leaflet-bottom.leaflet-right {
-  left: 71px;
+  left: 60px;
 }
 #title {
   position: fixed;
