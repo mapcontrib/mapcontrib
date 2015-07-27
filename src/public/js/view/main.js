@@ -28,7 +28,7 @@ define([
 	'view/editPoiDataColumn',
 	'view/zoomIndicatorNotification',
 
-	'model/profile',
+	'model/theme',
 	'model/poiLayer',
 
 	'collection/poiLayer',
@@ -61,7 +61,7 @@ function (
 	EditPoiDataColumnView,
 	ZoomIndicatorNotificationView,
 
-	ProfileModel,
+	ThemeModel,
 	PoiLayerModel,
 
 	PoiLayerCollection
@@ -167,7 +167,7 @@ function (
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this.model = new ProfileModel( window.profile );
+			this.model = new ThemeModel( window.theme );
 
 			this._poiLayers = new PoiLayerCollection( window.poiLayers );
 
@@ -799,7 +799,7 @@ function (
 
 				view = new EditPoiLayerColumnView({
 
-					'model': new PoiLayerModel({ 'profileId': this.model.get('_id') })
+					'model': new PoiLayerModel({ 'themeId': this.model.get('_id') })
 				});
 			}
 

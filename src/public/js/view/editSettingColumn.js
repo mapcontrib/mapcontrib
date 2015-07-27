@@ -33,11 +33,11 @@ function (
 
 			'column': '#edit_setting_column',
 
-			'profileName': '#profile_name',
-			'profileDescription': '#profile_description',
+			'themeName': '#theme_name',
+			'themeDescription': '#theme_description',
 			'colorButtons': '.color-buttons .btn',
-			'profilePositionKeepOld': '#profile_position_keep_old',
-			'profilePositionSetNew': '#profile_position_set_new',
+			'themePositionKeepOld': '#theme_position_keep_old',
+			'themePositionSetNew': '#theme_position_set_new',
 		},
 
 		events: {
@@ -88,10 +88,10 @@ function (
 			mapCenter = map.getCenter(),
 			mapZoomLevel = map.getZoom();
 
-			this.model.set('name', this.ui.profileName.val());
-			this.model.set('description', this.ui.profileDescription.val());
+			this.model.set('name', this.ui.themeName.val());
+			this.model.set('description', this.ui.themeDescription.val());
 
-			if ( this.ui.profilePositionSetNew.prop('checked') === true ) {
+			if ( this.ui.themePositionSetNew.prop('checked') === true ) {
 
 				this.model.set('center', mapCenter);
 				this.model.set('zoomLevel', mapZoomLevel);

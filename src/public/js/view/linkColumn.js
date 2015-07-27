@@ -41,7 +41,7 @@ function (
 
 		templateHelpers: function () {
 
-			var url = window.location.protocol +'//'+ window.location.host +'/profile-'+ this.model.get('fragment');
+			var url = window.location.protocol +'//'+ window.location.host +'/theme-'+ this.model.get('fragment');
 
 			return {
 

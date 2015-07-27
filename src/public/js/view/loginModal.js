@@ -38,7 +38,7 @@ function (
 
 			return {
 
-				'authCallback': '/profile-'+ this.options.fragment,
+				'authCallback': '/theme-'+ this.options.fragment,
 			};
 		},
 

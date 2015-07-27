@@ -19,7 +19,7 @@ function (
 
 		idAttribute: '_id',
 
-		urlRoot: settings.apiPath + 'profile',
+		urlRoot: settings.apiPath + 'theme',
 
 		defaults: {
 

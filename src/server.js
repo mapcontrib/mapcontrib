@@ -227,7 +227,7 @@ passport.use(new OpenStreetMapStrategy({
 
 app.get('/', function (req, res) {
 
-	res.redirect('/profile-s8c2d4');
+	res.redirect('/theme-s8c2d4');
 });
 
 app.get('/auth', function (req, res) {
@@ -305,7 +305,7 @@ function isLoggedIn (req, res, next) {
 
 var CONST = requirejs('const'),
 userApi = require('./api/user.js'),
-profileApi = require('./api/profile.js'),
+themeApi = require('./api/theme.js'),
 poiLayerApi = require('./api/poiLayer.js'),
 options = {
 
@@ -315,7 +315,7 @@ options = {
 
 
 userApi.setOptions( options );
-profileApi.setOptions( options );
+themeApi.setOptions( options );
 poiLayerApi.setOptions( options );
 
 
@@ -326,21 +326,21 @@ app.post('/api/user', isLoggedIn, userApi.api.post);
 app.put('/api/user/:_id', isLoggedIn, userApi.api.put);
 // app.delete('/api/user/:_id', isLoggedIn, userApi.api.delete);
 
-app.get('/api/profile', profileApi.api.getAll);
-app.get('/api/profile/:_id', profileApi.api.get);
-app.post('/api/profile', isLoggedIn, profileApi.api.post);
-app.put('/api/profile/:_id', isLoggedIn, profileApi.api.put);
-// app.delete('/api/profile/:_id', isLoggedIn, profileApi.api.delete);
+app.get('/api/theme', themeApi.api.getAll);
+app.get('/api/theme/:_id', themeApi.api.get);
+app.post('/api/theme', isLoggedIn, themeApi.api.post);
+app.put('/api/theme/:_id', isLoggedIn, themeApi.api.put);
+// app.delete('/api/theme/:_id', isLoggedIn, themeApi.api.delete);
 
 app.get('/api/poiLayer', poiLayerApi.api.getAll);
-app.get('/api/profile/:profileId/poiLayers', poiLayerApi.api.getAll);
+app.get('/api/theme/:themeId/poiLayers', poiLayerApi.api.getAll);
 app.get('/api/poiLayer/:_id', poiLayerApi.api.get);
 app.post('/api/poiLayer', isLoggedIn, poiLayerApi.api.post);
 app.put('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.put);
 app.delete('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.delete);
 
 
-app.get('/profile-:fragment', function (req, res) {
+app.get('/theme-:fragment', function (req, res) {
 
 	var json = {};
 
@@ -353,14 +353,14 @@ app.get('/profile-:fragment', function (req, res) {
 		json.user = '{}';
 	}
 
-	profileApi.api.findFromFragment( req, res, req.params.fragment, function ( profileObject ) {
+	themeApi.api.findFromFragment( req, res, req.params.fragment, function ( themeObject ) {
 
-		poiLayerApi.api.findFromProfileId( req, res, profileObject._id, function ( poiLayerObject ) {
+		poiLayerApi.api.findFromThemeId( req, res, themeObject._id, function ( poiLayerObject ) {
 
-			json.profile = JSON.stringify( profileObject );
+			json.theme = JSON.stringify( themeObject );
 			json.poiLayers = JSON.stringify( poiLayerObject );
 
-			res.render('profileMap', json);
+			res.render('themeMap', json);
 		});
 	});
 });

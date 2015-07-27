@@ -2,7 +2,7 @@
 var crypto = require('crypto'),
 mongo = require('mongodb'),
 requirejs = require('requirejs'),
-ProfileModel = requirejs('model/profile'),
+ThemeModel = requirejs('model/theme'),
 options = {
 
 	'CONST': undefined,
@@ -18,8 +18,8 @@ api = {
 
 	post: function (req, res) {
 
-		var collection = options.database.collection('profile'),
-		model = new ProfileModel(req.body);
+		var collection = options.database.collection('theme'),
+		model = new ThemeModel(req.body);
 
 		if ( !model.isValid() ) {
 
@@ -44,16 +44,16 @@ api = {
 		});
 	},
 
-	getNewFragment: function (profile, req, res) {
+	getNewFragment: function (theme, req, res) {
 
 		var fragment,
 		self = this,
-		collection = options.database.collection('profile'),
+		collection = options.database.collection('theme'),
 		shasum = crypto.createHash('sha1');
 
 		shasum.update( [
 
-			profile._id.toString(),
+			theme._id.toString(),
 			new Date().getTime().toString()
 		].join('') );
 
@@ -74,11 +74,11 @@ api = {
 
 			if (results.length === 0) {
 
-				profile.fragment = fragment;
+				theme.fragment = fragment;
 
 				collection.update({
 
-					'_id': profile._id
+					'_id': theme._id
 				},
 				{
 					'$set': { 'fragment': fragment }
@@ -101,7 +101,7 @@ api = {
 			}
 			else {
 
-				api.getNewFragment(profile, req, res);
+				api.getNewFragment(theme, req, res);
 			}
 		});
 	},
@@ -116,7 +116,7 @@ api = {
 			return true;
 		}
 
-		var collection = options.database.collection('profile');
+		var collection = options.database.collection('theme');
 
 		collection.find({
 
@@ -148,13 +148,13 @@ api = {
 
 	getAll: function (req, res) {
 
-		var collection = options.database.collection('profile');
+		var collection = options.database.collection('theme');
 
 		if ( req.query.fragment ) {
 
-			api.findFromFragment( req, res, req.query.fragment, function (profile) {
+			api.findFromFragment( req, res, req.query.fragment, function (theme) {
 
-				res.send(profile);
+				res.send(theme);
 			});
 
 			return true;
@@ -200,7 +200,7 @@ api = {
 
 	findFromFragment: function (req, res, fragment, callback) {
 
-		var collection = options.database.collection('profile');
+		var collection = options.database.collection('theme');
 
 		if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
 
@@ -248,8 +248,8 @@ api = {
 
 
 		var new_json = req.body,
-		collection = options.database.collection('profile'),
-		model = new ProfileModel(new_json);
+		collection = options.database.collection('theme'),
+		model = new ThemeModel(new_json);
 
 		if ( !model.isValid() ) {
 
@@ -292,7 +292,7 @@ api = {
 		}
 
 
-		var collection = options.database.collection('profile');
+		var collection = options.database.collection('theme');
 
 		collection.remove({
 

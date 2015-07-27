@@ -29,7 +29,7 @@
 <buttonUserTooltip title:"Mon compte">
 <buttonLinkTooltip title:"Partager">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
-<buttonEditTooltip title:"Modifier le profil cartographique">
+<buttonEditTooltip title:"Modifier le thème">
 <buttonEditSettingTooltip title:"Configuration générale">
 <buttonEditPoiTooltip title:"Centres d'intérêts">
 <buttonEditTileTooltip title:"Fonds de carte">
@@ -38,7 +38,7 @@
 
 
 
-<myProfiles "Mes profils">
+<myThemes "Mes thèmes">
 <preferences "Préférences">
 <login "Se connecter">
 <loginOrSubscribe "Se connecter ou créer un compte">
@@ -52,8 +52,8 @@
 
 /* Help */
 <helpTitle "Aide">
-<helpText1 "Rudomap est un <a>logiciel libre</a> qui permet de créer des profils cartographiques.">
-<helpText2 "Ces profils cartographiques des cartes basées sur <a>OpenStreetMap</a> sur lesquelles on peut afficher des points/marqueurs/centres d'intérêt.">
+<helpText1 "Rudomap est un <a>logiciel libre</a> qui permet de créer des thèmes cartographiques.">
+<helpText2 "Ces thèmes cartographiques des cartes basées sur <a>OpenStreetMap</a> sur lesquelles on peut afficher des points/marqueurs/centres d'intérêt.">
 
 
 /* Login modal */
@@ -79,15 +79,15 @@
 
 /* Link column */
 <linkColumn_title "Partager">
-<linkColumn_publicProfile "Ce profil est accessible par tout le monde.">
+<linkColumn_publicTheme "Ce thème est accessible par tout le monde.">
 <linkColumn_linkLabel "Communiquez le lien ci-dessous&nbsp;:">
 <linkColumn_integrateCode "Ou intégrez le code suivant à votre site internet&nbsp;:">
 
 
 /* Edit settings column */
 <editSettingColumn_title "Configuration">
-<editSettingColumn_profileName "Nom du profil cartographique">
-<editSettingColumn_profileDescription "Description">
+<editSettingColumn_themeName "Nom du thème">
+<editSettingColumn_themeDescription "Description">
 <editSettingColumn_color "Couleur">
 <editSettingColumn_position "Positionnement">
 <editSettingColumn_keepOld "Garder les paramètres configurés">

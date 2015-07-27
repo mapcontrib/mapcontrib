@@ -23,7 +23,7 @@ function (
 
 		defaults: {
 
-			'profileId': undefined,
+			'themeId': undefined,
 			'name': undefined,
 			'description': undefined,
 			'dataEditable': true,

@@ -29,7 +29,7 @@
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
-<buttonEditTooltip title:"Modify the cartographic profile">
+<buttonEditTooltip title:"Modify the theme">
 <buttonEditSettingTooltip title:"Main settings">
 <buttonEditPoiTooltip title:"Points of interest">
 <buttonEditTileTooltip title:"Backgrounds">
@@ -38,7 +38,7 @@
 
 
 
-<myProfiles "My profiles">
+<myThemes "My themes">
 <preferences "Preferences">
 <login "Log in">
 <loginOrSubscribe "Log in or subscribe">
@@ -52,8 +52,8 @@
 
 /* Help */
 <helpTitle "Help">
-<helpText1 "Rudomap is a <a>free software</a>. It can creates cartographic profiles.">
-<helpText2 "Those cartographic profiles are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
+<helpText1 "Rudomap is a <a>free software</a>. It can create cartographic themes.">
+<helpText2 "Those themes are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
 
 
 /* Login modal */
@@ -79,15 +79,15 @@
 
 /* Link column */
 <linkColumn_title "Share">
-<linkColumn_publicProfile "This profile is available by everyone.">
+<linkColumn_publicTheme "This theme is available by everyone.">
 <linkColumn_linkLabel "Share the link below:">
 <linkColumn_integrateCode "Or integrate the following code in your website:">
 
 
 /* Edit settings column */
 <editSettingColumn_title "Settings">
-<editSettingColumn_profileName "Cartographic profile name">
-<editSettingColumn_profileDescription "Description">
+<editSettingColumn_themeName "Theme name">
+<editSettingColumn_themeDescription "Description">
 <editSettingColumn_color "Color">
 <editSettingColumn_position "Location">
 <editSettingColumn_keepOld "Keep old parameters">

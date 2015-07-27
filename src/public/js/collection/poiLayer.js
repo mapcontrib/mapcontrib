@@ -21,7 +21,7 @@ function (
 
 		url: function () {
 
-			return settings.apiPath + 'profile/'+ this.options.profileId +'/poiLayers';
+			return settings.apiPath + 'theme/'+ this.options.themeId +'/poiLayers';
 		},
 
 		model: poiLayerModel,

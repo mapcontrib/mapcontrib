@@ -87,9 +87,9 @@ api = {
 
 		var collection = options.database.collection('poiLayer');
 
-		if ( req.params.profileId ) {
+		if ( req.params.themeId ) {
 
-			api.findFromProfileId( req, res, req.params.profileId, function (poiLayers) {
+			api.findFromThemeId( req, res, req.params.themeId, function (poiLayers) {
 
 				res.send(poiLayers);
 			});
@@ -120,11 +120,11 @@ api = {
 	},
 
 
-	findFromProfileId: function (req, res, profileId, callback) {
+	findFromThemeId: function (req, res, themeId, callback) {
 
 		var collection = options.database.collection('poiLayer');
 
-		if ( !profileId || !options.CONST.pattern.mongoId.test( profileId ) ) {
+		if ( !themeId || !options.CONST.pattern.mongoId.test( themeId ) ) {
 
 			res.sendStatus(400);
 
@@ -133,7 +133,7 @@ api = {
 
 		collection.find({
 
-			'profileId': profileId
+			'themeId': themeId
 		})
 		.toArray(function (err, results) {
 
