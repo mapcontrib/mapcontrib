@@ -12,7 +12,6 @@ db.theme.insert({
 	'description': 'Ceci est une description :)',
 	'fragment': 's8c2d4',
 	'color': 'blue',
-	'pois': [],
 	'tiles': [
 
 		'osmFr',
