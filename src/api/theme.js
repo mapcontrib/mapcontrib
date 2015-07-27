@@ -259,11 +259,10 @@ api = {
 		}
 
 		delete(new_json._id);
-		delete(new_json.fragment);
 
 		collection.update({
 
-			'fragment': req.params._id
+			'_id': new mongo.ObjectID(req.params._id)
 		},
 		new_json,
 		{'safe': true},
@@ -296,7 +295,7 @@ api = {
 
 		collection.remove({
 
-			'fragment': req.params._id
+			'_id': new mongo.ObjectID(req.params._id)
 		},
 		{'safe': true},
 		function (err) {
