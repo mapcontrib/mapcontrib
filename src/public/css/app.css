@@ -7,27 +7,20 @@
 .toolbar {
   position: fixed;
   z-index: 1010;
-  width: 63px;
+  width: 61px;
 }
 .toolbar .btn {
-  width: 63px;
-  height: 63px;
-  font-size: 1.6em;
+  width: 61px;
+  height: 61px;
+  font-size: 1.5em;
   padding: 10px 16px;
   border-radius: 0;
 }
 #control_toolbar {
-  position: fixed;
   top: 40px;
   left: 0;
-  width: 63px;
 }
 #control_toolbar .btn {
-  width: 63px;
-  height: 63px;
-  font-size: 1.6em;
-  padding: 10px 16px;
-  border-radius: 0;
   color: #3b3f45;
   background: #fff;
 }
@@ -71,8 +64,8 @@
   background: #f8981d;
 }
 #edit_toolbar {
-  top: 301px;
-  right: -63px;
+  top: 293px;
+  right: -61px;
   -webkit-transition: -webkit-transform ease-out 0.2s;
           transition: transform ease-out 0.2s;
 }
@@ -1065,7 +1058,7 @@ fieldset .form-control:active {
   display: none !important;
 }
 #main_map .leaflet-bottom.leaflet-right {
-  left: 73px;
+  left: 71px;
 }
 #title {
   position: fixed;
