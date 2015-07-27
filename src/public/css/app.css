@@ -91,8 +91,8 @@
 }
 .column {
   position: fixed;
-  z-index: 1030;
-  top: 40px;
+  z-index: 1040;
+  top: 0;
   bottom: 10px;
   width: 300px;
   max-width: 100%;
@@ -1069,7 +1069,7 @@ fieldset .form-control:active {
 }
 #title {
   position: fixed;
-  z-index: 1040;
+  z-index: 1030;
   top: 0;
   left: 0;
   right: 0;
@@ -1339,7 +1339,7 @@ fieldset .form-control:active {
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 1030;
   width: 0;
   height: 0;
   -webkit-transition: all ease-out 0.3s;
