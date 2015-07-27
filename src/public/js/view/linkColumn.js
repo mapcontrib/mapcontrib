@@ -34,6 +34,21 @@ function (
 			'column': '#link_column',
 		},
 
+		events: {
+
+			'click input, textarea': 'onClickInputs',
+		},
+
+		templateHelpers: function () {
+
+			var url = window.location.protocol +'//'+ window.location.host +'/profile-'+ this.model.get('fragment');
+
+			return {
+
+				'url': url,
+			};
+		},
+
 		initialize: function () {
 
 			var self = this;
@@ -51,6 +66,11 @@ function (
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		onClickInputs: function (e) {
+
+			e.target.select();
 		},
 	});
 });
