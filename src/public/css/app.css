@@ -18,7 +18,7 @@
   border-radius: 0;
 }
 #control_toolbar {
-  top: 40px;
+  top: 30px;
   left: 0;
 }
 #control_toolbar .btn {
@@ -37,7 +37,7 @@
   color: #38b8e2;
 }
 #user_toolbar {
-  top: 40px;
+  top: 30px;
   right: 0;
 }
 #user_toolbar .btn {
@@ -68,7 +68,7 @@
   background: #f8981d;
 }
 #edit_toolbar {
-  top: 249px;
+  top: 239px;
   right: -50px;
   -webkit-transition: -webkit-transform ease-out 0.2s;
           transition: transform ease-out 0.2s;
@@ -1022,7 +1022,7 @@ fieldset .form-control:active {
 #main_map {
   position: fixed;
   z-index: 1000;
-  top: 40px;
+  top: 30px;
   bottom: 10px;
   left: 0;
   right: 0;
@@ -1059,7 +1059,7 @@ fieldset .form-control:active {
   top: 0;
   left: 0;
   right: 0;
-  height: 40px;
+  height: 30px;
   -webkit-transition: all ease-out 0.3s;
           transition: all ease-out 0.3s;
 }
@@ -1070,8 +1070,8 @@ fieldset .form-control:active {
   -webkit-transform: translate(-50%, 0);
       -ms-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
-  font-size: 20px;
-  line-height: 40px;
+  font-size: 16px;
+  line-height: 30px;
   margin: 0;
   max-width: 100%;
   white-space: nowrap;
@@ -1085,7 +1085,7 @@ fieldset .form-control:active {
   position: fixed;
   top: 0;
   right: 0;
-  padding: 8px 12px 10px 12px;
+  padding: 3px 12px 5px 12px;
 }
 #title .description_btn:hover,
 #title .description_btn:focus,

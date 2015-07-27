@@ -174,11 +174,11 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div id="title" class="' +
 ((__t = ( color )) == null ? '' : __t) +
-'">\n    <div class="container">\n        <div class="row">\n            <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">\n                <h1 class="append-xs-2">\n                    ' +
+'">\n\t<div class="container">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">\n\t\t\t\t<h1 class="append-xs-2">\n\t\t\t\t' +
 ((__t = ( name )) == null ? '' : __t) +
-'\n                </h1>\n                <div class="description">' +
+'\n\t\t\t\t</h1>\n\t\t\t\t<div class="description">' +
 ((__t = ( description )) == null ? '' : __t) +
-'</div>\n            </div>\n        </div>\n    </div>\n    <button type="button" class="btn btn-link description_btn hide" data-l10n-id="buttonDescriptionTooltip" data-placement="left"><i class="fa fa-info-circle fa-lg"></i></button>\n</div>\n';
+'</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<button type="button" class="btn btn-link description_btn hide" data-l10n-id="buttonDescriptionTooltip" data-placement="left"><i class="fa fa-info-circle fa-lg"></i></button>\n</div>\n';
 
 }
 return __p
