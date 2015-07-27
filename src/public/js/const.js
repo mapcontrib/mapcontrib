@@ -83,7 +83,7 @@ define([
 					'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 					'urlTemplate': 'http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
 					'minZoom': 0,
-					'maxZoom': 18,
+					'maxZoom': 19,
 				},
 				'osm': {
 
