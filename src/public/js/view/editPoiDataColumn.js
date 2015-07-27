@@ -48,14 +48,23 @@ function (
 
 		initialize: function () {
 
-			var self = this;
-
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
 			if ( !this._radio.reqres.request('var', 'isLogged') ) {
 
 				return false;
 			}
+
+			var self = this,
+			user = this._radio.reqres.request('model', 'user');
+
+			this._auth = osmAuth({
+
+				'oauth_consumer_key': settings.oauthConsumerKey,
+				'oauth_secret': settings.oauthSecret,
+				'oauth_token': user.get('token'),
+				'oauth_token_secret': user.get('tokenSecret'),
+			});
 		},
 
 		open: function () {
@@ -192,78 +201,66 @@ function (
 		sendNewXml: function (nodeXml) {
 
 			var self = this,
-			user = this._radio.reqres.request('model', 'user'),
-			auth = osmAuth({
-
-				'oauth_consumer_key': settings.oauthConsumerKey,
-				'oauth_secret': settings.oauthSecret,
-				'oauth_token': user.get('token'),
-				'oauth_token_secret': user.get('tokenSecret'),
-			}),
+			changesetId = sessionStorage.getItem('changesetId'),
 			xmlChangeset = '<osm><changeset><tag k="created_by" v="Rudomap"/><tag k="comment" v="Test from Rudomap (developpement in progress)"/></changeset></osm>';
 
+			if ( changesetId ) {
 
-			auth.xhr({
+				this.sendXml(nodeXml, changesetId);
+			}
+			else {
+
+				this._auth.xhr({
+
+					'method': 'PUT',
+					'path': '/api/0.6/changeset/create',
+					'options': { 'header': { 'Content-Type': 'text/xml' } },
+					'content': xmlChangeset
+				},
+				function(err, changesetId) {
+
+					if (err) {
+
+						console.log('ERROR on put changeset: ' + err.response);
+						return;
+					}
+
+					sessionStorage.setItem('changesetId', changesetId);
+
+					self.sendXml(nodeXml, changesetId);
+				});
+			}
+		},
+
+		sendXml: function (nodeXml, changesetId) {
+
+			var data,
+			self = this,
+			node = nodeXml.documentElement.getElementsByTagName('node')[0],
+			serializer = new XMLSerializer();
+
+			node.setAttribute('changeset', changesetId);
+
+			data = serializer.serializeToString(nodeXml);
+
+
+			this._auth.xhr({
 
 				'method': 'PUT',
-				'path': '/api/0.6/changeset/create',
+				'path': '/api/0.6/node/'+ this.options.dataFromOSM.id,
 				'options': { 'header': { 'Content-Type': 'text/xml' } },
-				'content': xmlChangeset
+				'content': data,
 			},
 			function(err, res) {
 
 				if (err) {
 
-					console.log('ERROR on put changeset: ' + err.response);
+					console.log('ERROR on put node/way : '+ err.response);
 					return;
 				}
 
-				var data,
-				changesetId = res,
-				node = nodeXml.documentElement.getElementsByTagName('node')[0],
-				serializer = new XMLSerializer();
-
-				node.setAttribute('changeset', changesetId);
-
-				data = serializer.serializeToString(nodeXml);
-
-
-				auth.xhr({
-
-					'method': 'PUT',
-					'path': '/api/0.6/node/'+ self.options.dataFromOSM.id,
-					'options': { 'header': { 'Content-Type': 'text/xml' } },
-					'content': data,
-				},
-				function(err, res) {
-
-					if (err) {
-
-						console.log('ERROR on put node/way : '+ err.response);
-						return;
-					}
-
-					auth.xhr({
-
-						'method': 'PUT',
-						'path': '/api/0.6/changeset/'+ changesetId +'/close',
-					},
-					function(err, res) {
-
-						if (err) {
-
-							console.log('ERROR on put changeset/close : '+ err.response);
-							return;
-						}
-						else {
-
-							console.log("Successfully modification of an OSM object !");
-							self._radio.commands.execute('map:updatePoiPopup', self.options.poiLayerModel, self.options.dataFromOSM);
-						}
-					});
-				});
+				self._radio.commands.execute('map:updatePoiPopup', self.options.poiLayerModel, self.options.dataFromOSM);
 			});
-
 
 			this.close();
 		},
