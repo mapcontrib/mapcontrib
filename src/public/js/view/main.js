@@ -1024,10 +1024,12 @@ function (
 
 			if ( this.ui.help.hasClass('open') ) {
 
-				this.ui.help.removeClass('open', function () {
+				this.ui.help.one('transitionend', function () {
 
 					self.ui.helpToolbar.removeClass('on_top');
 				});
+
+				this.ui.help.removeClass('open');
 			}
 			else {
 
