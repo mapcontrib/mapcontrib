@@ -54,15 +54,15 @@ this["JST"]["editPoiLayerColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="edit_poi_layer_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editPoiLayerColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_name" class="control-label" data-l10n-id="editPoiLayerColumn_layerName"></label>\n\t\t\t\t\t\t<input type="text" class="form-control" id="layer_name" value="' +
+__p += '<section id="edit_poi_layer_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editPoiLayerColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_name" class="control-label" data-l10n-id="editPoiLayerColumn_layerName"></label>\n\t\t\t\t\t\t<input type="text" spellcheck="true" class="form-control" id="layer_name" value="' +
 __e( name ) +
-'">\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_description" class="control-label" data-l10n-id="editPoiLayerColumn_layerDescription"></label>\n\t\t\t\t\t\t<input type="text" class="form-control" id="layer_description" value="' +
+'">\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_description" class="control-label" data-l10n-id="editPoiLayerColumn_layerDescription"></label>\n\t\t\t\t\t\t<input type="text" spellcheck="true" class="form-control" id="layer_description" value="' +
 __e( description ) +
 '">\n\t\t\t\t\t\t<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label class="control-label" data-l10n-id="editPoiLayerColumn_data"></label>\n\t\t\t\t\t\t<div class="checkbox">\n\t\t\t\t\t\t\t<input type="checkbox" id="layer_data_editable" value="1" checked>\n\t\t\t\t\t\t\t<label for="layer_data_editable" data-l10n-id="editPoiLayerColumn_dataEditable"></label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label class="control-label" data-l10n-id="editPoiLayerColumn_marker"></label>\n\t\t\t\t\t\t<div class="marker-form-widget">\n\t\t\t\t\t\t\t<div class="marker-wrapper">\n\t\t\t\t\t\t\t\t' +
 ((__t = ( marker )) == null ? '' : __t) +
 '\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-default edit_marker_btn" data-l10n-id="customize"></button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_popup_content" class="control-label" data-l10n-id="editPoiLayerColumn_layerPopupContent"></label>\n\t\t\t\t\t\t<textarea rows="3" class="form-control font-monospace" id="layer_popup_content">' +
 __e( popupContent ) +
-'</textarea>\n\t\t\t\t\t\t<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_overpass_request" class="control-label" data-l10n-id="editPoiLayerColumn_layerOverpassRequest"></label>\n\t\t\t\t\t\t<textarea rows="7" class="form-control font-monospace" id="layer_overpass_request">' +
+'</textarea>\n\t\t\t\t\t\t<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_overpass_request" class="control-label" data-l10n-id="editPoiLayerColumn_layerOverpassRequest"></label>\n\t\t\t\t\t\t<textarea rows="7" spellcheck="false" class="form-control font-monospace" id="layer_overpass_request">' +
 __e( overpassRequest ) +
 '</textarea>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group sticky-footer">\n\t\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
@@ -108,7 +108,7 @@ this["JST"]["editSettingColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="edit_setting_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editSettingColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="theme_name" class="control-label" data-l10n-id="editSettingColumn_themeName"></label>\n\t\t\t\t\t\t<input type="text" class="form-control" id="theme_name" value="' +
+__p += '<section id="edit_setting_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editSettingColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="theme_name" class="control-label" data-l10n-id="editSettingColumn_themeName"></label>\n\t\t\t\t\t\t<input type="text" spellcheck="true" class="form-control" id="theme_name" value="' +
 __e( name ) +
 '">\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="theme_description" class="control-label" data-l10n-id="editSettingColumn_themeDescription"></label>\n\t\t\t\t\t\t<textarea rows="3" class="form-control" id="theme_description">' +
 ((__t = ( description )) == null ? '' : __t) +
@@ -132,7 +132,7 @@ this["JST"]["geocodeWidget.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<section id="geocode_widget">\n\t<input type="text" data-l10n-id="geocodeWidget_queryInput" class="form-control input-lg">\n</section>\n';
+__p += '\n<section id="geocode_widget">\n\t<input type="text" spellcheck="true" data-l10n-id="geocodeWidget_queryInput" class="form-control input-lg">\n</section>\n';
 
 }
 return __p
@@ -144,7 +144,7 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<section id="link_column" class="column right green">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="linkColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12 append-xs-tiny">\n\t\t\t\t<p data-l10n-id="linkColumn_publicTheme"></p>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_linkLabel"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<input type="text" class="form-control" readonly="readonly" value="' +
 __e( url ) +
-'">\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_integrateCode"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<textarea class="form-control" readonly="readonly" rows="6"><iframe src="' +
+'">\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_integrateCode"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<textarea spellcheck="false" class="form-control" readonly="readonly" rows="6"><iframe src="' +
 __e( url ) +
 '" width="100%" height="400" frameBorder="0"></iframe><p><a href="' +
 __e( url ) +
