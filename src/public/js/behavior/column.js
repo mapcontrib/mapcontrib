@@ -39,6 +39,8 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
 			this.listenTo(this._radio.vent, 'column:closeAll', this.onClose);
+
+			this._isOpened = false;
 		},
 
 		onDestroy: function () {
@@ -46,7 +48,21 @@ function (
 			this.stopListening(this._radio.vent, 'column:closeAll');
 		},
 
+		onToggle: function () {
+
+			if ( this._isOpened ) {
+
+				this.onClose();
+			}
+			else {
+
+				this.onOpen();
+			}
+		},
+
 		onOpen: function () {
+
+			this._isOpened = true;
 
 			this.ui.column.addClass('open');
 		},
@@ -54,6 +70,8 @@ function (
 		onClose: function () {
 
 			var self = this;
+
+			this._isOpened = false;
 
 			this.ui.column.on('transitionend', function () {
 
