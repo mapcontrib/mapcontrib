@@ -15,6 +15,7 @@ define([
 
 	'view/mainTitle',
 	'view/loginModal',
+	'view/geocodeWidget',
 	'view/selectPoiColumn',
 	'view/selectTileColumn',
 	'view/userColumn',
@@ -48,6 +49,7 @@ function (
 
 	MainTitleView,
 	LoginModalView,
+	GeocodeWidgetView,
 	SelectPoiColumnView,
 	SelectTileColumnView,
 	UserColumnView,
@@ -88,6 +90,7 @@ function (
 			'controlToolbar': '#control_toolbar',
 			'zoomInButton': '#control_toolbar .zoom_in_btn',
 			'zoomOutButton': '#control_toolbar .zoom_out_btn',
+			'geocodeButton': '#control_toolbar .geocode_btn',
 			'locateButton': '#control_toolbar .locate_btn',
 			'locateWaitButton': '#control_toolbar .locate_wait_btn',
 			'expandScreenButton': '#control_toolbar .expand_screen_btn',
@@ -119,6 +122,8 @@ function (
 
 			'loginModal': '#rg_login_modal',
 
+			'geocodeWidget': '#rg_geocode_widget',
+
 			'selectPoiColumn': '#rg_select_poi_column',
 			'selectTileColumn': '#rg_select_tile_column',
 			'userColumn': '#rg_user_column',
@@ -138,6 +143,7 @@ function (
 
 			'click @ui.zoomInButton': 'onClickZoomIn',
 			'click @ui.zoomOutButton': 'onClickZoomOut',
+			'click @ui.geocodeButton': 'onClickGeocode',
 			'click @ui.locateButton': 'onClickLocate',
 			'click @ui.locateWaitButton': 'onClickLocateWait',
 			'click @ui.expandScreenButton': 'onClickExpandScreen',
@@ -254,6 +260,7 @@ function (
 			}
 
 
+			this._geocodeWidgetView = new GeocodeWidgetView();
 			this._selectPoiColumnView = new SelectPoiColumnView();
 			this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
 			this._userColumnView = new UserColumnView();
@@ -268,6 +275,7 @@ function (
 
 			this.getRegion('mainTitle').show( new MainTitleView({ 'model': this.model }) );
 
+			this.getRegion('geocodeWidget').show( this._geocodeWidgetView );
 			this.getRegion('selectPoiColumn').show( this._selectPoiColumnView );
 			this.getRegion('selectTileColumn').show( this._selectTileColumnView );
 			this.getRegion('userColumn').show( this._userColumnView );
@@ -845,6 +853,18 @@ function (
 		onClickZoomOut: function () {
 
 			this._map.zoomOut();
+		},
+
+		onClickGeocode: function () {
+
+			if ( this._geocodeWidgetView.isOpened() ) {
+
+				this._geocodeWidgetView.close();
+			}
+			else {
+
+				this._geocodeWidgetView.open();
+			}
 		},
 
 		onClickLocate: function () {

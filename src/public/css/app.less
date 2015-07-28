@@ -652,3 +652,29 @@ body {
 
 	z-index: @modalZIndex;
 }
+
+
+
+#geocode_widget {
+
+	position: fixed;
+	z-index: @geocodeWidgetZIndex;
+	top: @titleHeight + (@toolbarBtnSize * 2) + 9;
+	left: 0;
+	padding-left: @toolbarBtnSize;
+	width: 500px;
+	max-width: 100%;
+	transition: transform ease-out .2s;
+	transform: translate(-100%, 0);
+
+	input {
+
+		height: @toolbarBtnSize;
+		border-color: #fff;
+	}
+
+	&.open {
+
+		transform: translate(0, 0);
+	}
+}

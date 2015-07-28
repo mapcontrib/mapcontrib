@@ -19,6 +19,7 @@
 <buttonDescriptionTooltip title:"Read the description">
 <buttonZoomInTooltip title:"Zoom in">
 <buttonZoomOutTooltip title:"Zoom out">
+<buttonGeocodeTooltip title:"Find a place">
 <buttonLocateTooltip title:"Show my location">
 <buttonLocateWaitTooltip title:"Cancel the search of my location">
 <buttonExpandScreenTooltip title:"Full screen">
@@ -58,6 +59,10 @@
 
 /* Login modal */
 <loginModal_explanation "To keep it simple, Rudomap only needs to connect to your OpenStreetMap account.">
+
+
+/* Geocode widget */
+<geocodeWidget_queryInput placeholder:"City, zip code, ...">
 
 
 /* POI column */

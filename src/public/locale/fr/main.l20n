@@ -19,6 +19,7 @@
 <buttonDescriptionTooltip title:"Lire la description">
 <buttonZoomInTooltip title:"Vue rapprochée">
 <buttonZoomOutTooltip title:"Vue éloignée">
+<buttonGeocodeTooltip title:"Trouver un lieu">
 <buttonLocateTooltip title:"Afficher mon emplacement">
 <buttonLocateWaitTooltip title:"Annuler la recherche de mon emplacement">
 <buttonExpandScreenTooltip title:"Passer en plein écran">
@@ -58,6 +59,10 @@
 
 /* Login modal */
 <loginModal_explanation "Pour plus de simplicité, Rudomap a seulement besoin de se connecter à votre compte OpenStreetMap.">
+
+
+/* Geocode widget */
+<geocodeWidget_queryInput placeholder:"Ville, code postal, ...">
 
 
 /* POI column */

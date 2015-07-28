@@ -4,11 +4,12 @@
 .toolbar {
 
 	position: fixed;
-	z-index: @toolbarZIndex;
 	width: @toolbarBtnSize;
 
 	.btn {
 
+		position: relative;
+		z-index: @toolbarZIndex;
 		width: @toolbarBtnSize;
 		height: @toolbarBtnSize;
 		font-size: 25px;
@@ -29,6 +30,11 @@
 		color: @anthracite;
 		background: #fff;
 	}
+
+	.geocode_btn {
+
+		z-index: @geocodeButtonZIndex;
+	}
 }
 
 
@@ -41,12 +47,11 @@
 
 		z-index: @modalZIndex + 1;
 	}
-	
+
 	.help_btn {
 
 		background: #fff;
 		color: @blue;
-
 	}
 }
 
