@@ -56,6 +56,7 @@ function (
 			var self = this;
 
 			this._radio.vent.trigger('column:closeAll');
+			this._radio.vent.trigger('widget:closeAll');
 
 			this.ui.widget.one('transitionend', function () {
 

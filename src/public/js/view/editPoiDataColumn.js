@@ -70,6 +70,7 @@ function (
 		open: function () {
 
 			this._radio.vent.trigger('column:closeAll');
+			this._radio.vent.trigger('widget:closeAll');
 
 			this.triggerMethod('open');
 		},
