@@ -72,15 +72,19 @@
   background: #f8981d;
 }
 #edit_toolbar {
+  z-index: 1010;
   top: 239px;
-  right: -50px;
+  right: 0;
+  -webkit-transform: translate(100%, 0);
+      -ms-transform: translate(100%, 0);
+          transform: translate(100%, 0);
   -webkit-transition: -webkit-transform ease-out 0.2s;
           transition: transform ease-out 0.2s;
 }
 #edit_toolbar.open {
-  -webkit-transform: translate(-100%, 0);
-      -ms-transform: translate(-100%, 0);
-          transform: translate(-100%, 0);
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
 }
 #edit_toolbar .btn {
   color: #fff;

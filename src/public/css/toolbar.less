@@ -108,13 +108,15 @@
 
 #edit_toolbar {
 
+	z-index: @toolbarZIndex;
 	top: @titleHeight + (@toolbarBtnSize * 4) + 9;
-	right: @toolbarBtnSize * -1;
+	right: 0;
+	transform: translate(100%, 0);
 	transition: transform ease-out .2s;
 
 	&.open {
 
-		transform: translate(-100%, 0);
+		transform: translate(0, 0);
 	}
 
 	.btn {
