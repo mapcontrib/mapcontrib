@@ -7,10 +7,9 @@
 .toolbar {
   position: fixed;
   width: 50px;
+  z-index: 1010;
 }
 .toolbar .btn {
-  position: relative;
-  z-index: 1010;
   width: 50px;
   height: 50px;
   font-size: 25px;
@@ -19,15 +18,13 @@
   border-radius: 0;
 }
 #control_toolbar {
+  z-index: 1012;
   top: 30px;
   left: 0;
 }
 #control_toolbar .btn {
   color: #3b3f45;
   background: #fff;
-}
-#control_toolbar .geocode_btn {
-  z-index: 1012;
 }
 #help_toolbar {
   bottom: 10px;

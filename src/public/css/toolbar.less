@@ -5,11 +5,10 @@
 
 	position: fixed;
 	width: @toolbarBtnSize;
+	z-index: @toolbarZIndex;
 
 	.btn {
 
-		position: relative;
-		z-index: @toolbarZIndex;
 		width: @toolbarBtnSize;
 		height: @toolbarBtnSize;
 		font-size: 25px;
@@ -22,6 +21,7 @@
 
 #control_toolbar {
 
+	z-index: @toolbarControlZIndex;
 	top: @titleHeight;
 	left: 0;
 
@@ -29,11 +29,6 @@
 
 		color: @anthracite;
 		background: #fff;
-	}
-
-	.geocode_btn {
-
-		z-index: @geocodeButtonZIndex;
 	}
 }
 
