@@ -18,7 +18,7 @@
 
 					<div class="form-group append-xs-1">
 						<label for="layer_description" class="control-label" data-l10n-id="editPoiLayerColumn_layerDescription"></label>
-						<textarea rows="1" class="form-control" id="layer_description"><%- description %></textarea>
+						<textarea rows="1" class="form-control" id="layer_description"><%= description %></textarea>
 						<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
 					</div>
 
@@ -39,7 +39,7 @@
 						<label class="control-label" data-l10n-id="editPoiLayerColumn_marker"></label>
 						<div class="marker-form-widget">
 							<div class="marker-wrapper">
-								<%- marker %>
+								<%= marker %>
 							</div>
 							<button type="button" class="btn btn-default edit_marker_btn" data-l10n-id="customize"></button>
 						</div>

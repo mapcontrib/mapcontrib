@@ -37,7 +37,7 @@ with (obj) {
 __p += '<div class="form-group append-xs-1">\n\t<label for="editData_' +
 __e( tag ) +
 '" class="control-label">' +
-__e( tag ) +
+((__t = ( tag )) == null ? '' : __t) +
 '</label>\n\t<input type="text" class="form-control" id="editData_' +
 __e( tag ) +
 '" data-tag="' +
@@ -57,11 +57,11 @@ with (obj) {
 __p += '<section id="edit_poi_layer_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editPoiLayerColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_name" class="control-label" data-l10n-id="editPoiLayerColumn_layerName"></label>\n\t\t\t\t\t\t<input type="text" class="form-control" id="layer_name" value="' +
 __e( name ) +
 '">\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_description" class="control-label" data-l10n-id="editPoiLayerColumn_layerDescription"></label>\n\t\t\t\t\t\t<textarea rows="1" class="form-control" id="layer_description">' +
-__e( description ) +
+((__t = ( description )) == null ? '' : __t) +
 '</textarea>\n\t\t\t\t\t\t<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label class="control-label" data-l10n-id="editPoiLayerColumn_data"></label>\n\t\t\t\t\t\t<div class="checkbox">\n\t\t\t\t\t\t\t<input type="checkbox" id="layer_data_editable" value="1" checked>\n\t\t\t\t\t\t\t<label for="layer_data_editable" data-l10n-id="editPoiLayerColumn_dataEditable"></label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_overpass_request" class="control-label" data-l10n-id="editPoiLayerColumn_layerOverpassRequest"></label>\n\t\t\t\t\t\t<textarea rows="7" class="form-control font-monospace" id="layer_overpass_request">' +
 __e( overpassRequest ) +
 '</textarea>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label class="control-label" data-l10n-id="editPoiLayerColumn_marker"></label>\n\t\t\t\t\t\t<div class="marker-form-widget">\n\t\t\t\t\t\t\t<div class="marker-wrapper">\n\t\t\t\t\t\t\t\t' +
-__e( marker ) +
+((__t = ( marker )) == null ? '' : __t) +
 '\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-default edit_marker_btn" data-l10n-id="customize"></button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="layer_popup_content" class="control-label" data-l10n-id="editPoiLayerColumn_layerPopupContent"></label>\n\t\t\t\t\t\t<textarea rows="3" class="form-control font-monospace" id="layer_popup_content">' +
 __e( popupContent ) +
 '</textarea>\n\t\t\t\t\t\t<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group sticky-footer">\n\t\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
@@ -85,7 +85,7 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="reorder_icon"><i class="fa fa-bars fa-fw"></i></div>\n' +
-__e( name ) +
+((__t = ( name )) == null ? '' : __t) +
 '\n<button type="button" class="btn remove_btn"><i class="fa fa-trash"></i></button>\n';
 
 }
@@ -111,7 +111,7 @@ with (obj) {
 __p += '<section id="edit_setting_column" class="column right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="editSettingColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="theme_name" class="control-label" data-l10n-id="editSettingColumn_themeName"></label>\n\t\t\t\t\t\t<input type="text" class="form-control" id="theme_name" value="' +
 __e( name ) +
 '">\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label for="theme_description" class="control-label" data-l10n-id="editSettingColumn_themeDescription"></label>\n\t\t\t\t\t\t<textarea rows="3" class="form-control" id="theme_description">' +
-__e( description ) +
+((__t = ( description )) == null ? '' : __t) +
 '</textarea>\n\t\t\t\t\t\t<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label class="control-label" data-l10n-id="editSettingColumn_color"></label>\n\t\t\t\t\t\t<div class="color-buttons">\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color orange" data-color="orange"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color red" data-color="red"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color purple" data-color="purple"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color blue" data-color="blue"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color turquoise" data-color="turquoise"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color green" data-color="green"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color white" data-color="white"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t\t<button type="button" class="btn btn-xs btn-color anthracite" data-color="anthracite"><i class="fa fa-fw"></i></button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group append-xs-1">\n\t\t\t\t\t\t<label class="control-label" data-l10n-id="editSettingColumn_position"></label>\n\t\t\t\t\t\t<div class="radio">\n\t\t\t\t\t\t\t<input type="radio" name="theme_position" id="theme_position_keep_old" value="1" checked>\n\t\t\t\t\t\t\t<label for="theme_position_keep_old" data-l10n-id="editSettingColumn_keepOld"></label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="radio">\n\t\t\t\t\t\t\t<input type="radio" name="theme_position" id="theme_position_set_new" value="1">\n\t\t\t\t\t\t\t<label for="theme_position_set_new" data-l10n-id="editSettingColumn_setNew"></label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group sticky-footer">\n\t\t\t\t\t\t<button type="submit" class="btn btn-primary" data-l10n-id="save"></button>\n\t\t\t\t\t\t<button type="reset" class="btn btn-default pull-right" data-l10n-id="cancel"></button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
@@ -185,9 +185,9 @@ with (obj) {
 __p += '<div id="title" class="' +
 __e( color ) +
 '">\n\t<div class="container">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">\n\t\t\t\t<h1 class="append-xs-2">\n\t\t\t\t' +
-__e( name ) +
+((__t = ( name )) == null ? '' : __t) +
 '\n\t\t\t\t</h1>\n\t\t\t\t<div class="description">' +
-__e( description ) +
+((__t = ( description )) == null ? '' : __t) +
 '</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<button type="button" class="btn btn-link description_btn hide" data-l10n-id="buttonDescriptionTooltip" data-placement="left"><i class="fa fa-info-circle fa-lg"></i></button>\n</div>\n';
 
 }
@@ -199,7 +199,7 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="reorder_icon"><i class="fa fa-bars fa-fw"></i></div>\n' +
-__e( name ) +
+((__t = ( name )) == null ? '' : __t) +
 '\n<button type="button" class="btn remove_btn"><i class="fa fa-trash"></i></button>\n';
 
 }
@@ -225,11 +225,11 @@ __e( _id ) +
 '" class="visibility_checkbox styled" value="1">\n\t<label for="poi_layer_visibility_' +
 __e( _id ) +
 '">\n\t\t' +
-__e( name ) +
+((__t = ( name )) == null ? '' : __t) +
 '\n\t\t<div class="help-block">\n\t\t\t' +
-__e( description ) +
+((__t = ( description )) == null ? '' : __t) +
 '\n\t\t</div>\n\t</label>\n\t' +
-__e( marker ) +
+((__t = ( marker )) == null ? '' : __t) +
 '\n</div>\n';
 
 }
@@ -261,7 +261,7 @@ __e( id ) +
 '">\n\t\t<figure>\n\t\t\t<img src="' +
 __e( thumbnail ) +
 '" alt="" />\n\t\t</figure>\n\t\t<figcaption>\n\t\t\t' +
-__e( name ) +
+((__t = ( name )) == null ? '' : __t) +
 '\n\t\t</figcaption>\n\t</label>\n</div>\n';
 
 }
@@ -283,7 +283,7 @@ __e( id ) +
 '">\n\t\t<figure>\n\t\t\t<img src="' +
 __e( thumbnail ) +
 '" alt="" />\n\t\t</figure>\n\t\t<figcaption>\n\t\t\t' +
-__e( name ) +
+((__t = ( name )) == null ? '' : __t) +
 '\n\t\t</figcaption>\n\t</label>\n</div>\n';
 
 }
