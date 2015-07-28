@@ -75,9 +75,9 @@ function (
 			this.triggerMethod('close');
 		},
 
-		isOpened: function () {
+		toggle: function () {
 
-			return this._isOpened;
+			this.triggerMethod('toggle');
 		},
 
 		onChangeQuery: function (e) {

@@ -857,14 +857,7 @@ function (
 
 		onClickGeocode: function () {
 
-			if ( this._geocodeWidgetView.isOpened() ) {
-
-				this._geocodeWidgetView.close();
-			}
-			else {
-
-				this._geocodeWidgetView.open();
-			}
+			this._geocodeWidgetView.toggle();
 		},
 
 		onClickLocate: function () {
