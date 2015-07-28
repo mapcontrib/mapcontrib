@@ -13,12 +13,12 @@
 				<form>
 					<div class="form-group append-xs-1">
 						<label for="layer_name" class="control-label" data-l10n-id="editPoiLayerColumn_layerName"></label>
-						<input type="text" class="form-control" id="layer_name" value="<%= name %>">
+						<input type="text" class="form-control" id="layer_name" value="<%- name %>">
 					</div>
 
 					<div class="form-group append-xs-1">
 						<label for="layer_description" class="control-label" data-l10n-id="editPoiLayerColumn_layerDescription"></label>
-						<textarea rows="1" class="form-control" id="layer_description"><%= description %></textarea>
+						<textarea rows="1" class="form-control" id="layer_description"><%- description %></textarea>
 						<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
 					</div>
 
@@ -32,14 +32,14 @@
 
 					<div class="form-group append-xs-1">
 						<label for="layer_overpass_request" class="control-label" data-l10n-id="editPoiLayerColumn_layerOverpassRequest"></label>
-						<textarea rows="7" class="form-control font-monospace" id="layer_overpass_request"><%= overpassRequest %></textarea>
+						<textarea rows="7" class="form-control font-monospace" id="layer_overpass_request"><%- overpassRequest %></textarea>
 					</div>
 
 					<div class="form-group append-xs-1">
 						<label class="control-label" data-l10n-id="editPoiLayerColumn_marker"></label>
 						<div class="marker-form-widget">
 							<div class="marker-wrapper">
-								<%= marker %>
+								<%- marker %>
 							</div>
 							<button type="button" class="btn btn-default edit_marker_btn" data-l10n-id="customize"></button>
 						</div>
@@ -47,7 +47,7 @@
 
 					<div class="form-group append-xs-1">
 						<label for="layer_popup_content" class="control-label" data-l10n-id="editPoiLayerColumn_layerPopupContent"></label>
-						<textarea rows="3" class="form-control font-monospace" id="layer_popup_content"><%= popupContent %></textarea>
+						<textarea rows="3" class="form-control font-monospace" id="layer_popup_content"><%- popupContent %></textarea>
 						<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
 					</div>
 
