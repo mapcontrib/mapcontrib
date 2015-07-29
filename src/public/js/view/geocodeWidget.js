@@ -40,6 +40,7 @@ function (
 		events: {
 
 			'change @ui.query': 'onChangeQuery',
+			'blur @ui.query': 'close',
 		},
 
 		initialize: function () {
@@ -48,29 +49,15 @@ function (
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this._isOpened = false;
+			this.on('open', this.onOpen);
 		},
 
 		open: function () {
-
-			var self = this;
-
-			this._radio.vent.trigger('column:closeAll');
-			this._radio.vent.trigger('widget:closeAll');
-
-			this.ui.widget.one('transitionend', function () {
-
-				self.ui.query.focus();
-			});
-
-			this._isOpened = true;
 
 			this.triggerMethod('open');
 		},
 
 		close: function () {
-
-			this._isOpened = false;
 
 			this.triggerMethod('close');
 		},
@@ -78,6 +65,18 @@ function (
 		toggle: function () {
 
 			this.triggerMethod('toggle');
+		},
+
+		onOpen: function () {
+
+			var self = this;
+
+			this._radio.vent.trigger('column:closeAll');
+
+			this.ui.widget.one('transitionend', function () {
+
+				self.ui.query.focus();
+			});
 		},
 
 		onChangeQuery: function (e) {

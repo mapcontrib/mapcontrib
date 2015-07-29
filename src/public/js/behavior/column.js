@@ -64,6 +64,8 @@ function (
 
 			this._isOpened = true;
 
+			this.view.trigger('open');
+
 			this.ui.column.addClass('open');
 		},
 
@@ -72,6 +74,8 @@ function (
 			var self = this;
 
 			this._isOpened = false;
+
+			this.view.trigger('close');
 
 			this.ui.column.on('transitionend', function () {
 

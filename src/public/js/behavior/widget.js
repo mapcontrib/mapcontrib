@@ -64,6 +64,8 @@ function (
 
 			this._isOpened = true;
 
+			this.view.trigger('open');
+
 			this.ui.widget.addClass('open');
 		},
 
@@ -73,7 +75,9 @@ function (
 
 			this._isOpened = false;
 
-			this.ui.widget.on('transitionend', function () {
+			this.view.trigger('close');
+
+			this.ui.widget.one('transitionend', function () {
 
 				if ( self.options.destroyOnClose ) {
 

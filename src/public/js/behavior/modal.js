@@ -30,7 +30,14 @@ function (
 
 		onShow: function () {
 
+			this.onOpen();
+		},
+
+		onOpen: function () {
+
 			var self = this;
+
+			this.view.trigger('open');
 
 			setTimeout(function () {
 
@@ -44,6 +51,8 @@ function (
 		onClose: function () {
 
 			var self = this;
+
+			this.view.trigger('close');
 
 			this.ui.modal.on('transitionend', function () {
 
