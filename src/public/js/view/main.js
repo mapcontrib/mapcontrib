@@ -162,6 +162,8 @@ function (
 			'click @ui.editSettingButton': 'onClickEditSetting',
 			'click @ui.editPoiButton': 'onClickEditPoi',
 			'click @ui.editTileButton': 'onClickEditTile',
+
+			'keydown': 'onKeyDown',
 		},
 
 		initialize: function () {
@@ -344,6 +346,8 @@ function (
 
 
 			this._map = L.map(this.ui.map[0], { 'zoomControl': false });
+
+			this.ui.map.focus();
 
 			this._radio.reqres.removeHandler('map');
 			this._radio.reqres.setHandler('map', function () {
@@ -1093,6 +1097,22 @@ function (
 		setPosition: function (latLng, zoomLevel) {
 
 			this._map.setView( latLng, zoomLevel );
+		},
+
+		onKeyDown: function (e) {
+
+			switch ( e.keyCode ) {
+
+				case 70:
+
+					if ( e.ctrlKey ) {
+
+						e.preventDefault();
+
+						this.onClickGeocode();
+					}
+					break;
+			}
 		},
 	});
 });
