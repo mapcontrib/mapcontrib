@@ -101,6 +101,7 @@
   -webkit-transition: -webkit-transform ease-out 0.2s;
           transition: transform ease-out 0.2s;
   background: #fff;
+  outline: 0;
 }
 .column.right {
   right: 0;
@@ -1290,6 +1291,7 @@ fieldset .form-control:active {
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.6);
+  outline: 0;
   opacity: 0;
   -webkit-transition: opacity ease-out 0.2s;
           transition: opacity ease-out 0.2s;
