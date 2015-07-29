@@ -30,6 +30,7 @@ function (
 		events: {
 
 			'click @ui.closeBtn': 'onClickClose',
+			'keydown': 'onKeyDown',
 		},
 
 		initialize: function (options) {
@@ -41,6 +42,11 @@ function (
 			this.listenTo(this._radio.vent, 'widget:closeAll', this.onClose);
 
 			this._isOpened = false;
+		},
+
+		onRender: function () {
+
+			this.ui.widget.attr('tabindex', 0);
 		},
 
 		onDestroy: function () {
@@ -93,6 +99,17 @@ function (
 		onClickClose: function () {
 
 			this.onClose();
+		},
+
+		onKeyDown: function (e) {
+
+			switch ( e.keyCode ) {
+
+				case 27:
+
+					this.onClose();
+					break;
+			}
 		},
 	});
 });

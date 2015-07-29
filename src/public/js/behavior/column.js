@@ -30,6 +30,7 @@ function (
 		events: {
 
 			'click @ui.closeBtn': 'onClickClose',
+			'keydown': 'onKeyDown',
 		},
 
 		initialize: function (options) {
@@ -41,6 +42,11 @@ function (
 			this.listenTo(this._radio.vent, 'column:closeAll', this.onClose);
 
 			this._isOpened = false;
+		},
+
+		onRender: function () {
+
+			this.ui.column.attr('tabindex', 0);
 		},
 
 		onDestroy: function () {
@@ -66,7 +72,7 @@ function (
 
 			this.view.trigger('open');
 
-			this.ui.column.addClass('open');
+			this.ui.column.addClass('open').focus();
 		},
 
 		onClose: function () {
@@ -93,6 +99,17 @@ function (
 		onClickClose: function () {
 
 			this.onClose();
+		},
+
+		onKeyDown: function (e) {
+
+			switch ( e.keyCode ) {
+
+				case 27:
+
+					this.onClose();
+					break;
+			}
 		},
 	});
 });

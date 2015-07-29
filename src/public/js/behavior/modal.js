@@ -26,6 +26,7 @@ function (
 
 			'click @ui.modal': 'onClickModal',
 			'click @ui.closeBtn': 'onClickClose',
+			'keydown': 'onKeyDown',
 		},
 
 		initialize: function (options) {
@@ -33,6 +34,11 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+		},
+
+		onRender: function () {
+
+			this.ui.modal.attr('tabindex', 0);
 		},
 
 		onShow: function () {
@@ -50,7 +56,7 @@ function (
 
 				window.requestAnimationFrame(function () {
 
-					self.ui.modal.addClass('open');
+					self.ui.modal.addClass('open').focus();
 				});
 			}, 100);
 		},
@@ -84,6 +90,17 @@ function (
 		onClickClose: function () {
 
 			this.onClose();
+		},
+
+		onKeyDown: function (e) {
+
+			switch ( e.keyCode ) {
+
+				case 27:
+
+					this.onClose();
+					break;
+			}
 		},
 	});
 });
