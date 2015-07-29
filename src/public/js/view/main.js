@@ -959,9 +959,6 @@ function (
 
 			this.ui.locateWaitButton.addClass('hide');
 			this.ui.locateButton.removeClass('hide');
-
-			// FIXME
-			// Give some feedback to the user
 		},
 
 		onClickExpandScreen: function () {
