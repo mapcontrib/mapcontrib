@@ -1,0 +1,147 @@
+
+@import 'variables.less';
+
+.toolbar {
+
+	position: fixed;
+	width: @toolbarBtnSize;
+	z-index: @toolbarZIndex;
+
+	.btn {
+
+		width: @toolbarBtnSize;
+		height: @toolbarBtnSize;
+		font-size: 25px;
+		line-height: 25px;
+		padding: 0;
+		border-radius: 0;
+	}
+}
+
+
+#control_toolbar {
+
+	z-index: @toolbarControlZIndex;
+	top: @titleHeight;
+	left: 0;
+
+	.btn {
+
+		color: @anthracite;
+		background: #fff;
+	}
+
+	.zoom_in_btn.glow {
+
+		i {
+
+			animation-duration: 4s;
+			animation-fill-mode: both;
+			animation-iteration-count: infinite;
+			animation-name: glow;
+		}
+	}
+}
+
+@keyframes glow {
+
+	50% {
+
+		color: @lightBlue;
+	}
+}
+
+
+#help_toolbar {
+
+	bottom: 0;
+	left: 0;
+
+	&.on_top {
+
+		z-index: @modalZIndex + 1;
+	}
+
+	.help_btn {
+
+		background: #fff;
+		color: @blue;
+	}
+}
+
+
+#user_toolbar {
+
+	top: @titleHeight;
+	right: 0;
+
+	.btn {
+
+		color: #fff;
+	}
+
+	.login_btn {
+
+		background: @blue;
+	}
+
+	.user_btn {
+
+		background: @blue;
+		font-weight: bold;
+
+		&.avatar {
+
+			border: none;
+			padding: 0;
+			overflow: hidden;
+
+			img {
+
+				max-height: 100%;
+			}
+		}
+	}
+
+	.link_btn {
+
+		background: @lightGreen;
+	}
+
+	.contrib_btn {
+
+		background: @red;
+	}
+
+	.edit_btn {
+
+		background: @orange;
+	}
+}
+
+
+#edit_toolbar {
+
+	z-index: @toolbarZIndex;
+	top: @titleHeight + (@toolbarBtnSize * 4) + 9;
+	right: 0;
+	transform: translate(100%, 0);
+	transition: transform ease-out .2s;
+
+	&.open {
+
+		transform: translate(0, 0);
+	}
+
+	.btn {
+
+		color: #fff;
+	}
+
+	.setting_btn,
+	.poi_btn,
+	.tile_btn {
+
+		background: @orange;
+	}
+}

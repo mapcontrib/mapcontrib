@@ -34,11 +34,22 @@ function (
 			'modal': '#login_modal',
 		},
 
+		templateHelpers: function () {
+
+			return {
+
+				'authCallback': '/theme-'+ this.options.fragment,
+			};
+		},
+
 		initialize: function () {
 
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			this._radio.vent.trigger('column:closeAll');
+			this._radio.vent.trigger('widget:closeAll');
 		},
 
 		close: function () {

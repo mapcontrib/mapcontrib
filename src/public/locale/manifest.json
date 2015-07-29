@@ -7,7 +7,6 @@
     "default_locale": "en",
     "resources": [
 
-        "{{locale}}/main.l20n",
-        "{{locale}}/tipOfTheDay.l20n"
+        "{{locale}}/main.l20n"
     ]
 }

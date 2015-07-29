@@ -13,9 +13,13 @@
 <pageTitleWithMapName "{{ $map.name }} - {{ rudomap }}">
 
 
+<markdownAvailable "<a>Markdown</a> format available">
+
+
 <buttonDescriptionTooltip title:"Read the description">
 <buttonZoomInTooltip title:"Zoom in">
 <buttonZoomOutTooltip title:"Zoom out">
+<buttonGeocodeTooltip title:"Find a place">
 <buttonLocateTooltip title:"Show my location">
 <buttonLocateWaitTooltip title:"Cancel the search of my location">
 <buttonExpandScreenTooltip title:"Full screen">
@@ -26,22 +30,16 @@
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
-<buttonEditTooltip title:"Modify the cartographic profile">
+<buttonEditTooltip title:"Modify the theme">
 <buttonEditSettingTooltip title:"Main settings">
 <buttonEditPoiTooltip title:"Points of interest">
 <buttonEditTileTooltip title:"Backgrounds">
 <buttonHelpTooltip title:"Help">
 
 
-<columnUserTitle "My account">
-<columnLinkTitle "Share">
-<columnContribTitle "Add a marker">
-<columnEditSettingTitle "Settings">
-<columnEditPoiTitle "Points of interest">
-<columnEditTileTitle "Backgrounds">
 
 
-<myProfiles "My profiles">
+<myThemes "My themes">
 <preferences "Preferences">
 <login "Log in">
 <loginOrSubscribe "Log in or subscribe">
@@ -49,25 +47,92 @@
 <close "Close">
 <save "Save">
 <cancel "Cancel">
+<customize "Customize">
+<editTheseInformations "Edit these informations">
+
+
+/* Help */
+<helpTitle "Help">
+<helpText1 "Rudomap is a <a>free software</a>. It can create cartographic themes.">
+<helpText2 "Those themes are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
 
 
 /* Login modal */
-<loginModal_explanation """
-To keep it simple, Rudomap only needs<br>
-to connect to your OpenStreetMap account.
-""">
+<loginModal_explanation "To keep it simple, Rudomap only needs to connect to your OpenStreetMap account.">
+
+
+/* Geocode widget */
+<geocodeWidget_queryInput placeholder:"City, zip code, ...">
+
+
+/* POI column */
+<selectPoiColumn_title "Points of interest">
+<selectPoiColumn_explanation "Select the points of interest you want to see on the map">
+
+
+/* Tile column */
+<selectTileColumn_title "Backgrounds">
+
+
+/* User column */
+<userColumn_title "My account">
+
+
+/* Contribution column */
+<contribColumn_title "Add a marker">
 
 
 /* Link column */
-<linkColumn_publicProfile "This profile is available by everyone.">
+<linkColumn_title "Share">
+<linkColumn_publicTheme "This theme is available by everyone.">
 <linkColumn_linkLabel "Share the link below:">
 <linkColumn_integrateCode "Or integrate the following code in your website:">
 
 
 /* Edit settings column */
-<editSettingColumn_profileName "Cartographic profile name">
-<editSettingColumn_profileDescription "Description">
+<editSettingColumn_title "Settings">
+<editSettingColumn_themeName "Theme name">
+<editSettingColumn_themeDescription "Description">
 <editSettingColumn_color "Color">
 <editSettingColumn_position "Location">
 <editSettingColumn_keepOld "Keep old parameters">
 <editSettingColumn_setNew "Set the new ones">
+
+
+/* Edit POI column */
+<editPoiColumn_title "Points of interest">
+<editPoiColumn_clickButton "Click the button below">
+<editPoiColumn_addLayer "Add a layer">
+
+
+/* Edit POI layer column */
+<editPoiLayerColumn_title "Layer edit">
+<editPoiLayerColumn_layerName "Name">
+<editPoiLayerColumn_layerDescription "Description">
+<editPoiLayerColumn_data "OSM data">
+<editPoiLayerColumn_dataEditable "Allow to edit data">
+<editPoiLayerColumn_layerOverpassRequest "Overpass request">
+<editPoiLayerColumn_marker "Marker">
+<editPoiLayerColumn_layerPopupContent "Popup content">
+
+
+/* Edit POI marker modal */
+<editPoiMarkerModal_colorAndShape "Color and shape">
+<editPoiMarkerModal_color "Color">
+<editPoiMarkerModal_shape "Shape">
+<editPoiMarkerModal_icon "Icon">
+<editPoiMarkerModal_iconDescription1 "Icons come from the Font Awesome collection.">
+<editPoiMarkerModal_iconDescription2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
+
+
+/* Edit tiles column */
+<editTileColumn_title "Backgrounds">
+
+
+/* Edit POI data column */
+<editPoiDataColumn_title "Edit data">
+<editPoiDataColumn_emptyState "Loading of the last data version...">
+
+
+/* Zoom indicator notification */
+<zoomNotification_content "Zoom to see data">

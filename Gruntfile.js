@@ -21,7 +21,14 @@ module.exports = function(grunt) {
 			build: [
 
 				'dist/public/bower_components',
+				'dist/public/css',
+				'dist/public/fonts',
+				'dist/public/img',
+				'dist/public/index.html',
+				'dist/public/js',
+				'dist/public/locale',
 				'dist/public/templates',
+				'dist/server.js',
 			]
 		},
 
@@ -43,6 +50,17 @@ module.exports = function(grunt) {
 				],
 				dest: 'src/public/fonts/'
 			},
+
+			ionicons: {
+
+				expand: true,
+				cwd: 'src/public/bower_components/ionicons/fonts',
+				src: [
+
+					'*'
+				],
+				dest: 'src/public/fonts/'
+			},
 		},
 
 		concat: {
@@ -55,8 +73,10 @@ module.exports = function(grunt) {
 				},
 				src: [
 					'src/public/bower_components/font-awesome/css/font-awesome.min.css',
+					'src/public/bower_components/ionicons/css/ionicons.min.css',
 					'src/public/bower_components/bootstrap/dist/css/bootstrap.min.css',
 					'src/public/bower_components/bootstrap-more/bootstrap-more.css',
+					'src/public/bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
 					'src/public/bower_components/leaflet/dist/leaflet.css',
 				],
 				dest: 'src/public/css/libraries.css'
@@ -67,6 +87,13 @@ module.exports = function(grunt) {
 
 			default: {
 
+				options: {
+
+					plugins: [
+
+						new (require('less-plugin-autoprefix'))({ 'browsers': ['last 4 versions'] }),
+					],
+				},
 				files: {
 
 					'src/public/css/app.css': 'src/public/css/app.less',
@@ -78,7 +105,7 @@ module.exports = function(grunt) {
 
 			options: {
 
-				'-W099': true, // Mixed spaces and tabs
+				'laxbreak': true, // W014
 				ignores: [
 
 					'src/public/js/require.js'
@@ -122,7 +149,7 @@ module.exports = function(grunt) {
 					dir: 'dist',
 					mainConfigFile: 'src/public/js/requireConfig.js',
 					findNestedDependencies: true,
-					removeCombined: true,
+					removeCombined: false,
 					skipDirOptimize: true,
 					logLevel: 1,
 					modules: [
@@ -151,6 +178,14 @@ module.exports = function(grunt) {
 				],
 				tasks: ['copy:font_awesome']
 			},
+			copy_ionicons: {
+
+				files: [
+
+					'src/public/bower_components/ionicons/fonts/**/*'
+				],
+				tasks: ['copy:ionicons']
+			},
 			css: {
 
 				files: [
@@ -171,7 +206,7 @@ module.exports = function(grunt) {
 
 				files: [
 
-					'src/bower_components/**/*.css'
+					'src/public/bower_components/**/*.css'
 				],
 				tasks: [
 
@@ -191,12 +226,18 @@ module.exports = function(grunt) {
 		'concat:libraries_css',
 		'copy:requirejs',
 		'copy:font_awesome',
+		'copy:ionicons',
+	]);
+
+	grunt.registerTask('pre-commit', [
+
+		'jshint',
 	]);
 
 	grunt.registerTask('build', [
 
 		'default',
-		'requirejs:build',
 		'clean:build',
+		'requirejs:build',
 	]);
 };

@@ -26,24 +26,49 @@ function (
 
 			'click @ui.modal': 'onClickModal',
 			'click @ui.closeBtn': 'onClickClose',
+			'keydown': 'onKeyDown',
+		},
+
+		initialize: function (options) {
+
+			var self = this;
+
+			this._radio = Backbone.Wreqr.radio.channel('global');
+		},
+
+		onRender: function () {
+
+			this.ui.modal.attr('tabindex', 0);
 		},
 
 		onShow: function () {
 
+			this.onOpen();
+		},
+
+		onOpen: function () {
+
 			var self = this;
+
+			this.view.trigger('open');
 
 			setTimeout(function () {
 
 				window.requestAnimationFrame(function () {
 
-					self.ui.modal.addClass('open');
+					self.ui.modal.addClass('open').focus();
 				});
 			}, 100);
 		},
 
 		onClose: function () {
 
-			var self = this;
+			var self = this,
+			mapElement = this._radio.reqres.request('map')._container;
+
+			$(mapElement).focus();
+
+			this.view.trigger('close');
 
 			this.ui.modal.on('transitionend', function () {
 
@@ -65,6 +90,17 @@ function (
 		onClickClose: function () {
 
 			this.onClose();
+		},
+
+		onKeyDown: function (e) {
+
+			switch ( e.keyCode ) {
+
+				case 27:
+
+					this.onClose();
+					break;
+			}
 		},
 	});
 });

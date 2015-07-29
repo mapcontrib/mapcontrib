@@ -33,11 +33,11 @@ function (
 
 			'column': '#edit_setting_column',
 
-			'profileName': '#profile_name',
-			'profileDescription': '#profile_description',
-			'colorButtons': '.colorButtons .btn',
-			'profilePositionKeepOld': '#profile_position_keep_old',
-			'profilePositionSetNew': '#profile_position_set_new',
+			'themeName': '#theme_name',
+			'themeDescription': '#theme_description',
+			'colorButtons': '.color-buttons .btn',
+			'themePositionKeepOld': '#theme_position_keep_old',
+			'themePositionSetNew': '#theme_position_set_new',
 		},
 
 		events: {
@@ -69,6 +69,9 @@ function (
 
 		open: function () {
 
+			this._radio.vent.trigger('column:closeAll');
+			this._radio.vent.trigger('widget:closeAll');
+
 			this.triggerMethod('open');
 		},
 
@@ -86,10 +89,10 @@ function (
 			mapCenter = map.getCenter(),
 			mapZoomLevel = map.getZoom();
 
-			this.model.set('name', this.ui.profileName.val());
-			this.model.set('description', this.ui.profileDescription.val());
+			this.model.set('name', this.ui.themeName.val());
+			this.model.set('description', this.ui.themeDescription.val());
 
-			if ( this.ui.profilePositionSetNew.prop('checked') === true ) {
+			if ( this.ui.themePositionSetNew.prop('checked') === true ) {
 
 				this.model.set('center', mapCenter);
 				this.model.set('zoomLevel', mapZoomLevel);
@@ -115,7 +118,7 @@ function (
 
 			this.model.set( this._oldModel.toJSON() );
 
-			this._radio.commands.execute('setTitleColor', this.model.get('color'));
+			this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
 
 			this.ui.column.one('transitionend', this.render);
 
@@ -124,12 +127,12 @@ function (
 
 		onOverColorButtons: function (e) {
 
-			this._radio.commands.execute('setTitleColor', e.target.dataset.color);
+			this._radio.commands.execute('ui:setTitleColor', e.target.dataset.color);
 		},
 
 		onLeaveColorButtons: function (e) {
 
-			this._radio.commands.execute('setTitleColor', this.model.get('color'));
+			this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
 		},
 
 		onClickColorButtons: function (e) {

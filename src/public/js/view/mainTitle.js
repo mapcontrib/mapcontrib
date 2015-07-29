@@ -8,6 +8,7 @@ define([
 	'bootstrap',
 	'templates',
     'const',
+	'markdown',
 ],
 function (
 
@@ -16,7 +17,8 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
-    CONST
+    CONST,
+	markdown
 ) {
 
 	'use strict';
@@ -54,7 +56,15 @@ function (
 			this.listenTo(this.model, 'change:name', this.setTitle);
 			this.listenTo(this.model, 'change:description', this.setDescription);
 
-			this._radio.commands.setHandler('setTitleColor', this.commandSetTitleColor, this);
+			this._radio.commands.setHandler('ui:setTitleColor', this.commandSetTitleColor, this);
+		},
+
+		templateHelpers: function () {
+
+			return {
+
+				'description': markdown.toHTML( this.model.get('description') ),
+			};
 		},
 
 		onRender: function () {
@@ -89,7 +99,9 @@ function (
 			})
 			.on('click', function () {
 
-				$(this).blur();
+				$(this)
+				.blur()
+				.tooltip('hide');
 			});
 		},
 
@@ -122,18 +134,18 @@ function (
 
 		setDescription: function () {
 
-            var description = this.model.get('description');
+			var description = markdown.toHTML( this.model.get('description') );
 
-            if ( description ) {
+			if ( description ) {
 
-	             this.ui.description.html( description );
-                 this.ui.descriptionButton.removeClass('hide');
-            }
-            else {
+				this.ui.description.html( description );
+				this.ui.descriptionButton.removeClass('hide');
+			}
+			else {
 
-	             this.ui.description.html('');
-                 this.ui.descriptionButton.addClass('hide');
-            }
+				this.ui.description.html('');
+				this.ui.descriptionButton.addClass('hide');
+			}
 		},
 
 		onClickDescription: function () {

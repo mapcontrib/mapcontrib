@@ -1,0 +1,566 @@
+
+@import 'variables.less';
+
+
+.column {
+
+	position: fixed;
+	z-index: @columnZIndex;
+	top: 0;
+	bottom: 0;
+	width: 300px;
+	max-width: 100%;
+	transition: transform ease-out .2s;
+	background: #fff;
+	outline: 0;
+
+	&.right {
+
+		right: 0;
+		transform: translate(100%, 0);
+	}
+
+	&.left {
+
+		left: 0;
+		transform: translate(-100%, 0);
+	}
+
+	&.open {
+
+		transform: translate(0, 0);
+	}
+
+	.marker-form-widget {
+
+		height: 42px;
+
+		.marker,
+		.btn {
+
+			float: left;
+		}
+
+		.marker {
+
+			margin-left: 15px;
+			margin-right: 20px;
+		}
+
+		.btn {
+
+			margin-top: 4px;
+		}
+	}
+
+	.list-group.reorderable {
+
+		.list-group-item {
+
+			padding-left: 30px;
+
+			.reorder_icon {
+
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: inline-block;
+				height: 40px;
+				line-height: 40px;
+				padding: 0 6px;
+				color: @lightAnthracite;
+				cursor: move;
+			}
+		}
+	}
+
+	.list-group.removeable {
+
+		.list-group-item {
+
+			padding-right: 46px;
+
+			.remove_btn {
+
+				position: absolute;
+				top: 0;
+				right: 0;
+				height: 40px;
+				background: transparent;
+				border-color: transparent;
+				color: @anthracite;
+
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
+
+					background: lighten(@anthracite, 80%);
+					color: @anthracite;
+				}
+			}
+		}
+	}
+
+	textarea {
+
+		resize: vertical;
+	}
+
+	.control-label + .radio,
+	.control-label + .checkbox {
+
+		margin-top: 0;
+	}
+
+	.sticky-footer {
+
+		position: sticky;
+		bottom: 0;
+		padding: 20px 0;
+		margin: 0;
+		border-top: 1px solid @lightAnthracite;
+	}
+
+	header {
+
+		height: @columnTitleHeight;
+
+		h2 {
+
+			font-size: 24px;
+			line-height: @columnTitleHeight;
+			margin: 0 0 0 10px;
+		}
+
+		.close_btn {
+
+			color: @lightAnthracite;
+		}
+	}
+
+	.content {
+
+		position: absolute;
+		top: @columnTitleHeight + 20;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		overflow: auto;
+	}
+
+	.nav a {
+
+		color: @anthracite;
+		background: @gray;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			color: @anthracite;
+			background: @darkGray;
+		}
+	}
+
+	input[type="text"] + .help-block,
+	textarea + .help-block,
+	figure + figcaption {
+
+		padding: 4px 6px;
+		margin-top: 0;
+	}
+
+	input[type="text"] + .help-block,
+	textarea + .help-block {
+
+		font-size: 12px;
+	}
+
+
+	&.blue,
+	&.green,
+	&.red,
+	&.orange {
+
+		color: #fff;
+
+		input[type="radio"] {
+
+			& + label {
+
+				&::before {
+
+					background-color: transparent;
+					border-color: #fff;
+				}
+
+				&::after {
+
+					background-color: transparent;
+				}
+			}
+
+			&:checked + label {
+
+				&::before {
+
+					border-color: #fff;
+				}
+
+				&::after {
+
+					background-color: #fff;
+				}
+			}
+		}
+
+		input[type="checkbox"] {
+
+			& + label {
+
+				&::before {
+
+					background-color: transparent;
+					border-color: #fff;
+				}
+
+				&::after {
+
+					color: #fff;
+				}
+			}
+		}
+
+		a {
+
+			color: #fff;
+			text-decoration: underline;
+
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus,
+			&.btn {
+
+				color: #fff;
+				text-decoration: none;
+			}
+		}
+
+		.nav a,
+		a.list-group-item {
+
+			text-decoration: none;
+		}
+
+		input,
+		select,
+		textarea,
+		.form-control,
+		fieldset .form-control {
+
+			border-color: transparent;
+
+			&:hover,
+			&.focus,
+			&:focus,
+			&.active,
+			&:active {
+
+				border-color: transparent;
+			}
+		}
+
+		input,
+		.btn-primary {
+
+			border-color: transparent;
+		}
+
+		.btn-primary,
+		.btn-link,
+		.nav a {
+
+			color: #fff;
+		}
+
+		.list-group {
+
+			background: inherit;
+		}
+
+		.btn-default,
+		.list-group-item {
+
+			background: inherit;
+			border-color: rgba(255, 255, 255, .4);
+			color: #fff;
+
+			&:hover,
+			&.focus,
+			&:focus,
+			&.active,
+			&:active {
+
+				border-color: rgba(255, 255, 255, .5);
+				color: #fff;
+			}
+		}
+
+		.list-group-item {
+
+			border-top-color: rgba(255, 255, 255, .2);
+			border-bottom-color: rgba(255, 255, 255, .2);
+
+			&:first-child {
+
+				border-top-color: rgba(255, 255, 255, .4);
+			}
+
+			&:last-child {
+
+				border-bottom-color: rgba(255, 255, 255, .4);
+			}
+		}
+
+		.list-group.reorderable {
+
+			.list-group-item {
+
+				.reorder_icon {
+
+					color: rgba(255, 255, 255, .4);
+				}
+			}
+		}
+
+		.list-group.removeable {
+
+			.list-group-item {
+
+				.remove_btn {
+
+					background: transparent;
+					border-color: transparent;
+					color: #fff;
+
+					&:hover,
+					&.focus,
+					&:focus,
+					&.active,
+					&:active {
+
+						background: rgba(255, 255, 255, .2);
+						color: #fff;
+					}
+				}
+			}
+		}
+
+		.help-block {
+
+			color: #fff;
+
+		}
+
+		input[type="text"] + .help-block,
+		textarea + .help-block,
+		figure + figcaption {
+
+			background: rgba(255, 255, 255, .15);
+		}
+
+		.table-bordered,
+		.table-bordered th,
+		.table-bordered td, {
+
+			border-color: #fff;
+		}
+
+		.sticky-footer {
+
+			border-top: 1px solid rgba(255, 255, 255, .4);
+		}
+
+		header {
+
+			.close_btn {
+
+				color: #fff;
+			}
+		}
+	}
+
+	&.white {
+
+		input[type="text"] + .help-block,
+		textarea + .help-block,
+		figure + figcaption {
+
+			background: @gray;
+		}
+	}
+}
+
+
+
+.column.blue {
+
+	background: darken(@blue, 5%);
+
+	.btn-primary,
+	.nav a {
+
+		background: @darkBlue;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: darken(@darkBlue, 4%);
+		}
+	}
+
+	.btn-default,
+	a.list-group-item {
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @lightBlue;
+		}
+	}
+
+	.sticky-footer {
+
+		background: darken(@blue, 5%);
+	}
+}
+
+
+.column.green {
+
+	background: darken(@green, 5%);
+
+	.btn-primary,
+	.nav a {
+
+		background: @darkGreen;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: darken(@darkGreen, 4%);
+		}
+	}
+
+	.btn-default,
+	a.list-group-item {
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @lightGreen;
+		}
+	}
+
+	.sticky-footer {
+
+		background: darken(@green, 5%);
+	}
+}
+
+
+.column.red {
+
+	background: darken(@red, 5%);
+
+	.btn-primary,
+	.nav a {
+
+		background: @darkRed;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: darken(@darkRed, 4%);
+		}
+	}
+
+	.btn-default,
+	a.list-group-item {
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @lightRed;
+		}
+	}
+
+	.sticky-footer {
+
+		background: darken(@red, 5%);
+	}
+}
+
+
+
+.column.orange {
+
+	background: darken(@orange, 5%);
+
+	.btn-primary,
+	.nav a {
+
+		background: @darkOrange;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: darken(@darkOrange, 4%);
+		}
+	}
+
+	.btn-default,
+	a.list-group-item {
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @lightOrange;
+		}
+	}
+
+	.sticky-footer {
+
+		background: darken(@orange, 5%);
+	}
+}

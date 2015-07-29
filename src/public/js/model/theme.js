@@ -19,7 +19,7 @@ function (
 
 		idAttribute: '_id',
 
-		urlRoot: settings.apiPath + 'profile',
+		urlRoot: settings.apiPath + 'theme',
 
 		defaults: {
 
@@ -27,8 +27,7 @@ function (
 			'name': undefined,
 			'description': undefined,
 			'color': 'blue',
-			'pois': [], // amenity, tag, icon, preset
-			'tiles': [],
+			'tiles': ['osm'],
 			'zoomLevel': undefined,
 			'center': {
 

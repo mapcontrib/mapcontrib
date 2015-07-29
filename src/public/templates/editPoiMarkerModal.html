@@ -1,0 +1,73 @@
+<section id="edit_poi_marker_modal" class="pop_modal">
+	<div class="pop no_padding">
+		<div class="container-fluid content">
+			<div class="row">
+				<div class="col-sm-12">
+
+					<form>
+
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a href="#marker_color_and_shape" aria-controls="marker_color_and_shape" role="tab" data-toggle="tab" data-l10n-id="editPoiMarkerModal_colorAndShape"></a></li>
+							<li role="presentation"><a href="#marker_icon" aria-controls="marker_icon" role="tab" data-toggle="tab" data-l10n-id="editPoiMarkerModal_icon"></a></li>
+						</ul>
+
+						<div class="tab-content prepend-xs-2 append-xs-2">
+							<div role="tabpanel" class="tab-pane fade in active" id="marker_color_and_shape">
+
+								<div class="form-group">
+									<label class="control-label" data-l10n-id="editPoiMarkerModal_color"></label>
+									<div class="color-buttons">
+										<button type="button" class="btn btn-xs btn-marker-color green" data-color="green"><div><i class="fa fa-fw"></i></div></button>
+										<button type="button" class="btn btn-xs btn-marker-color blue" data-color="blue"><div><i class="fa fa-fw"></i></div></button>
+										<button type="button" class="btn btn-xs btn-marker-color purple" data-color="purple"><div><i class="fa fa-fw"></i></div></button>
+										<button type="button" class="btn btn-xs btn-marker-color red" data-color="red"><div><i class="fa fa-fw"></i></div></button>
+										<button type="button" class="btn btn-xs btn-marker-color orange" data-color="orange"><div><i class="fa fa-fw"></i></div></button>
+										<button type="button" class="btn btn-xs btn-marker-color yellow" data-color="yellow"><div><i class="fa fa-fw"></i></div></button>
+										<button type="button" class="btn btn-xs btn-marker-color brown" data-color="brown"><div><i class="fa fa-fw"></i></div></button>
+										<button type="button" class="btn btn-xs btn-marker-color gray" data-color="gray"><div><i class="fa fa-fw"></i></div></button>
+										<button type="button" class="btn btn-xs btn-marker-color dark-gray" data-color="dark-gray"><div><i class="fa fa-fw"></i></div></button>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label" data-l10n-id="editPoiMarkerModal_shape"></label>
+									<div class="shape-buttons">
+										<button type="button" class="btn btn-marker-shape marker1" data-shape="marker1">
+											<img src="img/markers/1_optimized.svg" alt="" />
+										</button>
+										<button type="button" class="btn btn-marker-shape marker2" data-shape="marker2">
+											<img src="img/markers/2_optimized.svg" alt="" />
+										</button>
+										<button type="button" class="btn btn-marker-shape marker3" data-shape="marker3">
+											<img src="img/markers/3_optimized.svg" alt="" />
+										</button>
+									</div>
+								</div>
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="marker_icon">
+
+								<div class="form-group">
+									<p data-l10n-id="editPoiMarkerModal_iconDescription1"></p>
+									<p data-l10n-id="editPoiMarkerModal_iconDescription2"><a href="http://fortawesome.github.io/Font-Awesome/icons" target="_blank"></a></p>
+									<label for="marker_icon" class="control-label" data-l10n-id="editPoiMarkerModal_icon"></label>
+									<div class="input-group">
+										<span class="input-group-addon">fa-</span>
+										<input type="text" class="form-control" id="marker_icon_name" placeholder="home" value="<%- markerIcon %>">
+										<i class="fa fa-home icon-preview"></i>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<button type="reset" class="btn btn-default close_btn" data-l10n-id="cancel"></button>
+							<button type="submit" class="btn btn-primary pull-right" data-l10n-id="close"></button>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

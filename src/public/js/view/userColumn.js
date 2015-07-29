@@ -32,6 +32,12 @@ function (
 		ui: {
 
 			'column': '#user_column',
+			'logoutItem': '.logout_item',
+		},
+
+		events: {
+
+			'click @ui.logoutItem': 'close',
 		},
 
 		initialize: function () {
@@ -42,6 +48,9 @@ function (
 		},
 
 		open: function () {
+
+			this._radio.vent.trigger('column:closeAll');
+			this._radio.vent.trigger('widget:closeAll');
 
 			this.triggerMethod('open');
 		},

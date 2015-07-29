@@ -34,6 +34,21 @@ function (
 			'column': '#link_column',
 		},
 
+		events: {
+
+			'click input, textarea': 'onClickInputs',
+		},
+
+		templateHelpers: function () {
+
+			var url = window.location.protocol +'//'+ window.location.host +'/theme-'+ this.model.get('fragment');
+
+			return {
+
+				'url': url,
+			};
+		},
+
 		initialize: function () {
 
 			var self = this;
@@ -43,12 +58,20 @@ function (
 
 		open: function () {
 
+			this._radio.vent.trigger('column:closeAll');
+			this._radio.vent.trigger('widget:closeAll');
+
 			this.triggerMethod('open');
 		},
 
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		onClickInputs: function (e) {
+
+			e.target.select();
 		},
 	});
 });

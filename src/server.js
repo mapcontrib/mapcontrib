@@ -1,32 +1,32 @@
 
-// Configuration
 var secret_key = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})',
-login_pattern = /^[a-zA-Z0-9\-]{3,}$/,
 http_port = 8080,
-db_host = '127.0.0.1',
-db_port = '27017',
-db_name = 'rudomap',
-db_options = {
+db = {
 
-	'auto_reconnect': true,
-	'safe': true
+	'host': '127.0.0.1',
+	'port': '27017',
+	'name': 'rudomap',
+	'options': {
+
+		'auto_reconnect': true,
+		'safe': true
+	}
 };
 
 
 
 
-
-// Dépendances
-var mongo = require('mongodb'),
-fs = require('fs'),
+var fs = require('fs'),
 path = require('path'),
-child_process = require('child_process'),
-
-mongo_client = new mongo.MongoClient(new mongo.Server(db_host, db_port), db_options),
-database = mongo_client.db(db_name),
-format = require('util').format;
+format = require('util').format,
+Promise = require('es6-promise').Promise;
 
 
+
+
+var mongo = require('mongodb'),
+mongo_client = new mongo.MongoClient(new mongo.Server(db.host, db.port), db.options),
+database = mongo_client.db(db.name);
 
 database.open(function (err, db) {
 
@@ -36,17 +36,9 @@ database.open(function (err, db) {
 
 
 
-var directory = path.join(__dirname, 'upload');
 
-if ( !fs.existsSync( directory ) ) {
-
-	fs.mkdirSync(directory);
-}
-
-
-
-
-var express = require('express'),
+var ejs = require('ejs'),
+express = require('express'),
 logger = require('morgan'),
 multer = require('multer'),
 methodOverride = require('method-override'),
@@ -55,20 +47,66 @@ bodyParser = require('body-parser'),
 serveStatic = require('serve-static'),
 cookieParser = require('cookie-parser'),
 errorHandler = require('errorhandler'),
+MongoStore = require('connect-mongo')(session),
 app = express();
 
+app.engine('html', ejs.renderFile);
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ resave: true,
-                  saveUninitialized: true,
-                  secret: secret_key }));
+
+app.use(session({
+
+	resave: true,
+    saveUninitialized: true,
+    secret: secret_key,
+	store: new MongoStore({
+
+		'host': db.host,
+		'port': db.port,
+		'db': db.name,
+	}),
+}));
+
 app.set('port', http_port);
 app.use(logger('dev'));
 app.use(methodOverride());
 app.use(multer({ 'dest': path.join(__dirname, 'upload') }));
 app.use(serveStatic(path.join(__dirname, 'public')));
+
+
+
+
+var requirejs = require('requirejs');
+
+requirejs.config({
+
+	nodeRequire: require,
+	baseUrl: path.join( __dirname, 'public', 'js' ),
+	paths: {
+
+		'underscore': '../bower_components/underscore/underscore',
+		'backbone': '../bower_components/backbone/backbone',
+		'text': '../bower_components/text/text',
+		'img': '../img',
+	}
+});
+
+var CONST = requirejs('const'),
+settings = requirejs('settings'),
+_ = requirejs('underscore');
+
+
+
+var dataDirectory = path.join(__dirname, 'upload');
+
+if ( !fs.existsSync( dataDirectory ) ) {
+
+	fs.mkdirSync(dataDirectory);
+}
 
 
 
@@ -110,18 +148,12 @@ passport.deserializeUser(function(userId, done) {
 
 passport.use(new OpenStreetMapStrategy({
 
-		'consumerKey': 'wPfXjdZViPvrRWSlenSWBsAWhYKarmOkOKk5WS4U',
-		'consumerSecret': 'kaBZXTHZHKSk2jvBUr8vzk7JRI1cryFI08ubv7Du',
-		'callbackURL': '/auth/openstreetmap/callback',
+		'consumerKey': settings.oauthConsumerKey,
+		'consumerSecret': settings.oauthSecret,
+		'callbackURL': '/auth/callback',
 		'passReqToCallback': true,
 	},
 	function(req, token, tokenSecret, profile, done) {
-
-		if (req.user) {
-
-			return done(null, false);
-		}
-
 
 		var collection = database.collection('user'),
 		userData = {
@@ -161,24 +193,31 @@ passport.use(new OpenStreetMapStrategy({
 
 					if (results) {
 
+						req.session.user = user;
+
 						return done(err, user);
 					}
 
 					return done(err);
 				});
-
-				return;
 			}
+			else {
 
-			collection.insert(userData, {'safe': true}, function (err, results) {
+				collection.insert(userData, {'safe': true}, function (err, results) {
 
-				if (results) {
+					if (results) {
 
-					return done(err, results[0]);
-				}
+						result = results[0];
+						result._id = result._id.toString();
 
-				return done(err);
-			});
+						req.session.user = result;
+
+						return done(err, result);
+					}
+
+					return done(err);
+				});
+			}
 		});
 	}
 ));
@@ -186,31 +225,73 @@ passport.use(new OpenStreetMapStrategy({
 
 
 
-app.get('/auth/openstreetmap', passport.authenticate('openstreetmap'));
+app.get('/', function (req, res) {
+
+	res.redirect('/theme-s8c2d4');
+});
+
+app.get('/auth', function (req, res) {
+
+	if ( req.query.authCallback ) {
+
+		req.session.authCallback = req.query.authCallback;
+	}
+
+	passport.authenticate('openstreetmap')(req, res);
+});
 
 
-app.get('/auth/openstreetmap/callback', passport.authenticate('openstreetmap', {
+app.get('/auth/callback', function (req, res) {
 
-	'successRedirect': '/',
-	'failureRedirect': '/#oups'
-}));
+	var callbackUrl = '/';
 
+	if ( req.session.authCallback ) {
 
-app.get('/connect/openstreetmap', passport.authorize('openstreetmap'));
+		callbackUrl = req.session.authCallback;
+	}
 
+	passport.authenticate('openstreetmap', {
 
-app.get('/connect/openstreetmap/callback', passport.authorize('openstreetmap', {
-
-	'successRedirect': '/',
-	'failureRedirect': '/#oups'
-}));
-
-
+		'successRedirect': callbackUrl,
+		'failureRedirect': callbackUrl +'/#oups'
+	})(req, res);
+});
 
 
+app.get('/connect', function (req, res) {
+
+	if ( req.query.authCallback ) {
+
+		req.session.authCallback = req.query.authCallback;
+	}
+
+	passport.authorize('openstreetmap')(req, res);
+});
 
 
-function isLoggedIn(req, res, next) {
+app.get('/connect/callback', function (req, res) {
+
+	var callbackUrl = '/';
+
+	if ( req.session.authCallback ) {
+
+		callbackUrl = req.session.authCallback;
+	}
+
+	passport.authorize('openstreetmap', {
+
+		'successRedirect': callbackUrl,
+		'failureRedirect': callbackUrl +'/#oups'
+	})(req, res);
+});
+
+
+
+
+
+
+
+function isLoggedIn (req, res, next) {
 
 	if ( req.isAuthenticated() ) {
 
@@ -222,366 +303,66 @@ function isLoggedIn(req, res, next) {
 
 
 
+var CONST = requirejs('const'),
+userApi = require('./api/user.js'),
+themeApi = require('./api/theme.js'),
+poiLayerApi = require('./api/poiLayer.js'),
+options = {
+
+	'CONST': CONST,
+	'database': database,
+};
 
 
-function logout(req, res) {
-
-	req.logout();
-	res.sendStatus(200);
-}
+userApi.setOptions( options );
+themeApi.setOptions( options );
+poiLayerApi.setOptions( options );
 
 
+app.get('/api/user/logout', userApi.api.logout);
+// app.get('/api/user', userApi.api.getAll);
+app.get('/api/user/:_id', userApi.api.get);
+app.post('/api/user', isLoggedIn, userApi.api.post);
+app.put('/api/user/:_id', isLoggedIn, userApi.api.put);
+// app.delete('/api/user/:_id', isLoggedIn, userApi.api.delete);
+
+app.get('/api/theme', themeApi.api.getAll);
+app.get('/api/theme/:_id', themeApi.api.get);
+app.post('/api/theme', isLoggedIn, themeApi.api.post);
+app.put('/api/theme/:_id', isLoggedIn, themeApi.api.put);
+// app.delete('/api/theme/:_id', isLoggedIn, themeApi.api.delete);
+
+app.get('/api/poiLayer', poiLayerApi.api.getAll);
+app.get('/api/theme/:themeId/poiLayers', poiLayerApi.api.getAll);
+app.get('/api/poiLayer/:_id', poiLayerApi.api.get);
+app.post('/api/poiLayer', isLoggedIn, poiLayerApi.api.post);
+app.put('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.put);
+app.delete('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.delete);
 
 
-function apiPost(req, res, content_type) {
+app.get('/theme-:fragment', function (req, res) {
 
-	if (req.body.userId !== req.user) {
+	var json = {};
 
-		res.status(400).send({
+	if ( req.session.user ) {
 
-			'error': 'Mauvais parametre'
+		json.user = JSON.stringify( req.session.user );
+	}
+	else {
+
+		json.user = '{}';
+	}
+
+	themeApi.api.findFromFragment( req, res, req.params.fragment, function ( themeObject ) {
+
+		poiLayerApi.api.findFromThemeId( req, res, themeObject._id, function ( poiLayerObject ) {
+
+			json.theme = JSON.stringify( themeObject );
+			json.poiLayers = JSON.stringify( poiLayerObject );
+
+			res.render('themeMap', json);
 		});
-
-		return true;
-	}
-
-
-	var collection = database.collection(content_type);
-
-	collection.insert(req.body, {'safe': true}, function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		var result = results[0];
-		result._id = result._id.toString();
-
-		res.send(result);
 	});
-}
-
-
-
-
-
-function apiGetAllUser(req, res) {
-
-	var collection = database.collection('user');
-
-	collection.find()
-	.toArray(function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		if (results.length > 0) {
-
-			results.forEach(function (result) {
-
-				result._id = result._id.toString();
-			});
-		}
-
-		res.send(results);
-	});
-}
-
-
-
-function apiGetUser(req, res) {
-
-	var _id = req.params._id;
-
-	if ( req.params._id === 'me' ) {
-
-		_id = req.user;
-	}
-	else if ( req.user !== req.params._id ) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-	else if ( req.params._id.length !== 24 ) {
-
-		res.sendStatus(404);
-
-		return true;
-	}
-
-
-
-	var collection = database.collection('user');
-
-	collection.find({
-
-		'_id': new mongo.ObjectID(_id)
-	})
-	.toArray(function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		if (results.length === 0) {
-
-			res.sendStatus(404);
-
-			return true;
-		}
-
-		var user = results[0];
-		user._id = user._id.toString();
-
-		res.send(user);
-	});
-}
-
-
-function apiGetAll(req, res, content_type) {
-
-	var collection = database.collection(content_type);
-
-	collection.find()
-	.toArray(function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		if (results.length > 0) {
-
-			results.forEach(function (result) {
-
-				result._id = result._id.toString();
-			});
-		}
-
-		res.send(results);
-	});
-}
-
-
-
-function apiGet(req, res, content_type) {
-
-	if (req.params._id.length != 24) {
-
-		res.sendStatus(400);
-
-		return true;
-	}
-
-
-	var collection = database.collection(content_type);
-
-	collection.find({
-
-		'_id': new mongo.ObjectID(req.params._id)
-	})
-	.toArray(function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		if (results.length === 0) {
-
-			res.sendStatus(404);
-
-			return true;
-		}
-
-		var result = results[0];
-		result._id = result._id.toString();
-
-		res.send(result);
-	});
-}
-
-
-
-
-
-
-function apiPutUser(req, res) {
-
-	if (req.user !== req.params._id) {
-
-		res.sendStatus(401);
-
-		return true;
-	}
-
-	if (req.params._id.length != 24) {
-
-		res.sendStatus(404);
-
-		return true;
-	}
-
-
-	var new_json = req.body,
-	collection = database.collection('user');
-
-	delete(new_json._id);
-
-	collection.update({
-
-		'_id': new mongo.ObjectID(req.params._id)
-	},
-	new_json,
-	{'safe': true},
-	function (err, results) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		res.send({});
-	});
-}
-
-
-
-function apiPut(req, res, content_type) {
-
-	if (req.params._id.length != 24) {
-
-		res.sendStatus(400);
-
-		return true;
-	}
-
-
-	var new_json = req.body,
-	collection = database.collection(content_type);
-
-	delete(new_json._id);
-
-	collection.update({
-
-		'_id': new mongo.ObjectID(req.params._id)
-	},
-	new_json,
-	{'safe': true},
-	function (err) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		res.send({});
-	});
-}
-
-
-
-function apiDelete(req, res, content_type) {
-
-	if (req.params._id.length != 24) {
-
-		res.sendStatus(400);
-
-		return true;
-	}
-
-
-	var new_json = req.body,
-	collection = database.collection(content_type);
-
-	delete(new_json._id);
-
-	collection.remove({
-
-		'_id': new mongo.ObjectID(req.params._id)
-	},
-	{'safe': true},
-	function (err) {
-
-		if(err) {
-
-			res.sendStatus(500);
-
-			return true;
-		}
-
-		res.send({});
-	});
-}
-
-
-
-
-app.get('/api/user', isLoggedIn, apiGetAllUser);
-app.get('/api/user/logout',	logout);
-app.get('/api/user/:_id', isLoggedIn, apiGetUser);
-app.put('/api/user/:_id', isLoggedIn, apiPutUser);
-
-
-var list_content_types = [
-
-	'profile'
-];
-
-list_content_types.forEach(function (content_type) {
-
-	app.post(
-
-		'/api/'+ content_type,
-		isLoggedIn,
-		function (req, res){ return apiPost(req, res, content_type); }
-	);
-
-	app.get(
-
-		'/api/'+ content_type,
-		function (req, res){ return apiGetAll(req, res, content_type); }
-	);
-
-	app.get(
-
-		'/api/'+ content_type +'/:_id',
-		function (req, res){ return apiGet(req, res, content_type); }
-	);
-
-	app.put(
-
-		'/api/'+ content_type +'/:_id', isLoggedIn,
-		isLoggedIn,
-		function (req, res){ return apiPut(req, res, content_type); }
-	);
-
-	app.delete(
-
-		'/api/'+ content_type +'/:_id', isLoggedIn,
-		isLoggedIn,
-		function (req, res){ return apiDelete(req, res, content_type); }
-	);
-
 });
 
 

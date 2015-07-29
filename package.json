@@ -1,24 +1,27 @@
 {
   "description": "Rudomap",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "license": "MIT",
   "author": {
     "name": "Guillaume AMAT",
     "email": "guillaume@amat.io"
   },
-  "contributors": [{
-    "name": "Guillaume AMAT",
-    "email": "guillaume@amat.io"
-  },
-  {
-    "name": "Vincent BERGEOT",
-    "email": "vincent.bergeot@numetlib.fr"
-  }],
+  "contributors": [
+    {
+      "name": "Guillaume AMAT",
+      "email": "guillaume@amat.io"
+    },
+    {
+      "name": "Vincent BERGEOT",
+      "email": "vincent.bergeot@numetlib.fr"
+    }
+  ],
   "devDependencies": {
     "bower": "~1.2.7",
     "less": "~1.5.0",
+    "less-plugin-autoprefix": "~1.4.2",
     "grunt": "~0.4.1",
-    "grunt-contrib-less": "~0.8.1",
+    "grunt-contrib-less": "~1.0.1",
     "grunt-contrib-jshint": "~0.7.1",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-contrib-copy": "~0.4.1",
@@ -39,6 +42,11 @@
     "multer": "~0.1.8",
     "serve-static": "~1.9.2",
     "passport": "~0.2.1",
-    "passport-openstreetmap": "~0.1.2"
+    "passport-openstreetmap": "~0.1.2",
+    "connect-mongo": "~0.8.1",
+    "requirejs": "~2.1.19",
+    "jquery": "~2.1.4",
+    "ejs": "~2.3.3",
+    "es6-promise": "~2.3.0"
   }
 }

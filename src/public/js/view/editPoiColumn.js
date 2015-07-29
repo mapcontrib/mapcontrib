@@ -7,6 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
+	'view/editPoiLayerList',
 ],
 function (
 
@@ -14,7 +15,8 @@ function (
 	Backbone,
 	Marionette,
 	Bootstrap,
-	templates
+	templates,
+	EditPoiLayerListView
 ) {
 
 	'use strict';
@@ -29,9 +31,20 @@ function (
 			'column': {},
 		},
 
+		regions: {
+
+			'layerList': '.rg_layer_list',
+		},
+
 		ui: {
 
 			'column': '#edit_poi_column',
+			'addButton': '.add_btn',
+		},
+
+		events: {
+
+			'click @ui.addButton': 'onClickAdd',
 		},
 
 		initialize: function () {
@@ -41,7 +54,18 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 		},
 
+		onRender: function () {
+
+			var poiLayers = this._radio.reqres.request('poiLayers'),
+			editPoiLayerListView = new EditPoiLayerListView({ 'collection': poiLayers });
+
+			this.getRegion('layerList').show( editPoiLayerListView );
+		},
+
 		open: function () {
+
+			this._radio.vent.trigger('column:closeAll');
+			this._radio.vent.trigger('widget:closeAll');
 
 			this.triggerMethod('open');
 		},
@@ -49,6 +73,11 @@ function (
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		onClickAdd: function () {
+
+			this._radio.commands.execute('column:showPoiLayer');
 		},
 	});
 });

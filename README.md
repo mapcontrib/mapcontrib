@@ -1,11 +1,14 @@
 # Rudomap
 
 
+## Contributing with translations
 
-## Développement
+We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
 
 
-### Installation des dépendances
+## Contributing with code
+
+### Installation
 
 	$ sudo npm install -g grunt grunt-cli bower
 	$ npm install
@@ -13,22 +16,47 @@
 	$ grunt
 
 
-### Pendant le travail
+### Branches
 
-Il y a une tâche Grunt qui permet de surveiller les fichiers et de compiler automatiquement les templates, les fichiers LESS, de copier des fichiers, etc.
+We use [Git Flow](https://github.com/nvie/gitflow) to manage our branches. It means that the master branch is always clean and pointing to the latest public release.
+
+
+### Database
+
+We use MongoDB, go to the `db` directory and execute `import_database.sh`. It will create a database called **rudomap**.
+
+### Automatic tasks
+
+A Grunt task watch the files modifications and generate CSS from Less, JST templates from HTML, etc.
+
+You just need to launch:
 
 	$ grunt watch
 
 
-Pour lancer le server Node qui sert les fichiers statiques et qui fournit l'API
+The server have to be launched with the command:
 
 	$ node src/server.js
 
+It serves static files and provide the REST API.
 
-### Compilation
 
-Pour compiler la version destinée à la production, faire un
+### Build
+
+When your done, you can build a minified version of all the Javascript files and clean up a bit the folders by launching:
 
 	$ grunt build
 
-Le résultat de la compilation se trouve dans le dossier _dist_.
+A new directory called **dist** will contain your shiny new Rudomap.
+
+
+## Thanks
+
+Rudomap is what it is because of some crazy people and free and open source projects. Let's name a few:
+
+* Vincent Bergeot: Just the Rudomap's daddy...
+* Frédéric Rodrigo: The force he has ([Osmose](https://github.com/osm-fr/osmose-backend))
+* Yohan Boniface ([uMap](https://bitbucket.org/yohanboniface/umap), [Leaflet-Storage](https://github.com/yohanboniface/Leaflet.Storage))
+* Nohémie Lehuby ([OpenBeerMap](https://github.com/OpenBeerMap/OpenBeerMap.github.io))
+* OpenStreetMap ([OSM](http://osm.org))
+* Leaflet ([Website](http://leafletjs.com))

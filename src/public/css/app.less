@@ -1,57 +1,38 @@
 
-@import 'base.less';
+
+@import 'variables.less';
+@import 'toolbar.less';
+@import 'column.less';
+@import 'marker.less';
 @import 'font/fira.css';
 @import 'font/voltaire.css';
 @import 'font/charissil.css';
 
 
-/* Colors */
-@orange: #F8981D;
-@lightOrange: lighten(@orange, 8%);
-@darkOrange: darken(@orange, 10%);
-
-@red: #E85657;
-@lightRed: lighten(@red, 3%);
-@darkRed: darken(@red, 17%);
-
-@purple: #553445;
-@lightPurple: lighten(@purple, 3%);
-@darkPurple: darken(@purple, 14%);
-
-@blue: #38B8E2;
-@lightBlue: lighten(@blue, 8%);
-@darkBlue: darken(@blue, 12%);
-
-@turquoise: #00B6AD;
-@lightTurquoise: lighten(@turquoise, 1%);
-@darkTurquoise: darken(@turquoise, 10%);
-
-@green: #1D9650;
-@lightGreen: lighten(@green, 2%);
-@darkGreen: darken(@green, 10%);
-
-@anthracite: #3B3F45;
-@lightAnthracite: lighten(@anthracite, 8%);
-@darkAnthracite: darken(@anthracite, 10%);
-
-
-/* Dimensions */
-@titleHeight: 40px;
-@columnTitleHeight: 50px;
-@toolbarBtnSize: 63px;
-
-
-/* Layers */
-@mapZIndex: 1000;
-@toolbarZIndex: 1010;
-@tipOfTheDayZIndex: 1020;
-@columnZIndex: 1030;
-@titleZIndex: 1040;
-@modalZIndex: 1050;
 
 
 
 
+@keyframes appear {
+
+	0% {
+
+		opacity: 0;
+	}
+
+
+	100% {
+
+		opacity: 1;
+	}
+}
+
+
+
+body {
+
+	color: @anthracite;
+}
 
 h1, h2, h3, h4, h5, h6,
 .control-label {
@@ -64,6 +45,11 @@ h1, h2, h3, h4, h5, h6,
 .nowrap {
 
 	white-space: nowrap;
+}
+
+textarea.font-monospace {
+
+	font-size: 12px;
 }
 
 
@@ -84,18 +70,20 @@ button,
 .btn,
 .nav > li > a {
 
-	.border-radius(0);
+	border-radius: 0;
 }
 
 input,
 select,
 textarea,
 .form-control,
+.list-group-item,
+.list-group-item:first-child,
+.list-group-item:last-child,
 fieldset .form-control {
 
-	border-color: transparent;
-	.border-radius(0);
-	.box-shadow(none);
+	border-radius: 0 !important;
+	box-shadow: none;
 
 	&:hover,
 	&.focus,
@@ -103,8 +91,28 @@ fieldset .form-control {
 	&.active,
 	&:active {
 
-		border-color: transparent;
-		.box-shadow(none);
+		box-shadow: none;
+	}
+}
+
+.list-group {
+
+	/* Fixes a placement bug on items when they are moved/dragged more than once */
+	position: relative;
+
+	.list-group-item {
+
+		label .help-block,
+		label .help-block p:last-child {
+
+			margin-bottom: 0;
+		}
+
+		&.active {
+
+			background: @gray;
+			color: @anthracite;
+		}
 	}
 }
 
@@ -122,12 +130,42 @@ fieldset .form-control {
 
 	.leaflet-popup-content-wrapper {
 
-		.border-radius(0);
+		border-radius: 0;
+
+		.leaflet-popup-content {
+
+			margin: 20px;
+
+			h1 {
+
+				font-size: 24px;
+			}
+
+			h2 {
+
+				font-size: 18px;
+			}
+
+			h3 {
+
+				font-size: 14px;
+			}
+
+			h4, h5, h6 {
+
+				font-size: 16px;
+			}
+		}
 	}
 
 	.leaflet-control-minZoomIndicator {
 
 		display: none !important;
+	}
+
+	.leaflet-bottom.leaflet-right {
+
+		left: @toolbarBtnSize + 10px;
 	}
 }
 
@@ -141,22 +179,22 @@ fieldset .form-control {
 	right: 0;
 	height: @titleHeight;
 
-	.transition( all ease-out .3s );
+	transition: all ease-out .3s;
 
 	h1 {
 
 		display: inline-block;
 		position: relative;
 		left: 50%;
-		.transform( translate(-50%, 0) );
-		font-size: 20px;
+		transform: translate(-50%, 0);
+		font-size: 16px;
 		line-height: @titleHeight;
 		margin: 0;
 		max-width: 100%;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		.transition( all ease-out .3s );
+		transition: all ease-out .3s;
 	}
 
 	.description_btn {
@@ -165,7 +203,7 @@ fieldset .form-control {
 		position: fixed;
 		top: 0;
 		right: 0;
-		padding: 8px 12px 10px 12px;
+		padding: 3px 12px 5px 12px;
 
 		&:hover,
 		&:focus,
@@ -181,7 +219,6 @@ fieldset .form-control {
 
 		display: none;
 		margin-top: 60px;
-		white-space: pre;
 		animation-duration: .4s;
 		animation-timing-function: ease-in-out;
 		animation-fill-mode: forwards;
@@ -194,7 +231,7 @@ fieldset .form-control {
 		h1 {
 
 			left: 0;
-			.transform( translate(0, 30px) );
+			transform: translate(0, 30px);
 			font-size: 36px;
 			line-height: 50px;
 			max-width: none;
@@ -205,31 +242,16 @@ fieldset .form-control {
 		.description {
 
 			display: block;
-			animation-name: titleExpand;
+			animation-name: appear;
 			animation-direction: normal;
 		}
 	}
 }
 
 
-@keyframes titleExpand {
-
-	0% {
-
-		opacity: 0;
-	}
-
-
-	100% {
-
-		opacity: 1;
-	}
-}
-
-
 
 #title,
-.btn-color {
+#edit_setting_column .btn-color {
 
 	&.blue,
 	&.purple,
@@ -259,7 +281,8 @@ fieldset .form-control {
 
 
 
-.btn-color {
+.btn-color,
+.btn-marker-color {
 
 	border-color: rgba(255, 255, 255, 0.8);
 
@@ -286,420 +309,49 @@ fieldset .form-control {
 }
 
 
+.btn-marker-shape {
 
+	background: transparent;
 
-.toolbar {
+	&:hover,
+	&:focus,
+	&.focus {
 
-	position: fixed;
-	z-index: @toolbarZIndex;
-	width: @toolbarBtnSize;
+		border-color: @darkGray;
+	}
 
-	.btn {
+	&:active,
+	&.active {
 
-		width: @toolbarBtnSize;
-		height: @toolbarBtnSize;
-		font-size: 1.6em;
-		padding: 10px 16px;
-		.border-radius(0);
+		background: @darkGray;
+		box-shadow: none;
 	}
 }
 
 
-#control_toolbar {
+
+
+
+
+
+
+
+.notification {
 
 	position: fixed;
-	top: @titleHeight;
-	left: 0;
-	width: @toolbarBtnSize;
-
-	.btn {
-
-		width: @toolbarBtnSize;
-		height: @toolbarBtnSize;
-		font-size: 1.6em;
-		padding: 10px 16px;
-		.border-radius(0);
-		color: @anthracite;
-		background: #fff;
-	}
-}
-
-
-#help_toolbar {
-
+	z-index: @notificationZIndex;
 	bottom: 0;
-	left: 0;
-
-	.help_btn {
-
-		background: #fff;
-		color: @blue;
-	}
-}
-
-
-#user_toolbar {
-
-	top: @titleHeight;
-	right: 0;
-
-	.btn {
-
-		color: #fff;
-	}
-
-	.login_btn {
-
-		background: @blue;
-	}
-
-	.user_btn {
-
-		background: @blue;
-		font-weight: bold;
-
-		&.avatar {
-
-			border: none;
-			padding: 0;
-			overflow: hidden;
-
-			img {
-
-				max-height: 100%;
-			}
-		}
-	}
-
-	.link_btn {
-
-		background: @lightGreen;
-	}
-
-	.contrib_btn {
-
-		background: @red;
-	}
-
-	.edit_btn {
-
-		background: @orange;
-	}
-}
-
-
-#edit_toolbar {
-
-	top: @titleHeight + (@toolbarBtnSize * 4) + 9;
-	right: @toolbarBtnSize * -1;
-	.transition( transform ease-out .2s );
-
-	&.open {
-
-		.transform( translate(-100%, 0) );
-	}
-
-	.btn {
-
-		color: #fff;
-	}
-
-	.setting_btn,
-	.poi_btn,
-	.tile_btn {
-
-		background: @orange;
-	}
-}
-
-
-
-
-
-
-
-
-.column {
-
-	position: fixed;
-	z-index: @columnZIndex;
-	top: @titleHeight;
-	bottom: 0;
-	left: 100%;
-	width: 300px;
+	width: @notificationWidth;
 	max-width: 100%;
-	.transition( transform ease-out .2s );
-	color: #fff;
-
-	&.open {
-
-		.transform( translate(-100%, 0) );
-	}
-
-	a {
-
-		color: #fff;
-		text-decoration: underline;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus,
-		&.btn {
-
-			text-decoration: none;
-		}
-	}
-
-	.nav a {
-
-		text-decoration: none;
-	}
-
-
-	header {
-
-		height: @columnTitleHeight;
-		border: 1px solid transparent;
-
-		h2 {
-
-			font-size: 24px;
-			line-height: @columnTitleHeight;
-			margin: 0 0 0 10px;
-		}
-
-		.close_btn {
-
-			color: #fff;
-		}
-	}
-
-	.content {
-
-		position: absolute;
-		top: @columnTitleHeight + 20;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		overflow: auto;
-
-		input,
-		.btn-primary {
-
-			border-color: transparent;
-		}
-
-		.help-block {
-
-			color: #fff;
-		}
-
-		.table-bordered,
-		.table-bordered th,
-		.table-bordered td, {
-
-			border-color: #fff;
-		}
-
-		textarea {
-
-			resize: vertical;
-		}
-
-		.control-label + .radio {
-
-			margin-top: 0;
-		}
-	}
-}
-
-
-
-#user_column {
-
-	background: darken(@blue, 5%);
-
-	.content {
-
-		.btn-primary,
-		.nav a {
-
-			background: @darkBlue;
-			color: #fff;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkBlue, 4%);
-			}
-		}
-
-		.btn-default {
-
-			background: transparent;
-			border-color: lighten(@lightBlue, 8%);
-			color: #fff;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: @lightBlue;
-			}
-		}
-	}
-}
-
-
-#link_column {
-
-	background: darken(@green, 5%);
-
-	.content {
-
-		.btn-primary,
-		.nav a {
-
-			background: @darkGreen;
-			color: #fff;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkGreen, 4%);
-			}
-		}
-
-		.btn-default {
-
-			background: transparent;
-			border-color: lighten(@lightGreen, 4%);
-			color: #fff;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: @lightGreen;
-			}
-		}
-	}
-}
-
-
-#contrib_column {
-
-	background: darken(@red, 5%);
-
-	.content {
-
-		.btn-primary,
-		.nav a {
-
-			background: @darkRed;
-			color: #fff;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkRed, 4%);
-			}
-		}
-
-		.btn-default {
-
-			background: transparent;
-			border-color: lighten(@lightRed, 8%);
-			color: #fff;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: @lightRed;
-			}
-		}
-	}
-}
-
-
-
-#edit_setting_column,
-#edit_poi_column,
-#edit_tile_column {
-
-	background: darken(@orange, 5%);
-
-	.content {
-
-		.btn-primary,
-		.nav a {
-
-			background: @darkOrange;
-			color: #fff;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkOrange, 4%);
-			}
-		}
-
-		.btn-default {
-
-			background: transparent;
-			border-color: lighten(@lightOrange, 8%);
-			color: #fff;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: @lightOrange;
-			}
-		}
-	}
-}
-
-
-
-#tip_of_the_day {
-
-	position: fixed;
-	z-index: @tipOfTheDayZIndex;
-	bottom: 0;
-	left: 100%;
-	width: 500px;
-	max-width: 100%;
-	.transition( transform ease-out .2s );
+	transform: translate(100%, 0);
+	transition: transform ease-out .2s;
 	background: @anthracite;
 	color: #fff;
+	padding-bottom: 10px;
 
 	&.open {
 
-		.transform( translate(-100%, 0) );
+		transform: translate(0, 0);
 	}
 
 	a {
@@ -737,6 +389,23 @@ fieldset .form-control {
 
 		text-align: justify;
 	}
+
+	.close_btn {
+
+		position: absolute;
+		top: 0;
+		right: 0;
+		background: transparent;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: transparent;
+		}
+	}
 }
 
 
@@ -750,8 +419,9 @@ fieldset .form-control {
 	left: 0;
 	right: 0;
 	background: rgba(0, 0, 0, 0.6);
+	outline: 0;
 	opacity: 0;
-	.transition( opacity ease-out 0.2s );
+	transition: opacity ease-out 0.2s;
 
 	.pop {
 
@@ -762,9 +432,30 @@ fieldset .form-control {
 		left: 50%;
 		width: 500px;
 		max-width: 100%;
-		.transition( transform ease-out 0.2s );
-		.transform( translate(-50%, -45%) );
+		transition: transform ease-out 0.2s;
+		transform: translate(-50%, -45%);
 		padding: 30px 15px;
+
+		&.no_padding {
+
+			padding: 0;
+
+			.nav-tabs {
+
+				margin-left: -15px;
+				margin-right: -15px;
+			}
+		}
+
+		.nav-tabs {
+
+			background: @lightGray;
+
+			li a {
+
+				color: @anthracite;
+			}
+		}
 	}
 
 	&.open {
@@ -773,7 +464,270 @@ fieldset .form-control {
 
 		.pop {
 
-			.transform( translate(-50%, -50%) );
+			transform: translate(-50%, -50%);
 		}
+	}
+}
+
+#help {
+
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index: @titleZIndex;
+	width: 0;
+	height: 0;
+	transition: all ease-out .3s;
+	background: #fff;
+	overflow: hidden;
+
+	h2 {
+
+		font-size: 36px;
+	}
+
+	.close_btn {
+
+		position: fixed;
+		top: 0;
+		right: 0;
+		color: @anthracite;
+	}
+
+	h2,
+	p,
+	.close_btn {
+
+		display: none;
+		animation-duration: .4s;
+		animation-timing-function: ease-in-out;
+		animation-fill-mode: forwards;
+	}
+
+	&.open {
+
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+
+		h2,
+		p,
+		.close_btn {
+
+			display: block;
+			animation-name: appear;
+			animation-direction: normal;
+		}
+	}
+}
+
+
+.rg_layer_list .checkbox {
+
+	padding-right: 40px;
+
+	.marker {
+
+		position: absolute;
+		top: 0;
+		right: -4px;
+		cursor: pointer;
+	}
+}
+
+.tile_list {
+
+	.checkbox,
+	.radio {
+
+		label {
+
+			display: block;
+
+			figure {
+
+				background: @lightGray;
+				overflow: hidden;
+				height: 120px;
+			}
+		}
+	}
+}
+
+.icon-preview {
+
+	position: absolute;
+	top: 8px;
+	right: 11px;
+	z-index: 10;
+	color: @lightAnthracite;
+	font-size: 19px;
+}
+
+
+@zoomNotificationWidth: 300px;
+#zoom_notification {
+
+	z-index: @zoomNotificationZIndex;
+	top: @titleHeight;
+	left: @toolbarBtnSize;
+	bottom: auto;
+	right: auto;
+	width: @zoomNotificationWidth;
+	min-height: @toolbarBtnSize;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-right: 24px;
+	padding-left: 24px;
+	background: #fff;
+	color: @anthracite;
+	transform: translate(( @toolbarBtnSize + @zoomNotificationWidth ) * -1, 0);
+
+	&.open {
+
+		transform: translate(0, 0);
+	}
+
+	p {
+
+		margin: 0;
+	}
+
+	.close_btn {
+
+		position: absolute;
+		top: -13px;
+		right: -24px;
+		color: @anthracite;
+	}
+
+	.fa-arrow-left {
+
+		position: absolute;
+		top: 3px;
+		left: -10px;
+		animation-duration: 4s;
+		animation-fill-mode: both;
+		animation-iteration-count: infinite;
+		animation-name: bounce;
+		transform-origin: center bottom;
+	}
+}
+
+@media screen and (max-width: ( @zoomNotificationWidth + @toolbarBtnSize )) {
+
+	#zoom_notification {
+
+		right: 0;
+		width: auto;
+	}
+}
+
+@keyframes bounce {
+
+	0%, 5%, 13%, 20%, 25% {
+
+		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+		transform: translate3d(0, 0, 0);
+	}
+
+	10%, 11% {
+
+		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+		transform: translate3d(12px, 0, 0);
+	}
+
+	17% {
+
+		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+		transform: translate3d(6px, 0, 0);
+	}
+
+	22% {
+
+		transform: translate3d(2px, 0, 0);
+	}
+}
+
+
+body {
+
+	.edit_poi_data {
+
+		display: none;
+
+		button {
+
+			padding: 0;
+		}
+	}
+
+	&.user_logged .edit_poi_data {
+
+		display: block;
+	}
+}
+
+
+#help {
+
+	z-index: @modalZIndex;
+}
+
+
+
+@geocodeWidgetTop: @titleHeight + (@toolbarBtnSize * 2) + @bootstrapMoreTinyAppend;
+@geocodeResultItemHeight: 46px;
+
+#geocode_widget {
+
+	position: fixed;
+	z-index: @geocodeZIndex;
+	top: @geocodeWidgetTop;
+	left: 0;
+	padding-left: @toolbarBtnSize;
+	width: 500px;
+	max-width: 100%;
+	transition: transform ease-out .2s;
+	transform: translate(-100%, 0);
+
+	input {
+
+		height: @toolbarBtnSize;
+		border-color: #fff;
+	}
+
+	&.open {
+
+		transform: translate(0, 0);
+	}
+
+	.results {
+
+		position: absolute;
+		top: @toolbarBtnSize;
+		left: @toolbarBtnSize;
+		right: 0;
+		margin: 0;
+		overflow: auto;
+		transition: all ease-out .2s;
+
+		.list-group-item {
+
+			border-color: @gray #fff;
+			height: @geocodeResultItemHeight;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+}
+
+@media screen and ( max-height: (@geocodeWidgetTop + @toolbarBtnSize + (5 * @geocodeResultItemHeight))  ) {
+
+	#geocode_widget,
+	.results {
+
+		bottom: 0;
 	}
 }
