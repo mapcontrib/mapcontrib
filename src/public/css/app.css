@@ -38,12 +38,12 @@
 }
 @-webkit-keyframes glow {
   50% {
-    color: #38b8e2;
+    color: #5cc5e7;
   }
 }
 @keyframes glow {
   50% {
-    color: #38b8e2;
+    color: #5cc5e7;
   }
 }
 #help_toolbar {
