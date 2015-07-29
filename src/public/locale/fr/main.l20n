@@ -131,6 +131,7 @@
 
 /* Edit POI data column */
 <editPoiDataColumn_title "Éditer les données">
+<editPoiDataColumn_emptyState "Chargement de la dernière version des données...">
 
 
 /* Zoom indicator notification */

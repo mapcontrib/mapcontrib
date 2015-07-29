@@ -38,6 +38,7 @@ function (
 
 			'column': '#edit_poi_data_column',
 			'fields': '.fields',
+			'footer': '.sticky-footer',
 		},
 
 		events: {
@@ -92,27 +93,94 @@ function (
 				return this;
 			}
 
-			var tag,
+			var popupTag,
 			self = this,
 			html = '',
 			dataFromOSM = this.options.dataFromOSM,
 			poiLayerModel = this.options.poiLayerModel,
 			popupContent = poiLayerModel.get('popupContent'),
 			re = new RegExp('{(.*?)}', 'g'),
-			tags = popupContent.match(re);
+			popupTags = popupContent.match(re);
 
-			for (var i in tags) {
 
-				tag = tags[i].replace( /\{(.*?)\}/g, '$1' );
+			this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, function (remoteData) {
 
-				html += this.templateField({
+				self._remoteData = remoteData;
 
-					'tag': tag,
-					'value': dataFromOSM.tags[tag],
-				});
-			}
+				for (var i in popupTags) {
 
-			this.ui.fields.html( html );
+					popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
+					popupTag = popupTags[i];
+
+					html += self.templateField({
+
+						'tag': popupTag,
+						'value': dataFromOSM.tags[popupTag],
+					});
+				}
+
+				html += '<hr>';
+
+				for (var tag in remoteData.tags) {
+
+					var value = remoteData.tags[ tag ];
+
+					if ( popupTags.indexOf(tag) > -1 ) {
+
+						continue;
+					}
+
+					html += self.templateField({
+
+						'tag': tag,
+						'value': value,
+					});
+				}
+
+				self.ui.fields.html( html );
+
+				self.ui.footer.removeClass('hide');
+			});
+		},
+
+		getRemoteEntityData: function ( id, type, callback ) {
+
+			$.ajax({
+
+				'method': 'GET',
+				'dataType': 'xml',
+				'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
+				'success': function (xml, jqXHR, textStatus) {
+
+					var key, value,
+					parentElement = xml.getElementsByTagName(type)[0],
+					tags = xml.documentElement.getElementsByTagName('tag'),
+					result = {
+
+						'version': parseInt( parentElement.getAttribute('version') ),
+						'tags': {},
+						'xml': xml
+					};
+
+
+					for (var j in tags) {
+
+						if ( tags[j].getAttribute ) {
+
+							key = tags[j].getAttribute('k');
+							value = tags[j].getAttribute('v');
+
+							result.tags[ key ] = value;
+						}
+					}
+
+					callback( result, xml );
+				},
+				'error': function (jqXHR, textStatus, error) {
+
+					console.error('FIXME');
+				},
+			});
 		},
 
 		onSubmit: function (e) {
@@ -125,8 +193,7 @@ function (
 			e.preventDefault();
 
 			var self = this,
-			id = this.options.dataFromOSM.id,
-			type = this.options.dataFromOSM.type,
+			dataFromOSM = this.options.dataFromOSM,
 			newTags = {};
 
 
@@ -140,64 +207,46 @@ function (
 			});
 
 
-			$.ajax({
+			this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, function (remoteData) {
 
-				'method': 'GET',
-				'dataType': 'xml',
-				'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
-				'success': function (xml, jqXHR, textStatus) {
+				var value, key,
+				parentElement = remoteData.xml.getElementsByTagName(dataFromOSM.type)[0],
+				tags = remoteData.xml.documentElement.getElementsByTagName('tag');
 
-					var oldTags = {},
-					parentElement = xml.getElementsByTagName(type)[0],
-					tags = xml.documentElement.getElementsByTagName('tag');
+				for (key in newTags) {
 
-					for (var j in tags) {
+					value = newTags[key];
 
-						if ( !tags[j].getAttribute ) {
+					if ( !value ) {
 
-							continue;
+						if ( typeof tags[key] != 'undefined' ) {
+
+							parentElement.removeChild( tags[key] );
+
+							delete self.options.dataFromOSM.tags[key];
 						}
 
-						oldTags[ tags[j].getAttribute('k') ] = tags[j];
+						continue;
 					}
 
-					for (var k in newTags) {
+					if ( tags[key] ) {
 
-						if ( !newTags[k] ) {
+						tags[key].setAttribute('v', value);
+					}
+					else {
 
-							if ( oldTags[k] ) {
+						var newTag = remoteData.xml.createElement('tag');
 
-								parentElement.removeChild( oldTags[k] );
+						newTag.setAttribute('k', key);
+						newTag.setAttribute('v', value);
 
-								delete self.options.dataFromOSM.tags[k];
-							}
-
-							continue;
-						}
-
-						if ( oldTags[k] ) {
-
-							oldTags[k].setAttribute('v', newTags[k]);
-						}
-						else {
-
-							var newTag = xml.createElement('tag');
-
-							newTag.setAttribute('k', k);
-							newTag.setAttribute('v', newTags[k]);
-
-							parentElement.appendChild(newTag);
-						}
-
-						self.options.dataFromOSM.tags[k] = newTags[k];
+						parentElement.appendChild(newTag);
 					}
 
-					self.sendNewXml( xml );
-				},
-				'error': function (jqXHR, textStatus, error) {
+					self.options.dataFromOSM.tags[key] = value;
+				}
 
-					console.error('FIXME');
-				},
+				self.sendNewXml( remoteData.xml );
 			});
 		},
 
