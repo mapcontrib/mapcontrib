@@ -21,7 +21,7 @@ function (
 
 	return Marionette.LayoutView.extend({
 
-		template: JST['zoomIndicatorNotification.html'],
+		template: JST['zoomNotification.html'],
 
 		behavior: {
 
@@ -30,7 +30,7 @@ function (
 
 		ui: {
 
-			'window': '#zoom_indicator_notification',
+			'window': '#zoom_notification',
 
 			'closeBtn': '.close_btn',
 			'content': '.content',

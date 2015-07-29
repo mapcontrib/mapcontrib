@@ -134,6 +134,5 @@
 <editPoiDataColumn_emptyState "Chargement de la dernière version des données...">
 
 
-/* Zoom indicator notification */
-<zoomIndicatorNotification_title "Zoom insuffisant">
-<zoomIndicatorNotification_content "Les données de cette carte n'apparaitront que lorsque votre niveau de zoom se trouvera dans la zone verte ci-dessous.">
+/* Zoom notification */
+<zoomNotification_content "Zoomez pour voir les données">

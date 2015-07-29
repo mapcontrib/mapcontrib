@@ -30,12 +30,31 @@
 		color: @anthracite;
 		background: #fff;
 	}
+
+	.zoom_in_btn.glow {
+
+		i {
+
+			animation-duration: 4s;
+			animation-fill-mode: both;
+			animation-iteration-count: infinite;
+			animation-name: glow;
+		}
+	}
+}
+
+@keyframes glow {
+
+	50% {
+
+		color: @blue;
+	}
 }
 
 
 #help_toolbar {
 
-	bottom: @zoomIndicatorHeight;
+	bottom: 0;
 	left: 0;
 
 	&.on_top {

@@ -27,7 +27,7 @@ define([
 	'view/editPoiMarkerModal',
 	'view/editTileColumn',
 	'view/editPoiDataColumn',
-	'view/zoomIndicatorNotification',
+	'view/zoomNotification',
 
 	'model/theme',
 	'model/poiLayer',
@@ -61,7 +61,7 @@ function (
 	EditPoiMarkerModalView,
 	EditTileColumnView,
 	EditPoiDataColumnView,
-	ZoomIndicatorNotificationView,
+	ZoomNotificationView,
 
 	ThemeModel,
 	PoiLayerModel,
@@ -83,8 +83,6 @@ function (
 		ui: {
 
 			'map': '#main_map',
-			'zoomLevel': '#zoom_indicator .zoom',
-			'zoomData': '#zoom_indicator .data',
 			'toolbarButtons': '.toolbar .toolbar_btn',
 
 			'controlToolbar': '#control_toolbar',
@@ -136,7 +134,7 @@ function (
 			'editTileColumn': '#rg_edit_tile_column',
 			'editPoiDataColumn': '#rg_edit_poi_data_column',
 
-			'zoomIndicatorNotification': '#rg_zoom_indicator_notification',
+			'zoomNotification': '#rg_zoom_notification',
 		},
 
 		events: {
@@ -170,7 +168,7 @@ function (
 
 			var self = this;
 
-			this._seenZoomIndicatorNotification = false;
+			this._seenZoomNotification = false;
 			this._minDataZoom = 0;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
@@ -276,7 +274,7 @@ function (
 			this._editPoiColumnView = new EditPoiColumnView({ 'model': this.model });
 			this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
 
-			this._zoomIndicatorNotificationView = new ZoomIndicatorNotificationView();
+			this._zoomNotificationView = new ZoomNotificationView();
 
 
 			this.getRegion('mainTitle').show( new MainTitleView({ 'model': this.model }) );
@@ -291,7 +289,7 @@ function (
 			this.getRegion('editPoiColumn').show( this._editPoiColumnView );
 			this.getRegion('editTileColumn').show( this._editTileColumnView );
 
-			this.getRegion('zoomIndicatorNotification').show( this._zoomIndicatorNotificationView );
+			this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
 
 
@@ -396,7 +394,8 @@ function (
 
 			}, this);
 
-			this.updateZoomDataIndicator();
+
+			this.updateMinDataZoom();
 
 			this._poiLayers.on('add', function (model) {
 
@@ -450,8 +449,7 @@ function (
 			this._currentTileId = id;
 			this._currentTileLayer = layer;
 
-			this.updateZoomDataIndicator();
-			this.updateZoomIndicator();
+			this.updateMinDataZoom();
 		},
 
 		addPoiLayer: function (poiLayerModel) {
@@ -887,33 +885,6 @@ function (
 			this._map.stopLocate();
 		},
 
-		updateZoomDataIndicator: function () {
-
-			var self = this,
-			nbZoom = this._map.getMaxZoom() - this._map.getMinZoom(),
-			minZoom = 100000;
-
-			_.each(this._poiLayers.models, function (poiLayerModel) {
-
-				if ( poiLayerModel.get('minZoom') < minZoom ) {
-
-					minZoom = poiLayerModel.get('minZoom');
-				}
-
-			}, this);
-
-			var left = Math.round( (100 / nbZoom) * minZoom );
-
-			this._minDataZoom = minZoom;
-
-			window.requestAnimationFrame(function () {
-
-				self.ui.zoomData.css('left', left + '%');
-
-				self.checkZoomIndicatorNotification();
-			});
-		},
-
 		updateSessionMapState: function () {
 
 			localStorage.setItem('mapState-'+ this.model.get('fragment'), JSON.stringify( {
@@ -923,25 +894,6 @@ function (
 			} ));
 		},
 
-		updateZoomIndicator: function () {
-
-			var self = this,
-			nbZoom = this._map.getMaxZoom() - this._map.getMinZoom(),
-			step = Math.round( (100 / nbZoom) * this._map.getZoom() );
-
-			if (step > 100) {
-
-				step = 100;
-			}
-
-			window.requestAnimationFrame(function () {
-
-				self.ui.zoomLevel.css('left', step + '%');
-
-				self.checkZoomIndicatorNotification();
-			});
-		},
-
 		onMoveEnd: function (e) {
 
 			this.updateSessionMapState();
@@ -949,27 +901,51 @@ function (
 
 		onZoomEnd: function (e) {
 
-			this.updateZoomIndicator();
+			this.checkZoomNotification();
 			this.updateSessionMapState();
 		},
 
 		onZoomLevelsChange: function (e) {
 
-			this.updateZoomIndicator();
+			this.checkZoomNotification();
 			this.updateSessionMapState();
 		},
 
-		checkZoomIndicatorNotification: function () {
+		updateMinDataZoom: function () {
 
-			if ( !this._seenZoomIndicatorNotification &&  this._map.getZoom() < this._minDataZoom ) {
+			var minDataZoom = 100000;
 
-				this._seenZoomIndicatorNotification = true;
+			_.each(this._poiLayers.models, function (poiLayerModel) {
 
-				this._zoomIndicatorNotificationView.open();
+				if ( poiLayerModel.get('minZoom') < minDataZoom ) {
+
+					minDataZoom = poiLayerModel.get('minZoom');
+				}
+			}, this);
+
+			this._minDataZoom = minDataZoom;
+
+			this.checkZoomNotification();
+		},
+
+		checkZoomNotification: function () {
+
+			if (this._map.getZoom() < this._minDataZoom ) {
+
+				this.ui.zoomInButton.addClass('glow');
+
+				if ( !this._seenZoomNotification ) {
+
+					this._seenZoomNotification = true;
+
+					this._zoomNotificationView.open();
+				}
 			}
 			else if ( this._map.getZoom() >= this._minDataZoom ) {
 
-				this._zoomIndicatorNotificationView.close();
+				this.ui.zoomInButton.removeClass('glow');
+
+				this._zoomNotificationView.close();
 			}
 		},
 

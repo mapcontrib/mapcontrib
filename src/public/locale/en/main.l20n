@@ -135,5 +135,4 @@
 
 
 /* Zoom indicator notification */
-<zoomIndicatorNotification_title "Insufficiant zoom">
-<zoomIndicatorNotification_content "The datas related to this map will be visible when your zoom level will be in the green area below.">
+<zoomNotification_content "Zoom to see data">

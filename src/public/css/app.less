@@ -124,7 +124,7 @@ fieldset .form-control {
 	position: fixed;
 	z-index: @mapZIndex;
 	top: @titleHeight;
-	bottom: @zoomIndicatorHeight;
+	bottom: 0;
 	left: 0;
 	right: 0;
 
@@ -340,10 +340,10 @@ fieldset .form-control {
 
 	position: fixed;
 	z-index: @notificationZIndex;
-	bottom: @zoomIndicatorHeight;
-	left: 100%;
-	width: 500px;
+	bottom: 0;
+	width: @notificationWidth;
 	max-width: 100%;
+	transform: translate(100%, 0);
 	transition: transform ease-out .2s;
 	background: @anthracite;
 	color: #fff;
@@ -351,7 +351,7 @@ fieldset .form-control {
 
 	&.open {
 
-		transform: translate(-100%, 0);
+		transform: translate(0, 0);
 	}
 
 	a {
@@ -565,42 +565,47 @@ fieldset .form-control {
 }
 
 
-#zoom_indicator {
+@zoomNotificationWidth: 300px;
+#zoom_notification {
 
-	position: fixed;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: @zoomIndicatorZIndex;
-	height: @zoomIndicatorHeight;
-	background: @lightAnthracite;
-	overflow: hidden;
+	z-index: @zoomNotificationZIndex;
+	top: @titleHeight;
+	left: @toolbarBtnSize;
+	bottom: auto;
+	right: auto;
+	width: @zoomNotificationWidth;
+	min-height: @toolbarBtnSize;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-right: 24px;
+	padding-left: 24px;
+	background: #fff;
+	color: @anthracite;
+	transform: translate(( @toolbarBtnSize + @zoomNotificationWidth ) * -1, 0);
 
-	.data {
+	&.open {
 
-		position: absolute;
-		right: 0;
-		height: 100%;
-		transition: left ease-out .2s;
-		background: @green;
+		transform: translate(0, 0);
 	}
 
-	.zoom {
+	p {
+
+		margin: 0;
+	}
+
+	.close_btn {
 
 		position: absolute;
-		margin-left: -2px;
-		width: 4px;
-		height: 100%;
-		transition: left ease-out .2s;
-		background: @orange;
+		top: -13px;
+		right: -24px;
+		color: @anthracite;
 	}
-}
 
+	.fa-arrow-left {
 
-#zoom_indicator_notification {
-
-	.fa-arrow-down {
-
+		position: absolute;
+		top: 3px;
+		left: -10px;
 		animation-duration: 4s;
 		animation-fill-mode: both;
 		animation-iteration-count: infinite;
@@ -609,29 +614,38 @@ fieldset .form-control {
 	}
 }
 
+@media screen and (max-width: ( @zoomNotificationWidth + @toolbarBtnSize )) {
+
+	#zoom_notification {
+
+		right: 0;
+		width: auto;
+	}
+}
+
 @keyframes bounce {
 
 	0%, 5%, 13%, 20%, 25% {
 
 		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-		transform: translate3d(0,0,0);
+		transform: translate3d(0, 0, 0);
 	}
 
 	10%, 11% {
 
 		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-		transform: translate3d(0, -30px, 0);
+		transform: translate3d(12px, 0, 0);
 	}
 
 	17% {
 
 		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-		transform: translate3d(0, -15px, 0);
+		transform: translate3d(6px, 0, 0);
 	}
 
 	22% {
 
-		transform: translate3d(0,-4px,0);
+		transform: translate3d(2px, 0, 0);
 	}
 }
 

@@ -26,8 +26,28 @@
   color: #3b3f45;
   background: #fff;
 }
+#control_toolbar .zoom_in_btn.glow i {
+  -webkit-animation-duration: 4s;
+          animation-duration: 4s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-name: glow;
+          animation-name: glow;
+}
+@-webkit-keyframes glow {
+  50% {
+    color: #38b8e2;
+  }
+}
+@keyframes glow {
+  50% {
+    color: #38b8e2;
+  }
+}
 #help_toolbar {
-  bottom: 10px;
+  bottom: 0;
   left: 0;
 }
 #help_toolbar.on_top {
@@ -95,7 +115,7 @@
   position: fixed;
   z-index: 1040;
   top: 0;
-  bottom: 10px;
+  bottom: 0;
   width: 300px;
   max-width: 100%;
   -webkit-transition: -webkit-transform ease-out 0.2s;
@@ -1033,7 +1053,7 @@ fieldset .form-control:active {
   position: fixed;
   z-index: 1000;
   top: 30px;
-  bottom: 10px;
+  bottom: 0;
   left: 0;
   right: 0;
 }
@@ -1228,10 +1248,12 @@ fieldset .form-control:active {
 .notification {
   position: fixed;
   z-index: 1020;
-  bottom: 10px;
-  left: 100%;
+  bottom: 0;
   width: 500px;
   max-width: 100%;
+  -webkit-transform: translate(100%, 0);
+      -ms-transform: translate(100%, 0);
+          transform: translate(100%, 0);
   -webkit-transition: -webkit-transform ease-out 0.2s;
           transition: transform ease-out 0.2s;
   background: #3b3f45;
@@ -1239,9 +1261,9 @@ fieldset .form-control:active {
   padding-bottom: 10px;
 }
 .notification.open {
-  -webkit-transform: translate(-100%, 0);
-      -ms-transform: translate(-100%, 0);
-          transform: translate(-100%, 0);
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
 }
 .notification a {
   color: #fff;
@@ -1405,34 +1427,42 @@ fieldset .form-control:active {
   color: #4e535b;
   font-size: 19px;
 }
-#zoom_indicator {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1001;
-  height: 10px;
-  background: #4e535b;
-  overflow: hidden;
+#zoom_notification {
+  z-index: 1011;
+  top: 30px;
+  left: 50px;
+  bottom: auto;
+  right: auto;
+  width: 300px;
+  min-height: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right: 24px;
+  padding-left: 24px;
+  background: #fff;
+  color: #3b3f45;
+  -webkit-transform: translate(-350px, 0);
+      -ms-transform: translate(-350px, 0);
+          transform: translate(-350px, 0);
 }
-#zoom_indicator .data {
+#zoom_notification.open {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+#zoom_notification p {
+  margin: 0;
+}
+#zoom_notification .close_btn {
   position: absolute;
-  right: 0;
-  height: 100%;
-  -webkit-transition: left ease-out 0.2s;
-          transition: left ease-out 0.2s;
-  background: #1d9650;
+  top: -13px;
+  right: -24px;
+  color: #3b3f45;
 }
-#zoom_indicator .zoom {
+#zoom_notification .fa-arrow-left {
   position: absolute;
-  margin-left: -2px;
-  width: 4px;
-  height: 100%;
-  -webkit-transition: left ease-out 0.2s;
-          transition: left ease-out 0.2s;
-  background: #f8981d;
-}
-#zoom_indicator_notification .fa-arrow-down {
+  top: 3px;
+  left: -10px;
   -webkit-animation-duration: 4s;
           animation-duration: 4s;
   -webkit-animation-fill-mode: both;
@@ -1444,6 +1474,12 @@ fieldset .form-control:active {
   -webkit-transform-origin: center bottom;
       -ms-transform-origin: center bottom;
           transform-origin: center bottom;
+}
+@media screen and (max-width: 350px) {
+  #zoom_notification {
+    right: 0;
+    width: auto;
+  }
 }
 @-webkit-keyframes bounce {
   0%,
@@ -1460,18 +1496,18 @@ fieldset .form-control:active {
   11% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
             animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-    -webkit-transform: translate3d(0, -30px, 0);
-            transform: translate3d(0, -30px, 0);
+    -webkit-transform: translate3d(12px, 0, 0);
+            transform: translate3d(12px, 0, 0);
   }
   17% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
             animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-    -webkit-transform: translate3d(0, -15px, 0);
-            transform: translate3d(0, -15px, 0);
+    -webkit-transform: translate3d(6px, 0, 0);
+            transform: translate3d(6px, 0, 0);
   }
   22% {
-    -webkit-transform: translate3d(0, -4px, 0);
-            transform: translate3d(0, -4px, 0);
+    -webkit-transform: translate3d(2px, 0, 0);
+            transform: translate3d(2px, 0, 0);
   }
 }
 @keyframes bounce {
@@ -1489,18 +1525,18 @@ fieldset .form-control:active {
   11% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
             animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-    -webkit-transform: translate3d(0, -30px, 0);
-            transform: translate3d(0, -30px, 0);
+    -webkit-transform: translate3d(12px, 0, 0);
+            transform: translate3d(12px, 0, 0);
   }
   17% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
             animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-    -webkit-transform: translate3d(0, -15px, 0);
-            transform: translate3d(0, -15px, 0);
+    -webkit-transform: translate3d(6px, 0, 0);
+            transform: translate3d(6px, 0, 0);
   }
   22% {
-    -webkit-transform: translate3d(0, -4px, 0);
-            transform: translate3d(0, -4px, 0);
+    -webkit-transform: translate3d(2px, 0, 0);
+            transform: translate3d(2px, 0, 0);
   }
 }
 body .edit_poi_data {
