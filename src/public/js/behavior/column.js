@@ -71,9 +71,12 @@ function (
 
 		onClose: function () {
 
-			var self = this;
+			var self = this,
+			mapElement = this._radio.reqres.request('map')._container;
 
 			this._isOpened = false;
+
+			$(mapElement).focus();
 
 			this.view.trigger('close');
 

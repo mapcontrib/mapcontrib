@@ -28,6 +28,13 @@ function (
 			'click @ui.closeBtn': 'onClickClose',
 		},
 
+		initialize: function (options) {
+
+			var self = this;
+
+			this._radio = Backbone.Wreqr.radio.channel('global');
+		},
+
 		onShow: function () {
 
 			this.onOpen();
@@ -50,7 +57,10 @@ function (
 
 		onClose: function () {
 
-			var self = this;
+			var self = this,
+			mapElement = this._radio.reqres.request('map')._container;
+
+			$(mapElement).focus();
 
 			this.view.trigger('close');
 
