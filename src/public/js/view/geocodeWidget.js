@@ -44,6 +44,7 @@ function (
 		events: {
 
 			'keyup @ui.query': 'onKeyUpQuery',
+			'keydown @ui.query': 'onKeyDownQuery',
 		},
 
 		initialize: function () {
@@ -105,6 +106,32 @@ function (
 			}, 350);
 		},
 
+		onKeyDownQuery: function (e) {
+
+			if ( [9, 13, 38, 40].indexOf(e.keyCode) > -1 ) {
+
+				e.preventDefault();
+			}
+
+			switch ( e.keyCode ) {
+				case 40: // Down arrow
+				case 9: // Tab
+
+					this.activeNextResult();
+					break;
+
+				case 38: // Up arrow
+
+					this.activePreviousResult();
+					break;
+
+				case 13: // Enter
+
+					this.visitResult();
+					break;
+			}
+		},
+
 		geocode: function (query) {
 
 			var self = this,
@@ -142,6 +169,64 @@ function (
 				self.ui.resultList.html( elements );
 			});
 
+		},
+
+		activeNextResult: function () {
+
+			var current = this.ui.resultList.find('.active');
+
+			if ( !current.length ) {
+
+				this.ui.resultList
+				.children()
+				.first()
+				.addClass('active');
+			}
+			else {
+
+				current
+				.removeClass('active')
+				.next()
+				.addClass('active');
+			}
+		},
+
+		activePreviousResult: function () {
+
+			var current = this.ui.resultList.find('.active');
+
+			if ( !current.length ) {
+
+				this.ui.resultList
+				.children()
+				.last()
+				.addClass('active');
+			}
+			else {
+
+				current
+				.removeClass('active')
+				.prev()
+				.addClass('active');
+			}
+		},
+
+		visitResult: function () {
+
+			var current = this.ui.resultList.find('.active');
+
+			if ( !current.length ) {
+
+				this.ui.resultList
+				.children()
+				.first()
+				.addClass('active')
+				.click();
+			}
+			else {
+
+				current.click();
+			}
 		},
 	});
 });

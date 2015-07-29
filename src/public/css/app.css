@@ -1024,6 +1024,10 @@ fieldset .form-control:active {
 .list-group .list-group-item label .help-block p:last-child {
   margin-bottom: 0;
 }
+.list-group .list-group-item.active {
+  background: #eeeeee;
+  color: #3b3f45;
+}
 #main_map {
   position: fixed;
   z-index: 1000;
