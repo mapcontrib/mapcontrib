@@ -463,6 +463,7 @@ function (
 
 					'endpoint': settings.overpassServer,
 					'minzoom': poiLayerModel.get('minZoom'),
+					'requestPerTile': false,
 					'query': poiLayerModel.get('overpassRequest'),
 					'callback': function(data) {
 

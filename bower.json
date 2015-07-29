@@ -14,7 +14,6 @@
     "leaflet": "~0.7.3",
     "animationFrame": "~0.2.4",
     "Fullscreen-API-Polyfill": "*",
-    "leaflet-layer-overpass": "~1.0.2",
     "l20n": "~1.0.4",
     "jquery-ui-sortable": "*",
     "jqueryui-touch-punch": "*",
@@ -23,6 +22,7 @@
     "text": "~2.0.14",
     "osm-auth": "~0.2.8",
     "ionicons": "~2.0.1",
-    "leaflet-control-geocoder": "~1.2.1"
+    "leaflet-control-geocoder": "~1.2.1",
+    "leaflet-layer-overpass": "https://github.com/GuillaumeAmat/leaflet-layer-overpass.git#7d5a10bfbe9ec51635914d9fa82c6257b9ad5d15"
   }
 }
