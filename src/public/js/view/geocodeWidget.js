@@ -8,6 +8,7 @@ define([
 	'bootstrap',
 	'templates',
 	'settings',
+	'leaflet-control-geocoder',
 ],
 function (
 
@@ -16,7 +17,8 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
-	settings
+	settings,
+	leafletControlGeocoder
 ) {
 
 	'use strict';
@@ -24,6 +26,7 @@ function (
 	return Marionette.LayoutView.extend({
 
 		template: JST['geocodeWidget.html'],
+		templateResultItem: JST['geocodeResultItem.html'],
 
 		behaviors: {
 
@@ -35,12 +38,12 @@ function (
 
 			'widget': '#geocode_widget',
 			'query': 'input',
+			'resultList': '.results',
 		},
 
 		events: {
 
-			'change @ui.query': 'onChangeQuery',
-			'blur @ui.query': 'close',
+			'keyup @ui.query': 'onKeyUpQuery',
 		},
 
 		initialize: function () {
@@ -48,6 +51,8 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			this._geocoder = L.Control.Geocoder.nominatim();
 
 			this.on('open', this.onOpen);
 		},
@@ -79,7 +84,63 @@ function (
 			});
 		},
 
-		onChangeQuery: function (e) {
+		onKeyUpQuery: function (e) {
+
+			if ( this._queryInterval ) {
+
+				clearInterval(this._queryInterval);
+			}
+
+			var self = this,
+			query = this.ui.query.val();
+
+			if ( this._lastQuery && this._lastQuery === query ) {
+
+				return false;
+			}
+
+			this._queryInterval = setTimeout(function () {
+
+				self.geocode( query );
+			}, 350);
+		},
+
+		geocode: function (query) {
+
+			var self = this,
+			elements = [];
+
+			this._lastQuery = query;
+
+			if ( !query ) {
+
+				this.ui.resultList.empty();
+
+				return;
+			}
+
+			this._geocoder.geocode(query, function(results) {
+
+				results.forEach(function (result) {
+
+
+					elements.push(
+
+						$( self.templateResultItem({
+
+							'name': result.name,
+						}))
+						.on('click', function () {
+
+							self._radio.commands.execute('map:setPosition', result.center, 11);
+
+							self.close();
+						})
+					);
+				});
+
+				self.ui.resultList.html( elements );
+			});
 
 		},
 	});

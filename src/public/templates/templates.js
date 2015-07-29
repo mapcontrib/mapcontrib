@@ -128,11 +128,23 @@ __p += '<section id="edit_tile_column" class="column right orange">\n\t<header>\
 return __p
 };
 
+this["JST"]["geocodeResultItem.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<button type="button" class="list-group-item">' +
+((__t = ( name )) == null ? '' : __t) +
+'</button>\n';
+
+}
+return __p
+};
+
 this["JST"]["geocodeWidget.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<section id="geocode_widget">\n\t<input type="text" spellcheck="true" data-l10n-id="geocodeWidget_queryInput" class="form-control input-lg">\n</section>\n';
+__p += '\n<section id="geocode_widget">\n\t<input type="text" spellcheck="true" data-l10n-id="geocodeWidget_queryInput" class="form-control input-lg">\n\t<div class="list-group results"></div>\n</section>\n';
 
 }
 return __p

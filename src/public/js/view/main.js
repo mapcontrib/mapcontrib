@@ -224,6 +224,10 @@ function (
 
 					self.updatePoiPopup( poiLayerModel, node );
 				},
+				'map:setPosition': function (latLng, zoomLevel) {
+
+					self.setPosition( latLng, zoomLevel );
+				},
 				'editPoiData': function (dataFromOSM, poiLayerModel) {
 
 					self.onCommandEditPoiData( dataFromOSM, poiLayerModel );
@@ -1083,6 +1087,11 @@ function (
 		onClickEditTile: function () {
 
 			this._editTileColumnView.open();
+		},
+
+		setPosition: function (latLng, zoomLevel) {
+
+			this._map.setView( latLng, zoomLevel );
 		},
 	});
 });

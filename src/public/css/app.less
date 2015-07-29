@@ -655,11 +655,14 @@ body {
 
 
 
+@geocodeWidgetTop: @titleHeight + (@toolbarBtnSize * 2) + @bootstrapMoreTinyAppend;
+@geocodeResultItemHeight: 46px;
+
 #geocode_widget {
 
 	position: fixed;
 	z-index: @geocodeZIndex;
-	top: @titleHeight + (@toolbarBtnSize * 2) + 9;
+	top: @geocodeWidgetTop;
 	left: 0;
 	padding-left: @toolbarBtnSize;
 	width: 500px;
@@ -676,5 +679,34 @@ body {
 	&.open {
 
 		transform: translate(0, 0);
+	}
+
+	.results {
+
+		position: absolute;
+		top: @toolbarBtnSize;
+		left: @toolbarBtnSize;
+		right: 0;
+		margin: 0;
+		overflow: auto;
+		transition: all ease-out .2s;
+
+		.list-group-item {
+
+			border-color: @gray #fff;
+			height: @geocodeResultItemHeight;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+}
+
+@media screen and ( max-height: (@geocodeWidgetTop + @toolbarBtnSize + (5 * @geocodeResultItemHeight))  ) {
+
+	#geocode_widget,
+	.results {
+
+		bottom: 0;
 	}
 }

@@ -1532,3 +1532,26 @@ body.user_logged .edit_poi_data {
       -ms-transform: translate(0, 0);
           transform: translate(0, 0);
 }
+#geocode_widget .results {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  right: 0;
+  margin: 0;
+  overflow: auto;
+  -webkit-transition: all ease-out 0.2s;
+          transition: all ease-out 0.2s;
+}
+#geocode_widget .results .list-group-item {
+  border-color: #eeeeee #ffffff;
+  height: 46px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media screen and (max-height: 419px) {
+  #geocode_widget,
+  .results {
+    bottom: 0;
+  }
+}
