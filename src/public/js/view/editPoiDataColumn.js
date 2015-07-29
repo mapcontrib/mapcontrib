@@ -125,6 +125,8 @@ function (
 			e.preventDefault();
 
 			var self = this,
+			id = this.options.dataFromOSM.id,
+			type = this.options.dataFromOSM.type,
 			newTags = {};
 
 
@@ -142,12 +144,12 @@ function (
 
 				'method': 'GET',
 				'dataType': 'xml',
-				'url': 'https://api.openstreetmap.org/api/0.6/node/'+ this.options.dataFromOSM.id,
-				'success': function (nodeXml, jqXHR, textStatus) {
+				'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
+				'success': function (xml, jqXHR, textStatus) {
 
 					var oldTags = {},
-					parentNode = nodeXml.getElementsByTagName('node')[0],
-					tags = nodeXml.documentElement.getElementsByTagName('tag');
+					parentElement = xml.getElementsByTagName(type)[0],
+					tags = xml.documentElement.getElementsByTagName('tag');
 
 					for (var j in tags) {
 
@@ -165,7 +167,7 @@ function (
 
 							if ( oldTags[k] ) {
 
-								parentNode.removeChild( oldTags[k] );
+								parentElement.removeChild( oldTags[k] );
 
 								delete self.options.dataFromOSM.tags[k];
 							}
@@ -179,18 +181,18 @@ function (
 						}
 						else {
 
-							var newTag = nodeXml.createElement('tag');
+							var newTag = xml.createElement('tag');
 
 							newTag.setAttribute('k', k);
 							newTag.setAttribute('v', newTags[k]);
 
-							parentNode.appendChild(newTag);
+							parentElement.appendChild(newTag);
 						}
 
 						self.options.dataFromOSM.tags[k] = newTags[k];
 					}
 
-					self.sendNewXml( nodeXml );
+					self.sendNewXml( xml );
 				},
 				'error': function (jqXHR, textStatus, error) {
 
@@ -199,7 +201,7 @@ function (
 			});
 		},
 
-		sendNewXml: function (nodeXml) {
+		sendNewXml: function (xml) {
 
 			var self = this,
 			changesetId = sessionStorage.getItem('changesetId'),
@@ -207,7 +209,7 @@ function (
 
 			if ( changesetId ) {
 
-				this.sendXml(nodeXml, changesetId);
+				this.sendXml(xml, changesetId);
 			}
 			else {
 
@@ -228,27 +230,30 @@ function (
 
 					sessionStorage.setItem('changesetId', changesetId);
 
-					self.sendXml(nodeXml, changesetId);
+					self.sendXml(xml, changesetId);
 				});
 			}
 		},
 
-		sendXml: function (nodeXml, changesetId) {
+		sendXml: function (xml, changesetId) {
 
 			var data,
 			self = this,
-			node = nodeXml.documentElement.getElementsByTagName('node')[0],
+			id = this.options.dataFromOSM.id,
+			type = this.options.dataFromOSM.type,
+			parentElement = xml.getElementsByTagName(type)[0],
+			version = parseInt( parentElement.getAttribute('version') ),
 			serializer = new XMLSerializer();
 
-			node.setAttribute('changeset', changesetId);
+			parentElement.setAttribute('version', version + 1);
+			parentElement.setAttribute('changeset', changesetId);
 
-			data = serializer.serializeToString(nodeXml);
-
+			data = serializer.serializeToString(xml);
 
 			this._auth.xhr({
 
 				'method': 'PUT',
-				'path': '/api/0.6/node/'+ this.options.dataFromOSM.id,
+				'path': '/api/0.6/'+ type +'/'+ id,
 				'options': { 'header': { 'Content-Type': 'text/xml' } },
 				'content': data,
 			},
