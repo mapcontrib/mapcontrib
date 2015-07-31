@@ -141,8 +141,6 @@ require(['requireConfig'], function () {
 
 				this._radio.commands.setHandlers({
 
-					'app:initObjects': function () { self.initObjects(); },
-					'app:loadData': function () { self.loadData(); },
 					'app:registerBehavior': function (name, behavior) {
 
 						self._behavior[name] = behavior;
