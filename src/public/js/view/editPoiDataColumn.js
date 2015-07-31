@@ -56,15 +56,16 @@ function (
 				return false;
 			}
 
-			var self = this,
-			user = this._radio.reqres.request('model', 'user');
+			var self = this;
+
+			this._user = this._radio.reqres.request('model', 'user');
 
 			this._auth = osmAuth({
 
 				'oauth_consumer_key': settings.oauthConsumerKey,
 				'oauth_secret': settings.oauthSecret,
-				'oauth_token': user.get('token'),
-				'oauth_token_secret': user.get('tokenSecret'),
+				'oauth_token': this._user.get('token'),
+				'oauth_token_secret': this._user.get('tokenSecret'),
 			});
 		},
 
@@ -174,7 +175,7 @@ function (
 						}
 					}
 
-					callback( result, xml );
+					callback( result );
 				},
 				'error': function (jqXHR, textStatus, error) {
 
@@ -211,7 +212,16 @@ function (
 
 				var value, key,
 				parentElement = remoteData.xml.getElementsByTagName(dataFromOSM.type)[0],
-				tags = remoteData.xml.documentElement.getElementsByTagName('tag');
+				tags = remoteData.xml.documentElement.getElementsByTagName('tag'),
+				remoteTags = {};
+
+				for (var i in tags) {
+
+					if ( tags[i].getAttribute ) {
+
+						remoteTags[ tags[i].getAttribute('k') ] = tags[i];
+					}
+				}
 
 				for (key in newTags) {
 
@@ -219,9 +229,9 @@ function (
 
 					if ( !value ) {
 
-						if ( typeof tags[key] != 'undefined' ) {
+						if ( typeof remoteTags[key] != 'undefined' ) {
 
-							parentElement.removeChild( tags[key] );
+							parentElement.removeChild( remoteTags[key] );
 
 							delete self.options.dataFromOSM.tags[key];
 						}
@@ -229,9 +239,9 @@ function (
 						continue;
 					}
 
-					if ( tags[key] ) {
+					if ( remoteTags[key] ) {
 
-						tags[key].setAttribute('v', value);
+						remoteTags[key].setAttribute('v', value);
 					}
 					else {
 
@@ -294,8 +304,11 @@ function (
 			version = parseInt( parentElement.getAttribute('version') ),
 			serializer = new XMLSerializer();
 
-			parentElement.setAttribute('version', version + 1);
 			parentElement.setAttribute('changeset', changesetId);
+			parentElement.setAttribute('timestamp', new Date().toISOString());
+			parentElement.setAttribute('uid', this._user.get('osmId'));
+			parentElement.setAttribute('display_name', this._user.get('displayName'));
+			parentElement.removeAttribute('user', this._user.get('displayName'));
 
 			data = serializer.serializeToString(xml);
 
