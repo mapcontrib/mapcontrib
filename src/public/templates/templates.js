@@ -154,13 +154,41 @@ this["JST"]["linkColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="link_column" class="column right green">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="linkColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12 append-xs-tiny">\n\t\t\t\t<p data-l10n-id="linkColumn_publicTheme"></p>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_linkLabel"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<input type="text" class="form-control" readonly="readonly" value="' +
+__p += '<section id="link_column" class="column right green open">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="linkColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_linkLabel"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<input type="text" class="form-control auto_select" readonly="readonly" value="' +
 __e( url ) +
-'">\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_integrateCode"></p>\n\t\t\t\t<form>\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<textarea spellcheck="false" class="form-control" readonly="readonly" rows="6"><iframe src="' +
+'">\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<p data-l10n-id="linkColumn_integrateCode"></p>\n\t\t\t\t<form class="form-horizontal">\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<div class="col-xs-12">\n\t\t\t\t\t\t\t<textarea spellcheck="false" id="iframe_code" class="form-control auto_select" readonly="readonly" rows="4"></textarea>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<label for="iframe_width" class="col-xs-4 control-label" data-l10n-id="linkColumn_width"></label>\n\t\t\t\t\t\t<div class="col-xs-8">\n\t\t\t\t\t\t\t<div class="input-group">\n\t\t\t\t\t\t\t\t<input type="number" id="iframe_width" class="form-control" value="' +
+__e( iframeWidth ) +
+'">\n\t\t\t\t\t\t\t\t<span class="input-group-addon" id="iframe_width_unit">' +
+__e( iframeWidthUnit ) +
+'</span>\n\t\t\t\t\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t\t\t\t\t<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>\n\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu dropdown-menu-right" id="iframe_width_unit_dropdown">\n\t\t\t\t\t\t\t\t\t\t<li><a href="#" data-l10n-id="linkColumn_percentage" data-unit="%"></a></li>\n\t\t\t\t\t\t\t\t\t\t<li><a href="#" data-l10n-id="linkColumn_pixel" data-unit="px"></a></li>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="form-group">\n\t\t\t\t\t\t<label for="iframe_height" class="col-xs-4 control-label" data-l10n-id="linkColumn_height"></label>\n\t\t\t\t\t\t<div class="col-xs-8">\n\t\t\t\t\t\t\t<div class="input-group">\n\t\t\t\t\t\t\t\t<input type="number" id="iframe_height" class="form-control" value="' +
+__e( iframeHeight ) +
+'">\n\t\t\t\t\t\t\t\t<span class="input-group-addon" id="iframe_height_unit">' +
+__e( iframeHeightUnit ) +
+'</span>\n\t\t\t\t\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t\t\t\t\t<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>\n\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu dropdown-menu-right" id="iframe_height_unit_dropdown">\n\t\t\t\t\t\t\t\t\t\t<li><a href="#" data-l10n-id="linkColumn_percentage" data-unit="%"></a></li>\n\t\t\t\t\t\t\t\t\t\t<li><a href="#" data-l10n-id="linkColumn_pixel" data-unit="px"></a></li>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+
+}
+return __p
+};
+
+this["JST"]["linkColumnIframe.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<iframe src="' +
 __e( url ) +
-'" width="100%" height="400" frameBorder="0"></iframe><p><a href="' +
+'" width="' +
+__e( iframeWidth ) +
+'' +
+__e( iframeWidthUnit ) +
+'" height="' +
+__e( iframeHeight ) +
+'' +
+__e( iframeHeightUnit ) +
+'" frameBorder="0"></iframe><p><a href="' +
 __e( url ) +
-'">Voir en plein écran</a></p></textarea>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+'">' +
+__e( subLinkMessage ) +
+'</a></p>\n';
 
 }
 return __p

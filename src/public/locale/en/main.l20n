@@ -84,9 +84,13 @@
 
 /* Link column */
 <linkColumn_title "Share">
-<linkColumn_publicTheme "This theme is available by everyone.">
 <linkColumn_linkLabel "Share the link below:">
 <linkColumn_integrateCode "Or integrate the following code in your website:">
+<linkColumn_seeBigger "See it bigger">
+<linkColumn_width "Width">
+<linkColumn_height "Height">
+<linkColumn_percentage "Percentage">
+<linkColumn_pixel "Pixel">
 
 
 /* Edit settings column */

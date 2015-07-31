@@ -322,6 +322,12 @@
   color: #fff;
   text-decoration: none;
 }
+.column.blue .dropdown-menu a,
+.column.green .dropdown-menu a,
+.column.red .dropdown-menu a,
+.column.orange .dropdown-menu a {
+  color: #3b3f45;
+}
 .column.blue .nav a,
 .column.green .nav a,
 .column.red .nav a,
@@ -329,7 +335,11 @@
 .column.blue a.list-group-item,
 .column.green a.list-group-item,
 .column.red a.list-group-item,
-.column.orange a.list-group-item {
+.column.orange a.list-group-item,
+.column.blue .dropdown-menu a,
+.column.green .dropdown-menu a,
+.column.red .dropdown-menu a,
+.column.orange .dropdown-menu a {
   text-decoration: none;
 }
 .column.blue input,
@@ -978,6 +988,13 @@ textarea[readonly],
 .form-control[readonly],
 fieldset[disabled] .form-control {
   cursor: default;
+}
+.control-label {
+  line-height: 34px;
+}
+.input-group-addon {
+  background: #eeeeee;
+  border-color: #eeeeee;
 }
 button,
 .btn,

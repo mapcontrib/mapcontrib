@@ -19,5 +19,10 @@ define([], function () {
 
 		'largeScreenMinWidth': 800,
 		'largeScreenMinHeight': 600,
+
+		'shareIframeWidth': 100,
+		'shareIframeWidthUnit': '%',
+		'shareIframeHeight': 400,
+		'shareIframeHeightUnit': 'px',
 	};
 });
