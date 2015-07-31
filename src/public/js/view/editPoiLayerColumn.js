@@ -39,6 +39,7 @@ function (
 			'layerName': '#layer_name',
 			'layerDescription': '#layer_description',
 			'layerDataEditable': '#layer_data_editable',
+			'layerVisible': '#layer_visible',
 			'layerOverpassRequest': '#layer_overpass_request',
 			'layerPopupContent': '#layer_popup_content',
 
@@ -110,6 +111,7 @@ function (
 
 			this.model.set('name', this.ui.layerName.val());
 			this.model.set('description', this.ui.layerDescription.val());
+			this.model.set('visible', this.ui.layerVisible.prop('checked'));
 			this.model.set('dataEditable', this.ui.layerDataEditable.prop('checked'));
 			this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
 			this.model.set('popupContent', this.ui.layerPopupContent.val());

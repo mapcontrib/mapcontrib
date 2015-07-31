@@ -113,8 +113,9 @@
 <editPoiLayerColumn_title "Édition de la couche">
 <editPoiLayerColumn_layerName "Nom">
 <editPoiLayerColumn_layerDescription "Description">
-<editPoiLayerColumn_data "Données OSM">
+<editPoiLayerColumn_visibilityAndEdition "Visibilité et édition">
 <editPoiLayerColumn_dataEditable "Permettre l'édition des données">
+<editPoiLayerColumn_visible "Visible par les utilisateurs">
 <editPoiLayerColumn_layerOverpassRequest "Requête Overpass">
 <editPoiLayerColumn_marker "Marqueur">
 <editPoiLayerColumn_layerPopupContent "Contenu des bulles">

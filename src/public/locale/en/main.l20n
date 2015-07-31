@@ -113,7 +113,8 @@
 <editPoiLayerColumn_title "Layer edit">
 <editPoiLayerColumn_layerName "Name">
 <editPoiLayerColumn_layerDescription "Description">
-<editPoiLayerColumn_data "OSM data">
+<editPoiLayerColumn_visibilityAndEdition "Visibility and edition">
+<editPoiLayerColumn_visible "Visible by users">
 <editPoiLayerColumn_dataEditable "Allow to edit data">
 <editPoiLayerColumn_layerOverpassRequest "Overpass request">
 <editPoiLayerColumn_marker "Marker">
