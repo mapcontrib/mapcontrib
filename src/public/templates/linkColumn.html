@@ -32,7 +32,7 @@
 						<label for="iframe_width" class="col-xs-4 control-label" data-l10n-id="linkColumn_width"></label>
 						<div class="col-xs-8">
 							<div class="input-group">
-								<input type="number" id="iframe_width" class="form-control" value="<%- iframeWidth %>">
+								<input type="number" min="0" id="iframe_width" class="form-control" value="<%- iframeWidth %>">
 								<span class="input-group-addon" id="iframe_width_unit"><%- iframeWidthUnit %></span>
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
@@ -49,7 +49,7 @@
 						<label for="iframe_height" class="col-xs-4 control-label" data-l10n-id="linkColumn_height"></label>
 						<div class="col-xs-8">
 							<div class="input-group">
-								<input type="number" id="iframe_height" class="form-control" value="<%- iframeHeight %>">
+								<input type="number" min="0" id="iframe_height" class="form-control" value="<%- iframeHeight %>">
 								<span class="input-group-addon" id="iframe_height_unit"><%- iframeHeightUnit %></span>
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
