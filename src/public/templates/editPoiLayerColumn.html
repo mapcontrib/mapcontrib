@@ -51,6 +51,11 @@
 					</div>
 
 					<div class="form-group append-xs-1">
+						<label for="layer_min_zoom" class="control-label" data-l10n-id="editPoiLayerColumn_layerZoomLevel"></label>
+						<input type="number" id="layer_min_zoom" class="form-control" min="0" value="<%- minZoom %>">
+					</div>
+
+					<div class="form-group append-xs-1">
 						<label for="layer_overpass_request" class="control-label" data-l10n-id="editPoiLayerColumn_layerOverpassRequest"></label>
 						<textarea rows="7" spellcheck="false" class="form-control font-monospace" id="layer_overpass_request"><%- overpassRequest %></textarea>
 					</div>

@@ -220,6 +220,10 @@ function (
 
 					self.updatePoiLayerPopups( poiLayerModel );
 				},
+				'map:updatePoiLayerMinZoom': function (poiLayerModel) {
+
+					self.updatePoiLayerMinZoom( poiLayerModel );
+				},
 				'map:updatePoiPopup': function (poiLayerModel, node) {
 
 					self.updatePoiPopup( poiLayerModel, node );
@@ -459,108 +463,107 @@ function (
 
 			layerGroup._poiIds = [];
 
-			layerGroup.addLayer(
+			layerGroup._overpassLayer = new L.OverPassLayer({
 
-				new L.OverPassLayer({
+				'endpoint': settings.overpassServer,
+				'minzoom': poiLayerModel.get('minZoom'),
+				'requestPerTile': false,
+				'query': poiLayerModel.get('overpassRequest'),
+				'callback': function(data) {
 
-					'endpoint': settings.overpassServer,
-					'minzoom': poiLayerModel.get('minZoom'),
-					'requestPerTile': false,
-					'query': poiLayerModel.get('overpassRequest'),
-					'callback': function(data) {
-
-						var wayBodyNodes = {},
-						icon = self.getPoiLayerIcon(poiLayerModel);
+					var wayBodyNodes = {},
+					icon = self.getPoiLayerIcon(poiLayerModel);
 
 
-						data.elements.forEach(function (e) {
+					data.elements.forEach(function (e) {
 
-							if ( e.tags ) {
+						if ( e.tags ) {
 
-								return;
+							return;
+						}
+
+						wayBodyNodes[e.id] = e;
+					});
+
+
+					data.elements.forEach(function (e) {
+
+						if( !e.tags ) {
+
+							return;
+						}
+
+						if ( layerGroup._poiIds.indexOf(e.id) > -1 ) {
+
+							return;
+						}
+
+						layerGroup._poiIds.push(e.id);
+
+
+						var pos;
+
+						if(e.type === 'node') {
+
+							pos = new L.LatLng(e.lat, e.lon);
+						}
+						else {
+
+							pos = new L.LatLng(e.center.lat, e.center.lon);
+
+							if ( e.nodes ) {
+
+								var nodePositions = [];
+
+								e.nodes.forEach(function (node) {
+
+									if ( wayBodyNodes[node] ) {
+
+										nodePositions.push(
+
+											L.latLng(
+
+												wayBodyNodes[node].lat,
+												wayBodyNodes[node].lon
+											)
+										);
+									}
+								});
+
+								var polygon = L.polygon( nodePositions, CONST.map.wayPolygonOptions );
+
+								layerGroup.addLayer( polygon );
 							}
+						}
 
-							wayBodyNodes[e.id] = e;
+
+						var popupContent = self.getPoiLayerPopupContent(poiLayerModel, e),
+						marker = L.marker(pos, {
+
+							'icon': icon
 						});
 
+						marker._dataFromOSM = e;
 
-						data.elements.forEach(function (e) {
+						if ( popupContent ) {
 
-							if( !e.tags ) {
+							marker.bindPopup(
 
-								return;
-							}
+								L.popup({
 
-							if ( layerGroup._poiIds.indexOf(e.id) > -1 ) {
+									'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
+									'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
+								})
+								.setContent( popupContent )
+							);
+						}
 
-								return;
-							}
+						layerGroup.addLayer( marker );
+					});
+				}
+			});
 
-							layerGroup._poiIds.push(e.id);
-
-
-							var pos;
-
-							if(e.type === 'node') {
-
-								pos = new L.LatLng(e.lat, e.lon);
-							}
-							else {
-
-								pos = new L.LatLng(e.center.lat, e.center.lon);
-
-								if ( e.nodes ) {
-
-									var nodePositions = [];
-
-									e.nodes.forEach(function (node) {
-
-										if ( wayBodyNodes[node] ) {
-
-											nodePositions.push(
-
-												L.latLng(
-
-													wayBodyNodes[node].lat,
-													wayBodyNodes[node].lon
-												)
-											);
-										}
-									});
-
-									var polygon = L.polygon( nodePositions, CONST.map.wayPolygonOptions );
-
-									layerGroup.addLayer( polygon );
-								}
-							}
-
-
-							var popupContent = self.getPoiLayerPopupContent(poiLayerModel, e),
-							marker = L.marker(pos, {
-
-								'icon': icon
-							});
-
-							marker._dataFromOSM = e;
-
-							if ( popupContent ) {
-
-								marker.bindPopup(
-
-									L.popup({
-
-										'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
-										'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
-									})
-									.setContent( popupContent )
-								);
-							}
-
-							layerGroup.addLayer( marker );
-						});
-					}
-				})
-			);
+			layerGroup.addLayer( layerGroup._overpassLayer );
 
 			this._mapLayers[ poiLayerModel.cid ] = layerGroup;
 
@@ -676,6 +679,16 @@ function (
 					}
 				}
 			});
+		},
+
+		updatePoiLayerMinZoom: function (poiLayerModel) {
+
+			var self = this,
+			overpassLayer = this._mapLayers[ poiLayerModel.cid ]._overpassLayer;
+
+			overpassLayer.options.minzoom = poiLayerModel.get('minZoom');
+
+			this.updateMinDataZoom();
 		},
 
 		updatePoiPopup: function (poiLayerModel, node) {

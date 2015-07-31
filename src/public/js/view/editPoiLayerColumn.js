@@ -40,6 +40,7 @@ function (
 			'layerDescription': '#layer_description',
 			'layerDataEditable': '#layer_data_editable',
 			'layerVisible': '#layer_visible',
+			'layerMinZoom': '#layer_min_zoom',
 			'layerOverpassRequest': '#layer_overpass_request',
 			'layerPopupContent': '#layer_popup_content',
 
@@ -107,18 +108,25 @@ function (
 			var self = this,
 			addToCollection = false,
 			updateMarkers = false,
+			updateMinZoom = false,
 			updatePopups = false;
 
 			this.model.set('name', this.ui.layerName.val());
 			this.model.set('description', this.ui.layerDescription.val());
 			this.model.set('visible', this.ui.layerVisible.prop('checked'));
 			this.model.set('dataEditable', this.ui.layerDataEditable.prop('checked'));
+			this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
 			this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
 			this.model.set('popupContent', this.ui.layerPopupContent.val());
 
 			if ( !this.model.get('_id') ) {
 
 				addToCollection = true;
+			}
+
+			if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
+
+				updateMinZoom = true;
 			}
 
 			if ( this._oldModel.get('dataEditable') !== this.model.get('dataEditable') ) {
@@ -153,6 +161,11 @@ function (
 					if ( addToCollection ) {
 
 						self._radio.reqres.request('poiLayers').add( self.model );
+					}
+
+					if ( updateMinZoom ) {
+
+						self._radio.commands.execute('map:updatePoiLayerMinZoom', self.model);
 					}
 
 					if ( updateMarkers ) {
