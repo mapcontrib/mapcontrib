@@ -270,7 +270,7 @@ __e( _id ) +
 ((__t = ( name )) == null ? '' : __t) +
 '\n\t\t<div class="help-block">\n\t\t\t' +
 ((__t = ( description )) == null ? '' : __t) +
-'\n\t\t</div>\n\t</label>\n\t' +
+'\n\t\t</div>\n\t\t<div class="help-block zoom_tip"></div>\n\t</label>\n\t' +
 ((__t = ( marker )) == null ? '' : __t) +
 '\n</div>\n';
 

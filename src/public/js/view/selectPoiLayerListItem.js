@@ -37,7 +37,8 @@ function (
 
 		ui: {
 
-			'visibilityCheckbox': '.visibility_checkbox'
+			'visibilityCheckbox': '.visibility_checkbox',
+			'zoomTip': '.zoom_tip',
 		},
 
 		events: {
@@ -53,6 +54,8 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
 			this._layerIsVisible = true;
+
+			this._radio.vent.on('map:zoomChanged', this.render, this);
 		},
 
 		templateHelpers: function () {
@@ -65,6 +68,22 @@ function (
 		},
 
 		onRender: function () {
+
+			var currentZoom = this._radio.reqres.request('map:getCurrentZoom'),
+			n = (this.model.get('minZoom') - currentZoom) || 0;
+
+			if ( n > 0 ) {
+
+				this.ui.zoomTip
+				.html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
+				.removeClass('hide');
+			}
+			else {
+
+				this.ui.zoomTip
+				.addClass('hide')
+				.empty();
+			}
 
 			this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
 		},

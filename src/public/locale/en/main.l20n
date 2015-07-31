@@ -68,6 +68,10 @@
 /* POI column */
 <selectPoiColumn_title "Points of interest">
 <selectPoiColumn_explanation "Select the points of interest you want to see on the map">
+<selectPoiColumn_needToZoom[plural($n)] {
+  one: "To see these data, you need to zoom once.",
+  many: "To see these data, you need to zoom {{ $n }} times."
+}>
 
 
 /* Tile column */

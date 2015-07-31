@@ -188,6 +188,13 @@ function (
 
 					return self.getPoiLayerHtmlIcon( poiLayerModel );
 				},
+				'map:getCurrentZoom': function (tileId) {
+
+					if (self._map) {
+
+						return self._map.getZoom();
+					}
+				},
 			});
 
 			this._radio.commands.setHandlers({
@@ -366,10 +373,12 @@ function (
 			.on('zoomend', function (e) {
 
 				self.onZoomEnd(e);
+				self._radio.vent.trigger('map:zoomChanged');
 			})
 			.on('zoomlevelschange', function (e) {
 
 				self.onZoomLevelsChange(e);
+				self._radio.vent.trigger('map:zoomChanged');
 			})
 			.on('locationfound', function () {
 

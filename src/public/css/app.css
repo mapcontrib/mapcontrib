@@ -154,6 +154,9 @@
 .column .marker-form-widget .btn {
   margin-top: 4px;
 }
+.column .zoom_tip {
+  font-style: italic;
+}
 .column .list-group.reorderable .list-group-item {
   padding-left: 30px;
 }
