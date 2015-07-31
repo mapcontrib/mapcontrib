@@ -71,7 +71,7 @@
 <selectPoiColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte">
 <selectPoiColumn_needToZoom[plural($n)] {
   one: "Pour voir ces données, vous devez zoomer une fois.",
-  many: "Pour voir ces données, vous devez {{ $n }} fois."
+  many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
 }>
 
 
