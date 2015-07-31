@@ -23,6 +23,16 @@
 					</div>
 
 					<div class="form-group append-xs-1">
+						<label class="control-label" data-l10n-id="editPoiLayerColumn_marker"></label>
+						<div class="marker-form-widget">
+							<div class="marker-wrapper">
+								<%= marker %>
+							</div>
+							<button type="button" class="btn btn-default edit_marker_btn" data-l10n-id="customize"></button>
+						</div>
+					</div>
+
+					<div class="form-group append-xs-1">
 						<label class="control-label" data-l10n-id="editPoiLayerColumn_visibilityAndEdition"></label>
 						<div class="checkbox">
 							<input type="checkbox" id="layer_visible" value="1" checked>
@@ -31,16 +41,6 @@
 						<div class="checkbox">
 							<input type="checkbox" id="layer_data_editable" value="1" checked>
 							<label for="layer_data_editable" data-l10n-id="editPoiLayerColumn_dataEditable"></label>
-						</div>
-					</div>
-
-					<div class="form-group append-xs-1">
-						<label class="control-label" data-l10n-id="editPoiLayerColumn_marker"></label>
-						<div class="marker-form-widget">
-							<div class="marker-wrapper">
-								<%= marker %>
-							</div>
-							<button type="button" class="btn btn-default edit_marker_btn" data-l10n-id="customize"></button>
 						</div>
 					</div>
 
