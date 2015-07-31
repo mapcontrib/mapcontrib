@@ -742,3 +742,31 @@ body {
 		bottom: 0;
 	}
 }
+
+
+#loading_message {
+
+	position: fixed;
+	z-index: @mapZIndex;
+	bottom: 0;
+	right: 0;
+	width: @toolbarBtnSize;
+	height: @toolbarBtnSize;
+	transform: translate(100%, 0);
+	transition: transform ease-out .2s;
+
+	background: @anthracite;
+	color: #fff;
+
+	&.open {
+
+		transform: translate(0, 0);
+	}
+
+	img {
+
+		position: absolute;
+		top: 13px;
+		left: 13px;
+	}
+}

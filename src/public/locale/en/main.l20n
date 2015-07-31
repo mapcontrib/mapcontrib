@@ -49,6 +49,7 @@
 <cancel "Cancel">
 <customize "Customize">
 <editTheseInformations "Edit these informations">
+<loadingData title:"Some data are being loaded">
 
 
 /* Help */

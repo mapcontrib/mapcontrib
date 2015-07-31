@@ -49,6 +49,7 @@
 <cancel "Annuler">
 <customize "Personnaliser">
 <editTheseInformations "Éditer ces informations">
+<loadingData title:"Certaines données sont en cours de chargement">
 
 
 /* Help */

@@ -1617,3 +1617,28 @@ body.user_logged .edit_poi_data {
     bottom: 0;
   }
 }
+#loading_message {
+  position: fixed;
+  z-index: 1000;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  -webkit-transform: translate(100%, 0);
+      -ms-transform: translate(100%, 0);
+          transform: translate(100%, 0);
+  -webkit-transition: -webkit-transform ease-out 0.2s;
+          transition: transform ease-out 0.2s;
+  background: #3b3f45;
+  color: #fff;
+}
+#loading_message.open {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+#loading_message img {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+}

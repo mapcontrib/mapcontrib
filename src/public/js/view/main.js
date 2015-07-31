@@ -83,6 +83,7 @@ function (
 		ui: {
 
 			'map': '#main_map',
+			'loadingMessage': '#loading_message',
 			'toolbarButtons': '.toolbar .toolbar_btn',
 
 			'controlToolbar': '#control_toolbar',
@@ -170,6 +171,7 @@ function (
 
 			this._seenZoomNotification = false;
 			this._minDataZoom = 0;
+			this._loadingSpool = [];
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
@@ -353,6 +355,16 @@ function (
 				.tooltip('hide');
 			});
 
+			this.ui.loadingMessage.tooltip({
+
+				'container': 'body',
+				'delay': {
+
+					'show': CONST.tooltip.showDelay,
+					'hide': CONST.tooltip.hideDelay
+				}
+			});
+
 
 			this._map = L.map(this.ui.map[0], { 'zoomControl': false });
 
@@ -465,9 +477,27 @@ function (
 			this.updateMinDataZoom();
 		},
 
+		showLoadingProgress: function (time) {
+
+			this._loadingSpool.push(time);
+
+			this.ui.loadingMessage.addClass('open');
+		},
+
+		hideLoadingProgress: function (time) {
+
+			this._loadingSpool = _.without( this._loadingSpool, time );
+
+			if ( this._loadingSpool.length === 0) {
+
+				this.ui.loadingMessage.removeClass('open');
+			}
+		},
+
 		addPoiLayer: function (poiLayerModel) {
 
 			var self = this,
+			time = new Date().getTime(),
 			layerGroup = L.layerGroup();
 
 			layerGroup._poiIds = [];
@@ -478,6 +508,14 @@ function (
 				'minzoom': poiLayerModel.get('minZoom'),
 				'requestPerTile': false,
 				'query': poiLayerModel.get('overpassRequest'),
+				'beforeRequest': function () {
+
+					self.showLoadingProgress( time );
+				},
+				'afterRequest': function () {
+
+					self.hideLoadingProgress( time );
+				},
 				'callback': function(data) {
 
 					var wayBodyNodes = {},
