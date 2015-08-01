@@ -34,6 +34,7 @@ function (
 				'lat': undefined,
 				'lng': undefined,
 			},
+			'owners': [],
 		}
 	});
 });
