@@ -364,10 +364,7 @@ app.get('/theme-:fragment', function (req, res) {
 
 				themeApi.api.findFromOwnerId(req, res, req.session.user._id, function (themes) {
 
-					if ( !req.session.themes ) {
-
-						req.session.themes = [];
-					}
+					req.session.themes = [];
 
 					for (var i in themes) {
 

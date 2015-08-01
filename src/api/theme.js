@@ -283,6 +283,13 @@ api = {
 			return true;
 		}
 
+		if ( !api.isThemeOwner(req, res, req.params._id) ) {
+
+			res.sendStatus(401);
+
+			return true;
+		}
+
 
 		var new_json = req.body,
 		collection = options.database.collection('theme'),
@@ -327,6 +334,13 @@ api = {
 			return true;
 		}
 
+		if ( !api.isThemeOwner(req, res, req.params._id) ) {
+
+			res.sendStatus(401);
+
+			return true;
+		}
+
 
 		var collection = options.database.collection('theme');
 
@@ -346,7 +360,23 @@ api = {
 
 			res.send({});
 		});
-	}
+	},
+
+
+	isThemeOwner: function (req, res, themeId) {
+
+		if ( !req.session.user || !req.session.themes ) {
+
+			return false;
+		}
+
+		if ( req.session.themes.indexOf( themeId ) === -1 ) {
+
+			return false;
+		}
+
+		return true;
+	},
 };
 
 
