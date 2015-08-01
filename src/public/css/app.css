@@ -237,13 +237,13 @@
   color: #3b3f45;
   background: #e4e4e4;
 }
-.column input[type="text"] + .help-block,
+.column input + .help-block,
 .column textarea + .help-block,
 .column figure + figcaption {
   padding: 4px 6px;
   margin-top: 0;
 }
-.column input[type="text"] + .help-block,
+.column input + .help-block,
 .column textarea + .help-block {
   font-size: 12px;
 }
@@ -616,10 +616,10 @@
 .column.orange .help-block {
   color: #fff;
 }
-.column.blue input[type="text"] + .help-block,
-.column.green input[type="text"] + .help-block,
-.column.red input[type="text"] + .help-block,
-.column.orange input[type="text"] + .help-block,
+.column.blue input + .help-block,
+.column.green input + .help-block,
+.column.red input + .help-block,
+.column.orange input + .help-block,
 .column.blue textarea + .help-block,
 .column.green textarea + .help-block,
 .column.red textarea + .help-block,
@@ -656,7 +656,7 @@
 .column.orange header .close_btn {
   color: #fff;
 }
-.column.white input[type="text"] + .help-block,
+.column.white input + .help-block,
 .column.white textarea + .help-block,
 .column.white figure + figcaption {
   background: #eeeeee;

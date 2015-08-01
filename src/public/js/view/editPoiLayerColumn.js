@@ -46,6 +46,7 @@ function (
 
 			'markerWrapper': '.marker-wrapper',
 			'editMarkerButton': '.edit_marker_btn',
+			'currentMapZoom': '.current_map_zoom',
 		},
 
 		events: {
@@ -77,6 +78,8 @@ function (
 		onRender: function () {
 
 			this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
+
+			this.onChangedMapZoom();
 		},
 
 		open: function () {
@@ -89,6 +92,12 @@ function (
 			this.triggerMethod('close');
 		},
 
+		onChangedMapZoom: function () {
+
+			var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
+
+			this.ui.currentMapZoom.html( document.l10n.getSync('editPoiLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
+		},
 		updateMarkerIcon: function () {
 
 			var html = this._radio.reqres.request('poiLayerHtmlIcon', this.model);

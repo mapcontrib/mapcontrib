@@ -122,6 +122,7 @@
 <editPoiLayerColumn_visible "Visible by users">
 <editPoiLayerColumn_dataEditable "Allow to edit data">
 <editPoiLayerColumn_layerZoomLevel "Minimum zoom">
+<editPoiLayerColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
 <editPoiLayerColumn_layerOverpassRequest "Overpass request">
 <editPoiLayerColumn_marker "Marker">
 <editPoiLayerColumn_layerPopupContent "Popup content">
