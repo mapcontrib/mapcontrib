@@ -240,6 +240,10 @@ function (
 
 					self.setPosition( latLng, zoomLevel );
 				},
+				'map:fitBounds': function (latLngBounds) {
+
+					self.fitBounds( latLngBounds );
+				},
 				'editPoiData': function (dataFromOSM, poiLayerModel) {
 
 					self.onCommandEditPoiData( dataFromOSM, poiLayerModel );
@@ -1131,7 +1135,12 @@ function (
 
 		setPosition: function (latLng, zoomLevel) {
 
-			this._map.setView( latLng, zoomLevel );
+			this._map.setView( latLng, zoomLevel, { 'animate': true } );
+		},
+
+		fitBounds: function (latLngBounds) {
+
+			this._map.fitBounds( latLngBounds, { 'animate': true } );
 		},
 
 		onKeyDown: function (e) {
