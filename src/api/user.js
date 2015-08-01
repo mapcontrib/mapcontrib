@@ -222,6 +222,7 @@ api = {
 		req.logout();
 
 		delete req.session.user;
+		delete req.session.themes;
 
 		res.sendStatus(200);
 	},

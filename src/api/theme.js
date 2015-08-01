@@ -237,6 +237,43 @@ api = {
 	},
 
 
+	findFromOwnerId: function (req, res, ownerId, callback) {
+
+		var collection = options.database.collection('theme');
+
+		if ( !ownerId || !options.CONST.pattern.mongoId.test( ownerId ) ) {
+
+			res.sendStatus(400);
+
+			return true;
+		}
+
+		collection.find({
+
+			'owners': ownerId
+		})
+		.toArray(function (err, results) {
+
+			if(err) {
+
+				res.sendStatus(500);
+
+				return true;
+			}
+
+			if (results.length > 0) {
+
+				results.forEach(function (result) {
+
+					result._id = result._id.toString();
+				});
+			}
+
+			callback(results);
+		});
+	},
+
+
 	put: function (req, res) {
 
 		if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
