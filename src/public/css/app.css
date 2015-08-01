@@ -1420,6 +1420,18 @@ fieldset .form-control:active {
   -webkit-animation-direction: normal;
           animation-direction: normal;
 }
+#edit_poi_column .rg_layer_list .list-group-item {
+  padding-right: 70px;
+}
+#edit_poi_column .rg_layer_list .marker {
+  -webkit-transform: scale(0.6);
+      -ms-transform: scale(0.6);
+          transform: scale(0.6);
+  position: absolute;
+  top: -1px;
+  right: 35px;
+  cursor: pointer;
+}
 .rg_layer_list .checkbox {
   padding-right: 40px;
 }

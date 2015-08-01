@@ -88,7 +88,9 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="reorder_icon"><i class="fa fa-bars fa-fw"></i></div>\n' +
 ((__t = ( name )) == null ? '' : __t) +
-'\n<button type="button" class="btn remove_btn"><i class="fa fa-trash"></i></button>\n';
+'\n<button type="button" class="btn remove_btn"><i class="fa fa-trash"></i></button>\n' +
+((__t = ( marker )) == null ? '' : __t) +
+'\n';
 
 }
 return __p
