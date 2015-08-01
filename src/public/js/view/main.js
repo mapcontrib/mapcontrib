@@ -83,7 +83,6 @@ function (
 		ui: {
 
 			'map': '#main_map',
-			'loadingMessage': '#loading_message',
 			'toolbarButtons': '.toolbar .toolbar_btn',
 
 			'controlToolbar': '#control_toolbar',
@@ -171,7 +170,7 @@ function (
 
 			this._seenZoomNotification = false;
 			this._minDataZoom = 0;
-			this._loadingSpool = [];
+			this._poiLoadingSpool = [];
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
@@ -355,16 +354,6 @@ function (
 				.tooltip('hide');
 			});
 
-			this.ui.loadingMessage.tooltip({
-
-				'container': 'body',
-				'delay': {
-
-					'show': CONST.tooltip.showDelay,
-					'hide': CONST.tooltip.hideDelay
-				}
-			});
-
 
 			this._map = L.map(this.ui.map[0], { 'zoomControl': false });
 
@@ -477,27 +466,40 @@ function (
 			this.updateMinDataZoom();
 		},
 
-		showLoadingProgress: function (time) {
+		showPoiLoadingProgress: function (poiLayerModel) {
 
-			this._loadingSpool.push(time);
+			if ( !this._poiLoadingSpool[ poiLayerModel.cid ] ) {
 
-			this.ui.loadingMessage.addClass('open');
+				this._poiLoadingSpool[ poiLayerModel.cid ] = 0;
+			}
+
+			this._poiLoadingSpool[ poiLayerModel.cid ] += 1;
+
+			$('i', this.ui.controlPoiButton).addClass('hide');
+			$('.poi_loading', this.ui.controlPoiButton).removeClass('hide');
 		},
 
-		hideLoadingProgress: function (time) {
+		hidePoiLoadingProgress: function (poiLayerModel) {
 
-			this._loadingSpool = _.without( this._loadingSpool, time );
+			this._poiLoadingSpool[ poiLayerModel.cid ] -= 1;
 
-			if ( this._loadingSpool.length === 0) {
+			var countRequests = 0;
 
-				this.ui.loadingMessage.removeClass('open');
+			for (var cid in this._poiLoadingSpool) {
+
+				countRequests += this._poiLoadingSpool[cid];
+			}
+
+			if ( countRequests === 0) {
+
+				$('.poi_loading', this.ui.controlPoiButton).addClass('hide');
+				$('i', this.ui.controlPoiButton).removeClass('hide');
 			}
 		},
 
 		addPoiLayer: function (poiLayerModel) {
 
 			var self = this,
-			time = new Date().getTime(),
 			layerGroup = L.layerGroup();
 
 			layerGroup._poiIds = [];
@@ -510,11 +512,11 @@ function (
 				'query': poiLayerModel.get('overpassRequest'),
 				'beforeRequest': function () {
 
-					self.showLoadingProgress( time );
+					self.showPoiLoadingProgress( poiLayerModel );
 				},
 				'afterRequest': function () {
 
-					self.hideLoadingProgress( time );
+					self.hidePoiLoadingProgress( poiLayerModel );
 				},
 				'callback': function(data) {
 
