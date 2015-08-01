@@ -260,17 +260,24 @@ function (
 
 		onRender: function () {
 
-			var self = this;
+			var self = this,
+			isLogged = this._radio.reqres.request('var', 'isLogged'),
+			user = this._radio.reqres.request('model', 'user'),
+			owners = this.model.get('owners');
 
 
-			if ( this._radio.reqres.request('var', 'isLogged') ) {
+			if ( isLogged ) {
 
 				this.renderUserButtonLogged();
-				this.showEditTools();
 
-				if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+				if ( owners.indexOf(user.get('_id')) > -1 ) {
 
-					this.ui.editToolbar.toggleClass('open');
+					this.showEditTools();
+
+					if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+
+						this.ui.editToolbar.toggleClass('open');
+					}
 				}
 			}
 			else {

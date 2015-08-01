@@ -17,6 +17,20 @@ api = {
 
 	post: function (req, res) {
 
+		if ( !req.session.user || !req.session.themes ) {
+
+			res.sendStatus(401);
+
+			return true;
+		}
+
+		if ( !req.body.themeId || req.session.themes.indexOf( req.body.themeId ) === -1 ) {
+
+			res.sendStatus(401);
+
+			return true;
+		}
+
 		var collection = options.database.collection('poiLayer'),
 		model = new PoiLayerModel(req.body);
 
@@ -166,6 +180,20 @@ api = {
 			return true;
 		}
 
+		if ( !req.session.user || !req.session.themes ) {
+
+			res.sendStatus(401);
+
+			return true;
+		}
+
+		if ( !req.body.themeId || req.session.themes.indexOf( req.body.themeId ) === -1 ) {
+
+			res.sendStatus(401);
+
+			return true;
+		}
+
 
 		var new_json = req.body,
 		collection = options.database.collection('poiLayer'),
@@ -210,15 +238,21 @@ api = {
 			return true;
 		}
 
+		if ( !req.session.user || !req.session.themes ) {
+
+			res.sendStatus(401);
+
+			return true;
+		}
+
 
 		var collection = options.database.collection('poiLayer');
 
-		collection.remove({
+		collection.findOne({
 
 			'_id': new mongo.ObjectID(req.params._id)
 		},
-		{'safe': true},
-		function (err) {
+		function (err, poiLayer) {
 
 			if(err) {
 
@@ -227,9 +261,38 @@ api = {
 				return true;
 			}
 
-			res.send({});
+			if ( !poiLayer ) {
+
+				res.sendStatus(400);
+
+				return true;
+			}
+
+			if ( !poiLayer.themeId || req.session.themes.indexOf( poiLayer.themeId ) === -1 ) {
+
+				res.sendStatus(401);
+
+				return true;
+			}
+
+			collection.remove({
+
+				'_id': new mongo.ObjectID(req.params._id)
+			},
+			{'safe': true},
+			function (err) {
+
+				if(err) {
+
+					res.sendStatus(500);
+
+					return true;
+				}
+
+				res.send({});
+			});
 		});
-	}
+	},
 };
 
 
