@@ -684,7 +684,7 @@ function (
 
 			this._map.addLayer( this._mapLayers[ poiLayerModel.cid ] );
 
-			this._map.fireEvent('moveend');
+			this._mapLayers[ poiLayerModel.cid ]._overpassLayer.onMoveEnd();
 		},
 
 		hidePoiLayer: function (poiLayerModel) {
