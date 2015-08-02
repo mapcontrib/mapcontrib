@@ -201,6 +201,10 @@ function (
 						return self._map.getZoom();
 					}
 				},
+				'getFragment': function () {
+
+					return self.model.get('fragment');
+				},
 			});
 
 			this._radio.commands.setHandlers({
@@ -345,6 +349,7 @@ function (
 			var self = this,
 			center = this.model.get('center'),
 			zoomLevel = this.model.get('zoomLevel'),
+			hiddenPoiLayers = [],
 			storageMapState = localStorage.getItem('mapState-'+ this.model.get('fragment'));
 
 			if ( storageMapState ) {
@@ -352,6 +357,7 @@ function (
 				storageMapState = JSON.parse( storageMapState );
 				center = storageMapState.center;
 				zoomLevel = storageMapState.zoomLevel;
+				hiddenPoiLayers = storageMapState.hiddenPoiLayers;
 			}
 
 			this.ui.toolbarButtons.tooltip({
@@ -407,7 +413,7 @@ function (
 			});
 
 
-			this.setTileLayer();
+			this.setTileLayer(storageMapState.selectedTile);
 
 			L.control.scale({
 
@@ -420,8 +426,14 @@ function (
 
 			_.each(this._poiLayers.models, function (poiLayerModel) {
 
-				this.addPoiLayer( poiLayerModel );
+				if ( hiddenPoiLayers.indexOf(poiLayerModel.get('_id')) === -1 ) {
 
+					this.addPoiLayer( poiLayerModel );
+				}
+				else {
+
+					this.addPoiLayer( poiLayerModel, true );
+				}
 			}, this);
 
 
@@ -497,6 +509,11 @@ function (
 
 		hidePoiLoadingProgress: function (poiLayerModel) {
 
+			if ( !this._poiLoadingSpool[ poiLayerModel.cid ] ) {
+
+				return;
+			}
+
 			this._poiLoadingSpool[ poiLayerModel.cid ] -= 1;
 
 			var countRequests = 0;
@@ -513,7 +530,7 @@ function (
 			}
 		},
 
-		addPoiLayer: function (poiLayerModel) {
+		addPoiLayer: function (poiLayerModel, hidden) {
 
 			var self = this,
 			layerGroup = L.layerGroup();
@@ -522,12 +539,18 @@ function (
 
 			layerGroup._overpassLayer = new L.OverPassLayer({
 
-				'endpoint': settings.overpassServer,
-				'minzoom': poiLayerModel.get('minZoom'),
+				'endPoint': settings.overpassServer,
+				'minZoom': poiLayerModel.get('minZoom'),
 				'requestPerTile': false,
 				'timeout': settings.overpassTimeout,
+				'retryOnTimeout': true,
 				'query': poiLayerModel.get('overpassRequest'),
 				'beforeRequest': function () {
+
+					if ( hidden ) {
+
+						return false;
+					}
 
 					self.showPoiLoadingProgress( poiLayerModel );
 				},
@@ -984,11 +1007,15 @@ function (
 
 		updateSessionMapState: function () {
 
-			localStorage.setItem('mapState-'+ this.model.get('fragment'), JSON.stringify( {
+			var key = 'mapState-'+ this.model.get('fragment'),
+			oldState = JSON.parse( localStorage.getItem( key ) ),
+			newState = _.extend( oldState, {
 
 				'center': this._map.getCenter(),
 				'zoomLevel': this._map.getZoom(),
-			} ));
+			} );
+
+			localStorage.setItem( key, JSON.stringify( newState ) );
 		},
 
 		onMoveEnd: function (e) {

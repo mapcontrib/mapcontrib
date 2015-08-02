@@ -49,11 +49,23 @@ function (
 
 		initialize: function () {
 
-			var self = this;
-
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this._layerIsVisible = true;
+			var self = this,
+			fragment = this._radio.reqres.request('getFragment'),
+			storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
+
+
+			this._fragment = fragment;
+
+			if ( storage.hiddenPoiLayers && storage.hiddenPoiLayers.indexOf(this.model.get('_id')) > -1 ) {
+
+				this._layerIsVisible = false;
+			}
+			else {
+
+				this._layerIsVisible = true;
+			}
 
 			this._radio.vent.on('map:zoomChanged', this.render, this);
 		},
@@ -92,6 +104,16 @@ function (
 
 			e.stopPropagation();
 
+			var newState,
+			key = 'mapState-'+ this._fragment,
+			oldState = JSON.parse( localStorage.getItem( key ) ),
+			hiddenPoiLayers = oldState.hiddenPoiLayers;
+
+			if ( !hiddenPoiLayers ) {
+
+				hiddenPoiLayers = [];
+			}
+
 			this._layerIsVisible = this._layerIsVisible ? false : true;
 
 			this.ui.visibilityCheckbox[0].checked = this._layerIsVisible;
@@ -99,11 +121,18 @@ function (
 			if ( this._layerIsVisible ) {
 
 				this._radio.commands.execute( 'map:showPoiLayer', this.model );
+
+				hiddenPoiLayers = _.without( hiddenPoiLayers, this.model.get('_id') );
 			}
 			else {
 
 				this._radio.commands.execute( 'map:hidePoiLayer', this.model );
+
+				hiddenPoiLayers = _.union( hiddenPoiLayers, [this.model.get('_id')] );
 			}
+
+			newState = _.extend( oldState, { 'hiddenPoiLayers': hiddenPoiLayers } );
+			localStorage.setItem( key, JSON.stringify( newState ) );
 		},
 
 		onClickLabel: function (e) {
