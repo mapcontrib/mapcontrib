@@ -542,15 +542,11 @@ function (
 				'endPoint': settings.overpassServer,
 				'minZoom': poiLayerModel.get('minZoom'),
 				'requestPerTile': false,
+				'noInitialRequest': hidden,
 				'timeout': settings.overpassTimeout,
 				'retryOnTimeout': true,
 				'query': poiLayerModel.get('overpassRequest'),
 				'beforeRequest': function () {
-
-					if ( hidden ) {
-
-						return false;
-					}
 
 					self.showPoiLoadingProgress( poiLayerModel );
 				},
@@ -674,7 +670,7 @@ function (
 
 			this._mapLayers[ poiLayerModel.cid ] = layerGroup;
 
-			this.showPoiLayer( poiLayerModel );
+			this._map.addLayer( this._mapLayers[ poiLayerModel.cid ] );
 		},
 
 		removePoiLayer: function (poiLayerModel) {
@@ -687,6 +683,8 @@ function (
 		showPoiLayer: function (poiLayerModel) {
 
 			this._map.addLayer( this._mapLayers[ poiLayerModel.cid ] );
+
+			this._map.fireEvent('moveend');
 		},
 
 		hidePoiLayer: function (poiLayerModel) {
