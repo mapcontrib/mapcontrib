@@ -68,11 +68,16 @@ function (
 
 		onOpen: function () {
 
+			var self = this;
+
 			this._isOpened = true;
 
-			this.view.trigger('open');
+			window.requestAnimationFrame(function () {
 
-			this.ui.widget.addClass('open');
+				self.view.trigger('open');
+
+				self.ui.widget.addClass('open');
+			});
 		},
 
 		onClose: function () {
@@ -84,16 +89,19 @@ function (
 
 			$(mapElement).focus();
 
-			this.view.trigger('close');
+			window.requestAnimationFrame(function () {
 
-			this.ui.widget.one('transitionend', function () {
+				self.view.trigger('close');
 
-				if ( self.options.destroyOnClose ) {
+				self.ui.widget.one('transitionend', function () {
 
-					self.view.destroy();
-				}
-			})
-			.removeClass('open');
+					if ( self.options.destroyOnClose ) {
+
+						self.view.destroy();
+					}
+				})
+				.removeClass('open');
+			});
 		},
 
 		onClickClose: function () {

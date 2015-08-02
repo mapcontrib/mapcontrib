@@ -68,13 +68,16 @@ function (
 
 			$(mapElement).focus();
 
-			this.view.trigger('close');
+			window.requestAnimationFrame(function () {
 
-			this.ui.modal.on('transitionend', function () {
+				self.view.trigger('close');
 
-				self.view.destroy();
-			})
-			.removeClass('open');
+				self.ui.modal.on('transitionend', function () {
+
+					self.view.destroy();
+				})
+				.removeClass('open');
+			});
 		},
 
 		onClickModal: function (e) {
