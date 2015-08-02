@@ -357,7 +357,7 @@ function (
 				storageMapState = JSON.parse( storageMapState );
 				center = storageMapState.center;
 				zoomLevel = storageMapState.zoomLevel;
-				hiddenPoiLayers = storageMapState.hiddenPoiLayers;
+				hiddenPoiLayers = storageMapState.hiddenPoiLayers || [];
 			}
 
 			this.ui.toolbarButtons.tooltip({
