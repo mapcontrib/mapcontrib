@@ -58,7 +58,7 @@ function (
 
 			this._fragment = fragment;
 
-			if ( storage.hiddenPoiLayers && storage.hiddenPoiLayers.indexOf(this.model.get('_id')) > -1 ) {
+			if ( storage && storage.hiddenPoiLayers && storage.hiddenPoiLayers.indexOf(this.model.get('_id')) > -1 ) {
 
 				this._layerIsVisible = false;
 			}
@@ -106,13 +106,8 @@ function (
 
 			var newState,
 			key = 'mapState-'+ this._fragment,
-			oldState = JSON.parse( localStorage.getItem( key ) ),
-			hiddenPoiLayers = oldState.hiddenPoiLayers;
-
-			if ( !hiddenPoiLayers ) {
-
-				hiddenPoiLayers = [];
-			}
+			oldState = JSON.parse( localStorage.getItem( key ) ) || {},
+			hiddenPoiLayers = oldState.hiddenPoiLayers || [];
 
 			this._layerIsVisible = this._layerIsVisible ? false : true;
 

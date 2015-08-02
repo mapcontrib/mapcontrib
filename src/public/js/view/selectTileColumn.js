@@ -50,7 +50,7 @@ function (
 
 			var self = this,
 			fragment = this._radio.reqres.request('getFragment'),
-			storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
+			storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) ) || {};
 
 
 			this._fragment = fragment;

@@ -413,7 +413,14 @@ function (
 			});
 
 
-			this.setTileLayer(storageMapState.selectedTile);
+			if ( storageMapState ) {
+
+				this.setTileLayer(storageMapState.selectedTile);
+			}
+			else {
+
+				this.setTileLayer();
+			}
 
 			L.control.scale({
 
@@ -1006,7 +1013,7 @@ function (
 		updateSessionMapState: function () {
 
 			var key = 'mapState-'+ this.model.get('fragment'),
-			oldState = JSON.parse( localStorage.getItem( key ) ),
+			oldState = JSON.parse( localStorage.getItem( key ) ) || {},
 			newState = _.extend( oldState, {
 
 				'center': this._map.getCenter(),
