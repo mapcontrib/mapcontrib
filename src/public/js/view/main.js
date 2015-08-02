@@ -791,7 +791,7 @@ function (
 			var self = this,
 			overpassLayer = this._mapLayers[ poiLayerModel.cid ]._overpassLayer;
 
-			overpassLayer.options.minzoom = poiLayerModel.get('minZoom');
+			overpassLayer.options.minZoom = poiLayerModel.get('minZoom');
 
 			this.updateMinDataZoom();
 		},
