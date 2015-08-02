@@ -3,7 +3,8 @@
 
 
 .column,
-.notification {
+.notification,
+.pop {
 
 	position: fixed;
 	transition: transform ease-out .2s;
@@ -163,7 +164,8 @@
 	&.blue,
 	&.green,
 	&.red,
-	&.orange {
+	&.orange,
+	&.anthracite {
 
 		color: #fff;
 
@@ -380,6 +382,22 @@
 
 	&.white {
 
+		.btn-primary {
+
+			background: @blue;
+			border-color: @blue;
+
+			&:hover,
+			&.focus,
+			&:focus,
+			&.active,
+			&:active {
+
+				background: @lightBlue;
+				border-color: @lightBlue;
+			}
+		}
+
 		input + .help-block,
 		textarea + .help-block,
 		figure + figcaption {
@@ -437,207 +455,266 @@
 	}
 }
 
+/* .modal is reserved by Bootstrap */
+.pop_modal {
 
+	position: fixed;
+	z-index: @modalZIndex;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.6);
+	outline: 0;
+	opacity: 0;
+	transition: opacity ease-out 0.2s;
 
-.column.blue,
-.notification.blue {
+	.pop {
 
-	background: darken(@blue, 5%);
+		z-index: @modalZIndex;
+		top: 50%;
+		left: 50%;
+		width: 500px;
+		max-width: 100%;
+		transition: transform ease-out 0.2s;
+		transform: translate(-50%, -45%);
+		padding: 30px 15px;
 
-	.btn-primary,
-	.nav a {
+		&.no_padding {
 
-		background: @darkBlue;
+			padding: 0;
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+			.nav-tabs {
 
-			background: darken(@darkBlue, 4%);
+				margin-left: -15px;
+				margin-right: -15px;
+			}
+		}
+
+		.nav-tabs {
+
+			background: @lightGray;
+
+			li a {
+
+				color: @anthracite;
+			}
 		}
 	}
 
-	.btn-default,
-	a.list-group-item {
+	&.open {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+		opacity: 1;
 
-			background: @lightBlue;
+		.pop {
+
+			transform: translate(-50%, -50%);
 		}
 	}
+}
 
-	.sticky-footer {
+
+
+
+.column,
+.notification,
+.pop {
+
+	&.blue {
 
 		background: darken(@blue, 5%);
-	}
-}
 
+		.btn-primary,
+		.nav a {
 
-.column.green,
-.notification.green {
+			background: @darkBlue;
 
-	background: darken(@green, 5%);
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
 
-	.btn-primary,
-	.nav a {
+				background: darken(@darkBlue, 4%);
+			}
+		}
 
-		background: @darkGreen;
+		.btn-default,
+		a.list-group-item {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
 
-			background: darken(@darkGreen, 4%);
+				background: @lightBlue;
+			}
+		}
+
+		.sticky-footer {
+
+			background: darken(@blue, 5%);
 		}
 	}
 
-	.btn-default,
-	a.list-group-item {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
-
-			background: @lightGreen;
-		}
-	}
-
-	.sticky-footer {
+	&.green {
 
 		background: darken(@green, 5%);
-	}
-}
 
+		.btn-primary,
+		.nav a {
 
-.column.red,
-.notification.red {
+			background: @darkGreen;
 
-	background: darken(@red, 5%);
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
 
-	.btn-primary,
-	.nav a {
+				background: darken(@darkGreen, 4%);
+			}
+		}
 
-		background: @darkRed;
+		.btn-default,
+		a.list-group-item {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
 
-			background: darken(@darkRed, 4%);
+				background: @lightGreen;
+			}
+		}
+
+		.sticky-footer {
+
+			background: darken(@green, 5%);
 		}
 	}
 
-	.btn-default,
-	a.list-group-item {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
-
-			background: @lightRed;
-		}
-	}
-
-	.sticky-footer {
+	&.red {
 
 		background: darken(@red, 5%);
-	}
-}
 
+		.btn-primary,
+		.nav a {
 
+			background: @darkRed;
 
-.column.orange,
-.notification.orange {
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
 
-	background: darken(@orange, 5%);
+				background: darken(@darkRed, 4%);
+			}
+		}
 
-	.btn-primary,
-	.nav a {
+		.btn-default,
+		a.list-group-item {
 
-		background: @darkOrange;
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+				background: @lightRed;
+			}
+		}
 
-			background: darken(@darkOrange, 4%);
+		.sticky-footer {
+
+			background: darken(@red, 5%);
 		}
 	}
 
-	.btn-default,
-	a.list-group-item {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
 
-			background: @lightOrange;
-		}
-	}
-
-	.sticky-footer {
+	&.orange {
 
 		background: darken(@orange, 5%);
-	}
-}
 
+		.btn-primary,
+		.nav a {
 
+			background: @darkOrange;
 
-.column.anthracite,
-.notification.anthracite {
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
 
-	background: darken(@anthracite, 5%);
-	color: #fff;
+				background: darken(@darkOrange, 4%);
+			}
+		}
 
-	.btn-primary,
-	.nav a {
+		.btn-default,
+		a.list-group-item {
 
-		background: @darkAnthracite;
-		color: #fff;
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
+				background: @lightOrange;
+			}
+		}
 
-			background: darken(@darkAnthracite, 4%);
+		.sticky-footer {
+
+			background: darken(@orange, 5%);
 		}
 	}
 
-	.btn-default,
-	a.list-group-item {
 
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
 
-			background: @lightAnthracite;
-		}
-	}
-
-	.sticky-footer {
+	&.anthracite {
 
 		background: darken(@anthracite, 5%);
+		color: #fff;
+
+		.btn-primary,
+		.nav a {
+
+			background: @darkAnthracite;
+			color: #fff;
+
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: darken(@darkAnthracite, 4%);
+			}
+		}
+
+		.btn-default,
+		a.list-group-item {
+
+			&:hover,
+			&:active,
+			&.active,
+			&:focus,
+			&.focus {
+
+				background: @lightAnthracite;
+			}
+		}
+
+		.sticky-footer {
+
+			background: darken(@anthracite, 5%);
+		}
 	}
 }

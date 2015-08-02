@@ -2,7 +2,7 @@
 
 @import 'variables.less';
 @import 'toolbar.less';
-@import 'column.less';
+@import 'widget.less';
 @import 'marker.less';
 @import 'font/fira.css';
 @import 'font/voltaire.css';
@@ -344,72 +344,13 @@ fieldset .form-control {
 
 
 
-/* .modal is reserved by Bootstrap */
-.pop_modal {
-
-	position: fixed;
-	z-index: @modalZIndex;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: rgba(0, 0, 0, 0.6);
-	outline: 0;
-	opacity: 0;
-	transition: opacity ease-out 0.2s;
-
-	.pop {
-
-		background: #fff;
-		position: fixed;
-		z-index: @modalZIndex;
-		top: 50%;
-		left: 50%;
-		width: 500px;
-		max-width: 100%;
-		transition: transform ease-out 0.2s;
-		transform: translate(-50%, -45%);
-		padding: 30px 15px;
-
-		&.no_padding {
-
-			padding: 0;
-
-			.nav-tabs {
-
-				margin-left: -15px;
-				margin-right: -15px;
-			}
-		}
-
-		.nav-tabs {
-
-			background: @lightGray;
-
-			li a {
-
-				color: @anthracite;
-			}
-		}
-	}
-
-	&.open {
-
-		opacity: 1;
-
-		.pop {
-
-			transform: translate(-50%, -50%);
-		}
-	}
-}
 
 #help {
 
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	z-index: @titleZIndex;
+	z-index: @modalZIndex;
 	width: 0;
 	height: 0;
 	transition: all ease-out .3s;
@@ -618,10 +559,6 @@ body {
 }
 
 
-#help {
-
-	z-index: @modalZIndex;
-}
 
 
 
@@ -678,33 +615,5 @@ body {
 	.results {
 
 		bottom: 0;
-	}
-}
-
-
-#loading_message {
-
-	position: fixed;
-	z-index: @mapZIndex;
-	bottom: 0;
-	right: 0;
-	width: @toolbarBtnSize;
-	height: @toolbarBtnSize;
-	transform: translate(100%, 0);
-	transition: transform ease-out .2s;
-
-	background: @anthracite;
-	color: #fff;
-
-	&.open {
-
-		transform: translate(0, 0);
-	}
-
-	img {
-
-		position: absolute;
-		top: 13px;
-		left: 13px;
 	}
 }
