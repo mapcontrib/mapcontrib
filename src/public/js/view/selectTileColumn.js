@@ -55,9 +55,9 @@ function (
 
 			this._fragment = fragment;
 
-			if ( storage.selectedTile && storage.selectedTile === this.model.get('_id') ) {
+			if ( storage.selectedTile ) {
 
-				this._selectedInStorage = true;
+				this._selectedInStorage = storage.selectedTile;
 			}
 
 			this.listenTo(this.model, 'change:tiles', this.onChangeModelTiles);
@@ -79,7 +79,7 @@ function (
 				thumbnail = thumbnail.replace('{x}', '265');
 				thumbnail = thumbnail.replace('{y}', '181');
 
-				if ( self._selectedInStorage ) {
+				if ( self._selectedInStorage && self._selectedInStorage === id ) {
 
 					checked = ' checked';
 				}
