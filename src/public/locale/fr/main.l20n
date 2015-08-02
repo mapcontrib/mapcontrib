@@ -148,3 +148,13 @@
 
 /* Zoom notification */
 <zoomNotification_content "Zoomez pour voir les données">
+
+
+/* Overpass timeout notification */
+<overpassTimeoutNotification_title "Temps d'attente dépassé">
+<overpassTimeoutNotification_content "Il semblerait que les centres d'intérêts de type « {{ $name }} » mettent beaucoup de temps à être chargés...">
+
+
+/* Overpass error notification */
+<overpassErrorNotification_title "Erreur">
+<overpassErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type « {{ $name }} ».">

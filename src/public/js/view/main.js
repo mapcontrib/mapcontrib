@@ -28,6 +28,8 @@ define([
 	'view/editTileColumn',
 	'view/editPoiDataColumn',
 	'view/zoomNotification',
+	'view/overpassTimeoutNotification',
+	'view/overpassErrorNotification',
 
 	'model/theme',
 	'model/poiLayer',
@@ -62,6 +64,8 @@ function (
 	EditTileColumnView,
 	EditPoiDataColumnView,
 	ZoomNotificationView,
+	OverpassTimeoutNotificationView,
+	OverpassErrorNotificationView,
 
 	ThemeModel,
 	PoiLayerModel,
@@ -84,6 +88,7 @@ function (
 
 			'map': '#main_map',
 			'toolbarButtons': '.toolbar .toolbar_btn',
+			'notificationContainer': '#notification_container',
 
 			'controlToolbar': '#control_toolbar',
 			'zoomInButton': '#control_toolbar .zoom_in_btn',
@@ -621,6 +626,24 @@ function (
 
 						layerGroup.addLayer( marker );
 					});
+				},
+
+				onTimeout: function (xhr) {
+
+					var notification = new OverpassTimeoutNotificationView({ 'model': poiLayerModel });
+
+					self.ui.notificationContainer.append( notification.el );
+
+					notification.open();
+				},
+
+				onError: function (xhr) {
+
+					var notification = new OverpassErrorNotificationView({ 'model': poiLayerModel });
+
+					self.ui.notificationContainer.append( notification.el );
+
+					notification.open();
 				},
 			});
 
