@@ -111,56 +111,63 @@
 #edit_toolbar .tile_btn {
   background: #f8981d;
 }
-.column {
+.column,
+.notification {
   position: fixed;
-  z-index: 1040;
-  top: 0;
-  bottom: 0;
-  width: 300px;
-  max-width: 100%;
   -webkit-transition: -webkit-transform ease-out 0.2s;
           transition: transform ease-out 0.2s;
   background: #fff;
   outline: 0;
 }
-.column.right {
+.column.right,
+.notification.right {
   right: 0;
   -webkit-transform: translate(100%, 0);
       -ms-transform: translate(100%, 0);
           transform: translate(100%, 0);
 }
-.column.left {
+.column.left,
+.notification.left {
   left: 0;
   -webkit-transform: translate(-100%, 0);
       -ms-transform: translate(-100%, 0);
           transform: translate(-100%, 0);
 }
-.column.open {
+.column.open,
+.notification.open {
   -webkit-transform: translate(0, 0);
       -ms-transform: translate(0, 0);
           transform: translate(0, 0);
 }
-.column .marker-form-widget {
+.column .marker-form-widget,
+.notification .marker-form-widget {
   height: 42px;
 }
 .column .marker-form-widget .marker,
-.column .marker-form-widget .btn {
+.notification .marker-form-widget .marker,
+.column .marker-form-widget .btn,
+.notification .marker-form-widget .btn {
   float: left;
 }
-.column .marker-form-widget .marker {
+.column .marker-form-widget .marker,
+.notification .marker-form-widget .marker {
   margin-left: 15px;
   margin-right: 20px;
 }
-.column .marker-form-widget .btn {
+.column .marker-form-widget .btn,
+.notification .marker-form-widget .btn {
   margin-top: 4px;
 }
-.column .zoom_tip {
+.column .zoom_tip,
+.notification .zoom_tip {
   font-style: italic;
 }
-.column .list-group.reorderable .list-group-item {
+.column .list-group.reorderable .list-group-item,
+.notification .list-group.reorderable .list-group-item {
   padding-left: 30px;
 }
-.column .list-group.reorderable .list-group-item .reorder_icon {
+.column .list-group.reorderable .list-group-item .reorder_icon,
+.notification .list-group.reorderable .list-group-item .reorder_icon {
   position: absolute;
   top: 0;
   left: 0;
@@ -171,10 +178,12 @@
   color: #4e535b;
   cursor: move;
 }
-.column .list-group.removeable .list-group-item {
+.column .list-group.removeable .list-group-item,
+.notification .list-group.removeable .list-group-item {
   padding-right: 46px;
 }
-.column .list-group.removeable .list-group-item .remove_btn {
+.column .list-group.removeable .list-group-item .remove_btn,
+.notification .list-group.removeable .list-group-item .remove_btn {
   position: absolute;
   top: 0;
   right: 0;
@@ -184,27 +193,837 @@
   color: #3b3f45;
 }
 .column .list-group.removeable .list-group-item .remove_btn:hover,
+.notification .list-group.removeable .list-group-item .remove_btn:hover,
 .column .list-group.removeable .list-group-item .remove_btn.focus,
+.notification .list-group.removeable .list-group-item .remove_btn.focus,
 .column .list-group.removeable .list-group-item .remove_btn:focus,
+.notification .list-group.removeable .list-group-item .remove_btn:focus,
 .column .list-group.removeable .list-group-item .remove_btn.active,
-.column .list-group.removeable .list-group-item .remove_btn:active {
+.notification .list-group.removeable .list-group-item .remove_btn.active,
+.column .list-group.removeable .list-group-item .remove_btn:active,
+.notification .list-group.removeable .list-group-item .remove_btn:active {
   background: #ffffff;
   color: #3b3f45;
 }
-.column textarea {
+.column textarea,
+.notification textarea {
   resize: vertical;
 }
 .column .control-label + .radio,
-.column .control-label + .checkbox {
+.notification .control-label + .radio,
+.column .control-label + .checkbox,
+.notification .control-label + .checkbox {
   margin-top: 0;
 }
-.column .sticky-footer {
+.column .sticky-footer,
+.notification .sticky-footer {
   position: -webkit-sticky;
   position: sticky;
   bottom: 0;
   padding: 20px 0;
   margin: 0;
   border-top: 1px solid #4e535b;
+}
+.column .close_btn,
+.notification .close_btn {
+  color: #4e535b;
+}
+.column .nav a,
+.notification .nav a {
+  color: #3b3f45;
+  background: #eeeeee;
+}
+.column .nav a:hover,
+.notification .nav a:hover,
+.column .nav a:active,
+.notification .nav a:active,
+.column .nav a.active,
+.notification .nav a.active,
+.column .nav a:focus,
+.notification .nav a:focus,
+.column .nav a.focus,
+.notification .nav a.focus {
+  color: #3b3f45;
+  background: #e4e4e4;
+}
+.column input + .help-block,
+.notification input + .help-block,
+.column textarea + .help-block,
+.notification textarea + .help-block,
+.column figure + figcaption,
+.notification figure + figcaption {
+  padding: 4px 6px;
+  margin-top: 0;
+}
+.column input + .help-block,
+.notification input + .help-block,
+.column textarea + .help-block,
+.notification textarea + .help-block {
+  font-size: 12px;
+}
+.column.blue,
+.notification.blue,
+.column.green,
+.notification.green,
+.column.red,
+.notification.red,
+.column.orange,
+.notification.orange {
+  color: #fff;
+}
+.column.blue input[type="radio"] + label::before,
+.notification.blue input[type="radio"] + label::before,
+.column.green input[type="radio"] + label::before,
+.notification.green input[type="radio"] + label::before,
+.column.red input[type="radio"] + label::before,
+.notification.red input[type="radio"] + label::before,
+.column.orange input[type="radio"] + label::before,
+.notification.orange input[type="radio"] + label::before {
+  background-color: transparent;
+  border-color: #fff;
+}
+.column.blue input[type="radio"] + label::after,
+.notification.blue input[type="radio"] + label::after,
+.column.green input[type="radio"] + label::after,
+.notification.green input[type="radio"] + label::after,
+.column.red input[type="radio"] + label::after,
+.notification.red input[type="radio"] + label::after,
+.column.orange input[type="radio"] + label::after,
+.notification.orange input[type="radio"] + label::after {
+  background-color: transparent;
+}
+.column.blue input[type="radio"]:checked + label::before,
+.notification.blue input[type="radio"]:checked + label::before,
+.column.green input[type="radio"]:checked + label::before,
+.notification.green input[type="radio"]:checked + label::before,
+.column.red input[type="radio"]:checked + label::before,
+.notification.red input[type="radio"]:checked + label::before,
+.column.orange input[type="radio"]:checked + label::before,
+.notification.orange input[type="radio"]:checked + label::before {
+  border-color: #fff;
+}
+.column.blue input[type="radio"]:checked + label::after,
+.notification.blue input[type="radio"]:checked + label::after,
+.column.green input[type="radio"]:checked + label::after,
+.notification.green input[type="radio"]:checked + label::after,
+.column.red input[type="radio"]:checked + label::after,
+.notification.red input[type="radio"]:checked + label::after,
+.column.orange input[type="radio"]:checked + label::after,
+.notification.orange input[type="radio"]:checked + label::after {
+  background-color: #fff;
+}
+.column.blue input[type="checkbox"] + label::before,
+.notification.blue input[type="checkbox"] + label::before,
+.column.green input[type="checkbox"] + label::before,
+.notification.green input[type="checkbox"] + label::before,
+.column.red input[type="checkbox"] + label::before,
+.notification.red input[type="checkbox"] + label::before,
+.column.orange input[type="checkbox"] + label::before,
+.notification.orange input[type="checkbox"] + label::before {
+  background-color: transparent;
+  border-color: #fff;
+}
+.column.blue input[type="checkbox"] + label::after,
+.notification.blue input[type="checkbox"] + label::after,
+.column.green input[type="checkbox"] + label::after,
+.notification.green input[type="checkbox"] + label::after,
+.column.red input[type="checkbox"] + label::after,
+.notification.red input[type="checkbox"] + label::after,
+.column.orange input[type="checkbox"] + label::after,
+.notification.orange input[type="checkbox"] + label::after {
+  color: #fff;
+}
+.column.blue a,
+.notification.blue a,
+.column.green a,
+.notification.green a,
+.column.red a,
+.notification.red a,
+.column.orange a,
+.notification.orange a {
+  color: #fff;
+  text-decoration: underline;
+}
+.column.blue a:hover,
+.notification.blue a:hover,
+.column.green a:hover,
+.notification.green a:hover,
+.column.red a:hover,
+.notification.red a:hover,
+.column.orange a:hover,
+.notification.orange a:hover,
+.column.blue a:active,
+.notification.blue a:active,
+.column.green a:active,
+.notification.green a:active,
+.column.red a:active,
+.notification.red a:active,
+.column.orange a:active,
+.notification.orange a:active,
+.column.blue a.active,
+.notification.blue a.active,
+.column.green a.active,
+.notification.green a.active,
+.column.red a.active,
+.notification.red a.active,
+.column.orange a.active,
+.notification.orange a.active,
+.column.blue a:focus,
+.notification.blue a:focus,
+.column.green a:focus,
+.notification.green a:focus,
+.column.red a:focus,
+.notification.red a:focus,
+.column.orange a:focus,
+.notification.orange a:focus,
+.column.blue a.focus,
+.notification.blue a.focus,
+.column.green a.focus,
+.notification.green a.focus,
+.column.red a.focus,
+.notification.red a.focus,
+.column.orange a.focus,
+.notification.orange a.focus,
+.column.blue a.btn,
+.notification.blue a.btn,
+.column.green a.btn,
+.notification.green a.btn,
+.column.red a.btn,
+.notification.red a.btn,
+.column.orange a.btn,
+.notification.orange a.btn {
+  color: #fff;
+  text-decoration: none;
+}
+.column.blue .dropdown-menu a,
+.notification.blue .dropdown-menu a,
+.column.green .dropdown-menu a,
+.notification.green .dropdown-menu a,
+.column.red .dropdown-menu a,
+.notification.red .dropdown-menu a,
+.column.orange .dropdown-menu a,
+.notification.orange .dropdown-menu a {
+  color: #3b3f45;
+}
+.column.blue .nav a,
+.notification.blue .nav a,
+.column.green .nav a,
+.notification.green .nav a,
+.column.red .nav a,
+.notification.red .nav a,
+.column.orange .nav a,
+.notification.orange .nav a,
+.column.blue a.list-group-item,
+.notification.blue a.list-group-item,
+.column.green a.list-group-item,
+.notification.green a.list-group-item,
+.column.red a.list-group-item,
+.notification.red a.list-group-item,
+.column.orange a.list-group-item,
+.notification.orange a.list-group-item,
+.column.blue .dropdown-menu a,
+.notification.blue .dropdown-menu a,
+.column.green .dropdown-menu a,
+.notification.green .dropdown-menu a,
+.column.red .dropdown-menu a,
+.notification.red .dropdown-menu a,
+.column.orange .dropdown-menu a,
+.notification.orange .dropdown-menu a {
+  text-decoration: none;
+}
+.column.blue input,
+.notification.blue input,
+.column.green input,
+.notification.green input,
+.column.red input,
+.notification.red input,
+.column.orange input,
+.notification.orange input,
+.column.blue select,
+.notification.blue select,
+.column.green select,
+.notification.green select,
+.column.red select,
+.notification.red select,
+.column.orange select,
+.notification.orange select,
+.column.blue textarea,
+.notification.blue textarea,
+.column.green textarea,
+.notification.green textarea,
+.column.red textarea,
+.notification.red textarea,
+.column.orange textarea,
+.notification.orange textarea,
+.column.blue .form-control,
+.notification.blue .form-control,
+.column.green .form-control,
+.notification.green .form-control,
+.column.red .form-control,
+.notification.red .form-control,
+.column.orange .form-control,
+.notification.orange .form-control,
+.column.blue fieldset .form-control,
+.notification.blue fieldset .form-control,
+.column.green fieldset .form-control,
+.notification.green fieldset .form-control,
+.column.red fieldset .form-control,
+.notification.red fieldset .form-control,
+.column.orange fieldset .form-control,
+.notification.orange fieldset .form-control {
+  border-color: transparent;
+}
+.column.blue input:hover,
+.notification.blue input:hover,
+.column.green input:hover,
+.notification.green input:hover,
+.column.red input:hover,
+.notification.red input:hover,
+.column.orange input:hover,
+.notification.orange input:hover,
+.column.blue select:hover,
+.notification.blue select:hover,
+.column.green select:hover,
+.notification.green select:hover,
+.column.red select:hover,
+.notification.red select:hover,
+.column.orange select:hover,
+.notification.orange select:hover,
+.column.blue textarea:hover,
+.notification.blue textarea:hover,
+.column.green textarea:hover,
+.notification.green textarea:hover,
+.column.red textarea:hover,
+.notification.red textarea:hover,
+.column.orange textarea:hover,
+.notification.orange textarea:hover,
+.column.blue .form-control:hover,
+.notification.blue .form-control:hover,
+.column.green .form-control:hover,
+.notification.green .form-control:hover,
+.column.red .form-control:hover,
+.notification.red .form-control:hover,
+.column.orange .form-control:hover,
+.notification.orange .form-control:hover,
+.column.blue fieldset .form-control:hover,
+.notification.blue fieldset .form-control:hover,
+.column.green fieldset .form-control:hover,
+.notification.green fieldset .form-control:hover,
+.column.red fieldset .form-control:hover,
+.notification.red fieldset .form-control:hover,
+.column.orange fieldset .form-control:hover,
+.notification.orange fieldset .form-control:hover,
+.column.blue input.focus,
+.notification.blue input.focus,
+.column.green input.focus,
+.notification.green input.focus,
+.column.red input.focus,
+.notification.red input.focus,
+.column.orange input.focus,
+.notification.orange input.focus,
+.column.blue select.focus,
+.notification.blue select.focus,
+.column.green select.focus,
+.notification.green select.focus,
+.column.red select.focus,
+.notification.red select.focus,
+.column.orange select.focus,
+.notification.orange select.focus,
+.column.blue textarea.focus,
+.notification.blue textarea.focus,
+.column.green textarea.focus,
+.notification.green textarea.focus,
+.column.red textarea.focus,
+.notification.red textarea.focus,
+.column.orange textarea.focus,
+.notification.orange textarea.focus,
+.column.blue .form-control.focus,
+.notification.blue .form-control.focus,
+.column.green .form-control.focus,
+.notification.green .form-control.focus,
+.column.red .form-control.focus,
+.notification.red .form-control.focus,
+.column.orange .form-control.focus,
+.notification.orange .form-control.focus,
+.column.blue fieldset .form-control.focus,
+.notification.blue fieldset .form-control.focus,
+.column.green fieldset .form-control.focus,
+.notification.green fieldset .form-control.focus,
+.column.red fieldset .form-control.focus,
+.notification.red fieldset .form-control.focus,
+.column.orange fieldset .form-control.focus,
+.notification.orange fieldset .form-control.focus,
+.column.blue input:focus,
+.notification.blue input:focus,
+.column.green input:focus,
+.notification.green input:focus,
+.column.red input:focus,
+.notification.red input:focus,
+.column.orange input:focus,
+.notification.orange input:focus,
+.column.blue select:focus,
+.notification.blue select:focus,
+.column.green select:focus,
+.notification.green select:focus,
+.column.red select:focus,
+.notification.red select:focus,
+.column.orange select:focus,
+.notification.orange select:focus,
+.column.blue textarea:focus,
+.notification.blue textarea:focus,
+.column.green textarea:focus,
+.notification.green textarea:focus,
+.column.red textarea:focus,
+.notification.red textarea:focus,
+.column.orange textarea:focus,
+.notification.orange textarea:focus,
+.column.blue .form-control:focus,
+.notification.blue .form-control:focus,
+.column.green .form-control:focus,
+.notification.green .form-control:focus,
+.column.red .form-control:focus,
+.notification.red .form-control:focus,
+.column.orange .form-control:focus,
+.notification.orange .form-control:focus,
+.column.blue fieldset .form-control:focus,
+.notification.blue fieldset .form-control:focus,
+.column.green fieldset .form-control:focus,
+.notification.green fieldset .form-control:focus,
+.column.red fieldset .form-control:focus,
+.notification.red fieldset .form-control:focus,
+.column.orange fieldset .form-control:focus,
+.notification.orange fieldset .form-control:focus,
+.column.blue input.active,
+.notification.blue input.active,
+.column.green input.active,
+.notification.green input.active,
+.column.red input.active,
+.notification.red input.active,
+.column.orange input.active,
+.notification.orange input.active,
+.column.blue select.active,
+.notification.blue select.active,
+.column.green select.active,
+.notification.green select.active,
+.column.red select.active,
+.notification.red select.active,
+.column.orange select.active,
+.notification.orange select.active,
+.column.blue textarea.active,
+.notification.blue textarea.active,
+.column.green textarea.active,
+.notification.green textarea.active,
+.column.red textarea.active,
+.notification.red textarea.active,
+.column.orange textarea.active,
+.notification.orange textarea.active,
+.column.blue .form-control.active,
+.notification.blue .form-control.active,
+.column.green .form-control.active,
+.notification.green .form-control.active,
+.column.red .form-control.active,
+.notification.red .form-control.active,
+.column.orange .form-control.active,
+.notification.orange .form-control.active,
+.column.blue fieldset .form-control.active,
+.notification.blue fieldset .form-control.active,
+.column.green fieldset .form-control.active,
+.notification.green fieldset .form-control.active,
+.column.red fieldset .form-control.active,
+.notification.red fieldset .form-control.active,
+.column.orange fieldset .form-control.active,
+.notification.orange fieldset .form-control.active,
+.column.blue input:active,
+.notification.blue input:active,
+.column.green input:active,
+.notification.green input:active,
+.column.red input:active,
+.notification.red input:active,
+.column.orange input:active,
+.notification.orange input:active,
+.column.blue select:active,
+.notification.blue select:active,
+.column.green select:active,
+.notification.green select:active,
+.column.red select:active,
+.notification.red select:active,
+.column.orange select:active,
+.notification.orange select:active,
+.column.blue textarea:active,
+.notification.blue textarea:active,
+.column.green textarea:active,
+.notification.green textarea:active,
+.column.red textarea:active,
+.notification.red textarea:active,
+.column.orange textarea:active,
+.notification.orange textarea:active,
+.column.blue .form-control:active,
+.notification.blue .form-control:active,
+.column.green .form-control:active,
+.notification.green .form-control:active,
+.column.red .form-control:active,
+.notification.red .form-control:active,
+.column.orange .form-control:active,
+.notification.orange .form-control:active,
+.column.blue fieldset .form-control:active,
+.notification.blue fieldset .form-control:active,
+.column.green fieldset .form-control:active,
+.notification.green fieldset .form-control:active,
+.column.red fieldset .form-control:active,
+.notification.red fieldset .form-control:active,
+.column.orange fieldset .form-control:active,
+.notification.orange fieldset .form-control:active {
+  border-color: transparent;
+}
+.column.blue input,
+.notification.blue input,
+.column.green input,
+.notification.green input,
+.column.red input,
+.notification.red input,
+.column.orange input,
+.notification.orange input,
+.column.blue .btn-primary,
+.notification.blue .btn-primary,
+.column.green .btn-primary,
+.notification.green .btn-primary,
+.column.red .btn-primary,
+.notification.red .btn-primary,
+.column.orange .btn-primary,
+.notification.orange .btn-primary {
+  border-color: transparent;
+}
+.column.blue .btn-primary,
+.notification.blue .btn-primary,
+.column.green .btn-primary,
+.notification.green .btn-primary,
+.column.red .btn-primary,
+.notification.red .btn-primary,
+.column.orange .btn-primary,
+.notification.orange .btn-primary,
+.column.blue .btn-link,
+.notification.blue .btn-link,
+.column.green .btn-link,
+.notification.green .btn-link,
+.column.red .btn-link,
+.notification.red .btn-link,
+.column.orange .btn-link,
+.notification.orange .btn-link,
+.column.blue .nav a,
+.notification.blue .nav a,
+.column.green .nav a,
+.notification.green .nav a,
+.column.red .nav a,
+.notification.red .nav a,
+.column.orange .nav a,
+.notification.orange .nav a {
+  color: #fff;
+}
+.column.blue .list-group,
+.notification.blue .list-group,
+.column.green .list-group,
+.notification.green .list-group,
+.column.red .list-group,
+.notification.red .list-group,
+.column.orange .list-group,
+.notification.orange .list-group {
+  background: inherit;
+}
+.column.blue .btn-default,
+.notification.blue .btn-default,
+.column.green .btn-default,
+.notification.green .btn-default,
+.column.red .btn-default,
+.notification.red .btn-default,
+.column.orange .btn-default,
+.notification.orange .btn-default,
+.column.blue .list-group-item,
+.notification.blue .list-group-item,
+.column.green .list-group-item,
+.notification.green .list-group-item,
+.column.red .list-group-item,
+.notification.red .list-group-item,
+.column.orange .list-group-item,
+.notification.orange .list-group-item {
+  background: inherit;
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+.column.blue .btn-default:hover,
+.notification.blue .btn-default:hover,
+.column.green .btn-default:hover,
+.notification.green .btn-default:hover,
+.column.red .btn-default:hover,
+.notification.red .btn-default:hover,
+.column.orange .btn-default:hover,
+.notification.orange .btn-default:hover,
+.column.blue .list-group-item:hover,
+.notification.blue .list-group-item:hover,
+.column.green .list-group-item:hover,
+.notification.green .list-group-item:hover,
+.column.red .list-group-item:hover,
+.notification.red .list-group-item:hover,
+.column.orange .list-group-item:hover,
+.notification.orange .list-group-item:hover,
+.column.blue .btn-default.focus,
+.notification.blue .btn-default.focus,
+.column.green .btn-default.focus,
+.notification.green .btn-default.focus,
+.column.red .btn-default.focus,
+.notification.red .btn-default.focus,
+.column.orange .btn-default.focus,
+.notification.orange .btn-default.focus,
+.column.blue .list-group-item.focus,
+.notification.blue .list-group-item.focus,
+.column.green .list-group-item.focus,
+.notification.green .list-group-item.focus,
+.column.red .list-group-item.focus,
+.notification.red .list-group-item.focus,
+.column.orange .list-group-item.focus,
+.notification.orange .list-group-item.focus,
+.column.blue .btn-default:focus,
+.notification.blue .btn-default:focus,
+.column.green .btn-default:focus,
+.notification.green .btn-default:focus,
+.column.red .btn-default:focus,
+.notification.red .btn-default:focus,
+.column.orange .btn-default:focus,
+.notification.orange .btn-default:focus,
+.column.blue .list-group-item:focus,
+.notification.blue .list-group-item:focus,
+.column.green .list-group-item:focus,
+.notification.green .list-group-item:focus,
+.column.red .list-group-item:focus,
+.notification.red .list-group-item:focus,
+.column.orange .list-group-item:focus,
+.notification.orange .list-group-item:focus,
+.column.blue .btn-default.active,
+.notification.blue .btn-default.active,
+.column.green .btn-default.active,
+.notification.green .btn-default.active,
+.column.red .btn-default.active,
+.notification.red .btn-default.active,
+.column.orange .btn-default.active,
+.notification.orange .btn-default.active,
+.column.blue .list-group-item.active,
+.notification.blue .list-group-item.active,
+.column.green .list-group-item.active,
+.notification.green .list-group-item.active,
+.column.red .list-group-item.active,
+.notification.red .list-group-item.active,
+.column.orange .list-group-item.active,
+.notification.orange .list-group-item.active,
+.column.blue .btn-default:active,
+.notification.blue .btn-default:active,
+.column.green .btn-default:active,
+.notification.green .btn-default:active,
+.column.red .btn-default:active,
+.notification.red .btn-default:active,
+.column.orange .btn-default:active,
+.notification.orange .btn-default:active,
+.column.blue .list-group-item:active,
+.notification.blue .list-group-item:active,
+.column.green .list-group-item:active,
+.notification.green .list-group-item:active,
+.column.red .list-group-item:active,
+.notification.red .list-group-item:active,
+.column.orange .list-group-item:active,
+.notification.orange .list-group-item:active {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+.column.blue .list-group-item,
+.notification.blue .list-group-item,
+.column.green .list-group-item,
+.notification.green .list-group-item,
+.column.red .list-group-item,
+.notification.red .list-group-item,
+.column.orange .list-group-item,
+.notification.orange .list-group-item {
+  border-top-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+.column.blue .list-group-item:first-child,
+.notification.blue .list-group-item:first-child,
+.column.green .list-group-item:first-child,
+.notification.green .list-group-item:first-child,
+.column.red .list-group-item:first-child,
+.notification.red .list-group-item:first-child,
+.column.orange .list-group-item:first-child,
+.notification.orange .list-group-item:first-child {
+  border-top-color: rgba(255, 255, 255, 0.4);
+}
+.column.blue .list-group-item:last-child,
+.notification.blue .list-group-item:last-child,
+.column.green .list-group-item:last-child,
+.notification.green .list-group-item:last-child,
+.column.red .list-group-item:last-child,
+.notification.red .list-group-item:last-child,
+.column.orange .list-group-item:last-child,
+.notification.orange .list-group-item:last-child {
+  border-bottom-color: rgba(255, 255, 255, 0.4);
+}
+.column.blue .list-group.reorderable .list-group-item .reorder_icon,
+.notification.blue .list-group.reorderable .list-group-item .reorder_icon,
+.column.green .list-group.reorderable .list-group-item .reorder_icon,
+.notification.green .list-group.reorderable .list-group-item .reorder_icon,
+.column.red .list-group.reorderable .list-group-item .reorder_icon,
+.notification.red .list-group.reorderable .list-group-item .reorder_icon,
+.column.orange .list-group.reorderable .list-group-item .reorder_icon,
+.notification.orange .list-group.reorderable .list-group-item .reorder_icon {
+  color: rgba(255, 255, 255, 0.4);
+}
+.column.blue .list-group.removeable .list-group-item .remove_btn,
+.notification.blue .list-group.removeable .list-group-item .remove_btn,
+.column.green .list-group.removeable .list-group-item .remove_btn,
+.notification.green .list-group.removeable .list-group-item .remove_btn,
+.column.red .list-group.removeable .list-group-item .remove_btn,
+.notification.red .list-group.removeable .list-group-item .remove_btn,
+.column.orange .list-group.removeable .list-group-item .remove_btn,
+.notification.orange .list-group.removeable .list-group-item .remove_btn {
+  background: transparent;
+  border-color: transparent;
+  color: #fff;
+}
+.column.blue .list-group.removeable .list-group-item .remove_btn:hover,
+.notification.blue .list-group.removeable .list-group-item .remove_btn:hover,
+.column.green .list-group.removeable .list-group-item .remove_btn:hover,
+.notification.green .list-group.removeable .list-group-item .remove_btn:hover,
+.column.red .list-group.removeable .list-group-item .remove_btn:hover,
+.notification.red .list-group.removeable .list-group-item .remove_btn:hover,
+.column.orange .list-group.removeable .list-group-item .remove_btn:hover,
+.notification.orange .list-group.removeable .list-group-item .remove_btn:hover,
+.column.blue .list-group.removeable .list-group-item .remove_btn.focus,
+.notification.blue .list-group.removeable .list-group-item .remove_btn.focus,
+.column.green .list-group.removeable .list-group-item .remove_btn.focus,
+.notification.green .list-group.removeable .list-group-item .remove_btn.focus,
+.column.red .list-group.removeable .list-group-item .remove_btn.focus,
+.notification.red .list-group.removeable .list-group-item .remove_btn.focus,
+.column.orange .list-group.removeable .list-group-item .remove_btn.focus,
+.notification.orange .list-group.removeable .list-group-item .remove_btn.focus,
+.column.blue .list-group.removeable .list-group-item .remove_btn:focus,
+.notification.blue .list-group.removeable .list-group-item .remove_btn:focus,
+.column.green .list-group.removeable .list-group-item .remove_btn:focus,
+.notification.green .list-group.removeable .list-group-item .remove_btn:focus,
+.column.red .list-group.removeable .list-group-item .remove_btn:focus,
+.notification.red .list-group.removeable .list-group-item .remove_btn:focus,
+.column.orange .list-group.removeable .list-group-item .remove_btn:focus,
+.notification.orange .list-group.removeable .list-group-item .remove_btn:focus,
+.column.blue .list-group.removeable .list-group-item .remove_btn.active,
+.notification.blue .list-group.removeable .list-group-item .remove_btn.active,
+.column.green .list-group.removeable .list-group-item .remove_btn.active,
+.notification.green .list-group.removeable .list-group-item .remove_btn.active,
+.column.red .list-group.removeable .list-group-item .remove_btn.active,
+.notification.red .list-group.removeable .list-group-item .remove_btn.active,
+.column.orange .list-group.removeable .list-group-item .remove_btn.active,
+.notification.orange .list-group.removeable .list-group-item .remove_btn.active,
+.column.blue .list-group.removeable .list-group-item .remove_btn:active,
+.notification.blue .list-group.removeable .list-group-item .remove_btn:active,
+.column.green .list-group.removeable .list-group-item .remove_btn:active,
+.notification.green .list-group.removeable .list-group-item .remove_btn:active,
+.column.red .list-group.removeable .list-group-item .remove_btn:active,
+.notification.red .list-group.removeable .list-group-item .remove_btn:active,
+.column.orange .list-group.removeable .list-group-item .remove_btn:active,
+.notification.orange .list-group.removeable .list-group-item .remove_btn:active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+.column.blue .help-block,
+.notification.blue .help-block,
+.column.green .help-block,
+.notification.green .help-block,
+.column.red .help-block,
+.notification.red .help-block,
+.column.orange .help-block,
+.notification.orange .help-block {
+  color: #fff;
+}
+.column.blue input + .help-block,
+.notification.blue input + .help-block,
+.column.green input + .help-block,
+.notification.green input + .help-block,
+.column.red input + .help-block,
+.notification.red input + .help-block,
+.column.orange input + .help-block,
+.notification.orange input + .help-block,
+.column.blue textarea + .help-block,
+.notification.blue textarea + .help-block,
+.column.green textarea + .help-block,
+.notification.green textarea + .help-block,
+.column.red textarea + .help-block,
+.notification.red textarea + .help-block,
+.column.orange textarea + .help-block,
+.notification.orange textarea + .help-block,
+.column.blue figure + figcaption,
+.notification.blue figure + figcaption,
+.column.green figure + figcaption,
+.notification.green figure + figcaption,
+.column.red figure + figcaption,
+.notification.red figure + figcaption,
+.column.orange figure + figcaption,
+.notification.orange figure + figcaption {
+  background: rgba(255, 255, 255, 0.15);
+}
+.column.blue .table-bordered,
+.notification.blue .table-bordered,
+.column.green .table-bordered,
+.notification.green .table-bordered,
+.column.red .table-bordered,
+.notification.red .table-bordered,
+.column.orange .table-bordered,
+.notification.orange .table-bordered,
+.column.blue .table-bordered th,
+.notification.blue .table-bordered th,
+.column.green .table-bordered th,
+.notification.green .table-bordered th,
+.column.red .table-bordered th,
+.notification.red .table-bordered th,
+.column.orange .table-bordered th,
+.notification.orange .table-bordered th,
+.column.blue .table-bordered td,
+.notification.blue .table-bordered td,
+.column.green .table-bordered td,
+.notification.green .table-bordered td,
+.column.red .table-bordered td,
+.notification.red .table-bordered td,
+.column.orange .table-bordered td,
+.notification.orange .table-bordered td {
+  border-color: #fff;
+}
+.column.blue .sticky-footer,
+.notification.blue .sticky-footer,
+.column.green .sticky-footer,
+.notification.green .sticky-footer,
+.column.red .sticky-footer,
+.notification.red .sticky-footer,
+.column.orange .sticky-footer,
+.notification.orange .sticky-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
+.column.blue .close_btn,
+.notification.blue .close_btn,
+.column.green .close_btn,
+.notification.green .close_btn,
+.column.red .close_btn,
+.notification.red .close_btn,
+.column.orange .close_btn,
+.notification.orange .close_btn {
+  color: #fff;
+}
+.column.white input + .help-block,
+.notification.white input + .help-block,
+.column.white textarea + .help-block,
+.notification.white textarea + .help-block,
+.column.white figure + figcaption,
+.notification.white figure + figcaption {
+  background: #eeeeee;
+}
+.column {
+  z-index: 1040;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  max-width: 100%;
 }
 .column header {
   height: 50px;
@@ -214,9 +1033,6 @@
   line-height: 50px;
   margin: 0 0 0 10px;
 }
-.column header .close_btn {
-  color: #4e535b;
-}
 .column .content {
   position: absolute;
   top: 70px;
@@ -225,577 +1041,308 @@
   right: 0;
   overflow: auto;
 }
-.column .nav a {
-  color: #3b3f45;
-  background: #eeeeee;
+.notification {
+  z-index: 1020;
+  top: 0;
+  bottom: 0;
+  width: 500px;
+  max-width: 100%;
+  padding-bottom: 10px;
 }
-.column .nav a:hover,
-.column .nav a:active,
-.column .nav a.active,
-.column .nav a:focus,
-.column .nav a.focus {
-  color: #3b3f45;
-  background: #e4e4e4;
-}
-.column input + .help-block,
-.column textarea + .help-block,
-.column figure + figcaption {
-  padding: 4px 6px;
-  margin-top: 0;
-}
-.column input + .help-block,
-.column textarea + .help-block {
-  font-size: 12px;
+.notification p {
+  text-align: justify;
 }
 .column.blue,
-.column.green,
-.column.red,
-.column.orange {
-  color: #fff;
-}
-.column.blue input[type="radio"] + label::before,
-.column.green input[type="radio"] + label::before,
-.column.red input[type="radio"] + label::before,
-.column.orange input[type="radio"] + label::before {
-  background-color: transparent;
-  border-color: #fff;
-}
-.column.blue input[type="radio"] + label::after,
-.column.green input[type="radio"] + label::after,
-.column.red input[type="radio"] + label::after,
-.column.orange input[type="radio"] + label::after {
-  background-color: transparent;
-}
-.column.blue input[type="radio"]:checked + label::before,
-.column.green input[type="radio"]:checked + label::before,
-.column.red input[type="radio"]:checked + label::before,
-.column.orange input[type="radio"]:checked + label::before {
-  border-color: #fff;
-}
-.column.blue input[type="radio"]:checked + label::after,
-.column.green input[type="radio"]:checked + label::after,
-.column.red input[type="radio"]:checked + label::after,
-.column.orange input[type="radio"]:checked + label::after {
-  background-color: #fff;
-}
-.column.blue input[type="checkbox"] + label::before,
-.column.green input[type="checkbox"] + label::before,
-.column.red input[type="checkbox"] + label::before,
-.column.orange input[type="checkbox"] + label::before {
-  background-color: transparent;
-  border-color: #fff;
-}
-.column.blue input[type="checkbox"] + label::after,
-.column.green input[type="checkbox"] + label::after,
-.column.red input[type="checkbox"] + label::after,
-.column.orange input[type="checkbox"] + label::after {
-  color: #fff;
-}
-.column.blue a,
-.column.green a,
-.column.red a,
-.column.orange a {
-  color: #fff;
-  text-decoration: underline;
-}
-.column.blue a:hover,
-.column.green a:hover,
-.column.red a:hover,
-.column.orange a:hover,
-.column.blue a:active,
-.column.green a:active,
-.column.red a:active,
-.column.orange a:active,
-.column.blue a.active,
-.column.green a.active,
-.column.red a.active,
-.column.orange a.active,
-.column.blue a:focus,
-.column.green a:focus,
-.column.red a:focus,
-.column.orange a:focus,
-.column.blue a.focus,
-.column.green a.focus,
-.column.red a.focus,
-.column.orange a.focus,
-.column.blue a.btn,
-.column.green a.btn,
-.column.red a.btn,
-.column.orange a.btn {
-  color: #fff;
-  text-decoration: none;
-}
-.column.blue .dropdown-menu a,
-.column.green .dropdown-menu a,
-.column.red .dropdown-menu a,
-.column.orange .dropdown-menu a {
-  color: #3b3f45;
-}
-.column.blue .nav a,
-.column.green .nav a,
-.column.red .nav a,
-.column.orange .nav a,
-.column.blue a.list-group-item,
-.column.green a.list-group-item,
-.column.red a.list-group-item,
-.column.orange a.list-group-item,
-.column.blue .dropdown-menu a,
-.column.green .dropdown-menu a,
-.column.red .dropdown-menu a,
-.column.orange .dropdown-menu a {
-  text-decoration: none;
-}
-.column.blue input,
-.column.green input,
-.column.red input,
-.column.orange input,
-.column.blue select,
-.column.green select,
-.column.red select,
-.column.orange select,
-.column.blue textarea,
-.column.green textarea,
-.column.red textarea,
-.column.orange textarea,
-.column.blue .form-control,
-.column.green .form-control,
-.column.red .form-control,
-.column.orange .form-control,
-.column.blue fieldset .form-control,
-.column.green fieldset .form-control,
-.column.red fieldset .form-control,
-.column.orange fieldset .form-control {
-  border-color: transparent;
-}
-.column.blue input:hover,
-.column.green input:hover,
-.column.red input:hover,
-.column.orange input:hover,
-.column.blue select:hover,
-.column.green select:hover,
-.column.red select:hover,
-.column.orange select:hover,
-.column.blue textarea:hover,
-.column.green textarea:hover,
-.column.red textarea:hover,
-.column.orange textarea:hover,
-.column.blue .form-control:hover,
-.column.green .form-control:hover,
-.column.red .form-control:hover,
-.column.orange .form-control:hover,
-.column.blue fieldset .form-control:hover,
-.column.green fieldset .form-control:hover,
-.column.red fieldset .form-control:hover,
-.column.orange fieldset .form-control:hover,
-.column.blue input.focus,
-.column.green input.focus,
-.column.red input.focus,
-.column.orange input.focus,
-.column.blue select.focus,
-.column.green select.focus,
-.column.red select.focus,
-.column.orange select.focus,
-.column.blue textarea.focus,
-.column.green textarea.focus,
-.column.red textarea.focus,
-.column.orange textarea.focus,
-.column.blue .form-control.focus,
-.column.green .form-control.focus,
-.column.red .form-control.focus,
-.column.orange .form-control.focus,
-.column.blue fieldset .form-control.focus,
-.column.green fieldset .form-control.focus,
-.column.red fieldset .form-control.focus,
-.column.orange fieldset .form-control.focus,
-.column.blue input:focus,
-.column.green input:focus,
-.column.red input:focus,
-.column.orange input:focus,
-.column.blue select:focus,
-.column.green select:focus,
-.column.red select:focus,
-.column.orange select:focus,
-.column.blue textarea:focus,
-.column.green textarea:focus,
-.column.red textarea:focus,
-.column.orange textarea:focus,
-.column.blue .form-control:focus,
-.column.green .form-control:focus,
-.column.red .form-control:focus,
-.column.orange .form-control:focus,
-.column.blue fieldset .form-control:focus,
-.column.green fieldset .form-control:focus,
-.column.red fieldset .form-control:focus,
-.column.orange fieldset .form-control:focus,
-.column.blue input.active,
-.column.green input.active,
-.column.red input.active,
-.column.orange input.active,
-.column.blue select.active,
-.column.green select.active,
-.column.red select.active,
-.column.orange select.active,
-.column.blue textarea.active,
-.column.green textarea.active,
-.column.red textarea.active,
-.column.orange textarea.active,
-.column.blue .form-control.active,
-.column.green .form-control.active,
-.column.red .form-control.active,
-.column.orange .form-control.active,
-.column.blue fieldset .form-control.active,
-.column.green fieldset .form-control.active,
-.column.red fieldset .form-control.active,
-.column.orange fieldset .form-control.active,
-.column.blue input:active,
-.column.green input:active,
-.column.red input:active,
-.column.orange input:active,
-.column.blue select:active,
-.column.green select:active,
-.column.red select:active,
-.column.orange select:active,
-.column.blue textarea:active,
-.column.green textarea:active,
-.column.red textarea:active,
-.column.orange textarea:active,
-.column.blue .form-control:active,
-.column.green .form-control:active,
-.column.red .form-control:active,
-.column.orange .form-control:active,
-.column.blue fieldset .form-control:active,
-.column.green fieldset .form-control:active,
-.column.red fieldset .form-control:active,
-.column.orange fieldset .form-control:active {
-  border-color: transparent;
-}
-.column.blue input,
-.column.green input,
-.column.red input,
-.column.orange input,
-.column.blue .btn-primary,
-.column.green .btn-primary,
-.column.red .btn-primary,
-.column.orange .btn-primary {
-  border-color: transparent;
-}
-.column.blue .btn-primary,
-.column.green .btn-primary,
-.column.red .btn-primary,
-.column.orange .btn-primary,
-.column.blue .btn-link,
-.column.green .btn-link,
-.column.red .btn-link,
-.column.orange .btn-link,
-.column.blue .nav a,
-.column.green .nav a,
-.column.red .nav a,
-.column.orange .nav a {
-  color: #fff;
-}
-.column.blue .list-group,
-.column.green .list-group,
-.column.red .list-group,
-.column.orange .list-group {
-  background: inherit;
-}
-.column.blue .btn-default,
-.column.green .btn-default,
-.column.red .btn-default,
-.column.orange .btn-default,
-.column.blue .list-group-item,
-.column.green .list-group-item,
-.column.red .list-group-item,
-.column.orange .list-group-item {
-  background: inherit;
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #fff;
-}
-.column.blue .btn-default:hover,
-.column.green .btn-default:hover,
-.column.red .btn-default:hover,
-.column.orange .btn-default:hover,
-.column.blue .list-group-item:hover,
-.column.green .list-group-item:hover,
-.column.red .list-group-item:hover,
-.column.orange .list-group-item:hover,
-.column.blue .btn-default.focus,
-.column.green .btn-default.focus,
-.column.red .btn-default.focus,
-.column.orange .btn-default.focus,
-.column.blue .list-group-item.focus,
-.column.green .list-group-item.focus,
-.column.red .list-group-item.focus,
-.column.orange .list-group-item.focus,
-.column.blue .btn-default:focus,
-.column.green .btn-default:focus,
-.column.red .btn-default:focus,
-.column.orange .btn-default:focus,
-.column.blue .list-group-item:focus,
-.column.green .list-group-item:focus,
-.column.red .list-group-item:focus,
-.column.orange .list-group-item:focus,
-.column.blue .btn-default.active,
-.column.green .btn-default.active,
-.column.red .btn-default.active,
-.column.orange .btn-default.active,
-.column.blue .list-group-item.active,
-.column.green .list-group-item.active,
-.column.red .list-group-item.active,
-.column.orange .list-group-item.active,
-.column.blue .btn-default:active,
-.column.green .btn-default:active,
-.column.red .btn-default:active,
-.column.orange .btn-default:active,
-.column.blue .list-group-item:active,
-.column.green .list-group-item:active,
-.column.red .list-group-item:active,
-.column.orange .list-group-item:active {
-  border-color: rgba(255, 255, 255, 0.5);
-  color: #fff;
-}
-.column.blue .list-group-item,
-.column.green .list-group-item,
-.column.red .list-group-item,
-.column.orange .list-group-item {
-  border-top-color: rgba(255, 255, 255, 0.2);
-  border-bottom-color: rgba(255, 255, 255, 0.2);
-}
-.column.blue .list-group-item:first-child,
-.column.green .list-group-item:first-child,
-.column.red .list-group-item:first-child,
-.column.orange .list-group-item:first-child {
-  border-top-color: rgba(255, 255, 255, 0.4);
-}
-.column.blue .list-group-item:last-child,
-.column.green .list-group-item:last-child,
-.column.red .list-group-item:last-child,
-.column.orange .list-group-item:last-child {
-  border-bottom-color: rgba(255, 255, 255, 0.4);
-}
-.column.blue .list-group.reorderable .list-group-item .reorder_icon,
-.column.green .list-group.reorderable .list-group-item .reorder_icon,
-.column.red .list-group.reorderable .list-group-item .reorder_icon,
-.column.orange .list-group.reorderable .list-group-item .reorder_icon {
-  color: rgba(255, 255, 255, 0.4);
-}
-.column.blue .list-group.removeable .list-group-item .remove_btn,
-.column.green .list-group.removeable .list-group-item .remove_btn,
-.column.red .list-group.removeable .list-group-item .remove_btn,
-.column.orange .list-group.removeable .list-group-item .remove_btn {
-  background: transparent;
-  border-color: transparent;
-  color: #fff;
-}
-.column.blue .list-group.removeable .list-group-item .remove_btn:hover,
-.column.green .list-group.removeable .list-group-item .remove_btn:hover,
-.column.red .list-group.removeable .list-group-item .remove_btn:hover,
-.column.orange .list-group.removeable .list-group-item .remove_btn:hover,
-.column.blue .list-group.removeable .list-group-item .remove_btn.focus,
-.column.green .list-group.removeable .list-group-item .remove_btn.focus,
-.column.red .list-group.removeable .list-group-item .remove_btn.focus,
-.column.orange .list-group.removeable .list-group-item .remove_btn.focus,
-.column.blue .list-group.removeable .list-group-item .remove_btn:focus,
-.column.green .list-group.removeable .list-group-item .remove_btn:focus,
-.column.red .list-group.removeable .list-group-item .remove_btn:focus,
-.column.orange .list-group.removeable .list-group-item .remove_btn:focus,
-.column.blue .list-group.removeable .list-group-item .remove_btn.active,
-.column.green .list-group.removeable .list-group-item .remove_btn.active,
-.column.red .list-group.removeable .list-group-item .remove_btn.active,
-.column.orange .list-group.removeable .list-group-item .remove_btn.active,
-.column.blue .list-group.removeable .list-group-item .remove_btn:active,
-.column.green .list-group.removeable .list-group-item .remove_btn:active,
-.column.red .list-group.removeable .list-group-item .remove_btn:active,
-.column.orange .list-group.removeable .list-group-item .remove_btn:active {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
-.column.blue .help-block,
-.column.green .help-block,
-.column.red .help-block,
-.column.orange .help-block {
-  color: #fff;
-}
-.column.blue input + .help-block,
-.column.green input + .help-block,
-.column.red input + .help-block,
-.column.orange input + .help-block,
-.column.blue textarea + .help-block,
-.column.green textarea + .help-block,
-.column.red textarea + .help-block,
-.column.orange textarea + .help-block,
-.column.blue figure + figcaption,
-.column.green figure + figcaption,
-.column.red figure + figcaption,
-.column.orange figure + figcaption {
-  background: rgba(255, 255, 255, 0.15);
-}
-.column.blue .table-bordered,
-.column.green .table-bordered,
-.column.red .table-bordered,
-.column.orange .table-bordered,
-.column.blue .table-bordered th,
-.column.green .table-bordered th,
-.column.red .table-bordered th,
-.column.orange .table-bordered th,
-.column.blue .table-bordered td,
-.column.green .table-bordered td,
-.column.red .table-bordered td,
-.column.orange .table-bordered td {
-  border-color: #fff;
-}
-.column.blue .sticky-footer,
-.column.green .sticky-footer,
-.column.red .sticky-footer,
-.column.orange .sticky-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.4);
-}
-.column.blue header .close_btn,
-.column.green header .close_btn,
-.column.red header .close_btn,
-.column.orange header .close_btn {
-  color: #fff;
-}
-.column.white input + .help-block,
-.column.white textarea + .help-block,
-.column.white figure + figcaption {
-  background: #eeeeee;
-}
-.column.blue {
+.notification.blue {
   background: #22b0df;
 }
 .column.blue .btn-primary,
-.column.blue .nav a {
+.notification.blue .btn-primary,
+.column.blue .nav a,
+.notification.blue .nav a {
   background: #1c98c1;
 }
 .column.blue .btn-primary:hover,
+.notification.blue .btn-primary:hover,
 .column.blue .nav a:hover,
+.notification.blue .nav a:hover,
 .column.blue .btn-primary:active,
+.notification.blue .btn-primary:active,
 .column.blue .nav a:active,
+.notification.blue .nav a:active,
 .column.blue .btn-primary.active,
+.notification.blue .btn-primary.active,
 .column.blue .nav a.active,
+.notification.blue .nav a.active,
 .column.blue .btn-primary:focus,
+.notification.blue .btn-primary:focus,
 .column.blue .nav a:focus,
+.notification.blue .nav a:focus,
 .column.blue .btn-primary.focus,
-.column.blue .nav a.focus {
+.notification.blue .btn-primary.focus,
+.column.blue .nav a.focus,
+.notification.blue .nav a.focus {
   background: #198aaf;
 }
 .column.blue .btn-default:hover,
+.notification.blue .btn-default:hover,
 .column.blue a.list-group-item:hover,
+.notification.blue a.list-group-item:hover,
 .column.blue .btn-default:active,
+.notification.blue .btn-default:active,
 .column.blue a.list-group-item:active,
+.notification.blue a.list-group-item:active,
 .column.blue .btn-default.active,
+.notification.blue .btn-default.active,
 .column.blue a.list-group-item.active,
+.notification.blue a.list-group-item.active,
 .column.blue .btn-default:focus,
+.notification.blue .btn-default:focus,
 .column.blue a.list-group-item:focus,
+.notification.blue a.list-group-item:focus,
 .column.blue .btn-default.focus,
-.column.blue a.list-group-item.focus {
+.notification.blue .btn-default.focus,
+.column.blue a.list-group-item.focus,
+.notification.blue a.list-group-item.focus {
   background: #5cc5e7;
 }
-.column.blue .sticky-footer {
+.column.blue .sticky-footer,
+.notification.blue .sticky-footer {
   background: #22b0df;
 }
-.column.green {
+.column.green,
+.notification.green {
   background: #198145;
 }
 .column.green .btn-primary,
-.column.green .nav a {
+.notification.green .btn-primary,
+.column.green .nav a,
+.notification.green .nav a {
   background: #156b39;
 }
 .column.green .btn-primary:hover,
+.notification.green .btn-primary:hover,
 .column.green .nav a:hover,
+.notification.green .nav a:hover,
 .column.green .btn-primary:active,
+.notification.green .btn-primary:active,
 .column.green .nav a:active,
+.notification.green .nav a:active,
 .column.green .btn-primary.active,
+.notification.green .btn-primary.active,
 .column.green .nav a.active,
+.notification.green .nav a.active,
 .column.green .btn-primary:focus,
+.notification.green .btn-primary:focus,
 .column.green .nav a:focus,
+.notification.green .nav a:focus,
 .column.green .btn-primary.focus,
-.column.green .nav a.focus {
+.notification.green .btn-primary.focus,
+.column.green .nav a.focus,
+.notification.green .nav a.focus {
   background: #115a30;
 }
 .column.green .btn-default:hover,
+.notification.green .btn-default:hover,
 .column.green a.list-group-item:hover,
+.notification.green a.list-group-item:hover,
 .column.green .btn-default:active,
+.notification.green .btn-default:active,
 .column.green a.list-group-item:active,
+.notification.green a.list-group-item:active,
 .column.green .btn-default.active,
+.notification.green .btn-default.active,
 .column.green a.list-group-item.active,
+.notification.green a.list-group-item.active,
 .column.green .btn-default:focus,
+.notification.green .btn-default:focus,
 .column.green a.list-group-item:focus,
+.notification.green a.list-group-item:focus,
 .column.green .btn-default.focus,
-.column.green a.list-group-item.focus {
+.notification.green .btn-default.focus,
+.column.green a.list-group-item.focus,
+.notification.green a.list-group-item.focus {
   background: #1f9f55;
 }
-.column.green .sticky-footer {
+.column.green .sticky-footer,
+.notification.green .sticky-footer {
   background: #198145;
 }
-.column.red {
+.column.red,
+.notification.red {
   background: #e54041;
 }
 .column.red .btn-primary,
-.column.red .nav a {
+.notification.red .btn-primary,
+.column.red .nav a,
+.notification.red .nav a {
   background: #cc1c1d;
 }
 .column.red .btn-primary:hover,
+.notification.red .btn-primary:hover,
 .column.red .nav a:hover,
+.notification.red .nav a:hover,
 .column.red .btn-primary:active,
+.notification.red .btn-primary:active,
 .column.red .nav a:active,
+.notification.red .nav a:active,
 .column.red .btn-primary.active,
+.notification.red .btn-primary.active,
 .column.red .nav a.active,
+.notification.red .nav a.active,
 .column.red .btn-primary:focus,
+.notification.red .btn-primary:focus,
 .column.red .nav a:focus,
+.notification.red .nav a:focus,
 .column.red .btn-primary.focus,
-.column.red .nav a.focus {
+.notification.red .btn-primary.focus,
+.column.red .nav a.focus,
+.notification.red .nav a.focus {
   background: #ba191a;
 }
 .column.red .btn-default:hover,
+.notification.red .btn-default:hover,
 .column.red a.list-group-item:hover,
+.notification.red a.list-group-item:hover,
 .column.red .btn-default:active,
+.notification.red .btn-default:active,
 .column.red a.list-group-item:active,
+.notification.red a.list-group-item:active,
 .column.red .btn-default.active,
+.notification.red .btn-default.active,
 .column.red a.list-group-item.active,
+.notification.red a.list-group-item.active,
 .column.red .btn-default:focus,
+.notification.red .btn-default:focus,
 .column.red a.list-group-item:focus,
+.notification.red a.list-group-item:focus,
 .column.red .btn-default.focus,
-.column.red a.list-group-item.focus {
+.notification.red .btn-default.focus,
+.column.red a.list-group-item.focus,
+.notification.red a.list-group-item.focus {
   background: #ea6364;
 }
-.column.red .sticky-footer {
+.column.red .sticky-footer,
+.notification.red .sticky-footer {
   background: #e54041;
 }
-.column.orange {
+.column.orange,
+.notification.orange {
   background: #f48c08;
 }
 .column.orange .btn-primary,
-.column.orange .nav a {
+.notification.orange .btn-primary,
+.column.orange .nav a,
+.notification.orange .nav a {
   background: #db7e07;
 }
 .column.orange .btn-primary:hover,
+.notification.orange .btn-primary:hover,
 .column.orange .nav a:hover,
+.notification.orange .nav a:hover,
 .column.orange .btn-primary:active,
+.notification.orange .btn-primary:active,
 .column.orange .nav a:active,
+.notification.orange .nav a:active,
 .column.orange .btn-primary.active,
+.notification.orange .btn-primary.active,
 .column.orange .nav a.active,
+.notification.orange .nav a.active,
 .column.orange .btn-primary:focus,
+.notification.orange .btn-primary:focus,
 .column.orange .nav a:focus,
+.notification.orange .nav a:focus,
 .column.orange .btn-primary.focus,
-.column.orange .nav a.focus {
+.notification.orange .btn-primary.focus,
+.column.orange .nav a.focus,
+.notification.orange .nav a.focus {
   background: #c77306;
 }
 .column.orange .btn-default:hover,
+.notification.orange .btn-default:hover,
 .column.orange a.list-group-item:hover,
+.notification.orange a.list-group-item:hover,
 .column.orange .btn-default:active,
+.notification.orange .btn-default:active,
 .column.orange a.list-group-item:active,
+.notification.orange a.list-group-item:active,
 .column.orange .btn-default.active,
+.notification.orange .btn-default.active,
 .column.orange a.list-group-item.active,
+.notification.orange a.list-group-item.active,
 .column.orange .btn-default:focus,
+.notification.orange .btn-default:focus,
 .column.orange a.list-group-item:focus,
+.notification.orange a.list-group-item:focus,
 .column.orange .btn-default.focus,
-.column.orange a.list-group-item.focus {
+.notification.orange .btn-default.focus,
+.column.orange a.list-group-item.focus,
+.notification.orange a.list-group-item.focus {
   background: #f9aa45;
 }
-.column.orange .sticky-footer {
+.column.orange .sticky-footer,
+.notification.orange .sticky-footer {
   background: #f48c08;
+}
+.column.anthracite,
+.notification.anthracite {
+  background: #2f3237;
+  color: #fff;
+}
+.column.anthracite .btn-primary,
+.notification.anthracite .btn-primary,
+.column.anthracite .nav a,
+.notification.anthracite .nav a {
+  background: #23262a;
+  color: #fff;
+}
+.column.anthracite .btn-primary:hover,
+.notification.anthracite .btn-primary:hover,
+.column.anthracite .nav a:hover,
+.notification.anthracite .nav a:hover,
+.column.anthracite .btn-primary:active,
+.notification.anthracite .btn-primary:active,
+.column.anthracite .nav a:active,
+.notification.anthracite .nav a:active,
+.column.anthracite .btn-primary.active,
+.notification.anthracite .btn-primary.active,
+.column.anthracite .nav a.active,
+.notification.anthracite .nav a.active,
+.column.anthracite .btn-primary:focus,
+.notification.anthracite .btn-primary:focus,
+.column.anthracite .nav a:focus,
+.notification.anthracite .nav a:focus,
+.column.anthracite .btn-primary.focus,
+.notification.anthracite .btn-primary.focus,
+.column.anthracite .nav a.focus,
+.notification.anthracite .nav a.focus {
+  background: #1a1c1f;
+}
+.column.anthracite .btn-default:hover,
+.notification.anthracite .btn-default:hover,
+.column.anthracite a.list-group-item:hover,
+.notification.anthracite a.list-group-item:hover,
+.column.anthracite .btn-default:active,
+.notification.anthracite .btn-default:active,
+.column.anthracite a.list-group-item:active,
+.notification.anthracite a.list-group-item:active,
+.column.anthracite .btn-default.active,
+.notification.anthracite .btn-default.active,
+.column.anthracite a.list-group-item.active,
+.notification.anthracite a.list-group-item.active,
+.column.anthracite .btn-default:focus,
+.notification.anthracite .btn-default:focus,
+.column.anthracite a.list-group-item:focus,
+.notification.anthracite a.list-group-item:focus,
+.column.anthracite .btn-default.focus,
+.notification.anthracite .btn-default.focus,
+.column.anthracite a.list-group-item.focus,
+.notification.anthracite a.list-group-item.focus {
+  background: #4e535b;
+}
+.column.anthracite .sticky-footer,
+.notification.anthracite .sticky-footer {
+  background: #2f3237;
 }
 .btn-marker-color {
   position: relative;
@@ -1265,65 +1812,6 @@ fieldset .form-control:active {
   background: #e4e4e4;
   box-shadow: none;
 }
-.notification {
-  position: fixed;
-  z-index: 1020;
-  bottom: 0;
-  width: 500px;
-  max-width: 100%;
-  -webkit-transform: translate(100%, 0);
-      -ms-transform: translate(100%, 0);
-          transform: translate(100%, 0);
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
-  background: #3b3f45;
-  color: #fff;
-  padding-bottom: 10px;
-}
-.notification.open {
-  -webkit-transform: translate(0, 0);
-      -ms-transform: translate(0, 0);
-          transform: translate(0, 0);
-}
-.notification a {
-  color: #fff;
-  text-decoration: underline;
-}
-.notification a:hover,
-.notification a:active,
-.notification a.active,
-.notification a:focus,
-.notification a.focus,
-.notification a.btn {
-  text-decoration: none;
-}
-.notification .btn {
-  background: #23262a;
-  color: #fff;
-}
-.notification .btn:hover,
-.notification .btn:active,
-.notification .btn.active,
-.notification .btn:focus,
-.notification .btn.focus {
-  background: #1a1c1f;
-}
-.notification p {
-  text-align: justify;
-}
-.notification .close_btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: transparent;
-}
-.notification .close_btn:hover,
-.notification .close_btn:active,
-.notification .close_btn.active,
-.notification .close_btn:focus,
-.notification .close_btn.focus {
-  background: transparent;
-}
 /* .modal is reserved by Bootstrap */
 .pop_modal {
   position: fixed;
@@ -1471,8 +1959,6 @@ fieldset .form-control:active {
   padding-bottom: 15px;
   padding-right: 24px;
   padding-left: 24px;
-  background: #fff;
-  color: #3b3f45;
   -webkit-transform: translate(-350px, 0);
       -ms-transform: translate(-350px, 0);
           transform: translate(-350px, 0);
@@ -1489,7 +1975,6 @@ fieldset .form-control:active {
   position: absolute;
   top: -13px;
   right: -24px;
-  color: #3b3f45;
 }
 #zoom_notification .fa-arrow-left {
   position: absolute;

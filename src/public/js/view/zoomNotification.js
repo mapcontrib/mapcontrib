@@ -23,22 +23,17 @@ function (
 
 		template: JST['zoomNotification.html'],
 
-		behavior: {
+		behaviors: {
 
 			'l20n': {},
+			'notification': {},
 		},
 
 		ui: {
 
-			'window': '#zoom_notification',
+			'notification': '#zoom_notification',
 
-			'closeBtn': '.close_btn',
 			'content': '.content',
-		},
-
-		events: {
-
-			'click @ui.closeBtn': 'onClickClose',
 		},
 
 		initialize: function () {
@@ -50,17 +45,12 @@ function (
 
 		open: function () {
 
-			this.ui.window.addClass('open');
+			this.triggerMethod('open');
 		},
 
 		close: function () {
 
-			this.ui.window.removeClass('open');
-		},
-
-		onClickClose: function () {
-
-			this.close();
+			this.triggerMethod('close');
 		},
 	});
 });

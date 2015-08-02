@@ -2,14 +2,10 @@
 @import 'variables.less';
 
 
-.column {
+.column,
+.notification {
 
 	position: fixed;
-	z-index: @columnZIndex;
-	top: 0;
-	bottom: 0;
-	width: 300px;
-	max-width: 100%;
 	transition: transform ease-out .2s;
 	background: #fff;
 	outline: 0;
@@ -128,31 +124,9 @@
 		border-top: 1px solid @lightAnthracite;
 	}
 
-	header {
+	.close_btn {
 
-		height: @columnTitleHeight;
-
-		h2 {
-
-			font-size: 24px;
-			line-height: @columnTitleHeight;
-			margin: 0 0 0 10px;
-		}
-
-		.close_btn {
-
-			color: @lightAnthracite;
-		}
-	}
-
-	.content {
-
-		position: absolute;
-		top: @columnTitleHeight + 20;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		overflow: auto;
+		color: @lightAnthracite;
 	}
 
 	.nav a {
@@ -398,12 +372,9 @@
 			border-top: 1px solid rgba(255, 255, 255, .4);
 		}
 
-		header {
+		.close_btn {
 
-			.close_btn {
-
-				color: #fff;
-			}
+			color: #fff;
 		}
 	}
 
@@ -419,8 +390,57 @@
 }
 
 
+.column {
 
-.column.blue {
+	z-index: @columnZIndex;
+	top: 0;
+	bottom: 0;
+	width: @columnWidth;
+	max-width: 100%;
+
+	header {
+
+		height: @columnTitleHeight;
+
+		h2 {
+
+			font-size: 24px;
+			line-height: @columnTitleHeight;
+			margin: 0 0 0 10px;
+		}
+	}
+
+	.content {
+
+		position: absolute;
+		top: @columnTitleHeight + 20;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		overflow: auto;
+	}
+}
+
+
+.notification {
+
+	z-index: @notificationZIndex;
+	top: 0;
+	bottom: 0;
+	width: @notificationWidth;
+	max-width: 100%;
+	padding-bottom: 10px;
+
+	p {
+
+		text-align: justify;
+	}
+}
+
+
+
+.column.blue,
+.notification.blue {
 
 	background: darken(@blue, 5%);
 
@@ -459,7 +479,8 @@
 }
 
 
-.column.green {
+.column.green,
+.notification.green {
 
 	background: darken(@green, 5%);
 
@@ -498,7 +519,8 @@
 }
 
 
-.column.red {
+.column.red,
+.notification.red {
 
 	background: darken(@red, 5%);
 
@@ -538,7 +560,8 @@
 
 
 
-.column.orange {
+.column.orange,
+.notification.orange {
 
 	background: darken(@orange, 5%);
 
@@ -573,5 +596,48 @@
 	.sticky-footer {
 
 		background: darken(@orange, 5%);
+	}
+}
+
+
+
+.column.anthracite,
+.notification.anthracite {
+
+	background: darken(@anthracite, 5%);
+	color: #fff;
+
+	.btn-primary,
+	.nav a {
+
+		background: @darkAnthracite;
+		color: #fff;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: darken(@darkAnthracite, 4%);
+		}
+	}
+
+	.btn-default,
+	a.list-group-item {
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @lightAnthracite;
+		}
+	}
+
+	.sticky-footer {
+
+		background: darken(@anthracite, 5%);
 	}
 }

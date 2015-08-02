@@ -344,82 +344,6 @@ fieldset .form-control {
 
 
 
-
-
-
-.notification {
-
-	position: fixed;
-	z-index: @notificationZIndex;
-	bottom: 0;
-	width: @notificationWidth;
-	max-width: 100%;
-	transform: translate(100%, 0);
-	transition: transform ease-out .2s;
-	background: @anthracite;
-	color: #fff;
-	padding-bottom: 10px;
-
-	&.open {
-
-		transform: translate(0, 0);
-	}
-
-	a {
-
-		color: #fff;
-		text-decoration: underline;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus,
-		&.btn {
-
-			text-decoration: none;
-		}
-	}
-
-	.btn {
-
-		background: @darkAnthracite;
-		color: #fff;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
-
-			background: darken(@darkAnthracite, 4%);
-		}
-	}
-
-	p {
-
-		text-align: justify;
-	}
-
-	.close_btn {
-
-		position: absolute;
-		top: 0;
-		right: 0;
-		background: transparent;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
-
-			background: transparent;
-		}
-	}
-}
-
-
 /* .modal is reserved by Bootstrap */
 .pop_modal {
 
@@ -607,8 +531,6 @@ fieldset .form-control {
 	padding-bottom: 15px;
 	padding-right: 24px;
 	padding-left: 24px;
-	background: #fff;
-	color: @anthracite;
 	transform: translate(( @toolbarBtnSize + @zoomNotificationWidth ) * -1, 0);
 
 	&.open {
@@ -626,7 +548,6 @@ fieldset .form-control {
 		position: absolute;
 		top: -13px;
 		right: -24px;
-		color: @anthracite;
 	}
 
 	.fa-arrow-left {
