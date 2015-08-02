@@ -23,6 +23,6 @@
     "osm-auth": "~0.2.8",
     "ionicons": "~2.0.1",
     "leaflet-control-geocoder": "~1.2.1",
-    "leaflet-layer-overpass": "https://github.com/GuillaumeAmat/leaflet-layer-overpass.git#9540e255120a08b9b744db98a863b576c9fe9de5"
+    "leaflet-overpass-layer": "~1.1.3"
   }
 }

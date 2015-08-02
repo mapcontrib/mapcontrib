@@ -21,7 +21,7 @@ requirejs.config({
 		'jquery-ui-touch-punch': '../bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min',
 		'math.format': '../bower_components/math.format/math.format',
 		'leaflet': '../bower_components/leaflet/dist/leaflet',
-		'leaflet-layer-overpass': '../bower_components/leaflet-layer-overpass/dist/OverPassLayer.min',
+		'leaflet-overpass-layer': '../bower_components/leaflet-overpass-layer/dist/OverPassLayer.min',
 		'leaflet-control-geocoder': '../bower_components/leaflet-control-geocoder/Control.Geocoder',
 		'animationFrame-polyfill': '../bower_components/animationFrame/AnimationFrame.min',
 		'fullscreen-polyfill': '../bower_components/Fullscreen-API-Polyfill/fullscreen-api-polyfill',
@@ -45,7 +45,7 @@ requirejs.config({
 
 			deps: ['jquery']
 		},
-		'leaflet-layer-overpass': {
+		'leaflet-overpass-layer': {
 
 			deps: ['leaflet']
 		},

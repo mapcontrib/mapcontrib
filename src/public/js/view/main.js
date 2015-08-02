@@ -10,7 +10,7 @@ define([
 	'settings',
 	'const',
 	'leaflet',
-	'leaflet-layer-overpass',
+	'leaflet-overpass-layer',
 	'markdown',
 
 	'view/mainTitle',
@@ -520,6 +520,7 @@ function (
 				'endpoint': settings.overpassServer,
 				'minzoom': poiLayerModel.get('minZoom'),
 				'requestPerTile': false,
+				'timeout': settings.overpassTimeout,
 				'query': poiLayerModel.get('overpassRequest'),
 				'beforeRequest': function () {
 
@@ -529,7 +530,7 @@ function (
 
 					self.hidePoiLoadingProgress( poiLayerModel );
 				},
-				'callback': function(data) {
+				'onSuccess': function(data) {
 
 					var wayBodyNodes = {},
 					icon = self.getPoiLayerIcon(poiLayerModel);
@@ -620,7 +621,7 @@ function (
 
 						layerGroup.addLayer( marker );
 					});
-				}
+				},
 			});
 
 			layerGroup.addLayer( layerGroup._overpassLayer );
