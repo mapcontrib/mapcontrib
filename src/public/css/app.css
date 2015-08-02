@@ -1698,16 +1698,26 @@
   right: 0;
   overflow: auto;
 }
+.column .close_btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .notification {
   z-index: 1020;
-  top: 0;
   bottom: 0;
+  right: 0;
   width: 500px;
   max-width: 100%;
   padding-bottom: 10px;
 }
 .notification p {
   text-align: justify;
+}
+.notification .close_btn {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 /* .modal is reserved by Bootstrap */
 .pop_modal {
