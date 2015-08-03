@@ -121,7 +121,7 @@
 		position: sticky;
 		bottom: 0;
 		padding: 20px 0;
-		margin: 0;
+		margin: 20px 0 0 0;
 		border-top: 1px solid @lightAnthracite;
 	}
 
@@ -416,9 +416,12 @@
 	bottom: 0;
 	width: @columnWidth;
 	max-width: 100%;
+	overflow: hidden;
 
 	header {
 
+		position: relative;
+		z-index: 10;
 		height: @columnTitleHeight;
 
 		h2 {
@@ -432,10 +435,11 @@
 	.content {
 
 		position: absolute;
-		top: @columnTitleHeight + 20;
+		top: @columnTitleHeight;
 		bottom: 0;
 		left: 0;
 		right: 0;
+		padding-top: 20px;
 		overflow: auto;
 	}
 
@@ -531,6 +535,60 @@
 
 
 
+
+
+.column {
+
+	&.white {
+
+		header {
+
+			box-shadow: 0 0 10px 12px #fff;
+		}
+	}
+
+	&.blue {
+
+		header {
+
+			box-shadow: 0 0 10px 12px darken(@blue, 5%);
+		}
+	}
+
+	&.green {
+
+		header {
+
+			box-shadow: 0 0 10px 12px darken(@green, 5%);
+		}
+	}
+
+	&.red {
+
+		header {
+
+			box-shadow: 0 0 10px 12px darken(@red, 5%);
+		}
+	}
+
+	&.orange {
+
+		header {
+
+			box-shadow: 0 0 10px 12px darken(@orange, 5%);
+		}
+	}
+
+	&.anthracite {
+
+		header {
+
+			box-shadow: 0 0 10px 12px darken(@anthracite, 5%);
+		}
+	}
+}
+
+
 .column,
 .notification,
 .pop {
@@ -570,6 +628,7 @@
 		.sticky-footer {
 
 			background: darken(@blue, 5%);
+			box-shadow: 0 0 10px 12px darken(@blue, 5%);
 		}
 	}
 
@@ -609,6 +668,7 @@
 		.sticky-footer {
 
 			background: darken(@green, 5%);
+			box-shadow: 0 0 10px 12px darken(@green, 5%);
 		}
 	}
 
@@ -648,6 +708,7 @@
 		.sticky-footer {
 
 			background: darken(@red, 5%);
+			box-shadow: 0 0 10px 12px darken(@red, 5%);
 		}
 	}
 
@@ -688,6 +749,7 @@
 		.sticky-footer {
 
 			background: darken(@orange, 5%);
+			box-shadow: 0 0 10px 12px darken(@orange, 5%);
 		}
 	}
 
@@ -730,6 +792,7 @@
 		.sticky-footer {
 
 			background: darken(@anthracite, 5%);
+			box-shadow: 0 0 10px 12px darken(@anthracite, 5%);
 		}
 	}
 }

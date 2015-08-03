@@ -244,7 +244,7 @@
   position: sticky;
   bottom: 0;
   padding: 20px 0;
-  margin: 0;
+  margin: 20px 0 0 0;
   border-top: 1px solid #4e535b;
 }
 .column .close_btn,
@@ -1681,8 +1681,11 @@
   bottom: 0;
   width: 300px;
   max-width: 100%;
+  overflow: hidden;
 }
 .column header {
+  position: relative;
+  z-index: 10;
   height: 50px;
 }
 .column header h2 {
@@ -1692,10 +1695,11 @@
 }
 .column .content {
   position: absolute;
-  top: 70px;
+  top: 50px;
   bottom: 0;
   left: 0;
   right: 0;
+  padding-top: 20px;
   overflow: auto;
 }
 .column .close_btn {
@@ -1766,6 +1770,24 @@
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+.column.white header {
+  box-shadow: 0 0 10px 12px #fff;
+}
+.column.blue header {
+  box-shadow: 0 0 10px 12px #22b0df;
+}
+.column.green header {
+  box-shadow: 0 0 10px 12px #198145;
+}
+.column.red header {
+  box-shadow: 0 0 10px 12px #e54041;
+}
+.column.orange header {
+  box-shadow: 0 0 10px 12px #f48c08;
+}
+.column.anthracite header {
+  box-shadow: 0 0 10px 12px #2f3237;
 }
 .column.blue,
 .notification.blue,
@@ -1848,6 +1870,7 @@
 .notification.blue .sticky-footer,
 .pop.blue .sticky-footer {
   background: #22b0df;
+  box-shadow: 0 0 10px 12px #22b0df;
 }
 .column.green,
 .notification.green,
@@ -1930,6 +1953,7 @@
 .notification.green .sticky-footer,
 .pop.green .sticky-footer {
   background: #198145;
+  box-shadow: 0 0 10px 12px #198145;
 }
 .column.red,
 .notification.red,
@@ -2012,6 +2036,7 @@
 .notification.red .sticky-footer,
 .pop.red .sticky-footer {
   background: #e54041;
+  box-shadow: 0 0 10px 12px #e54041;
 }
 .column.orange,
 .notification.orange,
@@ -2094,6 +2119,7 @@
 .notification.orange .sticky-footer,
 .pop.orange .sticky-footer {
   background: #f48c08;
+  box-shadow: 0 0 10px 12px #f48c08;
 }
 .column.anthracite,
 .notification.anthracite,
@@ -2178,6 +2204,7 @@
 .notification.anthracite .sticky-footer,
 .pop.anthracite .sticky-footer {
   background: #2f3237;
+  box-shadow: 0 0 10px 12px #2f3237;
 }
 .btn-marker-color {
   position: relative;
