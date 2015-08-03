@@ -43,6 +43,7 @@ function (
 
 				'axis': 'y',
 				'items': 'a',
+				'handle': '.reorder_icon',
 				'update': function () {
 
 					self.onDnD();
