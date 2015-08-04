@@ -1,9 +1,15 @@
 
 
-
-
-
 db.theme.drop();
+db.poiLayer.drop();
+
+
+
+db.user.createIndex( { 'osmId': 1 }, { 'unique': true } );
+db.theme.createIndex( { 'fragment': 1 }, { 'unique': true } );
+db.poiLayer.createIndex( { 'themeId': 1 } );
+
+
 
 db.theme.insert({
 
@@ -28,8 +34,6 @@ db.theme.insert({
 });
 
 
-
-db.poiLayer.drop();
 
 db.poiLayer.insert({
 
