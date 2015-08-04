@@ -1693,6 +1693,11 @@
   line-height: 50px;
   margin: 0 0 0 10px;
 }
+.column header .close_btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .column .content {
   position: absolute;
   top: 50px;
@@ -1701,11 +1706,6 @@
   right: 0;
   padding-top: 20px;
   overflow: auto;
-}
-.column .close_btn {
-  position: absolute;
-  top: 0;
-  right: 0;
 }
 .notification {
   z-index: 1020;
@@ -1718,10 +1718,11 @@
 .notification p {
   text-align: justify;
 }
-.notification .close_btn {
+.notification header .close_btn {
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 10;
 }
 /* .modal is reserved by Bootstrap */
 .pop_modal {

@@ -158,3 +158,9 @@
 /* Overpass error notification */
 <overpassErrorNotification_title "Erreur">
 <overpassErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type « {{ $name }} ».">
+
+
+/* Contribution error notification */
+<contributionErrorNotification_title "Contribution échouée">
+<contributionErrorNotification_content "Une erreur est survenue lors de l'envoi de votre contribution.">
+<contributionErrorNotification_retry "Retenter l'envoi">

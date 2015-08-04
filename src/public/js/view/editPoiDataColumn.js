@@ -9,6 +9,7 @@ define([
 	'templates',
 	'settings',
 	'osm-auth',
+	'view/contributionErrorNotification',
 ],
 function (
 
@@ -18,7 +19,8 @@ function (
 	Bootstrap,
 	templates,
 	settings,
-	osmAuth
+	osmAuth,
+	ContributionErrorNotificationView
 ) {
 
 	'use strict';
@@ -323,7 +325,12 @@ function (
 
 				if (err) {
 
-					console.log('ERROR on put node/way : '+ err.response);
+					var notification = new ContributionErrorNotificationView({ 'retryCallback': self.sendXml.bind(self, xml, changesetId) });
+
+					$('body').append( notification.el );
+
+					notification.open();
+
 					return;
 				}
 

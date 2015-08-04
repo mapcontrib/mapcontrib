@@ -158,3 +158,9 @@
 /* Overpass error notification */
 <overpassErrorNotification_title "Error">
 <overpassErrorNotification_content "An error occured during the load of the « {{ $name }} » points of interest.">
+
+
+/* Contribution error notification */
+<contributionErrorNotification_title "Contribution failed">
+<contributionErrorNotification_content "An error occured during the send of your contribution.">
+<contributionErrorNotification_retry "Retry to send">
