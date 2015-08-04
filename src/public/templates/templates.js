@@ -252,7 +252,7 @@ this["JST"]["overpassErrorNotification.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<section id="overpass_error_notification" class="notification right red">\n\t<div class="container-fluid">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<button type="button" class="btn btn-link btn-lg close_btn">\n\t\t\t\t\t<i class="fa fa-close"></i>\n\t\t\t\t</button>\n\n\t\t\t\t<h3 data-l10n-id="overpassErrorNotification_title"></h3>\n\t\t\t\t<p class="content"></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '\n<section id="overpass_error_notification" class="notification right red">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\t</header>\n\n\t<div class="container-fluid">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<h3 data-l10n-id="overpassErrorNotification_title"></h3>\n\t\t\t\t<p class="content"></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
@@ -262,7 +262,7 @@ this["JST"]["overpassTimeoutNotification.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<section id="overpass_timeout_notification" class="notification right orange">\n\t<div class="container-fluid">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<button type="button" class="btn btn-link btn-lg close_btn">\n\t\t\t\t\t<i class="fa fa-close"></i>\n\t\t\t\t</button>\n\n\t\t\t\t<h3 data-l10n-id="overpassTimeoutNotification_title"></h3>\n\t\t\t\t<p class="content"></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '\n<section id="overpass_timeout_notification" class="notification right orange">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\t</header>\n\n\t<div class="container-fluid">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<h3 data-l10n-id="overpassTimeoutNotification_title"></h3>\n\t\t\t\t<p class="content"></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
