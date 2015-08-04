@@ -88,7 +88,6 @@ function (
 
 			'map': '#main_map',
 			'toolbarButtons': '.toolbar .toolbar_btn',
-			'notificationContainer': '#notification_container',
 
 			'controlToolbar': '#control_toolbar',
 			'zoomInButton': '#control_toolbar .zoom_in_btn',
@@ -657,7 +656,7 @@ function (
 
 					var notification = new OverpassTimeoutNotificationView({ 'model': poiLayerModel });
 
-					self.ui.notificationContainer.append( notification.el );
+					$('body').append( notification.el );
 
 					notification.open();
 				},
@@ -666,7 +665,7 @@ function (
 
 					var notification = new OverpassErrorNotificationView({ 'model': poiLayerModel });
 
-					self.ui.notificationContainer.append( notification.el );
+					$('body').append( notification.el );
 
 					notification.open();
 				},
