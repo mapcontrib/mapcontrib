@@ -2566,6 +2566,7 @@ fieldset .form-control:active {
 }
 #title.open {
   height: 100%;
+  overflow: auto;
 }
 #title.open h1 {
   left: 0;
