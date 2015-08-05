@@ -18,8 +18,8 @@ define([], function () {
 
 		'apiPath': 'api/',
 
-		'largeScreenMinWidth': 800,
-		'largeScreenMinHeight': 600,
+		'largeScreenMinWidth': 400,
+		'largeScreenMinHeight': 500,
 
 		'shareIframeWidth': 100,
 		'shareIframeWidthUnit': '%',
