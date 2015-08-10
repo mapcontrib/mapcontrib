@@ -4,11 +4,11 @@
 
 .column,
 .notification,
-.pop {
+.pop,
+.fullpage {
 
 	position: fixed;
 	transition: transform ease-out .2s;
-	background: #fff;
 	outline: 0;
 
 	&.right {
@@ -70,8 +70,7 @@
 				height: 40px;
 				line-height: 40px;
 				padding: 0 6px;
-				color: @lightAnthracite;
-				cursor: move;
+				cursor: grab;
 			}
 		}
 	}
@@ -90,17 +89,6 @@
 				height: 40px;
 				background: transparent;
 				border-color: transparent;
-				color: @anthracite;
-
-				&:hover,
-				&.focus,
-				&:focus,
-				&.active,
-				&:active {
-
-					background: lighten(@anthracite, 80%);
-					color: @anthracite;
-				}
 			}
 		}
 	}
@@ -122,29 +110,8 @@
 		bottom: 0;
 		padding: 20px 0;
 		margin: 20px 0 0 0;
-		border-top: 1px solid @lightAnthracite;
-	}
-
-
-	.close_btn {
-
-		color: @lightAnthracite;
-	}
-
-	.nav a {
-
-		color: @anthracite;
-		background: @gray;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
-
-			color: @anthracite;
-			background: @darkGray;
-		}
+		border-top-width: 1px;
+		border-top-style: solid;
 	}
 
 	input + .help-block,
@@ -161,250 +128,15 @@
 		font-size: 12px;
 	}
 
+	.input-group-addon {
 
-	&.blue,
-	&.green,
-	&.red,
-	&.orange,
-	&.anthracite {
-
-		color: #fff;
-
-		input[type="radio"] {
-
-			& + label {
-
-				&::before {
-
-					background-color: transparent;
-					border-color: #fff;
-				}
-
-				&::after {
-
-					background-color: transparent;
-				}
-			}
-
-			&:checked + label {
-
-				&::before {
-
-					border-color: #fff;
-				}
-
-				&::after {
-
-					background-color: #fff;
-				}
-			}
-		}
-
-		input[type="checkbox"] {
-
-			& + label {
-
-				&::before {
-
-					background-color: transparent;
-					border-color: #fff;
-				}
-
-				&::after {
-
-					color: #fff;
-				}
-			}
-		}
-
-		a {
-
-			color: #fff;
-			text-decoration: underline;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus,
-			&.btn {
-
-				color: #fff;
-				text-decoration: none;
-			}
-		}
-
-		.dropdown-menu a {
-
-			color: @anthracite;
-		}
-
-		.nav a,
-		a.list-group-item,
-		.dropdown-menu a {
-
-			text-decoration: none;
-		}
-
-		input,
-		select,
-		textarea,
-		.form-control,
-		fieldset .form-control {
-
-			border-color: transparent;
-
-			&:hover,
-			&.focus,
-			&:focus,
-			&.active,
-			&:active {
-
-				border-color: transparent;
-			}
-		}
-
-		input,
-		.btn-primary {
-
-			border-color: transparent;
-		}
-
-		.btn-primary,
-		.btn-link,
-		.nav a {
-
-			color: #fff;
-		}
-
-		.list-group {
-
-			background: inherit;
-		}
-
-		.btn-default,
-		.list-group-item {
-
-			background: inherit;
-			border-color: rgba(255, 255, 255, .4);
-			color: #fff;
-
-			&:hover,
-			&.focus,
-			&:focus,
-			&.active,
-			&:active {
-
-				border-color: rgba(255, 255, 255, .5);
-				color: #fff;
-			}
-		}
-
-		.list-group-item {
-
-			border-top-color: rgba(255, 255, 255, .2);
-			border-bottom-color: rgba(255, 255, 255, .2);
-
-			&:first-child {
-
-				border-top-color: rgba(255, 255, 255, .4);
-			}
-
-			&:last-child {
-
-				border-bottom-color: rgba(255, 255, 255, .4);
-			}
-		}
-
-		.list-group.reorderable {
-
-			.list-group-item {
-
-				.reorder_icon {
-
-					color: rgba(255, 255, 255, .4);
-				}
-			}
-		}
-
-		.list-group.removeable {
-
-			.list-group-item {
-
-				.remove_btn {
-
-					background: transparent;
-					border-color: transparent;
-					color: #fff;
-
-					&:hover,
-					&.focus,
-					&:focus,
-					&.active,
-					&:active {
-
-						background: rgba(255, 255, 255, .2);
-						color: #fff;
-					}
-				}
-			}
-		}
-
-		.help-block {
-
-			color: #fff;
-
-		}
-
-		input + .help-block,
-		textarea + .help-block,
-		figure + figcaption {
-
-			background: rgba(255, 255, 255, .15);
-		}
-
-		.table-bordered,
-		.table-bordered th,
-		.table-bordered td, {
-
-			border-color: #fff;
-		}
-
-		.sticky-footer {
-
-			border-top: 1px solid rgba(255, 255, 255, .4);
-		}
-
-		.close_btn {
-
-			color: #fff;
-		}
+		border-radius: 0;
 	}
 
-	&.white {
+	.sticky-footer {
 
-		.btn-primary {
-
-			background: @blue;
-			border-color: @blue;
-
-			&:hover,
-			&.focus,
-			&:focus,
-			&.active,
-			&:active {
-
-				background: @lightBlue;
-				border-color: @lightBlue;
-			}
-		}
-
-		input + .help-block,
-		textarea + .help-block,
-		figure + figcaption {
-
-			background: @gray;
-		}
+		border-top-width: 1px;
+		border-top-style: solid;
 	}
 }
 
@@ -513,16 +245,6 @@
 				margin-right: -15px;
 			}
 		}
-
-		.nav-tabs {
-
-			background: @lightGray;
-
-			li a {
-
-				color: @anthracite;
-			}
-		}
 	}
 
 	&.open {
@@ -541,9 +263,149 @@
 
 
 
-.column {
+.lightTheme() {
 
-	&.white {
+	background: #fff;
+	color: @anthracite;
+
+	.list-group.reorderable {
+
+		.list-group-item {
+
+			.reorder_icon {
+
+				color: @lightAnthracite;
+			}
+		}
+	}
+
+	.list-group.removeable {
+
+		.list-group-item {
+
+			.remove_btn {
+
+				background: transparent;
+				border-color: transparent;
+				color: @anthracite;
+
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
+
+					background: lighten(@anthracite, 80%);
+					color: @anthracite;
+				}
+			}
+		}
+	}
+
+	.btn-marker-shape {
+
+		background: transparent;
+
+		&:hover,
+		&:focus,
+		&.focus {
+
+			border-color: @darkGray;
+		}
+
+		&:active,
+		&.active {
+
+			background: @darkGray;
+			box-shadow: none;
+		}
+	}
+
+	.sticky-footer {
+
+		background: #fff;
+		box-shadow: 0 0 10px 12px #fff;
+		border-top-color: @lightAnthracite;
+	}
+
+	.close_btn {
+
+		color: @lightAnthracite;
+	}
+
+	.btn-primary {
+
+		background: @blue;
+		border-color: @blue;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightBlue;
+			border-color: @lightBlue;
+		}
+	}
+
+	.nav-pills a {
+
+		color: @anthracite;
+		background: @gray;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			color: @anthracite;
+			background: @darkGray;
+		}
+	}
+
+	a {
+
+		color: @blue;
+		text-decoration: underline;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus,
+		&.btn {
+
+			color: @blue;
+			text-decoration: none;
+		}
+	}
+
+	.nav a,
+	a.list-group-item,
+	.dropdown-menu a {
+
+		color: @anthracite;
+		text-decoration: none;
+	}
+
+
+	input + .help-block,
+	textarea + .help-block,
+	figure + figcaption {
+
+		background: @gray;
+	}
+
+	.input-group-addon {
+
+		background: @gray;
+		border-color: @gray;
+	}
+
+
+	&.column {
 
 		header {
 
@@ -551,252 +413,401 @@
 		}
 	}
 
-	&.blue {
 
-		header {
+	/* .modal is reserved by Bootstrap */
+	&.pop {
 
-			box-shadow: 0 0 10px 12px darken(@blue, 5%);
-		}
-	}
+		.nav-tabs {
 
-	&.green {
+			background: @lightGray;
 
-		header {
+			li a {
 
-			box-shadow: 0 0 10px 12px darken(@green, 5%);
-		}
-	}
+				color: @anthracite;
 
-	&.red {
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
 
-		header {
+					background: @lightGray;
+				}
+			}
 
-			box-shadow: 0 0 10px 12px darken(@red, 5%);
-		}
-	}
+			li.active a {
 
-	&.orange {
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
 
-		header {
-
-			box-shadow: 0 0 10px 12px darken(@orange, 5%);
-		}
-	}
-
-	&.anthracite {
-
-		header {
-
-			box-shadow: 0 0 10px 12px darken(@anthracite, 5%);
+					background: #fff;
+				}
+			}
 		}
 	}
 }
 
 
+
+
+.darkTheme(@color1, @color2, @color3, @color4, @color5) {
+
+	color: #fff;
+	background: @color3;
+
+
+	.list-group.reorderable {
+
+		.list-group-item {
+
+			.reorder_icon {
+
+				color: rgba(255, 255, 255, .4);
+			}
+		}
+	}
+
+	.list-group.removeable {
+
+		.list-group-item {
+
+			.remove_btn {
+
+				background: transparent;
+				border-color: transparent;
+				color: #fff;
+
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
+
+					background: rgba(255, 255, 255, .2);
+					color: #fff;
+				}
+			}
+		}
+	}
+
+	.btn-marker-shape {
+
+		background: transparent;
+
+		&:hover,
+		&:focus,
+		&.focus {
+
+			border-color: rgba(255, 255, 255, .4);
+		}
+
+		&:active,
+		&.active {
+
+			background: @color1;
+			box-shadow: none;
+		}
+	}
+
+	.sticky-footer {
+
+		border-top-color: rgba(255, 255, 255, .4);
+		background: @color3;
+		box-shadow: 0 0 10px 12px @color3;
+	}
+
+	.close_btn {
+
+		color: #fff;
+	}
+
+	.btn-primary,
+	.nav-pills a {
+
+		background: @color4;
+		color: #fff;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @color5;
+		}
+	}
+
+	.btn-default,
+	a.list-group-item {
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @color1;
+		}
+	}
+
+
+
+
+
+	input[type="radio"] {
+
+		& + label {
+
+			&::before {
+
+				background-color: transparent;
+				border-color: #fff;
+			}
+
+			&::after {
+
+				background-color: transparent;
+			}
+		}
+
+		&:checked + label {
+
+			&::before {
+
+				border-color: #fff;
+			}
+
+			&::after {
+
+				background-color: #fff;
+			}
+		}
+	}
+
+	input[type="checkbox"] {
+
+		& + label {
+
+			&::before {
+
+				background-color: transparent;
+				border-color: #fff;
+			}
+
+			&::after {
+
+				color: #fff;
+			}
+		}
+	}
+
+	a {
+
+		color: #fff;
+		text-decoration: underline;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus,
+		&.btn {
+
+			color: #fff;
+			text-decoration: none;
+		}
+	}
+
+	.dropdown-menu a {
+
+		color: @anthracite;
+	}
+
+	.nav a,
+	a.list-group-item,
+	.dropdown-menu a {
+
+		text-decoration: none;
+	}
+
+	input,
+	select,
+	textarea,
+	.form-control,
+	fieldset .form-control {
+
+		border-color: transparent;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			border-color: transparent;
+		}
+	}
+
+	input,
+	.btn-primary {
+
+		border-color: transparent;
+	}
+
+	.btn-primary,
+	.btn-link,
+	.nav a {
+
+		color: #fff;
+	}
+
+	.list-group {
+
+		background: inherit;
+	}
+
+	.btn-default,
+	.list-group-item {
+
+		background: inherit;
+		border-color: rgba(255, 255, 255, .4);
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			border-color: rgba(255, 255, 255, .5);
+			color: #fff;
+		}
+	}
+
+	.list-group-item {
+
+		border-top-color: rgba(255, 255, 255, .2);
+		border-bottom-color: rgba(255, 255, 255, .2);
+
+		&:first-child {
+
+			border-top-color: rgba(255, 255, 255, .4);
+		}
+
+		&:last-child {
+
+			border-bottom-color: rgba(255, 255, 255, .4);
+		}
+	}
+
+	.help-block {
+
+		color: #fff;
+	}
+
+	input + .help-block,
+	textarea + .help-block,
+	figure + figcaption {
+
+		background: rgba(255, 255, 255, .15);
+	}
+
+	.input-group-addon {
+
+		background: @gray;
+		border-color: @gray;
+	}
+
+	.table-bordered,
+	.table-bordered th,
+	.table-bordered td, {
+
+		border-color: #fff;
+	}
+
+
+	&.column {
+
+		header {
+
+			box-shadow: 0 0 10px 12px @color3;
+		}
+	}
+
+
+	/* .modal is reserved by Bootstrap */
+	&.pop {
+
+		.nav-tabs {
+
+			background: @color1;
+			border-color: @color1;
+
+			li a {
+
+				background: @color1;
+				border-color: @color1;
+			}
+
+			li.active a {
+
+				background: @color3;
+				color: #fff;
+				border-color: @color3;
+			}
+		}
+	}
+}
+
+
+
+
+
 .column,
 .notification,
-.pop {
-
-	&.blue {
-
-		background: darken(@blue, 5%);
-
-		.btn-primary,
-		.nav a {
-
-			background: @darkBlue;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkBlue, 4%);
-			}
-		}
-
-		.btn-default,
-		a.list-group-item {
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: @lightBlue;
-			}
-		}
-
-		.sticky-footer {
-
-			background: darken(@blue, 5%);
-			box-shadow: 0 0 10px 12px darken(@blue, 5%);
-		}
-	}
-
-
-	&.green {
-
-		background: darken(@green, 5%);
-
-		.btn-primary,
-		.nav a {
-
-			background: @darkGreen;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkGreen, 4%);
-			}
-		}
-
-		.btn-default,
-		a.list-group-item {
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: @lightGreen;
-			}
-		}
-
-		.sticky-footer {
-
-			background: darken(@green, 5%);
-			box-shadow: 0 0 10px 12px darken(@green, 5%);
-		}
-	}
-
-
-	&.red {
-
-		background: darken(@red, 5%);
-
-		.btn-primary,
-		.nav a {
-
-			background: @darkRed;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkRed, 4%);
-			}
-		}
-
-		.btn-default,
-		a.list-group-item {
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: @lightRed;
-			}
-		}
-
-		.sticky-footer {
-
-			background: darken(@red, 5%);
-			box-shadow: 0 0 10px 12px darken(@red, 5%);
-		}
-	}
-
-
+.pop,
+.fullpage {
 
 	&.orange {
 
-		background: darken(@orange, 5%);
-
-		.btn-primary,
-		.nav a {
-
-			background: @darkOrange;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkOrange, 4%);
-			}
-		}
-
-		.btn-default,
-		a.list-group-item {
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: @lightOrange;
-			}
-		}
-
-		.sticky-footer {
-
-			background: darken(@orange, 5%);
-			box-shadow: 0 0 10px 12px darken(@orange, 5%);
-		}
+		.darkTheme(@lightOrange, @orange, darken(@orange, 5%), @darkOrange, darken(@darkOrange, 4%));
 	}
 
+	&.red {
 
+		.darkTheme(@lightRed, @red, darken(@red, 5%), @darkRed, darken(@darkRed, 4%));
+	}
+
+	&.purple {
+
+		.darkTheme(@lightPurple, @purple, darken(@purple, 5%), @darkPurple, darken(@darkPurple, 4%));
+	}
+
+	&.blue {
+
+		.darkTheme(@lightBlue, @blue, darken(@blue, 5%), @darkBlue, darken(@darkBlue, 4%));
+	}
+
+	&.turquoise {
+
+		.darkTheme(@lightTurquoise, @turquoise, darken(@turquoise, 5%), @darkTurquoise, darken(@darkTurquoise, 4%));
+	}
+
+	&.green {
+
+		.darkTheme(@lightGreen, @green, darken(@green, 5%), @darkGreen, darken(@darkGreen, 4%));
+	}
+
+	&.white {
+
+		.lightTheme();
+	}
 
 	&.anthracite {
 
-		background: darken(@anthracite, 5%);
-		color: #fff;
-
-		.btn-primary,
-		.nav a {
-
-			background: @darkAnthracite;
-			color: #fff;
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: darken(@darkAnthracite, 4%);
-			}
-		}
-
-		.btn-default,
-		a.list-group-item {
-
-			&:hover,
-			&:active,
-			&.active,
-			&:focus,
-			&.focus {
-
-				background: @lightAnthracite;
-			}
-		}
-
-		.sticky-footer {
-
-			background: darken(@anthracite, 5%);
-			box-shadow: 0 0 10px 12px darken(@anthracite, 5%);
-		}
+		.darkTheme(@lightAnthracite, @anthracite, darken(@anthracite, 5%), @darkAnthracite, darken(@darkAnthracite, 5%));
 	}
 }
