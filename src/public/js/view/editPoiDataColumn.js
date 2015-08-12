@@ -122,7 +122,9 @@ function (
 					});
 				}
 
-				html += '<hr>';
+				self.ui.fields.html( html );
+
+				html = '';
 
 				for (var tag in remoteData.tags) {
 
@@ -140,7 +142,10 @@ function (
 					});
 				}
 
-				self.ui.fields.html( html );
+				if ( html ) {
+
+					self.ui.fields.append( '<hr>' + html );
+				}
 
 				self.ui.footer.removeClass('hide');
 			});
