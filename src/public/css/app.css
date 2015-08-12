@@ -457,7 +457,7 @@
 .fullpage.orange .sticky-footer {
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #f48c08;
-  box-shadow: 0 0 10px 12px #f48c08;
+  box-shadow: 0 0 4px 12px #f48c08;
 }
 .column.orange .close_btn,
 .notification.orange .close_btn,
@@ -925,7 +925,7 @@
 .notification.orange.column header,
 .pop.orange.column header,
 .fullpage.orange.column header {
-  box-shadow: 0 0 10px 12px #f48c08;
+  box-shadow: 0 0 4px 12px #f48c08;
 }
 .column.orange.pop .nav-tabs,
 .notification.orange.pop .nav-tabs,
@@ -1031,7 +1031,7 @@
 .fullpage.red .sticky-footer {
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #e54041;
-  box-shadow: 0 0 10px 12px #e54041;
+  box-shadow: 0 0 4px 12px #e54041;
 }
 .column.red .close_btn,
 .notification.red .close_btn,
@@ -1499,7 +1499,7 @@
 .notification.red.column header,
 .pop.red.column header,
 .fullpage.red.column header {
-  box-shadow: 0 0 10px 12px #e54041;
+  box-shadow: 0 0 4px 12px #e54041;
 }
 .column.red.pop .nav-tabs,
 .notification.red.pop .nav-tabs,
@@ -1605,7 +1605,7 @@
 .fullpage.purple .sticky-footer {
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #452a38;
-  box-shadow: 0 0 10px 12px #452a38;
+  box-shadow: 0 0 4px 12px #452a38;
 }
 .column.purple .close_btn,
 .notification.purple .close_btn,
@@ -2073,7 +2073,7 @@
 .notification.purple.column header,
 .pop.purple.column header,
 .fullpage.purple.column header {
-  box-shadow: 0 0 10px 12px #452a38;
+  box-shadow: 0 0 4px 12px #452a38;
 }
 .column.purple.pop .nav-tabs,
 .notification.purple.pop .nav-tabs,
@@ -2179,7 +2179,7 @@
 .fullpage.blue .sticky-footer {
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #22b0df;
-  box-shadow: 0 0 10px 12px #22b0df;
+  box-shadow: 0 0 4px 12px #22b0df;
 }
 .column.blue .close_btn,
 .notification.blue .close_btn,
@@ -2647,7 +2647,7 @@
 .notification.blue.column header,
 .pop.blue.column header,
 .fullpage.blue.column header {
-  box-shadow: 0 0 10px 12px #22b0df;
+  box-shadow: 0 0 4px 12px #22b0df;
 }
 .column.blue.pop .nav-tabs,
 .notification.blue.pop .nav-tabs,
@@ -2753,7 +2753,7 @@
 .fullpage.turquoise .sticky-footer {
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #009d95;
-  box-shadow: 0 0 10px 12px #009d95;
+  box-shadow: 0 0 4px 12px #009d95;
 }
 .column.turquoise .close_btn,
 .notification.turquoise .close_btn,
@@ -3221,7 +3221,7 @@
 .notification.turquoise.column header,
 .pop.turquoise.column header,
 .fullpage.turquoise.column header {
-  box-shadow: 0 0 10px 12px #009d95;
+  box-shadow: 0 0 4px 12px #009d95;
 }
 .column.turquoise.pop .nav-tabs,
 .notification.turquoise.pop .nav-tabs,
@@ -3327,7 +3327,7 @@
 .fullpage.green .sticky-footer {
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #198145;
-  box-shadow: 0 0 10px 12px #198145;
+  box-shadow: 0 0 4px 12px #198145;
 }
 .column.green .close_btn,
 .notification.green .close_btn,
@@ -3795,7 +3795,7 @@
 .notification.green.column header,
 .pop.green.column header,
 .fullpage.green.column header {
-  box-shadow: 0 0 10px 12px #198145;
+  box-shadow: 0 0 4px 12px #198145;
 }
 .column.green.pop .nav-tabs,
 .notification.green.pop .nav-tabs,
@@ -3900,7 +3900,7 @@
 .pop.white .sticky-footer,
 .fullpage.white .sticky-footer {
   background: #fff;
-  box-shadow: 0 0 10px 12px #fff;
+  box-shadow: 0 0 4px 12px #fff;
   border-top-color: #4e535b;
 }
 .column.white .close_btn,
@@ -4043,7 +4043,7 @@
 .notification.white.column header,
 .pop.white.column header,
 .fullpage.white.column header {
-  box-shadow: 0 0 10px 12px #fff;
+  box-shadow: 0 0 4px 12px #fff;
 }
 .column.white.pop .nav-tabs,
 .notification.white.pop .nav-tabs,
@@ -4183,7 +4183,7 @@
 .fullpage.anthracite .sticky-footer {
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #2f3237;
-  box-shadow: 0 0 10px 12px #2f3237;
+  box-shadow: 0 0 4px 12px #2f3237;
 }
 .column.anthracite .close_btn,
 .notification.anthracite .close_btn,
@@ -4651,7 +4651,7 @@
 .notification.anthracite.column header,
 .pop.anthracite.column header,
 .fullpage.anthracite.column header {
-  box-shadow: 0 0 10px 12px #2f3237;
+  box-shadow: 0 0 4px 12px #2f3237;
 }
 .column.anthracite.pop .nav-tabs,
 .notification.anthracite.pop .nav-tabs,
