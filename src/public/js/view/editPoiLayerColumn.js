@@ -73,6 +73,7 @@ function (
 			this._oldModel = this.model.clone();
 
 			this.listenTo(this.model, 'change', this.updateMarkerIcon);
+			this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom.bind(this));
 		},
 
 		onRender: function () {
