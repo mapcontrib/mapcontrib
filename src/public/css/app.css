@@ -4870,9 +4870,6 @@ textarea[readonly],
 fieldset[disabled] .form-control {
   cursor: default;
 }
-.control-label {
-  line-height: 34px;
-}
 button,
 .btn,
 .nav > li > a {

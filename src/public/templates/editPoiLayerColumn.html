@@ -11,18 +11,18 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<form>
-					<div class="form-group append-xs-1">
+					<div class="form-group append-xs-2">
 						<label for="layer_name" class="control-label" data-l10n-id="editPoiLayerColumn_layerName"></label>
 						<input type="text" spellcheck="true" class="form-control" id="layer_name" value="<%- name %>">
 					</div>
 
-					<div class="form-group append-xs-1">
+					<div class="form-group append-xs-2">
 						<label for="layer_description" class="control-label" data-l10n-id="editPoiLayerColumn_layerDescription"></label>
 						<textarea spellcheck="true" class="form-control" id="layer_description" rows="2"><%- description %></textarea>
 						<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
 					</div>
 
-					<div class="form-group append-xs-1">
+					<div class="form-group append-xs-2">
 						<label class="control-label" data-l10n-id="editPoiLayerColumn_marker"></label>
 						<div class="marker-form-widget">
 							<div class="marker-wrapper">
@@ -32,7 +32,7 @@
 						</div>
 					</div>
 
-					<div class="form-group append-xs-1">
+					<div class="form-group append-xs-2">
 						<label class="control-label" data-l10n-id="editPoiLayerColumn_visibilityAndEdition"></label>
 						<div class="checkbox">
 							<input type="checkbox" id="layer_visible" value="1" checked>
@@ -44,19 +44,19 @@
 						</div>
 					</div>
 
-					<div class="form-group append-xs-1">
+					<div class="form-group append-xs-2">
 						<label for="layer_popup_content" class="control-label" data-l10n-id="editPoiLayerColumn_layerPopupContent"></label>
 						<textarea rows="3" class="form-control font-monospace" id="layer_popup_content"><%- popupContent %></textarea>
 						<div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
 					</div>
 
-					<div class="form-group append-xs-1">
+					<div class="form-group append-xs-2">
 						<label for="layer_min_zoom" class="control-label" data-l10n-id="editPoiLayerColumn_layerZoomLevel"></label>
 						<input type="number" id="layer_min_zoom" class="form-control" min="0" value="<%- minZoom %>">
 						<div class="help-block current_map_zoom"></div>
 					</div>
 
-					<div class="form-group append-xs-1">
+					<div class="form-group append-xs-2">
 						<label for="layer_overpass_request" class="control-label" data-l10n-id="editPoiLayerColumn_layerOverpassRequest"></label>
 						<textarea rows="7" spellcheck="false" class="form-control font-monospace" id="layer_overpass_request"><%- overpassRequest %></textarea>
 					</div>
