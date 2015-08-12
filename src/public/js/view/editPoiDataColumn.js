@@ -270,7 +270,25 @@ function (
 
 			if ( changesetId ) {
 
-				this.sendXml(xml, changesetId);
+				this._auth.xhr({
+
+					'method': 'GET',
+					'path': '/api/0.6/changeset/'+ changesetId,
+					'options': { 'header': { 'Content-Type': 'text/xml' } }
+				},
+				function(err, changesetId) {
+
+					if (err) {
+
+						sessionStorage.removeItem('changesetId');
+
+						self.sendNewXml(xml);
+
+						return;
+					}
+
+					self.sendXml(xml, changesetId);
+				});
 			}
 			else {
 
