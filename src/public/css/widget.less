@@ -268,6 +268,65 @@
 	background: #fff;
 	color: @anthracite;
 
+	a {
+
+		color: @blue;
+		text-decoration: underline;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus,
+		&.btn {
+
+			color: @blue;
+			text-decoration: none;
+		}
+	}
+
+	.btn-primary,
+	a.btn-primary {
+
+		background: @blue;
+		border-color: @blue;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightBlue;
+			border-color: @lightBlue;
+		}
+	}
+
+	.nav-pills a {
+
+		color: @anthracite;
+		background: @gray;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			color: @anthracite;
+			background: @darkGray;
+		}
+	}
+
+	.nav a,
+	a.list-group-item,
+	.dropdown-menu a {
+
+		color: @anthracite;
+		text-decoration: none;
+	}
+
 	.list-group.reorderable {
 
 		.list-group-item {
@@ -332,64 +391,6 @@
 
 		color: @lightAnthracite;
 	}
-
-	.btn-primary {
-
-		background: @blue;
-		border-color: @blue;
-
-		&:hover,
-		&.focus,
-		&:focus,
-		&.active,
-		&:active {
-
-			background: @lightBlue;
-			border-color: @lightBlue;
-		}
-	}
-
-	.nav-pills a {
-
-		color: @anthracite;
-		background: @gray;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
-
-			color: @anthracite;
-			background: @darkGray;
-		}
-	}
-
-	a {
-
-		color: @blue;
-		text-decoration: underline;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus,
-		&.btn {
-
-			color: @blue;
-			text-decoration: none;
-		}
-	}
-
-	.nav a,
-	a.list-group-item,
-	.dropdown-menu a {
-
-		color: @anthracite;
-		text-decoration: none;
-	}
-
 
 	input + .help-block,
 	textarea + .help-block,
@@ -458,6 +459,71 @@
 	color: #fff;
 	background: @color3;
 
+	a {
+
+		color: #fff;
+		text-decoration: underline;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus,
+		&.btn {
+
+			color: #fff;
+			text-decoration: none;
+		}
+	}
+
+	.btn-primary,
+	a.btn-primary,
+	.nav-pills a {
+
+		background: @color4;
+		color: #fff;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @color5;
+		}
+	}
+
+	.btn-default,
+	a.list-group-item {
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @color1;
+		}
+	}
+
+	.dropdown-menu a {
+
+		color: @anthracite;
+	}
+
+	.nav a,
+	a.list-group-item,
+	.dropdown-menu a {
+
+		text-decoration: none;
+	}
+
+	.btn-primary,
+	.btn-link,
+	.nav a {
+
+		color: #fff;
+	}
 
 	.list-group.reorderable {
 
@@ -524,38 +590,6 @@
 		color: #fff;
 	}
 
-	.btn-primary,
-	.nav-pills a {
-
-		background: @color4;
-		color: #fff;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
-
-			background: @color5;
-		}
-	}
-
-	.btn-default,
-	a.list-group-item {
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus {
-
-			background: @color1;
-		}
-	}
-
-
-
-
 
 	input[type="radio"] {
 
@@ -604,35 +638,6 @@
 		}
 	}
 
-	a {
-
-		color: #fff;
-		text-decoration: underline;
-
-		&:hover,
-		&:active,
-		&.active,
-		&:focus,
-		&.focus,
-		&.btn {
-
-			color: #fff;
-			text-decoration: none;
-		}
-	}
-
-	.dropdown-menu a {
-
-		color: @anthracite;
-	}
-
-	.nav a,
-	a.list-group-item,
-	.dropdown-menu a {
-
-		text-decoration: none;
-	}
-
 	input,
 	select,
 	textarea,
@@ -655,13 +660,6 @@
 	.btn-primary {
 
 		border-color: transparent;
-	}
-
-	.btn-primary,
-	.btn-link,
-	.nav a {
-
-		color: #fff;
 	}
 
 	.list-group {
