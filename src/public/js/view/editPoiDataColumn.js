@@ -119,6 +119,7 @@ function (
 
 						'tag': popupTag,
 						'value': dataFromOSM.tags[popupTag],
+						'remoteValue': dataFromOSM.tags[popupTag],
 					});
 				}
 
@@ -139,6 +140,7 @@ function (
 
 						'tag': tag,
 						'value': value,
+						'remoteValue': value,
 					});
 				}
 
@@ -263,11 +265,14 @@ function (
 					self.options.dataFromOSM.tags[key] = value;
 				}
 
-				self.sendNewXml( remoteData.xml );
+				self.getChangesetId(function (changesetId) {
+
+					self.sendXml( remoteData.xml, changesetId );
+				});
 			});
 		},
 
-		sendNewXml: function (xml) {
+		getChangesetId: function ( callback ) {
 
 			var self = this,
 			changesetId = sessionStorage.getItem('changesetId'),
@@ -281,18 +286,18 @@ function (
 					'path': '/api/0.6/changeset/'+ changesetId,
 					'options': { 'header': { 'Content-Type': 'text/xml' } }
 				},
-				function(err, changesetId) {
+				function(err, xml) {
 
 					if (err) {
 
 						sessionStorage.removeItem('changesetId');
 
-						self.sendNewXml(xml);
+						self.getChangesetId( callback );
 
 						return;
 					}
 
-					self.sendXml(xml, changesetId);
+					callback(changesetId);
 				});
 			}
 			else {
@@ -314,7 +319,7 @@ function (
 
 					sessionStorage.setItem('changesetId', changesetId);
 
-					self.sendXml(xml, changesetId);
+					callback(changesetId);
 				});
 			}
 		},
