@@ -1222,6 +1222,9 @@ function (
 			}
 			else {
 
+				this._radio.vent.trigger('column:closeAll');
+				this._radio.vent.trigger('widget:closeAll');
+
 				this.ui.helpToolbar.addClass('on_top');
 				this.ui.help.addClass('open');
 			}

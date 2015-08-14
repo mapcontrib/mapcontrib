@@ -150,6 +150,9 @@ function (
 
 		onClickDescription: function () {
 
+			this._radio.vent.trigger('column:closeAll');
+			this._radio.vent.trigger('widget:closeAll');
+			
 			this.ui.titleWrapper.toggleClass('open');
 		},
 	});
