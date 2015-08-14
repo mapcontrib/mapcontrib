@@ -83,6 +83,11 @@ function (
 			this.onChangedMapZoom();
 		},
 
+		onDestroy: function () {
+
+			this._radio.vent.off('map:zoomChanged');
+		},
+
 		open: function () {
 
 			this.triggerMethod('open');
