@@ -416,6 +416,17 @@ function (
 						return;
 					}
 
+					var isOpened = xml.getElementsByTagName('changeset')[0].getAttribute('open');
+
+					if (isOpened === "false") {
+
+						sessionStorage.removeItem('changesetId');
+
+						self.getChangesetId( callback );
+
+						return;
+					}
+
 					callback(changesetId);
 				});
 			}
