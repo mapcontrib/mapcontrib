@@ -553,10 +553,48 @@ function (
 
 		addPoiLayer: function (poiLayerModel, hidden) {
 
-			var self = this,
-			layerGroup = L.layerGroup();
+			var split,
+			self = this,
+			layerGroup = L.layerGroup(),
+			overpassRequest = '',
+			overpassRequestSplit = poiLayerModel.get('overpassRequest').split(';');
 
 			layerGroup._poiIds = [];
+
+			overpassRequestSplit.forEach(function (row) {
+
+				if ( !row.toLowerCase().trim() ) {
+
+					return;
+				}
+
+				split = row.toLowerCase().trim().split(' ');
+
+				if ( split[0] !== 'out' || split.indexOf('skel') !== -1 || split.indexOf('ids_only') !== -1 ) {
+
+					overpassRequest += row + ';';
+					return;
+				}
+
+				if ( split.indexOf('body') !== -1 ) {
+
+					delete split[ split.indexOf('body') ];
+				}
+
+				if ( split.indexOf('center') === -1 ) {
+
+					split.push('center');
+				}
+
+				if ( split.indexOf('meta') === -1 ) {
+
+					split.push('meta');
+				}
+
+				overpassRequest += split.join(' ') + ';';
+			});
+
+
 
 			layerGroup._overpassLayer = new L.OverPassLayer({
 
@@ -565,7 +603,7 @@ function (
 				'requestPerTile': false,
 				'timeout': settings.overpassTimeout,
 				'retryOnTimeout': true,
-				'query': poiLayerModel.get('overpassRequest'),
+				'query': overpassRequest,
 				'beforeRequest': function () {
 
 					self.showPoiLoadingProgress( poiLayerModel );
@@ -841,16 +879,32 @@ function (
 
 		getPoiLayerPopupContent: function (poiLayerModel, dataFromOSM) {
 
+			if ( !poiLayerModel.get('popupContent') ) {
+
+				return '';
+			}
+
 			var re,
 			self = this,
 			globalWrapper = document.createElement('div'),
 			editButtonWrapper = document.createElement('div'),
 			editButton = document.createElement('button'),
-			popupContent = markdown.toHTML( poiLayerModel.get('popupContent') );
+			popupContent = markdown.toHTML( poiLayerModel.get('popupContent') ),
+			contributionKey = dataFromOSM.type +'-'+ dataFromOSM.id,
+			contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
 
-			if ( !poiLayerModel.get('popupContent') ) {
+			if ( contributions[ contributionKey ] ) {
 
-				return '';
+				if ( dataFromOSM.version >= contributions[ contributionKey ].version ) {
+
+					delete contributions[ contributionKey ];
+
+					localStorage.setItem('contributions', JSON.stringify( contributions ));
+				}
+				else {
+
+					dataFromOSM = contributions[ contributionKey ];
+				}
 			}
 
 			for (var k in dataFromOSM.tags) {

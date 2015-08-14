@@ -160,6 +160,8 @@ function (
 
 		getRemoteEntityData: function ( id, type, callback ) {
 
+			var self = this;
+
 			$.ajax({
 
 				'method': 'GET',
@@ -170,12 +172,29 @@ function (
 					var key, value,
 					parentElement = xml.getElementsByTagName(type)[0],
 					tags = xml.documentElement.getElementsByTagName('tag'),
+					version = parseInt( parentElement.getAttribute('version') ),
 					result = {
 
-						'version': parseInt( parentElement.getAttribute('version') ),
+						'version': version,
 						'tags': {},
 						'xml': xml
-					};
+					},
+					contributionKey = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
+					contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
+
+					if ( contributions[ contributionKey ] ) {
+
+						if ( version >= contributions[ contributionKey ].version ) {
+
+							delete contributions[ contributionKey ];
+
+							localStorage.setItem('contributions', JSON.stringify( contributions ));
+						}
+						else {
+
+							self.options.dataFromOSM = contributions[ contributionKey ];
+						}
+					}
 
 
 					for (var j in tags) {
@@ -494,6 +513,16 @@ function (
 				}
 
 				self._radio.commands.execute('map:updatePoiPopup', self.options.poiLayerModel, self.options.dataFromOSM);
+
+
+				var key = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
+				contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
+
+				self.options.dataFromOSM.version++;
+
+				contributions[ key ] = self.options.dataFromOSM;
+
+				localStorage.setItem( 'contributions', JSON.stringify( contributions ) );
 			});
 
 			this.close();
