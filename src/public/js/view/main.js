@@ -289,9 +289,9 @@ function (
 
 					this.showEditTools();
 
-					if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+					if ( this.isLargeScreen() ) {
 
-						this.ui.editToolbar.toggleClass('open');
+						this.ui.editToolbar.addClass('open');
 					}
 				}
 			}
@@ -395,6 +395,14 @@ function (
 
 			this._map
 			.setView([center.lat, center.lng], zoomLevel)
+			.on('popupopen', function (e) {
+
+				self.onPopupOpen(e);
+			})
+			.on('popupclose', function (e) {
+
+				self.onPopupClose(e);
+			})
 			.on('moveend', function (e) {
 
 				self.onMoveEnd();
@@ -598,7 +606,8 @@ function (
 						layerGroup._poiIds.push(e.id);
 
 
-						var pos;
+						var pos,
+						popupOptions = {};
 
 						if(e.type === 'node') {
 
@@ -644,14 +653,18 @@ function (
 
 						if ( popupContent ) {
 
-							marker.bindPopup(
+							if ( self.isLargeScreen() ) {
 
-								L.popup({
+								popupOptions = {
 
 									'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
 									'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
-								})
-								.setContent( popupContent )
+								};
+							}
+
+							marker.bindPopup(
+
+								L.popup( popupOptions ).setContent( popupContent )
 							);
 						}
 
@@ -1230,6 +1243,48 @@ function (
 						this.onClickGeocode();
 					}
 					break;
+			}
+		},
+
+		isLargeScreen: function () {
+
+			if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+
+				return true;
+			}
+
+			return false;
+		},
+
+		onPopupOpen: function (e) {
+
+			if ( !this.isLargeScreen() ) {
+
+				this._geocodeWidgetView.close();
+
+				this._toolbarsState = {
+
+					'controlToolbar': this.ui.controlToolbar.hasClass('open'),
+					'userToolbar': this.ui.userToolbar.hasClass('open'),
+					'helpToolbar': this.ui.helpToolbar.hasClass('open'),
+					'editToolbar': this.ui.editToolbar.hasClass('open'),
+				};
+
+				this.ui.controlToolbar.removeClass('open');
+				this.ui.userToolbar.removeClass('open');
+				this.ui.helpToolbar.removeClass('open');
+				this.ui.editToolbar.removeClass('open');
+			}
+		},
+
+		onPopupClose: function (e) {
+
+			for (var toolbar in this._toolbarsState) {
+
+				if ( this._toolbarsState[toolbar] ) {
+
+					this.ui[toolbar].addClass('open');
+				}
 			}
 		},
 	});

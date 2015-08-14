@@ -8,6 +8,25 @@
   position: fixed;
   width: 50px;
   z-index: 1010;
+  -webkit-transition: -webkit-transform ease-out 0.2s;
+          transition: transform ease-out 0.2s;
+}
+.toolbar.left {
+  left: 0;
+  -webkit-transform: translate(-100%, 0);
+      -ms-transform: translate(-100%, 0);
+          transform: translate(-100%, 0);
+}
+.toolbar.right {
+  right: 0;
+  -webkit-transform: translate(100%, 0);
+      -ms-transform: translate(100%, 0);
+          transform: translate(100%, 0);
+}
+.toolbar.open {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
 }
 .toolbar .btn {
   width: 50px;
@@ -20,7 +39,6 @@
 #control_toolbar {
   z-index: 1012;
   top: 30px;
-  left: 0;
 }
 #control_toolbar .btn {
   color: #3b3f45;
@@ -48,7 +66,6 @@
 }
 #help_toolbar {
   bottom: 0;
-  left: 0;
 }
 #help_toolbar.on_top {
   z-index: 1051;
@@ -59,7 +76,6 @@
 }
 #user_toolbar {
   top: 30px;
-  right: 0;
 }
 #user_toolbar .btn {
   color: #fff;
@@ -91,17 +107,6 @@
 #edit_toolbar {
   z-index: 1010;
   top: 239px;
-  right: 0;
-  -webkit-transform: translate(100%, 0);
-      -ms-transform: translate(100%, 0);
-          transform: translate(100%, 0);
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
-}
-#edit_toolbar.open {
-  -webkit-transform: translate(0, 0);
-      -ms-transform: translate(0, 0);
-          transform: translate(0, 0);
 }
 #edit_toolbar .btn {
   color: #fff;
