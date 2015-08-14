@@ -56,8 +56,10 @@
 
 /* Help */
 <helpTitle "Aide">
-<helpText1 "Rudomap est un <a>logiciel libre</a> qui permet de créer des thèmes cartographiques.">
-<helpText2 "Ces thèmes cartographiques des cartes basées sur <a>OpenStreetMap</a> sur lesquelles on peut afficher des points/marqueurs/centres d'intérêt.">
+<helpText1 "Rudomap est développé avec le soutien du Département de la Gironde, dans le cadre d'un appel à projets «&nbsp;Déchets et Numériques&nbsp;».">
+<helpText2 "Rudomap vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
+<helpText3 "Par l'utilisation de Rudomap, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbl&nbsp;», permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
+<helpText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
 
 
 /* Login modal */
