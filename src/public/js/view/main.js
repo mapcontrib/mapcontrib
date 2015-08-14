@@ -699,6 +699,13 @@ function (
 									'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
 								};
 							}
+							else {
+
+								popupOptions = {
+
+									'autoPanPadding': L.point(0, 0),
+								};
+							}
 
 							marker.bindPopup(
 
