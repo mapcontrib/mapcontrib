@@ -46,16 +46,26 @@ function (
 
 		initialize: function () {
 
-			var self = this;
-
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			var self = this,
+			fragment = this._radio.reqres.request('getFragment'),
+			storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) ) || {};
+
+
+			this._fragment = fragment;
+
+			if ( storage.selectedTile ) {
+
+				this._selectedInStorage = storage.selectedTile;
+			}
 
 			this.listenTo(this.model, 'change:tiles', this.onChangeModelTiles);
 		},
 
 		onRender: function () {
 
-			var tile, thumbnail,
+			var tile, thumbnail, checked,
 			self = this,
 			tiles = this.model.get('tiles'),
 			html = '';
@@ -69,12 +79,25 @@ function (
 				thumbnail = thumbnail.replace('{x}', '265');
 				thumbnail = thumbnail.replace('{y}', '181');
 
+				if ( self._selectedInStorage && self._selectedInStorage === id ) {
+
+					checked = ' checked';
+				}
+				else if (id === tiles[0]) {
+
+					checked = ' checked';
+				}
+				else {
+
+					checked = '';
+				}
+
 				html += self.templateListItem({
 
 					'name': tile.name,
 					'id': id,
 					'thumbnail': thumbnail,
-					'checked': (id == tiles[0]) ? ' checked' : '',
+					'checked': checked,
 				});
 			});
 
@@ -84,6 +107,13 @@ function (
 		},
 
 		onClickTiles: function (e) {
+
+			var newState,
+			key = 'mapState-'+ this._fragment,
+			oldState = JSON.parse( localStorage.getItem( key ) );
+
+			newState = _.extend( oldState, { 'selectedTile': e.target.value } );
+			localStorage.setItem( key, JSON.stringify( newState ) );
 
 			this._radio.commands.execute('map:setTileLayer', e.target.value);
 		},

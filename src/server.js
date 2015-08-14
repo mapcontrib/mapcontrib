@@ -360,7 +360,29 @@ app.get('/theme-:fragment', function (req, res) {
 			json.theme = JSON.stringify( themeObject );
 			json.poiLayers = JSON.stringify( poiLayerObject );
 
-			res.render('themeMap', json);
+			if ( req.session.user ) {
+
+				themeApi.api.findFromOwnerId(req, res, req.session.user._id, function (themes) {
+
+					req.session.themes = [];
+
+					for (var i in themes) {
+
+						var themeId = themes[i]._id.toString();
+
+						if ( req.session.themes.indexOf( themeId ) === -1 ) {
+
+							req.session.themes.push( themeId );
+						}
+					}
+
+					res.render('themeMap', json);
+				});
+			}
+			else {
+
+				res.render('themeMap', json);
+			}
 		});
 	});
 });

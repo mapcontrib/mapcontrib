@@ -48,7 +48,10 @@
 <save "Save">
 <cancel "Cancel">
 <customize "Customize">
+<letsGo "Let's go">
+<empty "Empty">
 <editTheseInformations "Edit these informations">
+<loadingData title:"Some data are being loaded">
 
 
 /* Help */
@@ -68,6 +71,10 @@
 /* POI column */
 <selectPoiColumn_title "Points of interest">
 <selectPoiColumn_explanation "Select the points of interest you want to see on the map">
+<selectPoiColumn_needToZoom[plural($n)] {
+  one: "To see these data, you need to zoom once.",
+  many: "To see these data, you need to zoom {{ $n }} times."
+}>
 
 
 /* Tile column */
@@ -84,9 +91,13 @@
 
 /* Link column */
 <linkColumn_title "Share">
-<linkColumn_publicTheme "This theme is available by everyone.">
 <linkColumn_linkLabel "Share the link below:">
 <linkColumn_integrateCode "Or integrate the following code in your website:">
+<linkColumn_seeBigger "See it bigger">
+<linkColumn_width "Width">
+<linkColumn_height "Height">
+<linkColumn_percentage "Percentage">
+<linkColumn_pixel "Pixel">
 
 
 /* Edit settings column */
@@ -109,8 +120,11 @@
 <editPoiLayerColumn_title "Layer edit">
 <editPoiLayerColumn_layerName "Name">
 <editPoiLayerColumn_layerDescription "Description">
-<editPoiLayerColumn_data "OSM data">
+<editPoiLayerColumn_visibilityAndEdition "Visibility and edition">
+<editPoiLayerColumn_visible "Visible by users">
 <editPoiLayerColumn_dataEditable "Allow to edit data">
+<editPoiLayerColumn_layerZoomLevel "Minimum zoom">
+<editPoiLayerColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
 <editPoiLayerColumn_layerOverpassRequest "Overpass request">
 <editPoiLayerColumn_marker "Marker">
 <editPoiLayerColumn_layerPopupContent "Popup content">
@@ -131,8 +145,33 @@
 
 /* Edit POI data column */
 <editPoiDataColumn_title "Edit data">
-<editPoiDataColumn_emptyState "Loading of the last data version...">
+<editPoiDataColumn_emptyState "Refreshing the element data...">
+<editPoiDataColumn_remoteValue "New remote value:<br>{{ $remoteValue }}">
+<editPoiDataColumn_take "Take">
+<editPoiDataColumn_reject "Reject">
+
+
+/* Conflict modal */
+<conflictModal_title "Conflict">
+<conflictModal_explanation1 "Some new data have been added by another contributor while you edited your point of interest.">
+<conflictModal_explanation2 "Those new data will be displayed below the previous fields in order to let you choose to keep it or reject it.">
 
 
 /* Zoom indicator notification */
 <zoomNotification_content "Zoom to see data">
+
+
+/* Overpass timeout notification */
+<overpassTimeoutNotification_title "Timeout">
+<overpassTimeoutNotification_content "It seems that the « {{ $name }} » points of interest take too long to be loaded...">
+
+
+/* Overpass error notification */
+<overpassErrorNotification_title "Error">
+<overpassErrorNotification_content "An error occured during the load of the « {{ $name }} » points of interest.">
+
+
+/* Contribution error notification */
+<contributionErrorNotification_title "Contribution failed">
+<contributionErrorNotification_content "An error occured during the send of your contribution.">
+<contributionErrorNotification_retry "Retry to send">

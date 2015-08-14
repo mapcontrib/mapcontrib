@@ -21,19 +21,17 @@ function (
 
 	return Marionette.LayoutView.extend({
 
-		template: JST['zoomNotification.html'],
+		template: JST['conflictModal.html'],
 
 		behaviors: {
 
 			'l20n': {},
-			'notification': {},
+			'modal': {},
 		},
 
 		ui: {
 
-			'notification': '#zoom_notification',
-
-			'content': '.content',
+			'modal': '#conflict_modal',
 		},
 
 		initialize: function () {
@@ -41,11 +39,6 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
-		},
-
-		open: function () {
-
-			this.triggerMethod('open');
 		},
 
 		close: function () {

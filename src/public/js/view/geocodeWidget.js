@@ -150,7 +150,6 @@ function (
 
 				results.forEach(function (result) {
 
-
 					elements.push(
 
 						$( self.templateResultItem({
@@ -159,7 +158,7 @@ function (
 						}))
 						.on('click', function () {
 
-							self._radio.commands.execute('map:setPosition', result.center, 11);
+							self._radio.commands.execute('map:fitBounds', result.bbox);
 
 							self.close();
 						})

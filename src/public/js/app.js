@@ -17,6 +17,7 @@ require(['requireConfig'], function () {
 		'behavior/l20n',
 		'behavior/column',
 		'behavior/modal',
+		'behavior/notification',
 		'behavior/widget',
 
 		'model/user',
@@ -36,6 +37,7 @@ require(['requireConfig'], function () {
 		L20nBehavior,
 		ColumnBehavior,
 		ModalBehavior,
+		NotificationBehavior,
 		WidgetBehavior,
 
 		UserModel
@@ -84,6 +86,7 @@ require(['requireConfig'], function () {
 						'l20n': L20nBehavior,
 						'column': ColumnBehavior,
 						'modal': ModalBehavior,
+						'notification': NotificationBehavior,
 						'widget': WidgetBehavior,
 					};
 				};
@@ -141,8 +144,6 @@ require(['requireConfig'], function () {
 
 				this._radio.commands.setHandlers({
 
-					'app:initObjects': function () { self.initObjects(); },
-					'app:loadData': function () { self.loadData(); },
 					'app:registerBehavior': function (name, behavior) {
 
 						self._behavior[name] = behavior;

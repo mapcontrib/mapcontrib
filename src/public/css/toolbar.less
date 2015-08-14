@@ -6,6 +6,24 @@
 	position: fixed;
 	width: @toolbarBtnSize;
 	z-index: @toolbarZIndex;
+	transition: transform ease-out .2s;
+
+	&.left {
+
+		left: 0;
+		transform: translate(-100%, 0);
+	}
+
+	&.right {
+
+		right: 0;
+		transform: translate(100%, 0);
+	}
+
+	&.open {
+
+		transform: translate(0, 0);
+	}
 
 	.btn {
 
@@ -23,7 +41,6 @@
 
 	z-index: @toolbarControlZIndex;
 	top: @titleHeight;
-	left: 0;
 
 	.btn {
 
@@ -55,7 +72,6 @@
 #help_toolbar {
 
 	bottom: 0;
-	left: 0;
 
 	&.on_top {
 
@@ -73,7 +89,6 @@
 #user_toolbar {
 
 	top: @titleHeight;
-	right: 0;
 
 	.btn {
 
@@ -124,14 +139,6 @@
 
 	z-index: @toolbarZIndex;
 	top: @titleHeight + (@toolbarBtnSize * 4) + 9;
-	right: 0;
-	transform: translate(100%, 0);
-	transition: transform ease-out .2s;
-
-	&.open {
-
-		transform: translate(0, 0);
-	}
 
 	.btn {
 

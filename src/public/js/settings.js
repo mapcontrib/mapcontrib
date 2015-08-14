@@ -12,12 +12,18 @@ define([], function () {
 		// 'overpassServer': 'http://overpass-api.de/api/',
 		'overpassServer': 'http://overpass.osm.rambler.ru/cgi/',
 		// 'overpassServer': 'http://api.openstreetmap.fr/oapi/',
+		'overpassTimeout': 30 * 1000, // Milliseconds
 
 		'defaultAvatar': 'img/default_avatar.png',
 
 		'apiPath': 'api/',
 
-		'largeScreenMinWidth': 800,
-		'largeScreenMinHeight': 600,
+		'largeScreenMinWidth': 400,
+		'largeScreenMinHeight': 500,
+
+		'shareIframeWidth': 100,
+		'shareIframeWidthUnit': '%',
+		'shareIframeHeight': 400,
+		'shareIframeHeightUnit': 'px',
 	};
 });

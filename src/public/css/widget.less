@@ -1,0 +1,1096 @@
+
+@import 'variables.less';
+
+
+.column,
+.notification,
+.pop,
+.fullpage {
+
+	position: fixed;
+	transition: transform ease-out .2s;
+	outline: 0;
+
+	&.right {
+
+		right: 0;
+		transform: translate(100%, 0);
+	}
+
+	&.left {
+
+		left: 0;
+		transform: translate(-100%, 0);
+	}
+
+	&.open {
+
+		transform: translate(0, 0);
+	}
+
+	.marker-form-widget {
+
+		height: 42px;
+
+		.marker,
+		.btn {
+
+			float: left;
+		}
+
+		.marker {
+
+			margin-left: 15px;
+			margin-right: 20px;
+		}
+
+		.btn {
+
+			margin-top: 4px;
+		}
+	}
+
+	.zoom_tip {
+
+		font-style: italic;
+	}
+
+	.list-group.reorderable {
+
+		.list-group-item {
+
+			padding-left: 30px;
+
+			.reorder_icon {
+
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: inline-block;
+				height: 40px;
+				line-height: 40px;
+				padding: 0 6px;
+				cursor: grab;
+			}
+		}
+	}
+
+	.list-group.removeable {
+
+		.list-group-item {
+
+			padding-right: 46px;
+
+			.remove_btn {
+
+				position: absolute;
+				top: 0;
+				right: 0;
+				height: 40px;
+				background: transparent;
+				border-color: transparent;
+			}
+		}
+	}
+
+	textarea {
+
+		resize: vertical;
+	}
+
+	.control-label + .radio,
+	.control-label + .checkbox {
+
+		margin-top: 0;
+	}
+
+	.form-control-feedback {
+
+		display: none;
+	}
+
+	.has-feedback {
+
+		.form-control {
+
+			box-shadow: none;
+		}
+
+		.form-control-feedback {
+
+			display: block;
+		}
+	}
+
+	.has-success {
+
+		.form-control {
+
+			background: lighten(@green, 57%);
+		}
+
+		.form-control-feedback {
+
+			color: @green;
+		}
+	}
+
+	.has-warning {
+
+		.form-control {
+
+			background: lighten(@orange, 35%);
+		}
+
+		.form-control-feedback {
+
+			color: @orange;
+		}
+	}
+
+	.has-error {
+
+		.form-control {
+
+			background: lighten(@red, 32%);
+		}
+
+		.form-control-feedback {
+
+			color: @red;
+		}
+	}
+
+	.sticky-footer {
+
+		position: sticky;
+		z-index: 10;
+		bottom: 0;
+		padding: 20px 0;
+		margin: 20px 0 0 0;
+		border-top-width: 1px;
+		border-top-style: solid;
+	}
+
+	input + .help-block,
+	textarea + .help-block,
+	figure + figcaption {
+
+		padding: 4px 6px;
+		margin-top: 0;
+	}
+
+	input + .help-block,
+	textarea + .help-block {
+
+		font-size: 12px;
+	}
+
+
+	.merge_feedback .remote_value {
+
+		padding: 6px 8px;
+	}
+
+	.input-group-addon {
+
+		border-radius: 0;
+	}
+
+	.sticky-footer {
+
+		border-top-width: 1px;
+		border-top-style: solid;
+	}
+}
+
+
+.column {
+
+	z-index: @columnZIndex;
+	top: 0;
+	bottom: 0;
+	width: @columnWidth;
+	max-width: 100%;
+	overflow: hidden;
+
+	header {
+
+		position: relative;
+		z-index: 10;
+		height: @columnTitleHeight;
+
+		h2 {
+
+			font-size: 24px;
+			line-height: @columnTitleHeight;
+			margin: 0 0 0 10px;
+		}
+
+		.close_btn {
+
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+
+	.content {
+
+		position: absolute;
+		top: @columnTitleHeight;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding-top: 20px;
+		overflow: auto;
+	}
+}
+
+
+.notification {
+
+	z-index: @notificationZIndex;
+	bottom: 0;
+	right: 0;
+	width: @notificationWidth;
+	max-width: 100%;
+	padding-bottom: 10px;
+
+	p {
+
+		text-align: justify;
+	}
+
+	header {
+
+		.close_btn {
+
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: 10;
+		}
+	}
+}
+
+/* .modal is reserved by Bootstrap */
+.pop_modal {
+
+	position: fixed;
+	z-index: @modalZIndex;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.6);
+	outline: 0;
+	opacity: 0;
+	transition: opacity ease-out 0.2s;
+
+	.pop {
+
+		z-index: @modalZIndex;
+		top: 50%;
+		left: 50%;
+		width: 500px;
+		max-width: 100%;
+		transition: transform ease-out 0.2s;
+		transform: translate(-50%, -45%);
+		padding: 30px 15px;
+
+		&.no_padding {
+
+			padding: 0;
+
+			.nav-tabs {
+
+				margin-left: -15px;
+				margin-right: -15px;
+			}
+		}
+	}
+
+	&.open {
+
+		opacity: 1;
+
+		.pop {
+
+			transform: translate(-50%, -50%);
+		}
+	}
+}
+
+
+
+
+
+
+.lightTheme() {
+
+	background: #fff;
+	color: @anthracite;
+
+
+	.close_btn {
+
+		color: @lightAnthracite;
+	}
+
+	a {
+
+		color: @blue;
+		text-decoration: underline;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus,
+		&.btn {
+
+			color: @blue;
+			text-decoration: none;
+		}
+	}
+
+	.btn-primary,
+	a.btn-primary {
+
+		background: @blue;
+		border-color: @blue;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightBlue;
+			border-color: @lightBlue;
+
+			&[disabled],
+			&.disabled {
+
+				background: @blue;
+				border-color: @blue;
+			}
+		}
+	}
+
+	.btn-info,
+	a.btn-info {
+
+		background: @turquoise;
+		border-color: @turquoise;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightTurquoise;
+			border-color: @lightTurquoise;
+
+			&[disabled],
+			&.disabled {
+
+				background: @turquoise;
+				border-color: @turquoise;
+			}
+		}
+	}
+
+	.btn-success,
+	a.btn-success {
+
+		background: @green;
+		border-color: @green;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightGreen;
+			border-color: @lightGreen;
+
+			&[disabled],
+			&.disabled {
+
+				background: @green;
+				border-color: @green;
+			}
+		}
+	}
+
+	.btn-warning,
+	a.btn-warning {
+
+		background: @orange;
+		border-color: @orange;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightOrange;
+			border-color: @lightOrange;
+
+			&[disabled],
+			&.disabled {
+
+				background: @orange;
+				border-color: @orange;
+			}
+		}
+	}
+
+	.btn-danger,
+	a.btn-danger {
+
+		background: @darkRed;
+		border-color: @darkRed;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @red;
+			border-color: @red;
+
+			&[disabled],
+			&.disabled {
+
+				background: @darkRed;
+				border-color: @darkRed;
+			}
+		}
+	}
+
+	.nav-pills a {
+
+		color: @anthracite;
+		background: @gray;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			color: @anthracite;
+			background: @darkGray;
+		}
+	}
+
+	.nav a,
+	a.list-group-item,
+	.dropdown-menu a {
+
+		color: @anthracite;
+		text-decoration: none;
+	}
+
+	.list-group.reorderable {
+
+		.list-group-item {
+
+			.reorder_icon {
+
+				color: @lightAnthracite;
+			}
+		}
+	}
+
+	.list-group.removeable {
+
+		.list-group-item {
+
+			.remove_btn {
+
+				background: transparent;
+				border-color: transparent;
+				color: @anthracite;
+
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
+
+					background: lighten(@anthracite, 80%);
+					color: @anthracite;
+				}
+			}
+		}
+	}
+
+	.btn-marker-shape {
+
+		background: transparent;
+
+		&:hover,
+		&:focus,
+		&.focus {
+
+			border-color: @darkGray;
+		}
+
+		&:active,
+		&.active {
+
+			background: @darkGray;
+			box-shadow: none;
+		}
+	}
+
+	.sticky-footer {
+
+		background: #fff;
+		box-shadow: 0 0 4px 12px #fff;
+		border-top-color: @lightAnthracite;
+	}
+
+	input + .help-block,
+	textarea + .help-block,
+	figure + figcaption,
+	.merge_feedback .remote_value {
+
+		background: @gray;
+	}
+
+	.input-group-addon {
+
+		background: @gray;
+		border-color: @gray;
+	}
+
+	.has-success .control-label {
+
+		color: @green;
+	}
+
+	.has-warning .control-label {
+
+		color: @orange;
+	}
+
+	.has-error .control-label {
+
+		color: @red;
+	}
+
+
+	&.column {
+
+		header {
+
+			box-shadow: 0 0 4px 12px #fff;
+		}
+	}
+
+
+	/* .modal is reserved by Bootstrap */
+	&.pop {
+
+		.nav-tabs {
+
+			background: @lightGray;
+
+			li a {
+
+				color: @anthracite;
+
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
+
+					background: @lightGray;
+				}
+			}
+
+			li.active a {
+
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
+
+					background: #fff;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+.darkTheme(@color1, @color2, @color3, @color4, @color5) {
+
+	color: #fff;
+	background: @color3;
+
+	a {
+
+		color: #fff;
+		text-decoration: underline;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus,
+		&.btn {
+
+			color: #fff;
+			text-decoration: none;
+		}
+	}
+
+	.btn-primary,
+	a.btn-primary,
+	.nav-pills a {
+
+		background: @color4;
+		border-color: @color4;
+		color: #fff;
+
+		&:hover,
+		&:active,
+		&.active,
+		&:focus,
+		&.focus {
+
+			background: @color5;
+			border-color: @color5;
+
+			&[disabled],
+			&.disabled {
+
+				background: @color4;
+				border-color: @color4;
+			}
+		}
+	}
+
+	.btn-info,
+	a.btn-info {
+
+		background: @turquoise;
+		border-color: @turquoise;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightTurquoise;
+			border-color: @lightTurquoise;
+
+			&[disabled],
+			&.disabled {
+
+				background: @turquoise;
+				border-color: @turquoise;
+			}
+		}
+	}
+
+	.btn-success,
+	a.btn-success {
+
+		background: @green;
+		border-color: @green;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightGreen;
+			border-color: @lightGreen;
+
+			&[disabled],
+			&.disabled {
+
+				background: @green;
+				border-color: @green;
+			}
+		}
+	}
+
+	.btn-warning,
+	a.btn-warning {
+
+		background: @orange;
+		border-color: @orange;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightOrange;
+			border-color: @lightOrange;
+
+			&[disabled],
+			&.disabled {
+
+				background: @orange;
+				border-color: @orange;
+			}
+		}
+	}
+
+	.btn-danger,
+	a.btn-danger {
+
+		background: @darkRed;
+		border-color: @darkRed;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @red;
+			border-color: @red;
+
+			&[disabled],
+			&.disabled {
+
+				background: @darkRed;
+				border-color: @darkRed;
+			}
+		}
+	}
+
+	.list-group.reorderable {
+
+		.list-group-item {
+
+			.reorder_icon {
+
+				color: rgba(255, 255, 255, .4);
+			}
+		}
+	}
+
+	.list-group.removeable {
+
+		.list-group-item {
+
+			.remove_btn {
+
+				background: transparent;
+				border-color: transparent;
+				color: #fff;
+
+				&:hover,
+				&.focus,
+				&:focus,
+				&.active,
+				&:active {
+
+					background: rgba(255, 255, 255, .2);
+					color: #fff;
+				}
+			}
+		}
+	}
+
+	.btn-marker-shape {
+
+		background: transparent;
+
+		&:hover,
+		&:focus,
+		&.focus {
+
+			border-color: rgba(255, 255, 255, .4);
+		}
+
+		&:active,
+		&.active {
+
+			background: @color1;
+			box-shadow: none;
+		}
+	}
+
+	.sticky-footer {
+
+		border-top-color: rgba(255, 255, 255, .4);
+		background: @color3;
+		box-shadow: 0 0 4px 12px @color3;
+	}
+
+	.close_btn {
+
+		color: #fff;
+	}
+
+
+	input[type="radio"] {
+
+		& + label {
+
+			&::before {
+
+				background-color: transparent;
+				border-color: #fff;
+			}
+
+			&::after {
+
+				background-color: transparent;
+			}
+		}
+
+		&:checked + label {
+
+			&::before {
+
+				border-color: #fff;
+			}
+
+			&::after {
+
+				background-color: #fff;
+			}
+		}
+	}
+
+	input[type="checkbox"] {
+
+		& + label {
+
+			&::before {
+
+				background-color: transparent;
+				border-color: #fff;
+			}
+
+			&::after {
+
+				color: #fff;
+			}
+		}
+	}
+
+	input,
+	select,
+	textarea,
+	.form-control,
+	fieldset .form-control {
+
+		border-color: transparent;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			border-color: transparent;
+		}
+	}
+
+	.has-feedback .control-label {
+
+		color: #fff;
+	}
+
+	.nav a,
+	a.list-group-item,
+	.dropdown-menu a {
+
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.dropdown-menu a {
+
+		color: @anthracite;
+	}
+
+	.list-group {
+
+		background: inherit;
+	}
+
+	.btn-default,
+	.list-group-item {
+
+		background: inherit;
+		border-color: rgba(255, 255, 255, .4);
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @color1;
+			border-color: rgba(255, 255, 255, .5);
+			color: #fff;
+
+			&[disabled],
+			&.disabled {
+
+				background: inherit;
+			}
+		}
+	}
+
+	.list-group-item {
+
+		border-top-color: rgba(255, 255, 255, .2);
+		border-bottom-color: rgba(255, 255, 255, .2);
+
+		&:first-child {
+
+			border-top-color: rgba(255, 255, 255, .4);
+		}
+
+		&:last-child {
+
+			border-bottom-color: rgba(255, 255, 255, .4);
+		}
+	}
+
+	.help-block {
+
+		color: #fff;
+	}
+
+	input + .help-block,
+	textarea + .help-block,
+	figure + figcaption,
+	.merge_feedback .remote_value {
+
+		background: rgba(255, 255, 255, .15);
+	}
+
+	.input-group-addon {
+
+		background: @gray;
+		border-color: @gray;
+	}
+
+	.table-bordered,
+	.table-bordered th,
+	.table-bordered td, {
+
+		border-color: #fff;
+	}
+
+
+	&.column {
+
+		header {
+
+			box-shadow: 0 0 4px 12px @color3;
+		}
+	}
+
+
+	/* .modal is reserved by Bootstrap */
+	&.pop {
+
+		.nav-tabs {
+
+			background: @color1;
+			border-color: @color1;
+
+			li a {
+
+				background: @color1;
+				border-color: @color1;
+			}
+
+			li.active a {
+
+				background: @color3;
+				color: #fff;
+				border-color: @color3;
+			}
+		}
+	}
+}
+
+
+
+
+
+.column,
+.notification,
+.pop,
+.fullpage {
+
+	&.orange {
+
+		.darkTheme(@lightOrange, @orange, darken(@orange, 5%), @darkOrange, darken(@darkOrange, 4%));
+	}
+
+	&.red {
+
+		.darkTheme(@lightRed, @red, darken(@red, 5%), @darkRed, darken(@darkRed, 4%));
+	}
+
+	&.purple {
+
+		.darkTheme(@lightPurple, @purple, darken(@purple, 5%), @darkPurple, darken(@darkPurple, 4%));
+	}
+
+	&.blue {
+
+		.darkTheme(@lightBlue, @blue, darken(@blue, 5%), @darkBlue, darken(@darkBlue, 4%));
+	}
+
+	&.turquoise {
+
+		.darkTheme(@lightTurquoise, @turquoise, darken(@turquoise, 5%), @darkTurquoise, darken(@darkTurquoise, 4%));
+	}
+
+	&.green {
+
+		.darkTheme(@lightGreen, @green, darken(@green, 5%), @darkGreen, darken(@darkGreen, 4%));
+	}
+
+	&.white {
+
+		.lightTheme();
+	}
+
+	&.anthracite {
+
+		.darkTheme(@lightAnthracite, @anthracite, darken(@anthracite, 5%), @darkAnthracite, darken(@darkAnthracite, 5%));
+	}
+}

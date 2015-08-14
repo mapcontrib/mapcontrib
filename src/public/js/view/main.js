@@ -10,11 +10,12 @@ define([
 	'settings',
 	'const',
 	'leaflet',
-	'leaflet-layer-overpass',
+	'leaflet-overpass-layer',
 	'markdown',
 
 	'view/mainTitle',
 	'view/loginModal',
+	'view/conflictModal',
 	'view/geocodeWidget',
 	'view/selectPoiColumn',
 	'view/selectTileColumn',
@@ -28,6 +29,8 @@ define([
 	'view/editTileColumn',
 	'view/editPoiDataColumn',
 	'view/zoomNotification',
+	'view/overpassTimeoutNotification',
+	'view/overpassErrorNotification',
 
 	'model/theme',
 	'model/poiLayer',
@@ -49,6 +52,7 @@ function (
 
 	MainTitleView,
 	LoginModalView,
+	ConflictModalView,
 	GeocodeWidgetView,
 	SelectPoiColumnView,
 	SelectTileColumnView,
@@ -62,6 +66,8 @@ function (
 	EditTileColumnView,
 	EditPoiDataColumnView,
 	ZoomNotificationView,
+	OverpassTimeoutNotificationView,
+	OverpassErrorNotificationView,
 
 	ThemeModel,
 	PoiLayerModel,
@@ -119,6 +125,7 @@ function (
 			'mainTitle': '#rg_main_title',
 
 			'loginModal': '#rg_login_modal',
+			'conflictModal': '#rg_conflict_modal',
 
 			'geocodeWidget': '#rg_geocode_widget',
 
@@ -170,6 +177,7 @@ function (
 
 			this._seenZoomNotification = false;
 			this._minDataZoom = 0;
+			this._poiLoadingSpool = [];
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
@@ -188,6 +196,17 @@ function (
 
 					return self.getPoiLayerHtmlIcon( poiLayerModel );
 				},
+				'map:getCurrentZoom': function (tileId) {
+
+					if (self._map) {
+
+						return self._map.getZoom();
+					}
+				},
+				'getFragment': function () {
+
+					return self.model.get('fragment');
+				},
 			});
 
 			this._radio.commands.setHandlers({
@@ -199,6 +218,10 @@ function (
 				'modal:showEditPoiMarker': function (poiLayerModel) {
 
 					self.onCommandShowEditPoiMarker( poiLayerModel );
+				},
+				'modal:showConflict': function () {
+
+					self.onCommandShowConflict();
 				},
 				'map:setTileLayer': function (tileId) {
 
@@ -220,6 +243,10 @@ function (
 
 					self.updatePoiLayerPopups( poiLayerModel );
 				},
+				'map:updatePoiLayerMinZoom': function (poiLayerModel) {
+
+					self.updatePoiLayerMinZoom( poiLayerModel );
+				},
 				'map:updatePoiPopup': function (poiLayerModel, node) {
 
 					self.updatePoiPopup( poiLayerModel, node );
@@ -227,6 +254,10 @@ function (
 				'map:setPosition': function (latLng, zoomLevel) {
 
 					self.setPosition( latLng, zoomLevel );
+				},
+				'map:fitBounds': function (latLngBounds) {
+
+					self.fitBounds( latLngBounds );
 				},
 				'editPoiData': function (dataFromOSM, poiLayerModel) {
 
@@ -244,17 +275,24 @@ function (
 
 		onRender: function () {
 
-			var self = this;
+			var self = this,
+			isLogged = this._radio.reqres.request('var', 'isLogged'),
+			user = this._radio.reqres.request('model', 'user'),
+			owners = this.model.get('owners');
 
 
-			if ( this._radio.reqres.request('var', 'isLogged') ) {
+			if ( isLogged ) {
 
 				this.renderUserButtonLogged();
-				this.showEditTools();
 
-				if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+				if ( owners.indexOf(user.get('_id')) > -1 ) {
 
-					this.ui.editToolbar.toggleClass('open');
+					this.showEditTools();
+
+					if ( this.isLargeScreen() ) {
+
+						this.ui.editToolbar.addClass('open');
+					}
 				}
 			}
 			else {
@@ -317,6 +355,7 @@ function (
 			var self = this,
 			center = this.model.get('center'),
 			zoomLevel = this.model.get('zoomLevel'),
+			hiddenPoiLayers = [],
 			storageMapState = localStorage.getItem('mapState-'+ this.model.get('fragment'));
 
 			if ( storageMapState ) {
@@ -324,6 +363,7 @@ function (
 				storageMapState = JSON.parse( storageMapState );
 				center = storageMapState.center;
 				zoomLevel = storageMapState.zoomLevel;
+				hiddenPoiLayers = storageMapState.hiddenPoiLayers || [];
 			}
 
 			this.ui.toolbarButtons.tooltip({
@@ -355,6 +395,14 @@ function (
 
 			this._map
 			.setView([center.lat, center.lng], zoomLevel)
+			.on('popupopen', function (e) {
+
+				self.onPopupOpen(e);
+			})
+			.on('popupclose', function (e) {
+
+				self.onPopupClose(e);
+			})
 			.on('moveend', function (e) {
 
 				self.onMoveEnd();
@@ -362,10 +410,12 @@ function (
 			.on('zoomend', function (e) {
 
 				self.onZoomEnd(e);
+				self._radio.vent.trigger('map:zoomChanged');
 			})
 			.on('zoomlevelschange', function (e) {
 
 				self.onZoomLevelsChange(e);
+				self._radio.vent.trigger('map:zoomChanged');
 			})
 			.on('locationfound', function () {
 
@@ -377,7 +427,14 @@ function (
 			});
 
 
-			this.setTileLayer();
+			if ( storageMapState ) {
+
+				this.setTileLayer(storageMapState.selectedTile);
+			}
+			else {
+
+				this.setTileLayer();
+			}
 
 			L.control.scale({
 
@@ -390,8 +447,14 @@ function (
 
 			_.each(this._poiLayers.models, function (poiLayerModel) {
 
-				this.addPoiLayer( poiLayerModel );
+				if ( hiddenPoiLayers.indexOf(poiLayerModel.get('_id')) === -1 ) {
 
+					this.addPoiLayer( poiLayerModel );
+				}
+				else {
+
+					this.addPoiLayer( poiLayerModel, true );
+				}
 			}, this);
 
 
@@ -452,119 +515,228 @@ function (
 			this.updateMinDataZoom();
 		},
 
-		addPoiLayer: function (poiLayerModel) {
+		showPoiLoadingProgress: function (poiLayerModel) {
 
-			var self = this,
-			layerGroup = L.layerGroup();
+			if ( !this._poiLoadingSpool[ poiLayerModel.cid ] ) {
+
+				this._poiLoadingSpool[ poiLayerModel.cid ] = 0;
+			}
+
+			this._poiLoadingSpool[ poiLayerModel.cid ] += 1;
+
+			$('i', this.ui.controlPoiButton).addClass('hide');
+			$('.poi_loading', this.ui.controlPoiButton).removeClass('hide');
+		},
+
+		hidePoiLoadingProgress: function (poiLayerModel) {
+
+			if ( !this._poiLoadingSpool[ poiLayerModel.cid ] ) {
+
+				return;
+			}
+
+			this._poiLoadingSpool[ poiLayerModel.cid ] -= 1;
+
+			var countRequests = 0;
+
+			for (var cid in this._poiLoadingSpool) {
+
+				countRequests += this._poiLoadingSpool[cid];
+			}
+
+			if ( countRequests === 0) {
+
+				$('.poi_loading', this.ui.controlPoiButton).addClass('hide');
+				$('i', this.ui.controlPoiButton).removeClass('hide');
+			}
+		},
+
+		addPoiLayer: function (poiLayerModel, hidden) {
+
+			var split,
+			self = this,
+			layerGroup = L.layerGroup(),
+			overpassRequest = '',
+			overpassRequestSplit = poiLayerModel.get('overpassRequest').split(';');
 
 			layerGroup._poiIds = [];
 
-			layerGroup.addLayer(
+			overpassRequestSplit.forEach(function (row) {
 
-				new L.OverPassLayer({
+				if ( !row.toLowerCase().trim() ) {
 
-					'endpoint': settings.overpassServer,
-					'minzoom': poiLayerModel.get('minZoom'),
-					'requestPerTile': false,
-					'query': poiLayerModel.get('overpassRequest'),
-					'callback': function(data) {
+					return;
+				}
 
-						var wayBodyNodes = {},
-						icon = self.getPoiLayerIcon(poiLayerModel);
+				split = row.toLowerCase().trim().split(' ');
+
+				if ( split[0] !== 'out' || split.indexOf('skel') !== -1 || split.indexOf('ids_only') !== -1 ) {
+
+					overpassRequest += row + ';';
+					return;
+				}
+
+				if ( split.indexOf('body') !== -1 ) {
+
+					delete split[ split.indexOf('body') ];
+				}
+
+				if ( split.indexOf('center') === -1 ) {
+
+					split.push('center');
+				}
+
+				if ( split.indexOf('meta') === -1 ) {
+
+					split.push('meta');
+				}
+
+				overpassRequest += split.join(' ') + ';';
+			});
 
 
-						data.elements.forEach(function (e) {
 
-							if ( e.tags ) {
+			layerGroup._overpassLayer = new L.OverPassLayer({
 
-								return;
+				'endPoint': settings.overpassServer,
+				'minZoom': poiLayerModel.get('minZoom'),
+				'requestPerTile': false,
+				'timeout': settings.overpassTimeout,
+				'retryOnTimeout': true,
+				'query': overpassRequest,
+				'beforeRequest': function () {
+
+					self.showPoiLoadingProgress( poiLayerModel );
+				},
+				'afterRequest': function () {
+
+					self.hidePoiLoadingProgress( poiLayerModel );
+				},
+				'onSuccess': function(data) {
+
+					var wayBodyNodes = {},
+					icon = self.getPoiLayerIcon(poiLayerModel);
+
+
+					data.elements.forEach(function (e) {
+
+						if ( e.tags ) {
+
+							return;
+						}
+
+						wayBodyNodes[e.id] = e;
+					});
+
+
+					data.elements.forEach(function (e) {
+
+						if( !e.tags ) {
+
+							return;
+						}
+
+						if ( layerGroup._poiIds.indexOf(e.id) > -1 ) {
+
+							return;
+						}
+
+						layerGroup._poiIds.push(e.id);
+
+
+						var pos,
+						popupOptions = {};
+
+						if(e.type === 'node') {
+
+							pos = new L.LatLng(e.lat, e.lon);
+						}
+						else {
+
+							pos = new L.LatLng(e.center.lat, e.center.lon);
+
+							if ( e.nodes ) {
+
+								var nodePositions = [];
+
+								e.nodes.forEach(function (node) {
+
+									if ( wayBodyNodes[node] ) {
+
+										nodePositions.push(
+
+											L.latLng(
+
+												wayBodyNodes[node].lat,
+												wayBodyNodes[node].lon
+											)
+										);
+									}
+								});
+
+								var polygon = L.polygon( nodePositions, CONST.map.wayPolygonOptions );
+
+								layerGroup.addLayer( polygon );
 							}
+						}
 
-							wayBodyNodes[e.id] = e;
+
+						var popupContent = self.getPoiLayerPopupContent(poiLayerModel, e),
+						marker = L.marker(pos, {
+
+							'icon': icon
 						});
 
+						marker._dataFromOSM = e;
 
-						data.elements.forEach(function (e) {
+						if ( popupContent ) {
 
-							if( !e.tags ) {
+							if ( self.isLargeScreen() ) {
 
-								return;
+								popupOptions = {
+
+									'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
+									'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
+								};
 							}
 
-							if ( layerGroup._poiIds.indexOf(e.id) > -1 ) {
+							marker.bindPopup(
 
-								return;
-							}
+								L.popup( popupOptions ).setContent( popupContent )
+							);
+						}
 
-							layerGroup._poiIds.push(e.id);
+						layerGroup.addLayer( marker );
+					});
+				},
 
+				onTimeout: function (xhr) {
 
-							var pos;
+					var notification = new OverpassTimeoutNotificationView({ 'model': poiLayerModel });
 
-							if(e.type === 'node') {
+					$('body').append( notification.el );
 
-								pos = new L.LatLng(e.lat, e.lon);
-							}
-							else {
+					notification.open();
+				},
 
-								pos = new L.LatLng(e.center.lat, e.center.lon);
+				onError: function (xhr) {
 
-								if ( e.nodes ) {
+					var notification = new OverpassErrorNotificationView({ 'model': poiLayerModel });
 
-									var nodePositions = [];
+					$('body').append( notification.el );
 
-									e.nodes.forEach(function (node) {
+					notification.open();
+				},
+			});
 
-										if ( wayBodyNodes[node] ) {
-
-											nodePositions.push(
-
-												L.latLng(
-
-													wayBodyNodes[node].lat,
-													wayBodyNodes[node].lon
-												)
-											);
-										}
-									});
-
-									var polygon = L.polygon( nodePositions, CONST.map.wayPolygonOptions );
-
-									layerGroup.addLayer( polygon );
-								}
-							}
-
-
-							var popupContent = self.getPoiLayerPopupContent(poiLayerModel, e),
-							marker = L.marker(pos, {
-
-								'icon': icon
-							});
-
-							marker._dataFromOSM = e;
-
-							if ( popupContent ) {
-
-								marker.bindPopup(
-
-									L.popup({
-
-										'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
-										'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
-									})
-									.setContent( popupContent )
-								);
-							}
-
-							layerGroup.addLayer( marker );
-						});
-					}
-				})
-			);
+			layerGroup.addLayer( layerGroup._overpassLayer );
 
 			this._mapLayers[ poiLayerModel.cid ] = layerGroup;
 
-			this.showPoiLayer( poiLayerModel );
+			if ( !hidden ) {
+
+				this.showPoiLayer( poiLayerModel );
+			}
 		},
 
 		removePoiLayer: function (poiLayerModel) {
@@ -678,6 +850,16 @@ function (
 			});
 		},
 
+		updatePoiLayerMinZoom: function (poiLayerModel) {
+
+			var self = this,
+			overpassLayer = this._mapLayers[ poiLayerModel.cid ]._overpassLayer;
+
+			overpassLayer.options.minZoom = poiLayerModel.get('minZoom');
+
+			this.updateMinDataZoom();
+		},
+
 		updatePoiPopup: function (poiLayerModel, node) {
 
 			var self = this;
@@ -697,16 +879,32 @@ function (
 
 		getPoiLayerPopupContent: function (poiLayerModel, dataFromOSM) {
 
+			if ( !poiLayerModel.get('popupContent') ) {
+
+				return '';
+			}
+
 			var re,
 			self = this,
 			globalWrapper = document.createElement('div'),
 			editButtonWrapper = document.createElement('div'),
 			editButton = document.createElement('button'),
-			popupContent = markdown.toHTML( poiLayerModel.get('popupContent') );
+			popupContent = markdown.toHTML( poiLayerModel.get('popupContent') ),
+			contributionKey = dataFromOSM.type +'-'+ dataFromOSM.id,
+			contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
 
-			if ( !poiLayerModel.get('popupContent') ) {
+			if ( contributions[ contributionKey ] ) {
 
-				return '';
+				if ( dataFromOSM.version >= contributions[ contributionKey ].version ) {
+
+					delete contributions[ contributionKey ];
+
+					localStorage.setItem('contributions', JSON.stringify( contributions ));
+				}
+				else {
+
+					dataFromOSM = contributions[ contributionKey ];
+				}
 			}
 
 			for (var k in dataFromOSM.tags) {
@@ -850,6 +1048,11 @@ function (
 			this.getRegion('editPoiMarkerModal').show( view );
 		},
 
+		onCommandShowConflict: function () {
+
+			this.getRegion('conflictModal').show( new ConflictModalView() );
+		},
+
 
 
 		onClickZoomIn: function () {
@@ -887,11 +1090,15 @@ function (
 
 		updateSessionMapState: function () {
 
-			localStorage.setItem('mapState-'+ this.model.get('fragment'), JSON.stringify( {
+			var key = 'mapState-'+ this.model.get('fragment'),
+			oldState = JSON.parse( localStorage.getItem( key ) ) || {},
+			newState = _.extend( oldState, {
 
 				'center': this._map.getCenter(),
 				'zoomLevel': this._map.getZoom(),
-			} ));
+			} );
+
+			localStorage.setItem( key, JSON.stringify( newState ) );
 		},
 
 		onMoveEnd: function (e) {
@@ -959,9 +1166,6 @@ function (
 
 			this.ui.locateWaitButton.addClass('hide');
 			this.ui.locateButton.removeClass('hide');
-
-			// FIXME
-			// Give some feedback to the user
 		},
 
 		onClickExpandScreen: function () {
@@ -1072,7 +1276,12 @@ function (
 
 		setPosition: function (latLng, zoomLevel) {
 
-			this._map.setView( latLng, zoomLevel );
+			this._map.setView( latLng, zoomLevel, { 'animate': true } );
+		},
+
+		fitBounds: function (latLngBounds) {
+
+			this._map.fitBounds( latLngBounds, { 'animate': true } );
 		},
 
 		onKeyDown: function (e) {
@@ -1088,6 +1297,48 @@ function (
 						this.onClickGeocode();
 					}
 					break;
+			}
+		},
+
+		isLargeScreen: function () {
+
+			if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+
+				return true;
+			}
+
+			return false;
+		},
+
+		onPopupOpen: function (e) {
+
+			if ( !this.isLargeScreen() ) {
+
+				this._geocodeWidgetView.close();
+
+				this._toolbarsState = {
+
+					'controlToolbar': this.ui.controlToolbar.hasClass('open'),
+					'userToolbar': this.ui.userToolbar.hasClass('open'),
+					'helpToolbar': this.ui.helpToolbar.hasClass('open'),
+					'editToolbar': this.ui.editToolbar.hasClass('open'),
+				};
+
+				this.ui.controlToolbar.removeClass('open');
+				this.ui.userToolbar.removeClass('open');
+				this.ui.helpToolbar.removeClass('open');
+				this.ui.editToolbar.removeClass('open');
+			}
+		},
+
+		onPopupClose: function (e) {
+
+			for (var toolbar in this._toolbarsState) {
+
+				if ( this._toolbarsState[toolbar] ) {
+
+					this.ui[toolbar].addClass('open');
+				}
 			}
 		},
 	});

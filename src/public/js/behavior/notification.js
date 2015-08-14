@@ -39,19 +39,19 @@ function (
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this.listenTo(this._radio.vent, 'widget:closeAll', this.onClose);
+			this.listenTo(this._radio.vent, 'notification:closeAll', this.onClose);
 
 			this._isOpened = false;
 		},
 
 		onRender: function () {
 
-			this.ui.widget.attr('tabindex', 0);
+			this.ui.notification.attr('tabindex', 0);
 		},
 
 		onDestroy: function () {
 
-			this.stopListening(this._radio.vent, 'widget:closeAll');
+			this.stopListening(this._radio.vent, 'notification:closeAll');
 		},
 
 		onToggle: function () {
@@ -76,7 +76,7 @@ function (
 
 				self.view.trigger('open');
 
-				self.ui.widget.addClass('open');
+				self.ui.notification.addClass('open').focus();
 			});
 		},
 
@@ -93,7 +93,7 @@ function (
 
 				self.view.trigger('close');
 
-				self.ui.widget.one('transitionend', function () {
+				self.ui.notification.on('transitionend', function () {
 
 					if ( self.options.destroyOnClose ) {
 

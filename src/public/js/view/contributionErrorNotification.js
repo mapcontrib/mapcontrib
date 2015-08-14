@@ -21,19 +21,29 @@ function (
 
 	return Marionette.LayoutView.extend({
 
-		template: JST['zoomNotification.html'],
+		template: JST['contributionErrorNotification.html'],
 
 		behaviors: {
 
 			'l20n': {},
-			'notification': {},
+			'notification': {
+
+				'destroyOnClose': true,
+			},
 		},
 
 		ui: {
 
-			'notification': '#zoom_notification',
+			'notification': '.notification',
 
 			'content': '.content',
+
+			'retryButton': '.retry_btn',
+		},
+
+		events: {
+
+			'click @ui.retryButton': 'onClickRetry',
 		},
 
 		initialize: function () {
@@ -41,6 +51,8 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			return this.render();
 		},
 
 		open: function () {
@@ -51,6 +63,13 @@ function (
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		onClickRetry: function () {
+
+			this.options.retryCallback();
+			
+			this.close();
 		},
 	});
 });

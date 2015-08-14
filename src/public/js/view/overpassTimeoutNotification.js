@@ -19,19 +19,22 @@ function (
 
 	'use strict';
 
-	return Marionette.LayoutView.extend({
+	return Marionette.ItemView.extend({
 
-		template: JST['zoomNotification.html'],
+		template: JST['overpassTimeoutNotification.html'],
 
 		behaviors: {
 
 			'l20n': {},
-			'notification': {},
+			'notification': {
+
+				'destroyOnClose': true,
+			},
 		},
 
 		ui: {
 
-			'notification': '#zoom_notification',
+			'notification': '.notification',
 
 			'content': '.content',
 		},
@@ -41,6 +44,8 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			return this.render();
 		},
 
 		open: function () {
@@ -51,6 +56,14 @@ function (
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		onRender: function () {
+
+			this.ui.content.html(
+
+				document.l10n.getSync('overpassTimeoutNotification_content', { 'name': this.model.get('name') })
+			);
 		},
 	});
 });

@@ -51,6 +51,14 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 		},
 
+		templateHelpers: function () {
+
+			return {
+
+				'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
+			};
+		},
+
 		onRender: function () {
 
 			this.el.id = 'poi-layer-'+ this.model.cid;

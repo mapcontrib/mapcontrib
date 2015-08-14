@@ -4,13 +4,13 @@
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.4",
     "bootstrap-more": "~0.4.9",
-    "font-awesome": "~4.3.0",
+    "font-awesome": "~4.4.0",
     "backbone": "~1.1.2",
     "underscore": "~1.6.0",
     "math.format": "~0.8.9",
     "backbone-validation": "~0.11.5",
     "marionette": "~2.4.1",
-    "requirejs": "~2.1.18",
+    "requirejs": "~2.1.20",
     "leaflet": "~0.7.3",
     "animationFrame": "~0.2.4",
     "Fullscreen-API-Polyfill": "*",
@@ -23,6 +23,6 @@
     "osm-auth": "~0.2.8",
     "ionicons": "~2.0.1",
     "leaflet-control-geocoder": "~1.2.1",
-    "leaflet-layer-overpass": "https://github.com/GuillaumeAmat/leaflet-layer-overpass.git#7d5a10bfbe9ec51635914d9fa82c6257b9ad5d15"
+    "leaflet-overpass-layer": "~1.4.0"
   }
 }

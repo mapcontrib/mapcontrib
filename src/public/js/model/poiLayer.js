@@ -26,6 +26,7 @@ function (
 			'themeId': undefined,
 			'name': undefined,
 			'description': undefined,
+			'visible': true,
 			'dataEditable': true,
 			'overpassRequest': undefined,
 			'minZoom': 14,
