@@ -48,6 +48,8 @@
 <save "Enregistrer">
 <cancel "Annuler">
 <customize "Personnaliser">
+<letsGo "C'est parti">
+<empty "Vide">
 <editTheseInformations "Éditer ces informations">
 <loadingData title:"Certaines données sont en cours de chargement">
 
@@ -143,7 +145,16 @@
 
 /* Edit POI data column */
 <editPoiDataColumn_title "Éditer les données">
-<editPoiDataColumn_emptyState "Chargement de la dernière version des données...">
+<editPoiDataColumn_emptyState "Actualisation des données de l'élément à modifier...">
+<editPoiDataColumn_remoteValue "Nouvelle valeur distante&nbsp;:<br>{{ $remoteValue }}">
+<editPoiDataColumn_take "Prendre">
+<editPoiDataColumn_reject "Rejeter">
+
+
+/* Conflict modal */
+<conflictModal_title "Conflit">
+<conflictModal_explanation1 "De nouvelles données ont été saisies par un autre contributeur pendant que vous modifiez les informations de votre centre d'intérêt.">
+<conflictModal_explanation2 "Ces nouvelles données vont être affichées en-dessous des champs précédents pour que vous puissiez choisir ou non de les garder.">
 
 
 /* Zoom notification */

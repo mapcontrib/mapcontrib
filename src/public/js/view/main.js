@@ -15,6 +15,7 @@ define([
 
 	'view/mainTitle',
 	'view/loginModal',
+	'view/conflictModal',
 	'view/geocodeWidget',
 	'view/selectPoiColumn',
 	'view/selectTileColumn',
@@ -51,6 +52,7 @@ function (
 
 	MainTitleView,
 	LoginModalView,
+	ConflictModalView,
 	GeocodeWidgetView,
 	SelectPoiColumnView,
 	SelectTileColumnView,
@@ -123,6 +125,7 @@ function (
 			'mainTitle': '#rg_main_title',
 
 			'loginModal': '#rg_login_modal',
+			'conflictModal': '#rg_conflict_modal',
 
 			'geocodeWidget': '#rg_geocode_widget',
 
@@ -215,6 +218,10 @@ function (
 				'modal:showEditPoiMarker': function (poiLayerModel) {
 
 					self.onCommandShowEditPoiMarker( poiLayerModel );
+				},
+				'modal:showConflict': function () {
+
+					self.onCommandShowConflict();
 				},
 				'map:setTileLayer': function (tileId) {
 
@@ -972,6 +979,11 @@ function (
 			});
 
 			this.getRegion('editPoiMarkerModal').show( view );
+		},
+
+		onCommandShowConflict: function () {
+
+			this.getRegion('conflictModal').show( new ConflictModalView() );
 		},
 
 

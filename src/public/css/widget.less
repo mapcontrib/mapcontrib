@@ -104,9 +104,67 @@
 		margin-top: 0;
 	}
 
+	.form-control-feedback {
+
+		display: none;
+	}
+
+	.has-feedback {
+
+		.form-control {
+
+			box-shadow: none;
+		}
+
+		.form-control-feedback {
+
+			display: block;
+		}
+	}
+
+	.has-success {
+
+		.form-control {
+
+			background: lighten(@green, 57%);
+		}
+
+		.form-control-feedback {
+
+			color: @green;
+		}
+	}
+
+	.has-warning {
+
+		.form-control {
+
+			background: lighten(@orange, 35%);
+		}
+
+		.form-control-feedback {
+
+			color: @orange;
+		}
+	}
+
+	.has-error {
+
+		.form-control {
+
+			background: lighten(@red, 32%);
+		}
+
+		.form-control-feedback {
+
+			color: @red;
+		}
+	}
+
 	.sticky-footer {
 
 		position: sticky;
+		z-index: 10;
 		bottom: 0;
 		padding: 20px 0;
 		margin: 20px 0 0 0;
@@ -126,6 +184,12 @@
 	textarea + .help-block {
 
 		font-size: 12px;
+	}
+
+
+	.merge_feedback .remote_value {
+
+		padding: 6px 8px;
 	}
 
 	.input-group-addon {
@@ -268,6 +332,12 @@
 	background: #fff;
 	color: @anthracite;
 
+
+	.close_btn {
+
+		color: @lightAnthracite;
+	}
+
 	a {
 
 		color: @blue;
@@ -300,6 +370,113 @@
 
 			background: @lightBlue;
 			border-color: @lightBlue;
+
+			&[disabled],
+			&.disabled {
+
+				background: @blue;
+				border-color: @blue;
+			}
+		}
+	}
+
+	.btn-info,
+	a.btn-info {
+
+		background: @turquoise;
+		border-color: @turquoise;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightTurquoise;
+			border-color: @lightTurquoise;
+
+			&[disabled],
+			&.disabled {
+
+				background: @turquoise;
+				border-color: @turquoise;
+			}
+		}
+	}
+
+	.btn-success,
+	a.btn-success {
+
+		background: @green;
+		border-color: @green;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightGreen;
+			border-color: @lightGreen;
+
+			&[disabled],
+			&.disabled {
+
+				background: @green;
+				border-color: @green;
+			}
+		}
+	}
+
+	.btn-warning,
+	a.btn-warning {
+
+		background: @orange;
+		border-color: @orange;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightOrange;
+			border-color: @lightOrange;
+
+			&[disabled],
+			&.disabled {
+
+				background: @orange;
+				border-color: @orange;
+			}
+		}
+	}
+
+	.btn-danger,
+	a.btn-danger {
+
+		background: @darkRed;
+		border-color: @darkRed;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @red;
+			border-color: @red;
+
+			&[disabled],
+			&.disabled {
+
+				background: @darkRed;
+				border-color: @darkRed;
+			}
 		}
 	}
 
@@ -387,14 +564,10 @@
 		border-top-color: @lightAnthracite;
 	}
 
-	.close_btn {
-
-		color: @lightAnthracite;
-	}
-
 	input + .help-block,
 	textarea + .help-block,
-	figure + figcaption {
+	figure + figcaption,
+	.merge_feedback .remote_value {
 
 		background: @gray;
 	}
@@ -403,6 +576,21 @@
 
 		background: @gray;
 		border-color: @gray;
+	}
+
+	.has-success .control-label {
+
+		color: @green;
+	}
+
+	.has-warning .control-label {
+
+		color: @orange;
+	}
+
+	.has-error .control-label {
+
+		color: @red;
 	}
 
 
@@ -481,6 +669,7 @@
 	.nav-pills a {
 
 		background: @color4;
+		border-color: @color4;
 		color: #fff;
 
 		&:hover,
@@ -490,39 +679,115 @@
 		&.focus {
 
 			background: @color5;
+			border-color: @color5;
+
+			&[disabled],
+			&.disabled {
+
+				background: @color4;
+				border-color: @color4;
+			}
 		}
 	}
 
-	.btn-default,
-	a.list-group-item {
+	.btn-info,
+	a.btn-info {
+
+		background: @turquoise;
+		border-color: @turquoise;
+		color: #fff;
 
 		&:hover,
-		&:active,
-		&.active,
+		&.focus,
 		&:focus,
-		&.focus {
+		&.active,
+		&:active {
 
-			background: @color1;
+			background: @lightTurquoise;
+			border-color: @lightTurquoise;
+
+			&[disabled],
+			&.disabled {
+
+				background: @turquoise;
+				border-color: @turquoise;
+			}
 		}
 	}
 
-	.dropdown-menu a {
+	.btn-success,
+	a.btn-success {
 
-		color: @anthracite;
-	}
-
-	.nav a,
-	a.list-group-item,
-	.dropdown-menu a {
-
-		text-decoration: none;
-	}
-
-	.btn-primary,
-	.btn-link,
-	.nav a {
-
+		background: @green;
+		border-color: @green;
 		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightGreen;
+			border-color: @lightGreen;
+
+			&[disabled],
+			&.disabled {
+
+				background: @green;
+				border-color: @green;
+			}
+		}
+	}
+
+	.btn-warning,
+	a.btn-warning {
+
+		background: @orange;
+		border-color: @orange;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @lightOrange;
+			border-color: @lightOrange;
+
+			&[disabled],
+			&.disabled {
+
+				background: @orange;
+				border-color: @orange;
+			}
+		}
+	}
+
+	.btn-danger,
+	a.btn-danger {
+
+		background: @darkRed;
+		border-color: @darkRed;
+		color: #fff;
+
+		&:hover,
+		&.focus,
+		&:focus,
+		&.active,
+		&:active {
+
+			background: @red;
+			border-color: @red;
+
+			&[disabled],
+			&.disabled {
+
+				background: @darkRed;
+				border-color: @darkRed;
+			}
+		}
 	}
 
 	.list-group.reorderable {
@@ -656,10 +921,22 @@
 		}
 	}
 
-	input,
-	.btn-primary {
+	.has-feedback .control-label {
 
-		border-color: transparent;
+		color: #fff;
+	}
+
+	.nav a,
+	a.list-group-item,
+	.dropdown-menu a {
+
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.dropdown-menu a {
+
+		color: @anthracite;
 	}
 
 	.list-group {
@@ -680,8 +957,15 @@
 		&.active,
 		&:active {
 
+			background: @color1;
 			border-color: rgba(255, 255, 255, .5);
 			color: #fff;
+
+			&[disabled],
+			&.disabled {
+
+				background: inherit;
+			}
 		}
 	}
 
@@ -708,7 +992,8 @@
 
 	input + .help-block,
 	textarea + .help-block,
-	figure + figcaption {
+	figure + figcaption,
+	.merge_feedback .remote_value {
 
 		background: rgba(255, 255, 255, .15);
 	}

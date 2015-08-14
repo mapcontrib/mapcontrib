@@ -41,6 +41,7 @@ function (
 			'column': '#edit_poi_data_column',
 			'fields': '.fields',
 			'footer': '.sticky-footer',
+			'footerButtons': '.sticky-footer button',
 		},
 
 		events: {
@@ -61,6 +62,8 @@ function (
 			var self = this;
 
 			this._user = this._radio.reqres.request('model', 'user');
+
+			this._unresolvedConflicts = 0;
 
 			this._auth = osmAuth({
 
@@ -119,7 +122,7 @@ function (
 
 						'tag': popupTag,
 						'value': dataFromOSM.tags[popupTag],
-						'remoteValue': dataFromOSM.tags[popupTag],
+						'remoteValue': '',
 					});
 				}
 
@@ -140,7 +143,7 @@ function (
 
 						'tag': tag,
 						'value': value,
-						'remoteValue': value,
+						'remoteValue': '',
 					});
 				}
 
@@ -150,6 +153,8 @@ function (
 				}
 
 				self.ui.footer.removeClass('hide');
+
+				document.l10n.localizeNode( self.ui.fields[0] );
 			});
 		},
 
@@ -195,82 +200,196 @@ function (
 
 		onSubmit: function (e) {
 
+			var self = this;
+
+			e.preventDefault();
+
 			if ( !this._radio.reqres.request('var', 'isLogged') ) {
 
 				return false;
 			}
 
-			e.preventDefault();
+			this.ui.footerButtons.prop('disabled', true);
 
-			var self = this,
-			dataFromOSM = this.options.dataFromOSM,
-			newTags = {};
+			this.getRemoteEntityData(
 
+				this.options.dataFromOSM.id,
+				this.options.dataFromOSM.type,
+				function (remoteData) {
 
-			this.ui.fields
-			.find('input')
-			.each(function (i, input) {
+					if ( self._remoteData.version !== remoteData.version ) {
 
-				var tag = $(input).data('tag');
-
-				newTags[tag] = input.value;
-			});
-
-
-			this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, function (remoteData) {
-
-				var value, key,
-				parentElement = remoteData.xml.getElementsByTagName(dataFromOSM.type)[0],
-				tags = remoteData.xml.documentElement.getElementsByTagName('tag'),
-				remoteTags = {};
-
-				for (var i in tags) {
-
-					if ( tags[i].getAttribute ) {
-
-						remoteTags[ tags[i].getAttribute('k') ] = tags[i];
-					}
-				}
-
-				for (key in newTags) {
-
-					value = newTags[key];
-
-					if ( !value ) {
-
-						if ( typeof remoteTags[key] != 'undefined' ) {
-
-							parentElement.removeChild( remoteTags[key] );
-
-							delete self.options.dataFromOSM.tags[key];
-						}
-
-						continue;
-					}
-
-					if ( remoteTags[key] ) {
-
-						remoteTags[key].setAttribute('v', value);
+						self.displayConflict( remoteData );
 					}
 					else {
 
-						var newTag = remoteData.xml.createElement('tag');
+						self.prepareXml( remoteData );
+					}
+				}
+			);
+		},
 
-						newTag.setAttribute('k', key);
-						newTag.setAttribute('v', value);
+		prepareXml: function ( remoteData ) {
 
-						parentElement.appendChild(newTag);
+			var tag, value,
+			self = this,
+			parentElement = remoteData.xml.getElementsByTagName(this.options.dataFromOSM.type)[0],
+			tags = remoteData.xml.documentElement.getElementsByTagName('tag'),
+			remoteTags = {};
+
+			for (var i in tags) {
+
+				if ( tags[i].getAttribute ) {
+
+					remoteTags[ tags[i].getAttribute('k') ] = tags[i];
+				}
+			}
+
+			this.ui.fields
+			.find('input.form-control')
+			.each(function (i, input) {
+
+				tag = $(input).data('tag');
+				value = input.value;
+
+				if ( !value ) {
+
+					if ( typeof remoteTags[tag] != 'undefined' ) {
+
+						parentElement.removeChild( remoteTags[tag] );
+
+						delete self.options.dataFromOSM.tags[tag];
 					}
 
-					self.options.dataFromOSM.tags[key] = value;
+					return;
 				}
 
-				self.getChangesetId(function (changesetId) {
+				if ( remoteTags[tag] ) {
 
-					self.sendXml( remoteData.xml, changesetId );
-				});
+					remoteTags[tag].setAttribute('v', value);
+				}
+				else {
+
+					var newTag = remoteData.xml.createElement('tag');
+
+					newTag.setAttribute('k', tag);
+					newTag.setAttribute('v', value);
+
+					parentElement.appendChild(newTag);
+				}
+
+				self.options.dataFromOSM.tags[tag] = value;
+			});
+
+
+			this.getChangesetId(function (changesetId) {
+
+				self.sendXml( remoteData.xml, changesetId );
 			});
 		},
+
+
+		displayConflict: function ( remoteData ) {
+
+			var tag, value, newField,
+			self = this,
+			html = '';
+
+			this._radio.commands.execute('modal:showConflict');
+
+			this.ui.fields
+			.find('.form-group')
+			.each(function (i, field) {
+
+				self.displayFeedbackOnField(field, remoteData);
+			});
+
+
+			for (tag in remoteData.tags) {
+
+				value = remoteData.tags[ tag ];
+
+				if ( this._remoteData.tags[tag] ) {
+
+					continue;
+				}
+
+				html = this.templateField({
+
+					'tag': tag,
+					'value': '',
+					'remoteValue': value,
+				});
+
+				newField = $( html ).appendTo( this.ui.fields );
+
+				this.displayFeedbackOnField(newField, remoteData);
+			}
+
+			this._remoteData = remoteData;
+
+			if ( this._unresolvedConflicts === 0 ) {
+
+				this.ui.footerButtons.prop('disabled', false);
+			}
+		},
+
+
+		displayFeedbackOnField: function (field, remoteData) {
+
+			var self = this,
+			$input = $('input.form-control', field),
+			tag = $input.data('tag'),
+			value = $input.val(),
+			remoteValue = remoteData.tags[tag] ? remoteData.tags[tag] : '';
+
+			if ( value !== remoteValue ) {
+
+				this._unresolvedConflicts++;
+
+				$('.remote_value', field).html(
+
+					document.l10n.getSync('editPoiDataColumn_remoteValue', {
+
+						'remoteValue': remoteValue ? remoteValue : '<em>'+ document.l10n.getSync('empty') +'</em>'
+					})
+				);
+
+				$(field).addClass('has-warning has-feedback');
+				$('.merge_feedback', field).removeClass('hide');
+
+				$('.take_btn', field).click( self.onClickTake.bind(this, field, $input, remoteValue) );
+
+				$('.reject_btn', field).click( self.onClickReject.bind(this, field) );
+			}
+		},
+
+
+		onClickTake: function (field, $input, remoteValue) {
+
+			$input.val(remoteValue);
+
+			$(field).removeClass('has-warning has-feedback');
+			$('.merge_feedback', field).addClass('hide');
+
+			if ( --this._unresolvedConflicts === 0 ) {
+
+				this.ui.footerButtons.prop('disabled', false);
+			}
+		},
+
+
+		onClickReject: function (field) {
+
+			$(field).removeClass('has-warning has-feedback');
+			$('.merge_feedback', field).addClass('hide');
+
+			if ( --this._unresolvedConflicts === 0 ) {
+
+				this.ui.footerButtons.prop('disabled', false);
+			}
+		},
+
 
 		getChangesetId: function ( callback ) {
 
@@ -341,6 +460,7 @@ function (
 			parentElement.removeAttribute('user', this._user.get('displayName'));
 
 			data = serializer.serializeToString(xml);
+
 
 			this._auth.xhr({
 

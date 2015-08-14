@@ -48,6 +48,8 @@
 <save "Save">
 <cancel "Cancel">
 <customize "Customize">
+<letsGo "Let's go">
+<empty "Empty">
 <editTheseInformations "Edit these informations">
 <loadingData title:"Some data are being loaded">
 
@@ -143,7 +145,16 @@
 
 /* Edit POI data column */
 <editPoiDataColumn_title "Edit data">
-<editPoiDataColumn_emptyState "Loading of the last data version...">
+<editPoiDataColumn_emptyState "Refreshing the element data...">
+<editPoiDataColumn_remoteValue "New remote value:<br>{{ $remoteValue }}">
+<editPoiDataColumn_take "Take">
+<editPoiDataColumn_reject "Reject">
+
+
+/* Conflict modal */
+<conflictModal_title "Conflict">
+<conflictModal_explanation1 "Some new data have been added by another contributor while you edited your point of interest.">
+<conflictModal_explanation2 "Those new data will be displayed below the previous fields in order to let you choose to keep it or reject it.">
 
 
 /* Zoom indicator notification */
