@@ -18,18 +18,18 @@ module.exports = function(grunt) {
 
 		clean: {
 
-			build: [
+			build: {
 
-				'dist/public/bower_components',
-				'dist/public/css',
-				'dist/public/fonts',
-				'dist/public/img',
-				'dist/public/index.html',
-				'dist/public/js',
-				'dist/public/locale',
-				'dist/public/templates',
-				'dist/server.js',
-			]
+				options: {
+
+					force: true,
+				},
+				src: [
+
+					'!dist/*/*',
+					'!dist/upload',
+				],
+			}
 		},
 
 		copy: {
