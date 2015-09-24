@@ -1,4 +1,4 @@
-# Rudomap
+# MapContrib
 
 
 ## Contributing with translations
@@ -47,14 +47,14 @@ When your done, you can build a minified version of all the Javascript files and
 
 	$ grunt build
 
-A new directory called **dist** will contain your shiny new Rudomap.
+A new directory called **dist** will contain your shiny new MapContrib.
 
 
 ## Thanks
 
-Rudomap is what it is because of some crazy people and free and open source projects. Let's name a few:
+MapContrib is what it is because of some crazy people and free and open source projects. Let's name a few:
 
-* Vincent Bergeot: Just the Rudomap's daddy...
+* Vincent Bergeot: Just the MapContrib's daddy...
 * Frédéric Rodrigo: The force he has ([Osmose](https://github.com/osm-fr/osmose-backend))
 * Yohan Boniface ([uMap](https://bitbucket.org/yohanboniface/umap), [Leaflet-Storage](https://github.com/yohanboniface/Leaflet.Storage))
 * Nohémie Lehuby ([OpenBeerMap](https://github.com/OpenBeerMap/OpenBeerMap.github.io))
