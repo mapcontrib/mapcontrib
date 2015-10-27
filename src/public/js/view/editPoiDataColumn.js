@@ -414,7 +414,7 @@ function (
 
 			var self = this,
 			changesetId = sessionStorage.getItem('changesetId'),
-			xmlChangeset = '<osm><changeset><tag k="created_by" v="Rudomap"/><tag k="comment" v="Test from Rudomap (developpement in progress)"/></changeset></osm>';
+			xmlChangeset = '<osm><changeset><tag k="created_by" v="MapContrib"/><tag k="comment" v="Test from MapContrib (developpement in progress)"/></changeset></osm>';
 
 			if ( changesetId ) {
 

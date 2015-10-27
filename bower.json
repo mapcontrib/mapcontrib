@@ -1,5 +1,5 @@
 {
-  "name": "Rudomap",
+  "name": "MapContrib",
   "dependencies": {
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.4",
@@ -24,5 +24,6 @@
     "ionicons": "~2.0.1",
     "leaflet-control-geocoder": "~1.2.1",
     "leaflet-overpass-layer": "~1.4.0"
-  }
+  },
+  "private": true
 }

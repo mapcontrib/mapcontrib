@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mongo rudomap data.js
+mongo mapcontrib data.js

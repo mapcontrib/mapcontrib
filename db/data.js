@@ -14,7 +14,7 @@ db.poiLayer.createIndex( { 'themeId': 1 } );
 db.theme.insert({
 
 	'_id' : ObjectId('5249c43c6e789470197b5973'),
-	'name': 'Rudomap',
+	'name': 'MapContrib',
 	'description': 'Ceci est une description :)',
 	'fragment': 's8c2d4',
 	'color': 'blue',

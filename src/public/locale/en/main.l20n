@@ -6,11 +6,11 @@
 }>
 
 
-<rudomap "Rudomap">
+<mapcontrib "MapContrib">
 
 
-<pageTitle "{{ rudomap }}">
-<pageTitleWithMapName "{{ $map.name }} - {{ rudomap }}">
+<pageTitle "{{ mapcontrib }}">
+<pageTitleWithMapName "{{ $map.name }} - {{ mapcontrib }}">
 
 
 <markdownAvailable "<a>Markdown</a> format available">
@@ -56,12 +56,12 @@
 
 /* Help */
 <helpTitle "Help">
-<helpText1 "Rudomap is a <a>free software</a>. It can create cartographic themes.">
+<helpText1 "MapContrib is a <a>free software</a>. It can create cartographic themes.">
 <helpText2 "Those themes are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
 
 
 /* Login modal */
-<loginModal_explanation "To keep it simple, Rudomap only needs to connect to your OpenStreetMap account.">
+<loginModal_explanation "To keep it simple, MapContrib only needs to connect to your OpenStreetMap account.">
 
 
 /* Geocode widget */

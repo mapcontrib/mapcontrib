@@ -1,5 +1,5 @@
 {
-  "description": "Rudomap",
+  "description": "MapContrib",
   "version": "0.4.0",
   "license": "MIT",
   "author": {
@@ -48,5 +48,7 @@
     "jquery": "~2.1.4",
     "ejs": "~2.3.3",
     "es6-promise": "~2.3.0"
-  }
+  },
+  "private": true
+
 }

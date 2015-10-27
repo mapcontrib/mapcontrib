@@ -23,7 +23,7 @@ We use [Git Flow](https://github.com/nvie/gitflow) to manage our branches. It me
 
 ### Database
 
-We use MongoDB, go to the `db` directory and execute `import_database.sh`. It will create a database called **rudomap**.
+We use MongoDB, go to the `db` directory and execute `import_database.sh`. It will create a database called **mapcontrib**.
 
 ### Automatic tasks
 
