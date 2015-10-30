@@ -17,7 +17,7 @@
     }
   ],
   "scripts": {
-    "start": "MONGO_HOST=127.0.0.1 node src/server.js"
+    "start": "MONGO_HOST=127.0.0.1 node build/server.js"
   },
   "devDependencies": {
     "bower": "~1.2.7",
