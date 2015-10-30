@@ -1,5 +1,5 @@
 node:
-    image: node
+    image: node:slim
     restart: on-failure:3
     environment:
         PORT: "8080"
