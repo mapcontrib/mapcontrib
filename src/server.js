@@ -25,14 +25,21 @@ Promise = require('es6-promise').Promise;
 
 var mongo = require('mongodb'),
 mongoClient = new mongo.MongoClient(new mongo.Server(db.host, db.port), db.options),
-database = mongoClient.db(db.name);
+database = mongoClient.db(db.name),
+init = require('./init.js');
 
 database.open(function (err, db) {
 
 	if(err) throw err;
+
+	init.setDatabase(db);
+
+	init.isDone().catch(function () {
+		init.start().catch(function (err) {
+			throw err;
+		});
+	});
 });
-
-
 
 
 
