@@ -11,19 +11,19 @@
     "backbone-validation": "~0.11.5",
     "marionette": "~2.4.1",
     "requirejs": "~2.1.20",
-    "leaflet": "~0.7.3",
-    "animationFrame": "~0.2.4",
+    "leaflet": "~0.7.7",
     "Fullscreen-API-Polyfill": "*",
-    "l20n": "~1.0.4",
+    "l20n": "~1.0.5",
     "jquery-ui-sortable": "*",
     "jqueryui-touch-punch": "*",
-    "awesome-bootstrap-checkbox": "~0.3.4",
+    "awesome-bootstrap-checkbox": "~0.3.5",
     "markdown": "~0.5.0",
     "text": "~2.0.14",
     "osm-auth": "~0.2.8",
     "ionicons": "~2.0.1",
     "leaflet-control-geocoder": "~1.2.1",
-    "leaflet-overpass-layer": "~1.4.0"
+    "leaflet-overpass-layer": "~1.4.2",
+    "animation-frame": "~0.2.5"
   },
   "private": true
 }

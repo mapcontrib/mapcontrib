@@ -8,8 +8,8 @@
   position: fixed;
   width: 50px;
   z-index: 1010;
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
+  transition: -webkit-transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
 }
 .toolbar.left {
   left: 0;
@@ -121,8 +121,8 @@
 .pop,
 .fullpage {
   position: fixed;
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
+  transition: -webkit-transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
   outline: 0;
 }
 .column.right,
@@ -410,8 +410,7 @@
   background: rgba(0, 0, 0, 0.6);
   outline: 0;
   opacity: 0;
-  -webkit-transition: opacity ease-out 0.2s;
-          transition: opacity ease-out 0.2s;
+  transition: opacity ease-out 0.2s;
 }
 .pop_modal .pop {
   z-index: 1050;
@@ -419,8 +418,8 @@
   left: 50%;
   width: 500px;
   max-width: 100%;
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
+  transition: -webkit-transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
   -webkit-transform: translate(-50%, -45%);
       -ms-transform: translate(-50%, -45%);
           transform: translate(-50%, -45%);
@@ -10832,8 +10831,7 @@ fieldset .form-control:active {
   left: 0;
   right: 0;
   height: 30px;
-  -webkit-transition: all ease-out 0.3s;
-          transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
 }
 #title h1 {
   display: inline-block;
@@ -10849,8 +10847,7 @@ fieldset .form-control:active {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-transition: all ease-out 0.3s;
-          transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
 }
 #title .description_btn {
   color: #fff;
@@ -10967,8 +10964,7 @@ fieldset .form-control:active {
   z-index: 1050;
   width: 0;
   height: 0;
-  -webkit-transition: all ease-out 0.3s;
-          transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
   background: #fff;
   overflow: hidden;
 }
@@ -11171,8 +11167,8 @@ body.user_logged .edit_poi_data {
   padding-left: 50px;
   width: 500px;
   max-width: 100%;
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
+  transition: -webkit-transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
   -webkit-transform: translate(-100%, 0);
       -ms-transform: translate(-100%, 0);
           transform: translate(-100%, 0);
@@ -11193,8 +11189,7 @@ body.user_logged .edit_poi_data {
   right: 0;
   margin: 0;
   overflow: auto;
-  -webkit-transition: all ease-out 0.2s;
-          transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
 }
 #geocode_widget .results .list-group-item {
   border-color: #eeeeee #ffffff;

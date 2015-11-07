@@ -23,7 +23,7 @@ requirejs.config({
 		'leaflet': '../bower_components/leaflet/dist/leaflet',
 		'leaflet-overpass-layer': '../bower_components/leaflet-overpass-layer/dist/OverPassLayer.min',
 		'leaflet-control-geocoder': '../bower_components/leaflet-control-geocoder/Control.Geocoder',
-		'animationFrame-polyfill': '../bower_components/animationFrame/AnimationFrame.min',
+		'requestAnimationFrame-polyfill': '../bower_components/animation-frame/AnimationFrame.min',
 		'fullscreen-polyfill': '../bower_components/Fullscreen-API-Polyfill/fullscreen-api-polyfill',
 		'tools': 'tools',
 		'l20n': '../bower_components/l20n/dist/html/l20n.min',
