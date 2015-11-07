@@ -113,17 +113,22 @@ function (
 
 				self._remoteData = remoteData;
 
-				for (var i in popupTags) {
+				if ( popupTags) {
 
-					popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
-					popupTag = popupTags[i];
+					for (var i in popupTags) {
 
-					html += self.templateField({
+						popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
+						popupTag = popupTags[i];
 
-						'tag': popupTag,
-						'value': dataFromOSM.tags[popupTag],
-						'remoteValue': '',
-					});
+						html += self.templateField({
+
+							'tag': popupTag,
+							'value': dataFromOSM.tags[popupTag],
+							'remoteValue': '',
+						});
+					}
+
+					html += '<hr>';
 				}
 
 				self.ui.fields.html( html );
@@ -134,7 +139,7 @@ function (
 
 					var value = remoteData.tags[ tag ];
 
-					if ( popupTags.indexOf(tag) > -1 ) {
+					if ( popupTags && popupTags.indexOf(tag) > -1 ) {
 
 						continue;
 					}
@@ -149,7 +154,7 @@ function (
 
 				if ( html ) {
 
-					self.ui.fields.append( '<hr>' + html );
+					self.ui.fields.append( html );
 				}
 
 				self.ui.footer.removeClass('hide');
