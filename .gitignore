@@ -2,3 +2,4 @@ dist
 node_modules
 src/public/bower_components
 src/npm-debug.log
+volumes

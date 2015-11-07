@@ -1,9 +1,8 @@
 
-var secret_key = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})',
-http_port = 8080,
+var secretKey = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})',
 db = {
 
-	'host': '127.0.0.1',
+	'host': process.env.MONGO_HOST,
 	'port': '27017',
 	'name': 'mapcontrib',
 	'options': {
@@ -25,15 +24,22 @@ Promise = require('es6-promise').Promise;
 
 
 var mongo = require('mongodb'),
-mongo_client = new mongo.MongoClient(new mongo.Server(db.host, db.port), db.options),
-database = mongo_client.db(db.name);
+mongoClient = new mongo.MongoClient(new mongo.Server(db.host, db.port), db.options),
+database = mongoClient.db(db.name),
+init = require('./init.js');
 
 database.open(function (err, db) {
 
 	if(err) throw err;
+
+	init.setDatabase(db);
+
+	init.isDone().catch(function () {
+		init.start().catch(function (err) {
+			throw err;
+		});
+	});
 });
-
-
 
 
 
@@ -62,7 +68,7 @@ app.use(session({
 
 	resave: true,
     saveUninitialized: true,
-    secret: secret_key,
+    secret: secretKey,
 	store: new MongoStore({
 
 		'host': db.host,
@@ -71,7 +77,7 @@ app.use(session({
 	}),
 }));
 
-app.set('port', http_port);
+app.set('port', process.env.PORT);
 app.use(logger('dev'));
 app.use(methodOverride());
 app.use(multer({ 'dest': path.join(__dirname, 'upload') }));
@@ -390,7 +396,7 @@ app.get('/theme-:fragment', function (req, res) {
 
 
 
-if ('development' == app.get('env')) {
+if (app.get('env') === 'development') {
 
 	app.use(errorHandler());
 }
