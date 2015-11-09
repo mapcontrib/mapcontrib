@@ -1,6 +1,6 @@
 node:
     image: node:slim
-    restart: on-failure:3
+    restart: always
     environment:
         PORT: "8080"
         MONGO_HOST: "mongo"
@@ -15,6 +15,6 @@ node:
 
 mongo:
     image: mongo:2.6.11
-    restart: on-failure:3
+    restart: always
     volumes:
         - ./volumes/mongo:/data/db
