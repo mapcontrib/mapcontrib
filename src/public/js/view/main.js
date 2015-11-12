@@ -1283,8 +1283,7 @@ function (
 
 		onClickMapToAddPoint: function (e) {
 
-			console.log(e.latlng);
-			this._contribColumnView.open();
+			this._contribColumnView.open(e.latlng);
 		},
 
 		showContribCrosshair: function () {

@@ -41,10 +41,12 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 		},
 
-		open: function () {
+		open: function (latLng) {
 
 			this._radio.vent.trigger('column:closeAll');
 			this._radio.vent.trigger('widget:closeAll');
+
+			console.log(latLng);
 
 			this.triggerMethod('open');
 		},
