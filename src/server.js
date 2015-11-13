@@ -2,7 +2,7 @@
 var secretKey = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})',
 db = {
 
-	'host': process.env.MONGO_HOST,
+	'host': process.env.MONGO_HOST ? process.env.MONGO_HOST : 'localhost',
 	'port': '27017',
 	'name': 'mapcontrib',
 	'options': {
