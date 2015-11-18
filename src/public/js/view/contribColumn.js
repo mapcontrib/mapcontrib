@@ -7,6 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
+	'model/poi',
 ],
 function (
 
@@ -14,7 +15,8 @@ function (
 	Backbone,
 	Marionette,
 	Bootstrap,
-	templates
+	templates,
+	PoiModel
 ) {
 
 	'use strict';
@@ -22,6 +24,7 @@ function (
 	return Marionette.LayoutView.extend({
 
 		template: JST['contribColumn.html'],
+		templateField: JST['contribField.html'],
 
 		behaviors: {
 
@@ -32,6 +35,15 @@ function (
 		ui: {
 
 			'column': '#contrib_column',
+			'tagList': '.rg_tag_list',
+			'addBtn': '.add_btn',
+			'removeBtn': '.remove_btn',
+		},
+
+		events: {
+
+			'click @ui.addBtn': 'onClickAddBtn',
+			'click @ui.removeBtn': 'onClickRemoveBtn',
 		},
 
 		initialize: function () {
@@ -46,7 +58,11 @@ function (
 			this._radio.vent.trigger('column:closeAll');
 			this._radio.vent.trigger('widget:closeAll');
 
-			console.log(latLng);
+			this.model = new PoiModel({
+
+				'lat': latLng.lat,
+				'lng': latLng.lng,
+			});
 
 			this.triggerMethod('open');
 		},
@@ -54,6 +70,28 @@ function (
 		close: function () {
 
 			this.triggerMethod('close');
+		},
+
+		onRender: function () {
+
+			this.addField();
+		},
+
+		onClickAddBtn: function () {
+
+			this.addField();
+		},
+
+		onClickRemoveBtn: function (e) {
+
+			$(e.target).parents('.form-group').remove();
+		},
+
+		addField: function () {
+
+			var field = $( this.templateField() ).appendTo( this.ui.tagList ).get(0);
+
+			document.l10n.localizeNode( field );
 		},
 	});
 });
