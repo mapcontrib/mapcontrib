@@ -24,7 +24,7 @@ this["JST"]["contribField.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="form-group append-xs-2">\n\t<div class="input-group">\n\t\t<input type="text" class="form-control" data-l10n-id="contribColumn_key">\n\t\t<div class="input-group-btn">\n\t\t\t<button type="button" class="btn btn-info info_btn"><i class="fa fa-fw fa-info-circle"></i></button>\n\t\t</div>\n\t</div>\n\t<div class="input-group">\n\t\t<input type="text" class="form-control" data-l10n-id="contribColumn_value">\n\t\t<div class="input-group-btn">\n\t\t\t<button type="button" class="btn btn-danger remove_btn"><i class="fa fa-fw fa-trash"></i></button>\n\t\t</div>\n\t</div>\n</div>\n';
+__p += '<div class="form-group append-xs-2">\n\t<div class="input-group">\n\t\t<input type="text" class="form-control" data-l10n-id="contribColumn_key">\n\t\t<div class="input-group-btn">\n\t\t\t<button type="button" class="btn btn-info info_btn" tabindex="-1"><i class="fa fa-fw fa-info-circle"></i></button>\n\t\t</div>\n\t</div>\n\t<div class="input-group">\n\t\t<input type="text" class="form-control" data-l10n-id="contribColumn_value">\n\t\t<div class="input-group-btn">\n\t\t\t<button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>\n\t\t</div>\n\t</div>\n</div>\n';
 
 }
 return __p
