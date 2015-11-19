@@ -1,3 +1,8 @@
+mongo:
+    image: mongo:2.6.11
+    volumes:
+        - ./volumes/mongo:/data/db
+
 node:
     image: node:slim
     environment:
@@ -11,8 +16,3 @@ node:
         - ./:/data
     working_dir: /data
     command: node src/server.js
-
-mongo:
-    image: mongo:2.6.11
-    volumes:
-        - ./volumes/mongo:/data/db
