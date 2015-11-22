@@ -36,6 +36,7 @@ function (
 
 			'column': '#contrib_column',
 			'tagList': '.rg_tag_list',
+			'formGroups': '.form-group',
 			'addBtn': '.add_btn',
 			'removeBtn': '.remove_btn',
 		},
@@ -44,6 +45,8 @@ function (
 
 			'click @ui.addBtn': 'onClickAddBtn',
 			'click @ui.removeBtn': 'onClickRemoveBtn',
+
+			'submit': 'onSubmit',
 		},
 
 		initialize: function () {
@@ -94,6 +97,21 @@ function (
 			var field = $( this.templateField() ).appendTo( this.ui.tagList ).get(0);
 
 			document.l10n.localizeNode( field );
+		},
+
+		onSubmit: function (e) {
+
+			e.preventDefault();
+
+			var tags = {};
+
+			this.bindUIElements();
+
+			console.log('onSubmit');
+
+			this.ui.formGroups.each(function () {
+				console.log(this);
+			});
 		},
 	});
 });

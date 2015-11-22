@@ -14,7 +14,7 @@ this["JST"]["contribColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="contrib_column" class="column right red">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="contribColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<div class="rg_tag_list"></div>\n\n\t\t\t\t<div class="sticky-footer">\n\t\t\t\t\t<button type="button" class="btn btn-default add_btn" data-l10n-id="contribColumn_addTag"></button>\n\t\t\t\t\t<button type="button" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
+__p += '<section id="contrib_column" class="column right red">\n\t<header>\n\t\t<button type="button" class="btn btn-link btn-lg pull-right close_btn">\n\t\t\t<i class="fa fa-close"></i>\n\t\t</button>\n\n\t\t<h2 data-l10n-id="contribColumn_title"></h2>\n\t</header>\n\n\t<div class="container-fluid content">\n\t\t<div class="row">\n\t\t\t<div class="col-xs-12">\n\t\t\t\t<form>\n\t\t\t\t\t<div class="rg_tag_list"></div>\n\n\t\t\t\t\t<div class="sticky-footer">\n\t\t\t\t\t\t<button type="button" class="btn btn-default add_btn" data-l10n-id="contribColumn_addTag"></button>\n\t\t\t\t\t\t<button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n';
 
 }
 return __p
@@ -24,7 +24,7 @@ this["JST"]["contribField.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="form-group append-xs-2">\n\t<div class="input-group">\n\t\t<input type="text" class="form-control" data-l10n-id="contribColumn_key">\n\t\t<div class="input-group-btn">\n\t\t\t<button type="button" class="btn btn-info info_btn" tabindex="-1"><i class="fa fa-fw fa-info-circle"></i></button>\n\t\t</div>\n\t</div>\n\t<div class="input-group">\n\t\t<input type="text" class="form-control" data-l10n-id="contribColumn_value">\n\t\t<div class="input-group-btn">\n\t\t\t<button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>\n\t\t</div>\n\t</div>\n</div>\n';
+__p += '<div class="form-group append-xs-2">\n\t<div class="input-group">\n\t\t<input type="text" class="form-control key" data-l10n-id="contribColumn_key">\n\t\t<div class="input-group-btn">\n\t\t\t<button type="button" class="btn btn-info info_btn" tabindex="-1"><i class="fa fa-fw fa-info-circle"></i></button>\n\t\t</div>\n\t</div>\n\t<div class="input-group">\n\t\t<input type="text" class="form-control value" data-l10n-id="contribColumn_value">\n\t\t<div class="input-group-btn">\n\t\t\t<button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>\n\t\t</div>\n\t</div>\n</div>\n';
 
 }
 return __p
