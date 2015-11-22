@@ -64,6 +64,8 @@ function (
 				'lng': latLng.lng,
 			});
 
+			this.render();
+
 			this.triggerMethod('open');
 		},
 
