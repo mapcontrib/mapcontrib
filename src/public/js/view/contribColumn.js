@@ -7,7 +7,7 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
-	'model/poi',
+	'model/osmNode',
 ],
 function (
 
@@ -16,7 +16,7 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
-	PoiModel
+	OsmNodeModel
 ) {
 
 	'use strict';
@@ -61,7 +61,7 @@ function (
 			this._radio.vent.trigger('column:closeAll');
 			this._radio.vent.trigger('widget:closeAll');
 
-			this.model = new PoiModel({
+			this.model = new OsmNodeModel({
 
 				'lat': latLng.lat,
 				'lng': latLng.lng,
