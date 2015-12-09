@@ -30,7 +30,7 @@ function (
 		events: {
 
 			'click @ui.closeBtn': 'onClickClose',
-			'keydown': 'onKeyDown',
+			'keyup': 'onKeyUp',
 		},
 
 		initialize: function (options) {
@@ -109,7 +109,7 @@ function (
 			this.onClose();
 		},
 
-		onKeyDown: function (e) {
+		onKeyUp: function (e) {
 
 			switch ( e.keyCode ) {
 

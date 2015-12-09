@@ -1005,6 +1005,7 @@ function (
 
 		showEditTools: function () {
 
+			this.ui.contribButton.removeClass('hide');
 			this.ui.editButton.removeClass('hide');
 		},
 
@@ -1012,6 +1013,7 @@ function (
 
 			this.ui.editButton.addClass('hide');
 			this.ui.editToolbar.removeClass('open');
+			this.ui.contribButton.addClass('hide');
 		},
 
 
@@ -1259,9 +1261,41 @@ function (
 			this._linkColumnView.open();
 		},
 
-		onClickContrib: function () {
+		onClickContrib: function (e) {
 
-			this._contribColumnView.open();
+			e.stopPropagation();
+
+			var self = this;
+
+			this.showContribCrosshair();
+
+			this._map.once('click', this.onClickMapToAddPoint.bind(this));
+
+			$('body').one('click.contribCrosshair', this.hideContribCrosshair.bind(this) );
+			$('body').on('keyup.contribCrosshair', function (e) {
+
+				if ( e.keyCode === 27 ) {
+
+					self.hideContribCrosshair();
+				}
+			});
+		},
+
+		onClickMapToAddPoint: function (e) {
+
+			this._contribColumnView.open(e.latlng);
+		},
+
+		showContribCrosshair: function () {
+
+			this.ui.map.css('cursor', 'crosshair');
+		},
+
+		hideContribCrosshair: function () {
+
+			$('body').off('.contribCrosshair', this.hideContribCrosshair.bind(this) );
+
+			this.ui.map.css('cursor', 'default');
 		},
 
 		onClickEdit: function () {

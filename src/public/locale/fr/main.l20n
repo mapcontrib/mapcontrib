@@ -89,6 +89,9 @@
 
 /* Contribution column */
 <contribColumn_title "Ajouter un marqueur">
+<contribColumn_addTag "Ajouter un tag">
+<contribColumn_key placeholder:"Clef">
+<contribColumn_value placeholder:"Valeur">
 
 
 /* Link column */
