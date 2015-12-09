@@ -8,7 +8,7 @@ node:
     environment:
         - PORT=8080
         - MONGO_HOST=mongo
-    expose:
+    ports:
         - "8080"
     links:
         - mongo
