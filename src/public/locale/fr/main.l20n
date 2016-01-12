@@ -58,7 +58,7 @@
 <helpTitle "Aide">
 <helpText1 "MapContrib est développé avec le soutien du Département de la Gironde, dans le cadre d'un appel à projets «&nbsp;Déchets et Numériques&nbsp;».">
 <helpText2 "MapContrib vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
-<helpText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbl&nbsp;», permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
+<helpText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbl&nbsp;»</a>, permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
 <helpText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
 
 
