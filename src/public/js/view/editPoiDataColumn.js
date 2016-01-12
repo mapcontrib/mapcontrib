@@ -127,8 +127,6 @@ function (
 							'remoteValue': '',
 						});
 					}
-
-					html += '<hr>';
 				}
 
 				self.ui.fields.html( html );
@@ -154,7 +152,7 @@ function (
 
 				if ( html ) {
 
-					self.ui.fields.append( html );
+					self.ui.fields.append( '<hr>' + html );
 				}
 
 				self.ui.footer.removeClass('hide');

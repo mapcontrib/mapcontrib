@@ -1,18 +1,20 @@
 mongo:
     image: mongo:2.6.11
+    restart: always
     volumes:
         - ./volumes/mongo:/data/db
 
 node:
     image: node:slim
+    restart: always
     environment:
         - PORT=8080
         - MONGO_HOST=mongo
-    ports:
-        - "8080:8080"
+    expose:
+        - "8080"
     links:
         - mongo
     volumes:
         - ./:/data
     working_dir: /data
-    command: node src/server.js
+    command: node dist/server.js
