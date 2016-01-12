@@ -59,7 +59,7 @@
 <helpText1 "MapContrib is a <a>free software</a>. It can create cartographic themes.">
 <helpText2 "Those themes are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
 <helpText3 "When using MapContrib, you accept to put your contributions <a>under the «&nbsp;ODbl&nbsp;» licence</a>, which grant to use and share those datas by quoting «&nbsp;the OSM contributors&nbsp;»</a>.">
-<helpText4 "Kudos to several inspiring projects&nbsp;:">
+<helpText4 "Kudos to several inspiring projects:">
 
 
 /* Login modal */
