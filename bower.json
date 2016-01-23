@@ -22,7 +22,7 @@
     "osm-auth": "~0.2.8",
     "ionicons": "~2.0.1",
     "leaflet-control-geocoder": "~1.2.1",
-    "leaflet-overpass-layer": "~1.4.5",
+    "leaflet-overpass-layer": "~1.5.2",
     "animation-frame": "~0.2.5"
   },
   "private": true

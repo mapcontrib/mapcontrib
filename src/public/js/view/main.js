@@ -598,9 +598,9 @@ function (
 
 			layerGroup._overpassLayer = new L.OverPassLayer({
 
+                'debug': false,
 				'endPoint': settings.overpassServer,
 				'minZoom': poiLayerModel.get('minZoom'),
-				'requestPerTile': false,
 				'timeout': settings.overpassTimeout,
 				'retryOnTimeout': true,
 				'query': overpassRequest,
