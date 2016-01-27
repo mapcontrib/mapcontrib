@@ -277,15 +277,14 @@ function (
 
 			var self = this,
 			isLogged = this._radio.reqres.request('var', 'isLogged'),
-			user = this._radio.reqres.request('model', 'user'),
-			owners = this.model.get('owners');
+			userModel = this._radio.reqres.request('model', 'user');
 
 
 			if ( isLogged ) {
 
 				this.renderUserButtonLogged();
 
-				if ( owners.indexOf(user.get('_id')) > -1 ) {
+				if ( this.model.isOwner(userModel) === true ) {
 
 					this.showEditTools();
 

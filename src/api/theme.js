@@ -249,8 +249,10 @@ api = {
 		}
 
 		collection.find({
-
-			'owners': ownerId
+			$or: [
+				{ 'owners': ownerId },
+				{ 'owners': '*' }
+			]
 		})
 		.toArray(function (err, results) {
 

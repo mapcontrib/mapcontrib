@@ -35,6 +35,30 @@ function (
 				'lng': undefined,
 			},
 			'owners': [],
+		},
+
+		/**
+		 * Check if a user is owner of this theme.
+		 *
+		 * @author Guillaume AMAT
+		 * @param {UserModel} userModel A user model
+		 * @return bool
+		 */
+		isOwner: function (userModel) {
+
+			var userId = userModel.get('_id');
+
+			if ( this.get('owners').indexOf( userId ) > -1 ) {
+
+				return true;
+			}
+
+			if ( this.get('owners').indexOf('*') > -1 ) {
+
+				return true;
+			}
+
+			return false;
 		}
 	});
 });
