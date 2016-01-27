@@ -38,7 +38,7 @@ function (
 
 		addChild: function(child, ChildView, index){
 
-			if ( child.get('visible') || this._user.get('_id') ) {
+			if ( child.isVisible() ) {
 
 				Marionette.CollectionView.prototype.addChild.apply(this, arguments);
 			}

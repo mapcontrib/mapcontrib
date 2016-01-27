@@ -41,8 +41,8 @@ function (
 		 * Check if a user is owner of this theme.
 		 *
 		 * @author Guillaume AMAT
-		 * @param {UserModel} userModel A user model
-		 * @return bool
+		 * @param userModel - A user model
+		 * @return boolean
 		 */
 		isOwner: function (userModel) {
 

@@ -50,5 +50,17 @@ function (
 
 			model.set('order', max_order + 1);
 		},
+
+
+		/**
+		 * Returns an array of all the visible layers.
+		 *
+		 * @author Guillaume AMAT
+		 * @return An array of all the visible layers
+		 */
+		getVisibleLayers: function () {
+
+			return this.where({ 'visible': true });
+		},
 	});
 });

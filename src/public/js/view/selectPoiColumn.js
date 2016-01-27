@@ -46,6 +46,8 @@ function (
 			var self = this;
 
 			this._radio = Backbone.Wreqr.radio.channel('global');
+
+			this._radio.commands.setHandler('column:selectPoiLayer:render', this.render.bind(this));
 		},
 
 		onRender: function () {

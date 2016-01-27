@@ -35,6 +35,17 @@ function (
 			'markerShape': 'marker1',
 			'markerColor': 'orange',
 			'markerIcon': undefined,
-		}
+		},
+
+		/**
+		 * Tells if the layer is visible.
+		 *
+		 * @author Guillaume AMAT
+		 * @return boolean
+		 */
+		 isVisible: function () {
+
+			return this.get('visible');
+		 }
 	});
 });

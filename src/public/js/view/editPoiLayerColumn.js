@@ -78,6 +78,7 @@ function (
 
 		onRender: function () {
 
+			this.ui.layerVisible.prop('checked', this.model.get('visible'));
 			this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
 
 			this.onChangedMapZoom();
@@ -124,7 +125,8 @@ function (
 			addToCollection = false,
 			updateMarkers = false,
 			updateMinZoom = false,
-			updatePopups = false;
+			updatePopups = false,
+			updateVisibility = false;
 
 			this.model.set('name', this.ui.layerName.val());
 			this.model.set('description', this.ui.layerDescription.val());
@@ -169,6 +171,11 @@ function (
 				updatePopups = true;
 			}
 
+			if ( this._oldModel.get('visible') !== this.model.get('visible') ) {
+
+				updateVisibility = true;
+			}
+
 			this.model.save({}, {
 
 				'success': function () {
@@ -191,6 +198,20 @@ function (
 					if ( updatePopups ) {
 
 						self._radio.commands.execute('map:updatePoiLayerPopups', self.model);
+					}
+
+					if ( updateVisibility ) {
+
+						if ( self.model.get('visible') ) {
+
+							self._radio.commands.execute('map:addPoiLayer', self.model);
+						}
+						else {
+
+							self._radio.commands.execute('map:removePoiLayer', self.model);
+						}
+
+						self._radio.commands.execute('column:selectPoiLayer:render');
 					}
 
 					self.close();

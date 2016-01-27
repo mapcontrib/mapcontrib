@@ -227,6 +227,14 @@ function (
 
 					self.setTileLayer( tileId );
 				},
+				'map:addPoiLayer': function (poiLayerModel) {
+
+					self.addPoiLayer( poiLayerModel );
+				},
+				'map:removePoiLayer': function (poiLayerModel) {
+
+					self.removePoiLayer( poiLayerModel );
+				},
 				'map:showPoiLayer': function (poiLayerModel) {
 
 					self.showPoiLayer( poiLayerModel );
@@ -444,7 +452,7 @@ function (
 
 			this._mapLayers = {};
 
-			_.each(this._poiLayers.models, function (poiLayerModel) {
+			_.each(this._poiLayers.getVisibleLayers(), function (poiLayerModel) {
 
 				if ( hiddenPoiLayers.indexOf(poiLayerModel.get('_id')) === -1 ) {
 
