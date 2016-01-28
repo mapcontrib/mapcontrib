@@ -2,50 +2,50 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'settings',
+    'underscore',
+    'backbone',
+    'settings',
 ],
 function (
 
-	_,
-	Backbone,
-	settings
+    _,
+    Backbone,
+    settings
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Backbone.Model.extend({
+    return Backbone.Model.extend({
 
-		idAttribute: '_id',
+        idAttribute: '_id',
 
-		urlRoot: settings.apiPath + 'poiLayer',
+        urlRoot: settings.apiPath + 'poiLayer',
 
-		defaults: {
+        defaults: {
 
-			'themeId': undefined,
-			'name': undefined,
-			'description': undefined,
-			'visible': true,
-			'dataEditable': true,
-			'overpassRequest': undefined,
-			'minZoom': 14,
-			'popupContent': undefined,
-			'order': undefined,
-			'markerShape': 'marker1',
-			'markerColor': 'orange',
-			'markerIcon': undefined,
-		},
+            'themeId': undefined,
+            'name': undefined,
+            'description': undefined,
+            'visible': true,
+            'dataEditable': true,
+            'overpassRequest': undefined,
+            'minZoom': 14,
+            'popupContent': undefined,
+            'order': undefined,
+            'markerShape': 'marker1',
+            'markerColor': 'orange',
+            'markerIcon': undefined,
+        },
 
-		/**
-		 * Tells if the layer is visible.
-		 *
-		 * @author Guillaume AMAT
-		 * @return boolean
-		 */
-		 isVisible: function () {
+        /**
+         * Tells if the layer is visible.
+         *
+         * @author Guillaume AMAT
+         * @return boolean
+         */
+         isVisible: function () {
 
-			return this.get('visible');
-		 }
-	});
+            return this.get('visible');
+         }
+    });
 });
