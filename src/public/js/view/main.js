@@ -605,7 +605,7 @@ function (
 
 			layerGroup._overpassLayer = new L.OverPassLayer({
 
-                'debug': false,
+				'debug': settings.debug,
 				'endPoint': settings.overpassServer,
 				'minZoom': poiLayerModel.get('minZoom'),
 				'timeout': settings.overpassTimeout,

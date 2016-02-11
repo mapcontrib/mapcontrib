@@ -2,28 +2,30 @@
 
 define([], function () {
 
-	'use strict';
+    'use strict';
 
-	return {
+    return {
 
-		'oauthConsumerKey': 'wPfXjdZViPvrRWSlenSWBsAWhYKarmOkOKk5WS4U',
-		'oauthSecret': 'kaBZXTHZHKSk2jvBUr8vzk7JRI1cryFI08ubv7Du',
+        'debug': false,
 
-		'overpassServer': 'http://overpass-api.de/api/',
-		// 'overpassServer': 'http://overpass.osm.rambler.ru/cgi/',
-		// 'overpassServer': 'http://api.openstreetmap.fr/oapi/',
-		'overpassTimeout': 120 * 1000, // Milliseconds
+        'oauthConsumerKey': 'wPfXjdZViPvrRWSlenSWBsAWhYKarmOkOKk5WS4U',
+        'oauthSecret': 'kaBZXTHZHKSk2jvBUr8vzk7JRI1cryFI08ubv7Du',
 
-		'defaultAvatar': 'img/default_avatar.png',
+        'overpassServer': 'http://overpass-api.de/api/',
+        // 'overpassServer': 'http://overpass.osm.rambler.ru/cgi/',
+        // 'overpassServer': 'http://api.openstreetmap.fr/oapi/',
+        'overpassTimeout': 120 * 1000, // Milliseconds
 
-		'apiPath': 'api/',
+        'defaultAvatar': 'img/default_avatar.png',
 
-		'largeScreenMinWidth': 400,
-		'largeScreenMinHeight': 500,
+        'apiPath': 'api/',
 
-		'shareIframeWidth': 100,
-		'shareIframeWidthUnit': '%',
-		'shareIframeHeight': 400,
-		'shareIframeHeightUnit': 'px',
-	};
+        'largeScreenMinWidth': 400,
+        'largeScreenMinHeight': 500,
+
+        'shareIframeWidth': 100,
+        'shareIframeWidthUnit': '%',
+        'shareIframeHeight': 400,
+        'shareIframeHeightUnit': 'px',
+    };
 });
