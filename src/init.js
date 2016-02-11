@@ -215,8 +215,7 @@ init._createIndexes = function (rootResolve, rootReject) {
 		return rootResolve();
 	})
 	.catch(function (err) {
-		return rootReject();
-		throw err;
+		return rootReject(err);
 	});
 };
 
