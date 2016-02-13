@@ -7,7 +7,6 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
-	'model/osmNode',
 ],
 function (
 
@@ -56,18 +55,17 @@ function (
 			this._radio = Backbone.Wreqr.radio.channel('global');
 		},
 
-		open: function (latLng) {
+		setModel: function (model) {
+
+			this.model = model;
+
+			this.render();
+		},
+
+		open: function () {
 
 			this._radio.vent.trigger('column:closeAll');
 			this._radio.vent.trigger('widget:closeAll');
-
-			this.model = new OsmNodeModel({
-
-				'lat': latLng.lat,
-				'lng': latLng.lng,
-			});
-
-			this.render();
 
 			this.triggerMethod('open');
 		},
@@ -101,17 +99,31 @@ function (
 
 		onSubmit: function (e) {
 
-			e.preventDefault();
+			var tags = [];
 
-			var tags = {};
+			e.preventDefault();
 
 			this.bindUIElements();
 
-			console.log('onSubmit');
-
 			this.ui.formGroups.each(function () {
-				console.log(this);
+
+				var keyInput = this.querySelector('.key'),
+				valueInput = this.querySelector('.value'),
+				key = keyInput.value,
+				value = valueInput.value,
+				tag = {};
+
+				if ( !key || !value ) {
+					return;
+				}
+
+				tag[key] = value;
+
+				tags.push(tag);
 			});
+
+			this.model.set('tags', tags);
+			console.log(this.model.attributes);
 		},
 	});
 });

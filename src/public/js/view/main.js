@@ -34,6 +34,7 @@ define([
 
 	'model/theme',
 	'model/poiLayer',
+	'model/osmNode',
 
 	'collection/poiLayer',
 ],
@@ -71,6 +72,7 @@ function (
 
 	ThemeModel,
 	PoiLayerModel,
+	OsmNodeModel,
 
 	PoiLayerCollection
 ) {
@@ -1290,7 +1292,15 @@ function (
 
 		onClickMapToAddPoint: function (e) {
 
-			this._contribColumnView.open(e.latlng);
+			this._contribColumnView.setModel(
+				new OsmNodeModel({
+
+					'lat': e.latlng.lat,
+					'lng': e.latlng.lng,
+				})
+			);
+
+			this._contribColumnView.open();
 		},
 
 		showContribCrosshair: function () {
