@@ -105,7 +105,7 @@ define([
 
 					'name': 'OSM Roads',
 					'attribution': 'Tiles &copy; <a href="http://giscience.uni-hd.de" target="_blank">GIScience Research Group at Heidelberg University</a> - Data &copy;  <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://openmapsurfer.uni-hd.de/tiles/roads/x={x}&y={y}&z={z}',
+					'urlTemplate': 'http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
 					'minZoom': 0,
 					'maxZoom': 19,
 				},
