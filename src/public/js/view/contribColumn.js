@@ -7,6 +7,8 @@ define([
 	'marionette',
 	'bootstrap',
 	'templates',
+
+	'helper/osmEdit'
 ],
 function (
 
@@ -15,7 +17,8 @@ function (
 	Marionette,
 	Bootstrap,
 	templates,
-	OsmNodeModel
+
+	OsmEditHelper
 ) {
 
 	'use strict';
@@ -123,7 +126,13 @@ function (
 			});
 
 			this.model.set('tags', tags);
-			console.log(this.model.attributes);
+
+			var osmEdit = new OsmEditHelper();
+
+			osmEdit.createNode( this.model.attributes, function (err) {
+
+				console.log('Node created!');
+			});
 		},
 	});
 });
