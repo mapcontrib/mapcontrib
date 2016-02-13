@@ -318,7 +318,7 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="checkbox">\n\t<input type="checkbox" id="poi_layer_visibility_' +
 __e( _id ) +
-'" class="visibility_checkbox styled" value="1">\n\t<label for="poi_layer_visibility_' +
+'" class="visibility_checkbox" value="1">\n\t<label for="poi_layer_visibility_' +
 __e( _id ) +
 '">\n\t\t' +
 ((__t = ( name )) == null ? '' : __t) +
@@ -348,7 +348,7 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="radio append-xs-1">\n\t<input type="radio" name="select_tile_radio" id="select_tile_' +
 __e( id ) +
-'" class="tile_radio styled" value="' +
+'" class="tile_radio" value="' +
 __e( id ) +
 '"' +
 __e( checked ) +
@@ -370,7 +370,7 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="checkbox append-xs-1">\n\t<input type="checkbox" id="tile_' +
 __e( id ) +
-'" class="tile_checkbox styled" value="' +
+'" class="tile_checkbox" value="' +
 __e( id ) +
 '"' +
 __e( checked ) +
