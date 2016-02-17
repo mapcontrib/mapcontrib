@@ -50,7 +50,7 @@
     "jquery": "~2.1.4",
     "ejs": "~2.3.3",
     "es6-promise": "~2.3.0",
-    "mongodb": "~1.4.39"
+    "mongodb": "~1.4.40"
   },
   "private": true
 }
