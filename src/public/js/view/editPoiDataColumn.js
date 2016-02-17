@@ -10,6 +10,8 @@ define([
 	'settings',
 	'osm-auth',
 	'view/contributionErrorNotification',
+	'helper/osmEdit',
+	'const',
 ],
 function (
 
@@ -20,7 +22,9 @@ function (
 	templates,
 	settings,
 	osmAuth,
-	ContributionErrorNotificationView
+	ContributionErrorNotificationView,
+	OsmEditHelper,
+	CONST
 ) {
 
 	'use strict';
@@ -72,6 +76,8 @@ function (
 				'oauth_token': this._user.get('token'),
 				'oauth_token_secret': this._user.get('tokenSecret'),
 			});
+
+			this._osmEdit = new OsmEditHelper(this._auth);
 		},
 
 		open: function () {
@@ -417,61 +423,34 @@ function (
 
 			var self = this,
 			changesetId = sessionStorage.getItem('changesetId'),
-			xmlChangeset = '<osm><changeset><tag k="created_by" v="MapContrib"/><tag k="comment" v="Test from MapContrib (developpement in progress)"/></changeset></osm>';
+			changesetXml = this._osmEdit.buildChangesetXml(CONST.osm.changesetCreatedBy, CONST.osm.changesetComment);
 
 			if ( changesetId ) {
 
-				this._auth.xhr({
-
-					'method': 'GET',
-					'path': '/api/0.6/changeset/'+ changesetId,
-					'options': { 'header': { 'Content-Type': 'text/xml' } }
-				},
-				function(err, xml) {
-
-					if (err) {
-
-						sessionStorage.removeItem('changesetId');
-
-						self.getChangesetId( callback );
-
-						return;
-					}
-
-					var isOpened = xml.getElementsByTagName('changeset')[0].getAttribute('open');
-
-					if (isOpened === "false") {
-
-						sessionStorage.removeItem('changesetId');
-
-						self.getChangesetId( callback );
-
-						return;
-					}
+				this._osmEdit.checkChangeset(changesetId)
+				.then(function (changesetId) {
 
 					callback(changesetId);
+				})
+				.catch(function (err) {
+
+					sessionStorage.removeItem('changesetId');
+					this.getChangesetId(callback);
 				});
 			}
 			else {
 
-				this._auth.xhr({
-
-					'method': 'PUT',
-					'path': '/api/0.6/changeset/create',
-					'options': { 'header': { 'Content-Type': 'text/xml' } },
-					'content': xmlChangeset
-				},
-				function(err, changesetId) {
-
-					if (err) {
-
-						console.log('ERROR on put changeset: ' + err.response);
-						return;
-					}
+				this._osmEdit.createChangeset(changesetXml)
+				.then(function (changesetId) {
 
 					sessionStorage.setItem('changesetId', changesetId);
-
 					callback(changesetId);
+				})
+				.catch(function (err) {
+
+					console.log('ERROR on put changeset: ' + err.response);
+					sessionStorage.removeItem('changesetId');
+					this.getChangesetId(callback);
 				});
 			}
 		},

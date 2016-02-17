@@ -16,6 +16,12 @@ define([
 
 	return {
 
+		'osm': {
+
+			'changesetCreatedBy': 'MapContrib',
+			'changesetComment': 'Test from MapContrib (developpement in progress)'
+		},
+
 		'pattern': {
 
 			'integer': /^[0-9]+$/,
