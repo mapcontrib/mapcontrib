@@ -435,7 +435,7 @@ function (
 				.catch(function (err) {
 
 					sessionStorage.removeItem('changesetId');
-					this.getChangesetId(callback);
+					self.getChangesetId(callback);
 				});
 			}
 			else {
@@ -450,7 +450,7 @@ function (
 
 					console.log('ERROR on put changeset: ' + err.response);
 					sessionStorage.removeItem('changesetId');
-					this.getChangesetId(callback);
+					self.getChangesetId(callback);
 				});
 			}
 		},
