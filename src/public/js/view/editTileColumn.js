@@ -2,147 +2,147 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
-	'const',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
+    'const',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates,
-	CONST
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates,
+    CONST
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.LayoutView.extend({
+    return Marionette.LayoutView.extend({
 
-		template: JST['editTileColumn.html'],
-		templateListItem: JST['tileListItem.html'],
+        template: JST['editTileColumn.html'],
+        templateListItem: JST['tileListItem.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'column': {},
-		},
+            'l20n': {},
+            'column': {},
+        },
 
-		ui: {
+        ui: {
 
-			'column': '#edit_tile_column',
-			'tileList': '.tile_list',
-			'tiles': '.tile_list input',
-		},
+            'column': '#edit_tile_column',
+            'tileList': '.tile_list',
+            'tiles': '.tile_list input',
+        },
 
-		events: {
+        events: {
 
-			'submit': 'onSubmit',
-			'reset': 'onReset',
-		},
+            'submit': 'onSubmit',
+            'reset': 'onReset',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this._oldModel = this.model.clone();
-		},
+            this._oldModel = this.model.clone();
+        },
 
-		open: function () {
+        open: function () {
 
-			this._radio.vent.trigger('column:closeAll');
-			this._radio.vent.trigger('widget:closeAll');
+            this._radio.vent.trigger('column:closeAll');
+            this._radio.vent.trigger('widget:closeAll');
 
-			this.triggerMethod('open');
-		},
+            this.triggerMethod('open');
+        },
 
-		close: function () {
+        close: function () {
 
-			this.triggerMethod('close');
-		},
+            this.triggerMethod('close');
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			var tile, thumbnail,
-			tiles = this.model.get('tiles'),
-			html = '';
+            var tile, thumbnail,
+            tiles = this.model.get('tiles'),
+            html = '';
 
-			for (var id in CONST.map.tiles) {
+            for (var id in CONST.map.tiles) {
 
-				tile = CONST.map.tiles[id];
+                tile = CONST.map.tiles[id];
 
-				thumbnail = tile.urlTemplate.replace('{s}', 'a');
-				thumbnail = thumbnail.replace('{z}', '9');
-				thumbnail = thumbnail.replace('{x}', '265');
-				thumbnail = thumbnail.replace('{y}', '181');
+                thumbnail = tile.urlTemplate.replace('{s}', 'a');
+                thumbnail = thumbnail.replace('{z}', '9');
+                thumbnail = thumbnail.replace('{x}', '265');
+                thumbnail = thumbnail.replace('{y}', '181');
 
-				html += this.templateListItem({
+                html += this.templateListItem({
 
-					'name': tile.name,
-					'id': id,
-					'thumbnail': thumbnail,
-					'checked': (tiles.indexOf(id) > -1) ? ' checked' : '',
-				});
-			}
+                    'name': tile.name,
+                    'id': id,
+                    'thumbnail': thumbnail,
+                    'checked': (tiles.indexOf(id) > -1) ? ' checked' : '',
+                });
+            }
 
-			this.ui.tileList.html( html );
+            this.ui.tileList.html( html );
 
-			this.bindUIElements();
-		},
+            this.bindUIElements();
+        },
 
-		onSubmit: function (e) {
+        onSubmit: function (e) {
 
-			e.preventDefault();
+            e.preventDefault();
 
-			var self = this,
-			tiles = [];
+            var self = this,
+            tiles = [];
 
-			this.ui.tiles.each(function (i, tileInput) {
+            this.ui.tiles.each(function (i, tileInput) {
 
-				if ( tileInput.checked ) {
+                if ( tileInput.checked ) {
 
-					tiles.push( tileInput.value );
-				}
-			});
+                    tiles.push( tileInput.value );
+                }
+            });
 
-			if ( tiles.length === 0 ) {
+            if ( tiles.length === 0 ) {
 
-				tiles = ['osm'];
-			}
+                tiles = ['osm'];
+            }
 
-			this.model.set('tiles', tiles);
+            this.model.set('tiles', tiles);
 
-			this.model.save({}, {
+            this.model.save({}, {
 
-				'success': function () {
+                'success': function () {
 
-					self._oldModel = self.model.clone();
+                    self._oldModel = self.model.clone();
 
-					self._radio.commands.execute('map:setTileLayer', tiles[0]);
+                    self._radio.commands.execute('map:setTileLayer', tiles[0]);
 
-					self.close();
-				},
-				'error': function () {
+                    self.close();
+                },
+                'error': function () {
 
-					// FIXME
-					console.error('nok');
-				},
-			});
-		},
+                    // FIXME
+                    console.error('nok');
+                },
+            });
+        },
 
-		onReset: function () {
+        onReset: function () {
 
-			this.model.set( this._oldModel.toJSON() );
+            this.model.set( this._oldModel.toJSON() );
 
-			this.ui.column.one('transitionend', this.render);
+            this.ui.column.one('transitionend', this.render);
 
-			this.close();
-		},
-	});
+            this.close();
+        },
+    });
 });

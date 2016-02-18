@@ -2,46 +2,46 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
-	'view/selectPoiLayerListItem',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
+    'view/selectPoiLayerListItem',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates,
-	SelectPoiLayerListItemView
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates,
+    SelectPoiLayerListItemView
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.CollectionView.extend({
+    return Marionette.CollectionView.extend({
 
-		childView: SelectPoiLayerListItemView,
+        childView: SelectPoiLayerListItemView,
 
-		className: 'list-group',
+        className: 'list-group',
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this._user = this._radio.reqres.request('model', 'user');
-		},
+            this._user = this._radio.reqres.request('model', 'user');
+        },
 
-		addChild: function(child, ChildView, index){
+        addChild: function(child, ChildView, index){
 
-			if ( child.isVisible() ) {
+            if ( child.isVisible() ) {
 
-				Marionette.CollectionView.prototype.addChild.apply(this, arguments);
-			}
-		},
-	});
+                Marionette.CollectionView.prototype.addChild.apply(this, arguments);
+            }
+        },
+    });
 });

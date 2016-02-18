@@ -2,26 +2,26 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'settings',
+    'underscore',
+    'backbone',
+    'settings',
 ],
 function (
 
-	_,
-	Backbone,
-	settings
+    _,
+    Backbone,
+    settings
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Backbone.Model.extend({
+    return Backbone.Model.extend({
 
-		defaults: {
+        defaults: {
 
-			'lat': undefined,
-			'lng': undefined,
-			'tags': [], // [{'key': '', 'value': ''}, [...]]
-		}
-	});
+            'lat': undefined,
+            'lng': undefined,
+            'tags': [], // [{'key': '', 'value': ''}, [...]]
+        }
+    });
 });

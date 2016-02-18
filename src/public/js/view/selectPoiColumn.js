@@ -2,95 +2,95 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
-	'view/selectPoiLayerList',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
+    'view/selectPoiLayerList',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates,
-	SelectPoiLayerListView
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates,
+    SelectPoiLayerListView
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.LayoutView.extend({
+    return Marionette.LayoutView.extend({
 
-		template: JST['selectPoiColumn.html'],
+        template: JST['selectPoiColumn.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'column': {},
-		},
+            'l20n': {},
+            'column': {},
+        },
 
-		regions: {
+        regions: {
 
-			'layerList': '.rg_layer_list',
-		},
+            'layerList': '.rg_layer_list',
+        },
 
-		ui: {
+        ui: {
 
-			'column': '#select_poi_column',
-			'currentMapZoom': '.currentMapZoom',
-		},
+            'column': '#select_poi_column',
+            'currentMapZoom': '.currentMapZoom',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this._radio.commands.setHandler('column:selectPoiLayer:render', this.render.bind(this));
-			this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom.bind(this));
-		},
+            this._radio.commands.setHandler('column:selectPoiLayer:render', this.render.bind(this));
+            this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom.bind(this));
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom'),
-			poiLayers = this._radio.reqres.request('poiLayers'),
-			selectPoiLayerListView = new SelectPoiLayerListView({ 'collection': poiLayers });
+            var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom'),
+            poiLayers = this._radio.reqres.request('poiLayers'),
+            selectPoiLayerListView = new SelectPoiLayerListView({ 'collection': poiLayers });
 
-			this.getRegion('layerList').show( selectPoiLayerListView );
+            this.getRegion('layerList').show( selectPoiLayerListView );
 
-			this.onChangedMapZoom();
-		},
+            this.onChangedMapZoom();
+        },
 
-		onChangedMapZoom: function () {
+        onChangedMapZoom: function () {
 
-			var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
+            var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
 
-			if (!currentMapZoom) {
+            if (!currentMapZoom) {
 
-				return false;
-			}
-			
-			this.ui.currentMapZoom.html(
-				document.l10n.getSync(
-					'selectPoiColumn_currentMapZoom',
-					{'currentMapZoom': currentMapZoom}
-				)
-			);
-		},
+                return false;
+            }
+            
+            this.ui.currentMapZoom.html(
+                document.l10n.getSync(
+                    'selectPoiColumn_currentMapZoom',
+                    {'currentMapZoom': currentMapZoom}
+                )
+            );
+        },
 
-		open: function () {
+        open: function () {
 
-			this._radio.vent.trigger('column:closeAll');
-			this._radio.vent.trigger('widget:closeAll');
+            this._radio.vent.trigger('column:closeAll');
+            this._radio.vent.trigger('widget:closeAll');
 
-			this.triggerMethod('open');
-		},
+            this.triggerMethod('open');
+        },
 
-		close: function () {
+        close: function () {
 
-			this.triggerMethod('close');
-		},
-	});
+            this.triggerMethod('close');
+        },
+    });
 });

@@ -2,137 +2,137 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
 
-	'helper/osmEdit'
+    'helper/osmEdit'
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates,
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates,
 
-	OsmEditHelper
+    OsmEditHelper
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.LayoutView.extend({
+    return Marionette.LayoutView.extend({
 
-		template: JST['contribColumn.html'],
-		templateField: JST['contribField.html'],
+        template: JST['contribColumn.html'],
+        templateField: JST['contribField.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'column': {},
-		},
+            'l20n': {},
+            'column': {},
+        },
 
-		ui: {
+        ui: {
 
-			'column': '#contrib_column',
-			'tagList': '.rg_tag_list',
-			'formGroups': '.form-group',
-			'addBtn': '.add_btn',
-			'removeBtn': '.remove_btn',
-		},
+            'column': '#contrib_column',
+            'tagList': '.rg_tag_list',
+            'formGroups': '.form-group',
+            'addBtn': '.add_btn',
+            'removeBtn': '.remove_btn',
+        },
 
-		events: {
+        events: {
 
-			'click @ui.addBtn': 'onClickAddBtn',
-			'click @ui.removeBtn': 'onClickRemoveBtn',
+            'click @ui.addBtn': 'onClickAddBtn',
+            'click @ui.removeBtn': 'onClickRemoveBtn',
 
-			'submit': 'onSubmit',
-		},
+            'submit': 'onSubmit',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
-		},
+            this._radio = Backbone.Wreqr.radio.channel('global');
+        },
 
-		setModel: function (model) {
+        setModel: function (model) {
 
-			this.model = model;
+            this.model = model;
 
-			this.render();
-		},
+            this.render();
+        },
 
-		open: function () {
+        open: function () {
 
-			this._radio.vent.trigger('column:closeAll');
-			this._radio.vent.trigger('widget:closeAll');
+            this._radio.vent.trigger('column:closeAll');
+            this._radio.vent.trigger('widget:closeAll');
 
-			this.triggerMethod('open');
-		},
+            this.triggerMethod('open');
+        },
 
-		close: function () {
+        close: function () {
 
-			this.triggerMethod('close');
-		},
+            this.triggerMethod('close');
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.addField();
-		},
+            this.addField();
+        },
 
-		onClickAddBtn: function () {
+        onClickAddBtn: function () {
 
-			this.addField();
-		},
+            this.addField();
+        },
 
-		onClickRemoveBtn: function (e) {
+        onClickRemoveBtn: function (e) {
 
-			$(e.target).parents('.form-group').remove();
-		},
+            $(e.target).parents('.form-group').remove();
+        },
 
-		addField: function () {
+        addField: function () {
 
-			var field = $( this.templateField() ).appendTo( this.ui.tagList ).get(0);
+            var field = $( this.templateField() ).appendTo( this.ui.tagList ).get(0);
 
-			document.l10n.localizeNode( field );
-		},
+            document.l10n.localizeNode( field );
+        },
 
-		onSubmit: function (e) {
+        onSubmit: function (e) {
 
-			var tags = [];
+            var tags = [];
 
-			e.preventDefault();
+            e.preventDefault();
 
-			this.bindUIElements();
+            this.bindUIElements();
 
-			this.ui.formGroups.each(function () {
+            this.ui.formGroups.each(function () {
 
-				var keyInput = this.querySelector('.key'),
-				valueInput = this.querySelector('.value'),
-				key = keyInput.value,
-				value = valueInput.value,
-				tag = {};
+                var keyInput = this.querySelector('.key'),
+                valueInput = this.querySelector('.value'),
+                key = keyInput.value,
+                value = valueInput.value,
+                tag = {};
 
-				if ( !key || !value ) {
-					return;
-				}
+                if ( !key || !value ) {
+                    return;
+                }
 
-				tag[key] = value;
+                tag[key] = value;
 
-				tags.push(tag);
-			});
+                tags.push(tag);
+            });
 
-			this.model.set('tags', tags);
+            this.model.set('tags', tags);
 
-			var osmEdit = new OsmEditHelper();
+            var osmEdit = new OsmEditHelper();
 
-			osmEdit.createNode( this.model.attributes, function (err) {
+            osmEdit.createNode( this.model.attributes, function (err) {
 
-				console.log('Node created!');
-			});
-		},
-	});
+                console.log('Node created!');
+            });
+        },
+    });
 });

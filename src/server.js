@@ -2,14 +2,14 @@
 var secretKey = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})',
 db = {
 
-	'host': process.env.MONGO_HOST ? process.env.MONGO_HOST : 'localhost',
-	'port': '27017',
-	'name': 'mapcontrib',
-	'options': {
+    'host': process.env.MONGO_HOST ? process.env.MONGO_HOST : 'localhost',
+    'port': '27017',
+    'name': 'mapcontrib',
+    'options': {
 
-		'auto_reconnect': true,
-		'safe': true
-	}
+        'auto_reconnect': true,
+        'safe': true
+    }
 };
 
 
@@ -30,15 +30,15 @@ init = require('./init.js');
 
 database.open(function (err, db) {
 
-	if(err) throw err;
+    if(err) throw err;
 
-	init.setDatabase(db);
+    init.setDatabase(db);
 
-	init.isDone().catch(function () {
-		init.start().catch(function (err) {
-			throw err;
-		});
-	});
+    init.isDone().catch(function () {
+        init.start().catch(function (err) {
+            throw err;
+        });
+    });
 });
 
 
@@ -66,15 +66,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
 
-	resave: true,
+    resave: true,
     saveUninitialized: true,
     secret: secretKey,
-	store: new MongoStore({
+    store: new MongoStore({
 
-		'host': db.host,
-		'port': db.port,
-		'db': db.name,
-	}),
+        'host': db.host,
+        'port': db.port,
+        'db': db.name,
+    }),
 }));
 
 app.set('port', process.env.PORT);
@@ -90,15 +90,15 @@ var requirejs = require('requirejs');
 
 requirejs.config({
 
-	nodeRequire: require,
-	baseUrl: path.join( __dirname, 'public', 'js' ),
-	paths: {
+    nodeRequire: require,
+    baseUrl: path.join( __dirname, 'public', 'js' ),
+    paths: {
 
-		'underscore': '../bower_components/underscore/underscore',
-		'backbone': '../bower_components/backbone/backbone',
-		'text': '../bower_components/text/text',
-		'img': '../img',
-	}
+        'underscore': '../bower_components/underscore/underscore',
+        'backbone': '../bower_components/backbone/backbone',
+        'text': '../bower_components/text/text',
+        'img': '../img',
+    }
 });
 
 var CONST = requirejs('const'),
@@ -111,7 +111,7 @@ var dataDirectory = path.join(__dirname, 'upload');
 
 if ( !fs.existsSync( dataDirectory ) ) {
 
-	fs.mkdirSync(dataDirectory);
+    fs.mkdirSync(dataDirectory);
 }
 
 
@@ -128,104 +128,104 @@ app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
 
-	done(null, user._id.toString());
+    done(null, user._id.toString());
 });
 
 
 passport.deserializeUser(function(userId, done) {
 
-	var collection = database.collection('user');
+    var collection = database.collection('user');
 
-	collection.findOne({
+    collection.findOne({
 
-		'_id': new mongo.ObjectID(userId)
-	}, function (err, user) {
+        '_id': new mongo.ObjectID(userId)
+    }, function (err, user) {
 
-		if (user) {
+        if (user) {
 
-			return done(null, userId);
-		}
+            return done(null, userId);
+        }
 
-		return done(err);
-	});
+        return done(err);
+    });
 });
 
 
 
 passport.use(new OpenStreetMapStrategy({
 
-		'consumerKey': settings.oauthConsumerKey,
-		'consumerSecret': settings.oauthSecret,
-		'callbackURL': '/auth/callback',
-		'passReqToCallback': true,
-	},
-	function(req, token, tokenSecret, profile, done) {
+        'consumerKey': settings.oauthConsumerKey,
+        'consumerSecret': settings.oauthSecret,
+        'callbackURL': '/auth/callback',
+        'passReqToCallback': true,
+    },
+    function(req, token, tokenSecret, profile, done) {
 
-		var collection = database.collection('user'),
-		userData = {
+        var collection = database.collection('user'),
+        userData = {
 
-			'osmId': profile.id,
-			'displayName': profile.displayName,
-			'avatar': profile._xml2json.user.img['@'].href,
-			'token': token,
-			'tokenSecret': tokenSecret,
-		};
+            'osmId': profile.id,
+            'displayName': profile.displayName,
+            'avatar': profile._xml2json.user.img['@'].href,
+            'token': token,
+            'tokenSecret': tokenSecret,
+        };
 
 
-		collection.findOne({
+        collection.findOne({
 
-			'osmId': userData.osmId
-		}, function (err, user) {
+            'osmId': userData.osmId
+        }, function (err, user) {
 
-			if (err) {
+            if (err) {
 
-				return done(err);
-			}
+                return done(err);
+            }
 
-			if (user) {
+            if (user) {
 
-				for ( var key in userData) {
+                for ( var key in userData) {
 
-					user[key] = userData[key];
-				}
+                    user[key] = userData[key];
+                }
 
-				collection.update({
+                collection.update({
 
-					'_id': user._id
-				},
-				user,
-				{ 'safe': true },
-				function (err, results) {
+                    '_id': user._id
+                },
+                user,
+                { 'safe': true },
+                function (err, results) {
 
-					if (results) {
+                    if (results) {
 
-						req.session.user = user;
+                        req.session.user = user;
 
-						return done(err, user);
-					}
+                        return done(err, user);
+                    }
 
-					return done(err);
-				});
-			}
-			else {
+                    return done(err);
+                });
+            }
+            else {
 
-				collection.insert(userData, {'safe': true}, function (err, results) {
+                collection.insert(userData, {'safe': true}, function (err, results) {
 
-					if (results) {
+                    if (results) {
 
-						result = results[0];
-						result._id = result._id.toString();
+                        result = results[0];
+                        result._id = result._id.toString();
 
-						req.session.user = result;
+                        req.session.user = result;
 
-						return done(err, result);
-					}
+                        return done(err, result);
+                    }
 
-					return done(err);
-				});
-			}
-		});
-	}
+                    return done(err);
+                });
+            }
+        });
+    }
 ));
 
 
@@ -233,62 +233,62 @@ passport.use(new OpenStreetMapStrategy({
 
 app.get('/', function (req, res) {
 
-	res.redirect('/theme-s8c2d4');
+    res.redirect('/theme-s8c2d4');
 });
 
 app.get('/auth', function (req, res) {
 
-	if ( req.query.authCallback ) {
+    if ( req.query.authCallback ) {
 
-		req.session.authCallback = req.query.authCallback;
-	}
+        req.session.authCallback = req.query.authCallback;
+    }
 
-	passport.authenticate('openstreetmap')(req, res);
+    passport.authenticate('openstreetmap')(req, res);
 });
 
 
 app.get('/auth/callback', function (req, res) {
 
-	var callbackUrl = '/';
+    var callbackUrl = '/';
 
-	if ( req.session.authCallback ) {
+    if ( req.session.authCallback ) {
 
-		callbackUrl = req.session.authCallback;
-	}
+        callbackUrl = req.session.authCallback;
+    }
 
-	passport.authenticate('openstreetmap', {
+    passport.authenticate('openstreetmap', {
 
-		'successRedirect': callbackUrl,
-		'failureRedirect': callbackUrl +'/#oups'
-	})(req, res);
+        'successRedirect': callbackUrl,
+        'failureRedirect': callbackUrl +'/#oups'
+    })(req, res);
 });
 
 
 app.get('/connect', function (req, res) {
 
-	if ( req.query.authCallback ) {
+    if ( req.query.authCallback ) {
 
-		req.session.authCallback = req.query.authCallback;
-	}
+        req.session.authCallback = req.query.authCallback;
+    }
 
-	passport.authorize('openstreetmap')(req, res);
+    passport.authorize('openstreetmap')(req, res);
 });
 
 
 app.get('/connect/callback', function (req, res) {
 
-	var callbackUrl = '/';
+    var callbackUrl = '/';
 
-	if ( req.session.authCallback ) {
+    if ( req.session.authCallback ) {
 
-		callbackUrl = req.session.authCallback;
-	}
+        callbackUrl = req.session.authCallback;
+    }
 
-	passport.authorize('openstreetmap', {
+    passport.authorize('openstreetmap', {
 
-		'successRedirect': callbackUrl,
-		'failureRedirect': callbackUrl +'/#oups'
-	})(req, res);
+        'successRedirect': callbackUrl,
+        'failureRedirect': callbackUrl +'/#oups'
+    })(req, res);
 });
 
 
@@ -299,12 +299,12 @@ app.get('/connect/callback', function (req, res) {
 
 function isLoggedIn (req, res, next) {
 
-	if ( req.isAuthenticated() ) {
+    if ( req.isAuthenticated() ) {
 
-		return next();
-	}
+        return next();
+    }
 
-	res.sendStatus(401);
+    res.sendStatus(401);
 }
 
 
@@ -315,8 +315,8 @@ themeApi = require('./api/theme.js'),
 poiLayerApi = require('./api/poiLayer.js'),
 options = {
 
-	'CONST': CONST,
-	'database': database,
+    'CONST': CONST,
+    'database': database,
 };
 
 
@@ -348,49 +348,49 @@ app.delete('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.delete);
 
 app.get('/theme-:fragment', function (req, res) {
 
-	var json = {};
+    var json = {};
 
-	if ( req.session.user ) {
+    if ( req.session.user ) {
 
-		json.user = JSON.stringify( req.session.user );
-	}
-	else {
+        json.user = JSON.stringify( req.session.user );
+    }
+    else {
 
-		json.user = '{}';
-	}
+        json.user = '{}';
+    }
 
-	themeApi.api.findFromFragment( req, res, req.params.fragment, function ( themeObject ) {
+    themeApi.api.findFromFragment( req, res, req.params.fragment, function ( themeObject ) {
 
-		poiLayerApi.api.findFromThemeId( req, res, themeObject._id, function ( poiLayerObject ) {
+        poiLayerApi.api.findFromThemeId( req, res, themeObject._id, function ( poiLayerObject ) {
 
-			json.theme = JSON.stringify( themeObject );
-			json.poiLayers = JSON.stringify( poiLayerObject );
+            json.theme = JSON.stringify( themeObject );
+            json.poiLayers = JSON.stringify( poiLayerObject );
 
-			if ( req.session.user ) {
+            if ( req.session.user ) {
 
-				themeApi.api.findFromOwnerId(req, res, req.session.user._id, function (themes) {
+                themeApi.api.findFromOwnerId(req, res, req.session.user._id, function (themes) {
 
-					req.session.themes = [];
+                    req.session.themes = [];
 
-					for (var i in themes) {
+                    for (var i in themes) {
 
-						var themeId = themes[i]._id.toString();
+                        var themeId = themes[i]._id.toString();
 
-						if ( req.session.themes.indexOf( themeId ) === -1 ) {
+                        if ( req.session.themes.indexOf( themeId ) === -1 ) {
 
-							req.session.themes.push( themeId );
-						}
-					}
+                            req.session.themes.push( themeId );
+                        }
+                    }
 
-					res.render('themeMap', json);
-				});
-			}
-			else {
+                    res.render('themeMap', json);
+                });
+            }
+            else {
 
-				res.render('themeMap', json);
-			}
-		});
-	});
+                res.render('themeMap', json);
+            }
+        });
+    });
 });
 
 
@@ -398,10 +398,10 @@ app.get('/theme-:fragment', function (req, res) {
 
 if (app.get('env') === 'development') {
 
-	app.use(errorHandler());
+    app.use(errorHandler());
 }
 
 app.listen(app.get('port'), function(){
 
-	console.log('Express server listening on port ' + app.get('port'));
+    console.log('Express server listening on port ' + app.get('port'));
 });

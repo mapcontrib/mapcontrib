@@ -2,137 +2,137 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'settings',
-	'markdown',
+    'underscore',
+    'backbone',
+    'settings',
+    'markdown',
 ],
 function (
 
-	_,
-	Backbone,
-	settings,
-	markdown
+    _,
+    Backbone,
+    settings,
+    markdown
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
 
-		template: JST['selectPoiLayerListItem.html'],
+        template: JST['selectPoiLayerListItem.html'],
 
-		tagName: 'a',
+        tagName: 'a',
 
-		className: 'list-group-item',
+        className: 'list-group-item',
 
-		attributes: {
+        attributes: {
 
-			'href': '#',
-		},
+            'href': '#',
+        },
 
-		modelEvents: {
+        modelEvents: {
 
-			'change': 'render'
-		},
+            'change': 'render'
+        },
 
-		ui: {
+        ui: {
 
-			'visibilityCheckbox': '.visibility_checkbox',
-			'zoomTip': '.zoom_tip',
-		},
+            'visibilityCheckbox': '.visibility_checkbox',
+            'zoomTip': '.zoom_tip',
+        },
 
-		events: {
+        events: {
 
-			'click': 'onClick',
-			'click label': 'onClickLabel',
-		},
+            'click': 'onClick',
+            'click label': 'onClickLabel',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			var self = this,
-			fragment = this._radio.reqres.request('getFragment'),
-			storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
+            var self = this,
+            fragment = this._radio.reqres.request('getFragment'),
+            storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
 
 
-			this._fragment = fragment;
+            this._fragment = fragment;
 
-			if ( storage && storage.hiddenPoiLayers && storage.hiddenPoiLayers.indexOf(this.model.get('_id')) > -1 ) {
+            if ( storage && storage.hiddenPoiLayers && storage.hiddenPoiLayers.indexOf(this.model.get('_id')) > -1 ) {
 
-				this._layerIsVisible = false;
-			}
-			else {
+                this._layerIsVisible = false;
+            }
+            else {
 
-				this._layerIsVisible = true;
-			}
+                this._layerIsVisible = true;
+            }
 
-			this._radio.vent.on('map:zoomChanged', this.render, this);
-		},
+            this._radio.vent.on('map:zoomChanged', this.render, this);
+        },
 
-		templateHelpers: function () {
+        templateHelpers: function () {
 
-			return {
+            return {
 
-				'description': markdown.toHTML( this.model.get('description') ),
-				'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
-			};
-		},
+                'description': markdown.toHTML( this.model.get('description') ),
+                'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
+            };
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			var currentZoom = this._radio.reqres.request('map:getCurrentZoom'),
-			n = (this.model.get('minZoom') - currentZoom) || 0;
+            var currentZoom = this._radio.reqres.request('map:getCurrentZoom'),
+            n = (this.model.get('minZoom') - currentZoom) || 0;
 
-			if ( n > 0 ) {
+            if ( n > 0 ) {
 
-				this.ui.zoomTip
-				.html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
-				.removeClass('hide');
-			}
-			else {
+                this.ui.zoomTip
+                .html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
+                .removeClass('hide');
+            }
+            else {
 
-				this.ui.zoomTip
-				.addClass('hide')
-				.empty();
-			}
+                this.ui.zoomTip
+                .addClass('hide')
+                .empty();
+            }
 
-			this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
-		},
+            this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
+        },
 
-		onClick: function (e) {
+        onClick: function (e) {
 
-			e.stopPropagation();
+            e.stopPropagation();
 
-			var newState,
-			key = 'mapState-'+ this._fragment,
-			oldState = JSON.parse( localStorage.getItem( key ) ) || {},
-			hiddenPoiLayers = oldState.hiddenPoiLayers || [];
+            var newState,
+            key = 'mapState-'+ this._fragment,
+            oldState = JSON.parse( localStorage.getItem( key ) ) || {},
+            hiddenPoiLayers = oldState.hiddenPoiLayers || [];
 
-			this._layerIsVisible = this._layerIsVisible ? false : true;
+            this._layerIsVisible = this._layerIsVisible ? false : true;
 
-			this.ui.visibilityCheckbox[0].checked = this._layerIsVisible;
+            this.ui.visibilityCheckbox[0].checked = this._layerIsVisible;
 
-			if ( this._layerIsVisible ) {
+            if ( this._layerIsVisible ) {
 
-				this._radio.commands.execute( 'map:showPoiLayer', this.model );
+                this._radio.commands.execute( 'map:showPoiLayer', this.model );
 
-				hiddenPoiLayers = _.without( hiddenPoiLayers, this.model.get('_id') );
-			}
-			else {
+                hiddenPoiLayers = _.without( hiddenPoiLayers, this.model.get('_id') );
+            }
+            else {
 
-				this._radio.commands.execute( 'map:hidePoiLayer', this.model );
+                this._radio.commands.execute( 'map:hidePoiLayer', this.model );
 
-				hiddenPoiLayers = _.union( hiddenPoiLayers, [this.model.get('_id')] );
-			}
+                hiddenPoiLayers = _.union( hiddenPoiLayers, [this.model.get('_id')] );
+            }
 
-			newState = _.extend( oldState, { 'hiddenPoiLayers': hiddenPoiLayers } );
-			localStorage.setItem( key, JSON.stringify( newState ) );
-		},
+            newState = _.extend( oldState, { 'hiddenPoiLayers': hiddenPoiLayers } );
+            localStorage.setItem( key, JSON.stringify( newState ) );
+        },
 
-		onClickLabel: function (e) {
+        onClickLabel: function (e) {
 
-			e.preventDefault();
-		},
-	});
+            e.preventDefault();
+        },
+    });
 });

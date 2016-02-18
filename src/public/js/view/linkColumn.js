@@ -2,137 +2,137 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
-	'settings',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
+    'settings',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates,
-	settings
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates,
+    settings
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.LayoutView.extend({
+    return Marionette.LayoutView.extend({
 
-		template: JST['linkColumn.html'],
-		templateIframe: JST['linkColumnIframe.html'],
+        template: JST['linkColumn.html'],
+        templateIframe: JST['linkColumnIframe.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'column': {},
-		},
+            'l20n': {},
+            'column': {},
+        },
 
-		ui: {
+        ui: {
 
-			'column': '#link_column',
-			'autoSelects': '.auto_select',
-			'iframeCode': '#iframe_code',
-			'iframeWidth': '#iframe_width',
-			'iframeHeight': '#iframe_height',
-			'iframeWidthUnit': '#iframe_width_unit',
-			'iframeHeightUnit': '#iframe_height_unit',
-			'iframeWidthUnitDropdown': '#iframe_width_unit_dropdown',
-			'iframeHeightUnitDropdown': '#iframe_height_unit_dropdown',
-		},
+            'column': '#link_column',
+            'autoSelects': '.auto_select',
+            'iframeCode': '#iframe_code',
+            'iframeWidth': '#iframe_width',
+            'iframeHeight': '#iframe_height',
+            'iframeWidthUnit': '#iframe_width_unit',
+            'iframeHeightUnit': '#iframe_height_unit',
+            'iframeWidthUnitDropdown': '#iframe_width_unit_dropdown',
+            'iframeHeightUnitDropdown': '#iframe_height_unit_dropdown',
+        },
 
-		events: {
+        events: {
 
-			'click @ui.autoSelects': 'onClickAutoSelects',
-			'keyup @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
-			'change @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
-			'click @ui.iframeWidthUnitDropdown a': 'onClickWidthUnit',
-			'click @ui.iframeHeightUnitDropdown a': 'onClickHeightUnit',
-		},
+            'click @ui.autoSelects': 'onClickAutoSelects',
+            'keyup @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
+            'change @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
+            'click @ui.iframeWidthUnitDropdown a': 'onClickWidthUnit',
+            'click @ui.iframeHeightUnitDropdown a': 'onClickHeightUnit',
+        },
 
-		templateHelpers: function () {
+        templateHelpers: function () {
 
 
-			return {
+            return {
 
-				'url': this.getUrl(),
-				'iframeWidth': settings.shareIframeWidth,
-				'iframeWidthUnit': settings.shareIframeWidthUnit,
-				'iframeHeight': settings.shareIframeHeight,
-				'iframeHeightUnit': settings.shareIframeHeightUnit,
-			};
-		},
+                'url': this.getUrl(),
+                'iframeWidth': settings.shareIframeWidth,
+                'iframeWidthUnit': settings.shareIframeWidthUnit,
+                'iframeHeight': settings.shareIframeHeight,
+                'iframeHeightUnit': settings.shareIframeHeightUnit,
+            };
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
-		},
+            this._radio = Backbone.Wreqr.radio.channel('global');
+        },
 
-		open: function () {
+        open: function () {
 
-			this._radio.vent.trigger('column:closeAll');
-			this._radio.vent.trigger('widget:closeAll');
+            this._radio.vent.trigger('column:closeAll');
+            this._radio.vent.trigger('widget:closeAll');
 
-			this.triggerMethod('open');
-		},
+            this.triggerMethod('open');
+        },
 
-		close: function () {
+        close: function () {
 
-			this.triggerMethod('close');
-		},
+            this.triggerMethod('close');
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.renderIframeCode();
-		},
+            this.renderIframeCode();
+        },
 
-		renderIframeCode: function () {
+        renderIframeCode: function () {
 
-			var html = this.templateIframe({
+            var html = this.templateIframe({
 
-				'url': this.getUrl(),
-				'iframeWidth': this.ui.iframeWidth.val(),
-				'iframeHeight': this.ui.iframeHeight.val(),
-				'iframeWidthUnit': (this.ui.iframeWidthUnit.html() == 'px') ? '' : this.ui.iframeWidthUnit.html(),
-				'iframeHeightUnit': (this.ui.iframeHeightUnit.html() == 'px') ? '' : this.ui.iframeHeightUnit.html(),
-				'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
-			});
+                'url': this.getUrl(),
+                'iframeWidth': this.ui.iframeWidth.val(),
+                'iframeHeight': this.ui.iframeHeight.val(),
+                'iframeWidthUnit': (this.ui.iframeWidthUnit.html() == 'px') ? '' : this.ui.iframeWidthUnit.html(),
+                'iframeHeightUnit': (this.ui.iframeHeightUnit.html() == 'px') ? '' : this.ui.iframeHeightUnit.html(),
+                'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
+            });
 
-			this.ui.iframeCode.html( html );
-		},
+            this.ui.iframeCode.html( html );
+        },
 
-		onClickAutoSelects: function (e) {
+        onClickAutoSelects: function (e) {
 
-			e.target.select();
-		},
+            e.target.select();
+        },
 
-		onClickWidthUnit: function (e) {
+        onClickWidthUnit: function (e) {
 
-			e.preventDefault();
+            e.preventDefault();
 
-			this.ui.iframeWidthUnit.html( $(e.target).data('unit') );
+            this.ui.iframeWidthUnit.html( $(e.target).data('unit') );
 
-			this.renderIframeCode();
-		},
+            this.renderIframeCode();
+        },
 
-		onClickHeightUnit: function (e) {
+        onClickHeightUnit: function (e) {
 
-			e.preventDefault();
+            e.preventDefault();
 
-			this.ui.iframeHeightUnit.html( $(e.target).data('unit') );
+            this.ui.iframeHeightUnit.html( $(e.target).data('unit') );
 
-			this.renderIframeCode();
-		},
+            this.renderIframeCode();
+        },
 
-		getUrl: function () {
+        getUrl: function () {
 
-			return window.location.protocol +'//'+ window.location.host +'/theme-'+ this.model.get('fragment');
-		},
-	});
+            return window.location.protocol +'//'+ window.location.host +'/theme-'+ this.model.get('fragment');
+        },
+    });
 });

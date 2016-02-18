@@ -2,82 +2,82 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
-	'view/editPoiLayerList',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
+    'view/editPoiLayerList',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates,
-	EditPoiLayerListView
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates,
+    EditPoiLayerListView
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.LayoutView.extend({
+    return Marionette.LayoutView.extend({
 
-		template: JST['editPoiColumn.html'],
+        template: JST['editPoiColumn.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'column': {},
-		},
+            'l20n': {},
+            'column': {},
+        },
 
-		regions: {
+        regions: {
 
-			'layerList': '.rg_layer_list',
-		},
+            'layerList': '.rg_layer_list',
+        },
 
-		ui: {
+        ui: {
 
-			'column': '#edit_poi_column',
-			'addButton': '.add_btn',
-		},
+            'column': '#edit_poi_column',
+            'addButton': '.add_btn',
+        },
 
-		events: {
+        events: {
 
-			'click @ui.addButton': 'onClickAdd',
-		},
+            'click @ui.addButton': 'onClickAdd',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
-		},
+            this._radio = Backbone.Wreqr.radio.channel('global');
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			var poiLayers = this._radio.reqres.request('poiLayers'),
-			editPoiLayerListView = new EditPoiLayerListView({ 'collection': poiLayers });
+            var poiLayers = this._radio.reqres.request('poiLayers'),
+            editPoiLayerListView = new EditPoiLayerListView({ 'collection': poiLayers });
 
-			this.getRegion('layerList').show( editPoiLayerListView );
-		},
+            this.getRegion('layerList').show( editPoiLayerListView );
+        },
 
-		open: function () {
+        open: function () {
 
-			this._radio.vent.trigger('column:closeAll');
-			this._radio.vent.trigger('widget:closeAll');
+            this._radio.vent.trigger('column:closeAll');
+            this._radio.vent.trigger('widget:closeAll');
 
-			this.triggerMethod('open');
-		},
+            this.triggerMethod('open');
+        },
 
-		close: function () {
+        close: function () {
 
-			this.triggerMethod('close');
-		},
+            this.triggerMethod('close');
+        },
 
-		onClickAdd: function () {
+        onClickAdd: function () {
 
-			this._radio.commands.execute('column:showPoiLayer');
-		},
-	});
+            this._radio.commands.execute('column:showPoiLayer');
+        },
+    });
 });

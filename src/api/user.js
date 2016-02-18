@@ -4,234 +4,234 @@ requirejs = require('requirejs'),
 UserModel = requirejs('model/user'),
 options = {
 
-	'CONST': undefined,
-	'database': undefined,
+    'CONST': undefined,
+    'database': undefined,
 },
 
 setOptions = function (hash) {
 
-	options = hash;
+    options = hash;
 },
 
 api = {
 
-	post: function (req, res) {
+    post: function (req, res) {
 
-		var collection = options.database.collection('user'),
-		model = new UserModel(req.body);
+        var collection = options.database.collection('user'),
+        model = new UserModel(req.body);
 
-		if ( !model.isValid() ) {
+        if ( !model.isValid() ) {
 
-			res.sendStatus(400);
+            res.sendStatus(400);
 
-			return true;
-		}
+            return true;
+        }
 
-		collection.insert(req.body, {'safe': true}, function (err, results) {
+        collection.insert(req.body, {'safe': true}, function (err, results) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			var result = results[0];
-			result._id = result._id.toString();
+            var result = results[0];
+            result._id = result._id.toString();
 
-			res.send(result);
-		});
-	},
+            res.send(result);
+        });
+    },
 
 
-	get: function (req, res) {
+    get: function (req, res) {
 
-		api.findFromId(req, res, req.params._id, function (user) {
+        api.findFromId(req, res, req.params._id, function (user) {
 
-			res.send(user);
-		});
-	},
+            res.send(user);
+        });
+    },
 
 
-	findFromId: function (req, res, _id, callback) {
+    findFromId: function (req, res, _id, callback) {
 
-		if ( _id === 'me' ) {
+        if ( _id === 'me' ) {
 
-			_id = req.user;
-		}
-		else if ( req.user !== _id ) {
+            _id = req.user;
+        }
+        else if ( req.user !== _id ) {
 
-			res.sendStatus(401);
+            res.sendStatus(401);
 
-			return true;
-		}
-		else if ( !options.CONST.pattern.mongoId.test( _id ) ) {
+            return true;
+        }
+        else if ( !options.CONST.pattern.mongoId.test( _id ) ) {
 
-			res.sendStatus(400);
+            res.sendStatus(400);
 
-			return true;
-		}
+            return true;
+        }
 
-		var collection = options.database.collection('user');
+        var collection = options.database.collection('user');
 
-		collection.find({
+        collection.find({
 
-			'_id': new mongo.ObjectID(_id)
-		})
-		.toArray(function (err, results) {
+            '_id': new mongo.ObjectID(_id)
+        })
+        .toArray(function (err, results) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			if (results.length === 0) {
+            if (results.length === 0) {
 
-				res.sendStatus(404);
+                res.sendStatus(404);
 
-				return true;
-			}
+                return true;
+            }
 
-			var result = results[0];
-			result._id = result._id.toString();
+            var result = results[0];
+            result._id = result._id.toString();
 
-			callback(result);
-		});
-	},
+            callback(result);
+        });
+    },
 
 
-	getAll: function (req, res) {
+    getAll: function (req, res) {
 
-		var collection = options.database.collection('user');
+        var collection = options.database.collection('user');
 
-		collection.find()
-		.toArray(function (err, results) {
+        collection.find()
+        .toArray(function (err, results) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			if (results.length > 0) {
+            if (results.length > 0) {
 
-				results.forEach(function (result) {
+                results.forEach(function (result) {
 
-					result._id = result._id.toString();
-				});
-			}
+                    result._id = result._id.toString();
+                });
+            }
 
-			res.send(results);
-		});
-	},
+            res.send(results);
+        });
+    },
 
 
-	put: function (req, res) {
+    put: function (req, res) {
 
-		if (req.user !== req.params._id) {
+        if (req.user !== req.params._id) {
 
-			res.sendStatus(401);
+            res.sendStatus(401);
 
-			return true;
-		}
+            return true;
+        }
 
-		if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
+        if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
-			res.sendStatus(400);
+            res.sendStatus(400);
 
-			return true;
-		}
+            return true;
+        }
 
 
-		var new_json = req.body,
-		collection = options.database.collection('user'),
-		model = new UserModel(new_json);
+        var new_json = req.body,
+        collection = options.database.collection('user'),
+        model = new UserModel(new_json);
 
-		if ( !model.isValid() ) {
+        if ( !model.isValid() ) {
 
-			res.sendStatus(400);
+            res.sendStatus(400);
 
-			return true;
-		}
+            return true;
+        }
 
-		delete(new_json._id);
+        delete(new_json._id);
 
-		collection.update({
+        collection.update({
 
-			'_id': new mongo.ObjectID(req.params._id)
-		},
-		new_json,
-		{'safe': true},
-		function (err) {
+            '_id': new mongo.ObjectID(req.params._id)
+        },
+        new_json,
+        {'safe': true},
+        function (err) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			res.send({});
-		});
-	},
+            res.send({});
+        });
+    },
 
 
 
-	delete: function (req, res) {
+    delete: function (req, res) {
 
-		if (req.user !== req.params._id) {
+        if (req.user !== req.params._id) {
 
-			res.sendStatus(401);
+            res.sendStatus(401);
 
-			return true;
-		}
+            return true;
+        }
 
-		if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
+        if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
-			res.sendStatus(400);
+            res.sendStatus(400);
 
-			return true;
-		}
+            return true;
+        }
 
 
-		var collection = options.database.collection('user');
+        var collection = options.database.collection('user');
 
-		collection.remove({
+        collection.remove({
 
-			'_id': new mongo.ObjectID(req.params._id)
-		},
-		{'safe': true},
-		function (err) {
+            '_id': new mongo.ObjectID(req.params._id)
+        },
+        {'safe': true},
+        function (err) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			res.send({});
-		});
-	},
+            res.send({});
+        });
+    },
 
-	logout: function (req, res) {
+    logout: function (req, res) {
 
-		req.logout();
+        req.logout();
 
-		delete req.session.user;
-		delete req.session.themes;
+        delete req.session.user;
+        delete req.session.themes;
 
-		res.sendStatus(200);
-	},
+        res.sendStatus(200);
+    },
 };
 
 
 
 module.exports = {
 
-	'setOptions': setOptions,
-	'api': api,
+    'setOptions': setOptions,
+    'api': api,
 };

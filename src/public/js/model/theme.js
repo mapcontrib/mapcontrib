@@ -2,63 +2,63 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'settings',
+    'underscore',
+    'backbone',
+    'settings',
 ],
 function (
 
-	_,
-	Backbone,
-	settings
+    _,
+    Backbone,
+    settings
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Backbone.Model.extend({
+    return Backbone.Model.extend({
 
-		idAttribute: '_id',
+        idAttribute: '_id',
 
-		urlRoot: settings.apiPath + 'theme',
+        urlRoot: settings.apiPath + 'theme',
 
-		defaults: {
+        defaults: {
 
-			'userId': undefined,
-			'name': undefined,
-			'description': undefined,
-			'color': 'blue',
-			'tiles': ['osm'],
-			'zoomLevel': undefined,
-			'center': {
+            'userId': undefined,
+            'name': undefined,
+            'description': undefined,
+            'color': 'blue',
+            'tiles': ['osm'],
+            'zoomLevel': undefined,
+            'center': {
 
-				'lat': undefined,
-				'lng': undefined,
-			},
-			'owners': [],
-		},
+                'lat': undefined,
+                'lng': undefined,
+            },
+            'owners': [],
+        },
 
-		/**
-		 * Check if a user is owner of this theme.
-		 *
-		 * @author Guillaume AMAT
-		 * @param userModel - A user model
-		 * @return boolean
-		 */
-		isOwner: function (userModel) {
+        /**
+         * Check if a user is owner of this theme.
+         *
+         * @author Guillaume AMAT
+         * @param userModel - A user model
+         * @return boolean
+         */
+        isOwner: function (userModel) {
 
-			var userId = userModel.get('_id');
+            var userId = userModel.get('_id');
 
-			if ( this.get('owners').indexOf( userId ) > -1 ) {
+            if ( this.get('owners').indexOf( userId ) > -1 ) {
 
-				return true;
-			}
+                return true;
+            }
 
-			if ( this.get('owners').indexOf('*') > -1 ) {
+            if ( this.get('owners').indexOf('*') > -1 ) {
 
-				return true;
-			}
+                return true;
+            }
 
-			return false;
-		}
-	});
+            return false;
+        }
+    });
 });

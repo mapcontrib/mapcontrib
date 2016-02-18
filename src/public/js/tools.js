@@ -2,15 +2,15 @@
 
 define([
 
-	'jquery',
-	'math.format',
+    'jquery',
+    'math.format',
 ],
 function (
 
-	$
+    $
 ) {
 
-	'use strict';
+    'use strict';
 
 
     // Pour pouvoir utiliser la librairie Math.format plus facilement
@@ -28,13 +28,13 @@ function (
     };
 
 
-	if (!String.prototype.trim) {
-		
-		String.prototype.trim = function () {
+    if (!String.prototype.trim) {
+        
+        String.prototype.trim = function () {
 
-			return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
-		};
-	}
+            return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+        };
+    }
 
     return {
 

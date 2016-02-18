@@ -2,129 +2,129 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
-	'text!icons.json',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
+    'text!icons.json',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates,
-	icons
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates,
+    icons
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
 
-		template: JST['editPoiMarkerModal.html'],
+        template: JST['editPoiMarkerModal.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'modal': {},
-		},
+            'l20n': {},
+            'modal': {},
+        },
 
-		ui: {
+        ui: {
 
-			'modal': '#edit_poi_marker_modal',
-			'colorButtons': '.color-buttons .btn',
-			'shapeButtons': '.shape-buttons .btn',
-			'iconName': '#marker_icon_name',
-			'iconPreview': '.icon-preview',
-			'closeButton': '.close_btn',
-		},
+            'modal': '#edit_poi_marker_modal',
+            'colorButtons': '.color-buttons .btn',
+            'shapeButtons': '.shape-buttons .btn',
+            'iconName': '#marker_icon_name',
+            'iconPreview': '.icon-preview',
+            'closeButton': '.close_btn',
+        },
 
-		events: {
+        events: {
 
-			'click @ui.colorButtons': 'onClickColorButtons',
-			'click @ui.shapeButtons': 'onClickShapeButtons',
-			'keyup @ui.iconName': 'onChangeIconName',
+            'click @ui.colorButtons': 'onClickColorButtons',
+            'click @ui.shapeButtons': 'onClickShapeButtons',
+            'keyup @ui.iconName': 'onChangeIconName',
 
-			'submit': 'onSubmit',
-			'reset': 'onReset',
-		},
+            'submit': 'onSubmit',
+            'reset': 'onReset',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this._oldModel = this.model.clone();
+            this._oldModel = this.model.clone();
 
-			this._icons = JSON.parse(icons);
-		},
+            this._icons = JSON.parse(icons);
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.ui.colorButtons
-			.filter( '.'+ this.model.get('markerColor') )
-			.find('i')
-			.addClass('fa-check');
+            this.ui.colorButtons
+            .filter( '.'+ this.model.get('markerColor') )
+            .find('i')
+            .addClass('fa-check');
 
-			this.ui.shapeButtons
-			.filter( '.'+ this.model.get('markerShape') )
-			.addClass('active');
+            this.ui.shapeButtons
+            .filter( '.'+ this.model.get('markerShape') )
+            .addClass('active');
 
-			this.updateIconPreview();
-		},
+            this.updateIconPreview();
+        },
 
-		close: function () {
+        close: function () {
 
-			this.triggerMethod('close');
-		},
+            this.triggerMethod('close');
+        },
 
-		onReset: function () {
+        onReset: function () {
 
-			this.model.set( this._oldModel.toJSON() );
+            this.model.set( this._oldModel.toJSON() );
 
-			this.close();
-		},
+            this.close();
+        },
 
-		onSubmit: function (e) {
+        onSubmit: function (e) {
 
-			e.preventDefault();
+            e.preventDefault();
 
-			this.close();
-		},
+            this.close();
+        },
 
-		onClickColorButtons: function (e) {
+        onClickColorButtons: function (e) {
 
-			$('i', this.ui.colorButtons).removeClass('fa-check');
+            $('i', this.ui.colorButtons).removeClass('fa-check');
 
-			e.target.querySelector('i').classList.add('fa-check');
+            e.target.querySelector('i').classList.add('fa-check');
 
-			this.model.set('markerColor', e.target.dataset.color);
-		},
+            this.model.set('markerColor', e.target.dataset.color);
+        },
 
-		onClickShapeButtons: function (e) {
+        onClickShapeButtons: function (e) {
 
-			this.ui.shapeButtons.removeClass('active');
+            this.ui.shapeButtons.removeClass('active');
 
-			e.target.classList.add('active');
+            e.target.classList.add('active');
 
-			this.model.set('markerShape', e.target.dataset.shape);
-		},
+            this.model.set('markerShape', e.target.dataset.shape);
+        },
 
-		onChangeIconName: function (e) {
+        onChangeIconName: function (e) {
 
-			this.updateIconPreview();
-		},
+            this.updateIconPreview();
+        },
 
-		updateIconPreview: function () {
+        updateIconPreview: function () {
 
-			var iconName = this.ui.iconName.val();
+            var iconName = this.ui.iconName.val();
 
-			this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
+            this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
 
-			this.model.set('markerIcon', iconName);
-		},
-	});
+            this.model.set('markerIcon', iconName);
+        },
+    });
 });

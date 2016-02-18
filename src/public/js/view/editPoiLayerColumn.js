@@ -2,235 +2,235 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
 
-		template: JST['editPoiLayerColumn.html'],
+        template: JST['editPoiLayerColumn.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'column': {
+            'l20n': {},
+            'column': {
 
-				'destroyOnClose': true,
-			},
-		},
+                'destroyOnClose': true,
+            },
+        },
 
-		ui: {
+        ui: {
 
-			'column': '#edit_poi_layer_column',
+            'column': '#edit_poi_layer_column',
 
-			'layerName': '#layer_name',
-			'layerDescription': '#layer_description',
-			'layerDataEditable': '#layer_data_editable',
-			'layerVisible': '#layer_visible',
-			'layerMinZoom': '#layer_min_zoom',
-			'layerOverpassRequest': '#layer_overpass_request',
-			'layerPopupContent': '#layer_popup_content',
+            'layerName': '#layer_name',
+            'layerDescription': '#layer_description',
+            'layerDataEditable': '#layer_data_editable',
+            'layerVisible': '#layer_visible',
+            'layerMinZoom': '#layer_min_zoom',
+            'layerOverpassRequest': '#layer_overpass_request',
+            'layerPopupContent': '#layer_popup_content',
 
-			'markerWrapper': '.marker-wrapper',
-			'editMarkerButton': '.edit_marker_btn',
-			'currentMapZoom': '.current_map_zoom',
-		},
+            'markerWrapper': '.marker-wrapper',
+            'editMarkerButton': '.edit_marker_btn',
+            'currentMapZoom': '.current_map_zoom',
+        },
 
-		events: {
+        events: {
 
-			'click @ui.editMarkerButton': 'onClickEditMarker',
-			'submit': 'onSubmit',
-			'reset': 'onReset',
-		},
+            'click @ui.editMarkerButton': 'onClickEditMarker',
+            'submit': 'onSubmit',
+            'reset': 'onReset',
+        },
 
-		templateHelpers: function () {
+        templateHelpers: function () {
 
-			return {
+            return {
 
-				'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
-			};
-		},
+                'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
+            };
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this._oldModel = this.model.clone();
+            this._oldModel = this.model.clone();
 
-			this.listenTo(this.model, 'change', this.updateMarkerIcon);
-			this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom.bind(this));
-		},
+            this.listenTo(this.model, 'change', this.updateMarkerIcon);
+            this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom.bind(this));
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.ui.layerVisible.prop('checked', this.model.get('visible'));
-			this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
+            this.ui.layerVisible.prop('checked', this.model.get('visible'));
+            this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
 
-			this.onChangedMapZoom();
-		},
+            this.onChangedMapZoom();
+        },
 
-		onDestroy: function () {
+        onDestroy: function () {
 
-			this._radio.vent.off('map:zoomChanged');
-		},
+            this._radio.vent.off('map:zoomChanged');
+        },
 
-		open: function () {
+        open: function () {
 
-			this.triggerMethod('open');
-		},
+            this.triggerMethod('open');
+        },
 
-		close: function () {
+        close: function () {
 
-			this.triggerMethod('close');
-		},
+            this.triggerMethod('close');
+        },
 
-		onChangedMapZoom: function () {
+        onChangedMapZoom: function () {
 
-			var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
+            var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
 
-			this.ui.currentMapZoom.html( document.l10n.getSync('editPoiLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
-		},
-		updateMarkerIcon: function () {
+            this.ui.currentMapZoom.html( document.l10n.getSync('editPoiLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
+        },
+        updateMarkerIcon: function () {
 
-			var html = this._radio.reqres.request('poiLayerHtmlIcon', this.model);
+            var html = this._radio.reqres.request('poiLayerHtmlIcon', this.model);
 
-			this.ui.markerWrapper.html( html );
-		},
+            this.ui.markerWrapper.html( html );
+        },
 
-		onClickEditMarker: function () {
+        onClickEditMarker: function () {
 
-			this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
-		},
+            this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
+        },
 
-		onSubmit: function (e) {
+        onSubmit: function (e) {
 
-			e.preventDefault();
+            e.preventDefault();
 
-			var self = this,
-			addToCollection = false,
-			updateMarkers = false,
-			updateMinZoom = false,
-			updatePopups = false,
-			updateVisibility = false;
+            var self = this,
+            addToCollection = false,
+            updateMarkers = false,
+            updateMinZoom = false,
+            updatePopups = false,
+            updateVisibility = false;
 
-			this.model.set('name', this.ui.layerName.val());
-			this.model.set('description', this.ui.layerDescription.val());
-			this.model.set('visible', this.ui.layerVisible.prop('checked'));
-			this.model.set('dataEditable', this.ui.layerDataEditable.prop('checked'));
-			this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
-			this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
-			this.model.set('popupContent', this.ui.layerPopupContent.val());
+            this.model.set('name', this.ui.layerName.val());
+            this.model.set('description', this.ui.layerDescription.val());
+            this.model.set('visible', this.ui.layerVisible.prop('checked'));
+            this.model.set('dataEditable', this.ui.layerDataEditable.prop('checked'));
+            this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
+            this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
+            this.model.set('popupContent', this.ui.layerPopupContent.val());
 
-			if ( !this.model.get('_id') ) {
+            if ( !this.model.get('_id') ) {
 
-				addToCollection = true;
-			}
+                addToCollection = true;
+            }
 
-			if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
+            if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
 
-				updateMinZoom = true;
-			}
+                updateMinZoom = true;
+            }
 
-			if ( this._oldModel.get('dataEditable') !== this.model.get('dataEditable') ) {
+            if ( this._oldModel.get('dataEditable') !== this.model.get('dataEditable') ) {
 
-				updatePopups = true;
-			}
+                updatePopups = true;
+            }
 
-			if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
+            if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
 
-				updateMarkers = true;
-			}
+                updateMarkers = true;
+            }
 
-			if ( this._oldModel.get('markerIcon') !== this.model.get('markerIcon') ) {
+            if ( this._oldModel.get('markerIcon') !== this.model.get('markerIcon') ) {
 
-				updateMarkers = true;
-			}
+                updateMarkers = true;
+            }
 
-			if ( this._oldModel.get('markerShape') !== this.model.get('markerShape') ) {
+            if ( this._oldModel.get('markerShape') !== this.model.get('markerShape') ) {
 
-				updateMarkers = true;
-			}
+                updateMarkers = true;
+            }
 
-			if ( this._oldModel.get('popupContent') !== this.model.get('popupContent') ) {
+            if ( this._oldModel.get('popupContent') !== this.model.get('popupContent') ) {
 
-				updatePopups = true;
-			}
+                updatePopups = true;
+            }
 
-			if ( this._oldModel.get('visible') !== this.model.get('visible') ) {
+            if ( this._oldModel.get('visible') !== this.model.get('visible') ) {
 
-				updateVisibility = true;
-			}
+                updateVisibility = true;
+            }
 
-			this.model.save({}, {
+            this.model.save({}, {
 
-				'success': function () {
+                'success': function () {
 
-					if ( addToCollection ) {
+                    if ( addToCollection ) {
 
-						self._radio.reqres.request('poiLayers').add( self.model );
-					}
+                        self._radio.reqres.request('poiLayers').add( self.model );
+                    }
 
-					if ( updateMinZoom ) {
+                    if ( updateMinZoom ) {
 
-						self._radio.commands.execute('map:updatePoiLayerMinZoom', self.model);
-					}
+                        self._radio.commands.execute('map:updatePoiLayerMinZoom', self.model);
+                    }
 
-					if ( updateMarkers ) {
+                    if ( updateMarkers ) {
 
-						self._radio.commands.execute('map:updatePoiLayerIcons', self.model);
-					}
+                        self._radio.commands.execute('map:updatePoiLayerIcons', self.model);
+                    }
 
-					if ( updatePopups ) {
+                    if ( updatePopups ) {
 
-						self._radio.commands.execute('map:updatePoiLayerPopups', self.model);
-					}
+                        self._radio.commands.execute('map:updatePoiLayerPopups', self.model);
+                    }
 
-					if ( updateVisibility ) {
+                    if ( updateVisibility ) {
 
-						if ( self.model.get('visible') ) {
+                        if ( self.model.get('visible') ) {
 
-							self._radio.commands.execute('map:addPoiLayer', self.model);
-						}
-						else {
+                            self._radio.commands.execute('map:addPoiLayer', self.model);
+                        }
+                        else {
 
-							self._radio.commands.execute('map:removePoiLayer', self.model);
-						}
+                            self._radio.commands.execute('map:removePoiLayer', self.model);
+                        }
 
-						self._radio.commands.execute('column:selectPoiLayer:render');
-					}
+                        self._radio.commands.execute('column:selectPoiLayer:render');
+                    }
 
-					self.close();
-				},
-				'error': function () {
+                    self.close();
+                },
+                'error': function () {
 
-					// FIXME
-					console.error('nok');
-				},
-			});
-		},
+                    // FIXME
+                    console.error('nok');
+                },
+            });
+        },
 
-		onReset: function () {
+        onReset: function () {
 
-			this.model.set( this._oldModel.toJSON() );
+            this.model.set( this._oldModel.toJSON() );
 
-			this.ui.column.one('transitionend', this.render);
+            this.ui.column.one('transitionend', this.render);
 
-			this.close();
-		},
-	});
+            this.close();
+        },
+    });
 });

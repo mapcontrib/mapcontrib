@@ -2,122 +2,122 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
+    'underscore',
+    'backbone',
+    'marionette',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette
+    _,
+    Backbone,
+    Marionette
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.Behavior.extend({
+    return Marionette.Behavior.extend({
 
-		defaults: {
+        defaults: {
 
-			'destroyOnClose': false,
-		},
+            'destroyOnClose': false,
+        },
 
-		ui: {
+        ui: {
 
-			'closeBtn': '.close_btn',
-		},
+            'closeBtn': '.close_btn',
+        },
 
-		events: {
+        events: {
 
-			'click @ui.closeBtn': 'onClickClose',
-			'keyup': 'onKeyUp',
-		},
+            'click @ui.closeBtn': 'onClickClose',
+            'keyup': 'onKeyUp',
+        },
 
-		initialize: function (options) {
+        initialize: function (options) {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this.listenTo(this._radio.vent, 'widget:closeAll', this.onClose);
+            this.listenTo(this._radio.vent, 'widget:closeAll', this.onClose);
 
-			this._isOpened = false;
-		},
+            this._isOpened = false;
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.ui.widget.attr('tabindex', 0);
-		},
+            this.ui.widget.attr('tabindex', 0);
+        },
 
-		onDestroy: function () {
+        onDestroy: function () {
 
-			this.stopListening(this._radio.vent, 'widget:closeAll');
-		},
+            this.stopListening(this._radio.vent, 'widget:closeAll');
+        },
 
-		onToggle: function () {
+        onToggle: function () {
 
-			if ( this._isOpened ) {
+            if ( this._isOpened ) {
 
-				this.onClose();
-			}
-			else {
+                this.onClose();
+            }
+            else {
 
-				this.onOpen();
-			}
-		},
+                this.onOpen();
+            }
+        },
 
-		onOpen: function () {
+        onOpen: function () {
 
-			var self = this;
+            var self = this;
 
-			this._isOpened = true;
+            this._isOpened = true;
 
-			window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(function () {
 
-				self.view.trigger('open');
+                self.view.trigger('open');
 
-				self.ui.widget.addClass('open');
-			});
-		},
+                self.ui.widget.addClass('open');
+            });
+        },
 
-		onClose: function () {
+        onClose: function () {
 
-			var self = this,
-			mapElement = this._radio.reqres.request('map')._container;
+            var self = this,
+            mapElement = this._radio.reqres.request('map')._container;
 
-			this._isOpened = false;
+            this._isOpened = false;
 
-			$(mapElement).focus();
+            $(mapElement).focus();
 
-			window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(function () {
 
-				self.view.trigger('close');
+                self.view.trigger('close');
 
-				self.ui.widget.one('transitionend', function () {
+                self.ui.widget.one('transitionend', function () {
 
-					if ( self.options.destroyOnClose ) {
+                    if ( self.options.destroyOnClose ) {
 
-						self.view.destroy();
-					}
-				})
-				.removeClass('open');
-			});
-		},
+                        self.view.destroy();
+                    }
+                })
+                .removeClass('open');
+            });
+        },
 
-		onClickClose: function () {
+        onClickClose: function () {
 
-			this.onClose();
-		},
+            this.onClose();
+        },
 
-		onKeyUp: function (e) {
+        onKeyUp: function (e) {
 
-			switch ( e.keyCode ) {
+            switch ( e.keyCode ) {
 
-				case 27:
+                case 27:
 
-					this.onClose();
-					break;
-			}
-		},
-	});
+                    this.onClose();
+                    break;
+            }
+        },
+    });
 });

@@ -2,55 +2,55 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.LayoutView.extend({
+    return Marionette.LayoutView.extend({
 
-		template: JST['zoomNotification.html'],
+        template: JST['zoomNotification.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'notification': {},
-		},
+            'l20n': {},
+            'notification': {},
+        },
 
-		ui: {
+        ui: {
 
-			'notification': '#zoom_notification',
+            'notification': '#zoom_notification',
 
-			'content': '.content',
-		},
+            'content': '.content',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
-		},
+            this._radio = Backbone.Wreqr.radio.channel('global');
+        },
 
-		open: function () {
+        open: function () {
 
-			this.triggerMethod('open');
-		},
+            this.triggerMethod('open');
+        },
 
-		close: function () {
+        close: function () {
 
-			this.triggerMethod('close');
-		},
-	});
+            this.triggerMethod('close');
+        },
+    });
 });
