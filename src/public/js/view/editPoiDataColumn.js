@@ -77,7 +77,11 @@ function (
                 'oauth_token_secret': this._user.get('tokenSecret'),
             });
 
-            this._osmEdit = new OsmEditHelper(this._auth);
+            this._osmEdit = new OsmEditHelper( this._auth );
+            this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+            this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
+            this._osmEdit.setUid(this._user.get('osmId'));
+            this._osmEdit.setDisplayName(this._user.get('displayName'));
         },
 
         open: function () {
@@ -423,11 +427,11 @@ function (
 
             var self = this,
             changesetId = sessionStorage.getItem('changesetId'),
-            changesetXml = this._osmEdit.buildChangesetXml(CONST.osm.changesetCreatedBy, CONST.osm.changesetComment);
+            changesetXml = this._osmEdit._buildChangesetXml();
 
             if ( changesetId ) {
 
-                this._osmEdit.checkChangeset(changesetId)
+                this._osmEdit._isChangesetStillOpen(changesetId)
                 .then(function (changesetId) {
 
                     callback(changesetId);
@@ -440,7 +444,7 @@ function (
             }
             else {
 
-                this._osmEdit.createChangeset(changesetXml)
+                this._osmEdit._createChangeset()
                 .then(function (changesetId) {
 
                     sessionStorage.setItem('changesetId', changesetId);
@@ -469,7 +473,7 @@ function (
             parentElement.setAttribute('timestamp', new Date().toISOString());
             parentElement.setAttribute('uid', this._user.get('osmId'));
             parentElement.setAttribute('display_name', this._user.get('displayName'));
-            parentElement.removeAttribute('user', this._user.get('displayName'));
+            parentElement.removeAttribute('user');
 
             data = serializer.serializeToString(xml);
 

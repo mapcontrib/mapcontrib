@@ -7,8 +7,10 @@ define([
     'marionette',
     'bootstrap',
     'templates',
-
-    'helper/osmEdit'
+    'osm-auth',
+    'helper/osmEdit',
+    'const',
+    'settings',
 ],
 function (
 
@@ -17,8 +19,10 @@ function (
     Marionette,
     Bootstrap,
     templates,
-
-    OsmEditHelper
+    osmAuth,
+    OsmEditHelper,
+    CONST,
+    settings
 ) {
 
     'use strict';
@@ -56,6 +60,7 @@ function (
             var self = this;
 
             this._radio = Backbone.Wreqr.radio.channel('global');
+            this._user = this._radio.reqres.request('model', 'user');
         },
 
         setModel: function (model) {
@@ -127,9 +132,25 @@ function (
 
             this.model.set('tags', tags);
 
-            var osmEdit = new OsmEditHelper();
+            var osmEdit = new OsmEditHelper(
+                osmAuth({
 
-            osmEdit.createNode( this.model.attributes, function (err) {
+                    'oauth_consumer_key': settings.oauthConsumerKey,
+                    'oauth_secret': settings.oauthSecret,
+                    'oauth_token': this._user.get('token'),
+                    'oauth_token_secret': this._user.get('tokenSecret'),
+                })
+            );
+
+            osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+            osmEdit.setChangesetComment(CONST.osm.changesetComment);
+            osmEdit.setLatitude(this.model.get('lat'));
+            osmEdit.setLongitude(this.model.get('lng'));
+            osmEdit.setTags(this.model.get('tags'));
+            osmEdit.setUid(this._user.get('osmId'));
+            osmEdit.setDisplayName(this._user.get('displayName'));
+
+            osmEdit.createNode().then(function (err) {
 
                 console.log('Node created!');
             });
