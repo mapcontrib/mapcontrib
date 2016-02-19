@@ -37,6 +37,8 @@ define([
     'model/osmNode',
 
     'collection/poiLayer',
+
+    'ui/map',
 ],
 function (
 
@@ -74,7 +76,9 @@ function (
     PoiLayerModel,
     OsmNodeModel,
 
-    PoiLayerCollection
+    PoiLayerCollection,
+
+    MapUi
 ) {
 
     'use strict';
@@ -196,7 +200,11 @@ function (
                 },
                 'poiLayerHtmlIcon': function (poiLayerModel) {
 
-                    return self.getPoiLayerHtmlIcon( poiLayerModel );
+                    return MapUi.getPoiLayerHtmlIcon(
+                        poiLayerModel.get('markerShape'),
+                        poiLayerModel.get('markerIcon'),
+                        poiLayerModel.get('markerColor')
+                    );
                 },
                 'map:getCurrentZoom': function (tileId) {
 
@@ -624,7 +632,12 @@ function (
                 'onSuccess': function(data) {
 
                     var wayBodyNodes = {},
-                    icon = self.getPoiLayerIcon(poiLayerModel);
+                    icon = MapUi.getPoiLayerIcon(
+                        poiLayerModel.get('markerShape'),
+                        poiLayerModel.get('markerIcon'),
+                        poiLayerModel.get('markerColor')
+                    );
+                    // icon = self.getPoiLayerIcon(poiLayerModel);
 
 
                     data.elements.forEach(function (e) {
@@ -780,45 +793,16 @@ function (
 
                 if ( layer._icon ) {
 
-                    layer.setIcon( self.getPoiLayerIcon( poiLayerModel ) );
+                    layer.setIcon(
+                        MapUi.getPoiLayerIcon(
+                            poiLayerModel.get('markerShape'),
+                            poiLayerModel.get('markerIcon'),
+                            poiLayerModel.get('markerColor')
+                        )
+                    );
+                    // layer.setIcon( self.getPoiLayerIcon( poiLayerModel ) );
                 }
             });
-        },
-
-        getPoiLayerIcon: function (poiLayerModel) {
-
-            var iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('markerShape') ]),
-            markerIcon = poiLayerModel.get('markerIcon'),
-            markerColor = poiLayerModel.get('markerColor');
-
-            iconOptions.className += ' '+ markerColor;
-
-            if ( markerIcon ) {
-
-                iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
-            }
-
-            return L.divIcon( iconOptions );
-        },
-
-        getPoiLayerHtmlIcon: function (poiLayerModel) {
-
-            var html = '',
-            iconOptions = _.extend({}, CONST.map.markers[ poiLayerModel.get('markerShape') ]),
-            markerIcon = poiLayerModel.get('markerIcon'),
-            markerColor = poiLayerModel.get('markerColor');
-
-            html += '<div class="marker marker-1 '+ markerColor +'">';
-            html += iconOptions.html;
-
-            if ( markerIcon ) {
-
-                html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
-            }
-
-            html += '</div>';
-
-            return html;
         },
 
         updatePoiLayerPopups: function (poiLayerModel) {

@@ -7,8 +7,10 @@ define([
     'marionette',
     'bootstrap',
     'templates',
+    'leaflet',
     'osm-auth',
     'helper/osmEdit',
+    'ui/map',
     'const',
     'settings',
 ],
@@ -19,8 +21,10 @@ function (
     Marionette,
     Bootstrap,
     templates,
+    L,
     osmAuth,
     OsmEditHelper,
+    MapUi,
     CONST,
     settings
 ) {
@@ -154,8 +158,6 @@ function (
             osmEdit.createNode()
             .then(function (nodeId) {
 
-                console.log(nodeId);
-
                 var key = 'node-'+ nodeId,
                 contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
 
@@ -164,6 +166,23 @@ function (
                 contributions[ key ] = self.model.attributes;
 
                 localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
+
+                var mapElement = self._radio.reqres.request('map'),
+                pos = new L.LatLng(
+                    self.model.get('lat'),
+                    self.model.get('lng')
+                ),
+                icon = MapUi.getPoiLayerIcon(
+                    'marker1',
+                    'star',
+                    'red'
+                ),
+                marker = L.marker(pos, {
+
+                    'icon': icon
+                });
+
+                mapElement.addLayer(marker);
             })
             .catch(function (err) {
 
