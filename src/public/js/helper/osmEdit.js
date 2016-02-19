@@ -82,10 +82,9 @@ function () {
 
     /**
      * Create a node in OSM
-     * @param {createCallback} [callback] - Callback called after the request.
-     * @returns boolean
+     * @returns {promise}
      */
-    OsmEdit.prototype.createNode = function (callback) {
+    OsmEdit.prototype.createNode = function () {
 
         var self = this;
 
@@ -114,11 +113,6 @@ function () {
             );
         });
     };
-    /**
-     * Callback called after the creation request.
-     * @callback createCallback
-     * @param {?string} err
-     */
 
 
 
@@ -187,6 +181,7 @@ function () {
 
     /**
      * Asks OSM to create a changeset and returns its ID
+     * @returns {promise}
      */
     OsmEdit.prototype._createChangeset = function () {
 
@@ -265,9 +260,9 @@ function () {
 
     /**
      * Get a changeset ID from an old one or a creation.
-     * @param {getChangesetIdCallback} [callback]
+     * @returns {promise}
      */
-    OsmEdit.prototype._getChangesetId = function (callback) {
+    OsmEdit.prototype._getChangesetId = function () {
 
         var self = this,
         changesetId = parseInt( sessionStorage.getItem('osmEdit-changesetId') );
@@ -283,7 +278,7 @@ function () {
                 function (err) {
 
                     sessionStorage.removeItem('osmEdit-changesetId');
-                    return self._getChangesetId(callback);
+                    return self._getChangesetId();
                 }
             );
         }
@@ -299,21 +294,18 @@ function () {
                 function (err) {
 
                     sessionStorage.removeItem('osmEdit-changesetId');
-                    return self._getChangesetId(callback);
+                    return self._getChangesetId();
                 }
             );
         }
     };
-    /**
-     * @callback getChangesetIdCallback
-     * @param {?string} err
-     */
 
 
 
      /**
       * Send the node xml to OSM.
       * @param {number} changesetId - The changeset ID to use during the sending.
+      * @returns {promise}
       */
      OsmEdit.prototype._sendXml = function (changesetId) {
 
