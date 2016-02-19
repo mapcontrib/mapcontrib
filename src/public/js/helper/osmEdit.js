@@ -102,9 +102,9 @@ function () {
                 }
             )
             .then(
-                function () {
+                function (nodeId) {
 
-                    resolve();
+                    resolve(nodeId);
                 },
                 function (err) {
 
@@ -167,7 +167,8 @@ function () {
             var key = Object.keys(tag)[0],
             tagElement = xml.createElement('tag');
 
-            tagElement.setAttribute(key, tag[key]);
+            tagElement.setAttribute('k', key);
+            tagElement.setAttribute('v', tag[key]);
             nodeElement.appendChild(tagElement);
         });
 
@@ -313,37 +314,30 @@ function () {
          self = this,
          xml = this._buildNodeXml(changesetId);
 
-         console.log('send', xml);
-         return;
-         this._auth.xhr({
+         return new Promise(function (resolve, reject) {
 
-             'method': 'PUT',
-             'path': '/api/0.6/node/create',
-             'options': {
-                 'header': {
-                     'Content-Type': 'text/xml'
-                 }
+             self._auth.xhr({
+
+                 'method': 'PUT',
+                 'path': '/api/0.6/node/create',
+                 'options': {
+                     'header': {
+                         'Content-Type': 'text/xml'
+                     }
+                 },
+                 'content': xml,
              },
-             'content': xml,
-         },
-         function(err, res) {
+             function(err, nodeId) {
 
-             if (err) {
+                 if (err) {
 
-                 return;
-             }
+                     reject(err);
+                     return;
+                 }
 
-             var key = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
-             contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
-
-             self.options.dataFromOSM.version++;
-
-             contributions[ key ] = self.options.dataFromOSM;
-
-             localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
+                 resolve(nodeId);
+             });
          });
-
-         this.close();
      };
 
 

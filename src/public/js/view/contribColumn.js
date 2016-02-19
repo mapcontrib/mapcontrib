@@ -107,7 +107,8 @@ function (
 
         onSubmit: function (e) {
 
-            var tags = [];
+            var self = this,
+            tags = [];
 
             e.preventDefault();
 
@@ -150,9 +151,23 @@ function (
             osmEdit.setUid(this._user.get('osmId'));
             osmEdit.setDisplayName(this._user.get('displayName'));
 
-            osmEdit.createNode().then(function (err) {
+            osmEdit.createNode()
+            .then(function (nodeId) {
 
-                console.log('Node created!');
+                console.log(nodeId);
+
+                var key = 'node-'+ nodeId,
+                contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
+
+                self.model.set('version', 0);
+
+                contributions[ key ] = self.model.attributes;
+
+                localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
+            })
+            .catch(function (err) {
+
+                console.error(err);
             });
         },
     });
