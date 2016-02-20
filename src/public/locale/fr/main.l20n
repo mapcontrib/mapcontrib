@@ -147,6 +147,7 @@
 
 /* Edit tiles column */
 <editTileColumn_title "Fonds de carte">
+<editTileColumn_maxZoom "Zoom maximum&nbsp;: {{ $maxZoom }}">
 
 
 /* Edit POI data column */

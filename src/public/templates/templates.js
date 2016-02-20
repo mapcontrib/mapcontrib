@@ -378,9 +378,11 @@ __e( checked ) +
 __e( id ) +
 '">\n        <figure>\n            <img src="' +
 __e( thumbnail ) +
-'" alt="" />\n        </figure>\n        <figcaption>\n            ' +
+'" alt="" />\n        </figure>\n        <figcaption>\n            <div>\n                ' +
 ((__t = ( name )) == null ? '' : __t) +
-'\n        </figcaption>\n    </label>\n</div>\n';
+'\n            </div>\n            <div class="max_zoom">\n                ' +
+((__t = ( maxZoom )) == null ? '' : __t) +
+'\n            </div>\n        </figcaption>\n    </label>\n</div>\n';
 
 }
 return __p

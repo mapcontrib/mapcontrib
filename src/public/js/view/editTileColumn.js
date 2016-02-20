@@ -71,7 +71,8 @@ function (
 
             var tile, thumbnail,
             tiles = this.model.get('tiles'),
-            html = '';
+            html = '',
+            maxZoom = '';
 
             for (var id in CONST.map.tiles) {
 
@@ -82,9 +83,16 @@ function (
                 thumbnail = thumbnail.replace('{x}', '265');
                 thumbnail = thumbnail.replace('{y}', '181');
 
+                maxZoom = document.l10n.getSync('editTileColumn_maxZoom', {
+
+                    'maxZoom': tile.maxZoom
+                });
+
+
                 html += this.templateListItem({
 
                     'name': tile.name,
+                    'maxZoom': maxZoom,
                     'id': id,
                     'thumbnail': thumbnail,
                     'checked': (tiles.indexOf(id) > -1) ? ' checked' : '',

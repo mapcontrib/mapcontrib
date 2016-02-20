@@ -147,6 +147,7 @@
 
 /* Edit tiles column */
 <editTileColumn_title "Backgrounds">
+<editTileColumn_maxZoom "Maximum zoom: {{ $maxZoom }}">
 
 
 /* Edit POI data column */

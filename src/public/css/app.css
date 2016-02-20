@@ -11033,6 +11033,10 @@ fieldset .form-control:active {
   overflow: hidden;
   height: 120px;
 }
+.tile_list .max_zoom {
+  font-size: 13px;
+  opacity: .8;
+}
 .icon-preview {
   position: absolute;
   top: 8px;
