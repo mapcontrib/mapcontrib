@@ -58,9 +58,21 @@ function (CONST) {
         html += '<div class="marker marker-1 '+ markerColor +'">';
         html += iconOptions.html;
 
-        if ( markerIcon ) {
+        switch (markerIconType) {
+            case CONST.map.markerIconType.external:
 
-            html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
+                if ( markerIconUrl ) {
+
+                    html += '<img src="'+ markerIconUrl +'" class="external-icon">';
+                }
+                break;
+
+            default:
+            case CONST.map.markerIconType.library:
+                if ( markerIcon ) {
+
+                    html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
+                }
         }
 
         html += '</div>';

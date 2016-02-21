@@ -153,7 +153,7 @@ function (
                 updatePopups = true;
             }
 
-            if ( this._oldModel.get('markerType') !== this.model.get('markerType') ) {
+            if ( this._oldModel.get('markerIconType') !== this.model.get('markerIconType') ) {
 
                 updateMarkers = true;
             }
