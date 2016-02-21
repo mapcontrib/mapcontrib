@@ -105,7 +105,7 @@ define([
                     'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
                     'urlTemplate': 'http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png',
                     'minZoom': 0,
-                    'maxZoom': 18,
+                    'maxZoom': 20,
                 },
                 'osmRoads': {
 
@@ -121,7 +121,7 @@ define([
                     'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
                     'urlTemplate': 'http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png',
                     'minZoom': 0,
-                    'maxZoom': 18,
+                    'maxZoom': 20,
                 },
                 'toner': {
 
@@ -129,7 +129,7 @@ define([
                     'attribution': 'Tiles <a href="http://stamen.com" target="_blank">Stamen Design</a> under <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
                     'urlTemplate': 'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png',
                     'minZoom': 0,
-                    'maxZoom': 18,
+                    'maxZoom': 20,
                 },
                 'transport': {
 
@@ -137,7 +137,7 @@ define([
                     'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
                     'urlTemplate': 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png',
                     'minZoom': 0,
-                    'maxZoom': 18,
+                    'maxZoom': 20,
                 },
                 'mapquestOpen': {
 
@@ -145,7 +145,7 @@ define([
                     'attribution': 'Tiles <a href="http://www.mapquest.com" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png"> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
                     'urlTemplate': 'http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
                     'minZoom': 0,
-                    'maxZoom': 18,
+                    'maxZoom': 19,
                 },
                 'hot': {
 
@@ -161,7 +161,7 @@ define([
                     'attribution': 'Tiles &copy; <a href="http://www.opencyclemap.org" target="_blank">OpenCycleMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
                     'urlTemplate': 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
                     'minZoom': 0,
-                    'maxZoom': 18,
+                    'maxZoom': 20,
                 },
                 'watercolor': {
 
@@ -177,7 +177,7 @@ define([
                     'attribution': 'Tiles &copy; <a href="http://www.hikebikemap.org" target="_blank">HikeBikeMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
                     'urlTemplate': 'http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png',
                     'minZoom': 0,
-                    'maxZoom': 18,
+                    'maxZoom': 20,
                 },
                 'lyrk': {
 
@@ -217,7 +217,7 @@ define([
                     'attribution': 'Tiles &copy; <a href="http://fluv.io" target="_blank">OpenRiverBoatMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
                     'urlTemplate': 'http://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png',
                     'minZoom': 0,
-                    'maxZoom': 18,
+                    'maxZoom': 20,
                 },
                 'osmDe': {
 
