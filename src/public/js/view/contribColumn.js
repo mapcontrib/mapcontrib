@@ -161,9 +161,9 @@ function (
                 self.model.get('lng')
             ),
             icon = MapUi.getPoiLayerIcon(
-                'marker1',
-                'star',
-                'red'
+                settings.newPoiMarkerShape,
+                settings.newPoiMarkerIcon,
+                settings.newPoiMarkerColor
             ),
             marker = L.marker(pos, {
 

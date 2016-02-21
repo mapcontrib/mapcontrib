@@ -27,5 +27,9 @@ define([], function () {
         'shareIframeWidthUnit': '%',
         'shareIframeHeight': 400,
         'shareIframeHeightUnit': 'px',
+
+        'newPoiMarkerShape': 'marker1',
+        'newPoiMarkerIcon': 'star',
+        'newPoiMarkerColor': 'gray',
     };
 });
