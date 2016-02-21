@@ -177,7 +177,7 @@ function (
 
             mapElement.addLayer(marker);
 
-            this.close();return;
+            this.close();
 
             osmEdit.createNode()
             .then(function (nodeId) {
