@@ -81,6 +81,12 @@ define([
                 },
             },
 
+            'markerIconType': {
+
+                'library': 1,
+                'external': 2,
+            },
+
             'tiles': {
 
                 'osmFr': {

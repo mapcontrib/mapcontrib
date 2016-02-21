@@ -151,6 +151,16 @@ function (
                 updatePopups = true;
             }
 
+            if ( this._oldModel.get('markerType') !== this.model.get('markerType') ) {
+
+                updateMarkers = true;
+            }
+
+            if ( this._oldModel.get('markerIconUrl') !== this.model.get('markerIconUrl') ) {
+
+                updateMarkers = true;
+            }
+
             if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
 
                 updateMarkers = true;

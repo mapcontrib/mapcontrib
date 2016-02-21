@@ -141,8 +141,14 @@
 <editPoiMarkerModal_color "Color">
 <editPoiMarkerModal_shape "Shape">
 <editPoiMarkerModal_icon "Icon">
+<editPoiMarkerModal_library "Library">
+<editPoiMarkerModal_external "External">
+<editPoiMarkerModal_iconName "Icon name">
+<editPoiMarkerModal_iconUrl "Icon url">
 <editPoiMarkerModal_iconDescription1 "Icons come from the Font Awesome collection.">
 <editPoiMarkerModal_iconDescription2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
+<editPoiMarkerModal_iconDescriptionExternal1 "You can use your own icon if it is hosted on the internet.">
+<editPoiMarkerModal_iconDescriptionExternal2 "Fill its address in the field below.">
 
 
 /* Edit tiles column */

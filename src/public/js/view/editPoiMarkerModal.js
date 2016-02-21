@@ -7,6 +7,7 @@ define([
     'marionette',
     'bootstrap',
     'templates',
+    'const',
     'text!icons.json',
 ],
 function (
@@ -16,6 +17,7 @@ function (
     Marionette,
     Bootstrap,
     templates,
+    CONST,
     icons
 ) {
 
@@ -36,7 +38,13 @@ function (
             'modal': '#edit_poi_marker_modal',
             'colorButtons': '.color-buttons .btn',
             'shapeButtons': '.shape-buttons .btn',
-            'iconName': '#marker_icon_name',
+            'iconTypeTabs': '.marker_icon_type_tab',
+            'iconTypeLibraryTab': '#iconTypeLibraryTab',
+            'iconTypeLibraryForm': '.form-library',
+            'iconTypeExternalTab': '#iconTypeExternalTab',
+            'iconTypeExternalForm': '.form-external',
+            'iconNameInput': '#markerIconName',
+            'iconUrlInput': '#markerIconUrl',
             'iconPreview': '.icon-preview',
             'closeButton': '.close_btn',
         },
@@ -45,7 +53,12 @@ function (
 
             'click @ui.colorButtons': 'onClickColorButtons',
             'click @ui.shapeButtons': 'onClickShapeButtons',
-            'keyup @ui.iconName': 'onChangeIconName',
+            'click @ui.iconTypeLibraryTab': 'onClickIconTypeLibraryTab',
+            'click @ui.iconTypeExternalTab': 'onClickIconTypeExternalTab',
+            'keyup @ui.iconNameInput': 'onChangeIconName',
+            'blur @ui.iconNameInput': 'onChangeIconName',
+            'keyup @ui.iconUrlInput': 'onChangeIconUrl',
+            'blur @ui.iconUrlInput': 'onChangeIconUrl',
 
             'submit': 'onSubmit',
             'reset': 'onReset',
@@ -72,6 +85,19 @@ function (
             this.ui.shapeButtons
             .filter( '.'+ this.model.get('markerShape') )
             .addClass('active');
+
+            this.ui.iconTypeTabs.removeClass('active');
+
+            switch ( this.model.get('markerIconType') ) {
+
+                case CONST.map.markerIconType.external:
+                    this.ui.iconTypeExternalTab.addClass('active').click();
+                    break;
+
+                default:
+                case CONST.map.markerIconType.library:
+                    this.ui.iconTypeLibraryTab.addClass('active').click();
+            }
 
             this.updateIconPreview();
         },
@@ -118,13 +144,34 @@ function (
             this.updateIconPreview();
         },
 
+        onChangeIconUrl: function (e) {
+
+            this.model.set('markerIconUrl', e.target.value);
+        },
+
         updateIconPreview: function () {
 
-            var iconName = this.ui.iconName.val();
+            var iconName = this.ui.iconNameInput.val();
 
             this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
 
             this.model.set('markerIcon', iconName);
         },
+
+        onClickIconTypeLibraryTab: function (e) {
+
+            this.ui.iconTypeExternalForm.addClass('hide');
+            this.ui.iconTypeLibraryForm.removeClass('hide');
+
+            this.model.set('markerIconType', CONST.map.markerIconType.library);
+        },
+
+        onClickIconTypeExternalTab: function (e) {
+
+            this.ui.iconTypeLibraryForm.addClass('hide');
+            this.ui.iconTypeExternalForm.removeClass('hide');
+
+            this.model.set('markerIconType', CONST.map.markerIconType.external);
+        }
     });
 });

@@ -141,8 +141,14 @@
 <editPoiMarkerModal_color "Couleur">
 <editPoiMarkerModal_shape "Forme">
 <editPoiMarkerModal_icon "Icône">
-<editPoiMarkerModal_iconDescription1 "Les icônes sont tirées de la collection Font Awesome.">
-<editPoiMarkerModal_iconDescription2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
+<editPoiMarkerModal_library "Bibliothèque">
+<editPoiMarkerModal_external "Externe">
+<editPoiMarkerModal_iconName "Nom de l'icône">
+<editPoiMarkerModal_iconUrl "Url de l'icône">
+<editPoiMarkerModal_iconDescriptionLibrary1 "Les icônes sont tirées de la bibliothèque Font Awesome.">
+<editPoiMarkerModal_iconDescriptionLibrary2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
+<editPoiMarkerModal_iconDescriptionExternal1 "Vous pouvez utiliser votre propre icône si elle est hébergée sur internet.">
+<editPoiMarkerModal_iconDescriptionExternal2 "Renseignez son adresse dans le champs ci-dessous.">
 
 
 /* Edit tiles column */

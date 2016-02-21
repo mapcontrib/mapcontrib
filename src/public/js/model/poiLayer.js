@@ -5,12 +5,14 @@ define([
     'underscore',
     'backbone',
     'settings',
+    'const',
 ],
 function (
 
     _,
     Backbone,
-    settings
+    settings,
+    CONST
 ) {
 
     'use strict';
@@ -34,7 +36,9 @@ function (
             'order': undefined,
             'markerShape': 'marker1',
             'markerColor': 'orange',
+            'markerIconType': CONST.map.markerIconType.library,
             'markerIcon': undefined,
+            'markerIconUrl': undefined,
         },
 
         /**
