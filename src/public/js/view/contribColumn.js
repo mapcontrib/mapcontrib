@@ -155,6 +155,25 @@ function (
             osmEdit.setUid(this._user.get('osmId'));
             osmEdit.setDisplayName(this._user.get('displayName'));
 
+            var mapElement = self._radio.reqres.request('map'),
+            pos = new L.LatLng(
+                self.model.get('lat'),
+                self.model.get('lng')
+            ),
+            icon = MapUi.getPoiLayerIcon(
+                'marker1',
+                'star',
+                'red'
+            ),
+            marker = L.marker(pos, {
+
+                'icon': icon
+            });
+
+            mapElement.addLayer(marker);
+
+            this.close();
+
             osmEdit.createNode()
             .then(function (nodeId) {
 
@@ -166,23 +185,6 @@ function (
                 contributions[ key ] = self.model.attributes;
 
                 localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
-
-                var mapElement = self._radio.reqres.request('map'),
-                pos = new L.LatLng(
-                    self.model.get('lat'),
-                    self.model.get('lng')
-                ),
-                icon = MapUi.getPoiLayerIcon(
-                    'marker1',
-                    'star',
-                    'red'
-                ),
-                marker = L.marker(pos, {
-
-                    'icon': icon
-                });
-
-                mapElement.addLayer(marker);
             })
             .catch(function (err) {
 
