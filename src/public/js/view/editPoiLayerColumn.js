@@ -7,6 +7,7 @@ define([
     'marionette',
     'bootstrap',
     'templates',
+    'ui/map'
 ],
 function (
 
@@ -14,7 +15,8 @@ function (
     Backbone,
     Marionette,
     Bootstrap,
-    templates
+    templates,
+    MapUi
 ) {
 
     'use strict';
@@ -60,7 +62,7 @@ function (
 
             return {
 
-                'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
+                'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
             };
         },
 
@@ -107,7 +109,7 @@ function (
         },
         updateMarkerIcon: function () {
 
-            var html = this._radio.reqres.request('poiLayerHtmlIcon', this.model);
+            var html = MapUi.buildPoiLayerHtmlIcon( this.model );
 
             this.ui.markerWrapper.html( html );
         },

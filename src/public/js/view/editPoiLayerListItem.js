@@ -5,12 +5,14 @@ define([
     'underscore',
     'backbone',
     'settings',
+    'ui/map',
 ],
 function (
 
     _,
     Backbone,
-    settings
+    settings,
+    MapUi
 ) {
 
     'use strict';
@@ -55,7 +57,7 @@ function (
 
             return {
 
-                'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
+                'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
             };
         },
 

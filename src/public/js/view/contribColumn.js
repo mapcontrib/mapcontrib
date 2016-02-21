@@ -13,6 +13,7 @@ define([
     'ui/map',
     'const',
     'settings',
+    'model/poiLayer',
 ],
 function (
 
@@ -26,7 +27,8 @@ function (
     OsmEditHelper,
     MapUi,
     CONST,
-    settings
+    settings,
+    PoiLayerModel
 ) {
 
     'use strict';
@@ -160,10 +162,13 @@ function (
                 self.model.get('lat'),
                 self.model.get('lng')
             ),
-            icon = MapUi.getPoiLayerIcon(
-                settings.newPoiMarkerShape,
-                settings.newPoiMarkerIcon,
-                settings.newPoiMarkerColor
+            icon = MapUi.buildPoiLayerIcon(
+                new PoiLayerModel({
+                    'markerShape': settings.newPoiMarkerShape,
+                    'markerIconType': CONST.map.markerIconType.library,
+                    'markerIcon': settings.newPoiMarkerIcon,
+                    'markerColor': settings.newPoiMarkerColor
+                })
             ),
             marker = L.marker(pos, {
 
@@ -172,7 +177,7 @@ function (
 
             mapElement.addLayer(marker);
 
-            this.close();
+            this.close();return;
 
             osmEdit.createNode()
             .then(function (nodeId) {

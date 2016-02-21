@@ -6,13 +6,15 @@ define([
     'backbone',
     'settings',
     'markdown',
+    'ui/map',
 ],
 function (
 
     _,
     Backbone,
     settings,
-    markdown
+    markdown,
+    MapUi
 ) {
 
     'use strict';
@@ -75,7 +77,7 @@ function (
             return {
 
                 'description': markdown.toHTML( this.model.get('description') ),
-                'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
+                'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
             };
         },
 

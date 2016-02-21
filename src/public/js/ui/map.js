@@ -6,14 +6,17 @@ function (CONST) {
     'use strict';
 
     /**
-     * @param {string} markerShape - Global shape of the marker.
-     * @param {string} markerIcon - Icon to insert in the marker.
-     * @param {string} markerColor - Color of the marker.
+     * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
      * @returns {object} - A Leaflet divIcon.
      */
-    function getPoiLayerIcon (markerShape, markerIcon, markerColor) {
+    function buildPoiLayerIcon (poiLayerModel) {
 
-        var iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
+        var markerShape = poiLayerModel.get('markerShape'),
+        markerIcon = poiLayerModel.get('markerIcon'),
+        markerIconType = poiLayerModel.get('markerIconType'),
+        markerIconUrl = poiLayerModel.get('markerIconUrl'),
+        markerColor = poiLayerModel.get('markerColor'),
+        iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
 
         iconOptions.className += ' '+ markerColor;
 
@@ -27,14 +30,17 @@ function (CONST) {
 
 
     /**
-     * @param {string} markerShape - Global shape of the marker.
-     * @param {string} markerIcon - Icon to insert in the marker.
-     * @param {string} markerColor - Color of the marker.
+    * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
      * @returns {string} - The HTML tags of the icon.
      */
-    function getPoiLayerHtmlIcon (markerShape, markerIcon, markerColor) {
+    function buildPoiLayerHtmlIcon (poiLayerModel) {
 
         var html = '',
+        markerShape = poiLayerModel.get('markerShape'),
+        markerIcon = poiLayerModel.get('markerIcon'),
+        markerIconType = poiLayerModel.get('markerIconType'),
+        markerIconUrl = poiLayerModel.get('markerIconUrl'),
+        markerColor = poiLayerModel.get('markerColor'),
         iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
 
         html += '<div class="marker marker-1 '+ markerColor +'">';
@@ -53,7 +59,7 @@ function (CONST) {
 
 
     return {
-        'getPoiLayerIcon': getPoiLayerIcon,
-        'getPoiLayerHtmlIcon': getPoiLayerHtmlIcon,
+        'buildPoiLayerIcon': buildPoiLayerIcon,
+        'buildPoiLayerHtmlIcon': buildPoiLayerHtmlIcon,
     };
 });

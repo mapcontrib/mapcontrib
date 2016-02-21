@@ -198,14 +198,6 @@ function (
 
                     return self._poiLayers;
                 },
-                'poiLayerHtmlIcon': function (poiLayerModel) {
-
-                    return MapUi.getPoiLayerHtmlIcon(
-                        poiLayerModel.get('markerShape'),
-                        poiLayerModel.get('markerIcon'),
-                        poiLayerModel.get('markerColor')
-                    );
-                },
                 'map:getCurrentZoom': function (tileId) {
 
                     if (self._map) {
@@ -632,12 +624,7 @@ function (
                 'onSuccess': function(data) {
 
                     var wayBodyNodes = {},
-                    icon = MapUi.getPoiLayerIcon(
-                        poiLayerModel.get('markerShape'),
-                        poiLayerModel.get('markerIcon'),
-                        poiLayerModel.get('markerColor')
-                    );
-                    // icon = self.getPoiLayerIcon(poiLayerModel);
+                    icon = MapUi.buildPoiLayerIcon( poiLayerModel );
 
 
                     data.elements.forEach(function (e) {
@@ -794,13 +781,8 @@ function (
                 if ( layer._icon ) {
 
                     layer.setIcon(
-                        MapUi.getPoiLayerIcon(
-                            poiLayerModel.get('markerShape'),
-                            poiLayerModel.get('markerIcon'),
-                            poiLayerModel.get('markerColor')
-                        )
+                        MapUi.buildPoiLayerIcon( poiLayerModel )
                     );
-                    // layer.setIcon( self.getPoiLayerIcon( poiLayerModel ) );
                 }
             });
         },
