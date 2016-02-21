@@ -10601,6 +10601,16 @@
   position: absolute;
   font-size: 19px;
 }
+.marker .external-icon {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  max-width: 24px !important;
+  max-height: 24px !important;
+}
 .marker.yellow .fa {
   color: #c4a000;
 }

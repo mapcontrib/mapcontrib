@@ -20,9 +20,21 @@ function (CONST) {
 
         iconOptions.className += ' '+ markerColor;
 
-        if ( markerIcon ) {
+        switch (markerIconType) {
+            case CONST.map.markerIconType.external:
 
-            iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
+                if ( markerIconUrl ) {
+
+                    iconOptions.html += '<img src="'+ markerIconUrl +'" class="external-icon">';
+                }
+                break;
+
+            default:
+            case CONST.map.markerIconType.library:
+                if ( markerIcon ) {
+
+                    iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
+                }
         }
 
         return L.divIcon( iconOptions );
