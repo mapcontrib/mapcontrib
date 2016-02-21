@@ -112,7 +112,13 @@ init._fillDatabase = function (rootResolve, rootReject) {
                             'osmFr',
                             'osmRoads',
                             'transport',
+                            'hot',
+                            'openCycleMap',
+                            'watercolor',
                             'osmMonochrome',
+                            'hydda',
+                            'openTopoMap',
+                            'openRiverboatMap'
                         ],
                         'zoomLevel': 12,
                         'center': {
