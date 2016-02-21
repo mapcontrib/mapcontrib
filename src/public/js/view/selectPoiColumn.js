@@ -71,7 +71,7 @@ function (
 
                 return false;
             }
-            
+
             this.ui.currentMapZoom.html(
                 document.l10n.getSync(
                     'selectPoiColumn_currentMapZoom',
@@ -80,10 +80,13 @@ function (
             );
         },
 
-        open: function () {
+        onBeforeOpen: function () {
 
             this._radio.vent.trigger('column:closeAll');
             this._radio.vent.trigger('widget:closeAll');
+        },
+
+        open: function () {
 
             this.triggerMethod('open');
         },

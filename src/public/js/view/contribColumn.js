@@ -76,17 +76,55 @@ function (
             this.render();
         },
 
-        open: function () {
+        _buildNewMarker: function () {
+
+            var pos = new L.LatLng(
+                this.model.get('lat'),
+                this.model.get('lng')
+            ),
+            icon = MapUi.buildPoiLayerIcon(
+                new PoiLayerModel({
+                    'markerShape': settings.newPoiMarkerShape,
+                    'markerIconType': CONST.map.markerIconType.library,
+                    'markerIcon': settings.newPoiMarkerIcon,
+                    'markerColor': settings.newPoiMarkerColor
+                })
+            );
+
+            return L.marker(pos, {
+
+                'icon': icon
+            });
+        },
+
+        onBeforeOpen: function () {
 
             this._radio.vent.trigger('column:closeAll');
             this._radio.vent.trigger('widget:closeAll');
+        },
+
+        open: function () {
 
             this.triggerMethod('open');
+        },
+
+        onAfterOpen: function () {
+
+            this._tempMarker = this._buildNewMarker();
+            this._radio.reqres.request('map').addLayer(this._tempMarker);
         },
 
         close: function () {
 
             this.triggerMethod('close');
+        },
+
+        onBeforeClose: function () {
+
+            if (this._tempMarker) {
+
+                this._radio.reqres.request('map').removeLayer(this._tempMarker);
+            }
         },
 
         onRender: function () {
@@ -114,7 +152,8 @@ function (
         onSubmit: function (e) {
 
             var self = this,
-            tags = [];
+            tags = [],
+            map = this._radio.reqres.request('map');
 
             e.preventDefault();
 
@@ -157,25 +196,7 @@ function (
             osmEdit.setUid(this._user.get('osmId'));
             osmEdit.setDisplayName(this._user.get('displayName'));
 
-            var mapElement = self._radio.reqres.request('map'),
-            pos = new L.LatLng(
-                self.model.get('lat'),
-                self.model.get('lng')
-            ),
-            icon = MapUi.buildPoiLayerIcon(
-                new PoiLayerModel({
-                    'markerShape': settings.newPoiMarkerShape,
-                    'markerIconType': CONST.map.markerIconType.library,
-                    'markerIcon': settings.newPoiMarkerIcon,
-                    'markerColor': settings.newPoiMarkerColor
-                })
-            ),
-            marker = L.marker(pos, {
-
-                'icon': icon
-            });
-
-            mapElement.addLayer(marker);
+            map.addLayer( this._buildNewMarker() );
 
             this.close();
 

@@ -72,11 +72,19 @@ function (
 
             this._isOpened = true;
 
+            if (this.view.onBeforeOpen) {
+
+                this.view.onBeforeOpen();
+            }
+
             window.requestAnimationFrame(function () {
 
-                self.view.trigger('open');
-
                 self.ui.notification.addClass('open').focus();
+
+                if (self.view.onAfterOpen) {
+
+                    self.view.onAfterOpen();
+                }
             });
         },
 
@@ -89,11 +97,19 @@ function (
 
             $(mapElement).focus();
 
+            if (this.view.onBeforeClose) {
+
+                this.view.onBeforeClose();
+            }
+
             window.requestAnimationFrame(function () {
 
-                self.view.trigger('close');
-
                 self.ui.notification.on('transitionend', function () {
+
+                    if (self.view.onAfterClose) {
+
+                        self.view.onAfterClose();
+                    }
 
                     if ( self.options.destroyOnClose ) {
 

@@ -74,10 +74,13 @@ function (
             this._radio = Backbone.Wreqr.radio.channel('global');
         },
 
-        open: function () {
+        onBeforeOpen: function () {
 
             this._radio.vent.trigger('column:closeAll');
             this._radio.vent.trigger('widget:closeAll');
+        },
+
+        open: function () {
 
             this.triggerMethod('open');
         },

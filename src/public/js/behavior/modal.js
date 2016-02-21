@@ -50,13 +50,21 @@ function (
 
             var self = this;
 
-            this.view.trigger('open');
+            if (this.view.onBeforeOpen) {
+
+                this.view.onBeforeOpen();
+            }
 
             setTimeout(function () {
 
                 window.requestAnimationFrame(function () {
 
                     self.ui.modal.addClass('open').focus();
+
+                    if (self.view.onAfterOpen) {
+
+                        self.view.onAfterOpen();
+                    }
                 });
             }, 100);
         },
@@ -68,11 +76,19 @@ function (
 
             $(mapElement).focus();
 
+            if (this.view.onBeforeClose) {
+
+                this.view.onBeforeClose();
+            }
+
             window.requestAnimationFrame(function () {
 
-                self.view.trigger('close');
-
                 self.ui.modal.on('transitionend', function () {
+
+                    if (self.view.onAfterClose) {
+
+                        self.view.onAfterClose();
+                    }
 
                     self.view.destroy();
                 })
