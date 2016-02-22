@@ -933,10 +933,7 @@ function (
 
             this.getRegion('editPoiDataColumn').show( view );
 
-            window.requestAnimationFrame(function () {
-
-                view.open();
-            });
+            view.open();
         },
 
         renderUserButtonLogged: function () {
