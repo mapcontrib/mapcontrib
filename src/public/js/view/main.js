@@ -897,6 +897,10 @@ function (
             }
 
             popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
+            popupContent = popupContent.replace(
+                /<a href=(.*?)>(.*?)<\/a>/g,
+                '<a target="_blank" href=$1>$2</a>'
+            );
 
             globalWrapper.innerHTML = popupContent;
 
