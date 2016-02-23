@@ -17,11 +17,17 @@
 @markerBlueLight: #729fcf;
 @markerBlueDark: #204a87;
 
+@markerWhiteLight: #ffffff;
+@markerWhiteDark: #888a85;
+
 @markerGrayLight: #d3d7cf;
 @markerGrayDark: #888a85;
 
 @markerDarkGrayLight: #888a85;
 @markerDarkGrayDark: #333333;
+
+@markerBlackLight: #888a85;
+@markerBlackDark: #000000;
 
 @markerBrownLight: #e9b96e;
 @markerBrownDark: #8f5902;
@@ -34,6 +40,7 @@
     color: #fff;
     padding: 0;
 
+    &.white,
     &.gray,
     &.yellow {
 
@@ -99,6 +106,12 @@
         border-right-color: @markerBlueDark;
     }
 
+    &.white > div {
+
+        border-left-color: @markerWhiteLight;
+        border-right-color: @markerWhiteDark;
+    }
+
     &.gray > div {
 
         border-left-color: @markerGrayLight;
@@ -109,6 +122,12 @@
 
         border-left-color: @markerDarkGrayLight;
         border-right-color: @markerDarkGrayDark;
+    }
+
+    &.black > div {
+
+        border-left-color: @markerBlackLight;
+        border-right-color: @markerBlackDark;
     }
 
     &.brown > div {
@@ -239,6 +258,20 @@
         }
     }
 
+    &.white {
+
+        .fa {
+
+            color: @markerWhiteDark;
+        }
+
+        #colorized,
+        #colorized * {
+
+            fill: @markerWhiteLight !important;
+        }
+    }
+
     &.gray {
 
         .fa {
@@ -264,6 +297,20 @@
         #colorized * {
 
             fill: @markerDarkGrayLight !important;
+        }
+    }
+
+    &.black {
+
+        .fa {
+
+            color: @markerBlackLight;
+        }
+
+        #colorized,
+        #colorized * {
+
+            fill: @markerBlackDark !important;
         }
     }
 }

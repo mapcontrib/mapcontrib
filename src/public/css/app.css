@@ -10530,18 +10530,24 @@
   color: #fff;
   padding: 0;
 }
+.btn-marker-color.white,
 .btn-marker-color.gray,
 .btn-marker-color.yellow {
   color: #333333;
 }
+.btn-marker-color.white:hover,
 .btn-marker-color.gray:hover,
 .btn-marker-color.yellow:hover,
+.btn-marker-color.white:focus,
 .btn-marker-color.gray:focus,
 .btn-marker-color.yellow:focus,
+.btn-marker-color.white.focus,
 .btn-marker-color.gray.focus,
 .btn-marker-color.yellow.focus,
+.btn-marker-color.white:active,
 .btn-marker-color.gray:active,
 .btn-marker-color.yellow:active,
+.btn-marker-color.white.active,
 .btn-marker-color.gray.active,
 .btn-marker-color.yellow.active {
   color: #333333;
@@ -10580,6 +10586,10 @@
   border-left-color: #729fcf;
   border-right-color: #204a87;
 }
+.btn-marker-color.white > div {
+  border-left-color: #ffffff;
+  border-right-color: #888a85;
+}
 .btn-marker-color.gray > div {
   border-left-color: #d3d7cf;
   border-right-color: #888a85;
@@ -10587,6 +10597,10 @@
 .btn-marker-color.dark-gray > div {
   border-left-color: #888a85;
   border-right-color: #333333;
+}
+.btn-marker-color.black > div {
+  border-left-color: #888a85;
+  border-right-color: #000000;
 }
 .btn-marker-color.brown > div {
   border-left-color: #e9b96e;
@@ -10660,6 +10674,13 @@
 .marker.red #colorized * {
   fill: #ef2929 !important;
 }
+.marker.white .fa {
+  color: #888a85;
+}
+.marker.white #colorized,
+.marker.white #colorized * {
+  fill: #ffffff !important;
+}
 .marker.gray .fa {
   color: #888a85;
 }
@@ -10673,6 +10694,13 @@
 .marker.dark-gray #colorized,
 .marker.dark-gray #colorized * {
   fill: #888a85 !important;
+}
+.marker.black .fa {
+  color: #888a85;
+}
+.marker.black #colorized,
+.marker.black #colorized * {
+  fill: #000000 !important;
 }
 .leaflet-container .marker {
   display: block;
