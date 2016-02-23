@@ -10,6 +10,7 @@ We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
 
 ### Installation
 
+    $ git clone git@github.com:MapContrib/MapContrib.git
     $ sudo npm install -g grunt grunt-cli bower
     $ npm install
     $ bower install
