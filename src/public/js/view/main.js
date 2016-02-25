@@ -302,11 +302,6 @@ function (
                 if ( this.model.isOwner(userModel) === true ) {
 
                     this.showEditTools();
-
-                    if ( this.isLargeScreen() ) {
-
-                        this.ui.editToolbar.addClass('open');
-                    }
                 }
             }
             else {
