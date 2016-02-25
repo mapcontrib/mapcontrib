@@ -279,6 +279,7 @@ function (
             this._radio.vent.on('session:unlogged', function (){
 
                 self.renderUserButtonNotLogged();
+                self.hideContribButton();
                 self.hideEditTools();
             });
         },
@@ -293,6 +294,7 @@ function (
             if ( isLogged ) {
 
                 this.renderUserButtonLogged();
+                this.showContribButton();
 
                 if ( this.model.isOwner(userModel) === true ) {
 
@@ -307,6 +309,7 @@ function (
             else {
 
                 this.renderUserButtonNotLogged();
+                this.hideContribButton();
                 this.hideEditTools();
             }
 
@@ -979,9 +982,18 @@ function (
             this.ui.userButton.addClass('hide');
         },
 
-        showEditTools: function () {
+        showContribButton: function () {
 
             this.ui.contribButton.removeClass('hide');
+        },
+
+        hideContribButton: function () {
+
+            this.ui.contribButton.addClass('hide');
+        },
+
+        showEditTools: function () {
+
             this.ui.editButton.removeClass('hide');
         },
 
@@ -989,7 +1001,6 @@ function (
 
             this.ui.editButton.addClass('hide');
             this.ui.editToolbar.removeClass('open');
-            this.ui.contribButton.addClass('hide');
         },
 
 
