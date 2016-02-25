@@ -2,27 +2,27 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'settings',
-	'model/user',
+    'underscore',
+    'backbone',
+    'settings',
+    'model/user',
 ],
 function (
 
-	_,
-	Backbone,
-	settings,
-	userModel
+    _,
+    Backbone,
+    settings,
+    userModel
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Backbone.Collection.extend({
+    return Backbone.Collection.extend({
 
-		url: settings.apiPath + 'user',
+        url: settings.apiPath + 'user',
 
-		model: userModel,
+        model: userModel,
 
-		comparator: 'displayName',
-	});
+        comparator: 'displayName',
+    });
 });

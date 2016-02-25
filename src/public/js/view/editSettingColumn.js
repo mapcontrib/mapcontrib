@@ -2,146 +2,149 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
 
-		template: JST['editSettingColumn.html'],
+        template: JST['editSettingColumn.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'column': {},
-		},
+            'l20n': {},
+            'column': {},
+        },
 
-		ui: {
+        ui: {
 
-			'column': '#edit_setting_column',
+            'column': '#edit_setting_column',
 
-			'themeName': '#theme_name',
-			'themeDescription': '#theme_description',
-			'colorButtons': '.color-buttons .btn',
-			'themePositionKeepOld': '#theme_position_keep_old',
-			'themePositionSetNew': '#theme_position_set_new',
-		},
+            'themeName': '#theme_name',
+            'themeDescription': '#theme_description',
+            'colorButtons': '.color-buttons .btn',
+            'themePositionKeepOld': '#theme_position_keep_old',
+            'themePositionSetNew': '#theme_position_set_new',
+        },
 
-		events: {
+        events: {
 
-			'mouseover @ui.colorButtons': 'onOverColorButtons',
-			'mouseleave @ui.colorButtons': 'onLeaveColorButtons',
-			'click @ui.colorButtons': 'onClickColorButtons',
+            'mouseover @ui.colorButtons': 'onOverColorButtons',
+            'mouseleave @ui.colorButtons': 'onLeaveColorButtons',
+            'click @ui.colorButtons': 'onClickColorButtons',
 
-			'submit': 'onSubmit',
-			'reset': 'onReset',
-		},
+            'submit': 'onSubmit',
+            'reset': 'onReset',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this._oldModel = this.model.clone();
-		},
+            this._oldModel = this.model.clone();
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.ui.colorButtons
-			.filter( '.'+ this.model.get('color') )
-			.find('i')
-			.addClass('fa-check');
-		},
+            this.ui.colorButtons
+            .filter( '.'+ this.model.get('color') )
+            .find('i')
+            .addClass('fa-check');
+        },
 
-		open: function () {
+        onBeforeOpen: function () {
 
-			this._radio.vent.trigger('column:closeAll');
-			this._radio.vent.trigger('widget:closeAll');
+            this._radio.vent.trigger('column:closeAll');
+            this._radio.vent.trigger('widget:closeAll');
+        },
 
-			this.triggerMethod('open');
-		},
+        open: function () {
 
-		close: function () {
+            this.triggerMethod('open');
+        },
 
-			this.triggerMethod('close');
-		},
+        close: function () {
 
-		onSubmit: function (e) {
+            this.triggerMethod('close');
+        },
 
-			e.preventDefault();
+        onSubmit: function (e) {
 
-			var self = this,
-			map = this._radio.reqres.request('map'),
-			mapCenter = map.getCenter(),
-			mapZoomLevel = map.getZoom();
+            e.preventDefault();
 
-			this.model.set('name', this.ui.themeName.val());
-			this.model.set('description', this.ui.themeDescription.val());
+            var self = this,
+            map = this._radio.reqres.request('map'),
+            mapCenter = map.getCenter(),
+            mapZoomLevel = map.getZoom();
 
-			if ( this.ui.themePositionSetNew.prop('checked') === true ) {
+            this.model.set('name', this.ui.themeName.val());
+            this.model.set('description', this.ui.themeDescription.val());
 
-				this.model.set('center', mapCenter);
-				this.model.set('zoomLevel', mapZoomLevel);
-			}
+            if ( this.ui.themePositionSetNew.prop('checked') === true ) {
 
-			this.model.save({}, {
+                this.model.set('center', mapCenter);
+                this.model.set('zoomLevel', mapZoomLevel);
+            }
 
-				'success': function () {
+            this.model.save({}, {
 
-					self._oldModel = self.model.clone();
+                'success': function () {
 
-					self.close();
-				},
-				'error': function () {
+                    self._oldModel = self.model.clone();
 
-					// FIXME
-					console.error('nok');
-				},
-			});
-		},
+                    self.close();
+                },
+                'error': function () {
 
-		onReset: function () {
+                    // FIXME
+                    console.error('nok');
+                },
+            });
+        },
 
-			this.model.set( this._oldModel.toJSON() );
+        onReset: function () {
 
-			this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
+            this.model.set( this._oldModel.toJSON() );
 
-			this.ui.column.one('transitionend', this.render);
+            this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
 
-			this.close();
-		},
+            this.ui.column.one('transitionend', this.render);
 
-		onOverColorButtons: function (e) {
+            this.close();
+        },
 
-			this._radio.commands.execute('ui:setTitleColor', e.target.dataset.color);
-		},
+        onOverColorButtons: function (e) {
 
-		onLeaveColorButtons: function (e) {
+            this._radio.commands.execute('ui:setTitleColor', e.target.dataset.color);
+        },
 
-			this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
-		},
+        onLeaveColorButtons: function (e) {
 
-		onClickColorButtons: function (e) {
+            this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
+        },
 
-			$('i', this.ui.colorButtons).removeClass('fa-check');
+        onClickColorButtons: function (e) {
 
-			e.target.querySelector('i').classList.add('fa-check');
+            $('i', this.ui.colorButtons).removeClass('fa-check');
 
-			this.model.set('color', e.target.dataset.color);
-		},
-	});
+            e.target.querySelector('i').classList.add('fa-check');
+
+            this.model.set('color', e.target.dataset.color);
+        },
+    });
 });

@@ -2,129 +2,176 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
-	'text!icons.json',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
+    'const',
+    'text!icons.json',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates,
-	icons
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates,
+    CONST,
+    icons
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
 
-		template: JST['editPoiMarkerModal.html'],
+        template: JST['editPoiMarkerModal.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'modal': {},
-		},
+            'l20n': {},
+            'modal': {},
+        },
 
-		ui: {
+        ui: {
 
-			'modal': '#edit_poi_marker_modal',
-			'colorButtons': '.color-buttons .btn',
-			'shapeButtons': '.shape-buttons .btn',
-			'iconName': '#marker_icon_name',
-			'iconPreview': '.icon-preview',
-			'closeButton': '.close_btn',
-		},
+            'modal': '#edit_poi_marker_modal',
+            'colorButtons': '.color-buttons .btn',
+            'shapeButtons': '.shape-buttons .btn',
+            'iconTypeTabs': '.marker_icon_type_tab',
+            'iconTypeLibraryTab': '#iconTypeLibraryTab',
+            'iconTypeLibraryForm': '.form-library',
+            'iconTypeExternalTab': '#iconTypeExternalTab',
+            'iconTypeExternalForm': '.form-external',
+            'iconNameInput': '#markerIconName',
+            'iconUrlInput': '#markerIconUrl',
+            'iconPreview': '.icon-preview',
+            'closeButton': '.close_btn',
+        },
 
-		events: {
+        events: {
 
-			'click @ui.colorButtons': 'onClickColorButtons',
-			'click @ui.shapeButtons': 'onClickShapeButtons',
-			'keyup @ui.iconName': 'onChangeIconName',
+            'click @ui.colorButtons': 'onClickColorButtons',
+            'click @ui.shapeButtons': 'onClickShapeButtons',
+            'click @ui.iconTypeLibraryTab': 'onClickIconTypeLibraryTab',
+            'click @ui.iconTypeExternalTab': 'onClickIconTypeExternalTab',
+            'keyup @ui.iconNameInput': 'onChangeIconName',
+            'blur @ui.iconNameInput': 'onChangeIconName',
+            'keyup @ui.iconUrlInput': 'onChangeIconUrl',
+            'blur @ui.iconUrlInput': 'onChangeIconUrl',
 
-			'submit': 'onSubmit',
-			'reset': 'onReset',
-		},
+            'submit': 'onSubmit',
+            'reset': 'onReset',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			this._oldModel = this.model.clone();
+            this._oldModel = this.model.clone();
 
-			this._icons = JSON.parse(icons);
-		},
+            this._icons = JSON.parse(icons);
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.ui.colorButtons
-			.filter( '.'+ this.model.get('markerColor') )
-			.find('i')
-			.addClass('fa-check');
+            this.ui.colorButtons
+            .filter( '.'+ this.model.get('markerColor') )
+            .find('i')
+            .addClass('fa-check');
 
-			this.ui.shapeButtons
-			.filter( '.'+ this.model.get('markerShape') )
-			.addClass('active');
+            this.ui.shapeButtons
+            .filter( '.'+ this.model.get('markerShape') )
+            .addClass('active');
 
-			this.updateIconPreview();
-		},
+            this.ui.iconTypeTabs.removeClass('active');
 
-		close: function () {
+            switch ( this.model.get('markerIconType') ) {
 
-			this.triggerMethod('close');
-		},
+                case CONST.map.markerIconType.external:
+                    this.ui.iconTypeExternalTab.addClass('active').click();
+                    break;
 
-		onReset: function () {
+                default:
+                case CONST.map.markerIconType.library:
+                    this.ui.iconTypeLibraryTab.addClass('active').click();
+            }
 
-			this.model.set( this._oldModel.toJSON() );
+            this.updateIconPreview();
+        },
 
-			this.close();
-		},
+        close: function () {
 
-		onSubmit: function (e) {
+            this.triggerMethod('close');
+        },
 
-			e.preventDefault();
+        onReset: function () {
 
-			this.close();
-		},
+            this.model.set( this._oldModel.toJSON() );
 
-		onClickColorButtons: function (e) {
+            this.close();
+        },
 
-			$('i', this.ui.colorButtons).removeClass('fa-check');
+        onSubmit: function (e) {
 
-			e.target.querySelector('i').classList.add('fa-check');
+            e.preventDefault();
 
-			this.model.set('markerColor', e.target.dataset.color);
-		},
+            this.close();
+        },
 
-		onClickShapeButtons: function (e) {
+        onClickColorButtons: function (e) {
 
-			this.ui.shapeButtons.removeClass('active');
+            $('i', this.ui.colorButtons).removeClass('fa-check');
 
-			e.target.classList.add('active');
+            e.target.querySelector('i').classList.add('fa-check');
 
-			this.model.set('markerShape', e.target.dataset.shape);
-		},
+            this.model.set('markerColor', e.target.dataset.color);
+        },
 
-		onChangeIconName: function (e) {
+        onClickShapeButtons: function (e) {
 
-			this.updateIconPreview();
-		},
+            this.ui.shapeButtons.removeClass('active');
 
-		updateIconPreview: function () {
+            e.target.classList.add('active');
 
-			var iconName = this.ui.iconName.val();
+            this.model.set('markerShape', e.target.dataset.shape);
+        },
 
-			this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
+        onChangeIconName: function (e) {
 
-			this.model.set('markerIcon', iconName);
-		},
-	});
+            this.updateIconPreview();
+        },
+
+        onChangeIconUrl: function (e) {
+
+            this.model.set('markerIconUrl', e.target.value);
+        },
+
+        updateIconPreview: function () {
+
+            var iconName = this.ui.iconNameInput.val();
+
+            this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
+
+            this.model.set('markerIcon', iconName);
+        },
+
+        onClickIconTypeLibraryTab: function (e) {
+
+            this.ui.iconTypeExternalForm.addClass('hide');
+            this.ui.iconTypeLibraryForm.removeClass('hide');
+
+            this.model.set('markerIconType', CONST.map.markerIconType.library);
+        },
+
+        onClickIconTypeExternalTab: function (e) {
+
+            this.ui.iconTypeLibraryForm.addClass('hide');
+            this.ui.iconTypeExternalForm.removeClass('hide');
+
+            this.model.set('markerIconType', CONST.map.markerIconType.external);
+        }
+    });
 });

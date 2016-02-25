@@ -5,384 +5,386 @@ requirejs = require('requirejs'),
 ThemeModel = requirejs('model/theme'),
 options = {
 
-	'CONST': undefined,
-	'database': undefined,
+    'CONST': undefined,
+    'database': undefined,
 },
 
 setOptions = function (hash) {
 
-	options = hash;
+    options = hash;
 },
 
 api = {
 
-	post: function (req, res) {
+    post: function (req, res) {
 
-		var collection = options.database.collection('theme'),
-		model = new ThemeModel(req.body);
+        var collection = options.database.collection('theme'),
+        model = new ThemeModel(req.body);
 
-		if ( !model.isValid() ) {
+        if ( !model.isValid() ) {
 
-			res.sendStatus(400);
+            res.sendStatus(400);
 
-			return true;
-		}
+            return true;
+        }
 
 
-		collection.insert(req.body, {'safe': true}, function (err, results) {
+        collection.insert(req.body, {'safe': true}, function (err, results) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			var result = results[0];
+            var result = results[0];
 
-			self.getNewFragment(result, req, res);
-		});
-	},
+            self.getNewFragment(result, req, res);
+        });
+    },
 
-	getNewFragment: function (theme, req, res) {
+    getNewFragment: function (theme, req, res) {
 
-		var fragment,
-		self = this,
-		collection = options.database.collection('theme'),
-		shasum = crypto.createHash('sha1');
+        var fragment,
+        self = this,
+        collection = options.database.collection('theme'),
+        shasum = crypto.createHash('sha1');
 
-		shasum.update( [
+        shasum.update( [
 
-			theme._id.toString(),
-			new Date().getTime().toString()
-		].join('') );
+            theme._id.toString(),
+            new Date().getTime().toString()
+        ].join('') );
 
-		fragment = shasum.digest('hex').substr(0, 6);
+        fragment = shasum.digest('hex').substr(0, 6);
 
-		collection.find({
+        collection.find({
 
-			'fragment': fragment
-		})
-		.toArray(function (err, results) {
+            'fragment': fragment
+        })
+        .toArray(function (err, results) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			if (results.length === 0) {
+            if (results.length === 0) {
 
-				theme.fragment = fragment;
+                theme.fragment = fragment;
 
-				collection.update({
+                collection.update({
 
-					'_id': theme._id
-				},
-				{
-					'$set': { 'fragment': fragment }
-				},
-				{'safe': true},
-				function (err) {
+                    '_id': theme._id
+                },
+                {
+                    '$set': { 'fragment': fragment }
+                },
+                {'safe': true},
+                function (err) {
 
-					if(err) {
+                    if(err) {
 
-						res.sendStatus(500);
+                        res.sendStatus(500);
 
-						return true;
-					}
+                        return true;
+                    }
 
-					var result = results[0];
-					result._id = result._id.toString();
+                    var result = results[0];
+                    result._id = result._id.toString();
 
-					res.send(result);
-				});
-			}
-			else {
+                    res.send(result);
+                });
+            }
+            else {
 
-				api.getNewFragment(theme, req, res);
-			}
-		});
-	},
+                api.getNewFragment(theme, req, res);
+            }
+        });
+    },
 
 
-	get: function (req, res) {
+    get: function (req, res) {
 
-		if ( !req.params._id || !options.CONST.pattern.mongoId.test( req.params._id ) ) {
+        if ( !req.params._id || !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
-			res.sendStatus(400);
+            res.sendStatus(400);
 
-			return true;
-		}
+            return true;
+        }
 
-		var collection = options.database.collection('theme');
+        var collection = options.database.collection('theme');
 
-		collection.find({
+        collection.find({
 
-			'_id':  new mongo.ObjectID(req.params._id)
-		})
-		.toArray(function (err, results) {
+            '_id':  new mongo.ObjectID(req.params._id)
+        })
+        .toArray(function (err, results) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			if (results.length === 0) {
+            if (results.length === 0) {
 
-				res.sendStatus(404);
+                res.sendStatus(404);
 
-				return true;
-			}
+                return true;
+            }
 
-			var result = results[0];
-			result._id = result._id.toString();
+            var result = results[0];
+            result._id = result._id.toString();
 
-			res.send(result);
-		});
-	},
+            res.send(result);
+        });
+    },
 
 
-	getAll: function (req, res) {
+    getAll: function (req, res) {
 
-		var collection = options.database.collection('theme');
+        var collection = options.database.collection('theme');
 
-		if ( req.query.fragment ) {
+        if ( req.query.fragment ) {
 
-			api.findFromFragment( req, res, req.query.fragment, function (theme) {
+            api.findFromFragment( req, res, req.query.fragment, function (theme) {
 
-				res.send(theme);
-			});
+                res.send(theme);
+            });
 
-			return true;
-		}
+            return true;
+        }
 
 
-		collection.find()
-		.toArray(function (err, results) {
+        collection.find()
+        .toArray(function (err, results) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			if (results.length > 0) {
+            if (results.length > 0) {
 
-				results.forEach(function (result) {
+                results.forEach(function (result) {
 
-					result._id = result._id.toString();
-				});
-			}
+                    result._id = result._id.toString();
+                });
+            }
 
-			if ( req.query.fragment ) {
+            if ( req.query.fragment ) {
 
-				if (results.length === 0) {
+                if (results.length === 0) {
 
-					res.sendStatus(404);
+                    res.sendStatus(404);
 
-					return true;
-				}
+                    return true;
+                }
 
-				res.send(results[0]);
+                res.send(results[0]);
 
-				return true;
-			}
+                return true;
+            }
 
-			res.send(results);
-		});
-	},
+            res.send(results);
+        });
+    },
 
 
-	findFromFragment: function (req, res, fragment, callback) {
+    findFromFragment: function (req, res, fragment, callback) {
 
-		var collection = options.database.collection('theme');
+        var collection = options.database.collection('theme');
 
-		if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
+        if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
 
-			res.sendStatus(400);
+            res.sendStatus(400);
 
-			return true;
-		}
+            return true;
+        }
 
-		collection.find({
+        collection.find({
 
-			'fragment': fragment
-		})
-		.toArray(function (err, results) {
+            'fragment': fragment
+        })
+        .toArray(function (err, results) {
 
-			if(err) {
+            if(err) {
 
-				res.sendStatus(500);
+                res.sendStatus(500);
 
-				return true;
-			}
+                return true;
+            }
 
-			if (results.length === 0) {
+            if (results.length === 0) {
 
-				res.sendStatus(404);
+                res.sendStatus(404);
 
-				return true;
-			}
+                return true;
+            }
 
-			var result = results[0];
-			result._id = result._id.toString();
+            var result = results[0];
+            result._id = result._id.toString();
 
-			callback(result);
-		});
-	},
+            callback(result);
+        });
+    },
 
 
-	findFromOwnerId: function (req, res, ownerId, callback) {
+    findFromOwnerId: function (req, res, ownerId, callback) {
 
-		var collection = options.database.collection('theme');
+        var collection = options.database.collection('theme');
 
-		if ( !ownerId || !options.CONST.pattern.mongoId.test( ownerId ) ) {
+        if ( !ownerId || !options.CONST.pattern.mongoId.test( ownerId ) ) {
 
-			res.sendStatus(400);
+            res.sendStatus(400);
 
-			return true;
-		}
+            return true;
+        }
 
-		collection.find({
+        collection.find({
+            $or: [
+                { 'owners': ownerId },
+                { 'owners': '*' }
+            ]
+        })
+        .toArray(function (err, results) {
 
-			'owners': ownerId
-		})
-		.toArray(function (err, results) {
+            if(err) {
 
-			if(err) {
+                res.sendStatus(500);
 
-				res.sendStatus(500);
+                return true;
+            }
 
-				return true;
-			}
+            if (results.length > 0) {
 
-			if (results.length > 0) {
+                results.forEach(function (result) {
 
-				results.forEach(function (result) {
+                    result._id = result._id.toString();
+                });
+            }
 
-					result._id = result._id.toString();
-				});
-			}
+            callback(results);
+        });
+    },
 
-			callback(results);
-		});
-	},
 
+    put: function (req, res) {
 
-	put: function (req, res) {
+        if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
-		if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
+            res.sendStatus(400);
 
-			res.sendStatus(400);
+            return true;
+        }
 
-			return true;
-		}
+        if ( !api.isThemeOwner(req, res, req.params._id) ) {
 
-		if ( !api.isThemeOwner(req, res, req.params._id) ) {
+            res.sendStatus(401);
 
-			res.sendStatus(401);
+            return true;
+        }
 
-			return true;
-		}
 
+        var new_json = req.body,
+        collection = options.database.collection('theme'),
+        model = new ThemeModel(new_json);
 
-		var new_json = req.body,
-		collection = options.database.collection('theme'),
-		model = new ThemeModel(new_json);
+        if ( !model.isValid() ) {
 
-		if ( !model.isValid() ) {
+            res.sendStatus(400);
 
-			res.sendStatus(400);
+            return true;
+        }
 
-			return true;
-		}
+        delete(new_json._id);
 
-		delete(new_json._id);
+        collection.update({
 
-		collection.update({
+            '_id': new mongo.ObjectID(req.params._id)
+        },
+        new_json,
+        {'safe': true},
+        function (err) {
 
-			'_id': new mongo.ObjectID(req.params._id)
-		},
-		new_json,
-		{'safe': true},
-		function (err) {
+            if(err) {
 
-			if(err) {
+                res.sendStatus(500);
 
-				res.sendStatus(500);
+                return true;
+            }
 
-				return true;
-			}
+            res.send({});
+        });
+    },
 
-			res.send({});
-		});
-	},
 
 
+    delete: function (req, res) {
 
-	delete: function (req, res) {
+        if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
-		if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
+            res.sendStatus(400);
 
-			res.sendStatus(400);
+            return true;
+        }
 
-			return true;
-		}
+        if ( !api.isThemeOwner(req, res, req.params._id) ) {
 
-		if ( !api.isThemeOwner(req, res, req.params._id) ) {
+            res.sendStatus(401);
 
-			res.sendStatus(401);
+            return true;
+        }
 
-			return true;
-		}
 
+        var collection = options.database.collection('theme');
 
-		var collection = options.database.collection('theme');
+        collection.remove({
 
-		collection.remove({
+            '_id': new mongo.ObjectID(req.params._id)
+        },
+        {'safe': true},
+        function (err) {
 
-			'_id': new mongo.ObjectID(req.params._id)
-		},
-		{'safe': true},
-		function (err) {
+            if(err) {
 
-			if(err) {
+                res.sendStatus(500);
 
-				res.sendStatus(500);
+                return true;
+            }
 
-				return true;
-			}
+            res.send({});
+        });
+    },
 
-			res.send({});
-		});
-	},
 
+    isThemeOwner: function (req, res, themeId) {
 
-	isThemeOwner: function (req, res, themeId) {
+        if ( !req.session.user || !req.session.themes ) {
 
-		if ( !req.session.user || !req.session.themes ) {
+            return false;
+        }
 
-			return false;
-		}
+        if ( req.session.themes.indexOf( themeId ) === -1 ) {
 
-		if ( req.session.themes.indexOf( themeId ) === -1 ) {
+            return false;
+        }
 
-			return false;
-		}
-
-		return true;
-	},
+        return true;
+    },
 };
 
 
 
 module.exports = {
 
-	'setOptions': setOptions,
-	'api': api,
+    'setOptions': setOptions,
+    'api': api,
 };

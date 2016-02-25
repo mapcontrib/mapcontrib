@@ -8,8 +8,8 @@
   position: fixed;
   width: 50px;
   z-index: 1010;
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
+  transition: -webkit-transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
 }
 .toolbar.left {
   left: 0;
@@ -121,8 +121,8 @@
 .pop,
 .fullpage {
   position: fixed;
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
+  transition: -webkit-transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
   outline: 0;
 }
 .column.right,
@@ -410,8 +410,7 @@
   background: rgba(0, 0, 0, 0.6);
   outline: 0;
   opacity: 0;
-  -webkit-transition: opacity ease-out 0.2s;
-          transition: opacity ease-out 0.2s;
+  transition: opacity ease-out 0.2s;
 }
 .pop_modal .pop {
   z-index: 1050;
@@ -419,8 +418,8 @@
   left: 50%;
   width: 500px;
   max-width: 100%;
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
+  transition: -webkit-transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
   -webkit-transform: translate(-50%, -45%);
       -ms-transform: translate(-50%, -45%);
           transform: translate(-50%, -45%);
@@ -10531,18 +10530,24 @@
   color: #fff;
   padding: 0;
 }
+.btn-marker-color.white,
 .btn-marker-color.gray,
 .btn-marker-color.yellow {
   color: #333333;
 }
+.btn-marker-color.white:hover,
 .btn-marker-color.gray:hover,
 .btn-marker-color.yellow:hover,
+.btn-marker-color.white:focus,
 .btn-marker-color.gray:focus,
 .btn-marker-color.yellow:focus,
+.btn-marker-color.white.focus,
 .btn-marker-color.gray.focus,
 .btn-marker-color.yellow.focus,
+.btn-marker-color.white:active,
 .btn-marker-color.gray:active,
 .btn-marker-color.yellow:active,
+.btn-marker-color.white.active,
 .btn-marker-color.gray.active,
 .btn-marker-color.yellow.active {
   color: #333333;
@@ -10581,6 +10586,10 @@
   border-left-color: #729fcf;
   border-right-color: #204a87;
 }
+.btn-marker-color.white > div {
+  border-left-color: #ffffff;
+  border-right-color: #888a85;
+}
 .btn-marker-color.gray > div {
   border-left-color: #d3d7cf;
   border-right-color: #888a85;
@@ -10588,6 +10597,10 @@
 .btn-marker-color.dark-gray > div {
   border-left-color: #888a85;
   border-right-color: #333333;
+}
+.btn-marker-color.black > div {
+  border-left-color: #888a85;
+  border-right-color: #000000;
 }
 .btn-marker-color.brown > div {
   border-left-color: #e9b96e;
@@ -10601,6 +10614,16 @@
 .marker .fa {
   position: absolute;
   font-size: 19px;
+}
+.marker .external-icon {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  max-width: 24px !important;
+  max-height: 24px !important;
 }
 .marker.yellow .fa {
   color: #c4a000;
@@ -10651,6 +10674,13 @@
 .marker.red #colorized * {
   fill: #ef2929 !important;
 }
+.marker.white .fa {
+  color: #888a85;
+}
+.marker.white #colorized,
+.marker.white #colorized * {
+  fill: #ffffff !important;
+}
 .marker.gray .fa {
   color: #888a85;
 }
@@ -10664,6 +10694,13 @@
 .marker.dark-gray #colorized,
 .marker.dark-gray #colorized * {
   fill: #888a85 !important;
+}
+.marker.black .fa {
+  color: #888a85;
+}
+.marker.black #colorized,
+.marker.black #colorized * {
+  fill: #000000 !important;
 }
 .leaflet-container .marker {
   display: block;
@@ -10832,8 +10869,7 @@ fieldset .form-control:active {
   left: 0;
   right: 0;
   height: 30px;
-  -webkit-transition: all ease-out 0.3s;
-          transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
 }
 #title h1 {
   display: inline-block;
@@ -10849,8 +10885,7 @@ fieldset .form-control:active {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-transition: all ease-out 0.3s;
-          transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
 }
 #title .description_btn {
   color: #fff;
@@ -10967,8 +11002,7 @@ fieldset .form-control:active {
   z-index: 1050;
   width: 0;
   height: 0;
-  -webkit-transition: all ease-out 0.3s;
-          transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
   background: #fff;
   overflow: hidden;
 }
@@ -11036,6 +11070,10 @@ fieldset .form-control:active {
   background: #f3f3f3;
   overflow: hidden;
   height: 120px;
+}
+.tile_list .max_zoom {
+  font-size: 13px;
+  opacity: .8;
 }
 .icon-preview {
   position: absolute;
@@ -11171,8 +11209,8 @@ body.user_logged .edit_poi_data {
   padding-left: 50px;
   width: 500px;
   max-width: 100%;
-  -webkit-transition: -webkit-transform ease-out 0.2s;
-          transition: transform ease-out 0.2s;
+  transition: -webkit-transform ease-out 0.2s;
+  transition: transform ease-out 0.2s;
   -webkit-transform: translate(-100%, 0);
       -ms-transform: translate(-100%, 0);
           transform: translate(-100%, 0);
@@ -11193,8 +11231,7 @@ body.user_logged .edit_poi_data {
   right: 0;
   margin: 0;
   overflow: auto;
-  -webkit-transition: all ease-out 0.2s;
-          transition: all ease-out 0.2s;
+  transition: all ease-out 0.2s;
 }
 #geocode_widget .results .list-group-item {
   border-color: #eeeeee #ffffff;

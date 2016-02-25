@@ -2,85 +2,85 @@
 
 define([
 
-	'jquery',
-	'underscore',
-	'backbone',
-	'settings',
+    'jquery',
+    'underscore',
+    'backbone',
+    'settings',
 
-	'view/main',
+    'view/main',
 ],
 function (
 
-	$,
-	_,
-	Backbone,
-	settings,
+    $,
+    _,
+    Backbone,
+    settings,
 
-	MainView
+    MainView
 ) {
 
-	'use strict';
+    'use strict';
 
 
-	return Backbone.Router.extend({
+    return Backbone.Router.extend({
 
-		routes: {
+        routes: {
 
-			'': 'routeDefault',
-			'oups': 'routeDefault',
+            '': 'routeDefault',
+            'oups': 'routeDefault',
 
-			'logout': 'routeLogout',
-		},
-
-
-		initialize: function () {
-
-			var self = this;
-
-			this._currentScreen = null;
-			this._radio = Backbone.Wreqr.radio.channel('global');
-
-			this._user = this._radio.reqres.request('model', 'user');
-		},
-
-		showScreen: function (View, options){
-
-			var self = this,
-			currentScreen = this._currentScreen;
+            'logout': 'routeLogout',
+        },
 
 
-			if (currentScreen) {
+        initialize: function () {
 
-				$('html, body').scrollTop(0);
-			}
+            var self = this;
+
+            this._currentScreen = null;
+            this._radio = Backbone.Wreqr.radio.channel('global');
+
+            this._user = this._radio.reqres.request('model', 'user');
+        },
+
+        showScreen: function (View, options){
+
+            var self = this,
+            currentScreen = this._currentScreen;
 
 
-			var viewInstance = new View( options );
-			this._radio.reqres.request('region', 'root').show( viewInstance );
+            if (currentScreen) {
 
-			this._currentScreen = viewInstance;
-		},
+                $('html, body').scrollTop(0);
+            }
 
-		routeDefault: function (){
 
-			this.showScreen( MainView );
-		},
+            var viewInstance = new View( options );
+            this._radio.reqres.request('region', 'root').show( viewInstance );
 
-		routeLogout: function (){
+            this._currentScreen = viewInstance;
+        },
 
-			$.ajax({
+        routeDefault: function (){
 
-				type: 'GET',
-				url: settings.apiPath +'user/logout',
-				dataType: 'json',
-				context: this,
-				complete: function () {
+            this.showScreen( MainView );
+        },
 
-					this.navigate('');
+        routeLogout: function (){
 
-					this._radio.vent.trigger('session:unlogged');
-				}
-			});
-		},
-	});
+            $.ajax({
+
+                type: 'GET',
+                url: settings.apiPath +'user/logout',
+                dataType: 'json',
+                context: this,
+                complete: function () {
+
+                    this.navigate('');
+
+                    this._radio.vent.trigger('session:unlogged');
+                }
+            });
+        },
+    });
 });

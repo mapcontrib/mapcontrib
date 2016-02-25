@@ -2,32 +2,32 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'settings',
+    'underscore',
+    'backbone',
+    'settings',
 ],
 function (
 
-	_,
-	Backbone,
-	settings
+    _,
+    Backbone,
+    settings
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Backbone.Model.extend({
+    return Backbone.Model.extend({
 
-		idAttribute: '_id',
+        idAttribute: '_id',
 
-		urlRoot: settings.apiPath + 'user',
+        urlRoot: settings.apiPath + 'user',
 
-		defaults: {
+        defaults: {
 
-			'osmId': undefined,
-			'displayName': undefined,
-			'avatar': undefined,
-			'token': undefined,
-			'tokenSecret': undefined,
-		}
-	});
+            'osmId': undefined,
+            'displayName': undefined,
+            'avatar': undefined,
+            'token': undefined,
+            'tokenSecret': undefined,
+        }
+    });
 });

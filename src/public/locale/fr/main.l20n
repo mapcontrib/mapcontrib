@@ -6,11 +6,11 @@
 }>
 
 
-<rudomap "Rudomap">
+<mapcontrib "MapContrib">
 
 
-<pageTitle "{{ rudomap }}">
-<pageTitleWithMapName "{{ $map.name }} - {{ rudomap }}">
+<pageTitle "{{ mapcontrib }}">
+<pageTitleWithMapName "{{ $map.name }} - {{ mapcontrib }}">
 
 
 <markdownAvailable "Format <a>Markdown</a> disponible">
@@ -56,14 +56,14 @@
 
 /* Help */
 <helpTitle "Aide">
-<helpText1 "Rudomap est développé avec le soutien du Département de la Gironde, dans le cadre d'un appel à projets «&nbsp;Déchets et Numériques&nbsp;».">
-<helpText2 "Rudomap vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
-<helpText3 "Par l'utilisation de Rudomap, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbl&nbsp;», permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
+<helpText1 "MapContrib est développé avec le soutien du Département de la Gironde, dans le cadre d'un appel à projets «&nbsp;Déchets et Numériques&nbsp;».">
+<helpText2 "MapContrib vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
+<helpText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbL&nbsp;»</a>, permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
 <helpText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
 
 
 /* Login modal */
-<loginModal_explanation "Pour plus de simplicité, Rudomap a seulement besoin de se connecter à votre compte OpenStreetMap.">
+<loginModal_explanation "Pour plus de simplicité, MapContrib a seulement besoin de se connecter à votre compte OpenStreetMap.">
 
 
 /* Geocode widget */
@@ -72,7 +72,8 @@
 
 /* POI column */
 <selectPoiColumn_title "Centres d'intérêts">
-<selectPoiColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte">
+<selectPoiColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte.">
+<selectPoiColumn_currentMapZoom "Niveau de zoom actuel&nbsp;: {{ $currentMapZoom }}">
 <selectPoiColumn_needToZoom[plural($n)] {
   one: "Pour voir ces données, vous devez zoomer une fois.",
   many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
@@ -89,6 +90,9 @@
 
 /* Contribution column */
 <contribColumn_title "Ajouter un marqueur">
+<contribColumn_addTag "Ajouter un tag">
+<contribColumn_key placeholder:"Clef">
+<contribColumn_value placeholder:"Valeur">
 
 
 /* Link column */
@@ -137,12 +141,19 @@
 <editPoiMarkerModal_color "Couleur">
 <editPoiMarkerModal_shape "Forme">
 <editPoiMarkerModal_icon "Icône">
-<editPoiMarkerModal_iconDescription1 "Les icônes sont tirées de la collection Font Awesome.">
-<editPoiMarkerModal_iconDescription2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
+<editPoiMarkerModal_library "Bibliothèque">
+<editPoiMarkerModal_external "Externe">
+<editPoiMarkerModal_iconName "Nom de l'icône">
+<editPoiMarkerModal_iconUrl "Url de l'icône">
+<editPoiMarkerModal_iconDescriptionLibrary1 "Les icônes sont tirées de la bibliothèque Font Awesome.">
+<editPoiMarkerModal_iconDescriptionLibrary2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
+<editPoiMarkerModal_iconDescriptionExternal1 "Vous pouvez utiliser votre propre icône si elle est hébergée sur internet.">
+<editPoiMarkerModal_iconDescriptionExternal2 "Renseignez son adresse dans le champs ci-dessous.">
 
 
 /* Edit tiles column */
 <editTileColumn_title "Fonds de carte">
+<editTileColumn_maxZoom "Zoom maximum&nbsp;: {{ $maxZoom }}">
 
 
 /* Edit POI data column */

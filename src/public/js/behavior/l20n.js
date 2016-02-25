@@ -2,26 +2,26 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'l20n',
+    'underscore',
+    'backbone',
+    'marionette',
+    'l20n',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	L20n
+    _,
+    Backbone,
+    Marionette,
+    L20n
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.Behavior.extend({
+    return Marionette.Behavior.extend({
 
-		onRender: function () {
+        onRender: function () {
 
-			document.l10n.localizeNode( this.el );
-		},
-	});
+            document.l10n.localizeNode( this.el );
+        },
+    });
 });

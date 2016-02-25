@@ -2,108 +2,124 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
+    'underscore',
+    'backbone',
+    'marionette',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette
+    _,
+    Backbone,
+    Marionette
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.Behavior.extend({
+    return Marionette.Behavior.extend({
 
-		ui: {
+        ui: {
 
-			'closeBtn': '.close_btn',
-		},
+            'closeBtn': '.close_btn',
+        },
 
-		events: {
+        events: {
 
-			'click @ui.modal': 'onClickModal',
-			'click @ui.closeBtn': 'onClickClose',
-			'keydown': 'onKeyDown',
-		},
+            'click @ui.modal': 'onClickModal',
+            'click @ui.closeBtn': 'onClickClose',
+            'keyup': 'onKeyUp',
+        },
 
-		initialize: function (options) {
+        initialize: function (options) {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
-		},
+            this._radio = Backbone.Wreqr.radio.channel('global');
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.ui.modal.attr('tabindex', 0);
-		},
+            this.ui.modal.attr('tabindex', 0);
+        },
 
-		onShow: function () {
+        onShow: function () {
 
-			this.onOpen();
-		},
+            this.onOpen();
+        },
 
-		onOpen: function () {
+        onOpen: function () {
 
-			var self = this;
+            var self = this;
 
-			this.view.trigger('open');
+            if (this.view.onBeforeOpen) {
 
-			setTimeout(function () {
+                this.view.onBeforeOpen();
+            }
 
-				window.requestAnimationFrame(function () {
+            setTimeout(function () {
 
-					self.ui.modal.addClass('open').focus();
-				});
-			}, 100);
-		},
+                window.requestAnimationFrame(function () {
 
-		onClose: function () {
+                    self.ui.modal.addClass('open').focus();
 
-			var self = this,
-			mapElement = this._radio.reqres.request('map')._container;
+                    if (self.view.onAfterOpen) {
 
-			$(mapElement).focus();
+                        self.view.onAfterOpen();
+                    }
+                });
+            }, 100);
+        },
 
-			window.requestAnimationFrame(function () {
+        onClose: function () {
 
-				self.view.trigger('close');
+            var self = this,
+            mapElement = this._radio.reqres.request('map')._container;
 
-				self.ui.modal.on('transitionend', function () {
+            $(mapElement).focus();
 
-					self.view.destroy();
-				})
-				.removeClass('open');
-			});
-		},
+            if (this.view.onBeforeClose) {
 
-		onClickModal: function (e) {
+                this.view.onBeforeClose();
+            }
 
-			if (e.target !== this.ui.modal[0]) {
+            window.requestAnimationFrame(function () {
 
-				return;
-			}
+                self.ui.modal.on('transitionend', function () {
 
-			this.onClose();
-		},
+                    if (self.view.onAfterClose) {
 
-		onClickClose: function () {
+                        self.view.onAfterClose();
+                    }
 
-			this.onClose();
-		},
+                    self.view.destroy();
+                })
+                .removeClass('open');
+            });
+        },
 
-		onKeyDown: function (e) {
+        onClickModal: function (e) {
 
-			switch ( e.keyCode ) {
+            if (e.target !== this.ui.modal[0]) {
 
-				case 27:
+                return;
+            }
 
-					this.onClose();
-					break;
-			}
-		},
-	});
+            this.onClose();
+        },
+
+        onClickClose: function () {
+
+            this.onClose();
+        },
+
+        onKeyUp: function (e) {
+
+            switch ( e.keyCode ) {
+
+                case 27:
+
+                    this.onClose();
+                    break;
+            }
+        },
+    });
 });

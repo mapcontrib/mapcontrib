@@ -2,21 +2,21 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'settings',
+    'underscore',
+    'backbone',
+    'settings',
 ],
 function (
 
-	_,
-	Backbone,
-	settings
+    _,
+    Backbone,
+    settings
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
 
-		template: JST['editPoiLayerListEmpty.html'],
-	});
+        template: JST['editPoiLayerListEmpty.html'],
+    });
 });

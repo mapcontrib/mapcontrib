@@ -2,68 +2,68 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
 
-		template: JST['overpassErrorNotification.html'],
+        template: JST['overpassErrorNotification.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'notification': {
+            'l20n': {},
+            'notification': {
 
-				'destroyOnClose': true,
-			},
-		},
+                'destroyOnClose': true,
+            },
+        },
 
-		ui: {
+        ui: {
 
-			'notification': '.notification',
+            'notification': '.notification',
 
-			'content': '.content',
-		},
+            'content': '.content',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			return this.render();
-		},
+            return this.render();
+        },
 
-		open: function () {
+        open: function () {
 
-			this.triggerMethod('open');
-		},
+            this.triggerMethod('open');
+        },
 
-		close: function () {
+        close: function () {
 
-			this.triggerMethod('close');
-		},
+            this.triggerMethod('close');
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.ui.content.html(
+            this.ui.content.html(
 
-				document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
-			);
-		},
-	});
+                document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
+            );
+        },
+    });
 });

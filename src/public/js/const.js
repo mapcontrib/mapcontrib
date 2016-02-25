@@ -2,226 +2,238 @@
 
 define([
 
-	'text!img/markers/1_optimized.svg',
-	'text!img/markers/2_optimized.svg',
-	'text!img/markers/3_optimized.svg',
+    'text!img/markers/1_optimized.svg',
+    'text!img/markers/2_optimized.svg',
+    'text!img/markers/3_optimized.svg',
 ], function (
 
-	marker1,
-	marker2,
-	marker3
+    marker1,
+    marker2,
+    marker3
 ) {
 
-	'use strict';
+    'use strict';
 
-	return {
+    return {
 
-		'pattern': {
+        'osm': {
 
-			'integer': /^[0-9]+$/,
-			'mongoId': /^[a-z0-9]{24}$/,
-			'fragment': /^[a-z0-9]{6}$/,
-		},
+            'changesetCreatedBy': 'MapContrib',
+            'changesetComment': 'Test from MapContrib (developpement in progress)'
+        },
 
-		'tooltip': {
+        'pattern': {
 
-			'showDelay': 500, // ms
-			'hideDelay': 0, // ms
-		},
+            'integer': /^[0-9]+$/,
+            'mongoId': /^[a-z0-9]{24}$/,
+            'fragment': /^[a-z0-9]{6}$/,
+        },
 
-		'map': {
+        'tooltip': {
 
-			'panPadding': {
+            'showDelay': 500, // ms
+            'hideDelay': 0, // ms
+        },
 
-				'top': 10,
-				'left': 73,
-				'bottom': 20,
-				'right': 73,
-			},
+        'map': {
 
-			'wayPolygonOptions': {
+            'panPadding': {
 
-				'color': '#F8981D',
-				'weight': 2,
-				'opacity': 1,
-				'fillOpacity': 0.5,
-			},
+                'top': 10,
+                'left': 73,
+                'bottom': 20,
+                'right': 73,
+            },
 
-			'markers': {
+            'wayPolygonOptions': {
 
-				'marker1': {
+                'color': '#F8981D',
+                'weight': 2,
+                'opacity': 1,
+                'fillOpacity': 0.5,
+            },
 
-					'iconSize':     [36, 42],
-					'iconAnchor':   [18, 42],
-					'popupAnchor':  [0, -38],
-					'className': 'marker marker-1',
-					'html': marker1,
-				},
-				'marker2': {
+            'markers': {
 
-					'iconSize':     [36, 42],
-					'iconAnchor':   [18, 42],
-					'popupAnchor':  [0, -38],
-					'className': 'marker marker-2',
-					'html': marker2,
-				},
-				'marker3': {
+                'marker1': {
 
-					'iconSize':     [36, 42],
-					'iconAnchor':   [18, 42],
-					'popupAnchor':  [0, -38],
-					'className': 'marker marker-3',
-					'html': marker3,
-				},
-			},
+                    'iconSize':     [36, 42],
+                    'iconAnchor':   [18, 42],
+                    'popupAnchor':  [0, -38],
+                    'className': 'marker marker-1',
+                    'html': marker1,
+                },
+                'marker2': {
 
-			'tiles': {
+                    'iconSize':     [36, 42],
+                    'iconAnchor':   [18, 42],
+                    'popupAnchor':  [0, -38],
+                    'className': 'marker marker-2',
+                    'html': marker2,
+                },
+                'marker3': {
 
-				'osmFr': {
+                    'iconSize':     [36, 42],
+                    'iconAnchor':   [18, 42],
+                    'popupAnchor':  [0, -38],
+                    'className': 'marker marker-3',
+                    'html': marker3,
+                },
+            },
 
-					'name': 'OpenStreetMap Français',
-					'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 19,
-				},
-				'osm': {
+            'markerIconType': {
 
-					'name': 'OpenStreetMap',
-					'attribution': 'Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 19,
-				},
-				'osmOutdoors': {
+                'library': 1,
+                'external': 2,
+            },
 
-					'name': 'OSM Outdoors',
-					'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'osmRoads': {
+            'tiles': {
 
-					'name': 'OSM Roads',
-					'attribution': 'Tiles &copy; <a href="http://giscience.uni-hd.de" target="_blank">GIScience Research Group at Heidelberg University</a> - Data &copy;  <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://openmapsurfer.uni-hd.de/tiles/roads/x={x}&y={y}&z={z}',
-					'minZoom': 0,
-					'maxZoom': 19,
-				},
-				'landscape': {
+                'osmFr': {
 
-					'name': 'Landscape',
-					'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'toner': {
+                    'name': 'OpenStreetMap Français',
+                    'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 20,
+                },
+                'osm': {
 
-					'name': 'Toner',
-					'attribution': 'Tiles <a href="http://stamen.com" target="_blank">Stamen Design</a> under <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'transport': {
+                    'name': 'OpenStreetMap',
+                    'attribution': 'Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 19,
+                },
+                'osmOutdoors': {
 
-					'name': 'Transport',
-					'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'mapquestOpen': {
+                    'name': 'OSM Outdoors',
+                    'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 20,
+                },
+                'osmRoads': {
 
-					'name': 'MapQuest Open',
-					'attribution': 'Tiles <a href="http://www.mapquest.com" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png"> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'hot': {
+                    'name': 'OSM Roads',
+                    'attribution': 'Tiles &copy; <a href="http://giscience.uni-hd.de" target="_blank">GIScience Research Group at Heidelberg University</a> - Data &copy;  <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
+                    'minZoom': 0,
+                    'maxZoom': 19,
+                },
+                'landscape': {
 
-					'name': 'Humanitarian (HOT)',
-					'attribution': 'Tiles &copy; <a href="http://hotosm.org" target="_blank">HOT</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 20,
-				},
-				'openCycleMap': {
+                    'name': 'Landscape',
+                    'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 20,
+                },
+                'toner': {
 
-					'name': 'OpenCycleMap',
-					'attribution': 'Tiles &copy; <a href="http://www.opencyclemap.org" target="_blank">OpenCycleMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'watercolor': {
+                    'name': 'Toner',
+                    'attribution': 'Tiles <a href="http://stamen.com" target="_blank">Stamen Design</a> under <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 20,
+                },
+                'transport': {
 
-					'name': 'Watercolor',
-					'attribution': 'Tiles <a href="http://stamen.com" target="_blank">Stamen Design</a> under <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'hikeBikeMap': {
+                    'name': 'Transport',
+                    'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 20,
+                },
+                'mapquestOpen': {
 
-					'name': 'HikeBikeMap',
-					'attribution': 'Tiles &copy; <a href="http://www.hikebikemap.org" target="_blank">HikeBikeMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'lyrk': {
+                    'name': 'MapQuest Open',
+                    'attribution': 'Tiles <a href="http://www.mapquest.com" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png"> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 19,
+                },
+                'hot': {
 
-					'name': 'Lyrk',
-					'attribution': 'Tiles &copy; <a href="https://geodienste.lyrk.de/copyright" target="_blank">Lyrk</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://tiles.lyrk.org/ls/{z}/{x}/{y}?apikey=982c82cc765f42cf950a57de0d891076',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'osmMonochrome': {
+                    'name': 'Humanitarian (HOT)',
+                    'attribution': 'Tiles &copy; <a href="http://hotosm.org" target="_blank">HOT</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 20,
+                },
+                'openCycleMap': {
 
-					'name': 'OSM Monochrome',
-					'attribution': 'Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png',
-					'minZoom': 1,
-					'maxZoom': 18,
-				},
-				'hydda': {
+                    'name': 'OpenCycleMap',
+                    'attribution': 'Tiles &copy; <a href="http://www.opencyclemap.org" target="_blank">OpenCycleMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 20,
+                },
+                'watercolor': {
 
-					'name': 'Hydda',
-					'attribution': 'Tiles &copy; <a href="http://openstreetmap.se" target="_blank">OpenStreetMap Sweden</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'openTopoMap': {
+                    'name': 'Watercolor',
+                    'attribution': 'Tiles <a href="http://stamen.com" target="_blank">Stamen Design</a> under <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
+                    'minZoom': 0,
+                    'maxZoom': 18,
+                },
+                'hikeBikeMap': {
 
-					'name': 'OpenTopoMap',
-					'attribution': 'Tiles &copy; <a href="https://opentopomap.org" target="_blank">OpenTopoMap</a> under <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank">CC BY SA 3.0</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-					'minZoom': 1,
-					'maxZoom': 15,
-				},
-				'openRiverboatMap': {
+                    'name': 'HikeBikeMap',
+                    'attribution': 'Tiles &copy; <a href="http://www.hikebikemap.org" target="_blank">HikeBikeMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 20,
+                },
+                'lyrk': {
 
-					'name': 'OpenRiverboatMap',
-					'attribution': 'Tiles &copy; <a href="http://fluv.io" target="_blank">OpenRiverBoatMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-					'urlTemplate': 'http://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				},
-				'osmDe': {
+                    'name': 'Lyrk',
+                    'attribution': 'Tiles &copy; <a href="https://geodienste.lyrk.de/copyright" target="_blank">Lyrk</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://tiles.lyrk.org/ls/{z}/{x}/{y}?apikey=982c82cc765f42cf950a57de0d891076',
+                    'minZoom': 0,
+                    'maxZoom': 18,
+                },
+                'osmMonochrome': {
 
-					'name': 'OpenStreetMap Deutschland',
-					'attribution': 'Karte hergestellt aus <a href="http://osm.org" target="_blank">OpenStreetMap-Daten</a> | Lizenz: <a href="http://opendatacommons.org/licenses/odbl" target="_blank">Open Database License (ODbL)</a> | Courtesy of <a href="http://openstreetmap.de" target="_blank">OpenStreetMap.de</a>',
-					'urlTemplate': 'http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
-					'minZoom': 0,
-					'maxZoom': 18,
-				}
-			},
-		},
-	};
+                    'name': 'OSM Monochrome',
+                    'attribution': 'Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png',
+                    'minZoom': 1,
+                    'maxZoom': 18,
+                },
+                'hydda': {
+
+                    'name': 'Hydda',
+                    'attribution': 'Tiles &copy; <a href="http://openstreetmap.se" target="_blank">OpenStreetMap Sweden</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 18,
+                },
+                'openTopoMap': {
+
+                    'name': 'OpenTopoMap',
+                    'attribution': 'Tiles &copy; <a href="https://opentopomap.org" target="_blank">OpenTopoMap</a> under <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank">CC BY SA 3.0</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+                    'minZoom': 1,
+                    'maxZoom': 15,
+                },
+                'openRiverboatMap': {
+
+                    'name': 'OpenRiverboatMap',
+                    'attribution': 'Tiles &copy; <a href="http://fluv.io" target="_blank">OpenRiverBoatMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    'urlTemplate': 'http://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 20,
+                },
+                'osmDe': {
+
+                    'name': 'OpenStreetMap Deutschland',
+                    'attribution': 'Karte hergestellt aus <a href="http://osm.org" target="_blank">OpenStreetMap-Daten</a> | Lizenz: <a href="http://opendatacommons.org/licenses/odbl" target="_blank">Open Database License (ODbL)</a> | Courtesy of <a href="http://openstreetmap.de" target="_blank">OpenStreetMap.de</a>',
+                    'urlTemplate': 'http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
+                    'minZoom': 0,
+                    'maxZoom': 18,
+                }
+            },
+        },
+    };
 });

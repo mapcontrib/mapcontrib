@@ -15,41 +15,41 @@
 
 @keyframes appear {
 
-	0% {
+    0% {
 
-		opacity: 0;
-	}
+        opacity: 0;
+    }
 
 
-	100% {
+    100% {
 
-		opacity: 1;
-	}
+        opacity: 1;
+    }
 }
 
 
 
 body {
 
-	color: @anthracite;
+    color: @anthracite;
 }
 
 h1, h2, h3, h4, h5, h6,
 .control-label {
 
-	font-family: 'Fira Sans';
-	font-weight: normal;
+    font-family: 'Fira Sans';
+    font-weight: normal;
 }
 
 
 .nowrap {
 
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 textarea.font-monospace {
 
-	font-size: 12px;
+    font-size: 12px;
 }
 
 
@@ -63,14 +63,14 @@ textarea[readonly],
 .form-control[readonly],
 fieldset[disabled] .form-control {
 
-	cursor: default;
+    cursor: default;
 }
 
 button,
 .btn,
 .nav > li > a {
 
-	border-radius: 0;
+    border-radius: 0;
 }
 
 input,
@@ -82,38 +82,38 @@ textarea,
 .list-group-item:last-child,
 fieldset .form-control {
 
-	border-radius: 0 !important;
-	box-shadow: none;
+    border-radius: 0 !important;
+    box-shadow: none;
 
-	&:hover,
-	&.focus,
-	&:focus,
-	&.active,
-	&:active {
+    &:hover,
+    &.focus,
+    &:focus,
+    &.active,
+    &:active {
 
-		box-shadow: none;
-	}
+        box-shadow: none;
+    }
 }
 
 .list-group {
 
-	/* Fixes a placement bug on items when they are moved/dragged more than once */
-	position: relative;
+    /* Fixes a placement bug on items when they are moved/dragged more than once */
+    position: relative;
 
-	.list-group-item {
+    .list-group-item {
 
-		label .help-block,
-		label .help-block p:last-child {
+        label .help-block,
+        label .help-block p:last-child {
 
-			margin-bottom: 0;
-		}
+            margin-bottom: 0;
+        }
 
-		&.active {
+        &.active {
 
-			background: @gray;
-			color: @anthracite;
-		}
-	}
+            background: @gray;
+            color: @anthracite;
+        }
+    }
 }
 
 
@@ -121,162 +121,162 @@ fieldset .form-control {
 
 #main_map {
 
-	position: fixed;
-	z-index: @mapZIndex;
-	top: @titleHeight;
-	bottom: 0;
-	left: 0;
-	right: 0;
+    position: fixed;
+    z-index: @mapZIndex;
+    top: @titleHeight;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
-	.leaflet-popup-content-wrapper {
+    .leaflet-popup-content-wrapper {
 
-		border-radius: 0;
+        border-radius: 0;
 
-		.leaflet-popup-content {
+        .leaflet-popup-content {
 
-			margin: 20px;
+            margin: 20px;
 
-			h1 {
+            h1 {
 
-				font-size: 24px;
-			}
+                font-size: 24px;
+            }
 
-			h2 {
+            h2 {
 
-				font-size: 18px;
-			}
+                font-size: 18px;
+            }
 
-			h3 {
+            h3 {
 
-				font-size: 14px;
-			}
+                font-size: 14px;
+            }
 
-			h4, h5, h6 {
+            h4, h5, h6 {
 
-				font-size: 16px;
-			}
-		}
-	}
+                font-size: 16px;
+            }
+        }
+    }
 
-	.leaflet-control-minZoomIndicator {
+    .leaflet-control-minZoomIndicator {
 
-		display: none !important;
-	}
+        display: none !important;
+    }
 
-	.leaflet-bottom.leaflet-right {
+    .leaflet-bottom.leaflet-right {
 
-		left: @toolbarBtnSize + 10px;
-	}
+        left: @toolbarBtnSize + 10px;
+    }
 }
 
 
 #title {
 
-	position: fixed;
-	z-index: @titleZIndex;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: @titleHeight;
+    position: fixed;
+    z-index: @titleZIndex;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: @titleHeight;
 
-	transition: all ease-out .3s;
+    transition: all ease-out .3s;
 
-	h1 {
+    h1 {
 
-		display: inline-block;
-		position: relative;
-		left: 50%;
-		transform: translate(-50%, 0);
-		font-size: 16px;
-		line-height: @titleHeight;
-		margin: 0;
-		max-width: 100%;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		transition: all ease-out .3s;
-	}
+        display: inline-block;
+        position: relative;
+        left: 50%;
+        transform: translate(-50%, 0);
+        font-size: 16px;
+        line-height: @titleHeight;
+        margin: 0;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: all ease-out .3s;
+    }
 
-	.description_btn {
+    .description_btn {
 
-		color: #fff;
-		position: fixed;
-		top: 0;
-		right: 0;
-		padding: 3px 12px 5px 12px;
+        color: #fff;
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: 3px 12px 5px 12px;
 
-		&:hover,
-		&:focus,
-		&.focus,
-		&:active,
-		&.active {
+        &:hover,
+        &:focus,
+        &.focus,
+        &:active,
+        &.active {
 
-			color: #fff;
-		}
-	}
+            color: #fff;
+        }
+    }
 
-	.description {
+    .description {
 
-		display: none;
-		margin-top: 60px;
-		animation-duration: .4s;
-		animation-timing-function: ease-in-out;
-		animation-fill-mode: forwards;
-	}
+        display: none;
+        margin-top: 60px;
+        animation-duration: .4s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+    }
 
-	&.open {
+    &.open {
 
-		height: 100%;
-		overflow: auto;
+        height: 100%;
+        overflow: auto;
 
-		h1 {
+        h1 {
 
-			left: 0;
-			transform: translate(0, 30px);
-			font-size: 36px;
-			line-height: 50px;
-			max-width: none;
-			white-space: normal;
-			overflow: visible;
-		}
+            left: 0;
+            transform: translate(0, 30px);
+            font-size: 36px;
+            line-height: 50px;
+            max-width: none;
+            white-space: normal;
+            overflow: visible;
+        }
 
-		.description {
+        .description {
 
-			display: block;
-			animation-name: appear;
-			animation-direction: normal;
-		}
-	}
+            display: block;
+            animation-name: appear;
+            animation-direction: normal;
+        }
+    }
 }
 
 
 
 #edit_setting_column .btn-color {
 
-	&.blue,
-	&.purple,
-	&.turquoise,
-	&.orange,
-	&.green,
-	&.red,
-	&.anthracite {
+    &.blue,
+    &.purple,
+    &.turquoise,
+    &.orange,
+    &.green,
+    &.red,
+    &.anthracite {
 
-		color: #fff;
-	}
+        color: #fff;
+    }
 
-	&.blue { background: @blue; }
-	&.purple { background: @purple; }
-	&.turquoise { background: @turquoise; }
-	&.orange { background: @orange; }
-	&.green { background: @green; }
-	&.red { background: @red; }
-	&.anthracite { background: @anthracite; }
+    &.blue { background: @blue; }
+    &.purple { background: @purple; }
+    &.turquoise { background: @turquoise; }
+    &.orange { background: @orange; }
+    &.green { background: @green; }
+    &.red { background: @red; }
+    &.anthracite { background: @anthracite; }
 
-	&.white {
+    &.white {
 
-		background: #fff;
-		color: @anthracite;
-	}
+        background: #fff;
+        color: @anthracite;
+    }
 }
 
 
@@ -284,28 +284,28 @@ fieldset .form-control {
 .btn-color,
 .btn-marker-color {
 
-	border-color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.8);
 
-	&:hover,
-	&:focus,
-	&.focus,
-	&:active,
-	&.active {
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
 
-		color: #fff;
-	}
+        color: #fff;
+    }
 
-	&.white {
+    &.white {
 
-		&:hover,
-		&:focus,
-		&.focus,
-		&:active,
-		&.active {
+        &:hover,
+        &:focus,
+        &.focus,
+        &:active,
+        &.active {
 
-			color: @anthracite;
-		}
-	}
+            color: @anthracite;
+        }
+    }
 }
 
 
@@ -318,215 +318,221 @@ fieldset .form-control {
 
 #help {
 
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	z-index: @modalZIndex;
-	width: 0;
-	height: 0;
-	transition: all ease-out .3s;
-	background: #fff;
-	overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: @modalZIndex;
+    width: 0;
+    height: 0;
+    transition: all ease-out .3s;
+    background: #fff;
+    overflow: hidden;
 
-	h2 {
+    h2 {
 
-		font-size: 36px;
-	}
+        font-size: 36px;
+    }
 
-	.close_btn {
+    .close_btn {
 
-		position: fixed;
-		top: 0;
-		right: 0;
-		color: @anthracite;
-	}
+        position: fixed;
+        top: 0;
+        right: 0;
+        color: @anthracite;
+    }
 
-	h2,
-	p,
-	.close_btn {
+    h2,
+    p,
+    .close_btn {
 
-		display: none;
-		animation-duration: .4s;
-		animation-timing-function: ease-in-out;
-		animation-fill-mode: forwards;
-	}
+        display: none;
+        animation-duration: .4s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+    }
 
-	&.open {
+    &.open {
 
-		width: 100%;
-		height: 100%;
-		overflow: auto;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
 
-		h2,
-		p,
-		.close_btn {
+        h2,
+        p,
+        .close_btn {
 
-			display: block;
-			animation-name: appear;
-			animation-direction: normal;
-		}
-	}
+            display: block;
+            animation-name: appear;
+            animation-direction: normal;
+        }
+    }
 }
 
 
 #edit_poi_column .rg_layer_list {
 
-	.list-group-item {
+    .list-group-item {
 
-		padding-right: 70px;
-	}
+        padding-right: 70px;
+    }
 
-	.marker {
+    .marker {
 
-		transform: scale(.6);
-		position: absolute;
-		top: -1px;
-		right: 35px;
-		cursor: pointer;
-	}
+        transform: scale(.6);
+        position: absolute;
+        top: -1px;
+        right: 35px;
+        cursor: pointer;
+    }
 }
 
 .rg_layer_list .checkbox {
 
-	padding-right: 40px;
+    padding-right: 40px;
 
-	.marker {
+    .marker {
 
-		position: absolute;
-		top: 0;
-		right: -4px;
-		cursor: pointer;
-	}
+        position: absolute;
+        top: 0;
+        right: -4px;
+        cursor: pointer;
+    }
 }
 
 .tile_list {
 
-	.checkbox,
-	.radio {
+    .checkbox,
+    .radio {
 
-		label {
+        label {
 
-			display: block;
+            display: block;
 
-			figure {
+            figure {
 
-				background: @lightGray;
-				overflow: hidden;
-				height: 120px;
-			}
-		}
-	}
+                background: @lightGray;
+                overflow: hidden;
+                height: 120px;
+            }
+        }
+    }
+
+    .max_zoom {
+
+        font-size: 13px;
+        opacity: .8;
+    }
 }
 
 .icon-preview {
 
-	position: absolute;
-	top: 8px;
-	right: 11px;
-	z-index: 10;
-	color: @lightAnthracite;
-	font-size: 19px;
+    position: absolute;
+    top: 8px;
+    right: 11px;
+    z-index: 10;
+    color: @lightAnthracite;
+    font-size: 19px;
 }
 
 
 @zoomNotificationWidth: 300px;
 #zoom_notification {
 
-	z-index: @zoomNotificationZIndex;
-	top: @titleHeight;
-	left: @toolbarBtnSize;
-	bottom: auto;
-	right: auto;
-	width: @zoomNotificationWidth;
-	min-height: @toolbarBtnSize;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	padding-right: 24px;
-	padding-left: 24px;
-	transform: translate(( @toolbarBtnSize + @zoomNotificationWidth ) * -1, 0);
+    z-index: @zoomNotificationZIndex;
+    top: @titleHeight;
+    left: @toolbarBtnSize;
+    bottom: auto;
+    right: auto;
+    width: @zoomNotificationWidth;
+    min-height: @toolbarBtnSize;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 24px;
+    padding-left: 24px;
+    transform: translate(( @toolbarBtnSize + @zoomNotificationWidth ) * -1, 0);
 
-	&.open {
+    &.open {
 
-		transform: translate(0, 0);
-	}
+        transform: translate(0, 0);
+    }
 
-	p {
+    p {
 
-		margin: 0;
-	}
+        margin: 0;
+    }
 
-	.close_btn {
+    .close_btn {
 
-		position: absolute;
-		top: -13px;
-		right: -24px;
-	}
+        position: absolute;
+        top: -13px;
+        right: -24px;
+    }
 
-	.fa-arrow-left {
+    .fa-arrow-left {
 
-		position: absolute;
-		top: 3px;
-		left: -10px;
-		animation-duration: 4s;
-		animation-fill-mode: both;
-		animation-iteration-count: infinite;
-		animation-name: bounce;
-		transform-origin: center bottom;
-	}
+        position: absolute;
+        top: 3px;
+        left: -10px;
+        animation-duration: 4s;
+        animation-fill-mode: both;
+        animation-iteration-count: infinite;
+        animation-name: bounce;
+        transform-origin: center bottom;
+    }
 }
 
 @media screen and (max-width: ( @zoomNotificationWidth + @toolbarBtnSize )) {
 
-	#zoom_notification {
+    #zoom_notification {
 
-		right: 0;
-		width: auto;
-	}
+        right: 0;
+        width: auto;
+    }
 }
 
 @keyframes bounce {
 
-	0%, 5%, 13%, 20%, 25% {
+    0%, 5%, 13%, 20%, 25% {
 
-		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-		transform: translate3d(0, 0, 0);
-	}
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        transform: translate3d(0, 0, 0);
+    }
 
-	10%, 11% {
+    10%, 11% {
 
-		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-		transform: translate3d(12px, 0, 0);
-	}
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(12px, 0, 0);
+    }
 
-	17% {
+    17% {
 
-		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-		transform: translate3d(6px, 0, 0);
-	}
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(6px, 0, 0);
+    }
 
-	22% {
+    22% {
 
-		transform: translate3d(2px, 0, 0);
-	}
+        transform: translate3d(2px, 0, 0);
+    }
 }
 
 
 body {
 
-	.edit_poi_data {
+    .edit_poi_data {
 
-		display: none;
+        display: none;
 
-		button {
+        button {
 
-			padding: 0;
-		}
-	}
+            padding: 0;
+        }
+    }
 
-	&.user_logged .edit_poi_data {
+    &.user_logged .edit_poi_data {
 
-		display: block;
-	}
+        display: block;
+    }
 }
 
 
@@ -538,53 +544,53 @@ body {
 
 #geocode_widget {
 
-	position: fixed;
-	z-index: @geocodeZIndex;
-	top: @geocodeWidgetTop;
-	left: 0;
-	padding-left: @toolbarBtnSize;
-	width: 500px;
-	max-width: 100%;
-	transition: transform ease-out .2s;
-	transform: translate(-100%, 0);
+    position: fixed;
+    z-index: @geocodeZIndex;
+    top: @geocodeWidgetTop;
+    left: 0;
+    padding-left: @toolbarBtnSize;
+    width: 500px;
+    max-width: 100%;
+    transition: transform ease-out .2s;
+    transform: translate(-100%, 0);
 
-	input {
+    input {
 
-		height: @toolbarBtnSize;
-		border-color: #fff;
-	}
+        height: @toolbarBtnSize;
+        border-color: #fff;
+    }
 
-	&.open {
+    &.open {
 
-		transform: translate(0, 0);
-	}
+        transform: translate(0, 0);
+    }
 
-	.results {
+    .results {
 
-		position: absolute;
-		top: @toolbarBtnSize;
-		left: @toolbarBtnSize;
-		right: 0;
-		margin: 0;
-		overflow: auto;
-		transition: all ease-out .2s;
+        position: absolute;
+        top: @toolbarBtnSize;
+        left: @toolbarBtnSize;
+        right: 0;
+        margin: 0;
+        overflow: auto;
+        transition: all ease-out .2s;
 
-		.list-group-item {
+        .list-group-item {
 
-			border-color: @gray #fff;
-			height: @geocodeResultItemHeight;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-	}
+            border-color: @gray #fff;
+            height: @geocodeResultItemHeight;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
 }
 
 @media screen and ( max-height: (@geocodeWidgetTop + @toolbarBtnSize + (5 * @geocodeResultItemHeight))  ) {
 
-	#geocode_widget,
-	.results {
+    #geocode_widget,
+    .results {
 
-		bottom: 0;
-	}
+        bottom: 0;
+    }
 }

@@ -10,10 +10,11 @@ We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
 
 ### Installation
 
-	$ sudo npm install -g grunt grunt-cli bower
-	$ npm install
-	$ bower install
-	$ grunt
+    $ git clone git@github.com:MapContrib/MapContrib.git
+    $ sudo npm install -g grunt grunt-cli bower
+    $ npm install
+    $ bower install
+    $ grunt
 
 
 ### Branches
@@ -23,7 +24,7 @@ We use [Git Flow](https://github.com/nvie/gitflow) to manage our branches. It me
 
 ### Database
 
-We use MongoDB, go to the `db` directory and execute `import_database.sh`. It will create a database called **rudomap**.
+We use MongoDB, go to the `db` directory and execute `import_database.sh`. It will create a database called **mapcontrib**.
 
 ### Automatic tasks
 
@@ -31,12 +32,12 @@ A Grunt task watch the files modifications and generate CSS from Less, JST templ
 
 You just need to launch:
 
-	$ grunt watch
+    $ grunt watch
 
 
 The server have to be launched with the command:
 
-	$ node src/server.js
+    $ node src/server.js
 
 It serves static files and provide the REST API.
 
@@ -45,7 +46,7 @@ It serves static files and provide the REST API.
 
 When your done, you can build a minified version of all the Javascript files and clean up a bit the folders by launching:
 
-	$ grunt build
+    $ grunt build
 
 A new directory called **dist** will contain your shiny new MapContrib.
 

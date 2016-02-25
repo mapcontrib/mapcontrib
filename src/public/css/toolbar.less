@@ -3,152 +3,152 @@
 
 .toolbar {
 
-	position: fixed;
-	width: @toolbarBtnSize;
-	z-index: @toolbarZIndex;
-	transition: transform ease-out .2s;
+    position: fixed;
+    width: @toolbarBtnSize;
+    z-index: @toolbarZIndex;
+    transition: transform ease-out .2s;
 
-	&.left {
+    &.left {
 
-		left: 0;
-		transform: translate(-100%, 0);
-	}
+        left: 0;
+        transform: translate(-100%, 0);
+    }
 
-	&.right {
+    &.right {
 
-		right: 0;
-		transform: translate(100%, 0);
-	}
+        right: 0;
+        transform: translate(100%, 0);
+    }
 
-	&.open {
+    &.open {
 
-		transform: translate(0, 0);
-	}
+        transform: translate(0, 0);
+    }
 
-	.btn {
+    .btn {
 
-		width: @toolbarBtnSize;
-		height: @toolbarBtnSize;
-		font-size: 25px;
-		line-height: 25px;
-		padding: 0;
-		border-radius: 0;
-	}
+        width: @toolbarBtnSize;
+        height: @toolbarBtnSize;
+        font-size: 25px;
+        line-height: 25px;
+        padding: 0;
+        border-radius: 0;
+    }
 }
 
 
 #control_toolbar {
 
-	z-index: @toolbarControlZIndex;
-	top: @titleHeight;
+    z-index: @toolbarControlZIndex;
+    top: @titleHeight;
 
-	.btn {
+    .btn {
 
-		color: @anthracite;
-		background: #fff;
-	}
+        color: @anthracite;
+        background: #fff;
+    }
 
-	.zoom_in_btn.glow {
+    .zoom_in_btn.glow {
 
-		i {
+        i {
 
-			animation-duration: 4s;
-			animation-fill-mode: both;
-			animation-iteration-count: infinite;
-			animation-name: glow;
-		}
-	}
+            animation-duration: 4s;
+            animation-fill-mode: both;
+            animation-iteration-count: infinite;
+            animation-name: glow;
+        }
+    }
 }
 
 @keyframes glow {
 
-	50% {
+    50% {
 
-		color: @lightBlue;
-	}
+        color: @lightBlue;
+    }
 }
 
 
 #help_toolbar {
 
-	bottom: 0;
+    bottom: 0;
 
-	&.on_top {
+    &.on_top {
 
-		z-index: @modalZIndex + 1;
-	}
+        z-index: @modalZIndex + 1;
+    }
 
-	.help_btn {
+    .help_btn {
 
-		background: #fff;
-		color: @blue;
-	}
+        background: #fff;
+        color: @blue;
+    }
 }
 
 
 #user_toolbar {
 
-	top: @titleHeight;
+    top: @titleHeight;
 
-	.btn {
+    .btn {
 
-		color: #fff;
-	}
+        color: #fff;
+    }
 
-	.login_btn {
+    .login_btn {
 
-		background: @blue;
-	}
+        background: @blue;
+    }
 
-	.user_btn {
+    .user_btn {
 
-		background: @blue;
-		font-weight: bold;
+        background: @blue;
+        font-weight: bold;
 
-		&.avatar {
+        &.avatar {
 
-			border: none;
-			padding: 0;
-			overflow: hidden;
+            border: none;
+            padding: 0;
+            overflow: hidden;
 
-			img {
+            img {
 
-				max-height: 100%;
-			}
-		}
-	}
+                max-height: 100%;
+            }
+        }
+    }
 
-	.link_btn {
+    .link_btn {
 
-		background: @lightGreen;
-	}
+        background: @lightGreen;
+    }
 
-	.contrib_btn {
+    .contrib_btn {
 
-		background: @red;
-	}
+        background: @red;
+    }
 
-	.edit_btn {
+    .edit_btn {
 
-		background: @orange;
-	}
+        background: @orange;
+    }
 }
 
 
 #edit_toolbar {
 
-	z-index: @toolbarZIndex;
-	top: @titleHeight + (@toolbarBtnSize * 4) + 9;
+    z-index: @toolbarZIndex;
+    top: @titleHeight + (@toolbarBtnSize * 4) + 9;
 
-	.btn {
+    .btn {
 
-		color: #fff;
-	}
+        color: #fff;
+    }
 
-	.setting_btn,
-	.poi_btn,
-	.tile_btn {
+    .setting_btn,
+    .poi_btn,
+    .tile_btn {
 
-		background: @orange;
-	}
+        background: @orange;
+    }
 }

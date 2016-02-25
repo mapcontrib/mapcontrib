@@ -2,535 +2,524 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
-	'settings',
-	'osm-auth',
-	'view/contributionErrorNotification',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
+    'settings',
+    'osm-auth',
+    'view/contributionErrorNotification',
+    'helper/osmEdit',
+    'const',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates,
-	settings,
-	osmAuth,
-	ContributionErrorNotificationView
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates,
+    settings,
+    osmAuth,
+    ContributionErrorNotificationView,
+    OsmEditHelper,
+    CONST
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.LayoutView.extend({
+    return Marionette.LayoutView.extend({
 
-		template: JST['editPoiDataColumn.html'],
-		templateField: JST['editPoiDataField.html'],
+        template: JST['editPoiDataColumn.html'],
+        templateField: JST['editPoiDataField.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'column': {},
-		},
+            'l20n': {},
+            'column': {},
+        },
 
-		ui: {
+        ui: {
 
-			'column': '#edit_poi_data_column',
-			'fields': '.fields',
-			'footer': '.sticky-footer',
-			'footerButtons': '.sticky-footer button',
-		},
+            'column': '#edit_poi_data_column',
+            'fields': '.fields',
+            'footer': '.sticky-footer',
+            'footerButtons': '.sticky-footer button',
+        },
 
-		events: {
+        events: {
 
-			'submit': 'onSubmit',
-			'reset': 'onReset',
-		},
+            'submit': 'onSubmit',
+            'reset': 'onReset',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
+            this._radio = Backbone.Wreqr.radio.channel('global');
 
-			if ( !this._radio.reqres.request('var', 'isLogged') ) {
+            if ( !this._radio.reqres.request('var', 'isLogged') ) {
 
-				return false;
-			}
+                return false;
+            }
 
-			var self = this;
+            var self = this;
 
-			this._user = this._radio.reqres.request('model', 'user');
+            this._user = this._radio.reqres.request('model', 'user');
 
-			this._unresolvedConflicts = 0;
+            this._unresolvedConflicts = 0;
 
-			this._auth = osmAuth({
+            this._auth = osmAuth({
 
-				'oauth_consumer_key': settings.oauthConsumerKey,
-				'oauth_secret': settings.oauthSecret,
-				'oauth_token': this._user.get('token'),
-				'oauth_token_secret': this._user.get('tokenSecret'),
-			});
-		},
+                'oauth_consumer_key': settings.oauthConsumerKey,
+                'oauth_secret': settings.oauthSecret,
+                'oauth_token': this._user.get('token'),
+                'oauth_token_secret': this._user.get('tokenSecret'),
+            });
 
-		open: function () {
+            this._osmEdit = new OsmEditHelper( this._auth );
+            this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+            this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
+            this._osmEdit.setUid(this._user.get('osmId'));
+            this._osmEdit.setDisplayName(this._user.get('displayName'));
+        },
 
-			this._radio.vent.trigger('column:closeAll');
-			this._radio.vent.trigger('widget:closeAll');
+        onBeforeOpen: function () {
 
-			this.triggerMethod('open');
-		},
+            this._radio.vent.trigger('column:closeAll');
+            this._radio.vent.trigger('widget:closeAll');
+        },
 
-		close: function () {
+        open: function () {
 
-			this.triggerMethod('close');
-		},
+            this.triggerMethod('open');
+        },
 
-		onRender: function () {
+        close: function () {
 
-			if ( !this.options.poiLayerModel.get('dataEditable') ) {
+            this.triggerMethod('close');
+        },
 
-				return this;
-			}
+        onRender: function () {
 
-			if ( !this._radio.reqres.request('var', 'isLogged') ) {
+            if ( !this.options.poiLayerModel.get('dataEditable') ) {
 
-				return this;
-			}
+                return this;
+            }
 
-			var popupTag,
-			self = this,
-			html = '',
-			dataFromOSM = this.options.dataFromOSM,
-			poiLayerModel = this.options.poiLayerModel,
-			popupContent = poiLayerModel.get('popupContent'),
-			re = new RegExp('{(.*?)}', 'g'),
-			popupTags = popupContent.match(re);
+            if ( !this._radio.reqres.request('var', 'isLogged') ) {
 
+                return this;
+            }
 
-			this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, function (remoteData) {
+            var popupTag,
+            self = this,
+            html = '',
+            dataFromOSM = this.options.dataFromOSM,
+            poiLayerModel = this.options.poiLayerModel,
+            popupContent = poiLayerModel.get('popupContent'),
+            re = new RegExp('{(.*?)}', 'g'),
+            popupTags = popupContent.match(re);
 
-				self._remoteData = remoteData;
 
-				for (var i in popupTags) {
+            this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, function (remoteData) {
 
-					popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
-					popupTag = popupTags[i];
+                self._remoteData = remoteData;
 
-					html += self.templateField({
+                if ( popupTags) {
 
-						'tag': popupTag,
-						'value': dataFromOSM.tags[popupTag],
-						'remoteValue': '',
-					});
-				}
+                    for (var i in popupTags) {
 
-				self.ui.fields.html( html );
+                        popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
+                        popupTag = popupTags[i];
 
-				html = '';
+                        html += self.templateField({
 
-				for (var tag in remoteData.tags) {
+                            'tag': popupTag,
+                            'value': dataFromOSM.tags[popupTag],
+                            'remoteValue': '',
+                        });
+                    }
+                }
 
-					var value = remoteData.tags[ tag ];
+                self.ui.fields.html( html );
 
-					if ( popupTags.indexOf(tag) > -1 ) {
+                html = '';
 
-						continue;
-					}
+                for (var tag in remoteData.tags) {
 
-					html += self.templateField({
+                    var value = remoteData.tags[ tag ];
 
-						'tag': tag,
-						'value': value,
-						'remoteValue': '',
-					});
-				}
+                    if ( popupTags && popupTags.indexOf(tag) > -1 ) {
 
-				if ( html ) {
+                        continue;
+                    }
 
-					self.ui.fields.append( '<hr>' + html );
-				}
+                    html += self.templateField({
 
-				self.ui.footer.removeClass('hide');
+                        'tag': tag,
+                        'value': value,
+                        'remoteValue': '',
+                    });
+                }
 
-				document.l10n.localizeNode( self.ui.fields[0] );
-			});
-		},
+                if ( html ) {
 
-		getRemoteEntityData: function ( id, type, callback ) {
+                    self.ui.fields.append( '<hr>' + html );
+                }
 
-			var self = this;
+                self.ui.footer.removeClass('hide');
 
-			$.ajax({
+                document.l10n.localizeNode( self.ui.fields[0] );
+            });
+        },
 
-				'method': 'GET',
-				'dataType': 'xml',
-				'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
-				'success': function (xml, jqXHR, textStatus) {
+        getRemoteEntityData: function ( id, type, callback ) {
 
-					var key, value,
-					parentElement = xml.getElementsByTagName(type)[0],
-					tags = xml.documentElement.getElementsByTagName('tag'),
-					version = parseInt( parentElement.getAttribute('version') ),
-					result = {
+            var self = this;
 
-						'version': version,
-						'tags': {},
-						'xml': xml
-					},
-					contributionKey = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
-					contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
+            $.ajax({
 
-					if ( contributions[ contributionKey ] ) {
+                'method': 'GET',
+                'dataType': 'xml',
+                'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
+                'success': function (xml, jqXHR, textStatus) {
 
-						if ( version >= contributions[ contributionKey ].version ) {
+                    var key, value,
+                    parentElement = xml.getElementsByTagName(type)[0],
+                    tags = xml.documentElement.getElementsByTagName('tag'),
+                    version = parseInt( parentElement.getAttribute('version') ),
+                    result = {
 
-							delete contributions[ contributionKey ];
+                        'version': version,
+                        'tags': {},
+                        'xml': xml
+                    },
+                    contributionKey = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
+                    contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
 
-							localStorage.setItem('contributions', JSON.stringify( contributions ));
-						}
-						else {
+                    if ( contributions[ contributionKey ] ) {
 
-							self.options.dataFromOSM = contributions[ contributionKey ];
-						}
-					}
+                        if ( version >= contributions[ contributionKey ].version ) {
 
+                            delete contributions[ contributionKey ];
 
-					for (var j in tags) {
+                            localStorage.setItem('contributions', JSON.stringify( contributions ));
+                        }
+                        else {
 
-						if ( tags[j].getAttribute ) {
+                            self.options.dataFromOSM = contributions[ contributionKey ];
+                        }
+                    }
 
-							key = tags[j].getAttribute('k');
-							value = tags[j].getAttribute('v');
 
-							result.tags[ key ] = value;
-						}
-					}
+                    for (var j in tags) {
 
-					callback( result );
-				},
-				'error': function (jqXHR, textStatus, error) {
+                        if ( tags[j].getAttribute ) {
 
-					console.error('FIXME');
-				},
-			});
-		},
+                            key = tags[j].getAttribute('k');
+                            value = tags[j].getAttribute('v');
 
-		onSubmit: function (e) {
+                            result.tags[ key ] = value;
+                        }
+                    }
 
-			var self = this;
+                    callback( result );
+                },
+                'error': function (jqXHR, textStatus, error) {
 
-			e.preventDefault();
+                    console.error('FIXME');
+                },
+            });
+        },
 
-			if ( !this._radio.reqres.request('var', 'isLogged') ) {
+        onSubmit: function (e) {
 
-				return false;
-			}
+            var self = this;
 
-			this.ui.footerButtons.prop('disabled', true);
+            e.preventDefault();
 
-			this.getRemoteEntityData(
+            if ( !this._radio.reqres.request('var', 'isLogged') ) {
 
-				this.options.dataFromOSM.id,
-				this.options.dataFromOSM.type,
-				function (remoteData) {
+                return false;
+            }
 
-					if ( self._remoteData.version !== remoteData.version ) {
+            this.ui.footerButtons.prop('disabled', true);
 
-						self.displayConflict( remoteData );
-					}
-					else {
+            this.getRemoteEntityData(
 
-						self.prepareXml( remoteData );
-					}
-				}
-			);
-		},
+                this.options.dataFromOSM.id,
+                this.options.dataFromOSM.type,
+                function (remoteData) {
 
-		prepareXml: function ( remoteData ) {
+                    if ( self._remoteData.version !== remoteData.version ) {
 
-			var tag, value,
-			self = this,
-			parentElement = remoteData.xml.getElementsByTagName(this.options.dataFromOSM.type)[0],
-			tags = remoteData.xml.documentElement.getElementsByTagName('tag'),
-			remoteTags = {};
+                        self.displayConflict( remoteData );
+                    }
+                    else {
 
-			for (var i in tags) {
+                        self.prepareXml( remoteData );
+                    }
+                }
+            );
+        },
 
-				if ( tags[i].getAttribute ) {
+        prepareXml: function ( remoteData ) {
 
-					remoteTags[ tags[i].getAttribute('k') ] = tags[i];
-				}
-			}
+            var tag, value,
+            self = this,
+            parentElement = remoteData.xml.getElementsByTagName(this.options.dataFromOSM.type)[0],
+            tags = remoteData.xml.documentElement.getElementsByTagName('tag'),
+            remoteTags = {};
 
-			this.ui.fields
-			.find('input.form-control')
-			.each(function (i, input) {
+            for (var i in tags) {
 
-				tag = $(input).data('tag');
-				value = input.value;
+                if ( tags[i].getAttribute ) {
 
-				if ( !value ) {
+                    remoteTags[ tags[i].getAttribute('k') ] = tags[i];
+                }
+            }
 
-					if ( typeof remoteTags[tag] != 'undefined' ) {
+            this.ui.fields
+            .find('input.form-control')
+            .each(function (i, input) {
 
-						parentElement.removeChild( remoteTags[tag] );
+                tag = $(input).data('tag');
+                value = input.value;
 
-						delete self.options.dataFromOSM.tags[tag];
-					}
+                if ( !value ) {
 
-					return;
-				}
+                    if ( typeof remoteTags[tag] != 'undefined' ) {
 
-				if ( remoteTags[tag] ) {
+                        parentElement.removeChild( remoteTags[tag] );
 
-					remoteTags[tag].setAttribute('v', value);
-				}
-				else {
+                        delete self.options.dataFromOSM.tags[tag];
+                    }
 
-					var newTag = remoteData.xml.createElement('tag');
+                    return;
+                }
 
-					newTag.setAttribute('k', tag);
-					newTag.setAttribute('v', value);
+                if ( remoteTags[tag] ) {
 
-					parentElement.appendChild(newTag);
-				}
+                    remoteTags[tag].setAttribute('v', value);
+                }
+                else {
 
-				self.options.dataFromOSM.tags[tag] = value;
-			});
+                    var newTag = remoteData.xml.createElement('tag');
 
+                    newTag.setAttribute('k', tag);
+                    newTag.setAttribute('v', value);
 
-			this.getChangesetId(function (changesetId) {
+                    parentElement.appendChild(newTag);
+                }
 
-				self.sendXml( remoteData.xml, changesetId );
-			});
-		},
+                self.options.dataFromOSM.tags[tag] = value;
+            });
 
 
-		displayConflict: function ( remoteData ) {
+            this.getChangesetId(function (changesetId) {
 
-			var tag, value, newField,
-			self = this,
-			html = '';
+                self.sendXml( remoteData.xml, changesetId );
+            });
+        },
 
-			this._radio.commands.execute('modal:showConflict');
 
-			this.ui.fields
-			.find('.form-group')
-			.each(function (i, field) {
+        displayConflict: function ( remoteData ) {
 
-				self.displayFeedbackOnField(field, remoteData);
-			});
+            var tag, value, newField,
+            self = this,
+            html = '';
 
+            this._radio.commands.execute('modal:showConflict');
 
-			for (tag in remoteData.tags) {
+            this.ui.fields
+            .find('.form-group')
+            .each(function (i, field) {
 
-				value = remoteData.tags[ tag ];
+                self.displayFeedbackOnField(field, remoteData);
+            });
 
-				if ( this._remoteData.tags[tag] ) {
 
-					continue;
-				}
+            for (tag in remoteData.tags) {
 
-				html = this.templateField({
+                value = remoteData.tags[ tag ];
 
-					'tag': tag,
-					'value': '',
-					'remoteValue': value,
-				});
+                if ( this._remoteData.tags[tag] ) {
 
-				newField = $( html ).appendTo( this.ui.fields );
+                    continue;
+                }
 
-				this.displayFeedbackOnField(newField, remoteData);
-			}
+                html = this.templateField({
 
-			this._remoteData = remoteData;
+                    'tag': tag,
+                    'value': '',
+                    'remoteValue': value,
+                });
 
-			if ( this._unresolvedConflicts === 0 ) {
+                newField = $( html ).appendTo( this.ui.fields );
 
-				this.ui.footerButtons.prop('disabled', false);
-			}
-		},
+                this.displayFeedbackOnField(newField, remoteData);
+            }
 
+            this._remoteData = remoteData;
 
-		displayFeedbackOnField: function (field, remoteData) {
+            if ( this._unresolvedConflicts === 0 ) {
 
-			var self = this,
-			$input = $('input.form-control', field),
-			tag = $input.data('tag'),
-			value = $input.val(),
-			remoteValue = remoteData.tags[tag] ? remoteData.tags[tag] : '';
+                this.ui.footerButtons.prop('disabled', false);
+            }
+        },
 
-			if ( value !== remoteValue ) {
 
-				this._unresolvedConflicts++;
+        displayFeedbackOnField: function (field, remoteData) {
 
-				$('.remote_value', field).html(
+            var self = this,
+            $input = $('input.form-control', field),
+            tag = $input.data('tag'),
+            value = $input.val(),
+            remoteValue = remoteData.tags[tag] ? remoteData.tags[tag] : '';
 
-					document.l10n.getSync('editPoiDataColumn_remoteValue', {
+            if ( value !== remoteValue ) {
 
-						'remoteValue': remoteValue ? remoteValue : '<em>'+ document.l10n.getSync('empty') +'</em>'
-					})
-				);
+                this._unresolvedConflicts++;
 
-				$(field).addClass('has-warning has-feedback');
-				$('.merge_feedback', field).removeClass('hide');
+                $('.remote_value', field).html(
 
-				$('.take_btn', field).click( self.onClickTake.bind(this, field, $input, remoteValue) );
+                    document.l10n.getSync('editPoiDataColumn_remoteValue', {
 
-				$('.reject_btn', field).click( self.onClickReject.bind(this, field) );
-			}
-		},
+                        'remoteValue': remoteValue ? remoteValue : '<em>'+ document.l10n.getSync('empty') +'</em>'
+                    })
+                );
 
+                $(field).addClass('has-warning has-feedback');
+                $('.merge_feedback', field).removeClass('hide');
 
-		onClickTake: function (field, $input, remoteValue) {
+                $('.take_btn', field).click( self.onClickTake.bind(this, field, $input, remoteValue) );
 
-			$input.val(remoteValue);
+                $('.reject_btn', field).click( self.onClickReject.bind(this, field) );
+            }
+        },
 
-			$(field).removeClass('has-warning has-feedback');
-			$('.merge_feedback', field).addClass('hide');
 
-			if ( --this._unresolvedConflicts === 0 ) {
+        onClickTake: function (field, $input, remoteValue) {
 
-				this.ui.footerButtons.prop('disabled', false);
-			}
-		},
+            $input.val(remoteValue);
 
+            $(field).removeClass('has-warning has-feedback');
+            $('.merge_feedback', field).addClass('hide');
 
-		onClickReject: function (field) {
+            if ( --this._unresolvedConflicts === 0 ) {
 
-			$(field).removeClass('has-warning has-feedback');
-			$('.merge_feedback', field).addClass('hide');
+                this.ui.footerButtons.prop('disabled', false);
+            }
+        },
 
-			if ( --this._unresolvedConflicts === 0 ) {
 
-				this.ui.footerButtons.prop('disabled', false);
-			}
-		},
+        onClickReject: function (field) {
 
+            $(field).removeClass('has-warning has-feedback');
+            $('.merge_feedback', field).addClass('hide');
 
-		getChangesetId: function ( callback ) {
+            if ( --this._unresolvedConflicts === 0 ) {
 
-			var self = this,
-			changesetId = sessionStorage.getItem('changesetId'),
-			xmlChangeset = '<osm><changeset><tag k="created_by" v="Rudomap"/><tag k="comment" v="Test from Rudomap (developpement in progress)"/></changeset></osm>';
+                this.ui.footerButtons.prop('disabled', false);
+            }
+        },
 
-			if ( changesetId ) {
 
-				this._auth.xhr({
+        getChangesetId: function ( callback ) {
 
-					'method': 'GET',
-					'path': '/api/0.6/changeset/'+ changesetId,
-					'options': { 'header': { 'Content-Type': 'text/xml' } }
-				},
-				function(err, xml) {
+            var self = this,
+            changesetId = sessionStorage.getItem('changesetId'),
+            changesetXml = this._osmEdit._buildChangesetXml();
 
-					if (err) {
+            if ( changesetId ) {
 
-						sessionStorage.removeItem('changesetId');
+                this._osmEdit._isChangesetStillOpen(changesetId)
+                .then(function (changesetId) {
 
-						self.getChangesetId( callback );
+                    callback(changesetId);
+                })
+                .catch(function (err) {
 
-						return;
-					}
+                    sessionStorage.removeItem('changesetId');
+                    self.getChangesetId(callback);
+                });
+            }
+            else {
 
-					var isOpened = xml.getElementsByTagName('changeset')[0].getAttribute('open');
+                this._osmEdit._createChangeset()
+                .then(function (changesetId) {
 
-					if (isOpened === "false") {
+                    sessionStorage.setItem('changesetId', changesetId);
+                    callback(changesetId);
+                })
+                .catch(function (err) {
 
-						sessionStorage.removeItem('changesetId');
+                    console.log('ERROR on put changeset: ' + err.response);
+                    sessionStorage.removeItem('changesetId');
+                    self.getChangesetId(callback);
+                });
+            }
+        },
 
-						self.getChangesetId( callback );
+        sendXml: function (xml, changesetId) {
 
-						return;
-					}
+            var data,
+            self = this,
+            id = this.options.dataFromOSM.id,
+            type = this.options.dataFromOSM.type,
+            parentElement = xml.getElementsByTagName(type)[0],
+            version = parseInt( parentElement.getAttribute('version') ),
+            serializer = new XMLSerializer();
 
-					callback(changesetId);
-				});
-			}
-			else {
+            parentElement.setAttribute('changeset', changesetId);
+            parentElement.setAttribute('timestamp', new Date().toISOString());
+            parentElement.setAttribute('uid', this._user.get('osmId'));
+            parentElement.setAttribute('display_name', this._user.get('displayName'));
+            parentElement.removeAttribute('user');
 
-				this._auth.xhr({
+            data = serializer.serializeToString(xml);
 
-					'method': 'PUT',
-					'path': '/api/0.6/changeset/create',
-					'options': { 'header': { 'Content-Type': 'text/xml' } },
-					'content': xmlChangeset
-				},
-				function(err, changesetId) {
 
-					if (err) {
+            this._auth.xhr({
 
-						console.log('ERROR on put changeset: ' + err.response);
-						return;
-					}
+                'method': 'PUT',
+                'path': '/api/0.6/'+ type +'/'+ id,
+                'options': { 'header': { 'Content-Type': 'text/xml' } },
+                'content': data,
+            },
+            function(err, res) {
 
-					sessionStorage.setItem('changesetId', changesetId);
+                if (err) {
 
-					callback(changesetId);
-				});
-			}
-		},
+                    var notification = new ContributionErrorNotificationView({ 'retryCallback': self.sendXml.bind(self, xml, changesetId) });
 
-		sendXml: function (xml, changesetId) {
+                    $('body').append( notification.el );
 
-			var data,
-			self = this,
-			id = this.options.dataFromOSM.id,
-			type = this.options.dataFromOSM.type,
-			parentElement = xml.getElementsByTagName(type)[0],
-			version = parseInt( parentElement.getAttribute('version') ),
-			serializer = new XMLSerializer();
+                    notification.open();
 
-			parentElement.setAttribute('changeset', changesetId);
-			parentElement.setAttribute('timestamp', new Date().toISOString());
-			parentElement.setAttribute('uid', this._user.get('osmId'));
-			parentElement.setAttribute('display_name', this._user.get('displayName'));
-			parentElement.removeAttribute('user', this._user.get('displayName'));
+                    return;
+                }
 
-			data = serializer.serializeToString(xml);
+                self._radio.commands.execute('map:updatePoiPopup', self.options.poiLayerModel, self.options.dataFromOSM);
 
 
-			this._auth.xhr({
+                var key = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
+                contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
 
-				'method': 'PUT',
-				'path': '/api/0.6/'+ type +'/'+ id,
-				'options': { 'header': { 'Content-Type': 'text/xml' } },
-				'content': data,
-			},
-			function(err, res) {
+                self.options.dataFromOSM.version++;
 
-				if (err) {
+                contributions[ key ] = self.options.dataFromOSM;
 
-					var notification = new ContributionErrorNotificationView({ 'retryCallback': self.sendXml.bind(self, xml, changesetId) });
+                localStorage.setItem( 'contributions', JSON.stringify( contributions ) );
+            });
 
-					$('body').append( notification.el );
+            this.close();
+        },
 
-					notification.open();
+        onReset: function () {
 
-					return;
-				}
-
-				self._radio.commands.execute('map:updatePoiPopup', self.options.poiLayerModel, self.options.dataFromOSM);
-
-
-				var key = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
-				contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
-
-				self.options.dataFromOSM.version++;
-
-				contributions[ key ] = self.options.dataFromOSM;
-
-				localStorage.setItem( 'contributions', JSON.stringify( contributions ) );
-			});
-
-			this.close();
-		},
-
-		onReset: function () {
-
-			this.close();
-		},
-	});
+            this.close();
+        },
+    });
 });

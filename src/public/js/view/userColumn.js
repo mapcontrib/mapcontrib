@@ -2,62 +2,65 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'marionette',
-	'bootstrap',
-	'templates',
+    'underscore',
+    'backbone',
+    'marionette',
+    'bootstrap',
+    'templates',
 ],
 function (
 
-	_,
-	Backbone,
-	Marionette,
-	Bootstrap,
-	templates
+    _,
+    Backbone,
+    Marionette,
+    Bootstrap,
+    templates
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.LayoutView.extend({
+    return Marionette.LayoutView.extend({
 
-		template: JST['userColumn.html'],
+        template: JST['userColumn.html'],
 
-		behaviors: {
+        behaviors: {
 
-			'l20n': {},
-			'column': {},
-		},
+            'l20n': {},
+            'column': {},
+        },
 
-		ui: {
+        ui: {
 
-			'column': '#user_column',
-			'logoutItem': '.logout_item',
-		},
+            'column': '#user_column',
+            'logoutItem': '.logout_item',
+        },
 
-		events: {
+        events: {
 
-			'click @ui.logoutItem': 'close',
-		},
+            'click @ui.logoutItem': 'close',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
-		},
+            this._radio = Backbone.Wreqr.radio.channel('global');
+        },
 
-		open: function () {
+        onBeforeOpen: function () {
 
-			this._radio.vent.trigger('column:closeAll');
-			this._radio.vent.trigger('widget:closeAll');
+            this._radio.vent.trigger('column:closeAll');
+            this._radio.vent.trigger('widget:closeAll');
+        },
 
-			this.triggerMethod('open');
-		},
+        open: function () {
 
-		close: function () {
+            this.triggerMethod('open');
+        },
 
-			this.triggerMethod('close');
-		},
-	});
+        close: function () {
+
+            this.triggerMethod('close');
+        },
+    });
 });

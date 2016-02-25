@@ -2,78 +2,80 @@
 
 define([
 
-	'underscore',
-	'backbone',
-	'settings',
+    'underscore',
+    'backbone',
+    'settings',
+    'ui/map',
 ],
 function (
 
-	_,
-	Backbone,
-	settings
+    _,
+    Backbone,
+    settings,
+    MapUi
 ) {
 
-	'use strict';
+    'use strict';
 
-	return Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
 
-		template: JST['editPoiLayerListItem.html'],
+        template: JST['editPoiLayerListItem.html'],
 
-		tagName: 'a',
+        tagName: 'a',
 
-		className: 'list-group-item',
+        className: 'list-group-item',
 
-		attributes: {
+        attributes: {
 
-			'href': '#',
-		},
+            'href': '#',
+        },
 
-		modelEvents: {
+        modelEvents: {
 
-			'change': 'render'
-		},
+            'change': 'render'
+        },
 
-		ui: {
+        ui: {
 
-			'remove_btn': '.remove_btn'
-		},
+            'remove_btn': '.remove_btn'
+        },
 
-		events: {
+        events: {
 
-			'click': 'onClick',
-			'click @ui.remove_btn': 'onClickRemove',
-		},
+            'click': 'onClick',
+            'click @ui.remove_btn': 'onClickRemove',
+        },
 
-		initialize: function () {
+        initialize: function () {
 
-			var self = this;
+            var self = this;
 
-			this._radio = Backbone.Wreqr.radio.channel('global');
-		},
+            this._radio = Backbone.Wreqr.radio.channel('global');
+        },
 
-		templateHelpers: function () {
+        templateHelpers: function () {
 
-			return {
+            return {
 
-				'marker': this._radio.reqres.request('poiLayerHtmlIcon', this.model),
-			};
-		},
+                'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
+            };
+        },
 
-		onRender: function () {
+        onRender: function () {
 
-			this.el.id = 'poi-layer-'+ this.model.cid;
-		},
+            this.el.id = 'poi-layer-'+ this.model.cid;
+        },
 
-		onClick: function () {
+        onClick: function () {
 
-			this._radio.commands.execute( 'column:showPoiLayer', this.model );
-		},
+            this._radio.commands.execute( 'column:showPoiLayer', this.model );
+        },
 
-		onClickRemove: function (e) {
+        onClickRemove: function (e) {
 
-			e.stopPropagation();
+            e.stopPropagation();
 
-			this.model.destroy();
-		},
-	});
+            this.model.destroy();
+        },
+    });
 });

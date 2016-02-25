@@ -1,243 +1,243 @@
 
 module.exports = function(grunt) {
 
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-jst');
-	grunt.loadNpmTasks('grunt-contrib-requirejs');
-	grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-jst');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-concat');
 
 
 
-	grunt.initConfig({
+    grunt.initConfig({
 
-		pkg: grunt.file.readJSON('package.json'),
+        pkg: grunt.file.readJSON('package.json'),
 
-		clean: {
+        clean: {
 
-			build: [
+            build: {
 
-				'dist/public/bower_components',
-				'dist/public/css',
-				'dist/public/fonts',
-				'dist/public/img',
-				'dist/public/index.html',
-				'dist/public/js',
-				'dist/public/locale',
-				'dist/public/templates',
-				'dist/server.js',
-			]
-		},
+                options: {
 
-		copy: {
+                    force: true,
+                },
+                src: [
 
-			requirejs: {
+                    '!dist/*/*',
+                    '!dist/upload',
+                ],
+            }
+        },
 
-				src: 'src/public/bower_components/requirejs/require.js',
-				dest: 'src/public/js/require.js'
-			},
+        copy: {
 
-			font_awesome: {
+            requirejs: {
 
-				expand: true,
-				cwd: 'src/public/bower_components/font-awesome/fonts',
-				src: [
+                src: 'src/public/bower_components/requirejs/require.js',
+                dest: 'src/public/js/require.js'
+            },
 
-					'*'
-				],
-				dest: 'src/public/fonts/'
-			},
+            font_awesome: {
 
-			ionicons: {
+                expand: true,
+                cwd: 'src/public/bower_components/font-awesome/fonts',
+                src: [
 
-				expand: true,
-				cwd: 'src/public/bower_components/ionicons/fonts',
-				src: [
+                    '*'
+                ],
+                dest: 'src/public/fonts/'
+            },
 
-					'*'
-				],
-				dest: 'src/public/fonts/'
-			},
-		},
+            ionicons: {
 
-		concat: {
+                expand: true,
+                cwd: 'src/public/bower_components/ionicons/fonts',
+                src: [
 
-			libraries_css: {
+                    '*'
+                ],
+                dest: 'src/public/fonts/'
+            },
+        },
 
-				options: {
+        concat: {
 
-					separator: '\n',
-				},
-				src: [
-					'src/public/bower_components/font-awesome/css/font-awesome.min.css',
-					'src/public/bower_components/ionicons/css/ionicons.min.css',
-					'src/public/bower_components/bootstrap/dist/css/bootstrap.min.css',
-					'src/public/bower_components/bootstrap-more/bootstrap-more.css',
-					'src/public/bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
-					'src/public/bower_components/leaflet/dist/leaflet.css',
-				],
-				dest: 'src/public/css/libraries.css'
-			}
-		},
+            libraries_css: {
 
-		less: {
+                options: {
 
-			default: {
+                    separator: '\n',
+                },
+                src: [
+                    'src/public/bower_components/font-awesome/css/font-awesome.min.css',
+                    'src/public/bower_components/ionicons/css/ionicons.min.css',
+                    'src/public/bower_components/bootstrap/dist/css/bootstrap.min.css',
+                    'src/public/bower_components/bootstrap-more/bootstrap-more.css',
+                    'src/public/bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
+                    'src/public/bower_components/leaflet/dist/leaflet.css',
+                ],
+                dest: 'src/public/css/libraries.css'
+            }
+        },
 
-				options: {
+        less: {
 
-					plugins: [
+            default: {
 
-						new (require('less-plugin-autoprefix'))({ 'browsers': ['last 4 versions'] }),
-					],
-				},
-				files: {
+                options: {
 
-					'src/public/css/app.css': 'src/public/css/app.less',
-				}
-			},
-		},
+                    plugins: [
 
-		jshint: {
+                        new (require('less-plugin-autoprefix'))({ 'browsers': ['last 4 versions'] }),
+                    ],
+                },
+                files: {
 
-			options: {
+                    'src/public/css/app.css': 'src/public/css/app.less',
+                }
+            },
+        },
 
-				'laxbreak': true, // W014
-				ignores: [
+        jshint: {
 
-					'src/public/js/require.js'
-				]
-			},
+            options: {
 
-			files: [
+                'laxbreak': true, // W014
+                ignores: [
 
-				'src/public/js/**/*.js',
-			]
-		},
+                    'src/public/js/require.js'
+                ]
+            },
 
-		jst: {
+            files: [
 
-			compile: {
+                'src/public/js/**/*.js',
+            ]
+        },
 
-				options: {
+        jst: {
 
-					processName: function(filename) {
+            compile: {
 
-						filename = filename.replace(/src\/public\/templates\//g, '');
+                options: {
 
-						return filename;
-					}
-				},
-				files: {
+                    processName: function(filename) {
 
-					'src/public/templates/templates.js': ['src/public/templates/**/*.html'],
-				}
-			},
-		},
+                        filename = filename.replace(/src\/public\/templates\//g, '');
 
-		requirejs: {
+                        return filename;
+                    }
+                },
+                files: {
 
-			build: {
+                    'src/public/templates/templates.js': ['src/public/templates/**/*.html'],
+                }
+            },
+        },
 
-				options: {
+        requirejs: {
 
-					appDir: 'src',
-					baseUrl: 'public/js',
-					dir: 'dist',
-					mainConfigFile: 'src/public/js/requireConfig.js',
-					findNestedDependencies: true,
-					removeCombined: false,
-					skipDirOptimize: true,
-					logLevel: 1,
-					modules: [
+            build: {
 
-						{ 'name': 'app' },
-					],
-				}
-			}
-		},
+                options: {
 
-		watch: {
+                    appDir: 'src',
+                    baseUrl: 'public/js',
+                    dir: 'dist',
+                    mainConfigFile: 'src/public/js/requireConfig.js',
+                    findNestedDependencies: true,
+                    removeCombined: false,
+                    skipDirOptimize: true,
+                    logLevel: 1,
+                    modules: [
 
-			copy_require_js: {
+                        { 'name': 'app' },
+                    ],
+                }
+            }
+        },
 
-				files: [
+        watch: {
 
-					'src/public/bower_components/requirejs/require.js'
-				],
-				tasks: ['copy:requirejs']
-			},
-			copy_font_awesome: {
+            copy_require_js: {
 
-				files: [
+                files: [
 
-					'src/public/bower_components/font-awesome/**/*'
-				],
-				tasks: ['copy:font_awesome']
-			},
-			copy_ionicons: {
+                    'src/public/bower_components/requirejs/require.js'
+                ],
+                tasks: ['copy:requirejs']
+            },
+            copy_font_awesome: {
 
-				files: [
+                files: [
 
-					'src/public/bower_components/ionicons/fonts/**/*'
-				],
-				tasks: ['copy:ionicons']
-			},
-			css: {
+                    'src/public/bower_components/font-awesome/**/*'
+                ],
+                tasks: ['copy:font_awesome']
+            },
+            copy_ionicons: {
 
-				files: [
+                files: [
 
-					'src/public/css/*.less',
-				],
-				tasks: ['less:default']
-			},
-			templates: {
+                    'src/public/bower_components/ionicons/fonts/**/*'
+                ],
+                tasks: ['copy:ionicons']
+            },
+            css: {
 
-				files: [
+                files: [
 
-					'src/public/templates/**/*.html',
-				],
-				tasks: ['jst']
-			},
-			libraries_css: {
+                    'src/public/css/*.less',
+                ],
+                tasks: ['less:default']
+            },
+            templates: {
 
-				files: [
+                files: [
 
-					'src/public/bower_components/**/*.css'
-				],
-				tasks: [
+                    'src/public/templates/**/*.html',
+                ],
+                tasks: ['jst']
+            },
+            libraries_css: {
 
-					'concat:libraries_css'
-				]
-			}
-		},
-	});
+                files: [
 
+                    'src/public/bower_components/**/*.css'
+                ],
+                tasks: [
 
+                    'concat:libraries_css'
+                ]
+            }
+        },
+    });
 
-	grunt.registerTask('default', [
 
-		'less:default',
-		'jst',
-		'jshint',
-		'concat:libraries_css',
-		'copy:requirejs',
-		'copy:font_awesome',
-		'copy:ionicons',
-	]);
 
-	grunt.registerTask('pre-commit', [
+    grunt.registerTask('default', [
 
-		'jshint',
-	]);
+        'less:default',
+        'jst',
+        'jshint',
+        'concat:libraries_css',
+        'copy:requirejs',
+        'copy:font_awesome',
+        'copy:ionicons',
+    ]);
 
-	grunt.registerTask('build', [
+    grunt.registerTask('pre-commit', [
 
-		'default',
-		'clean:build',
-		'requirejs:build',
-	]);
+        'jshint',
+    ]);
+
+    grunt.registerTask('build', [
+
+        'default',
+        'clean:build',
+        'requirejs:build',
+    ]);
 };
