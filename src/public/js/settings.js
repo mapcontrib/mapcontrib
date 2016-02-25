@@ -8,8 +8,8 @@ define([], function () {
 
         'debug': false,
 
-        'oauthConsumerKey': 'wPfXjdZViPvrRWSlenSWBsAWhYKarmOkOKk5WS4U',
-        'oauthSecret': 'kaBZXTHZHKSk2jvBUr8vzk7JRI1cryFI08ubv7Du',
+        'oauthConsumerKey': 'A5WLFE5cwbK6PHZI71yoZMT2q5cZyTSO4XDarrDW',
+        'oauthSecret': '1XgDuJ7Ff4lHcP7bnh2yrG1njw9eTkrAd1Je1lnJ',
 
         'overpassServer': 'http://overpass-api.de/api/',
         // 'overpassServer': 'http://overpass.osm.rambler.ru/cgi/',
