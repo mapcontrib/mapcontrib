@@ -54,6 +54,13 @@
   -webkit-animation-name: glow;
           animation-name: glow;
 }
+#control_toolbar .zoom_out_btn,
+#control_toolbar .locate_btn,
+#control_toolbar .locate_wait_btn,
+#control_toolbar .expand_screen_btn,
+#control_toolbar .compress_screen_btn {
+  margin-bottom: 9px;
+}
 @-webkit-keyframes glow {
   50% {
     color: #5cc5e7;
@@ -101,19 +108,17 @@
 #user_toolbar .contrib_btn {
   background: #e85657;
 }
-#user_toolbar .edit_btn {
-  background: #f8981d;
-}
 #edit_toolbar {
   z-index: 1010;
-  top: 239px;
+  top: 189px;
 }
 #edit_toolbar .btn {
   color: #fff;
 }
 #edit_toolbar .setting_btn,
 #edit_toolbar .poi_btn,
-#edit_toolbar .tile_btn {
+#edit_toolbar .tile_btn,
+#edit_toolbar .preset_btn {
   background: #f8981d;
 }
 .column,

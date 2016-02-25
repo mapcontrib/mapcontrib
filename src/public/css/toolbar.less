@@ -58,6 +58,15 @@
             animation-name: glow;
         }
     }
+
+    .zoom_out_btn,
+    .locate_btn,
+    .locate_wait_btn,
+    .expand_screen_btn,
+    .compress_screen_btn {
+
+        margin-bottom: @toolbarButtonBottomMargin;
+    }
 }
 
 @keyframes glow {
@@ -127,18 +136,13 @@
 
         background: @red;
     }
-
-    .edit_btn {
-
-        background: @orange;
-    }
 }
 
 
 #edit_toolbar {
 
     z-index: @toolbarZIndex;
-    top: @titleHeight + (@toolbarBtnSize * 4) + 9;
+    top: @titleHeight + (@toolbarBtnSize * 3) + @toolbarButtonBottomMargin;
 
     .btn {
 
@@ -147,7 +151,8 @@
 
     .setting_btn,
     .poi_btn,
-    .tile_btn {
+    .tile_btn,
+    .preset_btn {
 
         background: @orange;
     }

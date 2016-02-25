@@ -27,6 +27,7 @@ define([
     'view/editPoiLayerColumn',
     'view/editPoiMarkerModal',
     'view/editTileColumn',
+    'view/editPresetColumn',
     'view/editPoiDataColumn',
     'view/zoomNotification',
     'view/overpassTimeoutNotification',
@@ -67,6 +68,7 @@ function (
     EditPoiLayerColumnView,
     EditPoiMarkerModalView,
     EditTileColumnView,
+    EditPresetColumnView,
     EditPoiDataColumnView,
     ZoomNotificationView,
     OverpassTimeoutNotificationView,
@@ -113,7 +115,6 @@ function (
             'userButton': '#user_toolbar .user_btn',
             'linkButton': '#user_toolbar .link_btn',
             'contribButton': '#user_toolbar .contrib_btn',
-            'editButton': '#user_toolbar .edit_btn',
 
             'helpToolbar': '#help_toolbar',
             'helpButton': '#help_toolbar .help_btn',
@@ -124,6 +125,7 @@ function (
             'editSettingButton': '#edit_toolbar .setting_btn',
             'editPoiButton': '#edit_toolbar .poi_btn',
             'editTileButton': '#edit_toolbar .tile_btn',
+            'editPresetButton': '#edit_toolbar .preset_btn',
         },
 
         regions: {
@@ -145,6 +147,7 @@ function (
             'editPoiLayerColumn': '#rg_edit_poi_layer_column',
             'editPoiMarkerModal': '#rg_edit_poi_marker_modal',
             'editTileColumn': '#rg_edit_tile_column',
+            'editPresetColumn': '#rg_edit_preset_column',
             'editPoiDataColumn': '#rg_edit_poi_data_column',
 
             'zoomNotification': '#rg_zoom_notification',
@@ -169,10 +172,10 @@ function (
             'click @ui.userButton': 'onClickUser',
             'click @ui.linkButton': 'onClickLink',
             'click @ui.contribButton': 'onClickContrib',
-            'click @ui.editButton': 'onClickEdit',
             'click @ui.editSettingButton': 'onClickEditSetting',
             'click @ui.editPoiButton': 'onClickEditPoi',
             'click @ui.editTileButton': 'onClickEditTile',
+            'click @ui.editPresetButton': 'onClickEditPreset',
 
             'keydown': 'onKeyDown',
         },
@@ -323,6 +326,7 @@ function (
             this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
             this._editPoiColumnView = new EditPoiColumnView({ 'model': this.model });
             this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
+            this._editPresetColumnView = new EditPresetColumnView({ 'model': this.model });
 
             this._zoomNotificationView = new ZoomNotificationView();
 
@@ -338,6 +342,7 @@ function (
             this.getRegion('editSettingColumn').show( this._editSettingColumnView );
             this.getRegion('editPoiColumn').show( this._editPoiColumnView );
             this.getRegion('editTileColumn').show( this._editTileColumnView );
+            this.getRegion('editPresetColumn').show( this._editPresetColumnView );
 
             this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
@@ -994,13 +999,12 @@ function (
 
         showEditTools: function () {
 
-            this.ui.editButton.removeClass('hide');
+            this.ui.editToolbar.removeClass('hide');
         },
 
         hideEditTools: function () {
 
-            this.ui.editButton.addClass('hide');
-            this.ui.editToolbar.removeClass('open');
+            this.ui.editToolbar.addClass('hide');
         },
 
 
@@ -1293,11 +1297,6 @@ function (
             this.ui.map.css('cursor', 'default');
         },
 
-        onClickEdit: function () {
-
-            this.ui.editToolbar.toggleClass('open');
-        },
-
         onClickEditSetting: function () {
 
             this._editSettingColumnView.open();
@@ -1311,6 +1310,11 @@ function (
         onClickEditTile: function () {
 
             this._editTileColumnView.open();
+        },
+
+        onClickEditPreset: function () {
+
+            this._editPresetColumnView.open();
         },
 
         setPosition: function (latLng, zoomLevel) {

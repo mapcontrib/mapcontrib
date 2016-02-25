@@ -30,10 +30,10 @@
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
-<buttonEditTooltip title:"Modify the theme">
 <buttonEditSettingTooltip title:"Main settings">
 <buttonEditPoiTooltip title:"Points of interest">
 <buttonEditTileTooltip title:"Backgrounds">
+<buttonEditPresetTooltip title:"Default tags on node addition">
 <buttonHelpTooltip title:"Help">
 
 
@@ -154,6 +154,10 @@
 /* Edit tiles column */
 <editTileColumn_title "Backgrounds">
 <editTileColumn_maxZoom "Maximum zoom: {{ $maxZoom }}">
+
+
+/* Edit presets column */
+<editPresetColumn_title "Default tags">
 
 
 /* Edit POI data column */
