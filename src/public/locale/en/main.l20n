@@ -33,7 +33,7 @@
 <buttonEditSettingTooltip title:"Main settings">
 <buttonEditPoiTooltip title:"Points of interest">
 <buttonEditTileTooltip title:"Backgrounds">
-<buttonEditPresetTooltip title:"Default tags on node addition">
+<buttonEditPresetTooltip title:"Nodes types">
 <buttonHelpTooltip title:"Help">
 
 
@@ -156,7 +156,7 @@
 
 
 /* Edit presets column */
-<editPresetColumn_title "Default tags">
+<editPresetColumn_title "Nodes types">
 
 
 /* Edit POI data column */

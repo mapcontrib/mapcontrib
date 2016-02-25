@@ -33,7 +33,7 @@
 <buttonEditSettingTooltip title:"Configuration générale">
 <buttonEditPoiTooltip title:"Centres d'intérêts">
 <buttonEditTileTooltip title:"Fonds de carte">
-<buttonEditPresetTooltip title:"Tags par défaut à l'ajout de nœuds">
+<buttonEditPresetTooltip title:"Types de nœuds">
 <buttonHelpTooltip title:"Aide">
 
 
@@ -156,7 +156,7 @@
 
 
 /* Edit presets column */
-<editPresetColumn_title "Tags par défaut">
+<editPresetColumn_title "Types de nœuds">
 
 
 /* Edit POI data column */
