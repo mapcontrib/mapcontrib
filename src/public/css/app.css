@@ -58,6 +58,8 @@
 #control_toolbar .zoom_level {
   padding: 5px;
   text-align: center;
+  font-family: 'Fira Sans';
+  font-weight: normal;
 }
 @-webkit-keyframes glow {
   50% {
