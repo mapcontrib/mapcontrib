@@ -73,7 +73,7 @@ function (
             this.triggerMethod('toggle');
         },
 
-        onOpen: function () {
+        onAfterOpen: function () {
 
             var self = this;
 

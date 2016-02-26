@@ -39,7 +39,6 @@ function (
         ui: {
 
             'column': '#select_poi_column',
-            'currentMapZoom': '.currentMapZoom',
         },
 
         initialize: function () {
@@ -49,35 +48,14 @@ function (
             this._radio = Backbone.Wreqr.radio.channel('global');
 
             this._radio.commands.setHandler('column:selectPoiLayer:render', this.render.bind(this));
-            this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom.bind(this));
         },
 
         onRender: function () {
 
-            var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom'),
-            poiLayers = this._radio.reqres.request('poiLayers'),
+            var poiLayers = this._radio.reqres.request('poiLayers'),
             selectPoiLayerListView = new SelectPoiLayerListView({ 'collection': poiLayers });
 
             this.getRegion('layerList').show( selectPoiLayerListView );
-
-            this.onChangedMapZoom();
-        },
-
-        onChangedMapZoom: function () {
-
-            var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
-
-            if (!currentMapZoom) {
-
-                return false;
-            }
-
-            this.ui.currentMapZoom.html(
-                document.l10n.getSync(
-                    'selectPoiColumn_currentMapZoom',
-                    {'currentMapZoom': currentMapZoom}
-                )
-            );
         },
 
         onBeforeOpen: function () {

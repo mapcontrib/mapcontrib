@@ -100,6 +100,7 @@ function (
             'controlToolbar': '#control_toolbar',
             'zoomInButton': '#control_toolbar .zoom_in_btn',
             'zoomOutButton': '#control_toolbar .zoom_out_btn',
+            'toolbarZoomLevel': '#control_toolbar .zoom_level',
             'geocodeButton': '#control_toolbar .geocode_btn',
             'locateButton': '#control_toolbar .locate_btn',
             'locateWaitButton': '#control_toolbar .locate_wait_btn',
@@ -1104,12 +1105,18 @@ function (
 
         onZoomEnd: function (e) {
 
+            this.ui.toolbarZoomLevel.text(
+                this._map.getZoom()
+            );
             this.checkZoomNotification();
             this.updateSessionMapState();
         },
 
         onZoomLevelsChange: function (e) {
 
+            this.ui.toolbarZoomLevel.text(
+                this._map.getZoom()
+            );
             this.checkZoomNotification();
             this.updateSessionMapState();
         },
