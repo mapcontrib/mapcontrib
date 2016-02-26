@@ -308,7 +308,7 @@ this["JST"]["selectPoiColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="select_poi_column" class="column left white">\n    <header>\n        <button type="button" class="btn btn-link btn-lg pull-right close_btn">\n            <i class="fa fa-close"></i>\n        </button>\n\n        <h2 data-l10n-id="selectPoiColumn_title"></h2>\n    </header>\n\n    <div class="container-fluid content">\n        <div class="row">\n            <div class="col-xs-12">\n                <p data-l10n-id="selectPoiColumn_explanation"></p>\n                <p class="currentMapZoom"></p>\n                <div class="rg_layer_list prepend-xs-1"></div>\n            </div>\n        </div>\n    </div>\n</section>\n';
+__p += '<section id="select_poi_column" class="column left white">\n    <header>\n        <button type="button" class="btn btn-link btn-lg pull-right close_btn">\n            <i class="fa fa-close"></i>\n        </button>\n\n        <h2 data-l10n-id="selectPoiColumn_title"></h2>\n    </header>\n\n    <div class="container-fluid content">\n        <div class="row">\n            <div class="col-xs-12">\n                <p data-l10n-id="selectPoiColumn_explanation"></p>\n                <div class="rg_layer_list prepend-xs-1"></div>\n            </div>\n        </div>\n    </div>\n</section>\n';
 
 }
 return __p
