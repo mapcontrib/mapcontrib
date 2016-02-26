@@ -40,7 +40,8 @@
   z-index: 1012;
   top: 30px;
 }
-#control_toolbar .btn {
+#control_toolbar .btn,
+#control_toolbar .zoom_level {
   color: #3b3f45;
   background: #fff;
 }
@@ -53,6 +54,10 @@
           animation-iteration-count: infinite;
   -webkit-animation-name: glow;
           animation-name: glow;
+}
+#control_toolbar .zoom_level {
+  padding: 5px;
+  text-align: center;
 }
 @-webkit-keyframes glow {
   50% {
@@ -11204,7 +11209,7 @@ body.user_logged .edit_poi_data {
 #geocode_widget {
   position: fixed;
   z-index: 1011;
-  top: 139px;
+  top: 169px;
   left: 0;
   padding-left: 50px;
   width: 500px;
