@@ -42,7 +42,8 @@
     z-index: @toolbarControlZIndex;
     top: @titleHeight;
 
-    .btn {
+    .btn,
+    .zoom_level {
 
         color: @anthracite;
         background: #fff;
@@ -57,6 +58,14 @@
             animation-iteration-count: infinite;
             animation-name: glow;
         }
+    }
+
+    .zoom_level {
+
+        padding: 5px;
+        text-align: center;
+        font-family: 'Fira Sans';
+        font-weight: normal;
     }
 }
 
