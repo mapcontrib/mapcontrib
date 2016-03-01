@@ -90,8 +90,6 @@
 /* Contribution column */
 <contribColumn_title "Ajouter un marqueur">
 <contribColumn_addTag "Ajouter un tag">
-<contribColumn_key placeholder:"Clef">
-<contribColumn_value placeholder:"Valeur">
 
 
 /* Link column */
@@ -157,6 +155,13 @@
 
 /* Edit presets column */
 <editPresetColumn_title "Types de nœuds">
+<editPresetColumn_addPreset "Ajouter un type de nœud">
+<editPresetColumn_clickButton "Cliquez sur le bouton ci-dessous">
+
+
+/* Edit presets tags column */
+<editPresetTagsColumn_title "Édition">
+<editPresetTagsColumn_addPreset "Ajouter un type de nœud">
 
 
 /* Edit POI data column */
@@ -191,3 +196,8 @@
 <contributionErrorNotification_title "Contribution échouée">
 <contributionErrorNotification_content "Une erreur est survenue lors de l'envoi de votre contribution.">
 <contributionErrorNotification_retry "Retenter l'envoi">
+
+
+/* Node tag field UI */
+<uiFormNodeTags_key placeholder:"Clef">
+<uiFormNodeTags_value placeholder:"Valeur">

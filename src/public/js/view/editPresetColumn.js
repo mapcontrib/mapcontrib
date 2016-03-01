@@ -7,7 +7,9 @@ define([
     'marionette',
     'bootstrap',
     'templates',
-    'const',
+    'model/preset',
+    'view/editPresetList',
+    'view/editPresetTagsColumn',
 ],
 function (
 
@@ -16,7 +18,9 @@ function (
     Marionette,
     Bootstrap,
     templates,
-    CONST
+    PresetModel,
+    EditPresetListView,
+    EditPresetTagsColumnView
 ) {
 
     'use strict';
@@ -24,7 +28,6 @@ function (
     return Marionette.LayoutView.extend({
 
         template: JST['editPresetColumn.html'],
-        templateListItem: JST['presetListItem.html'],
 
         behaviors: {
 
@@ -32,17 +35,20 @@ function (
             'column': {},
         },
 
+        regions: {
+
+            'presetList': '.rg_preset_list',
+        },
+
         ui: {
 
             'column': '#edit_preset_column',
-            'presetList': '.preset_list',
-            'presets': '.preset_list input',
+            'addButton': '.add_btn',
         },
 
         events: {
 
-            'submit': 'onSubmit',
-            'reset': 'onReset',
+            'click @ui.addButton': 'onClickAdd',
         },
 
         initialize: function () {
@@ -50,8 +56,14 @@ function (
             var self = this;
 
             this._radio = Backbone.Wreqr.radio.channel('global');
+        },
 
-            this._oldModel = this.model.clone();
+        onRender: function () {
+
+            var presets = this._radio.reqres.request('presets'),
+            editPresetListView = new EditPresetListView({ 'collection': presets });
+
+            this.getRegion('presetList').show( editPresetListView );
         },
 
         onBeforeOpen: function () {
@@ -70,5 +82,9 @@ function (
             this.triggerMethod('close');
         },
 
+        onClickAdd: function () {
+
+            this._radio.commands.execute('column:showPresetTags');
+        },
     });
 });

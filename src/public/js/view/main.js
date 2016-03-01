@@ -28,6 +28,7 @@ define([
     'view/editPoiMarkerModal',
     'view/editTileColumn',
     'view/editPresetColumn',
+    'view/editPresetTagsColumn',
     'view/editPoiDataColumn',
     'view/zoomNotification',
     'view/overpassTimeoutNotification',
@@ -35,9 +36,11 @@ define([
 
     'model/theme',
     'model/poiLayer',
+    'model/preset',
     'model/osmNode',
 
     'collection/poiLayer',
+    'collection/preset',
 
     'ui/map',
 ],
@@ -69,6 +72,7 @@ function (
     EditPoiMarkerModalView,
     EditTileColumnView,
     EditPresetColumnView,
+    EditPresetTagsColumnView,
     EditPoiDataColumnView,
     ZoomNotificationView,
     OverpassTimeoutNotificationView,
@@ -76,9 +80,11 @@ function (
 
     ThemeModel,
     PoiLayerModel,
+    PresetModel,
     OsmNodeModel,
 
     PoiLayerCollection,
+    PresetCollection,
 
     MapUi
 ) {
@@ -149,6 +155,7 @@ function (
             'editPoiMarkerModal': '#rg_edit_poi_marker_modal',
             'editTileColumn': '#rg_edit_tile_column',
             'editPresetColumn': '#rg_edit_preset_column',
+            'editPresetTagsColumn': '#rg_edit_preset_tags_column',
             'editPoiDataColumn': '#rg_edit_poi_data_column',
 
             'zoomNotification': '#rg_zoom_notification',
@@ -194,6 +201,7 @@ function (
             this.model = new ThemeModel( window.theme );
 
             this._poiLayers = new PoiLayerCollection( window.poiLayers );
+            this._presets = new PresetCollection( window.presets );
 
 
             this._radio.reqres.setHandlers({
@@ -201,6 +209,10 @@ function (
                 'poiLayers': function (layerId) {
 
                     return self._poiLayers;
+                },
+                'presets': function (layerId) {
+
+                    return self._presets;
                 },
                 'map:getCurrentZoom': function (tileId) {
 
@@ -220,6 +232,10 @@ function (
                 'column:showPoiLayer': function (poiLayerModel) {
 
                     self.onCommandShowPoiLayer( poiLayerModel );
+                },
+                'column:showPresetTags': function (presetModel) {
+
+                    self.onCommandShowPresetTags( presetModel );
                 },
                 'modal:showEditPoiMarker': function (poiLayerModel) {
 
@@ -1025,6 +1041,33 @@ function (
             }
 
             this.getRegion('editPoiLayerColumn').show( view );
+
+            window.requestAnimationFrame(function () {
+
+                view.open();
+            });
+        },
+
+        onCommandShowPresetTags: function (presetModel) {
+
+            var view;
+
+            if ( presetModel ) {
+
+                view = new EditPresetTagsColumnView({
+
+                    'model': presetModel
+                });
+            }
+            else {
+
+                view = new EditPresetTagsColumnView({
+
+                    'model': new PresetModel({ 'themeId': this.model.get('_id') })
+                });
+            }
+
+            this.getRegion('editPresetTagsColumn').show( view );
 
             window.requestAnimationFrame(function () {
 

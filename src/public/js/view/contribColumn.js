@@ -36,7 +36,7 @@ function (
     return Marionette.LayoutView.extend({
 
         template: JST['contribColumn.html'],
-        templateField: JST['contribField.html'],
+        // templateField: JST['contribField.html'],
 
         behaviors: {
 
@@ -144,9 +144,9 @@ function (
 
         addField: function () {
 
-            var field = $( this.templateField() ).appendTo( this.ui.tagList ).get(0);
-
-            document.l10n.localizeNode( field );
+            // var field = $( this.templateField() ).appendTo( this.ui.tagList ).get(0);
+            //
+            // document.l10n.localizeNode( field );
         },
 
         onSubmit: function (e) {

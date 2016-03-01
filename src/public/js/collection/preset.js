@@ -5,14 +5,14 @@ define([
     'underscore',
     'backbone',
     'settings',
-    'model/poiLayer',
+    'model/preset',
 ],
 function (
 
     _,
     Backbone,
     settings,
-    PoiLayerModel
+    PresetModel
 ) {
 
     'use strict';
@@ -21,10 +21,10 @@ function (
 
         url: function () {
 
-            return settings.apiPath + 'theme/'+ this.options.themeId +'/poiLayers';
+            return settings.apiPath + 'theme/'+ this.options.themeId +'/presets';
         },
 
-        model: PoiLayerModel,
+        model: PresetModel,
 
         comparator: 'order',
 
@@ -49,18 +49,6 @@ function (
             max_order = (max_order_model.get('order') || 0);
 
             model.set('order', max_order + 1);
-        },
-
-
-        /**
-         * Returns an array of all the visible layers.
-         *
-         * @author Guillaume AMAT
-         * @return An array of all the visible layers
-         */
-        getVisibleLayers: function () {
-
-            return this.where({ 'visible': true });
         },
     });
 });
