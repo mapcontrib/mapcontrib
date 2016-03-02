@@ -470,7 +470,7 @@ __p += '\n<section id="zoom_notification" class="notification white">\n    <div 
 return __p
 };
 
-this["JST"]["ui/form/nodeTags/nodeTagsListItem.html"] = function(obj) {
+this["JST"]["ui/form/nodeTags/listItem.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {

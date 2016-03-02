@@ -5,7 +5,7 @@ define([
     'marionette',
     'templates',
     'model/preset',
-    'ui/form/nodeTags/nodeTagsList'
+    'ui/form/nodeTags/list'
 ],
 function (
 

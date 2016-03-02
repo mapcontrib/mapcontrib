@@ -3,8 +3,8 @@
 define([
 
     'marionette',
-    'ui/form/nodeTags/nodeTagsCollection',
-    'ui/form/nodeTags/nodeTagsListItem',
+    'ui/form/nodeTags/collection',
+    'ui/form/nodeTags/listItem',
 ],
 function (
 

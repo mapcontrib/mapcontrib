@@ -3,7 +3,7 @@
 define([
 
     'backbone',
-    'ui/form/nodeTags/nodeTagsModel',
+    'ui/form/nodeTags/model',
 ],
 function (
 

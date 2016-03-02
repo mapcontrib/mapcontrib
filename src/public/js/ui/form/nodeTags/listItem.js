@@ -19,7 +19,7 @@ function (
 
     return Marionette.ItemView.extend({
 
-        template: JST['ui/form/nodeTags/nodeTagsListItem.html'],
+        template: JST['ui/form/nodeTags/listItem.html'],
 
         ui: {
 
