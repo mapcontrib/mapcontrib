@@ -14,7 +14,7 @@ this["JST"]["contribColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="contrib_column" class="column right red">\n    <header>\n        <button type="button" class="btn btn-link btn-lg pull-right close_btn">\n            <i class="fa fa-close"></i>\n        </button>\n\n        <h2 data-l10n-id="contribColumn_title"></h2>\n    </header>\n\n    <div class="container-fluid content">\n        <div class="row">\n            <div class="col-xs-12">\n                <form>\n                    <div class="rg_tag_list"></div>\n\n                    <div class="sticky-footer">\n                        <button type="button" class="btn btn-default add_btn" data-l10n-id="contribColumn_addTag"></button>\n                        <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>\n';
+__p += '<section id="contrib_column" class="column right red">\n    <header>\n        <button type="button" class="btn btn-link btn-lg pull-right close_btn">\n            <i class="fa fa-close"></i>\n        </button>\n\n        <h2 data-l10n-id="contribColumn_title"></h2>\n    </header>\n\n    <div class="container-fluid content">\n        <div class="row">\n            <div class="col-xs-12">\n                <form>\n                    <div class="rg_tag_list"></div>\n\n                    <div class="sticky-footer">\n                        <button type="submit" class="btn btn-primary btn-block save_btn" data-l10n-id="save"></button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>\n';
 
 }
 return __p
@@ -170,7 +170,9 @@ this["JST"]["editPresetTagsColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section id="edit_preset_tags_column" class="column right orange">\n    <header>\n        <button type="button" class="btn btn-link btn-lg pull-right close_btn">\n            <i class="fa fa-close"></i>\n        </button>\n\n        <h2 data-l10n-id="editPresetTagsColumn_title"></h2>\n    </header>\n\n    <div class="container-fluid content">\n        <div class="row">\n            <div class="col-xs-12">\n                <form>\n                    <div class="rg_tag_list"></div>\n\n                    <div class="sticky-footer">\n                        <button type="button" class="btn btn-primary btn-block add_btn" data-l10n-id="editPresetTagsColumn_addPreset"></button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>\n';
+__p += '<section id="edit_preset_tags_column" class="column right orange">\n    <header>\n        <button type="button" class="btn btn-link btn-lg pull-right close_btn">\n            <i class="fa fa-close"></i>\n        </button>\n\n        <h2 data-l10n-id="editPresetTagsColumn_title"></h2>\n    </header>\n\n    <div class="container-fluid content">\n        <div class="row">\n            <div class="col-xs-12">\n                <form>\n                    <div class="form-group append-xs-2">\n                        <label for="preset_name" class="control-label" data-l10n-id="editPresetTagsColumn_presetName"></label>\n                        <input type="text" spellcheck="true" class="form-control" id="preset_name" value="' +
+__e( name ) +
+'">\n                    </div>\n\n                    <label class="control-label" data-l10n-id="editPresetTagsColumn_tags"></label>\n                    <div class="rg_tag_list"></div>\n\n                    <div class="sticky-footer">\n                        <button type="button" class="btn btn-default add_btn" data-l10n-id="editPresetTagsColumn_addTag"></button>\n                        <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>\n';
 
 }
 return __p
@@ -468,16 +470,6 @@ __p += '\n<section id="zoom_notification" class="notification white">\n    <div 
 return __p
 };
 
-this["JST"]["ui/form/nodeTags/nodeTagsListEmpty.html"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '';
-
-}
-return __p
-};
-
 this["JST"]["ui/form/nodeTags/nodeTagsListItem.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
@@ -486,7 +478,15 @@ __p += '<div class="form-group append-xs-2">\n    <div class="input-group">\n   
 __e( key ) +
 '">\n        <div class="input-group-btn">\n            <button type="button" class="btn btn-info info_btn" tabindex="-1"><i class="fa fa-fw fa-info-circle"></i></button>\n        </div>\n    </div>\n    <div class="input-group">\n        <input type="text" class="form-control value" data-l10n-id="uiFormNodeTags_value" value="' +
 __e( value ) +
-'">\n        <div class="input-group-btn">\n            <button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>\n        </div>\n    </div>\n</div>\n';
+'">\n        <div class="input-group-btn">\n            <button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>\n        </div>\n    </div>\n    <div class="checkbox">\n        <input type="checkbox" id="keyReadOnly_' +
+__e( cid ) +
+'" class="keyReadOnly" value="1">\n        <label for="keyReadOnly_' +
+__e( cid ) +
+'" data-l10n-id="uiFormNodeTags_keyReadOnly">Clef en lecture seule</label>\n    </div>\n    <div class="checkbox">\n        <input type="checkbox" id="valueReadOnly_' +
+__e( cid ) +
+'" class="valueReadOnly" value="1">\n        <label for="valueReadOnly_' +
+__e( cid ) +
+'" data-l10n-id="uiFormNodeTags_valueReadOnly">Valeur en lecture seule</label>\n    </div>\n</div>\n';
 
 }
 return __p

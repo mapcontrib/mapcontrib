@@ -17,8 +17,8 @@ function (
 
             'key': undefined,
             'value': undefined,
-            'keyReadOnly': false,
-            'valueReadOnly': false,
+            'keyReadOnly': true,
+            'valueReadOnly': true,
         },
     });
 });

@@ -30,5 +30,15 @@ function (
 
             this.render();
         },
+
+        addTag: function () {
+
+            this.collection.add({});
+        },
+
+        getTags: function () {
+
+            return this.collection.toJSON();
+        },
     });
 });

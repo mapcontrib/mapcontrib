@@ -11,10 +11,17 @@
         <div class="row">
             <div class="col-xs-12">
                 <form>
+                    <div class="form-group append-xs-2">
+                        <label for="preset_name" class="control-label" data-l10n-id="editPresetTagsColumn_presetName"></label>
+                        <input type="text" spellcheck="true" class="form-control" id="preset_name" value="<%- name %>">
+                    </div>
+
+                    <label class="control-label" data-l10n-id="editPresetTagsColumn_tags"></label>
                     <div class="rg_tag_list"></div>
 
                     <div class="sticky-footer">
-                        <button type="button" class="btn btn-primary btn-block add_btn" data-l10n-id="editPresetTagsColumn_addPreset"></button>
+                        <button type="button" class="btn btn-default add_btn" data-l10n-id="editPresetTagsColumn_addTag"></button>
+                        <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>
                     </div>
                 </form>
             </div>

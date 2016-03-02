@@ -90,6 +90,9 @@ function (
 
             this.bindUIElements();
 
+            console.log(this._tagList.getTags());
+            return;
+
             this.ui.formGroups.each(function () {
 
                 var keyInput = this.querySelector('.key'),

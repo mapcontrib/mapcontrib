@@ -89,7 +89,6 @@
 
 /* Contribution column */
 <contribColumn_title "Ajouter un marqueur">
-<contribColumn_addTag "Ajouter un tag">
 
 
 /* Link column */
@@ -161,7 +160,9 @@
 
 /* Edit presets tags column */
 <editPresetTagsColumn_title "Édition">
-<editPresetTagsColumn_addPreset "Ajouter un type de nœud">
+<editPresetTagsColumn_presetName "Nom du type de nœud">
+<editPresetTagsColumn_tags "Tags">
+<editPresetTagsColumn_addTag "Ajouter un tag">
 
 
 /* Edit POI data column */
@@ -201,3 +202,5 @@
 /* Node tag field UI */
 <uiFormNodeTags_key placeholder:"Clef">
 <uiFormNodeTags_value placeholder:"Valeur">
+<uiFormNodeTags_keyReadOnly "Clef en lecture seule">
+<uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
