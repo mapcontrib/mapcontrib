@@ -26,6 +26,12 @@ function (
         setTags: function (tags) {
 
             this.collection = new NodeTagsCollection( tags );
+
+            if (tags.length === 0) {
+
+                this.collection.add({});
+            }
+
             this.render();
         },
     });
