@@ -161,7 +161,8 @@
 /* Edit presets tags column */
 <editPresetTagsColumn_title "Édition">
 <editPresetTagsColumn_presetName "Nom du type de nœud">
-<editPresetTagsColumn_tags "Tags">
+<editPresetTagsColumn_presetDescription "Description">
+<editPresetTagsColumn_presetTags "Tags">
 <editPresetTagsColumn_addTag "Ajouter un tag">
 
 

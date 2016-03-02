@@ -30,8 +30,9 @@ function (
         ui: {
 
             'column': '#edit_preset_tags_column',
+            'nameInput': '#preset_name',
+            'descriptionInput': '#preset_description',
             'tagList': '.rg_tag_list',
-            'formGroups': '.form-group',
             'addBtn': '.add_btn',
         },
 
@@ -82,38 +83,38 @@ function (
 
         onSubmit: function (e) {
 
-            var self = this,
-            tags = [],
-            map = this._radio.reqres.request('map');
-
             e.preventDefault();
 
-            this.bindUIElements();
+            var addToCollection = false;
 
-            console.log(this._tagList.getTags());
-            return;
+            this.model.set('name', this.ui.nameInput.val());
+            this.model.set('description', this.ui.descriptionInput.val());
+            this.model.set('tags', this._tagList.getTags());
 
-            this.ui.formGroups.each(function () {
 
-                var keyInput = this.querySelector('.key'),
-                valueInput = this.querySelector('.value'),
-                key = keyInput.value,
-                value = valueInput.value,
-                tag = {};
+            if ( !this.model.get('_id') ) {
 
-                if ( !key || !value ) {
-                    return;
-                }
+                addToCollection = true;
+            }
 
-                tag[key] = value;
+            this.model.save({}, {
 
-                tags.push(tag);
+                'success': function () {
+
+                    if ( addToCollection ) {
+
+                        this._radio.reqres.request('presets').add( this.model );
+                    }
+
+                    this.close();
+                }.bind(this),
+
+                'error': function () {
+
+                    // FIXME
+                    console.error('nok');
+                },
             });
-
-            this.model.set('tags', tags);
-
-
-            this.close();
         },
     });
 });

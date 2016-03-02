@@ -16,7 +16,12 @@
                         <input type="text" spellcheck="true" class="form-control" id="preset_name" value="<%- name %>">
                     </div>
 
-                    <label class="control-label" data-l10n-id="editPresetTagsColumn_tags"></label>
+                    <div class="form-group append-xs-2">
+                        <label for="preset_description" class="control-label" data-l10n-id="editPresetTagsColumn_presetDescription"></label>
+                        <textarea class="form-control" id="preset_description" rows="3"><%- description %></textarea>
+                    </div>
+
+                    <label class="control-label" data-l10n-id="editPresetTagsColumn_presetTags"></label>
                     <div class="rg_tag_list"></div>
 
                     <div class="sticky-footer">

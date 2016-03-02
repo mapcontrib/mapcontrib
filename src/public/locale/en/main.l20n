@@ -161,7 +161,8 @@
 /* Edit presets tags column */
 <editPresetTagsColumn_title "Edit">
 <editPresetTagsColumn_presetName "Node type's name">
-<editPresetTagsColumn_tags "Tags">
+<editPresetTagsColumn_presetDescription "Description">
+<editPresetTagsColumn_presetTags "Tags">
 <editPresetTagsColumn_addTag "Add a tag">
 
 

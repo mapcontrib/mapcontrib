@@ -158,9 +158,7 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<div class="reorder_icon"><i class="fa fa-bars fa-fw"></i></div>\n' +
 ((__t = ( name )) == null ? '' : __t) +
-'\n<button type="button" class="btn remove_btn"><i class="fa fa-trash"></i></button>\n' +
-((__t = ( marker )) == null ? '' : __t) +
-'\n';
+'\n<button type="button" class="btn remove_btn"><i class="fa fa-trash"></i></button>\n';
 
 }
 return __p
@@ -172,7 +170,9 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<section id="edit_preset_tags_column" class="column right orange">\n    <header>\n        <button type="button" class="btn btn-link btn-lg pull-right close_btn">\n            <i class="fa fa-close"></i>\n        </button>\n\n        <h2 data-l10n-id="editPresetTagsColumn_title"></h2>\n    </header>\n\n    <div class="container-fluid content">\n        <div class="row">\n            <div class="col-xs-12">\n                <form>\n                    <div class="form-group append-xs-2">\n                        <label for="preset_name" class="control-label" data-l10n-id="editPresetTagsColumn_presetName"></label>\n                        <input type="text" spellcheck="true" class="form-control" id="preset_name" value="' +
 __e( name ) +
-'">\n                    </div>\n\n                    <label class="control-label" data-l10n-id="editPresetTagsColumn_tags"></label>\n                    <div class="rg_tag_list"></div>\n\n                    <div class="sticky-footer">\n                        <button type="button" class="btn btn-default add_btn" data-l10n-id="editPresetTagsColumn_addTag"></button>\n                        <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>\n';
+'">\n                    </div>\n\n                    <div class="form-group append-xs-2">\n                        <label for="preset_description" class="control-label" data-l10n-id="editPresetTagsColumn_presetDescription"></label>\n                        <textarea class="form-control" id="preset_description" rows="3">' +
+__e( description ) +
+'</textarea>\n                    </div>\n\n                    <label class="control-label" data-l10n-id="editPresetTagsColumn_presetTags"></label>\n                    <div class="rg_tag_list"></div>\n\n                    <div class="sticky-footer">\n                        <button type="button" class="btn btn-default add_btn" data-l10n-id="editPresetTagsColumn_addTag"></button>\n                        <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>\n';
 
 }
 return __p
