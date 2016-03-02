@@ -58,7 +58,7 @@ function (
 
         onClick: function () {
 
-            this._radio.commands.execute( 'column:showPreset', this.model );
+            this._radio.commands.execute( 'column:showPresetTags', this.model );
         },
 
         onClickRemove: function (e) {
