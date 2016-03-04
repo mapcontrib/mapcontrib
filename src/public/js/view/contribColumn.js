@@ -14,6 +14,7 @@ define([
     'const',
     'settings',
     'model/poiLayer',
+    'ui/form/nodeTags/list'
 ],
 function (
 
@@ -28,7 +29,8 @@ function (
     MapUi,
     CONST,
     settings,
-    PoiLayerModel
+    PoiLayerModel,
+    NodeTagsList
 ) {
 
     'use strict';
@@ -36,7 +38,6 @@ function (
     return Marionette.LayoutView.extend({
 
         template: JST['contribColumn.html'],
-        // templateField: JST['contribField.html'],
 
         behaviors: {
 
@@ -48,15 +49,12 @@ function (
 
             'column': '#contrib_column',
             'tagList': '.rg_tag_list',
-            'formGroups': '.form-group',
             'addBtn': '.add_btn',
-            'removeBtn': '.remove_btn',
         },
 
         events: {
 
             'click @ui.addBtn': 'onClickAddBtn',
-            'click @ui.removeBtn': 'onClickRemoveBtn',
 
             'submit': 'onSubmit',
         },
@@ -129,56 +127,26 @@ function (
 
         onRender: function () {
 
-            this.addField();
+            this._tagList = new NodeTagsList();
+
+            this._tagList.setTags([]);
+
+            this.ui.tagList.append( this._tagList.el );
         },
 
         onClickAddBtn: function () {
 
-            this.addField();
-        },
-
-        onClickRemoveBtn: function (e) {
-
-            $(e.target).parents('.form-group').remove();
-        },
-
-        addField: function () {
-
-            // var field = $( this.templateField() ).appendTo( this.ui.tagList ).get(0);
-            //
-            // document.l10n.localizeNode( field );
+            this._tagList.addTag();
         },
 
         onSubmit: function (e) {
 
-            var self = this,
-            tags = [],
-            map = this._radio.reqres.request('map');
-
             e.preventDefault();
 
-            this.bindUIElements();
+            this.model.set('tags', this._tagList.getTags());
 
-            this.ui.formGroups.each(function () {
-
-                var keyInput = this.querySelector('.key'),
-                valueInput = this.querySelector('.value'),
-                key = keyInput.value,
-                value = valueInput.value,
-                tag = {};
-
-                if ( !key || !value ) {
-                    return;
-                }
-
-                tag[key] = value;
-
-                tags.push(tag);
-            });
-
-            this.model.set('tags', tags);
-
-            var osmEdit = new OsmEditHelper(
+            var map = this._radio.reqres.request('map'),
+            osmEdit = new OsmEditHelper(
                 osmAuth({
 
                     'oauth_consumer_key': settings.oauthConsumerKey,
@@ -199,19 +167,19 @@ function (
             map.addLayer( this._buildNewMarker() );
 
             this.close();
-
+return;
             osmEdit.createNode()
             .then(function (nodeId) {
 
                 var key = 'node-'+ nodeId,
                 contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
 
-                self.model.set('version', 0);
+                this.model.set('version', 0);
 
-                contributions[ key ] = self.model.attributes;
+                contributions[ key ] = this.model.attributes;
 
                 localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
-            })
+            }.bind(this))
             .catch(function (err) {
 
                 console.error(err);

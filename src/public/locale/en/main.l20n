@@ -89,6 +89,7 @@
 
 /* Contribution column */
 <contribColumn_title "Add a marker">
+<contribColumn_addTag "Add a tag">
 
 
 /* Link column */
