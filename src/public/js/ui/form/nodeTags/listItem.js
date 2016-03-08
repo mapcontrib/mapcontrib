@@ -56,6 +56,11 @@ function (
             );
 
             this.ui.valueReadOnly.prop(
+                'disabled',
+                !this.model.get('keyReadOnly')
+            );
+
+            this.ui.valueReadOnly.prop(
                 'checked',
                 this.model.get('valueReadOnly')
             );
@@ -74,6 +79,11 @@ function (
         onChangeKeyReadOnly: function (e) {
 
             this.model.set('keyReadOnly', this.ui.keyReadOnly.prop('checked'));
+
+            this.ui.valueReadOnly.prop(
+                'disabled',
+                !this.model.get('keyReadOnly')
+            );
         },
 
         onChangeValueReadOnly: function (e) {
