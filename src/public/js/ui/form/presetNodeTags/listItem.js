@@ -19,13 +19,12 @@ function (
 
     return Marionette.ItemView.extend({
 
-        template: JST['ui/form/nodeTags/listItem.html'],
+        template: JST['ui/form/presetNodeTags/listItem.html'],
 
         ui: {
 
             'key': '.key',
             'value': '.value',
-            'readOnlyCheckboxes': '.readonly_checkboxes',
             'keyReadOnly': '.keyReadOnly',
             'valueReadOnly': '.valueReadOnly',
             'removeBtn': '.remove_btn',
@@ -51,27 +50,20 @@ function (
 
             document.l10n.localizeNode( this.el );
 
-            if ( this.options.displayReadOnlyCheckboxes ) {
+            this.ui.keyReadOnly.prop(
+                'checked',
+                this.model.get('keyReadOnly')
+            );
 
-                this.ui.keyReadOnly.prop(
-                    'checked',
-                    this.model.get('keyReadOnly')
-                );
+            this.ui.valueReadOnly.prop(
+                'disabled',
+                !this.model.get('keyReadOnly')
+            );
 
-                this.ui.valueReadOnly.prop(
-                    'disabled',
-                    !this.model.get('keyReadOnly')
-                );
-
-                this.ui.valueReadOnly.prop(
-                    'checked',
-                    this.model.get('valueReadOnly')
-                );
-            }
-            else {
-
-                this.ui.readOnlyCheckboxes.hide();
-            }
+            this.ui.valueReadOnly.prop(
+                'checked',
+                this.model.get('valueReadOnly')
+            );
         },
 
         onChangeKey: function (e) {

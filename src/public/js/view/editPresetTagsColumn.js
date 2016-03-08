@@ -5,14 +5,14 @@ define([
     'marionette',
     'templates',
     'model/preset',
-    'ui/form/nodeTags/list'
+    'ui/form/presetNodeTags/list'
 ],
 function (
 
     Marionette,
     templates,
     PresetModel,
-    NodeTagsList
+    PresetNodeTagsList
 ) {
 
     'use strict';
@@ -69,9 +69,7 @@ function (
 
         onRender: function () {
 
-            this._tagList = new NodeTagsList({
-                'displayReadOnlyCheckboxes': true
-            });
+            this._tagList = new PresetNodeTagsList();
 
             this._tagList.setTags( this.model.get('tags') );
 

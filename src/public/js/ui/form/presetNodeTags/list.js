@@ -3,32 +3,25 @@
 define([
 
     'marionette',
-    'ui/form/nodeTags/collection',
-    'ui/form/nodeTags/listItem',
+    'ui/form/presetNodeTags/collection',
+    'ui/form/presetNodeTags/listItem',
 ],
 function (
 
     Marionette,
-    NodeTagsCollection,
-    NodeTagsListItemView
+    PresetNodeTagsCollection,
+    PresetNodeTagsListItemView
 ) {
 
     'use strict';
 
     return Marionette.CollectionView.extend({
 
-        childView: NodeTagsListItemView,
-
-        childViewOptions: function () {
-
-            return {
-                'displayReadOnlyCheckboxes': this.options.displayReadOnlyCheckboxes,
-            };
-        },
+        childView: PresetNodeTagsListItemView,
 
         setTags: function (tags) {
 
-            this.collection = new NodeTagsCollection( tags );
+            this.collection = new PresetNodeTagsCollection( tags );
 
             if (tags.length === 0) {
 

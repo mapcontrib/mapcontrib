@@ -3,18 +3,18 @@
 define([
 
     'backbone',
-    'ui/form/nodeTags/model',
+    'ui/form/presetNodeTags/model',
 ],
 function (
 
     Backbone,
-    NodeTagsModel
+    PresetNodeTagsModel
 ) {
 
     'use strict';
 
     return Backbone.Collection.extend({
 
-        model: NodeTagsModel,
+        model: PresetNodeTagsModel,
     });
 });

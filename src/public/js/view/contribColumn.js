@@ -14,7 +14,7 @@ define([
     'const',
     'settings',
     'model/poiLayer',
-    'ui/form/nodeTags/list'
+    'ui/form/contribNodeTags/list'
 ],
 function (
 
@@ -30,7 +30,7 @@ function (
     CONST,
     settings,
     PoiLayerModel,
-    NodeTagsList
+    ContribNodeTagsList
 ) {
 
     'use strict';
@@ -127,9 +127,7 @@ function (
 
         onRender: function () {
 
-            this._tagList = new NodeTagsList({
-                'displayReadOnlyCheckboxes': false
-            });
+            this._tagList = new ContribNodeTagsList();
 
             this._tagList.setTags([]);
 
