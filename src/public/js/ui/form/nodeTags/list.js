@@ -19,6 +19,13 @@ function (
 
         childView: NodeTagsListItemView,
 
+        childViewOptions: function () {
+
+            return {
+                'displayReadOnlyCheckboxes': this.options.displayReadOnlyCheckboxes,
+            };
+        },
+
         setTags: function (tags) {
 
             this.collection = new NodeTagsCollection( tags );

@@ -69,7 +69,9 @@ function (
 
         onRender: function () {
 
-            this._tagList = new NodeTagsList();
+            this._tagList = new NodeTagsList({
+                'displayReadOnlyCheckboxes': true
+            });
 
             this._tagList.setTags( this.model.get('tags') );
 

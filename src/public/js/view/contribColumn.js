@@ -127,7 +127,9 @@ function (
 
         onRender: function () {
 
-            this._tagList = new NodeTagsList();
+            this._tagList = new NodeTagsList({
+                'displayReadOnlyCheckboxes': false
+            });
 
             this._tagList.setTags([]);
 
@@ -167,7 +169,7 @@ function (
             map.addLayer( this._buildNewMarker() );
 
             this.close();
-return;
+
             osmEdit.createNode()
             .then(function (nodeId) {
 

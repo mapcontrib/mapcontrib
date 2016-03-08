@@ -478,11 +478,11 @@ __p += '<div class="form-group append-xs-2">\n    <div class="input-group">\n   
 __e( key ) +
 '">\n        <div class="input-group-btn">\n            <button type="button" class="btn btn-info info_btn" tabindex="-1"><i class="fa fa-fw fa-info-circle"></i></button>\n        </div>\n    </div>\n    <div class="input-group">\n        <input type="text" class="form-control value" data-l10n-id="uiFormNodeTags_value" value="' +
 __e( value ) +
-'">\n        <div class="input-group-btn">\n            <button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>\n        </div>\n    </div>\n    <div class="checkbox">\n        <input type="checkbox" id="keyReadOnly_' +
+'">\n        <div class="input-group-btn">\n            <button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>\n        </div>\n    </div>\n    <div class="checkbox readonly_checkboxes">\n        <input type="checkbox" id="keyReadOnly_' +
 __e( cid ) +
 '" class="keyReadOnly" value="1">\n        <label for="keyReadOnly_' +
 __e( cid ) +
-'" data-l10n-id="uiFormNodeTags_keyReadOnly">Clef en lecture seule</label>\n    </div>\n    <div class="checkbox">\n        <input type="checkbox" id="valueReadOnly_' +
+'" data-l10n-id="uiFormNodeTags_keyReadOnly">Clef en lecture seule</label>\n    </div>\n    <div class="checkbox readonly_checkboxes">\n        <input type="checkbox" id="valueReadOnly_' +
 __e( cid ) +
 '" class="valueReadOnly" value="1">\n        <label for="valueReadOnly_' +
 __e( cid ) +
