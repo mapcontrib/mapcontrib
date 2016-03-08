@@ -388,7 +388,10 @@ app.get('/theme-:fragment', function (req, res) {
 
                         var themeId = themes[i]._id.toString();
 
-                        if ( req.session.themes.indexOf( themeId ) === -1 ) {
+                        if (
+                            req.session.themes.indexOf( themeId ) === -1
+                            || themes[i].owners.indexOf('*') !== -1
+                        ) {
 
                             req.session.themes.push( themeId );
                         }
