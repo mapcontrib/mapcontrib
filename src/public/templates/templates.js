@@ -14,6 +14,16 @@ this["JST"]["contribColumn.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
+__p += '<section id="contrib_column" class="column right red">\n    <header>\n        <button type="button" class="btn btn-link btn-lg pull-right close_btn">\n            <i class="fa fa-close"></i>\n        </button>\n\n        <h2 data-l10n-id="contribColumn_title"></h2>\n    </header>\n\n    <div class="container-fluid content">\n        <div class="row">\n            <div class="col-xs-12">\n                <form>\n                    <div class="rg_presets_nav"></div>\n                    <hr>\n                    <div class="rg_nav"></div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>\n';
+
+}
+return __p
+};
+
+this["JST"]["contribFormColumn.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
 __p += '<section id="contrib_column" class="column right red">\n    <header>\n        <button type="button" class="btn btn-link btn-lg pull-right close_btn">\n            <i class="fa fa-close"></i>\n        </button>\n\n        <h2 data-l10n-id="contribColumn_title"></h2>\n    </header>\n\n    <div class="container-fluid content">\n        <div class="row">\n            <div class="col-xs-12">\n                <form>\n                    <div class="rg_tag_list"></div>\n\n                    <div class="sticky-footer">\n                        <button type="button" class="btn btn-default add_btn" data-l10n-id="contribColumn_addTag"></button>\n                        <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>\n';
 
 }
@@ -479,6 +489,30 @@ __e( key ) +
 '">\n        <div class="input-group-btn">\n            <button type="button" class="btn btn-info info_btn" tabindex="-1"><i class="fa fa-fw fa-info-circle"></i></button>\n        </div>\n    </div>\n    <div class="input-group">\n        <input type="text" class="form-control value" data-l10n-id="uiFormNodeTags_value" value="' +
 __e( value ) +
 '">\n        <div class="input-group-btn">\n            <button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>\n        </div>\n    </div>\n</div>\n';
+
+}
+return __p
+};
+
+this["JST"]["ui/form/navPillsStacked/list.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<nav>\n    <ul class="nav nav-pills nav-stacked">\n    </ul>\n</nav>\n';
+
+}
+return __p
+};
+
+this["JST"]["ui/form/navPillsStacked/listItem.html"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<a href="' +
+__e( href ) +
+'">' +
+__e( label) +
+'</a>\n';
 
 }
 return __p

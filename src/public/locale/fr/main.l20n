@@ -89,6 +89,7 @@
 
 /* Contribution column */
 <contribColumn_title "Ajouter un marqueur">
+<contribColumn_freeAddition "Ajout libre">
 <contribColumn_addTag "Ajouter un tag">
 
 

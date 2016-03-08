@@ -1323,6 +1323,12 @@
   background: #f48c08;
   box-shadow: 0 0 4px 12px #f48c08;
 }
+.column.orange hr,
+.notification.orange hr,
+.pop.orange hr,
+.fullpage.orange hr {
+  border-color: rgba(255, 255, 255, 0.4);
+}
 .column.orange .close_btn,
 .notification.orange .close_btn,
 .pop.orange .close_btn,
@@ -2625,6 +2631,12 @@
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #e54041;
   box-shadow: 0 0 4px 12px #e54041;
+}
+.column.red hr,
+.notification.red hr,
+.pop.red hr,
+.fullpage.red hr {
+  border-color: rgba(255, 255, 255, 0.4);
 }
 .column.red .close_btn,
 .notification.red .close_btn,
@@ -3929,6 +3941,12 @@
   background: #452a38;
   box-shadow: 0 0 4px 12px #452a38;
 }
+.column.purple hr,
+.notification.purple hr,
+.pop.purple hr,
+.fullpage.purple hr {
+  border-color: rgba(255, 255, 255, 0.4);
+}
 .column.purple .close_btn,
 .notification.purple .close_btn,
 .pop.purple .close_btn,
@@ -5231,6 +5249,12 @@
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #22b0df;
   box-shadow: 0 0 4px 12px #22b0df;
+}
+.column.blue hr,
+.notification.blue hr,
+.pop.blue hr,
+.fullpage.blue hr {
+  border-color: rgba(255, 255, 255, 0.4);
 }
 .column.blue .close_btn,
 .notification.blue .close_btn,
@@ -6535,6 +6559,12 @@
   background: #009d95;
   box-shadow: 0 0 4px 12px #009d95;
 }
+.column.turquoise hr,
+.notification.turquoise hr,
+.pop.turquoise hr,
+.fullpage.turquoise hr {
+  border-color: rgba(255, 255, 255, 0.4);
+}
 .column.turquoise .close_btn,
 .notification.turquoise .close_btn,
 .pop.turquoise .close_btn,
@@ -7838,6 +7868,12 @@
   background: #198145;
   box-shadow: 0 0 4px 12px #198145;
 }
+.column.green hr,
+.notification.green hr,
+.pop.green hr,
+.fullpage.green hr {
+  border-color: rgba(255, 255, 255, 0.4);
+}
 .column.green .close_btn,
 .notification.green .close_btn,
 .pop.green .close_btn,
@@ -9128,6 +9164,12 @@
   box-shadow: 0 0 4px 12px #fff;
   border-top-color: #4e535b;
 }
+.column.white hr,
+.notification.white hr,
+.pop.white hr,
+.fullpage.white hr {
+  border-color: #4e535b;
+}
 .column.white input + .help-block,
 .notification.white input + .help-block,
 .pop.white input + .help-block,
@@ -10104,6 +10146,12 @@
   border-top-color: rgba(255, 255, 255, 0.4);
   background: #2f3237;
   box-shadow: 0 0 4px 12px #2f3237;
+}
+.column.anthracite hr,
+.notification.anthracite hr,
+.pop.anthracite hr,
+.fullpage.anthracite hr {
+  border-color: rgba(255, 255, 255, 0.4);
 }
 .column.anthracite .close_btn,
 .notification.anthracite .close_btn,

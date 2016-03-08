@@ -49,13 +49,20 @@ function (
 
         regions: {
 
-            'presetsNav': '.rg_presets_nav',
-            'nav': '.rg_nav',
+            'tagList': '.rg_tag_list',
         },
 
         ui: {
 
             'column': '#contrib_column',
+            'addBtn': '.add_btn',
+        },
+
+        events: {
+
+            'click @ui.addBtn': 'onClickAddBtn',
+
+            'submit': 'onSubmit',
         },
 
         initialize: function () {
@@ -63,6 +70,7 @@ function (
             var self = this;
 
             this._radio = Backbone.Wreqr.radio.channel('global');
+            this._user = this._radio.reqres.request('model', 'user');
         },
 
         setModel: function (model) {
@@ -125,26 +133,63 @@ function (
 
         onRender: function () {
 
-            var items = [],
-            presetModels = this._radio.reqres.request('presets').models;
+            this._tagList = new ContribNodeTagsList();
 
-            for (var key in presetModels) {
-                if (presetModels.hasOwnProperty(key)) {
-                    items.push({
-                        'label': presetModels[key].get('name')
-                    });
-                }
-            }
+            this._tagList.setTags([]);
 
-            this._presetsNav = new NavPillsStackedList();
-            this._presetsNav.setItems(items);
-            this.getRegion('presetsNav').show( this._presetsNav );
+            this.getRegion('tagList').show( this._tagList );
+        },
 
-            this._presetsNav = new NavPillsStackedList();
-            this._presetsNav.setItems([{
-                'label': document.l10n.getSync('contribColumn_freeAddition')
-            }]);
-            this.getRegion('nav').show( this._presetsNav );
+        onClickAddBtn: function () {
+
+            this._tagList.addTag();
+        },
+
+        onSubmit: function (e) {
+
+            e.preventDefault();
+
+            this.model.set('tags', this._tagList.getTags());
+
+            var map = this._radio.reqres.request('map'),
+            osmEdit = new OsmEditHelper(
+                osmAuth({
+
+                    'oauth_consumer_key': settings.oauthConsumerKey,
+                    'oauth_secret': settings.oauthSecret,
+                    'oauth_token': this._user.get('token'),
+                    'oauth_token_secret': this._user.get('tokenSecret'),
+                })
+            );
+
+            osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+            osmEdit.setChangesetComment(CONST.osm.changesetComment);
+            osmEdit.setLatitude(this.model.get('lat'));
+            osmEdit.setLongitude(this.model.get('lng'));
+            osmEdit.setTags(this.model.get('tags'));
+            osmEdit.setUid(this._user.get('osmId'));
+            osmEdit.setDisplayName(this._user.get('displayName'));
+
+            map.addLayer( this._buildNewMarker() );
+
+            this.close();
+
+            osmEdit.createNode()
+            .then(function (nodeId) {
+
+                var key = 'node-'+ nodeId,
+                contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
+
+                this.model.set('version', 0);
+
+                contributions[ key ] = this.model.attributes;
+
+                localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
+            }.bind(this))
+            .catch(function (err) {
+
+                console.error(err);
+            });
         },
     });
 });
