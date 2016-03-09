@@ -1054,6 +1054,11 @@ function (
 
         onCommandShowContribForm: function (options) {
 
+            this.showContribForm(options);
+        },
+
+        showContribForm: function (options) {
+
             var view = new ContribFormColumnView(options);
 
             this.getRegion('contribFormColumn').show( view );
@@ -1329,15 +1334,23 @@ function (
 
         onClickMapToAddPoint: function (e) {
 
-            this._contribColumnView.setModel(
-                new OsmNodeModel({
+            var osmNodeModel = new OsmNodeModel({
 
-                    'lat': e.latlng.lat,
-                    'lng': e.latlng.lng,
-                })
-            );
+                'lat': e.latlng.lat,
+                'lng': e.latlng.lng,
+            });
 
-            this._contribColumnView.open();
+            if ( this._presets.models.length === 0 ) {
+
+                this.showContribForm({
+                    'model': osmNodeModel
+                });
+            }
+            else {
+
+                this._contribColumnView.setModel( osmNodeModel );
+                this._contribColumnView.open();
+            }
         },
 
         showContribCrosshair: function () {
