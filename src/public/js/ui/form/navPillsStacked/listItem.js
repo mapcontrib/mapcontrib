@@ -32,5 +32,20 @@ function (
 
             'link': 'a',
         },
+
+        events: {
+
+            'click @ui.link': 'onClick'
+        },
+
+        onClick: function (e) {
+
+            var callback = this.model.get('callback');
+
+            if (callback) {
+
+                callback();
+            }
+        }
     });
 });

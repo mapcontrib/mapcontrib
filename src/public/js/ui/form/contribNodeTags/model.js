@@ -15,8 +15,8 @@ function (
 
         defaults: {
 
-            'key': undefined,
-            'value': undefined,
+            'key': '',
+            'value': '',
             'keyReadOnly': true,
             'valueReadOnly': false,
         },

@@ -39,7 +39,7 @@ function (
 
     return Marionette.LayoutView.extend({
 
-        template: JST['contribColumn.html'],
+        template: JST['contribFormColumn.html'],
 
         behaviors: {
 
@@ -54,7 +54,7 @@ function (
 
         ui: {
 
-            'column': '#contrib_column',
+            'column': '#contrib_form_column',
             'addBtn': '.add_btn',
         },
 
@@ -67,17 +67,8 @@ function (
 
         initialize: function () {
 
-            var self = this;
-
             this._radio = Backbone.Wreqr.radio.channel('global');
             this._user = this._radio.reqres.request('model', 'user');
-        },
-
-        setModel: function (model) {
-
-            this.model = model;
-
-            this.render();
         },
 
         _buildNewMarker: function () {
@@ -135,7 +126,14 @@ function (
 
             this._tagList = new ContribNodeTagsList();
 
-            this._tagList.setTags([]);
+            if (this.options.presetModel) {
+
+                this._tagList.setTags(this.options.presetModel.get('tags'));
+            }
+            else {
+
+                this._tagList.setTags([]);
+            }
 
             this.getRegion('tagList').show( this._tagList );
         },

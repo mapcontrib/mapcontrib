@@ -25,7 +25,10 @@ function (
 
             if (tags.length === 0) {
 
-                this.collection.add({});
+                this.collection.add({
+                    'keyReadOnly': false,
+                    'valueReadOnly': false
+                });
             }
 
             this.render();
@@ -33,7 +36,10 @@ function (
 
         addTag: function () {
 
-            this.collection.add({});
+            this.collection.add({
+                'keyReadOnly': false,
+                'valueReadOnly': false
+            });
         },
 
         getTags: function () {

@@ -45,6 +45,21 @@ function (
         onRender: function () {
 
             document.l10n.localizeNode( this.el );
+
+            if (this.model.get('keyReadOnly')) {
+
+                this.ui.key.prop('disabled', 'disabled');
+            }
+
+            if (this.model.get('valueReadOnly')) {
+
+                this.ui.value.prop('disabled', 'disabled');
+            }
+
+            if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
+
+                this.ui.removeBtn.prop('disabled', 'disabled');
+            }
         },
 
         onChangeKey: function (e) {

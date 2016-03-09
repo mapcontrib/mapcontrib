@@ -22,6 +22,7 @@ define([
     'view/userColumn',
     'view/linkColumn',
     'view/contribColumn',
+    'view/contribFormColumn',
     'view/editSettingColumn',
     'view/editPoiColumn',
     'view/editPoiLayerColumn',
@@ -66,6 +67,7 @@ function (
     UserColumnView,
     LinkColumnView,
     ContribColumnView,
+    ContribFormColumnView,
     EditSettingColumnView,
     EditPoiColumnView,
     EditPoiLayerColumnView,
@@ -149,6 +151,7 @@ function (
             'userColumn': '#rg_user_column',
             'linkColumn': '#rg_link_column',
             'contribColumn': '#rg_contrib_column',
+            'contribFormColumn': '#rg_contrib_form_column',
             'editSettingColumn': '#rg_edit_setting_column',
             'editPoiColumn': '#rg_edit_poi_column',
             'editPoiLayerColumn': '#rg_edit_poi_layer_column',
@@ -232,6 +235,10 @@ function (
                 'column:showPoiLayer': function (poiLayerModel) {
 
                     self.onCommandShowPoiLayer( poiLayerModel );
+                },
+                'column:showContribForm': function (presetModel) {
+
+                    self.onCommandShowContribForm( presetModel );
                 },
                 'column:showPresetTags': function (presetModel) {
 
@@ -1042,10 +1049,16 @@ function (
 
             this.getRegion('editPoiLayerColumn').show( view );
 
-            window.requestAnimationFrame(function () {
+            view.open();
+        },
 
-                view.open();
-            });
+        onCommandShowContribForm: function (options) {
+
+            var view = new ContribFormColumnView(options);
+
+            this.getRegion('contribFormColumn').show( view );
+
+            view.open();
         },
 
         onCommandShowPresetTags: function (presetModel) {
@@ -1069,10 +1082,7 @@ function (
 
             this.getRegion('editPresetTagsColumn').show( view );
 
-            window.requestAnimationFrame(function () {
-
-                view.open();
-            });
+            view.open();
         },
 
 
