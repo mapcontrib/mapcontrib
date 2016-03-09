@@ -38,6 +38,14 @@ function (
             'click @ui.link': 'onClick'
         },
 
+        templateHelpers: function () {
+
+            return {
+
+                'description': markdown.toHTML( this.model.get('description') ),
+            };
+        },
+
         onClick: function (e) {
 
             var callback = this.model.get('callback');

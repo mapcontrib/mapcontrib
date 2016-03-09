@@ -16,6 +16,7 @@ function (
         defaults: {
 
             'label': '',
+            'description': '',
             'href': '#',
             'callback': undefined,
         },

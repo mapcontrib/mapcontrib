@@ -99,6 +99,7 @@ function (
                 if (presetModels.hasOwnProperty(key)) {
                     presetNavItems.push({
                         'label': presetModels[key].get('name'),
+                        'description': presetModels[key].get('description'),
                         'callback': this._radio.commands.execute.bind(
                             this._radio.commands,
                             'column:showContribForm',

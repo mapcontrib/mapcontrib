@@ -1,1 +1,9 @@
-<a href="<%- href %>"><%- label%></a>
+<a href="<%- href %>">
+    <%- label%>
+
+    <% if (description) { %>
+    <div class="help-block">
+        <%= description %>
+    </div>
+    <% } %>
+</a>
