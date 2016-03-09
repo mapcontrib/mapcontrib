@@ -89,7 +89,8 @@
 
 /* Contribution column */
 <contribColumn_title "Ajouter un marqueur">
-<contribColumn_freeAddition "Ajout libre">
+<contribColumn_description "Sélectionnez un type de nœud">
+<contribColumn_freeAddition "Ajout de tags libre">
 <contribColumn_addTag "Ajouter un tag">
 
 
