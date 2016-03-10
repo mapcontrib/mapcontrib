@@ -88,7 +88,7 @@
 
 
 /* Contribution column */
-<contribColumn_title "Add a marker">
+<contribColumn_title "Add a node">
 <contribColumn_description "Choose a type of node">
 <contribColumn_freeAddition "Free tags addition">
 <contribColumn_addTag "Add a tag">
