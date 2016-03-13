@@ -313,6 +313,7 @@ var CONST = requirejs('const'),
 userApi = require('./api/user.js'),
 themeApi = require('./api/theme.js'),
 poiLayerApi = require('./api/poiLayer.js'),
+presetApi = require('./api/preset.js'),
 options = {
 
     'CONST': CONST,
@@ -323,6 +324,7 @@ options = {
 userApi.setOptions( options );
 themeApi.setOptions( options );
 poiLayerApi.setOptions( options );
+presetApi.setOptions( options );
 
 
 app.get('/api/user/logout', userApi.api.logout);
@@ -345,6 +347,12 @@ app.post('/api/poiLayer', isLoggedIn, poiLayerApi.api.post);
 app.put('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.put);
 app.delete('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.delete);
 
+app.get('/api/preset', presetApi.api.getAll);
+app.get('/api/theme/:themeId/presets', presetApi.api.getAll);
+app.get('/api/preset/:_id', presetApi.api.get);
+app.post('/api/preset', isLoggedIn, presetApi.api.post);
+app.put('/api/preset/:_id', isLoggedIn, presetApi.api.put);
+app.delete('/api/preset/:_id', isLoggedIn, presetApi.api.delete);
 
 app.get('/theme-:fragment', function (req, res) {
 
@@ -359,16 +367,20 @@ app.get('/theme-:fragment', function (req, res) {
         json.user = '{}';
     }
 
-    themeApi.api.findFromFragment( req, res, req.params.fragment, function ( themeObject ) {
+    themeApi.api.findFromFragment(req.params.fragment)
+    .then(function ( themeObject ) {
 
-        poiLayerApi.api.findFromThemeId( req, res, themeObject._id, function ( poiLayerObject ) {
+        var promises = [
+            poiLayerApi.api.findFromThemeId(themeObject._id),
+            presetApi.api.findFromThemeId(themeObject._id),
+        ];
 
-            json.theme = JSON.stringify( themeObject );
-            json.poiLayers = JSON.stringify( poiLayerObject );
+        if ( req.session.user ) {
 
-            if ( req.session.user ) {
+            promises.push(
 
-                themeApi.api.findFromOwnerId(req, res, req.session.user._id, function (themes) {
+                themeApi.api.findFromOwnerId(req.session.user._id)
+                .then(function (themes) {
 
                     req.session.themes = [];
 
@@ -376,22 +388,36 @@ app.get('/theme-:fragment', function (req, res) {
 
                         var themeId = themes[i]._id.toString();
 
-                        if ( req.session.themes.indexOf( themeId ) === -1 ) {
+                        if (
+                            req.session.themes.indexOf( themeId ) === -1
+                            || themes[i].owners.indexOf('*') !== -1
+                        ) {
 
                             req.session.themes.push( themeId );
                         }
                     }
+                })
+            );
+        }
 
-                    res.render('themeMap', json);
-                });
-            }
-            else {
+        Promise.all(promises)
+        .then(function ( results ) {
 
-                res.render('themeMap', json);
-            }
-        });
-    });
+            json.theme = JSON.stringify( themeObject );
+            json.poiLayers = JSON.stringify( results[0] );
+            json.presets = JSON.stringify( results[1] );
+
+            res.render('themeMap', json);
+        })
+        .catch( onPromiseError.bind(this, res) );
+    })
+    .catch( onPromiseError.bind(this, res) );
 });
+
+function onPromiseError(errorCode) {
+
+    res.sendStatus(errorCode);
+}
 
 
 

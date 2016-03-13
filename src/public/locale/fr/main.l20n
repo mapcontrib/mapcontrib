@@ -30,10 +30,10 @@
 <buttonUserTooltip title:"Mon compte">
 <buttonLinkTooltip title:"Partager">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
-<buttonEditTooltip title:"Modifier le thème">
 <buttonEditSettingTooltip title:"Configuration générale">
 <buttonEditPoiTooltip title:"Centres d'intérêts">
 <buttonEditTileTooltip title:"Fonds de carte">
+<buttonEditPresetTooltip title:"Types de nœuds">
 <buttonHelpTooltip title:"Aide">
 
 
@@ -88,10 +88,10 @@
 
 
 /* Contribution column */
-<contribColumn_title "Ajouter un marqueur">
+<contribColumn_title "Ajouter un nœud">
+<contribColumn_description "Sélectionnez un type de nœud">
+<contribColumn_freeAddition "Ajout de tags libre">
 <contribColumn_addTag "Ajouter un tag">
-<contribColumn_key placeholder:"Clef">
-<contribColumn_value placeholder:"Valeur">
 
 
 /* Link column */
@@ -155,6 +155,20 @@
 <editTileColumn_maxZoom "Zoom maximum&nbsp;: {{ $maxZoom }}">
 
 
+/* Edit presets column */
+<editPresetColumn_title "Types de nœuds">
+<editPresetColumn_addPreset "Ajouter un type de nœud">
+<editPresetColumn_clickButton "Cliquez sur le bouton ci-dessous">
+
+
+/* Edit presets tags column */
+<editPresetTagsColumn_title "Édition">
+<editPresetTagsColumn_presetName "Nom du type de nœud">
+<editPresetTagsColumn_presetDescription "Description">
+<editPresetTagsColumn_presetTags "Tags">
+<editPresetTagsColumn_addTag "Ajouter un tag">
+
+
 /* Edit POI data column */
 <editPoiDataColumn_title "Éditer les données">
 <editPoiDataColumn_emptyState "Actualisation des données de l'élément à modifier...">
@@ -187,3 +201,10 @@
 <contributionErrorNotification_title "Contribution échouée">
 <contributionErrorNotification_content "Une erreur est survenue lors de l'envoi de votre contribution.">
 <contributionErrorNotification_retry "Retenter l'envoi">
+
+
+/* Node tag field UI */
+<uiFormNodeTags_key placeholder:"Clef">
+<uiFormNodeTags_value placeholder:"Valeur">
+<uiFormNodeTags_keyReadOnly "Clef en lecture seule">
+<uiFormNodeTags_valueReadOnly "Valeur en lecture seule">

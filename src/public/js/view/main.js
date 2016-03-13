@@ -22,11 +22,14 @@ define([
     'view/userColumn',
     'view/linkColumn',
     'view/contribColumn',
+    'view/contribFormColumn',
     'view/editSettingColumn',
     'view/editPoiColumn',
     'view/editPoiLayerColumn',
     'view/editPoiMarkerModal',
     'view/editTileColumn',
+    'view/editPresetColumn',
+    'view/editPresetTagsColumn',
     'view/editPoiDataColumn',
     'view/zoomNotification',
     'view/overpassTimeoutNotification',
@@ -34,9 +37,11 @@ define([
 
     'model/theme',
     'model/poiLayer',
+    'model/preset',
     'model/osmNode',
 
     'collection/poiLayer',
+    'collection/preset',
 
     'ui/map',
 ],
@@ -62,11 +67,14 @@ function (
     UserColumnView,
     LinkColumnView,
     ContribColumnView,
+    ContribFormColumnView,
     EditSettingColumnView,
     EditPoiColumnView,
     EditPoiLayerColumnView,
     EditPoiMarkerModalView,
     EditTileColumnView,
+    EditPresetColumnView,
+    EditPresetTagsColumnView,
     EditPoiDataColumnView,
     ZoomNotificationView,
     OverpassTimeoutNotificationView,
@@ -74,9 +82,11 @@ function (
 
     ThemeModel,
     PoiLayerModel,
+    PresetModel,
     OsmNodeModel,
 
     PoiLayerCollection,
+    PresetCollection,
 
     MapUi
 ) {
@@ -114,7 +124,6 @@ function (
             'userButton': '#user_toolbar .user_btn',
             'linkButton': '#user_toolbar .link_btn',
             'contribButton': '#user_toolbar .contrib_btn',
-            'editButton': '#user_toolbar .edit_btn',
 
             'helpToolbar': '#help_toolbar',
             'helpButton': '#help_toolbar .help_btn',
@@ -125,6 +134,7 @@ function (
             'editSettingButton': '#edit_toolbar .setting_btn',
             'editPoiButton': '#edit_toolbar .poi_btn',
             'editTileButton': '#edit_toolbar .tile_btn',
+            'editPresetButton': '#edit_toolbar .preset_btn',
         },
 
         regions: {
@@ -141,11 +151,14 @@ function (
             'userColumn': '#rg_user_column',
             'linkColumn': '#rg_link_column',
             'contribColumn': '#rg_contrib_column',
+            'contribFormColumn': '#rg_contrib_form_column',
             'editSettingColumn': '#rg_edit_setting_column',
             'editPoiColumn': '#rg_edit_poi_column',
             'editPoiLayerColumn': '#rg_edit_poi_layer_column',
             'editPoiMarkerModal': '#rg_edit_poi_marker_modal',
             'editTileColumn': '#rg_edit_tile_column',
+            'editPresetColumn': '#rg_edit_preset_column',
+            'editPresetTagsColumn': '#rg_edit_preset_tags_column',
             'editPoiDataColumn': '#rg_edit_poi_data_column',
 
             'zoomNotification': '#rg_zoom_notification',
@@ -170,10 +183,10 @@ function (
             'click @ui.userButton': 'onClickUser',
             'click @ui.linkButton': 'onClickLink',
             'click @ui.contribButton': 'onClickContrib',
-            'click @ui.editButton': 'onClickEdit',
             'click @ui.editSettingButton': 'onClickEditSetting',
             'click @ui.editPoiButton': 'onClickEditPoi',
             'click @ui.editTileButton': 'onClickEditTile',
+            'click @ui.editPresetButton': 'onClickEditPreset',
 
             'keydown': 'onKeyDown',
         },
@@ -191,6 +204,7 @@ function (
             this.model = new ThemeModel( window.theme );
 
             this._poiLayers = new PoiLayerCollection( window.poiLayers );
+            this._presets = new PresetCollection( window.presets );
 
 
             this._radio.reqres.setHandlers({
@@ -198,6 +212,10 @@ function (
                 'poiLayers': function (layerId) {
 
                     return self._poiLayers;
+                },
+                'presets': function (layerId) {
+
+                    return self._presets;
                 },
                 'map:getCurrentZoom': function (tileId) {
 
@@ -217,6 +235,14 @@ function (
                 'column:showPoiLayer': function (poiLayerModel) {
 
                     self.onCommandShowPoiLayer( poiLayerModel );
+                },
+                'column:showContribForm': function (presetModel) {
+
+                    self.onCommandShowContribForm( presetModel );
+                },
+                'column:showPresetTags': function (presetModel) {
+
+                    self.onCommandShowPresetTags( presetModel );
                 },
                 'modal:showEditPoiMarker': function (poiLayerModel) {
 
@@ -300,11 +326,6 @@ function (
                 if ( this.model.isOwner(userModel) === true ) {
 
                     this.showEditTools();
-
-                    if ( this.isLargeScreen() ) {
-
-                        this.ui.editToolbar.addClass('open');
-                    }
                 }
             }
             else {
@@ -324,6 +345,7 @@ function (
             this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
             this._editPoiColumnView = new EditPoiColumnView({ 'model': this.model });
             this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
+            this._editPresetColumnView = new EditPresetColumnView({ 'model': this.model });
 
             this._zoomNotificationView = new ZoomNotificationView();
 
@@ -339,6 +361,7 @@ function (
             this.getRegion('editSettingColumn').show( this._editSettingColumnView );
             this.getRegion('editPoiColumn').show( this._editPoiColumnView );
             this.getRegion('editTileColumn').show( this._editTileColumnView );
+            this.getRegion('editPresetColumn').show( this._editPresetColumnView );
 
             this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
@@ -995,13 +1018,12 @@ function (
 
         showEditTools: function () {
 
-            this.ui.editButton.removeClass('hide');
+            this.ui.editToolbar.removeClass('hide');
         },
 
         hideEditTools: function () {
 
-            this.ui.editButton.addClass('hide');
-            this.ui.editToolbar.removeClass('open');
+            this.ui.editToolbar.addClass('hide');
         },
 
 
@@ -1027,10 +1049,45 @@ function (
 
             this.getRegion('editPoiLayerColumn').show( view );
 
-            window.requestAnimationFrame(function () {
+            view.open();
+        },
 
-                view.open();
-            });
+        onCommandShowContribForm: function (options) {
+
+            this.showContribForm(options);
+        },
+
+        showContribForm: function (options) {
+
+            var view = new ContribFormColumnView(options);
+
+            this.getRegion('contribFormColumn').show( view );
+
+            view.open();
+        },
+
+        onCommandShowPresetTags: function (presetModel) {
+
+            var view;
+
+            if ( presetModel ) {
+
+                view = new EditPresetTagsColumnView({
+
+                    'model': presetModel
+                });
+            }
+            else {
+
+                view = new EditPresetTagsColumnView({
+
+                    'model': new PresetModel({ 'themeId': this.model.get('_id') })
+                });
+            }
+
+            this.getRegion('editPresetTagsColumn').show( view );
+
+            view.open();
         },
 
 
@@ -1277,15 +1334,23 @@ function (
 
         onClickMapToAddPoint: function (e) {
 
-            this._contribColumnView.setModel(
-                new OsmNodeModel({
+            var osmNodeModel = new OsmNodeModel({
 
-                    'lat': e.latlng.lat,
-                    'lng': e.latlng.lng,
-                })
-            );
+                'lat': e.latlng.lat,
+                'lng': e.latlng.lng,
+            });
 
-            this._contribColumnView.open();
+            if ( this._presets.models.length === 0 ) {
+
+                this.showContribForm({
+                    'model': osmNodeModel
+                });
+            }
+            else {
+
+                this._contribColumnView.setModel( osmNodeModel );
+                this._contribColumnView.open();
+            }
         },
 
         showContribCrosshair: function () {
@@ -1298,11 +1363,6 @@ function (
             $('body').off('.contribCrosshair', this.hideContribCrosshair.bind(this) );
 
             this.ui.map.css('cursor', 'default');
-        },
-
-        onClickEdit: function () {
-
-            this.ui.editToolbar.toggleClass('open');
         },
 
         onClickEditSetting: function () {
@@ -1318,6 +1378,11 @@ function (
         onClickEditTile: function () {
 
             this._editTileColumnView.open();
+        },
+
+        onClickEditPreset: function () {
+
+            this._editPresetColumnView.open();
         },
 
         setPosition: function (latLng, zoomLevel) {

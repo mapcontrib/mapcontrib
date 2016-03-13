@@ -127,13 +127,17 @@ module.exports = function(grunt) {
                     processName: function(filename) {
 
                         filename = filename.replace(/src\/public\/templates\//g, '');
+                        filename = filename.replace(/src\/public\/js\//g, '');
 
                         return filename;
                     }
                 },
                 files: {
 
-                    'src/public/templates/templates.js': ['src/public/templates/**/*.html'],
+                    'src/public/templates/templates.js': [
+                        'src/public/templates/**/*.html',
+                        'src/public/js/ui/**/*.html'
+                    ],
                 }
             },
         },
@@ -199,6 +203,7 @@ module.exports = function(grunt) {
                 files: [
 
                     'src/public/templates/**/*.html',
+                    'src/public/js/ui/**/*.html',
                 ],
                 tasks: ['jst']
             },
