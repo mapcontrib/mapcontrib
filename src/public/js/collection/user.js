@@ -12,7 +12,7 @@ function (
     _,
     Backbone,
     settings,
-    userModel
+    UserModel
 ) {
 
     'use strict';
@@ -21,7 +21,7 @@ function (
 
         url: settings.apiPath + 'user',
 
-        model: userModel,
+        model: UserModel,
 
         comparator: 'displayName',
     });

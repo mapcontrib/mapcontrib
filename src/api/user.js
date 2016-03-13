@@ -1,6 +1,7 @@
 
 var mongo = require('mongodb'),
 requirejs = require('requirejs'),
+Promise = require('es6-promise').Promise,
 UserModel = requirejs('model/user'),
 options = {
 

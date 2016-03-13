@@ -2,6 +2,7 @@
 var crypto = require('crypto'),
 mongo = require('mongodb'),
 requirejs = require('requirejs'),
+Promise = require('es6-promise').Promise,
 ThemeModel = requirejs('model/theme'),
 options = {
 
@@ -152,9 +153,14 @@ api = {
 
         if ( req.query.fragment ) {
 
-            api.findFromFragment( req, res, req.query.fragment, function (theme) {
+            api.findFromFragment(req.query.fragment)
+            .then(function (theme) {
 
                 res.send(theme);
+            })
+            .catch(function (errorCode) {
+
+                res.sendStatus(errorCode);
             });
 
             return true;
@@ -198,80 +204,81 @@ api = {
     },
 
 
-    findFromFragment: function (req, res, fragment, callback) {
+    findFromFragment: function (fragment) {
 
-        var collection = options.database.collection('theme');
+        return new Promise(function (resolve, reject) {
 
-        if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
+            var collection = options.database.collection('theme');
 
-            res.sendStatus(400);
+            if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
 
-            return true;
-        }
-
-        collection.find({
-
-            'fragment': fragment
-        })
-        .toArray(function (err, results) {
-
-            if(err) {
-
-                res.sendStatus(500);
-
-                return true;
+                reject(400);
+                return;
             }
 
-            if (results.length === 0) {
+            collection.find({
 
-                res.sendStatus(404);
+                'fragment': fragment
+            })
+            .toArray(function (err, results) {
 
-                return true;
-            }
+                if(err) {
 
-            var result = results[0];
-            result._id = result._id.toString();
+                    reject(500);
+                    return;
+                }
 
-            callback(result);
+                if (results.length === 0) {
+
+                    reject(404);
+                    return;
+                }
+
+                var result = results[0];
+                result._id = result._id.toString();
+
+                resolve(result);
+            });
         });
     },
 
 
-    findFromOwnerId: function (req, res, ownerId, callback) {
+    findFromOwnerId: function (ownerId) {
 
-        var collection = options.database.collection('theme');
+        return new Promise(function (resolve, reject) {
 
-        if ( !ownerId || !options.CONST.pattern.mongoId.test( ownerId ) ) {
+            var collection = options.database.collection('theme');
 
-            res.sendStatus(400);
+            if ( !ownerId || !options.CONST.pattern.mongoId.test( ownerId ) ) {
 
-            return true;
-        }
-
-        collection.find({
-            $or: [
-                { 'owners': ownerId },
-                { 'owners': '*' }
-            ]
-        })
-        .toArray(function (err, results) {
-
-            if(err) {
-
-                res.sendStatus(500);
-
-                return true;
+                reject(400);
+                return;
             }
 
-            if (results.length > 0) {
+            collection.find({
+                $or: [
+                    { 'owners': ownerId },
+                    { 'owners': '*' }
+                ]
+            })
+            .toArray(function (err, results) {
 
-                results.forEach(function (result) {
+                if(err) {
 
-                    result._id = result._id.toString();
-                });
-            }
+                    reject(500);
+                    return;
+                }
 
-            callback(results);
+                if (results.length > 0) {
+
+                    results.forEach(function (result) {
+
+                        result._id = result._id.toString();
+                    });
+                }
+
+                resolve(results);
+            });
         });
     },
 

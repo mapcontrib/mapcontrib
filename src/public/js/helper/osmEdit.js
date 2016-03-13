@@ -164,11 +164,10 @@ function () {
 
         this._tags.forEach(function (tag) {
 
-            var key = Object.keys(tag)[0],
-            tagElement = xml.createElement('tag');
+            var tagElement = xml.createElement('tag');
 
-            tagElement.setAttribute('k', key);
-            tagElement.setAttribute('v', tag[key]);
+            tagElement.setAttribute('k', tag.key);
+            tagElement.setAttribute('v', tag.value);
             nodeElement.appendChild(tagElement);
         });
 

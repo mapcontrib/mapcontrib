@@ -30,10 +30,10 @@
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
-<buttonEditTooltip title:"Modify the theme">
 <buttonEditSettingTooltip title:"Main settings">
 <buttonEditPoiTooltip title:"Points of interest">
 <buttonEditTileTooltip title:"Backgrounds">
+<buttonEditPresetTooltip title:"Nodes types">
 <buttonHelpTooltip title:"Help">
 
 
@@ -88,10 +88,10 @@
 
 
 /* Contribution column */
-<contribColumn_title "Add a marker">
+<contribColumn_title "Add a node">
+<contribColumn_description "Choose a type of node">
+<contribColumn_freeAddition "Free tags addition">
 <contribColumn_addTag "Add a tag">
-<contribColumn_key placeholder:"Key">
-<contribColumn_value placeholder:"Value">
 
 
 /* Link column */
@@ -155,6 +155,20 @@
 <editTileColumn_maxZoom "Maximum zoom: {{ $maxZoom }}">
 
 
+/* Edit presets column */
+<editPresetColumn_title "Nodes types">
+<editPresetColumn_addPreset "Ajouter un type de nœud">
+<editPresetColumn_clickButton "Click the button below">
+
+
+/* Edit presets tags column */
+<editPresetTagsColumn_title "Edit">
+<editPresetTagsColumn_presetName "Node type's name">
+<editPresetTagsColumn_presetDescription "Description">
+<editPresetTagsColumn_presetTags "Tags">
+<editPresetTagsColumn_addTag "Add a tag">
+
+
 /* Edit POI data column */
 <editPoiDataColumn_title "Edit data">
 <editPoiDataColumn_emptyState "Refreshing the element data...">
@@ -187,3 +201,10 @@
 <contributionErrorNotification_title "Contribution failed">
 <contributionErrorNotification_content "An error occured during the send of your contribution.">
 <contributionErrorNotification_retry "Retry to send">
+
+
+/* Node tag field UI */
+<uiFormNodeTags_key placeholder:"Key">
+<uiFormNodeTags_value placeholder:"Value">
+<uiFormNodeTags_keyReadOnly "Read-only key">
+<uiFormNodeTags_valueReadOnly "Read-only value">

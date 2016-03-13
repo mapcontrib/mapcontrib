@@ -14,6 +14,8 @@ define([
     'const',
     'settings',
     'model/poiLayer',
+    'ui/form/contribNodeTags/list',
+    'ui/form/navPillsStacked/list'
 ],
 function (
 
@@ -28,7 +30,9 @@ function (
     MapUi,
     CONST,
     settings,
-    PoiLayerModel
+    PoiLayerModel,
+    ContribNodeTagsList,
+    NavPillsStackedList
 ) {
 
     'use strict';
@@ -36,7 +40,6 @@ function (
     return Marionette.LayoutView.extend({
 
         template: JST['contribColumn.html'],
-        templateField: JST['contribField.html'],
 
         behaviors: {
 
@@ -44,21 +47,15 @@ function (
             'column': {},
         },
 
+        regions: {
+
+            'presetsNav': '.rg_presets_nav',
+            'freeAdditionNav': '.rg_free_addition_nav',
+        },
+
         ui: {
 
             'column': '#contrib_column',
-            'tagList': '.rg_tag_list',
-            'formGroups': '.form-group',
-            'addBtn': '.add_btn',
-            'removeBtn': '.remove_btn',
-        },
-
-        events: {
-
-            'click @ui.addBtn': 'onClickAddBtn',
-            'click @ui.removeBtn': 'onClickRemoveBtn',
-
-            'submit': 'onSubmit',
         },
 
         initialize: function () {
@@ -66,7 +63,6 @@ function (
             var self = this;
 
             this._radio = Backbone.Wreqr.radio.channel('global');
-            this._user = this._radio.reqres.request('model', 'user');
         },
 
         setModel: function (model) {
@@ -74,27 +70,6 @@ function (
             this.model = model;
 
             this.render();
-        },
-
-        _buildNewMarker: function () {
-
-            var pos = new L.LatLng(
-                this.model.get('lat'),
-                this.model.get('lng')
-            ),
-            icon = MapUi.buildPoiLayerIcon(
-                new PoiLayerModel({
-                    'markerShape': settings.newPoiMarkerShape,
-                    'markerIconType': CONST.map.markerIconType.library,
-                    'markerIcon': settings.newPoiMarkerIcon,
-                    'markerColor': settings.newPoiMarkerColor
-                })
-            );
-
-            return L.marker(pos, {
-
-                'icon': icon
-            });
         },
 
         onBeforeOpen: function () {
@@ -108,114 +83,51 @@ function (
             this.triggerMethod('open');
         },
 
-        onAfterOpen: function () {
-
-            this._tempMarker = this._buildNewMarker();
-            this._radio.reqres.request('map').addLayer(this._tempMarker);
-        },
-
         close: function () {
 
             this.triggerMethod('close');
         },
 
-        onBeforeClose: function () {
-
-            if (this._tempMarker) {
-
-                this._radio.reqres.request('map').removeLayer(this._tempMarker);
-            }
-        },
-
         onRender: function () {
 
-            this.addField();
-        },
+            var presetNavItems = [],
+            presetsNav = new NavPillsStackedList(),
+            freeAdditionNav = new NavPillsStackedList(),
+            presetModels = this._radio.reqres.request('presets').models;
 
-        onClickAddBtn: function () {
-
-            this.addField();
-        },
-
-        onClickRemoveBtn: function (e) {
-
-            $(e.target).parents('.form-group').remove();
-        },
-
-        addField: function () {
-
-            var field = $( this.templateField() ).appendTo( this.ui.tagList ).get(0);
-
-            document.l10n.localizeNode( field );
-        },
-
-        onSubmit: function (e) {
-
-            var self = this,
-            tags = [],
-            map = this._radio.reqres.request('map');
-
-            e.preventDefault();
-
-            this.bindUIElements();
-
-            this.ui.formGroups.each(function () {
-
-                var keyInput = this.querySelector('.key'),
-                valueInput = this.querySelector('.value'),
-                key = keyInput.value,
-                value = valueInput.value,
-                tag = {};
-
-                if ( !key || !value ) {
-                    return;
+            for (var key in presetModels) {
+                if (presetModels.hasOwnProperty(key)) {
+                    presetNavItems.push({
+                        'label': presetModels[key].get('name'),
+                        'description': presetModels[key].get('description'),
+                        'callback': this._radio.commands.execute.bind(
+                            this._radio.commands,
+                            'column:showContribForm',
+                            {
+                                'model': this.model,
+                                'presetModel': presetModels[key]
+                            }
+                        )
+                    });
                 }
+            }
 
-                tag[key] = value;
+            presetsNav.setItems(presetNavItems);
 
-                tags.push(tag);
-            });
+            freeAdditionNav.setItems([{
 
-            this.model.set('tags', tags);
+                'label': document.l10n.getSync('contribColumn_freeAddition'),
+                'callback': this._radio.commands.execute.bind(
+                    this._radio.commands,
+                    'column:showContribForm',
+                    {
+                        'model': this.model
+                    }
+                )
+            }]);
 
-            var osmEdit = new OsmEditHelper(
-                osmAuth({
-
-                    'oauth_consumer_key': settings.oauthConsumerKey,
-                    'oauth_secret': settings.oauthSecret,
-                    'oauth_token': this._user.get('token'),
-                    'oauth_token_secret': this._user.get('tokenSecret'),
-                })
-            );
-
-            osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
-            osmEdit.setChangesetComment(CONST.osm.changesetComment);
-            osmEdit.setLatitude(this.model.get('lat'));
-            osmEdit.setLongitude(this.model.get('lng'));
-            osmEdit.setTags(this.model.get('tags'));
-            osmEdit.setUid(this._user.get('osmId'));
-            osmEdit.setDisplayName(this._user.get('displayName'));
-
-            map.addLayer( this._buildNewMarker() );
-
-            this.close();
-
-            osmEdit.createNode()
-            .then(function (nodeId) {
-
-                var key = 'node-'+ nodeId,
-                contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
-
-                self.model.set('version', 0);
-
-                contributions[ key ] = self.model.attributes;
-
-                localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
-            })
-            .catch(function (err) {
-
-                console.error(err);
-            });
+            this.getRegion('presetsNav').show( presetsNav );
+            this.getRegion('freeAdditionNav').show( freeAdditionNav );
         },
     });
 });

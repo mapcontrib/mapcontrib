@@ -2,7 +2,7 @@
 var mongo = require('mongodb'),
 requirejs = require('requirejs'),
 Promise = require('es6-promise').Promise,
-PoiLayerModel = requirejs('model/poiLayer'),
+PresetModel = requirejs('model/preset'),
 options = {
 
     'CONST': undefined,
@@ -32,8 +32,8 @@ api = {
             return true;
         }
 
-        var collection = options.database.collection('poiLayer'),
-        model = new PoiLayerModel(req.body);
+        var collection = options.database.collection('preset'),
+        model = new PresetModel(req.body);
 
         if ( !model.isValid() ) {
 
@@ -68,7 +68,7 @@ api = {
             return true;
         }
 
-        var collection = options.database.collection('poiLayer');
+        var collection = options.database.collection('preset');
 
         collection.find({
 
@@ -100,14 +100,14 @@ api = {
 
     getAll: function (req, res) {
 
-        var collection = options.database.collection('poiLayer');
+        var collection = options.database.collection('preset');
 
         if ( req.params.themeId ) {
 
             api.findFromThemeId(req.params.themeId)
-            .then(function (poiLayers) {
+            .then(function (presets) {
 
-                res.send(poiLayers);
+                res.send(presets);
             })
             .catch(function (errorCode) {
 
@@ -144,7 +144,7 @@ api = {
 
         return new Promise(function (resolve, reject) {
 
-            var collection = options.database.collection('poiLayer');
+            var collection = options.database.collection('preset');
 
             if ( !themeId || !options.CONST.pattern.mongoId.test( themeId ) ) {
 
@@ -203,8 +203,8 @@ api = {
 
 
         var new_json = req.body,
-        collection = options.database.collection('poiLayer'),
-        model = new PoiLayerModel(new_json);
+        collection = options.database.collection('preset'),
+        model = new PresetModel(new_json);
 
         if ( !model.isValid() ) {
 
@@ -253,13 +253,13 @@ api = {
         }
 
 
-        var collection = options.database.collection('poiLayer');
+        var collection = options.database.collection('preset');
 
         collection.findOne({
 
             '_id': new mongo.ObjectID(req.params._id)
         },
-        function (err, poiLayer) {
+        function (err, preset) {
 
             if(err) {
 
@@ -268,14 +268,14 @@ api = {
                 return true;
             }
 
-            if ( !poiLayer ) {
+            if ( !preset ) {
 
                 res.sendStatus(400);
 
                 return true;
             }
 
-            if ( !poiLayer.themeId || req.session.themes.indexOf( poiLayer.themeId ) === -1 ) {
+            if ( !preset.themeId || req.session.themes.indexOf( preset.themeId ) === -1 ) {
 
                 res.sendStatus(401);
 
