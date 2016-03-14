@@ -48,6 +48,7 @@ function (
 
         onRender: function () {
 
+            console.log('render');
             document.l10n.localizeNode( this.el );
 
             this.ui.keyReadOnly.prop(
@@ -68,7 +69,10 @@ function (
 
         onChangeKey: function (e) {
 
-            this.model.set('key', this.ui.key.val());
+            var value = this.ui.key.val().toLowerCase();
+            
+            this.ui.key.val(value);
+            this.model.set('key', value);
         },
 
         onChangeValue: function (e) {
