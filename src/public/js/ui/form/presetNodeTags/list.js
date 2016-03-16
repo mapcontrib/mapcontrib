@@ -2,9 +2,9 @@
 
 define([
 
-    'marionette',
-    'ui/form/presetNodeTags/collection',
-    'ui/form/presetNodeTags/listItem',
+    'backbone.marionette',
+    './collection',
+    './listItem',
 ],
 function (
 

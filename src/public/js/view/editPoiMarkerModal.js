@@ -4,11 +4,11 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
+    'backbone.marionette',
     'bootstrap',
-    'templates',
-    'const',
-    'text!icons.json',
+    '../../templates/templates',
+    '../const',
+    'text!../icons.json',
 ],
 function (
 

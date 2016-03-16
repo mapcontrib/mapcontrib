@@ -4,10 +4,10 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
+    'backbone.marionette',
     'bootstrap',
-    'templates',
-    'ui/map'
+    '../../templates/templates',
+    '../ui/map'
 ],
 function (
 

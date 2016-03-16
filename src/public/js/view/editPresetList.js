@@ -4,13 +4,13 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
+    'backbone.marionette',
     'bootstrap',
-    'templates',
-    'jquery-ui-sortable',
+    '../../templates/templates',
+    'jquery-ui/sortable',
     'jquery-ui-touch-punch',
-    'view/editPresetListEmpty',
-    'view/editPresetListItem',
+    './editPresetListEmpty',
+    './editPresetListItem',
 ],
 function (
 

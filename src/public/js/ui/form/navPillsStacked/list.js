@@ -2,9 +2,9 @@
 
 define([
 
-    'marionette',
-    'ui/form/navPillsStacked/collection',
-    'ui/form/navPillsStacked/listItem',
+    'backbone.marionette',
+    './collection',
+    './listItem',
 ],
 function (
 

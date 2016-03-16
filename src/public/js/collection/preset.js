@@ -4,8 +4,8 @@ define([
 
     'underscore',
     'backbone',
-    'settings',
-    'model/preset',
+    '../settings',
+    '../model/preset',
 ],
 function (
 

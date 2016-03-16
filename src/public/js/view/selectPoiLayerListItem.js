@@ -4,9 +4,9 @@ define([
 
     'underscore',
     'backbone',
-    'settings',
+    '../settings',
     'markdown',
-    'ui/map',
+    '../ui/map',
 ],
 function (
 

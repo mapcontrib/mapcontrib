@@ -4,7 +4,7 @@ define([
 
     'underscore',
     'backbone',
-    'settings',
+    '../settings',
 ],
 function (
 

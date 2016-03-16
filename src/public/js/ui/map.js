@@ -1,6 +1,6 @@
 
 
-define(['const'],
+define(['../const'],
 function (CONST) {
 
     'use strict';

@@ -4,7 +4,7 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
+    'backbone.marionette',
     'l20n',
 ],
 function (

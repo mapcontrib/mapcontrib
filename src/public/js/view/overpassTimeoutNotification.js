@@ -4,9 +4,9 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
+    'backbone.marionette',
     'bootstrap',
-    'templates',
+    '../../templates/templates',
 ],
 function (
 

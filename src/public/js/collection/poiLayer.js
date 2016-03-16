@@ -4,8 +4,8 @@ define([
 
     'underscore',
     'backbone',
-    'settings',
-    'model/poiLayer',
+    '../settings',
+    '../model/poiLayer',
 ],
 function (
 

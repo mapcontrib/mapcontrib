@@ -4,14 +4,14 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
+    'backbone.marionette',
     'bootstrap',
-    'templates',
-    'settings',
+    '../../templates/templates',
+    '../settings',
     'osm-auth',
-    'view/contributionErrorNotification',
-    'helper/osmEdit',
-    'const',
+    './contributionErrorNotification',
+    '../helper/osmEdit',
+    '../const',
 ],
 function (
 

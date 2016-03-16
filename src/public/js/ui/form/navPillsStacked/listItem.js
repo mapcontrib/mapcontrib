@@ -4,8 +4,8 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
-    'templates',
+    'backbone.marionette',
+    '../../../../templates/templates',
 ],
 function (
 

@@ -4,18 +4,18 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
+    'backbone.marionette',
     'bootstrap',
-    'templates',
+    '../../templates/templates',
     'leaflet',
     'osm-auth',
-    'helper/osmEdit',
-    'ui/map',
-    'const',
-    'settings',
-    'model/poiLayer',
-    'ui/form/contribNodeTags/list',
-    'ui/form/navPillsStacked/list'
+    '../helper/osmEdit',
+    '../ui/map',
+    '../const',
+    '../settings',
+    '../model/poiLayer',
+    '../ui/form/contribNodeTags/list',
+    '../ui/form/navPillsStacked/list'
 ],
 function (
 

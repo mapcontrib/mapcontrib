@@ -3,7 +3,7 @@
 define([
 
     'backbone',
-    'ui/form/navPillsStacked/model',
+    './model',
 ],
 function (
 

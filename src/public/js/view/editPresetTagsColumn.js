@@ -2,10 +2,10 @@
 
 define([
 
-    'marionette',
-    'templates',
-    'model/preset',
-    'ui/form/presetNodeTags/list'
+    'backbone.marionette',
+    '../../templates/templates',
+    '../model/preset',
+    '../ui/form/presetNodeTags/list'
 ],
 function (
 

@@ -5,9 +5,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'settings',
+    './settings',
 
-    'view/main',
+    './view/main',
 ],
 function (
 

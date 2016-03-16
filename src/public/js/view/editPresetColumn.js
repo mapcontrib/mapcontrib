@@ -4,12 +4,12 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
+    'backbone.marionette',
     'bootstrap',
-    'templates',
-    'model/preset',
-    'view/editPresetList',
-    'view/editPresetTagsColumn',
+    '../../templates/templates',
+    '../model/preset',
+    './editPresetList',
+    './editPresetTagsColumn',
 ],
 function (
 

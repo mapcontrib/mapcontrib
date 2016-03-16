@@ -4,10 +4,10 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
+    'backbone.marionette',
     'bootstrap',
-    'templates',
-    'view/editPoiLayerList',
+    '../../templates/templates',
+    './editPoiLayerList',
 ],
 function (
 

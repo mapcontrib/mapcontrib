@@ -4,8 +4,8 @@ define([
 
     'underscore',
     'backbone',
-    'marionette',
-    'templates',
+    'backbone.marionette',
+    '../../../../templates/templates',
 ],
 function (
 
@@ -70,7 +70,7 @@ function (
         onChangeKey: function (e) {
 
             var value = this.ui.key.val().toLowerCase();
-            
+
             this.ui.key.val(value);
             this.model.set('key', value);
         },
