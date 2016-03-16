@@ -4,5 +4,7 @@ src/public/bower_components
 src/public/css/app.css
 src/public/css/libraries.css
 src/public/templates/templates.js
+*.bundle.js
+*.bundle.js.map
 src/npm-debug.log
 volumes
