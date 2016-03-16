@@ -1,27 +1,16 @@
+'use strict';
 
 
-define([
+var L20n = require('l20n');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
 
-    'underscore',
-    'backbone',
-    'backbone.marionette',
-    'l20n',
-],
-function (
 
-    _,
-    Backbone,
-    Marionette,
-    L20n
-) {
+module.exports = Marionette.Behavior.extend({
 
-    'use strict';
+    onRender: function () {
 
-    return Marionette.Behavior.extend({
-
-        onRender: function () {
-
-            document.l10n.localizeNode( this.el );
-        },
-    });
+        document.l10n.localizeNode( this.el );
+    },
 });

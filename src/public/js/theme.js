@@ -1,185 +1,164 @@
 
+'use strict';
 
-require([
 
-    'underscore',
-    'backbone',
-    'backbone.marionette',
-    './tools',
-    'l20n',
-    '../templates/templates',
-    './router',
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../templates/templates');
+var tools = require('./tools');
+var L20n = require('l20n');
+var Router = require('./router');
+var UserModel = require('./model/user');
+var L20nBehavior = require('./behavior/l20n');
+var ColumnBehavior = require('./behavior/column');
+var ModalBehavior = require('./behavior/modal');
+var NotificationBehavior = require('./behavior/notification');
+var WidgetBehavior = require('./behavior/widget');
 
-    './behavior/l20n',
-    './behavior/column',
-    './behavior/modal',
-    './behavior/notification',
-    './behavior/widget',
 
-    './model/user',
-],
-function (
 
-    _,
-    Backbone,
-    Marionette,
-    tools,
-    L20n,
-    templates,
-    Router,
+var App = Marionette.Application.extend({
 
-    L20nBehavior,
-    ColumnBehavior,
-    ModalBehavior,
-    NotificationBehavior,
-    WidgetBehavior,
+    _var: {
 
-    UserModel
-) {
+        isLogged: false,
+    },
+    _region: {},
+    _behavior: {},
+    _view: {},
+    _model: {},
+    _modelCalcul: {},
+    _collection: {},
 
-    'use strict';
+    regions: {
 
-    var App = Marionette.Application.extend({
+        'root': '#rg_root',
+    },
 
-        _var: {
+    initialize: function(options) {
 
-            isLogged: false,
-        },
-        _region: {},
-        _behavior: {},
-        _view: {},
-        _model: {},
-        _modelCalcul: {},
-        _collection: {},
+        var self = this;
 
-        regions: {
+        document.l10n.addEventListener('error', function (err) {
 
-            'root': '#rg_root',
-        },
+            console.error(err);
+        });
+        document.l10n.addEventListener('warning', function (err) {
 
-        initialize: function(options) {
+            console.warn(err);
+        });
 
-            var self = this;
+        // requestAnimationFrame polyfill
+        requestAnimationFramePolyfill.shim();
 
-            document.l10n.addEventListener('error', function (err) {
+        Marionette.Behaviors.behaviorsLookup = function() {
 
-                console.error(err);
-            });
-            document.l10n.addEventListener('warning', function (err) {
+            return {
 
-                console.warn(err);
-            });
-
-            // requestAnimationFrame polyfill
-            requestAnimationFramePolyfill.shim();
-
-            Marionette.Behaviors.behaviorsLookup = function() {
-
-                return {
-
-                    'l20n': L20nBehavior,
-                    'column': ColumnBehavior,
-                    'modal': ModalBehavior,
-                    'notification': NotificationBehavior,
-                    'widget': WidgetBehavior,
-                };
+                'l20n': L20nBehavior,
+                'column': ColumnBehavior,
+                'modal': ModalBehavior,
+                'notification': NotificationBehavior,
+                'widget': WidgetBehavior,
             };
+        };
 
 
-            this._model = {
+        this._model = {
 
-                'user': new UserModel( window.user ),
-            };
-
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-
-            this._radio.vent.on('session:logged', function (){
-
-                self._var.isLogged = true;
-
-                $('body').addClass('user_logged');
-            });
-
-            this._radio.vent.on('session:unlogged', function (){
-
-                self._var.isLogged = false;
-
-                $('body').removeClass('user_logged');
-
-                self._model.user = new UserModel();
-            });
+            'user': new UserModel( window.user ),
+        };
 
 
-            this._radio.reqres.setHandlers({
+        this._radio = Backbone.Wreqr.radio.channel('global');
 
-                'model': function (name) {
+        this._radio.vent.on('session:logged', function (){
 
-                    return self._model[name];
-                },
-                'collection': function (name) {
+            self._var.isLogged = true;
 
-                    return self._collection[name];
-                },
-                'view': function (name) {
+            $('body').addClass('user_logged');
+        });
 
-                    return self._view[name];
-                },
-                'region': function (name) {
+        this._radio.vent.on('session:unlogged', function (){
 
-                    return self._region[name];
-                },
-                'var': function (name) {
+            self._var.isLogged = false;
 
-                    return self._var[name];
-                },
-            });
+            $('body').removeClass('user_logged');
+
+            self._model.user = new UserModel();
+        });
 
 
-            this._radio.commands.setHandlers({
+        this._radio.reqres.setHandlers({
 
-                'app:registerBehavior': function (name, behavior) {
+            'model': function (name) {
 
-                    self._behavior[name] = behavior;
-                },
-                'app:registerView': function (name, view) {
+                return self._model[name];
+            },
+            'collection': function (name) {
 
-                    self._view[name] = view;
-                },
-                'app:registerRegion': function (name, region) {
+                return self._collection[name];
+            },
+            'view': function (name) {
 
-                    self._region[name] = region;
-                },
-            });
+                return self._view[name];
+            },
+            'region': function (name) {
 
-            this._radio.commands.execute('app:registerRegion', 'root', this.getRegion('root'));
-        },
+                return self._region[name];
+            },
+            'var': function (name) {
 
-        onStart: function (options) {
-
-            var self = this;
-
-            if ( this._model.user.get('_id') ) {
-
-                this._radio.vent.trigger('session:logged');
-            }
-
-            this._router = new Router();
-
-            this._radio.reqres.setHandler('router', function () { return self._router; });
-
-            Backbone.history.start();
-        },
-
-        onExecuteRegisterView: function (name, view) {
-
-            this._view[name] = view;
-        },
-    });
+                return self._var[name];
+            },
+        });
 
 
-    document.l10n.ready( function () {
+        this._radio.commands.setHandlers({
 
-        new App().start();
-    });
+            'app:registerBehavior': function (name, behavior) {
+
+                self._behavior[name] = behavior;
+            },
+            'app:registerView': function (name, view) {
+
+                self._view[name] = view;
+            },
+            'app:registerRegion': function (name, region) {
+
+                self._region[name] = region;
+            },
+        });
+
+        this._radio.commands.execute('app:registerRegion', 'root', this.getRegion('root'));
+    },
+
+    onStart: function (options) {
+
+        var self = this;
+
+        if ( this._model.user.get('_id') ) {
+
+            this._radio.vent.trigger('session:logged');
+        }
+
+        this._router = new Router();
+
+        this._radio.reqres.setHandler('router', function () { return self._router; });
+
+        Backbone.history.start();
+    },
+
+    onExecuteRegisterView: function (name, view) {
+
+        this._view[name] = view;
+    },
+});
+
+
+document.l10n.ready( function () {
+
+    new App().start();
 });

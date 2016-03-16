@@ -2,9 +2,9 @@
 
 define([
 
-    'text!../img/markers/1_optimized.svg',
-    'text!../img/markers/2_optimized.svg',
-    'text!../img/markers/3_optimized.svg',
+    '../img/markers/1_optimized.svg',
+    '../img/markers/2_optimized.svg',
+    '../img/markers/3_optimized.svg',
 ], function (
 
     marker1,

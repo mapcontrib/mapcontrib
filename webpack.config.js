@@ -16,6 +16,14 @@ module.exports = {
             {
                 test: path.join(__dirname, 'src', 'public', 'js'),
                 loader: 'babel-loader'
+            },
+            {
+                test: /\.css$/,
+                loaders: ['style', 'css']
+            },
+            {
+                test: /\.(json|svg)$/,
+                loader: 'raw'
             }
         ]
     },

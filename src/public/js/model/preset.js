@@ -1,35 +1,24 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    '../settings',
-    '../const',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var settings = require('../settings');
 
-    _,
-    Backbone,
-    settings,
-    CONST
-) {
 
-    'use strict';
+module.exports = Backbone.Model.extend({
 
-    return Backbone.Model.extend({
+    idAttribute: '_id',
 
-        idAttribute: '_id',
+    urlRoot: settings.apiPath + 'preset',
 
-        urlRoot: settings.apiPath + 'preset',
+    defaults: {
 
-        defaults: {
-
-            'themeId': undefined,
-            'name': undefined,
-            'description': undefined,
-            'order': undefined,
-            'tags': [], // [{'key': '', 'value': '', 'readOnly': true}, [...]]
-        },
-    });
+        'themeId': undefined,
+        'name': undefined,
+        'description': undefined,
+        'order': undefined,
+        'tags': [], // [{'key': '', 'value': '', 'readOnly': true}, [...]]
+    },
 });

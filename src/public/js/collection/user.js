@@ -1,28 +1,18 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    '../settings',
-    '../model/user',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var settings = require('../settings');
+var UserModel = require('../model/user');
 
-    _,
-    Backbone,
-    settings,
-    UserModel
-) {
 
-    'use strict';
+module.exports = Backbone.Collection.extend({
 
-    return Backbone.Collection.extend({
+    url: settings.apiPath + 'user',
 
-        url: settings.apiPath + 'user',
+    model: UserModel,
 
-        model: UserModel,
-
-        comparator: 'displayName',
-    });
+    comparator: 'displayName',
 });

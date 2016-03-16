@@ -1,55 +1,45 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    '../settings',
-    '../const',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var settings = require('../settings');
+var CONST = require('../const');
 
-    _,
-    Backbone,
-    settings,
-    CONST
-) {
 
-    'use strict';
+module.exports = Backbone.Model.extend({
 
-    return Backbone.Model.extend({
+    idAttribute: '_id',
 
-        idAttribute: '_id',
+    urlRoot: settings.apiPath + 'poiLayer',
 
-        urlRoot: settings.apiPath + 'poiLayer',
+    defaults: {
 
-        defaults: {
+        'themeId': undefined,
+        'name': undefined,
+        'description': undefined,
+        'visible': true,
+        'dataEditable': true,
+        'overpassRequest': undefined,
+        'minZoom': 14,
+        'popupContent': undefined,
+        'order': undefined,
+        'markerShape': 'marker1',
+        'markerColor': 'orange',
+        'markerIconType': CONST.map.markerIconType.library,
+        'markerIcon': undefined,
+        'markerIconUrl': undefined,
+    },
 
-            'themeId': undefined,
-            'name': undefined,
-            'description': undefined,
-            'visible': true,
-            'dataEditable': true,
-            'overpassRequest': undefined,
-            'minZoom': 14,
-            'popupContent': undefined,
-            'order': undefined,
-            'markerShape': 'marker1',
-            'markerColor': 'orange',
-            'markerIconType': CONST.map.markerIconType.library,
-            'markerIcon': undefined,
-            'markerIconUrl': undefined,
-        },
+    /**
+     * Tells if the layer is visible.
+     *
+     * @author Guillaume AMAT
+     * @return boolean
+     */
+     isVisible: function () {
 
-        /**
-         * Tells if the layer is visible.
-         *
-         * @author Guillaume AMAT
-         * @return boolean
-         */
-         isVisible: function () {
-
-            return this.get('visible');
-         }
-    });
+        return this.get('visible');
+     }
 });
