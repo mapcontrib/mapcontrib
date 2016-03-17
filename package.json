@@ -50,7 +50,8 @@
     "leaflet-overpass-layer": "~1.6.3",
     "style-loader": "~0.13.0",
     "css-loader": "~0.23.1",
-    "raw-loader": "~0.5.1"
+    "raw-loader": "~0.5.1",
+    "svg-loader": "0.0.2"
   },
   "dependencies": {
     "body-parser": "^1.5.2",

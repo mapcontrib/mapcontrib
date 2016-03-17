@@ -22,7 +22,11 @@ module.exports = {
                 loaders: ['style', 'css']
             },
             {
-                test: /\.(json|svg)$/,
+                test: /\.json$/,
+                loader: 'raw'
+            },
+            {
+                test: /\.svg$/,
                 loader: 'raw'
             }
         ]

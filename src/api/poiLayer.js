@@ -2,7 +2,7 @@
 var mongo = require('mongodb'),
 requirejs = require('requirejs'),
 Promise = require('es6-promise').Promise,
-PoiLayerModel = requirejs('model/poiLayer'),
+PoiLayerModel = require('../public/js/model/poiLayer'),
 options = {
 
     'CONST': undefined,
