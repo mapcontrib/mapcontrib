@@ -6,6 +6,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Marionette = require('backbone.marionette');
 var JST = require('../../../../templates/templates');
+var marked = require('marked');
 
 
 module.exports = Marionette.ItemView.extend({
@@ -33,7 +34,7 @@ module.exports = Marionette.ItemView.extend({
 
         return {
 
-            'description': markdown.toHTML( this.model.get('description') ),
+            'description': marked( this.model.get('description') ),
         };
     },
 

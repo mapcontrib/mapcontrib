@@ -11,7 +11,7 @@ define([
     '../const',
     'leaflet',
     'leaflet-overpass-layer',
-    'markdown',
+    'marked',
 
     './mainTitle',
     './loginModal',
@@ -56,7 +56,7 @@ function (
     CONST,
     L,
     overpassLayer,
-    markdown,
+    marked,
 
     MainTitleView,
     LoginModalView,
@@ -898,7 +898,7 @@ function (
             globalWrapper = document.createElement('div'),
             editButtonWrapper = document.createElement('div'),
             editButton = document.createElement('button'),
-            popupContent = markdown.toHTML( poiLayerModel.get('popupContent') ),
+            popupContent = marked( poiLayerModel.get('popupContent') ),
             contributionKey = dataFromOSM.type +'-'+ dataFromOSM.id,
             contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
 

@@ -8,7 +8,7 @@ define([
     'bootstrap',
     '../../templates/templates',
     '../const',
-    'markdown',
+    'marked',
 ],
 function (
 
@@ -18,7 +18,7 @@ function (
     Bootstrap,
     templates,
     CONST,
-    markdown
+    marked
 ) {
 
     'use strict';
@@ -63,7 +63,7 @@ function (
 
             return {
 
-                'description': markdown.toHTML( this.model.get('description') ),
+                'description': marked( this.model.get('description') ),
             };
         },
 
@@ -134,7 +134,7 @@ function (
 
         setDescription: function () {
 
-            var description = markdown.toHTML( this.model.get('description') );
+            var description = marked( this.model.get('description') );
 
             if ( description ) {
 
@@ -152,7 +152,7 @@ function (
 
             this._radio.vent.trigger('column:closeAll');
             this._radio.vent.trigger('widget:closeAll');
-            
+
             this.ui.titleWrapper.toggleClass('open');
         },
     });

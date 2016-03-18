@@ -5,7 +5,7 @@ define([
     'underscore',
     'backbone',
     '../settings',
-    'markdown',
+    'marked',
     '../ui/map',
 ],
 function (
@@ -13,7 +13,7 @@ function (
     _,
     Backbone,
     settings,
-    markdown,
+    marked,
     MapUi
 ) {
 
@@ -76,7 +76,7 @@ function (
 
             return {
 
-                'description': markdown.toHTML( this.model.get('description') ),
+                'description': marked( this.model.get('description') ),
                 'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
             };
         },
