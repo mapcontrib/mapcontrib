@@ -10,7 +10,6 @@ if (typeof window !== 'undefined') {
 else {
     var fs = require('fs');
     var path = require('path');
-    console.log(path.join(__dirname, '../img/markers/1_optimized.svg'));
     var marker1 = fs.readFileSync(path.join(__dirname, '../img/markers/1_optimized.svg'));
     var marker2 = fs.readFileSync(path.join(__dirname, '../img/markers/2_optimized.svg'));
     var marker3 = fs.readFileSync(path.join(__dirname, '../img/markers/3_optimized.svg'));
