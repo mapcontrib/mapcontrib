@@ -11,6 +11,6 @@ module.exports = Marionette.Behavior.extend({
 
     onRender: function () {
 
-        document.l10n.localizeNode( this.el );
+        // document.l10n.localizeNode( this.el );
     },
 });

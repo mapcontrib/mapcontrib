@@ -5,6 +5,8 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var tools = require('./tools');
 var L20n = require('l20n');
@@ -40,14 +42,14 @@ var App = Marionette.Application.extend({
 
         var self = this;
 
-        document.l10n.addEventListener('error', function (err) {
+        // document.l10n.addEventListener('error', function (err) {
 
-            console.error(err);
-        });
-        document.l10n.addEventListener('warning', function (err) {
+            // console.error(err);
+        // });
+        // document.l10n.addEventListener('warning', function (err) {
 
-            console.warn(err);
-        });
+            // console.warn(err);
+        // });
 
         Marionette.Behaviors.behaviorsLookup = function() {
 
@@ -68,7 +70,7 @@ var App = Marionette.Application.extend({
         };
 
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
 
         this._radio.vent.on('session:logged', function (){
 
@@ -154,7 +156,7 @@ var App = Marionette.Application.extend({
 });
 
 
-document.l10n.ready( function () {
+// document.l10n.ready( function () {
 
     new App().start();
-});
+// });

@@ -2,8 +2,10 @@
 'use strict';
 
 
+var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var JST = require('../../templates/templates');
 var settings = require('../settings');
@@ -59,7 +61,7 @@ module.exports = Marionette.LayoutView.extend({
 
         var self = this;
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
     },
 
     onBeforeOpen: function () {
@@ -92,7 +94,8 @@ module.exports = Marionette.LayoutView.extend({
             'iframeHeight': this.ui.iframeHeight.val(),
             'iframeWidthUnit': (this.ui.iframeWidthUnit.html() == 'px') ? '' : this.ui.iframeWidthUnit.html(),
             'iframeHeightUnit': (this.ui.iframeHeightUnit.html() == 'px') ? '' : this.ui.iframeHeightUnit.html(),
-            'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
+            // 'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
+            'subLinkMessage': '',
         });
 
         this.ui.iframeCode.html( html );

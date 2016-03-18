@@ -4,6 +4,7 @@
 
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var JST = require('../../templates/templates');
 var PresetModel = require('../model/preset');
@@ -41,7 +42,7 @@ module.exports = Marionette.LayoutView.extend({
 
         var self = this;
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
     },
 
     onRender: function () {

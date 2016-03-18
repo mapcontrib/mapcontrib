@@ -2,8 +2,10 @@
 'use strict';
 
 
+var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var JST = require('../../templates/templates');
 var settings = require('../settings');
@@ -151,7 +153,7 @@ module.exports = Marionette.LayoutView.extend({
         this._minDataZoom = 0;
         this._poiLoadingSpool = [];
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
 
         this.model = new ThemeModel( window.theme );
 
@@ -886,7 +888,7 @@ module.exports = Marionette.LayoutView.extend({
         if ( poiLayerModel.get('dataEditable') ) {
 
             editButton.className = 'btn btn-link';
-            editButton.innerHTML = document.l10n.getSync('editTheseInformations');
+            editButton.innerHTML = // document.l10n.getSync('editTheseInformations');
 
             $(editButton).on('click', function () {
 

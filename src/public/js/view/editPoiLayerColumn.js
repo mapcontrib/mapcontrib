@@ -4,6 +4,7 @@
 
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var JST = require('../../templates/templates');
 var MapUi = require('../ui/map');
@@ -58,7 +59,7 @@ module.exports = Marionette.ItemView.extend({
 
         var self = this;
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
 
@@ -93,7 +94,7 @@ module.exports = Marionette.ItemView.extend({
 
         var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
 
-        this.ui.currentMapZoom.html( document.l10n.getSync('editPoiLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
+        // this.ui.currentMapZoom.html( document.l10n.getSync('editPoiLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
     },
     updateMarkerIcon: function () {
 

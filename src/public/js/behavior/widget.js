@@ -4,6 +4,7 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 
 
@@ -29,7 +30,7 @@ module.exports = Marionette.Behavior.extend({
 
         var self = this;
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
 
         this.listenTo(this._radio.vent, 'widget:closeAll', this.onClose);
 

@@ -4,6 +4,7 @@
 
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var JST = require('../../templates/templates');
 
@@ -32,7 +33,7 @@ module.exports = Marionette.ItemView.extend({
 
         var self = this;
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
 
         return this.render();
     },
@@ -51,7 +52,7 @@ module.exports = Marionette.ItemView.extend({
 
         this.ui.content.html(
 
-            document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
+            // document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
         );
     },
 });

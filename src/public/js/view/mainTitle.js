@@ -2,8 +2,10 @@
 'use strict';
 
 
+var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var JST = require('../../templates/templates');
 var CONST = require('../const');
@@ -36,7 +38,7 @@ module.exports = Marionette.LayoutView.extend({
 
         var self = this;
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
 
         this._currentTitleColor = this.model.get('color');
 
@@ -58,13 +60,13 @@ module.exports = Marionette.LayoutView.extend({
 
         var self = this;
 
-        document.title = document.l10n.getSync('pageTitleWithMapName', {
-
-            'map': {
-
-                'name': this.model.get('name')
-            }
-        });
+        // document.title = document.l10n.getSync('pageTitleWithMapName', {
+        //
+        //     'map': {
+        //
+        //         'name': this.model.get('name')
+        //     }
+        // });
 
 
         if ( this.model.get('description') ) {
@@ -96,13 +98,13 @@ module.exports = Marionette.LayoutView.extend({
 
         this.ui.title.html( this.model.get('name') );
 
-        document.title = document.l10n.getSync('pageTitleWithMapName', {
-
-            'map': {
-
-                'name': this.model.get('name')
-            }
-        });
+        // document.title = document.l10n.getSync('pageTitleWithMapName', {
+        //
+        //     'map': {
+        //
+        //         'name': this.model.get('name')
+        //     }
+        // });
     },
 
     commandSetTitleColor: function (color) {

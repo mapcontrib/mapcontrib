@@ -4,6 +4,7 @@
 
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var JST = require('../../templates/templates');
 var L = require('leaflet');
@@ -41,7 +42,7 @@ module.exports = Marionette.LayoutView.extend({
 
         var self = this;
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
     },
 
     setModel: function (model) {
@@ -95,7 +96,8 @@ module.exports = Marionette.LayoutView.extend({
 
         freeAdditionNav.setItems([{
 
-            'label': document.l10n.getSync('contribColumn_freeAddition'),
+            'label': '',
+            // 'label': document.l10n.getSync('contribColumn_freeAddition'),
             'callback': this._radio.commands.execute.bind(
                 this._radio.commands,
                 'column:showContribForm',

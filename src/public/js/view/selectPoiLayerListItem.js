@@ -4,6 +4,7 @@
 
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var JST = require('../../templates/templates');
 var settings = require('../settings');
@@ -43,7 +44,7 @@ module.exports = Marionette.ItemView.extend({
 
     initialize: function () {
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
 
         var self = this,
         fragment = this._radio.reqres.request('getFragment'),
@@ -81,7 +82,7 @@ module.exports = Marionette.ItemView.extend({
         if ( n > 0 ) {
 
             this.ui.zoomTip
-            .html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
+            // .html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
             .removeClass('hide');
         }
         else {

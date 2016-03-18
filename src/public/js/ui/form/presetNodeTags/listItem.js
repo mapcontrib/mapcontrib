@@ -40,7 +40,7 @@ module.exports = Marionette.ItemView.extend({
     onRender: function () {
 
         console.log('render');
-        document.l10n.localizeNode( this.el );
+        // document.l10n.localizeNode( this.el );
 
         this.ui.keyReadOnly.prop(
             'checked',

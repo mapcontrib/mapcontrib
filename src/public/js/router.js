@@ -5,6 +5,7 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var settings = require('./settings');
 var MainView = require('./view/main');
 
@@ -25,7 +26,7 @@ module.exports = Backbone.Router.extend({
         var self = this;
 
         this._currentScreen = null;
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
 
         this._user = this._radio.reqres.request('model', 'user');
     },

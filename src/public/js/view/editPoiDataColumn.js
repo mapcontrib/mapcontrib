@@ -5,6 +5,7 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var JST = require('../../templates/templates');
 var settings = require('../settings');
@@ -41,7 +42,7 @@ module.exports = Marionette.LayoutView.extend({
 
     initialize: function () {
 
-        this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Wreqr.radio.channel('global');
 
         if ( !this._radio.reqres.request('var', 'isLogged') ) {
 
@@ -155,7 +156,7 @@ module.exports = Marionette.LayoutView.extend({
 
             self.ui.footer.removeClass('hide');
 
-            document.l10n.localizeNode( self.ui.fields[0] );
+            // document.l10n.localizeNode( self.ui.fields[0] );
         });
     },
 
@@ -369,10 +370,10 @@ module.exports = Marionette.LayoutView.extend({
 
             $('.remote_value', field).html(
 
-                document.l10n.getSync('editPoiDataColumn_remoteValue', {
-
-                    'remoteValue': remoteValue ? remoteValue : '<em>'+ document.l10n.getSync('empty') +'</em>'
-                })
+                // document.l10n.getSync('editPoiDataColumn_remoteValue', {
+                //
+                //     'remoteValue': remoteValue ? remoteValue : '<em>'+ // document.l10n.getSync('empty') +'</em>'
+                // })
             );
 
             $(field).addClass('has-warning has-feedback');
