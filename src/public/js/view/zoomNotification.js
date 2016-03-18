@@ -6,12 +6,11 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['zoomNotification.html'],
+    template: require('../../templates/zoomNotification.ejs'),
 
     behaviors: {
 

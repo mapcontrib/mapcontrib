@@ -6,15 +6,14 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var settings = require('../settings');
 var leafletControlGeocoder = require('leaflet-control-geocoder');
 
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['geocodeWidget.html'],
-    templateResultItem: JST['geocodeResultItem.html'],
+    template: require('../../templates/geocodeWidget.ejs'),
+    templateResultItem: require('../../templates/geocodeResultItem.ejs'),
 
     behaviors: {
 

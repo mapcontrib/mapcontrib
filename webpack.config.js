@@ -14,7 +14,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: path.join(__dirname, 'src', 'public', 'js'),
+                test: /public\/js\/.*\.js$/,
                 loader: 'babel-loader'
             },
             {
@@ -28,6 +28,10 @@ module.exports = {
             {
                 test: /\.svg$/,
                 loader: 'raw'
+            },
+            {
+                test: /\.ejs$/,
+                loader: 'ejs'
             }
         ]
     },

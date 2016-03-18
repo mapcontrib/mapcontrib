@@ -7,14 +7,13 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var CONST = require('../const');
 var marked = require('marked');
 
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['mainTitle.html'],
+    template: require('../../templates/mainTitle.ejs'),
 
     behaviors: {
 

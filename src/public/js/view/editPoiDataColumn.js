@@ -7,7 +7,6 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var settings = require('../settings');
 var osmAuth = require('osm-auth');
 var ContributionErrorNotificationView = require('./contributionErrorNotification');
@@ -17,8 +16,8 @@ var CONST = require('../const');
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['editPoiDataColumn.html'],
-    templateField: JST['editPoiDataField.html'],
+    template: require('../../templates/editPoiDataColumn.ejs'),
+    templateField: require('../../templates/editPoiDataField.ejs'),
 
     behaviors: {
 

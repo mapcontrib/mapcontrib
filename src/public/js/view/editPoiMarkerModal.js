@@ -7,14 +7,13 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var CONST = require('../const');
 var icons = require('../icons.json');
 
 
 module.exports = Marionette.ItemView.extend({
 
-    template: JST['editPoiMarkerModal.html'],
+    template: require('../../templates/editPoiMarkerModal.ejs'),
 
     behaviors: {
 

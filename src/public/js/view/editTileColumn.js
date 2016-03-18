@@ -6,14 +6,13 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var CONST = require('../const');
 
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['editTileColumn.html'],
-    templateListItem: JST['tileListItem.html'],
+    template: require('../../templates/editTileColumn.ejs'),
+    templateListItem: require('../../templates/tileListItem.ejs'),
 
     behaviors: {
 

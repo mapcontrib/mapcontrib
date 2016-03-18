@@ -6,7 +6,6 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var L = require('leaflet');
 var osmAuth = require('osm-auth');
 var OsmEditHelper = require('../helper/osmEdit');
@@ -19,7 +18,7 @@ var ContribNodeTagsListView = require('../ui/form/contribNodeTags/list');
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['contribFormColumn.html'],
+    template: require('../../templates/contribFormColumn.ejs'),
 
     behaviors: {
 

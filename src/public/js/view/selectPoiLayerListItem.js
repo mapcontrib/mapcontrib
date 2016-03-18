@@ -6,7 +6,6 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var settings = require('../settings');
 var marked = require('marked');
 var MapUi = require('../ui/map');
@@ -14,7 +13,7 @@ var MapUi = require('../ui/map');
 
 module.exports = Marionette.ItemView.extend({
 
-    template: JST['selectPoiLayerListItem.html'],
+    template: require('../../templates/selectPoiLayerListItem.ejs'),
 
     tagName: 'a',
 

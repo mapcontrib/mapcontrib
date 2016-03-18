@@ -6,7 +6,6 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var PresetModel = require('../model/preset');
 var EditPresetListView = require('./editPresetList');
 var EditPresetTagsColumnView = require('./editPresetTagsColumn');
@@ -14,7 +13,7 @@ var EditPresetTagsColumnView = require('./editPresetTagsColumn');
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['editPresetColumn.html'],
+    template: require('../../templates/editPresetColumn.ejs'),
 
     behaviors: {
 

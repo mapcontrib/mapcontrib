@@ -6,7 +6,6 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var L = require('leaflet');
 var osmAuth = require('osm-auth');
 var OsmEditHelper = require('../helper/osmEdit');
@@ -19,7 +18,7 @@ var NavPillsStackedListView = require('../ui/form/navPillsStacked/list');
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['contribColumn.html'],
+    template: require('../../templates/contribColumn.ejs'),
 
     behaviors: {
 

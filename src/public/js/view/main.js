@@ -7,7 +7,6 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var settings = require('../settings');
 var CONST = require('../const');
 var L = require('leaflet');
@@ -49,7 +48,7 @@ var MapUi = require('../ui/map');
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['main.html'],
+    template: require('../../templates/main.ejs'),
 
     behaviors: {
 

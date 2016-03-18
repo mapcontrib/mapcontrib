@@ -6,12 +6,11 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 
 
 module.exports = Marionette.ItemView.extend({
 
-    template: JST['overpassTimeoutNotification.html'],
+    template: require('../../templates/overpassTimeoutNotification.ejs'),
 
     behaviors: {
 

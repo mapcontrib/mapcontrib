@@ -5,12 +5,11 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 var Marionette = require('backbone.marionette');
-var JST = require('../../../../templates/templates');
 
 
 module.exports = Marionette.ItemView.extend({
 
-    template: JST['ui/form/contribNodeTags/listItem.html'],
+    template: require('./listItem.ejs'),
 
     ui: {
 

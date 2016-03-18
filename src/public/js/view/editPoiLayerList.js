@@ -5,7 +5,6 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var jquery_ui_sortable = require('jquery-ui/sortable');
 var jquery_ui_touch_punch = require('jquery-ui-touch-punch');
 var EditPoiLayerListEmptyView = require('./editPoiLayerListEmpty');

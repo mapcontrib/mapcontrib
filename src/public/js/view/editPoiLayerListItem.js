@@ -6,13 +6,12 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var MapUi = require('../ui/map');
 
 
 module.exports = Marionette.ItemView.extend({
 
-    template: JST['editPoiLayerListItem.html'],
+    template: require('../../templates/editPoiLayerListItem.ejs'),
 
     tagName: 'a',
 

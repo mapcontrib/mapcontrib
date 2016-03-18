@@ -6,13 +6,12 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var JST = require('../../templates/templates');
 var EditPoiLayerListView = require('./editPoiLayerList');
 
 
 module.exports = Marionette.LayoutView.extend({
 
-    template: JST['editPoiColumn.html'],
+    template: require('../../templates/editPoiColumn.ejs'),
 
     behaviors: {
 
