@@ -7,7 +7,7 @@ var ContribNodeTagsCollection = require('./collection');
 var ContribNodeTagsListItemView = require('./listItem');
 
 
-module.exports = Marionette.CompositeView.extend({
+module.exports = Marionette.CollectionView.extend({
 
     childView: ContribNodeTagsListItemView,
 

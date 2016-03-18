@@ -2,10 +2,10 @@
 'use strict';
 
 
-var $ = require('jquery');
+window.jQuery = window.$ = require('jquery');
+window._ = require('underscore');
 
-
-window.jQuery = window.$ = $;
+var Bootstrap = require('bootstrap');
 
 
 // Permet de ne pas faire sauter les sauts de ligne des textareas quand on recupere la valeur avec $.val()
