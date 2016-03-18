@@ -8,11 +8,9 @@ if (typeof window !== 'undefined') {
     var marker3 = require('../img/markers/3_optimized.svg');
 }
 else {
-    var fs = require('fs');
-    var path = require('path');
-    var marker1 = fs.readFileSync(path.join(__dirname, '../img/markers/1_optimized.svg'));
-    var marker2 = fs.readFileSync(path.join(__dirname, '../img/markers/2_optimized.svg'));
-    var marker3 = fs.readFileSync(path.join(__dirname, '../img/markers/3_optimized.svg'));
+    var marker1 = '';
+    var marker2 = '';
+    var marker3 = '';
 }
 
 
