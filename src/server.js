@@ -406,7 +406,7 @@ function onPromiseError(errorCode) {
 
 
 
-if (app.get('env') === 'development') {
+if (app.get('env') !== 'production') {
 
     app.use(errorHandler());
 }
