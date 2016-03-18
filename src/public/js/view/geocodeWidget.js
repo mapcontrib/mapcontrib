@@ -5,7 +5,6 @@ define([
     'underscore',
     'backbone',
     'backbone.marionette',
-    'bootstrap',
     '../../templates/templates',
     '../settings',
     'leaflet-control-geocoder',
@@ -15,7 +14,6 @@ function (
     _,
     Backbone,
     Marionette,
-    Bootstrap,
     templates,
     settings,
     leafletControlGeocoder

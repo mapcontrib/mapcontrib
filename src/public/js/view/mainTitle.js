@@ -5,7 +5,6 @@ define([
     'underscore',
     'backbone',
     'backbone.marionette',
-    'bootstrap',
     '../../templates/templates',
     '../const',
     'marked',
@@ -15,7 +14,6 @@ function (
     _,
     Backbone,
     Marionette,
-    Bootstrap,
     templates,
     CONST,
     marked

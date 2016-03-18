@@ -5,7 +5,6 @@ define([
     'underscore',
     'backbone',
     'backbone.marionette',
-    'bootstrap',
     '../../templates/templates',
 ],
 function (
@@ -13,7 +12,6 @@ function (
     _,
     Backbone,
     Marionette,
-    Bootstrap,
     templates
 ) {
 
@@ -68,7 +66,7 @@ function (
         onClickRetry: function () {
 
             this.options.retryCallback();
-            
+
             this.close();
         },
     });

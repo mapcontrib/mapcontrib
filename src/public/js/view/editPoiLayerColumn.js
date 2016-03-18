@@ -5,7 +5,6 @@ define([
     'underscore',
     'backbone',
     'backbone.marionette',
-    'bootstrap',
     '../../templates/templates',
     '../ui/map'
 ],
@@ -14,7 +13,6 @@ function (
     _,
     Backbone,
     Marionette,
-    Bootstrap,
     templates,
     MapUi
 ) {

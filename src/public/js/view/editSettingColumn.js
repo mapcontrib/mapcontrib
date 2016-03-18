@@ -5,7 +5,6 @@ define([
     'underscore',
     'backbone',
     'backbone.marionette',
-    'bootstrap',
     '../../templates/templates',
 ],
 function (
@@ -13,7 +12,6 @@ function (
     _,
     Backbone,
     Marionette,
-    Bootstrap,
     templates
 ) {
 
