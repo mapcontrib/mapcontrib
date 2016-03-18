@@ -4,7 +4,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
 
 
@@ -76,19 +75,6 @@ module.exports = function(grunt) {
             },
         },
 
-        jshint: {
-
-            options: {
-
-                'laxbreak': true, // W014
-            },
-
-            files: [
-
-                'src/public/js/**/*.js',
-            ]
-        },
-
         watch: {
 
             copy_font_awesome: {
@@ -134,14 +120,8 @@ module.exports = function(grunt) {
     grunt.registerTask('default', [
 
         'less:default',
-        'jshint',
         'concat:libraries_css',
         'copy:font_awesome',
         'copy:ionicons',
-    ]);
-
-    grunt.registerTask('pre-commit', [
-
-        'jshint',
     ]);
 };
