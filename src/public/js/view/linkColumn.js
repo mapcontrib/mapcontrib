@@ -93,8 +93,7 @@ module.exports = Marionette.LayoutView.extend({
             'iframeHeight': this.ui.iframeHeight.val(),
             'iframeWidthUnit': (this.ui.iframeWidthUnit.html() == 'px') ? '' : this.ui.iframeWidthUnit.html(),
             'iframeHeightUnit': (this.ui.iframeHeightUnit.html() == 'px') ? '' : this.ui.iframeHeightUnit.html(),
-            // 'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
-            'subLinkMessage': '',
+            'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
         });
 
         this.ui.iframeCode.html( html );

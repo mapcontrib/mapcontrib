@@ -51,7 +51,7 @@ module.exports = Marionette.ItemView.extend({
 
         this.ui.content.html(
 
-            // document.l10n.getSync('overpassTimeoutNotification_content', { 'name': this.model.get('name') })
+            document.l10n.getSync('overpassTimeoutNotification_content', { 'name': this.model.get('name') })
         );
     },
 });

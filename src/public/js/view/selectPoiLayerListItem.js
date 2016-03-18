@@ -81,7 +81,7 @@ module.exports = Marionette.ItemView.extend({
         if ( n > 0 ) {
 
             this.ui.zoomTip
-            // .html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
+            .html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
             .removeClass('hide');
         }
         else {

@@ -887,7 +887,7 @@ module.exports = Marionette.LayoutView.extend({
         if ( poiLayerModel.get('dataEditable') ) {
 
             editButton.className = 'btn btn-link';
-            editButton.innerHTML = // document.l10n.getSync('editTheseInformations');
+            editButton.innerHTML = document.l10n.getSync('editTheseInformations');
 
             $(editButton).on('click', function () {
 

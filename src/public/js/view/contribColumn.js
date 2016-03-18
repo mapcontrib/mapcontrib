@@ -95,8 +95,7 @@ module.exports = Marionette.LayoutView.extend({
 
         freeAdditionNav.setItems([{
 
-            'label': '',
-            // 'label': document.l10n.getSync('contribColumn_freeAddition'),
+            'label': document.l10n.getSync('contribColumn_freeAddition'),
             'callback': this._radio.commands.execute.bind(
                 this._radio.commands,
                 'column:showContribForm',

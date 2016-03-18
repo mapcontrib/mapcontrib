@@ -93,7 +93,7 @@ module.exports = Marionette.ItemView.extend({
 
         var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
 
-        // this.ui.currentMapZoom.html( document.l10n.getSync('editPoiLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
+        this.ui.currentMapZoom.html( document.l10n.getSync('editPoiLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
     },
     updateMarkerIcon: function () {
 

@@ -59,13 +59,13 @@ module.exports = Marionette.LayoutView.extend({
 
         var self = this;
 
-        // document.title = document.l10n.getSync('pageTitleWithMapName', {
-        //
-        //     'map': {
-        //
-        //         'name': this.model.get('name')
-        //     }
-        // });
+        document.title = document.l10n.getSync('pageTitleWithMapName', {
+
+            'map': {
+
+                'name': this.model.get('name')
+            }
+        });
 
 
         if ( this.model.get('description') ) {
@@ -97,13 +97,13 @@ module.exports = Marionette.LayoutView.extend({
 
         this.ui.title.html( this.model.get('name') );
 
-        // document.title = document.l10n.getSync('pageTitleWithMapName', {
-        //
-        //     'map': {
-        //
-        //         'name': this.model.get('name')
-        //     }
-        // });
+        document.title = document.l10n.getSync('pageTitleWithMapName', {
+
+            'map': {
+
+                'name': this.model.get('name')
+            }
+        });
     },
 
     commandSetTitleColor: function (color) {

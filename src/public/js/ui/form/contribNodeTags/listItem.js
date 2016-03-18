@@ -34,7 +34,7 @@ module.exports = Marionette.ItemView.extend({
 
     onRender: function () {
 
-        // document.l10n.localizeNode( this.el );
+        document.l10n.localizeNode( this.el );
 
         if (this.model.get('keyReadOnly')) {
 

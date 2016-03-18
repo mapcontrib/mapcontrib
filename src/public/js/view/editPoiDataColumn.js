@@ -155,7 +155,7 @@ module.exports = Marionette.LayoutView.extend({
 
             self.ui.footer.removeClass('hide');
 
-            // document.l10n.localizeNode( self.ui.fields[0] );
+            document.l10n.localizeNode( self.ui.fields[0] );
         });
     },
 
@@ -369,10 +369,10 @@ module.exports = Marionette.LayoutView.extend({
 
             $('.remote_value', field).html(
 
-                // document.l10n.getSync('editPoiDataColumn_remoteValue', {
-                //
-                //     'remoteValue': remoteValue ? remoteValue : '<em>'+ // document.l10n.getSync('empty') +'</em>'
-                // })
+                document.l10n.getSync('editPoiDataColumn_remoteValue', {
+
+                    'remoteValue': remoteValue ? remoteValue : '<em>'+ document.l10n.getSync('empty') +'</em>'
+                })
             );
 
             $(field).addClass('has-warning has-feedback');

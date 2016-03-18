@@ -74,10 +74,10 @@ module.exports = Marionette.LayoutView.extend({
             thumbnail = thumbnail.replace('{x}', '265');
             thumbnail = thumbnail.replace('{y}', '181');
 
-            // maxZoom = document.l10n.getSync('editTileColumn_maxZoom', {
-            //
-            //     'maxZoom': tile.maxZoom
-            // });
+            maxZoom = document.l10n.getSync('editTileColumn_maxZoom', {
+
+                'maxZoom': tile.maxZoom
+            });
 
 
             html += this.templateListItem({

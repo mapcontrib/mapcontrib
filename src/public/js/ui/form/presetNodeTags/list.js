@@ -7,7 +7,7 @@ var PresetNodeTagsCollection = require('./collection');
 var PresetNodeTagsListItemView = require('./listItem');
 
 
-module.exports = Marionette.CompositeView.extend({
+module.exports = Marionette.CollectionView.extend({
 
     childView: PresetNodeTagsListItemView,
 
