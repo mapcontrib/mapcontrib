@@ -50,9 +50,6 @@ var App = Marionette.Application.extend({
             console.warn(err);
         });
 
-        // requestAnimationFrame polyfill
-        requestAnimationFramePolyfill.shim();
-
         Marionette.Behaviors.behaviorsLookup = function() {
 
             return {
