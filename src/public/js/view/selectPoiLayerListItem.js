@@ -1,140 +1,131 @@
 
-
-define([
-
-    'underscore',
-    'backbone',
-    '../settings',
-    'marked',
-    '../ui/map',
-],
-function (
-
-    _,
-    Backbone,
-    settings,
-    marked,
-    MapUi
-) {
-
-    'use strict';
-
-    return Marionette.ItemView.extend({
-
-        template: JST['selectPoiLayerListItem.html'],
-
-        tagName: 'a',
-
-        className: 'list-group-item',
-
-        attributes: {
-
-            'href': '#',
-        },
-
-        modelEvents: {
-
-            'change': 'render'
-        },
-
-        ui: {
-
-            'visibilityCheckbox': '.visibility_checkbox',
-            'zoomTip': '.zoom_tip',
-        },
-
-        events: {
-
-            'click': 'onClick',
-            'click label': 'onClickLabel',
-        },
-
-        initialize: function () {
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-
-            var self = this,
-            fragment = this._radio.reqres.request('getFragment'),
-            storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
+'use strict';
 
 
-            this._fragment = fragment;
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
+var settings = require('../settings');
+var marked = require('marked');
+var MapUi = require('../ui/map');
 
-            if ( storage && storage.hiddenPoiLayers && storage.hiddenPoiLayers.indexOf(this.model.get('_id')) > -1 ) {
 
-                this._layerIsVisible = false;
-            }
-            else {
+module.exports = Marionette.ItemView.extend({
 
-                this._layerIsVisible = true;
-            }
+    template: JST['selectPoiLayerListItem.html'],
 
-            this._radio.vent.on('map:zoomChanged', this.render, this);
-        },
+    tagName: 'a',
 
-        templateHelpers: function () {
+    className: 'list-group-item',
 
-            return {
+    attributes: {
 
-                'description': marked( this.model.get('description') ),
-                'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
-            };
-        },
+        'href': '#',
+    },
 
-        onRender: function () {
+    modelEvents: {
 
-            var currentZoom = this._radio.reqres.request('map:getCurrentZoom'),
-            n = (this.model.get('minZoom') - currentZoom) || 0;
+        'change': 'render'
+    },
 
-            if ( n > 0 ) {
+    ui: {
 
-                this.ui.zoomTip
-                .html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
-                .removeClass('hide');
-            }
-            else {
+        'visibilityCheckbox': '.visibility_checkbox',
+        'zoomTip': '.zoom_tip',
+    },
 
-                this.ui.zoomTip
-                .addClass('hide')
-                .empty();
-            }
+    events: {
 
-            this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
-        },
+        'click': 'onClick',
+        'click label': 'onClickLabel',
+    },
 
-        onClick: function (e) {
+    initialize: function () {
 
-            e.stopPropagation();
+        this._radio = Backbone.Wreqr.radio.channel('global');
 
-            var newState,
-            key = 'mapState-'+ this._fragment,
-            oldState = JSON.parse( localStorage.getItem( key ) ) || {},
-            hiddenPoiLayers = oldState.hiddenPoiLayers || [];
+        var self = this,
+        fragment = this._radio.reqres.request('getFragment'),
+        storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
 
-            this._layerIsVisible = this._layerIsVisible ? false : true;
 
-            this.ui.visibilityCheckbox[0].checked = this._layerIsVisible;
+        this._fragment = fragment;
 
-            if ( this._layerIsVisible ) {
+        if ( storage && storage.hiddenPoiLayers && storage.hiddenPoiLayers.indexOf(this.model.get('_id')) > -1 ) {
 
-                this._radio.commands.execute( 'map:showPoiLayer', this.model );
+            this._layerIsVisible = false;
+        }
+        else {
 
-                hiddenPoiLayers = _.without( hiddenPoiLayers, this.model.get('_id') );
-            }
-            else {
+            this._layerIsVisible = true;
+        }
 
-                this._radio.commands.execute( 'map:hidePoiLayer', this.model );
+        this._radio.vent.on('map:zoomChanged', this.render, this);
+    },
 
-                hiddenPoiLayers = _.union( hiddenPoiLayers, [this.model.get('_id')] );
-            }
+    templateHelpers: function () {
 
-            newState = _.extend( oldState, { 'hiddenPoiLayers': hiddenPoiLayers } );
-            localStorage.setItem( key, JSON.stringify( newState ) );
-        },
+        return {
 
-        onClickLabel: function (e) {
+            'description': marked( this.model.get('description') ),
+            'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
+        };
+    },
 
-            e.preventDefault();
-        },
-    });
+    onRender: function () {
+
+        var currentZoom = this._radio.reqres.request('map:getCurrentZoom'),
+        n = (this.model.get('minZoom') - currentZoom) || 0;
+
+        if ( n > 0 ) {
+
+            this.ui.zoomTip
+            .html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
+            .removeClass('hide');
+        }
+        else {
+
+            this.ui.zoomTip
+            .addClass('hide')
+            .empty();
+        }
+
+        this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
+    },
+
+    onClick: function (e) {
+
+        e.stopPropagation();
+
+        var newState,
+        key = 'mapState-'+ this._fragment,
+        oldState = JSON.parse( localStorage.getItem( key ) ) || {},
+        hiddenPoiLayers = oldState.hiddenPoiLayers || [];
+
+        this._layerIsVisible = this._layerIsVisible ? false : true;
+
+        this.ui.visibilityCheckbox[0].checked = this._layerIsVisible;
+
+        if ( this._layerIsVisible ) {
+
+            this._radio.commands.execute( 'map:showPoiLayer', this.model );
+
+            hiddenPoiLayers = _.without( hiddenPoiLayers, this.model.get('_id') );
+        }
+        else {
+
+            this._radio.commands.execute( 'map:hidePoiLayer', this.model );
+
+            hiddenPoiLayers = _.union( hiddenPoiLayers, [this.model.get('_id')] );
+        }
+
+        newState = _.extend( oldState, { 'hiddenPoiLayers': hiddenPoiLayers } );
+        localStorage.setItem( key, JSON.stringify( newState ) );
+    },
+
+    onClickLabel: function (e) {
+
+        e.preventDefault();
+    },
 });

@@ -1,45 +1,34 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'backbone.marionette',
-    '../../templates/templates',
-    './selectPoiLayerListItem',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
+var SelectPoiLayerListItemView = require('./selectPoiLayerListItem');
 
-    _,
-    Backbone,
-    Marionette,
-    templates,
-    SelectPoiLayerListItemView
-) {
 
-    'use strict';
+module.exports = Marionette.CollectionView.extend({
 
-    return Marionette.CollectionView.extend({
+    childView: SelectPoiLayerListItemView,
 
-        childView: SelectPoiLayerListItemView,
+    className: 'list-group',
 
-        className: 'list-group',
+    initialize: function () {
 
-        initialize: function () {
+        var self = this;
 
-            var self = this;
+        this._radio = Backbone.Wreqr.radio.channel('global');
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+        this._user = this._radio.reqres.request('model', 'user');
+    },
 
-            this._user = this._radio.reqres.request('model', 'user');
-        },
+    addChild: function(child, ChildView, index){
 
-        addChild: function(child, ChildView, index){
+        if ( child.isVisible() ) {
 
-            if ( child.isVisible() ) {
-
-                Marionette.CollectionView.prototype.addChild.apply(this, arguments);
-            }
-        },
-    });
+            Marionette.CollectionView.prototype.addChild.apply(this, arguments);
+        }
+    },
 });

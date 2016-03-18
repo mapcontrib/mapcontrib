@@ -1,71 +1,63 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    '../settings',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
 
-    _,
-    Backbone,
-    settings
-) {
 
-    'use strict';
+module.exports = Marionette.ItemView.extend({
 
-    return Marionette.ItemView.extend({
+    template: JST['editPresetListItem.html'],
 
-        template: JST['editPresetListItem.html'],
+    tagName: 'a',
 
-        tagName: 'a',
+    className: 'list-group-item',
 
-        className: 'list-group-item',
+    attributes: {
 
-        attributes: {
+        'href': '#',
+    },
 
-            'href': '#',
-        },
+    modelEvents: {
 
-        modelEvents: {
+        'change': 'render'
+    },
 
-            'change': 'render'
-        },
+    ui: {
 
-        ui: {
+        'remove_btn': '.remove_btn'
+    },
 
-            'remove_btn': '.remove_btn'
-        },
+    events: {
 
-        events: {
+        'click': 'onClick',
+        'click @ui.remove_btn': 'onClickRemove',
+    },
 
-            'click': 'onClick',
-            'click @ui.remove_btn': 'onClickRemove',
-        },
+    initialize: function () {
 
-        initialize: function () {
+        var self = this;
 
-            var self = this;
+        this._radio = Backbone.Wreqr.radio.channel('global');
+    },
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
+    onRender: function () {
 
-        onRender: function () {
+        this.el.id = 'preset-'+ this.model.cid;
+    },
 
-            this.el.id = 'preset-'+ this.model.cid;
-        },
+    onClick: function () {
 
-        onClick: function () {
+        this._radio.commands.execute( 'column:showPresetTags', this.model );
+    },
 
-            this._radio.commands.execute( 'column:showPresetTags', this.model );
-        },
+    onClickRemove: function (e) {
 
-        onClickRemove: function (e) {
+        e.stopPropagation();
 
-            e.stopPropagation();
-
-            this.model.destroy();
-        },
-    });
+        this.model.destroy();
+    },
 });

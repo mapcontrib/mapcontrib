@@ -1,67 +1,57 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'backbone.marionette',
-    '../../templates/templates',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
 
-    _,
-    Backbone,
-    Marionette,
-    templates
-) {
 
-    'use strict';
+module.exports = Marionette.ItemView.extend({
 
-    return Marionette.ItemView.extend({
+    template: JST['overpassErrorNotification.html'],
 
-        template: JST['overpassErrorNotification.html'],
+    behaviors: {
 
-        behaviors: {
+        'l20n': {},
+        'notification': {
 
-            'l20n': {},
-            'notification': {
-
-                'destroyOnClose': true,
-            },
+            'destroyOnClose': true,
         },
+    },
 
-        ui: {
+    ui: {
 
-            'notification': '.notification',
+        'notification': '.notification',
 
-            'content': '.content',
-        },
+        'content': '.content',
+    },
 
-        initialize: function () {
+    initialize: function () {
 
-            var self = this;
+        var self = this;
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio = Backbone.Wreqr.radio.channel('global');
 
-            return this.render();
-        },
+        return this.render();
+    },
 
-        open: function () {
+    open: function () {
 
-            this.triggerMethod('open');
-        },
+        this.triggerMethod('open');
+    },
 
-        close: function () {
+    close: function () {
 
-            this.triggerMethod('close');
-        },
+        this.triggerMethod('close');
+    },
 
-        onRender: function () {
+    onRender: function () {
 
-            this.ui.content.html(
+        this.ui.content.html(
 
-                document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
-            );
-        },
-    });
+            document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
+        );
+    },
 });

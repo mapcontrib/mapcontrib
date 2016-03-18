@@ -6,7 +6,6 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var Marionette = require('backbone.marionette');
-var JST = require('../templates/templates');
 var tools = require('./tools');
 var L20n = require('l20n');
 var Router = require('./router');

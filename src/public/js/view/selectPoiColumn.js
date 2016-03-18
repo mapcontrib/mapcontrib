@@ -1,75 +1,64 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'backbone.marionette',
-    '../../templates/templates',
-    './selectPoiLayerList',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
+var SelectPoiLayerListView = require('./selectPoiLayerList');
 
-    _,
-    Backbone,
-    Marionette,
-    templates,
-    SelectPoiLayerListView
-) {
 
-    'use strict';
+module.exports = Marionette.LayoutView.extend({
 
-    return Marionette.LayoutView.extend({
+    template: JST['selectPoiColumn.html'],
 
-        template: JST['selectPoiColumn.html'],
+    behaviors: {
 
-        behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-            'l20n': {},
-            'column': {},
-        },
+    regions: {
 
-        regions: {
+        'layerList': '.rg_layer_list',
+    },
 
-            'layerList': '.rg_layer_list',
-        },
+    ui: {
 
-        ui: {
+        'column': '#select_poi_column',
+    },
 
-            'column': '#select_poi_column',
-        },
+    initialize: function () {
 
-        initialize: function () {
+        var self = this;
 
-            var self = this;
+        this._radio = Backbone.Wreqr.radio.channel('global');
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+        this._radio.commands.setHandler('column:selectPoiLayer:render', this.render.bind(this));
+    },
 
-            this._radio.commands.setHandler('column:selectPoiLayer:render', this.render.bind(this));
-        },
+    onRender: function () {
 
-        onRender: function () {
+        var poiLayers = this._radio.reqres.request('poiLayers'),
+        selectPoiLayerListView = new SelectPoiLayerListView({ 'collection': poiLayers });
 
-            var poiLayers = this._radio.reqres.request('poiLayers'),
-            selectPoiLayerListView = new SelectPoiLayerListView({ 'collection': poiLayers });
+        this.getRegion('layerList').show( selectPoiLayerListView );
+    },
 
-            this.getRegion('layerList').show( selectPoiLayerListView );
-        },
+    onBeforeOpen: function () {
 
-        onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
+    open: function () {
 
-        open: function () {
+        this.triggerMethod('open');
+    },
 
-            this.triggerMethod('open');
-        },
+    close: function () {
 
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-    });
+        this.triggerMethod('close');
+    },
 });

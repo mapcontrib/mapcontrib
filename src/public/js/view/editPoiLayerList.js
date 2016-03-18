@@ -1,74 +1,60 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'backbone.marionette',
-    '../../templates/templates',
-    'jquery-ui/sortable',
-    'jquery-ui-touch-punch',
-    './editPoiLayerListEmpty',
-    './editPoiLayerListItem',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
+var jquery_ui_sortable = require('jquery-ui/sortable');
+var jquery_ui_touch_punch = require('jquery-ui-touch-punch');
+var EditPoiLayerListEmptyView = require('./editPoiLayerListEmpty');
+var EditPoiLayerListItemView = require('./editPoiLayerListItem');
 
-    _,
-    Backbone,
-    Marionette,
-    templates,
-    jquery_ui_sortable,
-    jquery_ui_touch_punch,
-    EditPoiLayerListEmptyView,
-    EditPoiLayerListItemView
-) {
 
-    'use strict';
+module.exports = Marionette.CollectionView.extend({
 
-    return Marionette.CollectionView.extend({
+    childView: EditPoiLayerListItemView,
 
-        childView: EditPoiLayerListItemView,
+    emptyView: EditPoiLayerListEmptyView,
 
-        emptyView: EditPoiLayerListEmptyView,
+    className: 'list-group reorderable removeable',
 
-        className: 'list-group reorderable removeable',
+    onRender: function () {
 
-        onRender: function () {
+        var self = this;
 
-            var self = this;
+        this.$el.sortable({
 
-            this.$el.sortable({
+            'axis': 'y',
+            'items': 'a',
+            'handle': '.reorder_icon',
+            'update': function () {
 
-                'axis': 'y',
-                'items': 'a',
-                'handle': '.reorder_icon',
-                'update': function () {
+                self.onDnD();
+            }
+        });
+    },
 
-                    self.onDnD();
-                }
-            });
-        },
+    onDnD: function (event, ui) {
 
-        onDnD: function (event, ui) {
+        var i = 0,
+        sorted_id_list = this.$el.sortable('toArray');
 
-            var i = 0,
-            sorted_id_list = this.$el.sortable('toArray');
+        _.each(sorted_id_list, function (layer_id) {
 
-            _.each(sorted_id_list, function (layer_id) {
+            var layerModel = this.collection.filter(function (layer) {
 
-                var layerModel = this.collection.filter(function (layer) {
+                return layer.cid === layer_id.replace('poi-layer-', '');
+            })[0];
 
-                    return layer.cid === layer_id.replace('poi-layer-', '');
-                })[0];
+            layerModel.set({'order': i});
+            layerModel.save();
 
-                layerModel.set({'order': i});
-                layerModel.save();
+            i++;
 
-                i++;
+        }, this);
 
-            }, this);
-
-            this.collection.sort();
-        },
-    });
+        this.collection.sort();
+    },
 });

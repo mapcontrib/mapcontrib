@@ -1,47 +1,37 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'backbone.marionette',
-    '../../templates/templates',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
 
-    _,
-    Backbone,
-    Marionette,
-    templates
-) {
 
-    'use strict';
+module.exports = Marionette.LayoutView.extend({
 
-    return Marionette.LayoutView.extend({
+    template: JST['conflictModal.html'],
 
-        template: JST['conflictModal.html'],
+    behaviors: {
 
-        behaviors: {
+        'l20n': {},
+        'modal': {},
+    },
 
-            'l20n': {},
-            'modal': {},
-        },
+    ui: {
 
-        ui: {
+        'modal': '#conflict_modal',
+    },
 
-            'modal': '#conflict_modal',
-        },
+    initialize: function () {
 
-        initialize: function () {
+        var self = this;
 
-            var self = this;
+        this._radio = Backbone.Wreqr.radio.channel('global');
+    },
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
+    close: function () {
 
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-    });
+        this.triggerMethod('close');
+    },
 });

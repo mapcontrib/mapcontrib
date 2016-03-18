@@ -1,22 +1,14 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    '../settings',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
 
-    _,
-    Backbone,
-    settings
-) {
 
-    'use strict';
+module.exports = Marionette.ItemView.extend({
 
-    return Marionette.ItemView.extend({
-
-        template: JST['editPresetListEmpty.html'],
-    });
+    template: JST['editPresetListEmpty.html'],
 });

@@ -1,61 +1,51 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'backbone.marionette',
-    '../../templates/templates',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
 
-    _,
-    Backbone,
-    Marionette,
-    templates
-) {
 
-    'use strict';
+module.exports = Marionette.LayoutView.extend({
 
-    return Marionette.LayoutView.extend({
+    template: JST['loginModal.html'],
 
-        template: JST['loginModal.html'],
+    behaviors: {
 
-        behaviors: {
+        'l20n': {},
+        'modal': {},
+    },
 
-            'l20n': {},
-            'modal': {},
-        },
+    ui: {
 
-        ui: {
+        'modal': '#login_modal',
+    },
 
-            'modal': '#login_modal',
-        },
+    templateHelpers: function () {
 
-        templateHelpers: function () {
+        return {
 
-            return {
+            'authCallback': '/theme-'+ this.options.fragment,
+        };
+    },
 
-                'authCallback': '/theme-'+ this.options.fragment,
-            };
-        },
+    initialize: function () {
 
-        initialize: function () {
+        var self = this;
 
-            var self = this;
+        this._radio = Backbone.Wreqr.radio.channel('global');
+    },
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
+    onBeforeOpen: function () {
 
-        onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
+    close: function () {
 
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-    });
+        this.triggerMethod('close');
+    },
 });

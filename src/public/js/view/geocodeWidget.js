@@ -1,229 +1,217 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'backbone.marionette',
-    '../../templates/templates',
-    '../settings',
-    'leaflet-control-geocoder',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var JST = require('../../templates/templates');
+var settings = require('../settings');
+var leafletControlGeocoder = require('leaflet-control-geocoder');
 
-    _,
-    Backbone,
-    Marionette,
-    templates,
-    settings,
-    leafletControlGeocoder
-) {
 
-    'use strict';
+module.exports = Marionette.LayoutView.extend({
 
-    return Marionette.LayoutView.extend({
+    template: JST['geocodeWidget.html'],
+    templateResultItem: JST['geocodeResultItem.html'],
 
-        template: JST['geocodeWidget.html'],
-        templateResultItem: JST['geocodeResultItem.html'],
+    behaviors: {
 
-        behaviors: {
+        'l20n': {},
+        'widget': {},
+    },
 
-            'l20n': {},
-            'widget': {},
-        },
+    ui: {
 
-        ui: {
+        'widget': '#geocode_widget',
+        'query': 'input',
+        'resultList': '.results',
+    },
 
-            'widget': '#geocode_widget',
-            'query': 'input',
-            'resultList': '.results',
-        },
+    events: {
 
-        events: {
+        'keyup @ui.query': 'onKeyUpQuery',
+        'keydown @ui.query': 'onKeyDownQuery',
+    },
 
-            'keyup @ui.query': 'onKeyUpQuery',
-            'keydown @ui.query': 'onKeyDownQuery',
-        },
+    initialize: function () {
 
-        initialize: function () {
+        var self = this;
 
-            var self = this;
+        this._radio = Backbone.Wreqr.radio.channel('global');
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+        this._geocoder = L.Control.Geocoder.nominatim();
 
-            this._geocoder = L.Control.Geocoder.nominatim();
+        this.on('open', this.onOpen);
+    },
 
-            this.on('open', this.onOpen);
-        },
+    open: function () {
 
-        open: function () {
+        this.triggerMethod('open');
+    },
 
-            this.triggerMethod('open');
-        },
+    close: function () {
 
-        close: function () {
+        this.triggerMethod('close');
+    },
 
-            this.triggerMethod('close');
-        },
+    toggle: function () {
 
-        toggle: function () {
+        this.triggerMethod('toggle');
+    },
 
-            this.triggerMethod('toggle');
-        },
+    onAfterOpen: function () {
 
-        onAfterOpen: function () {
+        var self = this;
 
-            var self = this;
+        this._radio.vent.trigger('column:closeAll');
 
-            this._radio.vent.trigger('column:closeAll');
+        this.ui.widget.one('transitionend', function () {
 
-            this.ui.widget.one('transitionend', function () {
+            self.ui.query.focus();
+        });
+    },
 
-                self.ui.query.focus();
-            });
-        },
+    onKeyUpQuery: function (e) {
 
-        onKeyUpQuery: function (e) {
+        if ( this._queryInterval ) {
 
-            if ( this._queryInterval ) {
+            clearInterval(this._queryInterval);
+        }
 
-                clearInterval(this._queryInterval);
-            }
+        var self = this,
+        query = this.ui.query.val();
 
-            var self = this,
-            query = this.ui.query.val();
+        if ( this._lastQuery && this._lastQuery === query ) {
 
-            if ( this._lastQuery && this._lastQuery === query ) {
+            return false;
+        }
 
-                return false;
-            }
+        this._queryInterval = setTimeout(function () {
 
-            this._queryInterval = setTimeout(function () {
+            self.geocode( query );
+        }, 350);
+    },
 
-                self.geocode( query );
-            }, 350);
-        },
+    onKeyDownQuery: function (e) {
 
-        onKeyDownQuery: function (e) {
+        if ( [9, 13, 38, 40].indexOf(e.keyCode) > -1 ) {
 
-            if ( [9, 13, 38, 40].indexOf(e.keyCode) > -1 ) {
+            e.preventDefault();
+        }
 
-                e.preventDefault();
-            }
+        switch ( e.keyCode ) {
+            case 40: // Down arrow
+            case 9: // Tab
 
-            switch ( e.keyCode ) {
-                case 40: // Down arrow
-                case 9: // Tab
+                this.activeNextResult();
+                break;
 
-                    this.activeNextResult();
-                    break;
+            case 38: // Up arrow
 
-                case 38: // Up arrow
+                this.activePreviousResult();
+                break;
 
-                    this.activePreviousResult();
-                    break;
+            case 13: // Enter
 
-                case 13: // Enter
+                this.visitResult();
+                break;
+        }
+    },
 
-                    this.visitResult();
-                    break;
-            }
-        },
+    geocode: function (query) {
 
-        geocode: function (query) {
+        var self = this,
+        elements = [];
 
-            var self = this,
-            elements = [];
+        this._lastQuery = query;
 
-            this._lastQuery = query;
+        if ( !query ) {
 
-            if ( !query ) {
+            this.ui.resultList.empty();
 
-                this.ui.resultList.empty();
+            return;
+        }
 
-                return;
-            }
+        this._geocoder.geocode(query, function(results) {
 
-            this._geocoder.geocode(query, function(results) {
+            results.forEach(function (result) {
 
-                results.forEach(function (result) {
+                elements.push(
 
-                    elements.push(
+                    $( self.templateResultItem({
 
-                        $( self.templateResultItem({
+                        'name': result.name,
+                    }))
+                    .on('click', function () {
 
-                            'name': result.name,
-                        }))
-                        .on('click', function () {
+                        self._radio.commands.execute('map:fitBounds', result.bbox);
 
-                            self._radio.commands.execute('map:fitBounds', result.bbox);
-
-                            self.close();
-                        })
-                    );
-                });
-
-                self.ui.resultList.html( elements );
+                        self.close();
+                    })
+                );
             });
 
-        },
+            self.ui.resultList.html( elements );
+        });
 
-        activeNextResult: function () {
+    },
 
-            var current = this.ui.resultList.find('.active');
+    activeNextResult: function () {
 
-            if ( !current.length ) {
+        var current = this.ui.resultList.find('.active');
 
-                this.ui.resultList
-                .children()
-                .first()
-                .addClass('active');
-            }
-            else {
+        if ( !current.length ) {
 
-                current
-                .removeClass('active')
-                .next()
-                .addClass('active');
-            }
-        },
+            this.ui.resultList
+            .children()
+            .first()
+            .addClass('active');
+        }
+        else {
 
-        activePreviousResult: function () {
+            current
+            .removeClass('active')
+            .next()
+            .addClass('active');
+        }
+    },
 
-            var current = this.ui.resultList.find('.active');
+    activePreviousResult: function () {
 
-            if ( !current.length ) {
+        var current = this.ui.resultList.find('.active');
 
-                this.ui.resultList
-                .children()
-                .last()
-                .addClass('active');
-            }
-            else {
+        if ( !current.length ) {
 
-                current
-                .removeClass('active')
-                .prev()
-                .addClass('active');
-            }
-        },
+            this.ui.resultList
+            .children()
+            .last()
+            .addClass('active');
+        }
+        else {
 
-        visitResult: function () {
+            current
+            .removeClass('active')
+            .prev()
+            .addClass('active');
+        }
+    },
 
-            var current = this.ui.resultList.find('.active');
+    visitResult: function () {
 
-            if ( !current.length ) {
+        var current = this.ui.resultList.find('.active');
 
-                this.ui.resultList
-                .children()
-                .first()
-                .addClass('active')
-                .click();
-            }
-            else {
+        if ( !current.length ) {
 
-                current.click();
-            }
-        },
-    });
+            this.ui.resultList
+            .children()
+            .first()
+            .addClass('active')
+            .click();
+        }
+        else {
+
+            current.click();
+        }
+    },
 });

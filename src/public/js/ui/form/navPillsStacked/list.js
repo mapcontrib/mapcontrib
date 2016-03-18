@@ -3,6 +3,7 @@
 
 
 var Marionette = require('backbone.marionette');
+var JST = require('../../../../templates/templates');
 var NavPillsStackedCollection = require('./collection');
 var NavPillsStackedListItemView = require('./listItem');
 
