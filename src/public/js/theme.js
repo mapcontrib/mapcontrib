@@ -1,6 +1,16 @@
 
 'use strict';
 
+var tools = require('./tools');
+var ionicons = require('ionicons/css/ionicons.css');
+var fontAwesome = require('font-awesome-webpack');
+var bootstrap = require('bootstrap-webpack');
+var awesomeBootstrapCheckbox = require('awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css');
+// var bootstrapMore = require('bootstrap-more');
+// var librariesCss = require('../css/libraries.css');
+var leafletCss = require('leaflet/dist/leaflet.css');
+var appStyle = require('../css/app.less');
+
 
 var $ = require('jquery');
 var _ = require('underscore');
@@ -8,8 +18,7 @@ var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var tools = require('./tools');
-var L20n = require('./l20n.min.js');
+var L20n = require('../lib/l20n.min.js');
 var Router = require('./router');
 var UserModel = require('./model/user');
 var L20nBehavior = require('./behavior/l20n');

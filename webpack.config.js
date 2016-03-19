@@ -1,6 +1,8 @@
 
-var path = require('path'),
-babelPresets = ['es2015'];
+const path = require('path');
+const babelPresets = ['es2015'];
+
+
 
 module.exports = {
     context: path.join(__dirname, 'src', 'public'),
@@ -19,19 +21,48 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loaders: ['style', 'css']
+                loader: 'style!css?sourceMap'
+            },
+            {
+                test: /\.less$/,
+                loader: 'style!css!less'
             },
             {
                 test: /\.json$/,
                 loader: 'raw'
             },
             {
-                test: /\.svg$/,
+                test: /.*\.svg$/,
                 loader: 'raw'
             },
             {
                 test: /\.ejs$/,
                 loader: 'ejs'
+            },
+            {
+                test: /\.png$/,
+                loader: 'file?name=../assets/[name].[ext]'
+            },
+            {
+                test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url?limit=10000&mimetype=application/font-woff&name=../assets/[name].[ext]"
+            },
+            {
+                test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url?limit=10000&mimetype=application/font-woff&name=../assets/[name].[ext]"
+            },
+            {
+                test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url?limit=10000&mimetype=application/octet-stream&name=../assets/[name].[ext]"
+            },
+            {
+                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "file?name=../assets/[name].[ext]"
+            },
+            {
+                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                exclude: /img/,
+                loader: "file?limit=10000&mimetype=image/svg+xml&name=../assets/[name].[ext]"
             }
         ]
     },
