@@ -40,7 +40,7 @@ module.exports = Marionette.LayoutView.extend({
 
         this._radio = Wreqr.radio.channel('global');
 
-        this._geocoder = L.Control.Geocoder.nominatim();
+        this._geocoder = leafletControlGeocoder.nominatim();
 
         this.on('open', this.onOpen);
     },

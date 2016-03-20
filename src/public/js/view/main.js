@@ -10,7 +10,7 @@ var Marionette = require('backbone.marionette');
 var settings = require('../settings');
 var CONST = require('../const');
 var L = require('leaflet');
-var overpassLayer = require('leaflet-overpass-layer');
+var OverPassLayer = require('leaflet-overpass-layer');
 var marked = require('marked');
 
 var MainTitleView = require('./mainTitle');
@@ -585,7 +585,7 @@ module.exports = Marionette.LayoutView.extend({
 
 
 
-        layerGroup._overpassLayer = new L.OverPassLayer({
+        layerGroup._overpassLayer = new OverPassLayer({
 
             'debug': settings.debug,
             'endPoint': settings.overpassServer,
