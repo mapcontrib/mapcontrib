@@ -6,8 +6,8 @@ var ionicons = require('ionicons/css/ionicons.css');
 var fontAwesome = require('font-awesome-webpack');
 var bootstrap = require('bootstrap-webpack');
 var awesomeBootstrapCheckbox = require('awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css');
-// var bootstrapMore = require('bootstrap-more');
-// var librariesCss = require('../css/libraries.css');
+var bootstrapMoreCss = require('bootstrap-more/bootstrap-more.css');
+var bootstrapMoreJs = require('bootstrap-more/bootstrap-more.js');
 var leafletCss = require('leaflet/dist/leaflet.css');
 var appStyle = require('../css/app.less');
 
