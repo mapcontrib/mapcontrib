@@ -1,7 +1,6 @@
 
 var crypto = require('crypto'),
 mongo = require('mongodb'),
-requirejs = require('requirejs'),
 Promise = require('es6-promise').Promise,
 ThemeModel = require('../public/js/model/theme'),
 options = {
