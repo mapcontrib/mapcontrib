@@ -45,6 +45,7 @@ database.open(function (err, db) {
 
 var ejs = require('ejs'),
 express = require('express'),
+compression = require('compression'),
 logger = require('morgan'),
 multer = require('multer'),
 methodOverride = require('method-override'),
@@ -56,6 +57,7 @@ errorHandler = require('errorhandler'),
 MongoStore = require('connect-mongo')(session),
 app = express();
 
+app.use(compression());
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.set('views', path.join(__dirname, 'views'));
