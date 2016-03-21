@@ -1,10 +1,13 @@
 
+const webpack = require('webpack');
 const path = require('path');
 const babelPresets = ['es2015'];
 
 
 
 module.exports = {
+    devtool: 'source-map',
+    debug: true,
     context: path.join(__dirname, 'src', 'public'),
     entry: {
         theme: './js/theme'
@@ -13,6 +16,19 @@ module.exports = {
         path: path.join(__dirname, 'src', 'public', 'js'),
         filename: '[name].bundle.js'
     },
+    plugins: [
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            mangle: true,
+            output: {
+                comments: false
+            },
+            compress: {
+                warnings: false
+            }
+        })
+    ],
     module: {
         loaders: [
             {
@@ -66,6 +82,4 @@ module.exports = {
             }
         ]
     },
-    devtool: 'source-map',
-    debug: true
 };
