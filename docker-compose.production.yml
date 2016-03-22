@@ -10,11 +10,11 @@ node:
     environment:
         - PORT=8080
         - MONGO_HOST=mongo
-    ports:
-        - "8080:8080"
+    expose:
+        - "8080"
     links:
         - mongo
     volumes:
         - ./:/data
     working_dir: /data
-    command: node dist/server.js
+    command: node src/server.js
