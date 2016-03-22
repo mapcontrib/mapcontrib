@@ -45,6 +45,7 @@ database.open(function (err, db) {
 
 var ejs = require('ejs'),
 express = require('express'),
+compression = require('compression'),
 logger = require('morgan'),
 multer = require('multer'),
 methodOverride = require('method-override'),
@@ -56,6 +57,7 @@ errorHandler = require('errorhandler'),
 MongoStore = require('connect-mongo')(session),
 app = express();
 
+app.use(compression());
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.set('views', path.join(__dirname, 'views'));
@@ -86,24 +88,9 @@ app.use(serveStatic(path.join(__dirname, 'public')));
 
 
 
-var requirejs = require('requirejs');
-
-requirejs.config({
-
-    nodeRequire: require,
-    baseUrl: path.join( __dirname, 'public', 'js' ),
-    paths: {
-
-        'underscore': '../bower_components/underscore/underscore',
-        'backbone': '../bower_components/backbone/backbone',
-        'text': '../bower_components/text/text',
-        'img': '../img',
-    }
-});
-
-var CONST = requirejs('const'),
-settings = requirejs('settings'),
-_ = requirejs('underscore');
+var CONST = require('./public/js/const'),
+settings = require('./public/js/settings'),
+_ = require('underscore');
 
 
 
@@ -309,8 +296,7 @@ function isLoggedIn (req, res, next) {
 
 
 
-var CONST = requirejs('const'),
-userApi = require('./api/user.js'),
+var userApi = require('./api/user.js'),
 themeApi = require('./api/theme.js'),
 poiLayerApi = require('./api/poiLayer.js'),
 presetApi = require('./api/preset.js'),
@@ -422,7 +408,7 @@ function onPromiseError(errorCode) {
 
 
 
-if (app.get('env') === 'development') {
+if (app.get('env') !== 'production') {
 
     app.use(errorHandler());
 }

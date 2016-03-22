@@ -1,8 +1,7 @@
 
 var mongo = require('mongodb'),
-requirejs = require('requirejs'),
 Promise = require('es6-promise').Promise,
-PresetModel = requirejs('model/preset'),
+PresetModel = require('../public/js/model/preset'),
 options = {
 
     'CONST': undefined,

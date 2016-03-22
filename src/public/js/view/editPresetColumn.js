@@ -1,90 +1,75 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'model/preset',
-    'view/editPresetList',
-    'view/editPresetTagsColumn',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
+var Marionette = require('backbone.marionette');
+var PresetModel = require('../model/preset');
+var EditPresetListView = require('./editPresetList');
+var EditPresetTagsColumnView = require('./editPresetTagsColumn');
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    PresetModel,
-    EditPresetListView,
-    EditPresetTagsColumnView
-) {
 
-    'use strict';
+module.exports = Marionette.LayoutView.extend({
 
-    return Marionette.LayoutView.extend({
+    template: require('../../templates/editPresetColumn.ejs'),
 
-        template: JST['editPresetColumn.html'],
+    behaviors: {
 
-        behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-            'l20n': {},
-            'column': {},
-        },
+    regions: {
 
-        regions: {
+        'presetList': '.rg_preset_list',
+    },
 
-            'presetList': '.rg_preset_list',
-        },
+    ui: {
 
-        ui: {
+        'column': '#edit_preset_column',
+        'addButton': '.add_btn',
+    },
 
-            'column': '#edit_preset_column',
-            'addButton': '.add_btn',
-        },
+    events: {
 
-        events: {
+        'click @ui.addButton': 'onClickAdd',
+    },
 
-            'click @ui.addButton': 'onClickAdd',
-        },
+    initialize: function () {
 
-        initialize: function () {
+        var self = this;
 
-            var self = this;
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
+    onRender: function () {
 
-        onRender: function () {
+        var presets = this._radio.reqres.request('presets'),
+        editPresetListView = new EditPresetListView({ 'collection': presets });
 
-            var presets = this._radio.reqres.request('presets'),
-            editPresetListView = new EditPresetListView({ 'collection': presets });
+        this.getRegion('presetList').show( editPresetListView );
+    },
 
-            this.getRegion('presetList').show( editPresetListView );
-        },
+    onBeforeOpen: function () {
 
-        onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
+    open: function () {
 
-        open: function () {
+        this.triggerMethod('open');
+    },
 
-            this.triggerMethod('open');
-        },
+    close: function () {
 
-        close: function () {
+        this.triggerMethod('close');
+    },
 
-            this.triggerMethod('close');
-        },
+    onClickAdd: function () {
 
-        onClickAdd: function () {
-
-            this._radio.commands.execute('column:showPresetTags');
-        },
-    });
+        this._radio.commands.execute('column:showPresetTags');
+    },
 });

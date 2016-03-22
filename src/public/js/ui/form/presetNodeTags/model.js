@@ -1,24 +1,17 @@
 
+'use strict';
 
-define([
 
-    'backbone',
-],
-function (
+var Backbone = require('backbone');
 
-    Backbone
-) {
 
-    'use strict';
+module.exports = Backbone.Model.extend({
 
-    return Backbone.Model.extend({
+    defaults: {
 
-        defaults: {
-
-            'key': '',
-            'value': '',
-            'keyReadOnly': true,
-            'valueReadOnly': false,
-        },
-    });
+        'key': '',
+        'value': '',
+        'keyReadOnly': true,
+        'valueReadOnly': false,
+    },
 });

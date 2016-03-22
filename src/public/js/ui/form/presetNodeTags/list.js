@@ -1,44 +1,35 @@
 
+'use strict';
 
-define([
 
-    'marionette',
-    'ui/form/presetNodeTags/collection',
-    'ui/form/presetNodeTags/listItem',
-],
-function (
+var Marionette = require('backbone.marionette');
+var PresetNodeTagsCollection = require('./collection');
+var PresetNodeTagsListItemView = require('./listItem');
 
-    Marionette,
-    PresetNodeTagsCollection,
-    PresetNodeTagsListItemView
-) {
 
-    'use strict';
+module.exports = Marionette.CollectionView.extend({
 
-    return Marionette.CollectionView.extend({
+    childView: PresetNodeTagsListItemView,
 
-        childView: PresetNodeTagsListItemView,
+    setTags: function (tags) {
 
-        setTags: function (tags) {
+        this.collection = new PresetNodeTagsCollection( tags );
 
-            this.collection = new PresetNodeTagsCollection( tags );
-
-            if (tags.length === 0) {
-
-                this.collection.add({});
-            }
-
-            this.render();
-        },
-
-        addTag: function () {
+        if (tags.length === 0) {
 
             this.collection.add({});
-        },
+        }
 
-        getTags: function () {
+        this.render();
+    },
 
-            return this.collection.toJSON();
-        },
-    });
+    addTag: function () {
+
+        this.collection.add({});
+    },
+
+    getTags: function () {
+
+        return this.collection.toJSON();
+    },
 });

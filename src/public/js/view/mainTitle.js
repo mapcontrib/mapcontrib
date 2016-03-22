@@ -1,159 +1,146 @@
 
-
-define([
-
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'const',
-    'markdown',
-],
-function (
-
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    CONST,
-    markdown
-) {
-
-    'use strict';
-
-    return Marionette.LayoutView.extend({
-
-        template: JST['mainTitle.html'],
-
-        behaviors: {
-
-            'l20n': {},
-        },
-
-        ui: {
-
-            'titleWrapper': '#title',
-            'title': '#title h1',
-            'description': '#title .description',
-            'descriptionButton': '#title .description_btn',
-        },
-
-        events: {
-
-            'click @ui.descriptionButton': 'onClickDescription',
-        },
-
-        initialize: function () {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-
-            this._currentTitleColor = this.model.get('color');
-
-            this.listenTo(this.model, 'change:name', this.setTitle);
-            this.listenTo(this.model, 'change:description', this.setDescription);
-
-            this._radio.commands.setHandler('ui:setTitleColor', this.commandSetTitleColor, this);
-        },
-
-        templateHelpers: function () {
-
-            return {
-
-                'description': markdown.toHTML( this.model.get('description') ),
-            };
-        },
-
-        onRender: function () {
-
-            var self = this;
-
-            document.title = document.l10n.getSync('pageTitleWithMapName', {
-
-                'map': {
-
-                    'name': this.model.get('name')
-                }
-            });
+'use strict';
 
 
-            if ( this.model.get('description') ) {
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
+var Marionette = require('backbone.marionette');
+var CONST = require('../const');
+var marked = require('marked');
 
-                this.ui.descriptionButton.removeClass('hide');
+
+module.exports = Marionette.LayoutView.extend({
+
+    template: require('../../templates/mainTitle.ejs'),
+
+    behaviors: {
+
+        'l20n': {},
+    },
+
+    ui: {
+
+        'titleWrapper': '#title',
+        'title': '#title h1',
+        'description': '#title .description',
+        'descriptionButton': '#title .description_btn',
+    },
+
+    events: {
+
+        'click @ui.descriptionButton': 'onClickDescription',
+    },
+
+    initialize: function () {
+
+        var self = this;
+
+        this._radio = Wreqr.radio.channel('global');
+
+        this._currentTitleColor = this.model.get('color');
+
+        this.listenTo(this.model, 'change:name', this.setTitle);
+        this.listenTo(this.model, 'change:description', this.setDescription);
+
+        this._radio.commands.setHandler('ui:setTitleColor', this.commandSetTitleColor, this);
+    },
+
+    templateHelpers: function () {
+
+        return {
+
+            'description': marked( this.model.get('description') ),
+        };
+    },
+
+    onRender: function () {
+
+        var self = this;
+
+        document.title = document.l10n.getSync('pageTitleWithMapName', {
+
+            'map': {
+
+                'name': this.model.get('name')
             }
-        },
+        });
 
-        onShow: function () {
 
-            this.ui.descriptionButton.tooltip({
+        if ( this.model.get('description') ) {
 
-                'container': 'body',
-                'delay': {
+            this.ui.descriptionButton.removeClass('hide');
+        }
+    },
 
-                    'show': CONST.tooltip.showDelay,
-                    'hide': CONST.tooltip.hideDelay
-                }
-            })
-            .on('click', function () {
+    onShow: function () {
 
-                $(this)
-                .blur()
-                .tooltip('hide');
-            });
-        },
+        this.ui.descriptionButton.tooltip({
 
-        setTitle: function () {
+            'container': 'body',
+            'delay': {
 
-            this.ui.title.html( this.model.get('name') );
-
-            document.title = document.l10n.getSync('pageTitleWithMapName', {
-
-                'map': {
-
-                    'name': this.model.get('name')
-                }
-            });
-        },
-
-        commandSetTitleColor: function (color) {
-
-            if ( this._currentTitleColor === color ) {
-
-                return;
+                'show': CONST.tooltip.showDelay,
+                'hide': CONST.tooltip.hideDelay
             }
+        })
+        .on('click', function () {
 
-            this.ui.titleWrapper
-            .addClass( color )
-            .removeClass( this._currentTitleColor );
+            $(this)
+            .blur()
+            .tooltip('hide');
+        });
+    },
 
-            this._currentTitleColor = color;
-        },
+    setTitle: function () {
 
-        setDescription: function () {
+        this.ui.title.html( this.model.get('name') );
 
-            var description = markdown.toHTML( this.model.get('description') );
+        document.title = document.l10n.getSync('pageTitleWithMapName', {
 
-            if ( description ) {
+            'map': {
 
-                this.ui.description.html( description );
-                this.ui.descriptionButton.removeClass('hide');
+                'name': this.model.get('name')
             }
-            else {
+        });
+    },
 
-                this.ui.description.html('');
-                this.ui.descriptionButton.addClass('hide');
-            }
-        },
+    commandSetTitleColor: function (color) {
 
-        onClickDescription: function () {
+        if ( this._currentTitleColor === color ) {
 
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-            
-            this.ui.titleWrapper.toggleClass('open');
-        },
-    });
+            return;
+        }
+
+        this.ui.titleWrapper
+        .addClass( color )
+        .removeClass( this._currentTitleColor );
+
+        this._currentTitleColor = color;
+    },
+
+    setDescription: function () {
+
+        var description = marked( this.model.get('description') );
+
+        if ( description ) {
+
+            this.ui.description.html( description );
+            this.ui.descriptionButton.removeClass('hide');
+        }
+        else {
+
+            this.ui.description.html('');
+            this.ui.descriptionButton.addClass('hide');
+        }
+    },
+
+    onClickDescription: function () {
+
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+
+        this.ui.titleWrapper.toggleClass('open');
+    },
 });

@@ -1,139 +1,131 @@
+'use strict';
 
 
-define([
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
+var Marionette = require('backbone.marionette');
 
-    'underscore',
-    'backbone',
-    'marionette',
-],
-function (
 
-    _,
-    Backbone,
-    Marionette
-) {
+module.exports = Marionette.Behavior.extend({
 
-    'use strict';
+    defaults: {
 
-    return Marionette.Behavior.extend({
+        'destroyOnClose': false,
+    },
 
-        defaults: {
+    ui: {
 
-            'destroyOnClose': false,
-        },
+        'closeBtn': '.close_btn',
+    },
 
-        ui: {
+    events: {
 
-            'closeBtn': '.close_btn',
-        },
+        'click @ui.closeBtn': 'onClickClose',
+        'keyup': 'onKeyUp',
+    },
 
-        events: {
+    initialize: function (options) {
 
-            'click @ui.closeBtn': 'onClickClose',
-            'keyup': 'onKeyUp',
-        },
+        var self = this;
 
-        initialize: function (options) {
+        this._radio = Wreqr.radio.channel('global');
 
-            var self = this;
+        this.listenTo(this._radio.vent, 'widget:closeAll', this.onClose);
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+        this._isOpened = false;
+    },
 
-            this.listenTo(this._radio.vent, 'widget:closeAll', this.onClose);
+    onRender: function () {
 
-            this._isOpened = false;
-        },
+        this.ui.widget.attr('tabindex', 0);
+    },
 
-        onRender: function () {
+    onDestroy: function () {
 
-            this.ui.widget.attr('tabindex', 0);
-        },
+        this.stopListening(this._radio.vent, 'widget:closeAll');
+    },
 
-        onDestroy: function () {
+    onToggle: function () {
 
-            this.stopListening(this._radio.vent, 'widget:closeAll');
-        },
-
-        onToggle: function () {
-
-            if ( this._isOpened ) {
-
-                this.onClose();
-            }
-            else {
-
-                this.onOpen();
-            }
-        },
-
-        onOpen: function () {
-
-            var self = this;
-
-            this._isOpened = true;
-
-            if (this.view.onBeforeOpen) {
-
-                this.view.onBeforeOpen();
-            }
-
-            window.requestAnimationFrame(function () {
-
-                self.ui.widget.addClass('open');
-
-                if (self.view.onAfterOpen) {
-
-                    self.view.onAfterOpen();
-                }
-            });
-        },
-
-        onClose: function () {
-
-            var self = this,
-            mapElement = this._radio.reqres.request('map')._container;
-
-            this._isOpened = false;
-
-            $(mapElement).focus();
-
-            if (this.view.onBeforeClose) {
-
-                this.view.onBeforeClose();
-            }
-
-            window.requestAnimationFrame(function () {
-
-                self.ui.widget.one('transitionend', function () {
-
-                    if (self.view.onAfterClose) {
-
-                        self.view.onAfterClose();
-                    }
-
-                    if ( self.options.destroyOnClose ) {
-
-                        self.view.destroy();
-                    }
-                })
-                .removeClass('open');
-            });
-        },
-
-        onClickClose: function () {
+        if ( this._isOpened ) {
 
             this.onClose();
-        },
+        }
+        else {
 
-        onKeyUp: function (e) {
+            this.onOpen();
+        }
+    },
 
-            switch ( e.keyCode ) {
+    onOpen: function () {
 
-                case 27:
+        var self = this;
 
-                    this.onClose();
-                    break;
+        this._isOpened = true;
+
+        if (this.view.onBeforeOpen) {
+
+            this.view.onBeforeOpen();
+        }
+
+        window.requestAnimationFrame(function () {
+
+            self.ui.widget.addClass('open');
+
+            if (self.view.onAfterOpen) {
+
+                self.view.onAfterOpen();
             }
-        },
-    });
+        });
+    },
+
+    onClose: function () {
+
+        var self = this,
+        mapElement = this._radio.reqres.request('map')._container;
+
+        this._isOpened = false;
+
+        $(mapElement).focus();
+
+        if (this.view.onBeforeClose) {
+
+            this.view.onBeforeClose();
+        }
+
+        window.requestAnimationFrame(function () {
+
+            self.ui.widget.one('transitionend', function () {
+
+                if (self.view.onAfterClose) {
+
+                    self.view.onAfterClose();
+                }
+
+                if ( self.options.destroyOnClose ) {
+
+                    self.view.destroy();
+                }
+            })
+            .removeClass('open');
+        });
+    },
+
+    onClickClose: function () {
+
+        this.onClose();
+    },
+
+    onKeyUp: function (e) {
+
+        switch ( e.keyCode ) {
+
+            case 27:
+
+                this.onClose();
+                break;
+        }
+    },
 });

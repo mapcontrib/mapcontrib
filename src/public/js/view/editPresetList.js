@@ -1,76 +1,59 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'jquery-ui-sortable',
-    'jquery-ui-touch-punch',
-    'view/editPresetListEmpty',
-    'view/editPresetListItem',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var jquery_ui_sortable = require('jquery-ui/sortable');
+var jquery_ui_touch_punch = require('jquery-ui-touch-punch');
+var EditPresetListEmptyView = require('./editPresetListEmpty');
+var EditPresetListItemView = require('./editPresetListItem');
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    jquery_ui_sortable,
-    jquery_ui_touch_punch,
-    EditPresetListEmptyView,
-    EditPresetListItemView
-) {
 
-    'use strict';
+module.exports = Marionette.CollectionView.extend({
 
-    return Marionette.CollectionView.extend({
+    childView: EditPresetListItemView,
 
-        childView: EditPresetListItemView,
+    emptyView: EditPresetListEmptyView,
 
-        emptyView: EditPresetListEmptyView,
+    className: 'list-group reorderable removeable',
 
-        className: 'list-group reorderable removeable',
+    onRender: function () {
 
-        onRender: function () {
+        var self = this;
 
-            var self = this;
+        this.$el.sortable({
 
-            this.$el.sortable({
+            'axis': 'y',
+            'items': 'a',
+            'handle': '.reorder_icon',
+            'update': function () {
 
-                'axis': 'y',
-                'items': 'a',
-                'handle': '.reorder_icon',
-                'update': function () {
+                self.onDnD();
+            }
+        });
+    },
 
-                    self.onDnD();
-                }
-            });
-        },
+    onDnD: function (event, ui) {
 
-        onDnD: function (event, ui) {
+        var i = 0,
+        sorted_id_list = this.$el.sortable('toArray');
 
-            var i = 0,
-            sorted_id_list = this.$el.sortable('toArray');
+        _.each(sorted_id_list, function (preset_id) {
 
-            _.each(sorted_id_list, function (preset_id) {
+            var presetModel = this.collection.filter(function (preset) {
 
-                var presetModel = this.collection.filter(function (preset) {
+                return preset.cid === preset_id.replace('preset-', '');
+            })[0];
 
-                    return preset.cid === preset_id.replace('preset-', '');
-                })[0];
+            presetModel.set({'order': i});
+            presetModel.save();
 
-                presetModel.set({'order': i});
-                presetModel.save();
+            i++;
 
-                i++;
+        }, this);
 
-            }, this);
-
-            this.collection.sort();
-        },
-    });
+        this.collection.sort();
+    },
 });

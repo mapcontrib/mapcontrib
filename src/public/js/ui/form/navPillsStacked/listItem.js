@@ -1,59 +1,49 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'templates',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
+var marked = require('marked');
 
-    _,
-    Backbone,
-    Marionette,
-    templates
-) {
 
-    'use strict';
+module.exports = Marionette.ItemView.extend({
 
-    return Marionette.ItemView.extend({
+    template: require('./listItem.ejs'),
 
-        template: JST['ui/form/navPillsStacked/listItem.html'],
+    tagName: 'li',
 
-        tagName: 'li',
+    attributes: {
 
-        attributes: {
+        'role': 'presentation',
+    },
 
-            'role': 'presentation',
-        },
+    ui: {
 
-        ui: {
+        'link': 'a',
+    },
 
-            'link': 'a',
-        },
+    events: {
 
-        events: {
+        'click @ui.link': 'onClick'
+    },
 
-            'click @ui.link': 'onClick'
-        },
+    templateHelpers: function () {
 
-        templateHelpers: function () {
+        return {
 
-            return {
+            'description': marked( this.model.get('description') ),
+        };
+    },
 
-                'description': markdown.toHTML( this.model.get('description') ),
-            };
-        },
+    onClick: function (e) {
 
-        onClick: function (e) {
+        var callback = this.model.get('callback');
 
-            var callback = this.model.get('callback');
+        if (callback) {
 
-            if (callback) {
-
-                callback();
-            }
+            callback();
         }
-    });
+    }
 });

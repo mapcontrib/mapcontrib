@@ -1,20 +1,12 @@
 
+'use strict';
 
-define([
 
-    'backbone',
-    'ui/form/contribNodeTags/model',
-],
-function (
+var Backbone = require('backbone');
+var ContribNodeTagsModel = require('./model');
 
-    Backbone,
-    ContribNodeTagsModel
-) {
 
-    'use strict';
+module.exports = Backbone.Collection.extend({
 
-    return Backbone.Collection.extend({
-
-        model: ContribNodeTagsModel,
-    });
+    model: ContribNodeTagsModel,
 });

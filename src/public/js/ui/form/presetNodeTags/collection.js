@@ -1,20 +1,12 @@
 
+'use strict';
 
-define([
 
-    'backbone',
-    'ui/form/presetNodeTags/model',
-],
-function (
+var Backbone = require('backbone');
+var PresetNodeTagsModel = require('./model');
 
-    Backbone,
-    PresetNodeTagsModel
-) {
 
-    'use strict';
+module.exports = Backbone.Collection.extend({
 
-    return Backbone.Collection.extend({
-
-        model: PresetNodeTagsModel,
-    });
+    model: PresetNodeTagsModel,
 });

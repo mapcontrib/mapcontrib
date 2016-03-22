@@ -1,20 +1,12 @@
 
+'use strict';
 
-define([
 
-    'backbone',
-    'ui/form/navPillsStacked/model',
-],
-function (
+var Backbone = require('backbone');
+var NavPillsStackedModel = require('./model');
 
-    Backbone,
-    NavPillsStackedModel
-) {
 
-    'use strict';
+module.exports = Backbone.Collection.extend({
 
-    return Backbone.Collection.extend({
-
-        model: NavPillsStackedModel,
-    });
+    model: NavPillsStackedModel,
 });

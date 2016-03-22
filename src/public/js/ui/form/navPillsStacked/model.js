@@ -1,24 +1,17 @@
 
+'use strict';
 
-define([
 
-    'backbone',
-],
-function (
+var Backbone = require('backbone');
 
-    Backbone
-) {
 
-    'use strict';
+module.exports = Backbone.Model.extend({
 
-    return Backbone.Model.extend({
+    defaults: {
 
-        defaults: {
-
-            'label': '',
-            'description': '',
-            'href': '#',
-            'callback': undefined,
-        },
-    });
+        'label': '',
+        'description': '',
+        'href': '#',
+        'callback': undefined,
+    },
 });

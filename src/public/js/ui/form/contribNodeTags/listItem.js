@@ -1,80 +1,69 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'templates',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
 
-    _,
-    Backbone,
-    Marionette,
-    templates
-) {
 
-    'use strict';
+module.exports = Marionette.ItemView.extend({
 
-    return Marionette.ItemView.extend({
+    template: require('./listItem.ejs'),
 
-        template: JST['ui/form/contribNodeTags/listItem.html'],
+    ui: {
 
-        ui: {
+        'key': '.key',
+        'value': '.value',
+        'removeBtn': '.remove_btn',
+    },
 
-            'key': '.key',
-            'value': '.value',
-            'removeBtn': '.remove_btn',
-        },
+    events: {
 
-        events: {
+        'change @ui.key': 'onChangeKey',
+        'change @ui.value': 'onChangeValue',
+        'click @ui.removeBtn': 'onClickRemoveBtn',
+    },
 
-            'change @ui.key': 'onChangeKey',
-            'change @ui.value': 'onChangeValue',
-            'click @ui.removeBtn': 'onClickRemoveBtn',
-        },
+    templateHelpers: function () {
 
-        templateHelpers: function () {
+        return {
+            'cid': this.model.cid
+        };
+    },
 
-            return {
-                'cid': this.model.cid
-            };
-        },
+    onRender: function () {
 
-        onRender: function () {
+        document.l10n.localizeNode( this.el );
 
-            document.l10n.localizeNode( this.el );
+        if (this.model.get('keyReadOnly')) {
 
-            if (this.model.get('keyReadOnly')) {
+            this.ui.key.prop('disabled', 'disabled');
+        }
 
-                this.ui.key.prop('disabled', 'disabled');
-            }
+        if (this.model.get('valueReadOnly')) {
 
-            if (this.model.get('valueReadOnly')) {
+            this.ui.value.prop('disabled', 'disabled');
+        }
 
-                this.ui.value.prop('disabled', 'disabled');
-            }
+        if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
 
-            if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
+            this.ui.removeBtn.prop('disabled', 'disabled');
+        }
+    },
 
-                this.ui.removeBtn.prop('disabled', 'disabled');
-            }
-        },
+    onChangeKey: function (e) {
 
-        onChangeKey: function (e) {
+        this.model.set('key', this.ui.key.val());
+    },
 
-            this.model.set('key', this.ui.key.val());
-        },
+    onChangeValue: function (e) {
 
-        onChangeValue: function (e) {
+        this.model.set('value', this.ui.value.val());
+    },
 
-            this.model.set('value', this.ui.value.val());
-        },
+    onClickRemoveBtn: function (e) {
 
-        onClickRemoveBtn: function (e) {
-
-            this.model.destroy();
-        },
-    });
+        this.model.destroy();
+    },
 });

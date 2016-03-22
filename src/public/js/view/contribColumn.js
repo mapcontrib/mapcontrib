@@ -1,133 +1,111 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'leaflet',
-    'osm-auth',
-    'helper/osmEdit',
-    'ui/map',
-    'const',
-    'settings',
-    'model/poiLayer',
-    'ui/form/contribNodeTags/list',
-    'ui/form/navPillsStacked/list'
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
+var Marionette = require('backbone.marionette');
+var L = require('leaflet');
+var osmAuth = require('osm-auth');
+var OsmEditHelper = require('../helper/osmEdit');
+var MapUi = require('../ui/map');
+var CONST = require('../const');
+var settings = require('../settings');
+var PoiLayerModel = require('../model/poiLayer');
+var NavPillsStackedListView = require('../ui/form/navPillsStacked/list');
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    L,
-    osmAuth,
-    OsmEditHelper,
-    MapUi,
-    CONST,
-    settings,
-    PoiLayerModel,
-    ContribNodeTagsList,
-    NavPillsStackedList
-) {
 
-    'use strict';
+module.exports = Marionette.LayoutView.extend({
 
-    return Marionette.LayoutView.extend({
+    template: require('../../templates/contribColumn.ejs'),
 
-        template: JST['contribColumn.html'],
+    behaviors: {
 
-        behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-            'l20n': {},
-            'column': {},
-        },
+    regions: {
 
-        regions: {
+        'presetsNav': '.rg_presets_nav',
+        'freeAdditionNav': '.rg_free_addition_nav',
+    },
 
-            'presetsNav': '.rg_presets_nav',
-            'freeAdditionNav': '.rg_free_addition_nav',
-        },
+    ui: {
 
-        ui: {
+        'column': '#contrib_column',
+    },
 
-            'column': '#contrib_column',
-        },
+    initialize: function () {
 
-        initialize: function () {
+        var self = this;
 
-            var self = this;
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
+    setModel: function (model) {
 
-        setModel: function (model) {
+        this.model = model;
 
-            this.model = model;
+        this.render();
+    },
 
-            this.render();
-        },
+    onBeforeOpen: function () {
 
-        onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
+    open: function () {
 
-        open: function () {
+        this.triggerMethod('open');
+    },
 
-            this.triggerMethod('open');
-        },
+    close: function () {
 
-        close: function () {
+        this.triggerMethod('close');
+    },
 
-            this.triggerMethod('close');
-        },
+    onRender: function () {
 
-        onRender: function () {
+        var presetNavItems = [],
+        presetsNav = new NavPillsStackedListView(),
+        freeAdditionNav = new NavPillsStackedListView(),
+        presetModels = this._radio.reqres.request('presets').models;
 
-            var presetNavItems = [],
-            presetsNav = new NavPillsStackedList(),
-            freeAdditionNav = new NavPillsStackedList(),
-            presetModels = this._radio.reqres.request('presets').models;
-
-            for (var key in presetModels) {
-                if (presetModels.hasOwnProperty(key)) {
-                    presetNavItems.push({
-                        'label': presetModels[key].get('name'),
-                        'description': presetModels[key].get('description'),
-                        'callback': this._radio.commands.execute.bind(
-                            this._radio.commands,
-                            'column:showContribForm',
-                            {
-                                'model': this.model,
-                                'presetModel': presetModels[key]
-                            }
-                        )
-                    });
-                }
+        for (var key in presetModels) {
+            if (presetModels.hasOwnProperty(key)) {
+                presetNavItems.push({
+                    'label': presetModels[key].get('name'),
+                    'description': presetModels[key].get('description'),
+                    'callback': this._radio.commands.execute.bind(
+                        this._radio.commands,
+                        'column:showContribForm',
+                        {
+                            'model': this.model,
+                            'presetModel': presetModels[key]
+                        }
+                    )
+                });
             }
+        }
 
-            presetsNav.setItems(presetNavItems);
+        presetsNav.setItems(presetNavItems);
 
-            freeAdditionNav.setItems([{
+        freeAdditionNav.setItems([{
 
-                'label': document.l10n.getSync('contribColumn_freeAddition'),
-                'callback': this._radio.commands.execute.bind(
-                    this._radio.commands,
-                    'column:showContribForm',
-                    {
-                        'model': this.model
-                    }
-                )
-            }]);
+            'label': document.l10n.getSync('contribColumn_freeAddition'),
+            'callback': this._radio.commands.execute.bind(
+                this._radio.commands,
+                'column:showContribForm',
+                {
+                    'model': this.model
+                }
+            )
+        }]);
 
-            this.getRegion('presetsNav').show( presetsNav );
-            this.getRegion('freeAdditionNav').show( freeAdditionNav );
-        },
-    });
+        this.getRegion('presetsNav').show( presetsNav );
+        this.getRegion('freeAdditionNav').show( freeAdditionNav );
+    },
 });

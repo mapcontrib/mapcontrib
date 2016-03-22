@@ -1,9 +1,8 @@
 
 var crypto = require('crypto'),
 mongo = require('mongodb'),
-requirejs = require('requirejs'),
 Promise = require('es6-promise').Promise,
-ThemeModel = requirejs('model/theme'),
+ThemeModel = require('../public/js/model/theme'),
 options = {
 
     'CONST': undefined,

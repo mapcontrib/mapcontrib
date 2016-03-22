@@ -1,22 +1,13 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'settings',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Marionette = require('backbone.marionette');
 
-    _,
-    Backbone,
-    settings
-) {
 
-    'use strict';
+module.exports = Marionette.ItemView.extend({
 
-    return Marionette.ItemView.extend({
-
-        template: JST['editPoiLayerListEmpty.html'],
-    });
+    template: require('../../templates/editPoiLayerListEmpty.ejs'),
 });

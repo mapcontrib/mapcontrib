@@ -1,125 +1,117 @@
+'use strict';
 
 
-define([
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
+var Marionette = require('backbone.marionette');
 
-    'underscore',
-    'backbone',
-    'marionette',
-],
-function (
 
-    _,
-    Backbone,
-    Marionette
-) {
+module.exports = Marionette.Behavior.extend({
 
-    'use strict';
+    ui: {
 
-    return Marionette.Behavior.extend({
+        'closeBtn': '.close_btn',
+    },
 
-        ui: {
+    events: {
 
-            'closeBtn': '.close_btn',
-        },
+        'click @ui.modal': 'onClickModal',
+        'click @ui.closeBtn': 'onClickClose',
+        'keyup': 'onKeyUp',
+    },
 
-        events: {
+    initialize: function (options) {
 
-            'click @ui.modal': 'onClickModal',
-            'click @ui.closeBtn': 'onClickClose',
-            'keyup': 'onKeyUp',
-        },
+        var self = this;
 
-        initialize: function (options) {
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-            var self = this;
+    onRender: function () {
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
+        this.ui.modal.attr('tabindex', 0);
+    },
 
-        onRender: function () {
+    onShow: function () {
 
-            this.ui.modal.attr('tabindex', 0);
-        },
+        this.onOpen();
+    },
 
-        onShow: function () {
+    onOpen: function () {
 
-            this.onOpen();
-        },
+        var self = this;
 
-        onOpen: function () {
+        if (this.view.onBeforeOpen) {
 
-            var self = this;
+            this.view.onBeforeOpen();
+        }
 
-            if (this.view.onBeforeOpen) {
-
-                this.view.onBeforeOpen();
-            }
-
-            setTimeout(function () {
-
-                window.requestAnimationFrame(function () {
-
-                    self.ui.modal.addClass('open').focus();
-
-                    if (self.view.onAfterOpen) {
-
-                        self.view.onAfterOpen();
-                    }
-                });
-            }, 100);
-        },
-
-        onClose: function () {
-
-            var self = this,
-            mapElement = this._radio.reqres.request('map')._container;
-
-            $(mapElement).focus();
-
-            if (this.view.onBeforeClose) {
-
-                this.view.onBeforeClose();
-            }
+        setTimeout(function () {
 
             window.requestAnimationFrame(function () {
 
-                self.ui.modal.on('transitionend', function () {
+                self.ui.modal.addClass('open').focus();
 
-                    if (self.view.onAfterClose) {
+                if (self.view.onAfterOpen) {
 
-                        self.view.onAfterClose();
-                    }
-
-                    self.view.destroy();
-                })
-                .removeClass('open');
+                    self.view.onAfterOpen();
+                }
             });
-        },
+        }, 100);
+    },
 
-        onClickModal: function (e) {
+    onClose: function () {
 
-            if (e.target !== this.ui.modal[0]) {
+        var self = this,
+        mapElement = this._radio.reqres.request('map')._container;
 
-                return;
-            }
+        $(mapElement).focus();
 
-            this.onClose();
-        },
+        if (this.view.onBeforeClose) {
 
-        onClickClose: function () {
+            this.view.onBeforeClose();
+        }
 
-            this.onClose();
-        },
+        window.requestAnimationFrame(function () {
 
-        onKeyUp: function (e) {
+            self.ui.modal.on('transitionend', function () {
 
-            switch ( e.keyCode ) {
+                if (self.view.onAfterClose) {
 
-                case 27:
+                    self.view.onAfterClose();
+                }
 
-                    this.onClose();
-                    break;
-            }
-        },
-    });
+                self.view.destroy();
+            })
+            .removeClass('open');
+        });
+    },
+
+    onClickModal: function (e) {
+
+        if (e.target !== this.ui.modal[0]) {
+
+            return;
+        }
+
+        this.onClose();
+    },
+
+    onClickClose: function () {
+
+        this.onClose();
+    },
+
+    onKeyUp: function (e) {
+
+        switch ( e.keyCode ) {
+
+            case 27:
+
+                this.onClose();
+                break;
+        }
+    },
 });

@@ -1,141 +1,129 @@
 
-
-define([
-
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'settings',
-],
-function (
-
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    settings
-) {
-
-    'use strict';
-
-    return Marionette.LayoutView.extend({
-
-        template: JST['linkColumn.html'],
-        templateIframe: JST['linkColumnIframe.html'],
-
-        behaviors: {
-
-            'l20n': {},
-            'column': {},
-        },
-
-        ui: {
-
-            'column': '#link_column',
-            'autoSelects': '.auto_select',
-            'iframeCode': '#iframe_code',
-            'iframeWidth': '#iframe_width',
-            'iframeHeight': '#iframe_height',
-            'iframeWidthUnit': '#iframe_width_unit',
-            'iframeHeightUnit': '#iframe_height_unit',
-            'iframeWidthUnitDropdown': '#iframe_width_unit_dropdown',
-            'iframeHeightUnitDropdown': '#iframe_height_unit_dropdown',
-        },
-
-        events: {
-
-            'click @ui.autoSelects': 'onClickAutoSelects',
-            'keyup @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
-            'change @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
-            'click @ui.iframeWidthUnitDropdown a': 'onClickWidthUnit',
-            'click @ui.iframeHeightUnitDropdown a': 'onClickHeightUnit',
-        },
-
-        templateHelpers: function () {
+'use strict';
 
 
-            return {
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
+var Marionette = require('backbone.marionette');
+var settings = require('../settings');
 
-                'url': this.getUrl(),
-                'iframeWidth': settings.shareIframeWidth,
-                'iframeWidthUnit': settings.shareIframeWidthUnit,
-                'iframeHeight': settings.shareIframeHeight,
-                'iframeHeightUnit': settings.shareIframeHeightUnit,
-            };
-        },
 
-        initialize: function () {
+module.exports = Marionette.LayoutView.extend({
 
-            var self = this;
+    template: require('../../templates/linkColumn.ejs'),
+    templateIframe: require('../../templates/linkColumnIframe.ejs'),
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
+    behaviors: {
 
-        onBeforeOpen: function () {
+        'l20n': {},
+        'column': {},
+    },
 
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
+    ui: {
 
-        open: function () {
+        'column': '#link_column',
+        'autoSelects': '.auto_select',
+        'iframeCode': '#iframe_code',
+        'iframeWidth': '#iframe_width',
+        'iframeHeight': '#iframe_height',
+        'iframeWidthUnit': '#iframe_width_unit',
+        'iframeHeightUnit': '#iframe_height_unit',
+        'iframeWidthUnitDropdown': '#iframe_width_unit_dropdown',
+        'iframeHeightUnitDropdown': '#iframe_height_unit_dropdown',
+    },
 
-            this.triggerMethod('open');
-        },
+    events: {
 
-        close: function () {
+        'click @ui.autoSelects': 'onClickAutoSelects',
+        'keyup @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
+        'change @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
+        'click @ui.iframeWidthUnitDropdown a': 'onClickWidthUnit',
+        'click @ui.iframeHeightUnitDropdown a': 'onClickHeightUnit',
+    },
 
-            this.triggerMethod('close');
-        },
+    templateHelpers: function () {
 
-        onRender: function () {
 
-            this.renderIframeCode();
-        },
+        return {
 
-        renderIframeCode: function () {
+            'url': this.getUrl(),
+            'iframeWidth': settings.shareIframeWidth,
+            'iframeWidthUnit': settings.shareIframeWidthUnit,
+            'iframeHeight': settings.shareIframeHeight,
+            'iframeHeightUnit': settings.shareIframeHeightUnit,
+        };
+    },
 
-            var html = this.templateIframe({
+    initialize: function () {
 
-                'url': this.getUrl(),
-                'iframeWidth': this.ui.iframeWidth.val(),
-                'iframeHeight': this.ui.iframeHeight.val(),
-                'iframeWidthUnit': (this.ui.iframeWidthUnit.html() == 'px') ? '' : this.ui.iframeWidthUnit.html(),
-                'iframeHeightUnit': (this.ui.iframeHeightUnit.html() == 'px') ? '' : this.ui.iframeHeightUnit.html(),
-                'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
-            });
+        var self = this;
 
-            this.ui.iframeCode.html( html );
-        },
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-        onClickAutoSelects: function (e) {
+    onBeforeOpen: function () {
 
-            e.target.select();
-        },
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-        onClickWidthUnit: function (e) {
+    open: function () {
 
-            e.preventDefault();
+        this.triggerMethod('open');
+    },
 
-            this.ui.iframeWidthUnit.html( $(e.target).data('unit') );
+    close: function () {
 
-            this.renderIframeCode();
-        },
+        this.triggerMethod('close');
+    },
 
-        onClickHeightUnit: function (e) {
+    onRender: function () {
 
-            e.preventDefault();
+        this.renderIframeCode();
+    },
 
-            this.ui.iframeHeightUnit.html( $(e.target).data('unit') );
+    renderIframeCode: function () {
 
-            this.renderIframeCode();
-        },
+        var html = this.templateIframe({
 
-        getUrl: function () {
+            'url': this.getUrl(),
+            'iframeWidth': this.ui.iframeWidth.val(),
+            'iframeHeight': this.ui.iframeHeight.val(),
+            'iframeWidthUnit': (this.ui.iframeWidthUnit.html() == 'px') ? '' : this.ui.iframeWidthUnit.html(),
+            'iframeHeightUnit': (this.ui.iframeHeightUnit.html() == 'px') ? '' : this.ui.iframeHeightUnit.html(),
+            'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
+        });
 
-            return window.location.protocol +'//'+ window.location.host +'/theme-'+ this.model.get('fragment');
-        },
-    });
+        this.ui.iframeCode.html( html );
+    },
+
+    onClickAutoSelects: function (e) {
+
+        e.target.select();
+    },
+
+    onClickWidthUnit: function (e) {
+
+        e.preventDefault();
+
+        this.ui.iframeWidthUnit.html( $(e.target).data('unit') );
+
+        this.renderIframeCode();
+    },
+
+    onClickHeightUnit: function (e) {
+
+        e.preventDefault();
+
+        this.ui.iframeHeightUnit.html( $(e.target).data('unit') );
+
+        this.renderIframeCode();
+    },
+
+    getUrl: function () {
+
+        return window.location.protocol +'//'+ window.location.host +'/theme-'+ this.model.get('fragment');
+    },
 });

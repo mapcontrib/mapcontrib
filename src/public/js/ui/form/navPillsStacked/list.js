@@ -1,33 +1,24 @@
 
+'use strict';
 
-define([
 
-    'marionette',
-    'ui/form/navPillsStacked/collection',
-    'ui/form/navPillsStacked/listItem',
-],
-function (
+var Marionette = require('backbone.marionette');
+var NavPillsStackedCollection = require('./collection');
+var NavPillsStackedListItemView = require('./listItem');
 
-    Marionette,
-    NavPillsStackedCollection,
-    NavPillsStackedListItemView
-) {
 
-    'use strict';
+module.exports = Marionette.CompositeView.extend({
 
-    return Marionette.CompositeView.extend({
+    template: require('./list.ejs'),
 
-        template: JST['ui/form/navPillsStacked/list.html'],
+    childView: NavPillsStackedListItemView,
 
-        childView: NavPillsStackedListItemView,
+    childViewContainer: 'ul',
 
-        childViewContainer: 'ul',
+    setItems: function (items) {
 
-        setItems: function (items) {
+        this.collection = new NavPillsStackedCollection( items );
 
-            this.collection = new NavPillsStackedCollection( items );
-
-            this.render();
-        }
-    });
+        this.render();
+    }
 });

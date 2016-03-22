@@ -1,64 +1,55 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'settings',
-],
-function (
+var _ = require('underscore');
+var Backbone = require('backbone');
+var settings = require('../settings');
 
-    _,
-    Backbone,
-    settings
-) {
 
-    'use strict';
+module.exports = Backbone.Model.extend({
 
-    return Backbone.Model.extend({
+    idAttribute: '_id',
 
-        idAttribute: '_id',
+    urlRoot: settings.apiPath + 'theme',
 
-        urlRoot: settings.apiPath + 'theme',
+    defaults: {
 
-        defaults: {
+        'userId': undefined,
+        'name': undefined,
+        'description': undefined,
+        'color': 'blue',
+        'tiles': ['osm'],
+        'zoomLevel': undefined,
+        'center': {
 
-            'userId': undefined,
-            'name': undefined,
-            'description': undefined,
-            'color': 'blue',
-            'tiles': ['osm'],
-            'zoomLevel': undefined,
-            'center': {
-
-                'lat': undefined,
-                'lng': undefined,
-            },
-            'owners': [],
+            'lat': undefined,
+            'lng': undefined,
         },
+        'owners': [],
+    },
 
-        /**
-         * Check if a user is owner of this theme.
-         *
-         * @author Guillaume AMAT
-         * @param userModel - A user model
-         * @return boolean
-         */
-        isOwner: function (userModel) {
+    /**
+     * Check if a user is owner of this theme.
+     *
+     * @author Guillaume AMAT
+     * @param userModel - A user model
+     * @return boolean
+     */
+    isOwner: function (userModel) {
 
-            var userId = userModel.get('_id');
+        var userId = userModel.get('_id');
 
-            if ( this.get('owners').indexOf( userId ) > -1 ) {
+        if ( this.get('owners').indexOf( userId ) > -1 ) {
 
-                return true;
-            }
-
-            if ( this.get('owners').indexOf('*') > -1 ) {
-
-                return true;
-            }
-
-            return false;
+            return true;
         }
-    });
+
+        if ( this.get('owners').indexOf('*') > -1 ) {
+
+            return true;
+        }
+
+        return false;
+    }
 });

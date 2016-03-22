@@ -1,139 +1,132 @@
 
+'use strict';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-],
-function (
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Wreqr = require('backbone.wreqr');
+var Marionette = require('backbone.marionette');
 
-    _,
-    Backbone,
-    Marionette
-) {
 
-    'use strict';
+module.exports = Marionette.Behavior.extend({
 
-    return Marionette.Behavior.extend({
+    defaults: {
 
-        defaults: {
+        'destroyOnClose': false,
+    },
 
-            'destroyOnClose': false,
-        },
+    ui: {
 
-        ui: {
+        'closeBtn': '.close_btn',
+    },
 
-            'closeBtn': '.close_btn',
-        },
+    events: {
 
-        events: {
+        'click @ui.closeBtn': 'onClickClose',
+        'keyup': 'onKeyUp',
+    },
 
-            'click @ui.closeBtn': 'onClickClose',
-            'keyup': 'onKeyUp',
-        },
+    initialize: function (options) {
 
-        initialize: function (options) {
+        var self = this;
 
-            var self = this;
+        this._radio = Wreqr.radio.channel('global');
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+        this.listenTo(this._radio.vent, 'column:closeAll', this.onClose);
 
-            this.listenTo(this._radio.vent, 'column:closeAll', this.onClose);
+        this._isOpened = false;
+    },
 
-            this._isOpened = false;
-        },
+    onRender: function () {
 
-        onRender: function () {
+        this.ui.column.attr('tabindex', 0);
+    },
 
-            this.ui.column.attr('tabindex', 0);
-        },
+    onDestroy: function () {
 
-        onDestroy: function () {
+        this.stopListening(this._radio.vent, 'column:closeAll');
+    },
 
-            this.stopListening(this._radio.vent, 'column:closeAll');
-        },
+    onToggle: function () {
 
-        onToggle: function () {
-
-            if ( this._isOpened ) {
-
-                this.onClose();
-            }
-            else {
-
-                this.onOpen();
-            }
-        },
-
-        onOpen: function () {
-
-            var self = this;
-
-            this._isOpened = true;
-
-            if (this.view.onBeforeOpen) {
-
-                this.view.onBeforeOpen();
-            }
-
-            window.requestAnimationFrame(function () {
-
-                self.ui.column.addClass('open').focus();
-
-                if (self.view.onAfterOpen) {
-
-                    self.view.onAfterOpen();
-                }
-            });
-        },
-
-        onClose: function () {
-
-            var self = this,
-            mapElement = this._radio.reqres.request('map')._container;
-
-            this._isOpened = false;
-
-            $(mapElement).focus();
-
-            if (this.view.onBeforeClose) {
-
-                this.view.onBeforeClose();
-            }
-
-            window.requestAnimationFrame(function () {
-
-                self.ui.column.on('transitionend', function () {
-
-                    if (self.view.onAfterClose) {
-
-                        self.view.onAfterClose();
-                    }
-
-                    if ( self.options.destroyOnClose ) {
-
-                        self.view.destroy();
-                    }
-                })
-                .removeClass('open');
-            });
-        },
-
-        onClickClose: function () {
+        if ( this._isOpened ) {
 
             this.onClose();
-        },
+        }
+        else {
 
-        onKeyUp: function (e) {
+            this.onOpen();
+        }
+    },
 
-            switch ( e.keyCode ) {
+    onOpen: function () {
 
-                case 27:
+        var self = this;
 
-                    this.onClose();
-                    break;
+        this._isOpened = true;
+
+        if (this.view.onBeforeOpen) {
+
+            this.view.onBeforeOpen();
+        }
+
+        window.requestAnimationFrame(function () {
+
+            self.ui.column.addClass('open').focus();
+
+            if (self.view.onAfterOpen) {
+
+                self.view.onAfterOpen();
             }
-        },
-    });
+        });
+    },
+
+    onClose: function () {
+
+        var self = this,
+        mapElement = this._radio.reqres.request('map')._container;
+
+        this._isOpened = false;
+
+        $(mapElement).focus();
+
+        if (this.view.onBeforeClose) {
+
+            this.view.onBeforeClose();
+        }
+
+        window.requestAnimationFrame(function () {
+
+            self.ui.column.on('transitionend', function () {
+
+                if (self.view.onAfterClose) {
+
+                    self.view.onAfterClose();
+                }
+
+                if ( self.options.destroyOnClose ) {
+
+                    self.view.destroy();
+                }
+            })
+            .removeClass('open');
+        });
+    },
+
+    onClickClose: function () {
+
+        this.onClose();
+    },
+
+    onKeyUp: function (e) {
+
+        switch ( e.keyCode ) {
+
+            case 27:
+
+                this.onClose();
+                break;
+        }
+    },
 });
