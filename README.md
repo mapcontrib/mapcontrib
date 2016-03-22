@@ -11,10 +11,13 @@ We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
 ### Installation
 
     $ git clone git@github.com:MapContrib/MapContrib.git
-    $ sudo npm install -g grunt grunt-cli bower
+    $ sudo npm install -g webpack
     $ npm install
-    $ bower install
-    $ grunt
+    $ npm run build
+    $ npm start
+
+It will install all the dependancies and run the NodeJs based server.
+You must have a MongoDB server running on localhost.
 
 
 ### Branches
@@ -22,33 +25,9 @@ We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
 We use [Git Flow](https://github.com/nvie/gitflow) to manage our branches. It means that the master branch is always clean and pointing to the latest public release.
 
 
-### Database
+### Watch task
 
-We use MongoDB, go to the `db` directory and execute `import_database.sh`. It will create a database called **mapcontrib**.
-
-### Automatic tasks
-
-A Grunt task watch the files modifications and generate CSS from Less, JST templates from HTML, etc.
-
-You just need to launch:
-
-    $ grunt watch
-
-
-The server have to be launched with the command:
-
-    $ node src/server.js
-
-It serves static files and provide the REST API.
-
-
-### Build
-
-When your done, you can build a minified version of all the Javascript files and clean up a bit the folders by launching:
-
-    $ grunt build
-
-A new directory called **dist** will contain your shiny new MapContrib.
+    $ npm run watch
 
 
 ## Thanks
