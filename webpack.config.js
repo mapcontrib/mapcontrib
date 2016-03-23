@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const babelPresets = ['es2015'];
 
-var extractCSS = new ExtractTextPlugin('../css/theme.bundle.css');
+const extractCSS = new ExtractTextPlugin('../css/theme.bundle.css');
 
 var plugins = [
     extractCSS
