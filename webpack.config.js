@@ -74,15 +74,15 @@ module.exports = {
             },
             {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?mimetype=application/font-woff&name=../assets/[name].[ext]"
+                loader: "file?mimetype=application/font-woff&name=../assets/[name].[ext]"
             },
             {
                 test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?mimetype=application/font-woff2&name=../assets/[name].[ext]"
+                loader: "file?mimetype=application/font-woff2&name=../assets/[name].[ext]"
             },
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?mimetype=application/octet-stream&name=../assets/[name].[ext]"
+                loader: "file?mimetype=application/octet-stream&name=../assets/[name].[ext]"
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
