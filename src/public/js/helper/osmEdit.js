@@ -21,7 +21,7 @@ function OsmEdit (osmAuth) {
 /**
  * @param {string} changesetCreatedBy - Application used to send datas to OSM (in the changeset).
  */
- OsmEdit.prototype.setChangesetCreatedBy = function (changesetCreatedBy) {
+OsmEdit.prototype.setChangesetCreatedBy = function (changesetCreatedBy) {
 
     this._changesetCreatedBy = changesetCreatedBy;
 };
@@ -29,7 +29,7 @@ function OsmEdit (osmAuth) {
 /**
  * @param {string} changesetComment - Comment used in the changeset.
  */
- OsmEdit.prototype.setChangesetComment = function (changesetComment) {
+OsmEdit.prototype.setChangesetComment = function (changesetComment) {
 
     this._changesetComment = changesetComment;
 };
@@ -37,7 +37,7 @@ function OsmEdit (osmAuth) {
 /**
  * @param {number} lat - Node's latitude.
  */
- OsmEdit.prototype.setLatitude = function (lat) {
+OsmEdit.prototype.setLatitude = function (lat) {
 
     this._lat = lat;
 };
@@ -45,7 +45,7 @@ function OsmEdit (osmAuth) {
 /**
  * @param {number} lon - Node's longitude.
  */
- OsmEdit.prototype.setLongitude = function (lon) {
+OsmEdit.prototype.setLongitude = function (lon) {
 
     this._lon = lon;
 };
@@ -53,7 +53,7 @@ function OsmEdit (osmAuth) {
 /**
  * @param {array} tags - Node's tags.
  */
- OsmEdit.prototype.setTags = function (tags) {
+OsmEdit.prototype.setTags = function (tags) {
 
     this._tags = tags;
 };
@@ -61,7 +61,7 @@ function OsmEdit (osmAuth) {
 /**
  * @param {string} uid - UID of the node's editor.
  */
- OsmEdit.prototype.setUid = function (uid) {
+OsmEdit.prototype.setUid = function (uid) {
 
     this._uid = uid;
 };
@@ -69,7 +69,7 @@ function OsmEdit (osmAuth) {
 /**
  * @param {string} displayName - Display name of the node's editor.
  */
- OsmEdit.prototype.setDisplayName = function (displayName) {
+OsmEdit.prototype.setDisplayName = function (displayName) {
 
     this._displayName = displayName;
 };
@@ -82,27 +82,25 @@ function OsmEdit (osmAuth) {
  */
 OsmEdit.prototype.createNode = function () {
 
-    var self = this;
+    return new Promise((resolve, reject) => {
 
-    return new Promise(function (resolve, reject) {
-
-        self._getChangesetId()
+        this._getChangesetId()
         .then(
-            function (changesetId) {
+            changesetId => {
 
-                return self._sendXml(changesetId);
+                return this._sendXml(changesetId);
             },
-            function (err) {
+            err => {
 
                 reject(err);
             }
         )
         .then(
-            function (nodeId) {
+            nodeId => {
 
                 resolve(nodeId);
             },
-            function (err) {
+            err => {
 
                 reject(err);
             }
@@ -158,9 +156,13 @@ OsmEdit.prototype._buildNodeXml = function (changesetId) {
     nodeElement.setAttribute('lat', this._lat);
     nodeElement.setAttribute('lon', this._lon);
 
-    this._tags.forEach(function (tag) {
+    this._tags.forEach(tag => {
 
-        var tagElement = xml.createElement('tag');
+        if (!tag.key || !tag.value) {
+            return false;
+        }
+
+        let tagElement = xml.createElement('tag');
 
         tagElement.setAttribute('k', tag.key);
         tagElement.setAttribute('v', tag.value);
@@ -181,12 +183,11 @@ OsmEdit.prototype._buildNodeXml = function (changesetId) {
  */
 OsmEdit.prototype._createChangeset = function () {
 
-    var self = this,
-    changesetXml = this._buildChangesetXml(this._changesetCreatedBy, this._changesetComment);
+    var changesetXml = this._buildChangesetXml(this._changesetCreatedBy, this._changesetComment);
 
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
-        self._auth.xhr({
+        this._auth.xhr({
 
             'method': 'PUT',
             'path': '/api/0.6/changeset/create',
@@ -197,7 +198,7 @@ OsmEdit.prototype._createChangeset = function () {
             },
             'content': changesetXml
         },
-        function(err, changesetId) {
+        (err, changesetId) => {
 
             if (err) {
 
@@ -219,11 +220,9 @@ OsmEdit.prototype._createChangeset = function () {
  */
 OsmEdit.prototype._isChangesetStillOpen = function (changesetId) {
 
-    var self = this;
+    return new Promise((resolve, reject) => {
 
-    return new Promise(function (resolve, reject) {
-
-        self._auth.xhr({
+        this._auth.xhr({
 
             'method': 'GET',
             'path': '/api/0.6/changeset/'+ changesetId.toString(),
@@ -233,7 +232,7 @@ OsmEdit.prototype._isChangesetStillOpen = function (changesetId) {
                 }
             },
         },
-        function(err, xml) {
+        (err, xml) => {
 
             if (err) {
 
@@ -260,21 +259,20 @@ OsmEdit.prototype._isChangesetStillOpen = function (changesetId) {
  */
 OsmEdit.prototype._getChangesetId = function () {
 
-    var self = this,
-    changesetId = parseInt( sessionStorage.getItem('osmEdit-changesetId') );
+    var changesetId = parseInt( sessionStorage.getItem('osmEdit-changesetId') );
 
     if ( changesetId ) {
 
         return this._isChangesetStillOpen(changesetId)
         .then(
-            function (changesetId) {
+            changesetId => {
 
                 return changesetId;
             },
-            function (err) {
+            err => {
 
                 sessionStorage.removeItem('osmEdit-changesetId');
-                return self._getChangesetId();
+                return this._getChangesetId();
             }
         );
     }
@@ -282,15 +280,15 @@ OsmEdit.prototype._getChangesetId = function () {
 
         return this._createChangeset()
         .then(
-            function (changesetId) {
+            changesetId => {
 
                 sessionStorage.setItem('osmEdit-changesetId', changesetId);
                 return changesetId;
             },
-            function (err) {
+            err => {
 
                 sessionStorage.removeItem('osmEdit-changesetId');
-                return self._getChangesetId();
+                return this._getChangesetId();
             }
         );
     }
@@ -306,12 +304,11 @@ OsmEdit.prototype._getChangesetId = function () {
  OsmEdit.prototype._sendXml = function (changesetId) {
 
      var data,
-     self = this,
      xml = this._buildNodeXml(changesetId);
 
-     return new Promise(function (resolve, reject) {
+     return new Promise((resolve, reject) => {
 
-         self._auth.xhr({
+         this._auth.xhr({
 
              'method': 'PUT',
              'path': '/api/0.6/node/create',
@@ -322,7 +319,7 @@ OsmEdit.prototype._getChangesetId = function () {
              },
              'content': xml,
          },
-         function(err, nodeId) {
+         (err, nodeId) => {
 
              if (err) {
 
