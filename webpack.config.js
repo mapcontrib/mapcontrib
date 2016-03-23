@@ -1,13 +1,21 @@
 
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const babelPresets = ['es2015'];
 
+var extractCSS = new ExtractTextPlugin('../css/theme.bundle.css');
 
-var plugins = [];
+var plugins = [
+    extractCSS
+];
+
 if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-    plugins = [
-        new webpack.optimize.DedupePlugin(),
+    plugins.push(
+        new webpack.optimize.DedupePlugin()
+    );
+
+    plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             minimize: true,
             mangle: true,
@@ -18,7 +26,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
               warnings: false
             }
         })
-    ];
+    );
 }
 
 
@@ -38,15 +46,15 @@ module.exports = {
         loaders: [
             {
                 test: /public\/js\/.*\.js$/,
-                loader: 'babel-loader'
+                loader: 'babel'
             },
             {
                 test: /\.css$/,
-                loader: 'style!css?sourceMap'
+                loader: extractCSS.extract(['css'])
             },
             {
                 test: /\.less$/,
-                loader: 'style!css!less'
+                loader: extractCSS.extract(['css', 'less'])
             },
             {
                 test: /\.json$/,

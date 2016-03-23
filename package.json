@@ -33,10 +33,11 @@
     "bootstrap-more": "~0.4.12",
     "bootstrap-webpack": "0.0.5",
     "bower": "~1.2.7",
+    "compression": "~1.6.1",
     "css-loader": "~0.23.1",
     "ejs-loader": "~0.2.1",
     "exports-loader": "~0.6.3",
-    "extract-text-webpack-plugin": "~1.0.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "~0.8.5",
     "font-awesome": "~4.5.0",
     "font-awesome-webpack": "0.0.4",
@@ -59,8 +60,7 @@
     "svg-loader": "0.0.2",
     "underscore": "~1.8.3",
     "url-loader": "~0.5.7",
-    "webpack": "~1.12.14",
-    "compression": "~1.6.1"
+    "webpack": "~1.12.14"
   },
   "dependencies": {
     "body-parser": "~1.5.2",
