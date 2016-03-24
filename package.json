@@ -17,7 +17,7 @@
     }
   ],
   "scripts": {
-    "start": "MONGO_HOST=localhost PORT=8080 node build/server.js",
+    "start": "MONGO_HOST=localhost PORT=8080 node src/server.js",
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress"
   },
