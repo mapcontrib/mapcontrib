@@ -1,6 +1,5 @@
 node_modules
 src/public/assets
-*.bundle.js
-*.bundle.js.map
-src/npm-debug.log
+*.bundle.*
+npm-debug.log
 volumes

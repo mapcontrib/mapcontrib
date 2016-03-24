@@ -1,31 +1,32 @@
 
 'use strict';
 
-var tools = require('./tools');
-var ionicons = require('ionicons/css/ionicons.css');
-var fontAwesome = require('font-awesome-webpack');
-var bootstrap = require('bootstrap-webpack');
-var awesomeBootstrapCheckbox = require('awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css');
-var bootstrapMoreCss = require('bootstrap-more/bootstrap-more.css');
-var bootstrapMoreJs = require('bootstrap-more/bootstrap-more.js');
-var leafletCss = require('leaflet/dist/leaflet.css');
-var appStyle = require('../css/app.less');
+import 'babel-polyfill';
+import $ from 'jquery';
+import _ from 'underscore';
+import tools from './tools';
+import Backbone from 'backbone';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import L20n from '../lib/l20n.min.js';
 
+import ionicons from 'ionicons/css/ionicons.css';
+import fontAwesome from 'font-awesome-webpack';
+import bootstrap from 'bootstrap-webpack';
+import awesomeBootstrapCheckbox from 'awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css';
+import bootstrapMoreCss from 'bootstrap-more/bootstrap-more.css';
+import bootstrapMoreJs from 'bootstrap-more/bootstrap-more.js';
+import leafletCss from 'leaflet/dist/leaflet.css';
 
-var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var L20n = require('../lib/l20n.min.js');
-var Router = require('./router');
-var UserModel = require('./model/user');
-var L20nBehavior = require('./behavior/l20n');
-var ColumnBehavior = require('./behavior/column');
-var ModalBehavior = require('./behavior/modal');
-var NotificationBehavior = require('./behavior/notification');
-var WidgetBehavior = require('./behavior/widget');
+import appStyle from '../css/app.less';
+
+import Router from './router';
+import UserModel from './model/user';
+import L20nBehavior from './behavior/l20n';
+import ColumnBehavior from './behavior/column';
+import ModalBehavior from './behavior/modal';
+import NotificationBehavior from './behavior/notification';
+import WidgetBehavior from './behavior/widget';
 
 
 
