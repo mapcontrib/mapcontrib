@@ -19,7 +19,8 @@
   "scripts": {
     "start": "MONGO_HOST=localhost PORT=8080 node build/server.js",
     "build": "NODE_ENV=production webpack --progress",
-    "watch": "webpack -w --progress"
+    "watch": "webpack -w --progress",
+    "test": "mocha --compilers js:babel-core/register test/*"
   },
   "devDependencies": {
     "awesome-bootstrap-checkbox": "~0.3.7",
@@ -61,7 +62,8 @@
     "svg-loader": "0.0.2",
     "underscore": "~1.8.3",
     "url-loader": "~0.5.7",
-    "webpack": "~1.12.14"
+    "webpack": "~1.12.14",
+    "xmldom": "^0.1.22"
   },
   "dependencies": {
     "body-parser": "~1.5.2",

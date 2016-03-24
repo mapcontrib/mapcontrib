@@ -1,5 +1,7 @@
 'use strict';
 
+import {DOMImplementation, XMLSerializer} from 'xmldom';
+
 
 /**
  * @param {object} osmAuth - Instance of osm-auth.
@@ -116,7 +118,7 @@ OsmEdit.prototype.createNode = function () {
  */
 OsmEdit.prototype._buildChangesetXml = function () {
 
-    var xml = document.implementation.createDocument('', '', null),
+    var xml = new DOMImplementation().createDocument('', '', null),
     osmElement = xml.createElement('osm'),
     changesetElement = xml.createElement('changeset'),
     createdByElement = xml.createElement('tag'),
@@ -145,7 +147,7 @@ OsmEdit.prototype._buildChangesetXml = function () {
  */
 OsmEdit.prototype._buildNodeXml = function (changesetId) {
 
-    var xml = document.implementation.createDocument('', '', null),
+    var xml = new DOMImplementation().createDocument('', '', null),
     osmElement = xml.createElement('osm'),
     nodeElement = xml.createElement('node');
 
