@@ -20,14 +20,19 @@ It will install all the dependancies and run the NodeJs based server.
 You must have a MongoDB server running on localhost.
 
 
+### Watch
+
+    $ npm run watch
+
+
+### Tests
+
+    $ npm test
+
+
 ### Branches
 
 We use [Git Flow](https://github.com/nvie/gitflow) to manage our branches. It means that the master branch is always clean and pointing to the latest public release.
-
-
-### Watch task
-
-    $ npm run watch
 
 
 ## Thanks
