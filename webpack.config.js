@@ -46,10 +46,7 @@ module.exports = {
             {
                 test: /public\/js\/.*\.js$/,
                 loader: 'babel',
-                exclude: /node_modules/,
-                query: {
-                    presets: ['es2015']
-                }
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,
