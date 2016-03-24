@@ -15,6 +15,7 @@ function OsmEdit (osmAuth) {
     this._lng = null;
     this._tags = [];
     this._uid = null;
+    this._timestamp = new Date().toISOString();
     this._displayName = null;
 }
 
@@ -66,6 +67,14 @@ OsmEdit.prototype.setTags = function (tags) {
 OsmEdit.prototype.setUid = function (uid) {
 
     this._uid = uid;
+};
+
+/**
+ * @param {string} timestamp - Timestamp of the node creation.
+ */
+OsmEdit.prototype.setTimestamp = function (timestamp) {
+
+    this._timestamp = timestamp;
 };
 
 /**
@@ -152,7 +161,7 @@ OsmEdit.prototype._buildNodeXml = function (changesetId) {
     nodeElement = xml.createElement('node');
 
     nodeElement.setAttribute('changeset', changesetId);
-    nodeElement.setAttribute('timestamp', new Date().toISOString());
+    nodeElement.setAttribute('timestamp', this._timestamp);
     nodeElement.setAttribute('uid', this._uid);
     nodeElement.setAttribute('display_name', this._displayName);
     nodeElement.setAttribute('lat', this._lat);

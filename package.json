@@ -20,7 +20,7 @@
     "start": "MONGO_HOST=localhost PORT=8080 node build/server.js",
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
-    "test": "mocha --compilers js:babel-core/register test/*"
+    "test": "mocha --recursive --compilers js:babel-core/register"
   },
   "devDependencies": {
     "awesome-bootstrap-checkbox": "~0.3.7",
