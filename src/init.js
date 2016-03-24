@@ -110,6 +110,7 @@ init._fillDatabase = function (rootResolve, rootReject) {
                         'tiles': [
 
                             'osmFr',
+                            'mapboxStreetsSatellite',
                             'osmRoads',
                             'transport',
                             'hot',
