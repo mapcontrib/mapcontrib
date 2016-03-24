@@ -56,13 +56,14 @@
     "less-loader": "~2.2.2",
     "less-plugin-autoprefix": "~1.4.2",
     "marked": "~0.3.5",
+    "mocha": "^2.4.5",
     "osm-auth": "~0.2.8",
     "raw-loader": "~0.5.1",
     "style-loader": "~0.13.0",
     "svg-loader": "0.0.2",
     "underscore": "~1.8.3",
     "url-loader": "~0.5.7",
-    "webpack": "~1.12.14",
+    "webpack": "^1.12.14",
     "xmldom": "^0.1.22"
   },
   "dependencies": {
