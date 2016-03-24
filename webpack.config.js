@@ -2,7 +2,6 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
-const babelPresets = ['es2015'];
 
 const extractCSS = new ExtractTextPlugin('../css/theme.bundle.css');
 
@@ -46,7 +45,11 @@ module.exports = {
         loaders: [
             {
                 test: /public\/js\/.*\.js$/,
-                loader: 'babel'
+                loader: 'babel',
+                exclude: /node_modules/,
+                query: {
+                    presets: ['es2015']
+                }
             },
             {
                 test: /\.css$/,
