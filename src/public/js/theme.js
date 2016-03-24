@@ -4,6 +4,7 @@
 import 'babel-polyfill';
 import $ from 'jquery';
 import _ from 'underscore';
+import tools from './tools';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
@@ -19,7 +20,6 @@ import leafletCss from 'leaflet/dist/leaflet.css';
 
 import appStyle from '../css/app.less';
 
-import tools from './tools';
 import Router from './router';
 import UserModel from './model/user';
 import L20nBehavior from './behavior/l20n';
