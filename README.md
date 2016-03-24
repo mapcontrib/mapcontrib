@@ -1,5 +1,8 @@
 # MapContrib
 
+![MapContrib](screenshot.png)
+
+OpenStreetMap contribution. Everywhere.
 
 ## Contributing with translations
 
