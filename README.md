@@ -6,39 +6,6 @@
 
 ![MapContrib](screenshot.png)
 
-## Contributing with translations
-
-We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
-
-
-## Contributing with code
-
-### Installation
-
-    $ git clone git@github.com:MapContrib/MapContrib.git
-    $ sudo npm install -g webpack
-    $ npm install
-    $ npm run build
-    $ npm start
-
-It will install all the dependancies and run the NodeJs based server.
-You must have a MongoDB server running on localhost.
-
-
-### Watch
-
-    $ npm run watch
-
-
-### Tests
-
-    $ npm test
-
-
-### Branches
-
-We use [Git Flow](https://github.com/nvie/gitflow) to manage our branches. It means that the master branch is always clean and pointing to the latest public release.
-
 
 ## Thanks
 
@@ -50,3 +17,5 @@ MapContrib is what it is because of some crazy people and free and open source p
 * Nohémie Lehuby ([OpenBeerMap](https://github.com/OpenBeerMap/OpenBeerMap.github.io))
 * OpenStreetMap ([OSM](http://osm.org))
 * Leaflet ([Website](http://leafletjs.com))
+* Overpass API ([Website](http://www.overpass-api.de), [Overpass Turbo](http://overpass-turbo.eu))
+* Mapbox ([Website](https://www.mapbox.com))
