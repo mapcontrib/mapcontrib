@@ -17,12 +17,6 @@ describe('osmEdit helper', () => {
 
             osmEdit.setChangesetCreatedBy('a string');
             osmEdit.setChangesetComment('another string');
-            // osmEdit.setLatitude(this.model.get('lat'));
-            // osmEdit.setLongitude(this.model.get('lng'));
-            // osmEdit.setTags(this.model.get('tags'));
-            // osmEdit.setUid(this._user.get('osmId'));
-            // osmEdit.setDisplayName(this._user.get('displayName'));
-
 
             let returnedXml = osmEdit._buildChangesetXml();
 
