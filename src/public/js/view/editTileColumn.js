@@ -69,6 +69,10 @@ module.exports = Marionette.LayoutView.extend({
 
             tile = CONST.map.tiles[id];
 
+            if (!tile) {
+                continue;
+            }
+
             thumbnail = tile.urlTemplate.replace('{s}', 'a');
             thumbnail = thumbnail.replace('{z}', '9');
             thumbnail = thumbnail.replace('{x}', '265');

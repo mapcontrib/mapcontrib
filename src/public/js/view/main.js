@@ -484,11 +484,17 @@ module.exports = Marionette.LayoutView.extend({
             return;
         }
 
-        layer = L.tileLayer(CONST.map.tiles[ id ].urlTemplate, {
+        tile = CONST.map.tiles[id];
 
-            'attribution': CONST.map.tiles[ id ].attribution,
-            'minZoom': CONST.map.tiles[ id ].minZoom,
-            'maxZoom': CONST.map.tiles[ id ].maxZoom,
+        if (!tile) {
+            return;
+        }
+
+        layer = L.tileLayer(tile.urlTemplate, {
+
+            'attribution': tile.attribution,
+            'minZoom': tile.minZoom,
+            'maxZoom': tile.maxZoom,
         });
 
         this._map.addLayer(layer);
