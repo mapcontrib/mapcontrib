@@ -14,7 +14,7 @@ else {
 }
 
 
-module.exports = {
+export default  {
 
     'osm': {
 
