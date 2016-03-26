@@ -1090,9 +1090,9 @@ module.exports = Marionette.LayoutView.extend({
 
         this._map.locate({
 
+            'watch': true,
             'setView': true,
             'enableHighAccuracy': true,
-            'maximumAge': 60 * 1000, // 60 seconds
         });
     },
 
@@ -1116,6 +1116,7 @@ module.exports = Marionette.LayoutView.extend({
 
     onMoveEnd: function (e) {
 
+        this._map.stopLocate();
         this.updateSessionMapState();
     },
 
