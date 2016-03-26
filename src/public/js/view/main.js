@@ -1222,35 +1222,38 @@ module.exports = Marionette.LayoutView.extend({
 
     onClickHelp: function () {
 
-        var self = this;
-
         if ( this.ui.help.hasClass('open') ) {
 
-            this.ui.help.one('transitionend', function () {
-
-                self.ui.helpToolbar.removeClass('on_top');
-            });
-
-            this.ui.help.removeClass('open');
+            this.closeHelp();
         }
         else {
 
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-
-            this.ui.helpToolbar.addClass('on_top');
-            this.ui.help.addClass('open');
+            this.openHelp();
         }
+    },
+
+    openHelp: function () {
+
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+
+        this.ui.helpToolbar.addClass('on_top');
+        this.ui.help.addClass('open');
+    },
+
+    closeHelp: function () {
+
+        this.ui.help.one('transitionend', () => {
+
+            this.ui.helpToolbar.removeClass('on_top');
+        });
+
+        this.ui.help.removeClass('open');
     },
 
     onClickHelpClose: function () {
 
-        var self = this;
-
-        this.ui.help.removeClass('open', function () {
-
-            self.ui.helpToolbar.removeClass('on_top');
-        });
+        this.closeHelp();
     },
 
     onClickLogin: function () {
