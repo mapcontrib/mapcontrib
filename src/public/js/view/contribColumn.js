@@ -2,17 +2,8 @@
 'use strict';
 
 
-var _ = require('underscore');
-var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var L = require('leaflet');
-var osmAuth = require('osm-auth');
-var OsmEditHelper = require('../helper/osmEdit');
-var MapUi = require('../ui/map');
-var CONST = require('../const');
-var settings = require('../settings');
-var PoiLayerModel = require('../model/poiLayer');
 var NavPillsStackedListView = require('../ui/form/navPillsStacked/list');
 
 

@@ -2,18 +2,16 @@
 'use strict';
 
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var L = require('leaflet');
-var osmAuth = require('osm-auth');
-var OsmEditHelper = require('../helper/osmEdit');
-var MapUi = require('../ui/map');
-var CONST = require('../const');
-var settings = require('../settings');
-var PoiLayerModel = require('../model/poiLayer');
-var ContribNodeTagsListView = require('../ui/form/contribNodeTags/list');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import L from 'leaflet';
+import osmAuth from 'osm-auth';
+import OsmEditHelper from '../helper/osmEdit.js';
+import MapUi from '../ui/map';
+import CONST from '../const';
+import settings from '../settings';
+import PoiLayerModel from '../model/poiLayer';
+import ContribNodeTagsListView from '../ui/form/contribNodeTags/list';
 
 
 module.exports = Marionette.LayoutView.extend({

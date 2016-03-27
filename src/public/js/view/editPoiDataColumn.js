@@ -2,16 +2,14 @@
 'use strict';
 
 
-var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var settings = require('../settings');
-var osmAuth = require('osm-auth');
-var ContributionErrorNotificationView = require('./contributionErrorNotification');
-var OsmEditHelper = require('../helper/osmEdit');
-var CONST = require('../const');
+import $ from 'jquery';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import settings from '../settings';
+import osmAuth from 'osm-auth';
+import ContributionErrorNotificationView from './contributionErrorNotification';
+import OsmEditHelper from '../helper/osmEdit.js';
+import CONST from '../const';
 
 
 module.exports = Marionette.LayoutView.extend({
