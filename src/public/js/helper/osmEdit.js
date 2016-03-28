@@ -1,4 +1,3 @@
-'use strict';
 
 import {DOMImplementation, XMLSerializer} from 'xmldom';
 

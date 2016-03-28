@@ -1,6 +1,4 @@
 
-'use strict';
-
 import 'babel-polyfill';
 import $ from 'jquery';
 import _ from 'underscore';

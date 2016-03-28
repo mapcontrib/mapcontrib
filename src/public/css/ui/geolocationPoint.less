@@ -1,0 +1,45 @@
+.ui-map-geolocation-point {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    background-color: rgb(34, 176, 223);
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Effect strongly inspired by http://tympanus.net/Development/ClickEffects */
+.ui-map-geolocation-point::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -20px 0 0 -20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    border: 2px solid rgba(34, 176, 223, 1);
+}
+
+.ui-map-geolocation-point::after {
+    animation: anim-effect-jelena 8s ease-out forwards;
+    animation-iteration-count: infinite;
+    animation-delay: 2s;
+}
+
+@keyframes anim-effect-jelena {
+    0% {
+        opacity: 1;
+        transform: scale3d(0.5, 0.5, 1);
+    }
+
+    5% {
+        opacity: 0;
+        transform: scale3d(1.2, 1.2, 1);
+    }
+}

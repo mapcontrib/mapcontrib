@@ -1,9 +1,7 @@
 
-'use strict';
-
-
-var _ = require('underscore');
-var CONST = require('../const');
+import _ from 'underscore';
+import CONST from '../const';
+import L from 'leaflet';
 
 
 /**

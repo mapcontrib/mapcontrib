@@ -1,7 +1,4 @@
 
-'use strict';
-
-
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import L from 'leaflet';

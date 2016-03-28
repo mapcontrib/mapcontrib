@@ -1,7 +1,4 @@
 
-'use strict';
-
-
 var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
@@ -44,6 +41,7 @@ var PoiLayerCollection = require('../collection/poiLayer');
 var PresetCollection = require('../collection/preset');
 
 var MapUi = require('../ui/map');
+import Geolocation from '../core/geolocation';
 
 
 module.exports = Marionette.LayoutView.extend({
@@ -458,6 +456,9 @@ module.exports = Marionette.LayoutView.extend({
 
             this.removePoiLayer(model);
         }, this);
+
+
+        this._geolocation = new Geolocation(this._map);
     },
 
     setTileLayer: function (id) {
@@ -1085,20 +1086,36 @@ module.exports = Marionette.LayoutView.extend({
 
     onClickLocate: function () {
 
-        this.ui.locateButton.addClass('hide');
-        this.ui.locateWaitButton.removeClass('hide');
-
-        this._map.locate({
-
-            'watch': true,
-            'setView': true,
-            'enableHighAccuracy': true,
-        });
+        this.showLocateProgress();
+        this._geolocation.locate();
     },
 
     onClickLocateWait: function () {
 
-        this._map.stopLocate();
+        this.hideLocateProgress();
+        this._geolocation.stopLocate();
+    },
+
+    onLocationFound: function () {
+
+        this.hideLocateProgress();
+    },
+
+    onLocationError: function () {
+
+        this.hideLocateProgress();
+    },
+
+    showLocateProgress: function () {
+
+        this.ui.locateButton.addClass('hide');
+        this.ui.locateWaitButton.removeClass('hide');
+    },
+
+    hideLocateProgress: function () {
+
+        this.ui.locateWaitButton.addClass('hide');
+        this.ui.locateButton.removeClass('hide');
     },
 
     updateSessionMapState: function () {
@@ -1174,18 +1191,6 @@ module.exports = Marionette.LayoutView.extend({
 
             this._zoomNotificationView.close();
         }
-    },
-
-    onLocationFound: function () {
-
-        this.ui.locateWaitButton.addClass('hide');
-        this.ui.locateButton.removeClass('hide');
-    },
-
-    onLocationError: function () {
-
-        this.ui.locateWaitButton.addClass('hide');
-        this.ui.locateButton.removeClass('hide');
     },
 
     onClickExpandScreen: function () {

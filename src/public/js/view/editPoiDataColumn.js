@@ -1,7 +1,4 @@
 
-'use strict';
-
-
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';

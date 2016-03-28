@@ -1,6 +1,7 @@
 
 import 'babel-polyfill';
 import assert from 'assert';
+
 import OsmEditHelper from '../../src/public/js/helper/osmEdit.js';
 
 
