@@ -1,15 +1,13 @@
 <svg id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="42" width="36" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 36 42.000001">
-<g id="layer1" transform="translate(0 -1010.4)">
-<g id="g4827" fill-rule="evenodd" fill="#fff">
-<circle id="circle4831" cx="18" cy="1028.4" r="18"/>
-<rect id="rect4159" height="8" width="6" y="1044.4" x="15"/>
+<g id="layer1" fill-rule="evenodd" transform="translate(0 -1010.4)">
+<path id="rect4159" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m18 2.9668a15 15 0 0 0 -15 15 15 15 0 0 0 14 14.951v5.082h1 1v-5.068a15 15 0 0 0 14 -14.965 15 15 0 0 0 -15 -15z" transform="translate(0 1010.4)" stroke="#ccc" stroke-width="5"/>
+<path id="path4172" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m18 2.9668a15 15 0 0 0 -15 15 15 15 0 0 0 14 14.951v5.082h1 1v-5.068a15 15 0 0 0 14 -14.965 15 15 0 0 0 -15 -15z" transform="translate(0 1010.4)" stroke="#fff" stroke-width="3"/>
+<g id="colorized">
+<g id="g4145">
+<rect id="rect4141" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" height="8" width="1" y="1040.4" x="18"/>
+<rect id="rect4143" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" height="8" width="1" y="1040.4" x="17" fill="#888a85"/>
 </g>
-<g id="g4194" fill-rule="evenodd" transform="matrix(1 0 0 1.1667 -20 -175.06)">
-<rect id="rect4185" height="6" width="1" y="1044.4" x="37" fill="#888a85"/>
-<rect id="rect4187" height="6" width="1" y="1044.4" x="38" fill="#2e3436"/>
-</g>
-<g id="colorized" transform="matrix(.88889 0 0 .88889 2 114.26)">
-<circle id="path4138" fill-rule="evenodd" cy="1028.4" cx="18" r="18" fill="#c00"/>
+<circle id="path4152" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" cy="1028.3" cx="18" r="15"/>
 </g>
 </g>
 </svg>
