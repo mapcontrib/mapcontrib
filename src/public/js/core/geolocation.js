@@ -7,12 +7,15 @@ import GeolocationPoint from '../ui/geolocationPoint.js';
 export default class Geolocation {
 
     constructor(map) {
+        this._dragged = false;
         this._map = map;
         this._marker = GeolocationPoint.getMarker();
         this._accuracyCircle = GeolocationPoint.getAccuracyCircle();
     }
 
     locate() {
+        this._dragged = false;
+
         this.stopLocate();
 
         this.removeEventListeners();
@@ -51,6 +54,7 @@ export default class Geolocation {
         this._map
         .on('locationfound', this.onLocationFound, this)
         .on('locationerror', this.onLocationError, this)
+        .on('dragend', this.onDragEnd, this)
         .on('moveend', this.onMoveEnd, this);
     }
 
@@ -58,6 +62,7 @@ export default class Geolocation {
         this._map
         .off('locationfound', this.onLocationFound, this)
         .off('locationerror', this.onLocationError, this)
+        .off('dragend', this.onDragEnd, this)
         .off('moveend', this.onMoveEnd, this);
     }
 
@@ -76,10 +81,14 @@ export default class Geolocation {
         this._marker.setOpacity(0.5);
     }
 
+    onDragEnd() {
+        this._dragged = true;
+    }
+
     onMoveEnd() {
         this._map.locate({
             'watch': true,
-            'setView': false,
+            'setView': !this._dragged,
             'enableHighAccuracy': true,
         });
     }
