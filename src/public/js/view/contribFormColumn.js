@@ -8,7 +8,7 @@ import MapUi from '../ui/map';
 import CONST from '../const';
 import settings from '../settings';
 import PoiLayerModel from '../model/poiLayer';
-import ContribNodeTagsListView from '../ui/form/contribNodeTags/list';
+import ContribNodeTagsListView from '../ui/form/contribNodeTags';
 
 
 module.exports = Marionette.LayoutView.extend({

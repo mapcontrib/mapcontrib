@@ -7,7 +7,7 @@ var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
 var PresetModel = require('../model/preset');
-var PresetNodeTagsListView = require('../ui/form/presetNodeTags/list');
+var PresetNodeTagsListView = require('../ui/form/presetNodeTags');
 
 
 module.exports = Marionette.LayoutView.extend({

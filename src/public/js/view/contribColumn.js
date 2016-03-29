@@ -4,7 +4,7 @@
 
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
-var NavPillsStackedListView = require('../ui/form/navPillsStacked/list');
+var NavPillsStackedListView = require('../ui/form/navPillsStacked');
 
 
 module.exports = Marionette.LayoutView.extend({
