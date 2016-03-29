@@ -68,11 +68,15 @@ export default class Geolocation {
 
     onLocationFound(e) {
         if (!this._marker) {
-            if (e.heading) {
-                this.addMarker(GeolocationPoint.getHeadingMarker());
+            // e.heading === null - Device uncapable to provide heading
+            // e.heading === NaN - Device capable to provide it but with e.speed at zero
+            // e.heading === Number - You got it ;)
+            // https://developer.mozilla.org/en-US/docs/Web/API/Coordinates/heading
+            if (e.heading === null) {
+                this.addMarker(GeolocationPoint.getMarker());
             }
             else {
-                this.addMarker(GeolocationPoint.getMarker());
+                this.addMarker(GeolocationPoint.getHeadingMarker());
             }
         }
 
