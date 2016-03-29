@@ -1,5 +1,4 @@
 
-import _ from 'underscore';
 import L from 'leaflet';
 import GeolocationPoint from '../ui/geolocationPoint.js';
 
