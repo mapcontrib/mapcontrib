@@ -1,4 +1,4 @@
-.ui-map-geolocation-point {
+.ui-map-geolocation-marker {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -6,7 +6,7 @@
 }
 
 /* Effect strongly inspired by http://tympanus.net/Development/ClickEffects */
-.ui-map-geolocation-point::after {
+.ui-map-geolocation-marker::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -20,7 +20,7 @@
     border: 2px solid rgba(34, 176, 223, 1);
 }
 
-.ui-map-geolocation-point::after {
+.ui-map-geolocation-marker::after {
     animation: anim-effect-jelena 8s ease-out forwards;
     animation-iteration-count: infinite;
     animation-delay: 2s;

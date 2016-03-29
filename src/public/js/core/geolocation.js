@@ -9,8 +9,6 @@ export default class Geolocation {
     constructor(map) {
         this._dragged = false;
         this._map = map;
-        this._marker = GeolocationPoint.getMarker();
-        this._accuracyCircle = GeolocationPoint.getAccuracyCircle();
     }
 
     locate() {
@@ -20,8 +18,6 @@ export default class Geolocation {
 
         this.removeEventListeners();
         this.addEventListeners();
-
-        this.addMarker();
 
         this._map.locate({
             'watch': true,
@@ -35,19 +31,24 @@ export default class Geolocation {
         this._map.stopLocate();
     }
 
-    addMarker() {
+    addMarker(marker) {
+        this._marker = marker;
         this._marker.setOpacity(0);
-        this._map.addLayer( this._marker );
 
+        this._accuracyCircle = GeolocationPoint.getAccuracyCircle();
         this._accuracyCircle.setStyle({
             'fillOpacity': 0
         });
+
+        this._map.addLayer( this._marker );
         this._map.addLayer( this._accuracyCircle );
     }
 
     removeMarker() {
-        this._map.removeLayer( this._marker );
-        this._map.removeLayer( this._accuracyCircle );
+        if (this._marker) {
+            this._map.removeLayer( this._marker );
+            this._map.removeLayer( this._accuracyCircle );
+        }
     }
 
     addEventListeners() {
@@ -67,6 +68,19 @@ export default class Geolocation {
     }
 
     onLocationFound(e) {
+        if (!this._marker) {
+            if (e.heading) {
+                this.addMarker(GeolocationPoint.getHeadingMarker());
+            }
+            else {
+                this.addMarker(GeolocationPoint.getMarker());
+            }
+        }
+
+        if (e.heading) {
+            GeolocationPoint.rotate(e.heading);
+        }
+
         this._marker.setLatLng(e.latlng);
         this._marker.setOpacity(1);
 

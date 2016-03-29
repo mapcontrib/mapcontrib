@@ -1,9 +1,15 @@
 
 import L from 'leaflet';
-import svg from '../../img/geolocation_pointer.svg';
+import markerSvg from '../../img/geolocation_marker.svg';
+import headingMarkerSvg from '../../img/geolocation_heading_marker.svg';
 
 
 export default class GeolocationPoint {
+
+    static rotate(angle) {
+        let marker = document.querySelector('.ui-map-geolocation-marker > svg');
+        marker.style.transform = `rotate(${angle}deg)`;
+    }
 
     static getMarker() {
         return L.marker(
@@ -13,8 +19,23 @@ export default class GeolocationPoint {
                 'icon': L.divIcon({
                     'iconSize': [20, 20],
                     'iconAnchor': [10, 10],
-                    'className': 'ui-map-geolocation-point',
-                    'html': svg
+                    'className': 'ui-map-geolocation-marker',
+                    'html': markerSvg
+                })
+            }
+        );
+    }
+
+    static getHeadingMarker() {
+        return L.marker(
+            [0, 0],
+            {
+                'clickable': false,
+                'icon': L.divIcon({
+                    'iconSize': [20, 20],
+                    'iconAnchor': [10, 10],
+                    'className': 'ui-map-geolocation-marker',
+                    'html': headingMarkerSvg
                 })
             }
         );
