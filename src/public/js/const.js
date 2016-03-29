@@ -3,9 +3,9 @@
 
 
 if (typeof window !== 'undefined') {
-    var marker1 = require('../img/markers/1_optimized.svg');
-    var marker2 = require('../img/markers/2_optimized.svg');
-    var marker3 = require('../img/markers/3_optimized.svg');
+    var marker1 = require('../img/markers/1.svg');
+    var marker2 = require('../img/markers/2.svg');
+    var marker3 = require('../img/markers/3.svg');
 }
 else {
     var marker1 = '';
