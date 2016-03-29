@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 20 20" width="20" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <metadata id="metadata7">
-  <rdf:RDF>
-   <cc:Work rdf:about="">
-    <dc:format>image/svg+xml</dc:format>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:title/>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <g id="g4210" fill="#22b0df">
-  <circle id="circle4208" stroke-width="5" stroke="#555753" cy="10" cx="10" r="5"/>
-  <circle id="circle4206" cx="10" stroke="#fff" cy="10" r="5" stroke-width="4"/>
-  <circle id="path4189" cy="10" cx="10" r="5"/>
- </g>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 20 20" width="20" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<metadata>
+<rdf:RDF>
+<cc:Work rdf:about="">
+<dc:format>image/svg+xml</dc:format>
+<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+<dc:title/>
+</cc:Work>
+</rdf:RDF>
+</metadata>
+<g fill="#22b0df">
+<circle stroke-width="5" cy="10" stroke="#888a85" cx="10" r="5"/>
+<circle cx="10" cy="10" stroke="#fff" r="5" stroke-width="4"/>
+<circle cy="10" cx="10" r="5"/>
+</g>
 </svg>
