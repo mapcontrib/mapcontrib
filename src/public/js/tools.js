@@ -1,7 +1,4 @@
 
-'use strict';
-
-
 var $ = window.jQuery = window.$ = require('jquery');
 var _ = window._ = require('underscore');
 var Bootstrap = require('bootstrap');

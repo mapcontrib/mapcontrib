@@ -1,7 +1,4 @@
 
-'use strict';
-
-
 var Marionette = require('backbone.marionette');
 var PresetNodeTagsCollection = require('./collection');
 var PresetNodeTagsListItemView = require('./listItem');

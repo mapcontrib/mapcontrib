@@ -1,7 +1,4 @@
 
-'use strict';
-
-
 var Marionette = require('backbone.marionette');
 var NavPillsStackedCollection = require('./collection');
 var NavPillsStackedListItemView = require('./listItem');

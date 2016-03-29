@@ -1,7 +1,4 @@
 
-'use strict';
-
-
 var Marionette = require('backbone.marionette');
 var ContribNodeTagsCollection = require('./collection');
 var ContribNodeTagsListItemView = require('./listItem');

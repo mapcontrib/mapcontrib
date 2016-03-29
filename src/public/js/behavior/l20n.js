@@ -1,5 +1,3 @@
-'use strict';
-
 
 var L20n = require('l20n');
 var _ = require('underscore');

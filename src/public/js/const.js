@@ -1,7 +1,4 @@
 
-'use strict';
-
-
 if (typeof window !== 'undefined') {
     var marker1 = require('../img/markers/1.svg');
     var marker2 = require('../img/markers/2.svg');
