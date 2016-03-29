@@ -1,5 +1,7 @@
 
 import L from 'leaflet';
+import svg from '../../img/geolocation_pointer.svg';
+
 
 export default class GeolocationPoint {
 
@@ -9,10 +11,10 @@ export default class GeolocationPoint {
             {
                 'clickable': false,
                 'icon': L.divIcon({
-                    'iconSize': [16, 16],
-                    'iconAnchor': [8, 8],
-                    'className': '',
-                    'html': `<div class="ui-map-geolocation-point"></div>`
+                    'iconSize': [20, 20],
+                    'iconAnchor': [10, 10],
+                    'className': 'ui-map-geolocation-point',
+                    'html': svg
                 })
             }
         );
