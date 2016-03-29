@@ -1,5 +1,6 @@
 
 var _ = require('underscore');
+var $ = require('jquery');
 var Backbone = require('backbone');
 var Wreqr = require('backbone.wreqr');
 var Marionette = require('backbone.marionette');
@@ -20,6 +21,7 @@ module.exports = Marionette.LayoutView.extend({
     ui: {
 
         'column': '#edit_preset_tags_column',
+        'content': '.content',
         'nameInput': '#preset_name',
         'descriptionInput': '#preset_description',
         'tagList': '.rg_tag_list',
@@ -69,6 +71,10 @@ module.exports = Marionette.LayoutView.extend({
     onClickAddBtn: function () {
 
         this._tagList.addTag();
+
+        let scrollHeight = this.ui.column.height() +
+        this._tagList.el.scrollHeight;
+        this.ui.content[0].scrollTo(0, scrollHeight);
     },
 
     onSubmit: function (e) {

@@ -29,6 +29,7 @@ module.exports = Marionette.LayoutView.extend({
     ui: {
 
         'column': '#contrib_form_column',
+        'content': '.content',
         'addBtn': '.add_btn',
     },
 
@@ -115,6 +116,10 @@ module.exports = Marionette.LayoutView.extend({
     onClickAddBtn: function () {
 
         this._tagList.addTag();
+
+        let scrollHeight = this.ui.column.height() +
+        this._tagList.el.scrollHeight;
+        this.ui.content[0].scrollTo(0, scrollHeight);
     },
 
     onSubmit: function (e) {
