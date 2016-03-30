@@ -48,6 +48,8 @@ export default class Geolocation {
     }
 
     addEventListeners() {
+        window.addEventListener('deviceorientation', this.onOrientationFound);
+
         this._map
         .on('locationfound', this.onLocationFound, this)
         .on('locationerror', this.onLocationError, this)
@@ -56,6 +58,8 @@ export default class Geolocation {
     }
 
     removeEventListeners() {
+        window.removeEventListener('deviceorientation', this.onOrientationFound);
+
         this._map
         .off('locationfound', this.onLocationFound, this)
         .off('locationerror', this.onLocationError, this)
@@ -65,15 +69,11 @@ export default class Geolocation {
 
     onLocationFound(e) {
         if (!this._marker) {
-            // e.heading === null - Device uncapable to provide heading
-            // e.heading === NaN - Device capable to provide it but with e.speed at zero
-            // e.heading === Number - You got it ;)
-            // https://developer.mozilla.org/en-US/docs/Web/API/Coordinates/heading
-            if (e.heading === null) {
-                this.addMarker(GeolocationPoint.getMarker());
+            if (DeviceOrientationEvent) {
+                this.addMarker(GeolocationPoint.getHeadingMarker());
             }
             else {
-                this.addMarker(GeolocationPoint.getHeadingMarker());
+                this.addMarker(GeolocationPoint.getMarker());
             }
         }
 
@@ -89,6 +89,10 @@ export default class Geolocation {
         this._accuracyCircle.setStyle({
             'fillOpacity': 1
         });
+    }
+
+    onOrientationFound(e) {
+        GeolocationPoint.rotate(e.alpha * -1);
     }
 
     onLocationError() {
