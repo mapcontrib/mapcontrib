@@ -60,6 +60,7 @@
 <helpText2 "MapContrib vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
 <helpText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbL&nbsp;»</a>, permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
 <helpText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
+<helpTextVersion "Cette instance de MapContrib utilise la version {{ $version }}.">
 
 
 /* Login modal */

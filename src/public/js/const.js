@@ -13,6 +13,8 @@ else {
 
 module.exports = {
 
+    'version': '0.6.0',
+
     'osm': {
 
         'changesetCreatedBy': 'MapContrib',

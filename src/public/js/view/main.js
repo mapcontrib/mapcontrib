@@ -86,6 +86,8 @@ module.exports = Marionette.LayoutView.extend({
         'editPoiButton': '#edit_toolbar .poi_btn',
         'editTileButton': '#edit_toolbar .tile_btn',
         'editPresetButton': '#edit_toolbar .preset_btn',
+
+        'helpTextVersion': '#helpTextVersion',
     },
 
     regions: {
@@ -335,6 +337,13 @@ module.exports = Marionette.LayoutView.extend({
                 self.onCompressScreen();
             }
         });
+
+        this.ui.helpTextVersion.html(
+            document.l10n.getSync(
+                'helpTextVersion',
+                { 'version': CONST.version }
+            )
+        );
     },
 
     onShow: function () {
