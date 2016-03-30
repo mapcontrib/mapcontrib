@@ -1,15 +1,15 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var CONST = require('../const');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import CONST from '../const';
+import template from '../../templates/editTileColumn.ejs';
+import templateListItem from '../../templates/tileListItem.ejs';
 
 
-module.exports = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
 
-    template: require('../../templates/editTileColumn.ejs'),
-    templateListItem: require('../../templates/tileListItem.ejs'),
+    template: template,
+    templateListItem: templateListItem,
 
     behaviors: {
 
@@ -31,8 +31,6 @@ module.exports = Marionette.LayoutView.extend({
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
 
@@ -100,8 +98,7 @@ module.exports = Marionette.LayoutView.extend({
 
         e.preventDefault();
 
-        var self = this,
-        tiles = [];
+        var tiles = [];
 
         this.ui.tiles.each(function (i, tileInput) {
 
@@ -120,15 +117,15 @@ module.exports = Marionette.LayoutView.extend({
 
         this.model.save({}, {
 
-            'success': function () {
+            'success': () => {
 
-                self._oldModel = self.model.clone();
+                this._oldModel = this.model.clone();
 
-                self._radio.commands.execute('map:setTileLayer', tiles[0]);
+                this._radio.commands.execute('map:setTileLayer', tiles[0]);
 
-                self.close();
+                this.close();
             },
-            'error': function () {
+            'error': () => {
 
                 // FIXME
                 console.error('nok');

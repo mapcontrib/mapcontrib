@@ -1,13 +1,12 @@
 
-var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var settings = require('./settings');
-var MainView = require('./view/main');
+import $ from 'jquery';
+import Backbone from 'backbone';
+import Wreqr from 'backbone.wreqr';
+import settings from './settings';
+import MainView from './view/main';
 
 
-module.exports = Backbone.Router.extend({
+export default Backbone.Router.extend({
 
     routes: {
 
@@ -20,8 +19,6 @@ module.exports = Backbone.Router.extend({
 
     initialize: function () {
 
-        var self = this;
-
         this._currentScreen = null;
         this._radio = Wreqr.radio.channel('global');
 
@@ -30,15 +27,12 @@ module.exports = Backbone.Router.extend({
 
     showScreen: function (View, options){
 
-        var self = this,
-        currentScreen = this._currentScreen;
-
+        var currentScreen = this._currentScreen;
 
         if (currentScreen) {
 
             $('html, body').scrollTop(0);
         }
-
 
         var viewInstance = new View( options );
         this._radio.reqres.request('region', 'root').show( viewInstance );

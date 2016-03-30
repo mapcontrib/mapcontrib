@@ -1,14 +1,13 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var MapUi = require('../ui/map');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import MapUi from '../ui/map';
+import template from '../../templates/editPoiLayerListItem.ejs';
 
 
-module.exports = Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
 
-    template: require('../../templates/editPoiLayerListItem.ejs'),
+    template: template,
 
     tagName: 'a',
 
@@ -36,8 +35,6 @@ module.exports = Marionette.ItemView.extend({
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
     },

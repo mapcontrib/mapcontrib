@@ -1,10 +1,10 @@
 
-var Marionette = require('backbone.marionette');
-var PresetNodeTagsCollection = require('./collection');
-var PresetNodeTagsListItemView = require('./listItem');
+import Marionette from 'backbone.marionette';
+import PresetNodeTagsCollection from './collection';
+import PresetNodeTagsListItemView from './listItem';
 
 
-module.exports = Marionette.CollectionView.extend({
+export default Marionette.CollectionView.extend({
 
     childView: PresetNodeTagsListItemView,
 

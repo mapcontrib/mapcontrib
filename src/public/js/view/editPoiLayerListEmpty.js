@@ -1,10 +1,9 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Marionette = require('backbone.marionette');
+import Marionette from 'backbone.marionette';
+import template from '../../templates/editPoiLayerListEmpty.ejs';
 
 
-module.exports = Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
 
-    template: require('../../templates/editPoiLayerListEmpty.ejs'),
+    template: template,
 });

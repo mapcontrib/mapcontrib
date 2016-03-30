@@ -1,9 +1,9 @@
 
-var Backbone = require('backbone');
-var NavPillsStackedModel = require('./model');
+import Backbone from 'backbone';
+import NavPillsStackedModel from './model';
 
 
-module.exports = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
 
     model: NavPillsStackedModel,
 });

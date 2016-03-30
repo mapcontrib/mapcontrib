@@ -1,16 +1,15 @@
 
-var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var CONST = require('../const');
-var marked = require('marked');
+import $ from 'jquery';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import CONST from '../const';
+import marked from 'marked';
+import template from '../../templates/mainTitle.ejs';
 
 
-module.exports = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
 
-    template: require('../../templates/mainTitle.ejs'),
+    template: template,
 
     behaviors: {
 
@@ -31,8 +30,6 @@ module.exports = Marionette.LayoutView.extend({
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
 

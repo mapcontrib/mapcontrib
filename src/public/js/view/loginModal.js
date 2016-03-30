@@ -1,13 +1,12 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/loginModal.ejs';
 
 
-module.exports = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
 
-    template: require('../../templates/loginModal.ejs'),
+    template: template,
 
     behaviors: {
 

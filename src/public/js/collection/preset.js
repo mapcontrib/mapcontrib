@@ -1,11 +1,11 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var settings = require('../settings');
-var PresetModel = require('../model/preset');
+import _ from 'underscore';
+import Backbone from 'backbone';
+import settings from '../settings';
+import PresetModel from '../model/preset';
 
 
-module.exports = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
 
     url: function () {
 

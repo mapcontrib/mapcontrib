@@ -1,5 +1,5 @@
 
-import {DOMImplementation, XMLSerializer} from 'xmldom';
+import { DOMImplementation, XMLSerializer } from 'xmldom';
 
 
 /**

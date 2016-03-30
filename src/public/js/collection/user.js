@@ -1,11 +1,10 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var settings = require('../settings');
-var UserModel = require('../model/user');
+import Backbone from 'backbone';
+import settings from '../settings';
+import UserModel from '../model/user';
 
 
-module.exports = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
 
     url: settings.apiPath + 'user',
 

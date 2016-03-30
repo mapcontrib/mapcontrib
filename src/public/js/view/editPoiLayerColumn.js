@@ -1,17 +1,15 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var MapUi = require('../ui/map');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import MapUi from '../ui/map';
+import template from '../../templates/editPoiLayerColumn.ejs';
 
 
-module.exports = Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
 
-    template: require('../../templates/editPoiLayerColumn.ejs'),
+    template: template,
 
     behaviors: {
-
         'l20n': {},
         'column': {
 
@@ -20,7 +18,6 @@ module.exports = Marionette.ItemView.extend({
     },
 
     ui: {
-
         'column': '#edit_poi_layer_column',
 
         'layerName': '#layer_name',
@@ -37,24 +34,18 @@ module.exports = Marionette.ItemView.extend({
     },
 
     events: {
-
         'click @ui.editMarkerButton': 'onClickEditMarker',
         'submit': 'onSubmit',
         'reset': 'onReset',
     },
 
     templateHelpers: function () {
-
         return {
-
             'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
         };
     },
 
     initialize: function () {
-
-        var self = this;
-
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
@@ -64,7 +55,6 @@ module.exports = Marionette.ItemView.extend({
     },
 
     onRender: function () {
-
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
         this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
 
@@ -72,44 +62,36 @@ module.exports = Marionette.ItemView.extend({
     },
 
     onDestroy: function () {
-
         this._radio.vent.off('map:zoomChanged');
     },
 
     open: function () {
-
         this.triggerMethod('open');
     },
 
     close: function () {
-
         this.triggerMethod('close');
     },
 
     onChangedMapZoom: function () {
-
         var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
 
         this.ui.currentMapZoom.html( document.l10n.getSync('editPoiLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
     },
     updateMarkerIcon: function () {
-
         var html = MapUi.buildPoiLayerHtmlIcon( this.model );
 
         this.ui.markerWrapper.html( html );
     },
 
     onClickEditMarker: function () {
-
         this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
     },
 
     onSubmit: function (e) {
-
         e.preventDefault();
 
-        var self = this,
-        addToCollection = false,
+        var addToCollection = false,
         updateMarkers = false,
         updateMinZoom = false,
         updatePopups = false,
@@ -124,97 +106,77 @@ module.exports = Marionette.ItemView.extend({
         this.model.set('popupContent', this.ui.layerPopupContent.val());
 
         if ( !this.model.get('_id') ) {
-
             addToCollection = true;
         }
 
         if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
-
             updateMinZoom = true;
         }
 
         if ( this._oldModel.get('dataEditable') !== this.model.get('dataEditable') ) {
-
             updatePopups = true;
         }
 
         if ( this._oldModel.get('markerIconType') !== this.model.get('markerIconType') ) {
-
             updateMarkers = true;
         }
 
         if ( this._oldModel.get('markerIconUrl') !== this.model.get('markerIconUrl') ) {
-
             updateMarkers = true;
         }
 
         if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
-
             updateMarkers = true;
         }
 
         if ( this._oldModel.get('markerIcon') !== this.model.get('markerIcon') ) {
-
             updateMarkers = true;
         }
 
         if ( this._oldModel.get('markerShape') !== this.model.get('markerShape') ) {
-
             updateMarkers = true;
         }
 
         if ( this._oldModel.get('popupContent') !== this.model.get('popupContent') ) {
-
             updatePopups = true;
         }
 
         if ( this._oldModel.get('visible') !== this.model.get('visible') ) {
-
             updateVisibility = true;
         }
 
         this.model.save({}, {
-
-            'success': function () {
-
+            'success': () => {
                 if ( addToCollection ) {
-
-                    self._radio.reqres.request('poiLayers').add( self.model );
+                    this._radio.reqres.request('poiLayers').add( this.model );
                 }
 
                 if ( updateMinZoom ) {
-
-                    self._radio.commands.execute('map:updatePoiLayerMinZoom', self.model);
+                    this._radio.commands.execute('map:updatePoiLayerMinZoom', this.model);
                 }
 
                 if ( updateMarkers ) {
-
-                    self._radio.commands.execute('map:updatePoiLayerIcons', self.model);
+                    this._radio.commands.execute('map:updatePoiLayerIcons', this.model);
                 }
 
                 if ( updatePopups ) {
-
-                    self._radio.commands.execute('map:updatePoiLayerPopups', self.model);
+                    this._radio.commands.execute('map:updatePoiLayerPopups', this.model);
                 }
 
                 if ( updateVisibility ) {
-
-                    if ( self.model.get('visible') ) {
-
-                        self._radio.commands.execute('map:addPoiLayer', self.model);
+                    if ( this.model.get('visible') ) {
+                        this._radio.commands.execute('map:addPoiLayer', this.model);
                     }
                     else {
-
-                        self._radio.commands.execute('map:removePoiLayer', self.model);
+                        this._radio.commands.execute('map:removePoiLayer', this.model);
                     }
 
-                    self._radio.commands.execute('column:selectPoiLayer:render');
+                    this._radio.commands.execute('column:selectPoiLayer:render');
                 }
 
-                self.close();
+                this.close();
             },
-            'error': function () {
-
+            'error': () => {
                 // FIXME
                 console.error('nok');
             },
@@ -222,7 +184,6 @@ module.exports = Marionette.ItemView.extend({
     },
 
     onReset: function () {
-
         this.model.set( this._oldModel.toJSON() );
 
         this.ui.column.one('transitionend', this.render);

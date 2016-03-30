@@ -1,14 +1,14 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Marionette = require('backbone.marionette');
-var jquery_ui_sortable = require('jquery-ui/sortable');
-var jquery_ui_touch_punch = require('jquery-ui-touch-punch');
-var EditPoiLayerListEmptyView = require('./editPoiLayerListEmpty');
-var EditPoiLayerListItemView = require('./editPoiLayerListItem');
+import _ from 'underscore';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import jquery_ui_sortable from 'jquery-ui/sortable';
+import jquery_ui_touch_punch from 'jquery-ui-touch-punch';
+import EditPoiLayerListEmptyView from './editPoiLayerListEmpty';
+import EditPoiLayerListItemView from './editPoiLayerListItem';
 
 
-module.exports = Marionette.CollectionView.extend({
+export default Marionette.CollectionView.extend({
 
     childView: EditPoiLayerListItemView,
 
@@ -18,16 +18,14 @@ module.exports = Marionette.CollectionView.extend({
 
     onRender: function () {
 
-        var self = this;
-
         this.$el.sortable({
 
             'axis': 'y',
             'items': 'a',
             'handle': '.reorder_icon',
-            'update': function () {
+            'update': () => {
 
-                self.onDnD();
+                this.onDnD();
             }
         });
     },

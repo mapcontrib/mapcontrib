@@ -1,87 +1,83 @@
 
 import _ from 'underscore';
-import CONST from '../const';
 import L from 'leaflet';
+import CONST from '../const';
 
 
-/**
- * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
- * @returns {object} - A Leaflet divIcon.
- */
-function buildPoiLayerIcon (poiLayerModel) {
+export default class MapUi {
 
-    var markerShape = poiLayerModel.get('markerShape'),
-    markerIcon = poiLayerModel.get('markerIcon'),
-    markerIconType = poiLayerModel.get('markerIconType'),
-    markerIconUrl = poiLayerModel.get('markerIconUrl'),
-    markerColor = poiLayerModel.get('markerColor'),
-    iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
+    /**
+     * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
+     * @returns {object} - A Leaflet divIcon.
+     */
+    static buildPoiLayerIcon (poiLayerModel) {
 
-    iconOptions.className += ' '+ markerColor;
+        var markerShape = poiLayerModel.get('markerShape'),
+        markerIcon = poiLayerModel.get('markerIcon'),
+        markerIconType = poiLayerModel.get('markerIconType'),
+        markerIconUrl = poiLayerModel.get('markerIconUrl'),
+        markerColor = poiLayerModel.get('markerColor'),
+        iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
 
-    switch (markerIconType) {
-        case CONST.map.markerIconType.external:
+        iconOptions.className += ' '+ markerColor;
 
-            if ( markerIconUrl ) {
+        switch (markerIconType) {
+            case CONST.map.markerIconType.external:
 
-                iconOptions.html += '<img src="'+ markerIconUrl +'" class="external-icon">';
-            }
-            break;
+                if ( markerIconUrl ) {
 
-        default:
-        case CONST.map.markerIconType.library:
-            if ( markerIcon ) {
+                    iconOptions.html += '<img src="'+ markerIconUrl +'" class="external-icon">';
+                }
+                break;
 
-                iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
-            }
+            default:
+            case CONST.map.markerIconType.library:
+                if ( markerIcon ) {
+
+                    iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
+                }
+        }
+
+        return L.divIcon( iconOptions );
     }
 
-    return L.divIcon( iconOptions );
-}
 
+    /**
+    * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
+     * @returns {string} - The HTML tags of the icon.
+     */
+    static buildPoiLayerHtmlIcon (poiLayerModel) {
 
-/**
-* @param {string} poiLayerModel - Model of the POI layer which we request its icon.
- * @returns {string} - The HTML tags of the icon.
- */
-function buildPoiLayerHtmlIcon (poiLayerModel) {
+        var html = '',
+        markerShape = poiLayerModel.get('markerShape'),
+        markerIcon = poiLayerModel.get('markerIcon'),
+        markerIconType = poiLayerModel.get('markerIconType'),
+        markerIconUrl = poiLayerModel.get('markerIconUrl'),
+        markerColor = poiLayerModel.get('markerColor'),
+        iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
 
-    var html = '',
-    markerShape = poiLayerModel.get('markerShape'),
-    markerIcon = poiLayerModel.get('markerIcon'),
-    markerIconType = poiLayerModel.get('markerIconType'),
-    markerIconUrl = poiLayerModel.get('markerIconUrl'),
-    markerColor = poiLayerModel.get('markerColor'),
-    iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
+        html += '<div class="marker marker-1 '+ markerColor +'">';
+        html += iconOptions.html;
 
-    html += '<div class="marker marker-1 '+ markerColor +'">';
-    html += iconOptions.html;
+        switch (markerIconType) {
+            case CONST.map.markerIconType.external:
 
-    switch (markerIconType) {
-        case CONST.map.markerIconType.external:
+                if ( markerIconUrl ) {
 
-            if ( markerIconUrl ) {
+                    html += '<img src="'+ markerIconUrl +'" class="external-icon">';
+                }
+                break;
 
-                html += '<img src="'+ markerIconUrl +'" class="external-icon">';
-            }
-            break;
+            default:
+            case CONST.map.markerIconType.library:
+                if ( markerIcon ) {
 
-        default:
-        case CONST.map.markerIconType.library:
-            if ( markerIcon ) {
+                    html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
+                }
+        }
 
-                html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
-            }
+        html += '</div>';
+
+        return html;
     }
-
-    html += '</div>';
-
-    return html;
 }
-
-
-
-module.exports = {
-    'buildPoiLayerIcon': buildPoiLayerIcon,
-    'buildPoiLayerHtmlIcon': buildPoiLayerHtmlIcon,
-};
