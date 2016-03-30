@@ -13,9 +13,6 @@ export default class Geolocation {
     locate() {
         this._dragged = false;
 
-        this.stopLocate();
-
-        this.removeEventListeners();
         this.addEventListeners();
 
         this._map.locate({
