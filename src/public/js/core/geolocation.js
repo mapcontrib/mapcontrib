@@ -17,7 +17,7 @@ export default class Geolocation {
 
         this._map.locate({
             'watch': true,
-            'setView': true,
+            'setView': false,
             'enableHighAccuracy': true,
         });
     }
@@ -89,6 +89,11 @@ export default class Geolocation {
         this._accuracyCircle.setStyle({
             'fillOpacity': 1
         });
+
+        if (this._dragged === false) {
+            let zoom = this._map.getBoundsZoom(e.bounds);
+            this._map.setView(e.latlng, zoom, { 'animate': true});
+        }
     }
 
     onOrientationFound(e) {
@@ -106,7 +111,7 @@ export default class Geolocation {
     onMoveEnd() {
         this._map.locate({
             'watch': true,
-            'setView': !this._dragged,
+            'setView': false,
             'enableHighAccuracy': true,
         });
     }
