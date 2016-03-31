@@ -17,8 +17,8 @@ export default class GeolocationPoint {
             {
                 'clickable': false,
                 'icon': L.divIcon({
-                    'iconSize': [20, 20],
-                    'iconAnchor': [10, 10],
+                    'iconSize': [30, 30],
+                    'iconAnchor': [15, 15],
                     'className': 'ui-map-geolocation-marker',
                     'html': markerSvg
                 })
@@ -32,8 +32,8 @@ export default class GeolocationPoint {
             {
                 'clickable': false,
                 'icon': L.divIcon({
-                    'iconSize': [20, 20],
-                    'iconAnchor': [10, 10],
+                    'iconSize': [30, 30],
+                    'iconAnchor': [15, 15],
                     'className': 'ui-map-geolocation-marker',
                     'html': headingMarkerSvg
                 })
