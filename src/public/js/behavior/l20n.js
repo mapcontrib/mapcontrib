@@ -1,11 +1,11 @@
 
-var L20n = require('l20n');
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Marionette = require('backbone.marionette');
+import _ from 'underscore';
+import Backbone from 'backbone';
+import Marionette from 'backbone.marionette';
+import L20n from 'l20n';
 
 
-module.exports = Marionette.Behavior.extend({
+export default Marionette.Behavior.extend({
 
     onRender: function () {
 

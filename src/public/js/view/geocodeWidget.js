@@ -1,16 +1,16 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var settings = require('../settings');
-var leafletControlGeocoder = require('leaflet-control-geocoder');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import settings from '../settings';
+import leafletControlGeocoder from 'leaflet-control-geocoder';
+import template from '../../templates/geocodeWidget.ejs';
+import templateResultItem from '../../templates/geocodeResultItem.ejs';
 
 
-module.exports = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
 
-    template: require('../../templates/geocodeWidget.ejs'),
-    templateResultItem: require('../../templates/geocodeResultItem.ejs'),
+    template: template,
+    templateResultItem: templateResultItem,
 
     behaviors: {
 
@@ -32,8 +32,6 @@ module.exports = Marionette.LayoutView.extend({
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
 
@@ -59,13 +57,11 @@ module.exports = Marionette.LayoutView.extend({
 
     onAfterOpen: function () {
 
-        var self = this;
-
         this._radio.vent.trigger('column:closeAll');
 
-        this.ui.widget.one('transitionend', function () {
+        this.ui.widget.one('transitionend', () => {
 
-            self.ui.query.focus();
+            this.ui.query.focus();
         });
     },
 
@@ -76,17 +72,16 @@ module.exports = Marionette.LayoutView.extend({
             clearInterval(this._queryInterval);
         }
 
-        var self = this,
-        query = this.ui.query.val();
+        var query = this.ui.query.val();
 
         if ( this._lastQuery && this._lastQuery === query ) {
 
             return false;
         }
 
-        this._queryInterval = setTimeout(function () {
+        this._queryInterval = setTimeout(() => {
 
-            self.geocode( query );
+            this.geocode( query );
         }, 350);
     },
 
@@ -118,8 +113,7 @@ module.exports = Marionette.LayoutView.extend({
 
     geocode: function (query) {
 
-        var self = this,
-        elements = [];
+        var elements = [];
 
         this._lastQuery = query;
 
@@ -132,24 +126,24 @@ module.exports = Marionette.LayoutView.extend({
 
         this._geocoder.geocode(query, function(results) {
 
-            results.forEach(function (result) {
+            results.forEach((result) => {
 
                 elements.push(
 
-                    $( self.templateResultItem({
+                    $( this.templateResultItem({
 
                         'name': result.name,
                     }))
-                    .on('click', function () {
+                    .on('click', () => {
 
-                        self._radio.commands.execute('map:fitBounds', result.bbox);
+                        this._radio.commands.execute('map:fitBounds', result.bbox);
 
-                        self.close();
+                        this.close();
                     })
                 );
             });
 
-            self.ui.resultList.html( elements );
+            this.ui.resultList.html( elements );
         });
 
     },

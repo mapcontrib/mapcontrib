@@ -1,13 +1,12 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/editPresetListItem.ejs';
 
 
-module.exports = Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
 
-    template: require('../../templates/editPresetListItem.ejs'),
+    template: template,
 
     tagName: 'a',
 
@@ -35,8 +34,6 @@ module.exports = Marionette.ItemView.extend({
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
     },

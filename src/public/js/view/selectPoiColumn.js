@@ -1,14 +1,13 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var SelectPoiLayerListView = require('./selectPoiLayerList');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import SelectPoiLayerListView from './selectPoiLayerList';
+import template from '../../templates/selectPoiColumn.ejs';
 
 
-module.exports = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
 
-    template: require('../../templates/selectPoiColumn.ejs'),
+    template: template,
 
     behaviors: {
 
@@ -27,8 +26,6 @@ module.exports = Marionette.LayoutView.extend({
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
 

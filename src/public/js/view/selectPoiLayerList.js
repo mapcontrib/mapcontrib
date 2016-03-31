@@ -1,12 +1,10 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var SelectPoiLayerListItemView = require('./selectPoiLayerListItem');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import SelectPoiLayerListItemView from './selectPoiLayerListItem';
 
 
-module.exports = Marionette.CollectionView.extend({
+export default Marionette.CollectionView.extend({
 
     childView: SelectPoiLayerListItemView,
 

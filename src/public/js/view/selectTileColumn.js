@@ -1,15 +1,16 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var CONST = require('../const');
+import _ from 'underscore';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import CONST from '../const';
+import template from '../../templates/selectTileColumn.ejs';
+import templateListItem from '../../templates/selectTileListItem.ejs';
 
 
-module.exports = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
 
-    template: require('../../templates/selectTileColumn.ejs'),
-    templateListItem: require('../../templates/selectTileListItem.ejs'),
+    template: template,
+    templateListItem: templateListItem,
 
     behaviors: {
 
@@ -33,8 +34,7 @@ module.exports = Marionette.LayoutView.extend({
 
         this._radio = Wreqr.radio.channel('global');
 
-        var self = this,
-        fragment = this._radio.reqres.request('getFragment'),
+        var fragment = this._radio.reqres.request('getFragment'),
         storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) ) || {};
 
 
@@ -51,11 +51,10 @@ module.exports = Marionette.LayoutView.extend({
     onRender: function () {
 
         var tile, thumbnail, checked,
-        self = this,
         tiles = this.model.get('tiles'),
         html = '';
 
-        tiles.forEach(function (id) {
+        tiles.forEach((id) => {
 
             tile = CONST.map.tiles[id];
 
@@ -68,7 +67,7 @@ module.exports = Marionette.LayoutView.extend({
             thumbnail = thumbnail.replace('{x}', '265');
             thumbnail = thumbnail.replace('{y}', '181');
 
-            if ( self._selectedInStorage && self._selectedInStorage === id ) {
+            if ( this._selectedInStorage && this._selectedInStorage === id ) {
 
                 checked = ' checked';
             }
@@ -81,7 +80,7 @@ module.exports = Marionette.LayoutView.extend({
                 checked = '';
             }
 
-            html += self.templateListItem({
+            html += this.templateListItem({
 
                 'name': tile.name,
                 'id': id,

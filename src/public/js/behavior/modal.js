@@ -1,12 +1,11 @@
 
-var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
+import $ from 'jquery';
+import Backbone from 'backbone';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
 
 
-module.exports = Marionette.Behavior.extend({
+export default Marionette.Behavior.extend({
 
     ui: {
 
@@ -21,8 +20,6 @@ module.exports = Marionette.Behavior.extend({
     },
 
     initialize: function (options) {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
     },
@@ -39,22 +36,20 @@ module.exports = Marionette.Behavior.extend({
 
     onOpen: function () {
 
-        var self = this;
-
         if (this.view.onBeforeOpen) {
 
             this.view.onBeforeOpen();
         }
 
-        setTimeout(function () {
+        setTimeout(() => {
 
-            window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(() => {
 
-                self.ui.modal.addClass('open').focus();
+                this.ui.modal.addClass('open').focus();
 
-                if (self.view.onAfterOpen) {
+                if (this.view.onAfterOpen) {
 
-                    self.view.onAfterOpen();
+                    this.view.onAfterOpen();
                 }
             });
         }, 100);
@@ -62,8 +57,7 @@ module.exports = Marionette.Behavior.extend({
 
     onClose: function () {
 
-        var self = this,
-        mapElement = this._radio.reqres.request('map')._container;
+        var mapElement = this._radio.reqres.request('map')._container;
 
         $(mapElement).focus();
 
@@ -72,16 +66,16 @@ module.exports = Marionette.Behavior.extend({
             this.view.onBeforeClose();
         }
 
-        window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(() => {
 
-            self.ui.modal.on('transitionend', function () {
+            this.ui.modal.on('transitionend', () => {
 
-                if (self.view.onAfterClose) {
+                if (this.view.onAfterClose) {
 
-                    self.view.onAfterClose();
+                    this.view.onAfterClose();
                 }
 
-                self.view.destroy();
+                this.view.destroy();
             })
             .removeClass('open');
         });

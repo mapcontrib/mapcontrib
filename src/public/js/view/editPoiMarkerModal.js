@@ -1,16 +1,15 @@
 
-var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var CONST = require('../const');
-var icons = require('../icons.json');
+import $ from 'jquery';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import CONST from '../const';
+import icons from '../icons.json';
+import template from '../../templates/editPoiMarkerModal.ejs';
 
 
-module.exports = Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
 
-    template: require('../../templates/editPoiMarkerModal.ejs'),
+    template: template,
 
     behaviors: {
 
@@ -50,8 +49,6 @@ module.exports = Marionette.ItemView.extend({
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
 

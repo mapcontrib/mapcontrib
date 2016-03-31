@@ -7,12 +7,14 @@ import osmAuth from 'osm-auth';
 import ContributionErrorNotificationView from './contributionErrorNotification';
 import OsmEditHelper from '../helper/osmEdit.js';
 import CONST from '../const';
+import template from '../../templates/editPoiDataColumn.ejs';
+import templateField from '../../templates/editPoiDataField.ejs';
 
 
-module.exports = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
 
-    template: require('../../templates/editPoiDataColumn.ejs'),
-    templateField: require('../../templates/editPoiDataField.ejs'),
+    template: template,
+    templateField: templateField,
 
     behaviors: {
 
@@ -42,8 +44,6 @@ module.exports = Marionette.LayoutView.extend({
 
             return false;
         }
-
-        var self = this;
 
         this._user = this._radio.reqres.request('model', 'user');
 
@@ -93,7 +93,6 @@ module.exports = Marionette.LayoutView.extend({
         }
 
         var popupTag,
-        self = this,
         html = '',
         dataFromOSM = this.options.dataFromOSM,
         poiLayerModel = this.options.poiLayerModel,
@@ -102,9 +101,9 @@ module.exports = Marionette.LayoutView.extend({
         popupTags = popupContent.match(re);
 
 
-        this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, function (remoteData) {
+        this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, (remoteData) => {
 
-            self._remoteData = remoteData;
+            this._remoteData = remoteData;
 
             if ( popupTags) {
 
@@ -113,7 +112,7 @@ module.exports = Marionette.LayoutView.extend({
                     popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
                     popupTag = popupTags[i];
 
-                    html += self.templateField({
+                    html += this.templateField({
 
                         'tag': popupTag,
                         'value': dataFromOSM.tags[popupTag],
@@ -122,7 +121,7 @@ module.exports = Marionette.LayoutView.extend({
                 }
             }
 
-            self.ui.fields.html( html );
+            this.ui.fields.html( html );
 
             html = '';
 
@@ -135,7 +134,7 @@ module.exports = Marionette.LayoutView.extend({
                     continue;
                 }
 
-                html += self.templateField({
+                html += this.templateField({
 
                     'tag': tag,
                     'value': value,
@@ -145,25 +144,23 @@ module.exports = Marionette.LayoutView.extend({
 
             if ( html ) {
 
-                self.ui.fields.append( '<hr>' + html );
+                this.ui.fields.append( '<hr>' + html );
             }
 
-            self.ui.footer.removeClass('hide');
+            this.ui.footer.removeClass('hide');
 
-            document.l10n.localizeNode( self.ui.fields[0] );
+            document.l10n.localizeNode( this.ui.fields[0] );
         });
     },
 
     getRemoteEntityData: function ( id, type, callback ) {
-
-        var self = this;
 
         $.ajax({
 
             'method': 'GET',
             'dataType': 'xml',
             'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
-            'success': function (xml, jqXHR, textStatus) {
+            'success': (xml, jqXHR, textStatus) => {
 
                 var key, value,
                 parentElement = xml.getElementsByTagName(type)[0],
@@ -175,7 +172,7 @@ module.exports = Marionette.LayoutView.extend({
                     'tags': {},
                     'xml': xml
                 },
-                contributionKey = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
+                contributionKey = this.options.dataFromOSM.type +'-'+ this.options.dataFromOSM.id,
                 contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
 
                 if ( contributions[ contributionKey ] ) {
@@ -188,7 +185,7 @@ module.exports = Marionette.LayoutView.extend({
                     }
                     else {
 
-                        self.options.dataFromOSM = contributions[ contributionKey ];
+                        this.options.dataFromOSM = contributions[ contributionKey ];
                     }
                 }
 
@@ -206,7 +203,7 @@ module.exports = Marionette.LayoutView.extend({
 
                 callback( result );
             },
-            'error': function (jqXHR, textStatus, error) {
+            'error': (jqXHR, textStatus, error) => {
 
                 console.error('FIXME');
             },
@@ -214,8 +211,6 @@ module.exports = Marionette.LayoutView.extend({
     },
 
     onSubmit: function (e) {
-
-        var self = this;
 
         e.preventDefault();
 
@@ -230,15 +225,15 @@ module.exports = Marionette.LayoutView.extend({
 
             this.options.dataFromOSM.id,
             this.options.dataFromOSM.type,
-            function (remoteData) {
+            (remoteData) => {
 
-                if ( self._remoteData.version !== remoteData.version ) {
+                if ( this._remoteData.version !== remoteData.version ) {
 
-                    self.displayConflict( remoteData );
+                    this.displayConflict( remoteData );
                 }
                 else {
 
-                    self.prepareXml( remoteData );
+                    this.prepareXml( remoteData );
                 }
             }
         );
@@ -247,7 +242,6 @@ module.exports = Marionette.LayoutView.extend({
     prepareXml: function ( remoteData ) {
 
         var tag, value,
-        self = this,
         parentElement = remoteData.xml.getElementsByTagName(this.options.dataFromOSM.type)[0],
         tags = remoteData.xml.documentElement.getElementsByTagName('tag'),
         remoteTags = {};
@@ -262,7 +256,7 @@ module.exports = Marionette.LayoutView.extend({
 
         this.ui.fields
         .find('input.form-control')
-        .each(function (i, input) {
+        .each((i, input) => {
 
             tag = $(input).data('tag');
             value = input.value;
@@ -273,7 +267,7 @@ module.exports = Marionette.LayoutView.extend({
 
                     parentElement.removeChild( remoteTags[tag] );
 
-                    delete self.options.dataFromOSM.tags[tag];
+                    delete this.options.dataFromOSM.tags[tag];
                 }
 
                 return;
@@ -293,13 +287,13 @@ module.exports = Marionette.LayoutView.extend({
                 parentElement.appendChild(newTag);
             }
 
-            self.options.dataFromOSM.tags[tag] = value;
+            this.options.dataFromOSM.tags[tag] = value;
         });
 
 
-        this.getChangesetId(function (changesetId) {
+        this.getChangesetId((changesetId) => {
 
-            self.sendXml( remoteData.xml, changesetId );
+            this.sendXml( remoteData.xml, changesetId );
         });
     },
 
@@ -307,16 +301,15 @@ module.exports = Marionette.LayoutView.extend({
     displayConflict: function ( remoteData ) {
 
         var tag, value, newField,
-        self = this,
         html = '';
 
         this._radio.commands.execute('modal:showConflict');
 
         this.ui.fields
         .find('.form-group')
-        .each(function (i, field) {
+        .each((i, field) => {
 
-            self.displayFeedbackOnField(field, remoteData);
+            this.displayFeedbackOnField(field, remoteData);
         });
 
 
@@ -352,8 +345,7 @@ module.exports = Marionette.LayoutView.extend({
 
     displayFeedbackOnField: function (field, remoteData) {
 
-        var self = this,
-        $input = $('input.form-control', field),
+        var $input = $('input.form-control', field),
         tag = $input.data('tag'),
         value = $input.val(),
         remoteValue = remoteData.tags[tag] ? remoteData.tags[tag] : '';
@@ -373,9 +365,9 @@ module.exports = Marionette.LayoutView.extend({
             $(field).addClass('has-warning has-feedback');
             $('.merge_feedback', field).removeClass('hide');
 
-            $('.take_btn', field).click( self.onClickTake.bind(this, field, $input, remoteValue) );
+            $('.take_btn', field).click( this.onClickTake.bind(this, field, $input, remoteValue) );
 
-            $('.reject_btn', field).click( self.onClickReject.bind(this, field) );
+            $('.reject_btn', field).click( this.onClickReject.bind(this, field) );
         }
     },
 

@@ -1,13 +1,12 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/editSettingColumn.ejs';
 
 
-module.exports = Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
 
-    template: require('../../templates/editSettingColumn.ejs'),
+    template: template,
 
     behaviors: {
 
@@ -37,8 +36,6 @@ module.exports = Marionette.ItemView.extend({
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
 
@@ -73,8 +70,7 @@ module.exports = Marionette.ItemView.extend({
 
         e.preventDefault();
 
-        var self = this,
-        map = this._radio.reqres.request('map'),
+        var map = this._radio.reqres.request('map'),
         mapCenter = map.getCenter(),
         mapZoomLevel = map.getZoom();
 
@@ -89,13 +85,13 @@ module.exports = Marionette.ItemView.extend({
 
         this.model.save({}, {
 
-            'success': function () {
+            'success': () => {
 
-                self._oldModel = self.model.clone();
+                this._oldModel = this.model.clone();
 
-                self.close();
+                this.close();
             },
-            'error': function () {
+            'error': () => {
 
                 // FIXME
                 console.error('nok');

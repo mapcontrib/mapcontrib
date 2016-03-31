@@ -1,10 +1,8 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Marionette = require('backbone.marionette');
+import Marionette from 'backbone.marionette';
+import template from '../../templates/editPresetListEmpty.ejs';
 
 
-module.exports = Marionette.ItemView.extend({
-
-    template: require('../../templates/editPresetListEmpty.ejs'),
+export default Marionette.ItemView.extend({
+    template: template,
 });

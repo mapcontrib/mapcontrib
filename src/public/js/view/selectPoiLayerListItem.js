@@ -1,16 +1,16 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var settings = require('../settings');
-var marked = require('marked');
-var MapUi = require('../ui/map');
+import _ from 'underscore';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import settings from '../settings';
+import marked from 'marked';
+import MapUi from '../ui/map';
+import template from '../../templates/selectPoiLayerListItem.ejs';
 
 
-module.exports = Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
 
-    template: require('../../templates/selectPoiLayerListItem.ejs'),
+    template: template,
 
     tagName: 'a',
 
@@ -42,8 +42,7 @@ module.exports = Marionette.ItemView.extend({
 
         this._radio = Wreqr.radio.channel('global');
 
-        var self = this,
-        fragment = this._radio.reqres.request('getFragment'),
+        var fragment = this._radio.reqres.request('getFragment'),
         storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
 
 

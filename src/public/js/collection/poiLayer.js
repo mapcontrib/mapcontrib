@@ -1,11 +1,11 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var settings = require('../settings');
-var PoiLayerModel = require('../model/poiLayer');
+import _ from 'underscore';
+import Backbone from 'backbone';
+import settings from '../settings';
+import PoiLayerModel from '../model/poiLayer';
 
 
-module.exports = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
 
     url: function () {
 

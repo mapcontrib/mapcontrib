@@ -1,12 +1,11 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Marionette = require('backbone.marionette');
+import Marionette from 'backbone.marionette';
+import listItemTemplate from './listItem.ejs';
 
 
-module.exports = Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
 
-    template: require('./listItem.ejs'),
+    template: listItemTemplate,
 
     ui: {
 

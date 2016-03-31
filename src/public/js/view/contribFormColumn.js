@@ -9,11 +9,12 @@ import CONST from '../const';
 import settings from '../settings';
 import PoiLayerModel from '../model/poiLayer';
 import ContribNodeTagsListView from '../ui/form/contribNodeTags';
+import template from '../../templates/contribFormColumn.ejs';
 
 
-module.exports = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
 
-    template: require('../../templates/contribFormColumn.ejs'),
+    template: template,
 
     behaviors: {
 
@@ -53,6 +54,7 @@ module.exports = Marionette.LayoutView.extend({
             this.model.get('lng')
         ),
         icon = MapUi.buildPoiLayerIcon(
+            L,
             new PoiLayerModel({
                 'markerShape': settings.newPoiMarkerShape,
                 'markerIconType': CONST.map.markerIconType.library,

@@ -1,16 +1,15 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Wreqr = require('backbone.wreqr');
-var Marionette = require('backbone.marionette');
-var PresetModel = require('../model/preset');
-var EditPresetListView = require('./editPresetList');
-var EditPresetTagsColumnView = require('./editPresetTagsColumn');
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import PresetModel from '../model/preset';
+import EditPresetListView from './editPresetList';
+import EditPresetTagsColumnView from './editPresetTagsColumn';
+import template from '../../templates/editPresetColumn.ejs';
 
 
-module.exports = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
 
-    template: require('../../templates/editPresetColumn.ejs'),
+    template: template,
 
     behaviors: {
 
@@ -35,8 +34,6 @@ module.exports = Marionette.LayoutView.extend({
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
     },

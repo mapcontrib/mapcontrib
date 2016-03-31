@@ -1,12 +1,13 @@
 
-var Marionette = require('backbone.marionette');
-var NavPillsStackedCollection = require('./collection');
-var NavPillsStackedListItemView = require('./listItem');
+import Marionette from 'backbone.marionette';
+import NavPillsStackedCollection from './collection';
+import NavPillsStackedListItemView from './listItem';
+import listTemplate from './list.ejs';
 
 
-module.exports = Marionette.CompositeView.extend({
+export default Marionette.CompositeView.extend({
 
-    template: require('./list.ejs'),
+    template: listTemplate,
 
     childView: NavPillsStackedListItemView,
 

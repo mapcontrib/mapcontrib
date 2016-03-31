@@ -1,9 +1,9 @@
 
-var Backbone = require('backbone');
-var PresetNodeTagsModel = require('./model');
+import Backbone from 'backbone';
+import PresetNodeTagsModel from './model';
 
 
-module.exports = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
 
     model: PresetNodeTagsModel,
 });

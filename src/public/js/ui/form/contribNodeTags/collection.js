@@ -1,9 +1,9 @@
 
-var Backbone = require('backbone');
-var ContribNodeTagsModel = require('./model');
+import Backbone from 'backbone';
+import ContribNodeTagsModel from './model';
 
 
-module.exports = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
 
     model: ContribNodeTagsModel,
 });

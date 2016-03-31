@@ -1,7 +1,5 @@
 
 import 'babel-polyfill';
-import $ from 'jquery';
-import _ from 'underscore';
 import tools from './tools';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
@@ -48,18 +46,16 @@ var App = Marionette.Application.extend({
 
     initialize: function(options) {
 
-        var self = this;
-
-        document.l10n.addEventListener('error', function (err) {
+        document.l10n.addEventListener('error', (err) => {
 
             console.error(err);
         });
-        document.l10n.addEventListener('warning', function (err) {
+        document.l10n.addEventListener('warning', (err) => {
 
             console.warn(err);
         });
 
-        Marionette.Behaviors.behaviorsLookup = function() {
+        Marionette.Behaviors.behaviorsLookup = () => {
 
             return {
 
@@ -80,61 +76,61 @@ var App = Marionette.Application.extend({
 
         this._radio = Wreqr.radio.channel('global');
 
-        this._radio.vent.on('session:logged', function (){
+        this._radio.vent.on('session:logged', () => {
 
-            self._var.isLogged = true;
+            this._var.isLogged = true;
 
-            $('body').addClass('user_logged');
+            document.body.classList.add('user_logged');
         });
 
-        this._radio.vent.on('session:unlogged', function (){
+        this._radio.vent.on('session:unlogged', () => {
 
-            self._var.isLogged = false;
+            this._var.isLogged = false;
 
-            $('body').removeClass('user_logged');
+            document.body.classList.remove('user_logged');
 
-            self._model.user = new UserModel();
+            this._model.user = new UserModel();
         });
 
 
         this._radio.reqres.setHandlers({
 
-            'model': function (name) {
+            'model': (name) => {
 
-                return self._model[name];
+                return this._model[name];
             },
-            'collection': function (name) {
+            'collection': (name) => {
 
-                return self._collection[name];
+                return this._collection[name];
             },
-            'view': function (name) {
+            'view': (name) => {
 
-                return self._view[name];
+                return this._view[name];
             },
-            'region': function (name) {
+            'region': (name) => {
 
-                return self._region[name];
+                return this._region[name];
             },
-            'var': function (name) {
+            'var': (name) => {
 
-                return self._var[name];
+                return this._var[name];
             },
         });
 
 
         this._radio.commands.setHandlers({
 
-            'app:registerBehavior': function (name, behavior) {
+            'app:registerBehavior': (name, behavior) => {
 
-                self._behavior[name] = behavior;
+                this._behavior[name] = behavior;
             },
-            'app:registerView': function (name, view) {
+            'app:registerView': (name, view) => {
 
-                self._view[name] = view;
+                this._view[name] = view;
             },
-            'app:registerRegion': function (name, region) {
+            'app:registerRegion': (name, region) => {
 
-                self._region[name] = region;
+                this._region[name] = region;
             },
         });
 
@@ -143,8 +139,6 @@ var App = Marionette.Application.extend({
 
     onStart: function (options) {
 
-        var self = this;
-
         if ( this._model.user.get('_id') ) {
 
             this._radio.vent.trigger('session:logged');
@@ -152,7 +146,7 @@ var App = Marionette.Application.extend({
 
         this._router = new Router();
 
-        this._radio.reqres.setHandler('router', function () { return self._router; });
+        this._radio.reqres.setHandler('router', () => { return this._router; });
 
         Backbone.history.start();
     },
