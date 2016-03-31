@@ -14,7 +14,7 @@ export default class MapUi {
      */
     static buildPoiLayerIcon (poiLayerModel) {
 
-        return L.divIcon( MapUi._buildPoiLayerHtmlIcon(poiLayerModel) );
+        return L.divIcon( MapUi._buildIconOptions(poiLayerModel) );
     }
 
 
@@ -27,7 +27,7 @@ export default class MapUi {
     static buildPoiLayerHtmlIcon (poiLayerModel) {
 
         let markerColor = poiLayerModel.get('markerColor');
-        let iconOptions = MapUi._buildPoiLayerHtmlIcon(poiLayerModel);
+        let iconOptions = MapUi._buildIconOptions(poiLayerModel);
 
         return `<div class="marker marker-1 ${markerColor}">
             ${iconOptions.html}
@@ -41,7 +41,7 @@ export default class MapUi {
      * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
      * @returns {object} - The icon options.
      */
-    static _buildPoiLayerHtmlIcon (poiLayerModel) {
+    static _buildIconOptions (poiLayerModel) {
 
         var markerShape = poiLayerModel.get('markerShape'),
         markerIcon = poiLayerModel.get('markerIcon'),
