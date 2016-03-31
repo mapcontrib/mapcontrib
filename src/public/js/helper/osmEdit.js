@@ -21,6 +21,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @access public
      * @param {string} changesetCreatedBy - Application used to send datas to OSM (in the changeset).
      */
     setChangesetCreatedBy(changesetCreatedBy) {
@@ -29,6 +30,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @access public
      * @param {string} changesetComment - Comment used in the changeset.
      */
     setChangesetComment(changesetComment) {
@@ -37,6 +39,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @access public
      * @param {number} lat - Node's latitude.
      */
     setLatitude(lat) {
@@ -45,6 +48,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @access public
      * @param {number} lon - Node's longitude.
      */
     setLongitude(lon) {
@@ -53,6 +57,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @access public
      * @param {array} tags - Node's tags.
      */
     setTags(tags) {
@@ -61,6 +66,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @access public
      * @param {string} uid - UID of the node's editor.
      */
     setUid(uid) {
@@ -69,6 +75,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @access public
      * @param {string} timestamp - Timestamp of the node creation.
      */
     setTimestamp(timestamp) {
@@ -77,6 +84,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @access public
      * @param {string} displayName - Display name of the node's editor.
      */
     setDisplayName(displayName) {
@@ -86,6 +94,7 @@ export default class OsmEdit{
 
     /**
      * Create a node in OSM
+     * @access public
      * @returns {promise}
      */
     createNode() {
@@ -120,6 +129,7 @@ export default class OsmEdit{
 
     /**
      * Builds a changeset XML.
+     * @access private
      * @returns string
      */
     _buildChangesetXml() {
@@ -148,6 +158,7 @@ export default class OsmEdit{
 
     /**
      * Builds a node XML.
+     * @access private
      * @param {number} changesetId - The changeset ID used during the call to OSM.
      * @returns string
      */
@@ -187,6 +198,7 @@ export default class OsmEdit{
 
     /**
      * Asks OSM to create a changeset and returns its ID
+     * @access private
      * @returns {promise}
      */
     _createChangeset() {
@@ -223,6 +235,7 @@ export default class OsmEdit{
 
     /**
      * Check if a given changeset is still opened at OSM.
+     * @access private
      * @param {number} changesetId - The changeset ID used during the call to OSM.
      * @returns {promise}
      */
@@ -263,6 +276,7 @@ export default class OsmEdit{
 
     /**
      * Get a changeset ID from an old one or a creation.
+     * @access private
      * @returns {promise}
      */
     _getChangesetId() {
@@ -306,6 +320,7 @@ export default class OsmEdit{
 
      /**
       * Send the node xml to OSM.
+      * @access private
       * @param {number} changesetId - The changeset ID to use during the sending.
       * @returns {promise}
       */
