@@ -2,11 +2,11 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import OsmEditHelper from '../../src/public/js/helper/osmEdit.js';
+import OsmEditHelper from '../../src/public/js/helper/osmEdit';
 
 
 
-describe('osmEdit helper', () => {
+describe('OsmEditHelper', () => {
 
     describe('_buildChangesetXML', () => {
 

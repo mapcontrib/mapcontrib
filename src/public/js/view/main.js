@@ -617,7 +617,7 @@ export default Marionette.LayoutView.extend({
             'onSuccess': (data) => {
 
                 var wayBodyNodes = {},
-                icon = MapUi.buildPoiLayerIcon( poiLayerModel );
+                icon = MapUi.buildPoiLayerIcon( L, poiLayerModel );
 
 
                 data.elements.forEach((e) => {
@@ -774,7 +774,7 @@ export default Marionette.LayoutView.extend({
             if ( layer._icon ) {
 
                 layer.setIcon(
-                    MapUi.buildPoiLayerIcon( poiLayerModel )
+                    MapUi.buildPoiLayerIcon( L, poiLayerModel )
                 );
             }
         });

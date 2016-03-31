@@ -54,6 +54,7 @@ export default Marionette.LayoutView.extend({
             this.model.get('lng')
         ),
         icon = MapUi.buildPoiLayerIcon(
+            L,
             new PoiLayerModel({
                 'markerShape': settings.newPoiMarkerShape,
                 'markerIconType': CONST.map.markerIconType.library,
