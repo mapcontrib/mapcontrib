@@ -26,11 +26,15 @@ export default class MapUi {
     static buildPoiLayerHtmlIcon (poiLayerModel) {
 
         let markerColor = poiLayerModel.get('markerColor');
+        let markerShape = poiLayerModel.get('markerShape');
+        let className = CONST.map.markers[markerShape].className;
         let iconOptions = MapUi._buildPoiLayerIconOptions(poiLayerModel);
 
-        return `<div class="marker marker-1 ${markerColor}">
-            ${iconOptions.html}
-        </div>`;
+        let html = `<div class="${className} ${markerColor}">`;
+        html += `${iconOptions.html}`;
+        html += `</div>`;
+
+        return html;
     }
 
 

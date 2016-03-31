@@ -10,7 +10,7 @@ describe('OsmEditHelper', () => {
 
     describe('_buildChangesetXML', () => {
 
-        it('should return a serialized changeset XML', () => {
+        it('Should return a serialized changeset XML', () => {
 
             const expected = '<osm><changeset><tag k="created_by" v="a string"/><tag k="comment" v="another string"/></changeset></osm>';
 
@@ -27,7 +27,7 @@ describe('OsmEditHelper', () => {
 
     describe('_buildNodeXml', () => {
 
-        it('should return a serialized node XML', () => {
+        it('Should return a serialized node XML', () => {
 
             const expected = '<osm><node changeset="85964251" timestamp="2016-03-24T12:21:30.546Z" uid="3569284" display_name="Walter White" lat="42.3" lon="0.2"><tag k="a key" v="a value"/><tag k="another key" v="another value"/></node></osm>';
 
