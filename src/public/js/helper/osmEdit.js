@@ -2,11 +2,12 @@
 import { DOMImplementation, XMLSerializer } from 'xmldom';
 
 
-/**
- * @param {object} osmAuth - Instance of osm-auth.
- */
 export default class OsmEdit{
 
+    /**
+    * @access public
+    * @param {object} osmAuth - Instance of osm-auth.
+    */
     constructor (osmAuth) {
 
         this._auth = osmAuth;
@@ -93,7 +94,7 @@ export default class OsmEdit{
     }
 
     /**
-     * Create a node in OSM
+     * Creates a node in OSM.
      * @access public
      * @returns {promise}
      */
@@ -197,7 +198,7 @@ export default class OsmEdit{
 
 
     /**
-     * Asks OSM to create a changeset and returns its ID
+     * Asks OSM to create a changeset and returns its ID.
      * @access private
      * @returns {promise}
      */
@@ -234,7 +235,7 @@ export default class OsmEdit{
 
 
     /**
-     * Check if a given changeset is still opened at OSM.
+     * Checks if a given changeset is still opened at OSM.
      * @access private
      * @param {number} changesetId - The changeset ID used during the call to OSM.
      * @returns {promise}
@@ -275,7 +276,7 @@ export default class OsmEdit{
 
 
     /**
-     * Get a changeset ID from an old one or a creation.
+     * Gets a changeset ID from an old one or a creation.
      * @access private
      * @returns {promise}
      */
@@ -319,7 +320,7 @@ export default class OsmEdit{
 
 
      /**
-      * Send the node xml to OSM.
+      * Sends the node xml to OSM.
       * @access private
       * @param {number} changesetId - The changeset ID to use during the sending.
       * @returns {promise}

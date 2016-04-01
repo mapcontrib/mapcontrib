@@ -5,15 +5,29 @@ import GeolocationPoint from '../ui/geolocationPoint';
 
 export default class Geolocation {
 
+    /**
+     * @access public
+     * @param {object} map - A Leaflet map.
+     */
     constructor(map) {
         this._dragged = false;
+        this._locateInProgress = false;
         this._map = map;
     }
 
+    /**
+     * Starts the location watch.
+     * @access public
+     */
     locate() {
-        this._dragged = false;
+        if (this._locateInProgress === true) {
+            this.stopLocate();
+        }
 
-        this.addEventListeners();
+        this._dragged = false;
+        this._locateInProgress = true;
+
+        this._addEventListeners();
 
         this._map.locate({
             'watch': true,
@@ -22,12 +36,23 @@ export default class Geolocation {
         });
     }
 
+    /**
+     * Stops the location watch.
+     * @access public
+     */
     stopLocate() {
-        this.removeMarker();
+        this._locateInProgress = false;
+
         this._map.stopLocate();
+        this._removeEventListeners();
+        this._removeMarker();
     }
 
-    addMarker(marker) {
+    /**
+     * Adds the geolocation marker to the map.
+     * @access private
+     */
+    _addMarker(marker) {
         this._marker = marker;
         this._marker.setOpacity(0);
 
@@ -40,40 +65,58 @@ export default class Geolocation {
         this._map.addLayer( this._accuracyCircle );
     }
 
-    removeMarker() {
+    /**
+     * Removes the geolocation marker from the map.
+     * @access private
+     */
+    _removeMarker() {
         if (this._marker) {
             this._map.removeLayer( this._marker );
             this._map.removeLayer( this._accuracyCircle );
+
+            this._marker = null;
         }
     }
 
-    addEventListeners() {
-        window.addEventListener('deviceorientation', this.onOrientationFound);
+    /**
+     * Adds the needed event listeners.
+     * @access private
+     */
+    _addEventListeners() {
+        window.addEventListener('deviceorientation', this._onOrientationFound);
 
         this._map
-        .on('locationfound', this.onLocationFound, this)
-        .on('locationerror', this.onLocationError, this)
-        .on('dragend', this.onDragEnd, this)
-        .on('moveend', this.onMoveEnd, this);
+        .on('locationfound', this._onLocationFound, this)
+        .on('locationerror', this._onLocationError, this)
+        .on('dragend', this._onDragEnd, this)
+        .on('moveend', this._onMoveEnd, this);
     }
 
-    removeEventListeners() {
-        window.removeEventListener('deviceorientation', this.onOrientationFound);
+    /**
+     * Removes the event listeners.
+     * @access private
+     */
+    _removeEventListeners() {
+        window.removeEventListener('deviceorientation', this._onOrientationFound);
 
         this._map
-        .off('locationfound', this.onLocationFound, this)
-        .off('locationerror', this.onLocationError, this)
-        .off('dragend', this.onDragEnd, this)
-        .off('moveend', this.onMoveEnd, this);
+        .off('locationfound', this._onLocationFound, this)
+        .off('locationerror', this._onLocationError, this)
+        .off('dragend', this._onDragEnd, this)
+        .off('moveend', this._onMoveEnd, this);
     }
 
-    onLocationFound(e) {
+    /**
+     * The locationfound event handler.
+     * @access private
+     */
+    _onLocationFound(e) {
         if (!this._marker) {
             if (DeviceOrientationEvent) {
-                this.addMarker(GeolocationPoint.getHeadingMarker());
+                this._addMarker(GeolocationPoint.getHeadingMarker());
             }
             else {
-                this.addMarker(GeolocationPoint.getMarker());
+                this._addMarker(GeolocationPoint.getMarker());
             }
         }
 
@@ -96,19 +139,36 @@ export default class Geolocation {
         }
     }
 
-    onOrientationFound(e) {
-        GeolocationPoint.rotate(e.alpha * -1);
-    }
-
-    onLocationError() {
+    /**
+     * The locationerror event handler.
+     * @access private
+     */
+    _onLocationError() {
         this._marker.setOpacity(0.5);
     }
 
-    onDragEnd() {
+    /**
+     * The orientationfound event handler.
+     * @access private
+     * @static
+     */
+    static _onOrientationFound(e) {
+        GeolocationPoint.rotate(e.alpha * -1);
+    }
+
+    /**
+     * The dragend event handler.
+     * @access private
+     */
+    _onDragEnd() {
         this._dragged = true;
     }
 
-    onMoveEnd() {
+    /**
+     * The moveend event handler.
+     * @access private
+     */
+    _onMoveEnd() {
         this._map.locate({
             'watch': true,
             'setView': false,
