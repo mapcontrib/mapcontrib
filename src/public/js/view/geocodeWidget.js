@@ -124,7 +124,7 @@ export default Marionette.LayoutView.extend({
             return;
         }
 
-        this._geocoder.geocode(query, function(results) {
+        this._geocoder.geocode(query, (results) => {
 
             results.forEach((result) => {
 
