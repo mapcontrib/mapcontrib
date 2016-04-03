@@ -1,4 +1,4 @@
-var mongo = require('mongodb'),
+var ObjectID = require('mongodb').ObjectID,
 Promise = require('es6-promise').Promise;
 
 
@@ -100,9 +100,9 @@ init._fillDatabase = function (rootResolve, rootReject) {
 
                 init._themeCollection = collection;
 
-                init._themeCollection.insert({
+                init._themeCollection.insertOne({
 
-                        '_id' : new mongo.ObjectID('5249c43c6e789470197b5973'),
+                        '_id' : new ObjectID('5249c43c6e789470197b5973'),
                         'name': 'MapContrib',
                         'description': 'Ceci est une description :)',
                         'fragment': 's8c2d4',
@@ -138,9 +138,9 @@ init._fillDatabase = function (rootResolve, rootReject) {
 
                 init._poiLayerCollection = collection;
 
-                init._poiLayerCollection.insert([
+                init._poiLayerCollection.insertMany([
                         {
-                            '_id' : new mongo.ObjectID('5249c43c6e789470197b5974'),
+                            '_id' : new ObjectID('5249c43c6e789470197b5974'),
                             'themeId': '5249c43c6e789470197b5973',
                             'name': 'Déchèteries',
                             'description': 'Déchèteries, centres de tri, etc.',
@@ -153,7 +153,7 @@ init._fillDatabase = function (rootResolve, rootReject) {
                             'markerIcon': 'recycle',
                         },
                         {
-                            '_id' : new mongo.ObjectID('5249c43c6e789470197b5975'),
+                            '_id' : new ObjectID('5249c43c6e789470197b5975'),
                             'themeId': '5249c43c6e789470197b5973',
                             'name': 'Poubelles',
                             'description': 'Poubelles de toutes sortes',

@@ -82,7 +82,7 @@
     "jquery": "~2.1.4",
     "ejs": "~2.3.3",
     "es6-promise": "~2.3.0",
-    "mongodb": "~1.4.40"
+    "mongodb": "~2.1.14"
   },
   "private": true
 }

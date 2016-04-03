@@ -1,5 +1,5 @@
 
-var mongo = require('mongodb'),
+var ObjectID = require('mongodb').ObjectID,
 Promise = require('es6-promise').Promise,
 UserModel = require('../public/js/model/user'),
 options = {
@@ -27,7 +27,7 @@ api = {
             return true;
         }
 
-        collection.insert(req.body, {'safe': true}, function (err, results) {
+        collection.insertOne(req.body, {'safe': true}, function (err, results) {
 
             if(err) {
 
@@ -36,7 +36,7 @@ api = {
                 return true;
             }
 
-            var result = results[0];
+            var result = results.ops[0];
             result._id = result._id.toString();
 
             res.send(result);
@@ -76,7 +76,7 @@ api = {
 
         collection.find({
 
-            '_id': new mongo.ObjectID(_id)
+            '_id': new ObjectID(_id)
         })
         .toArray(function (err, results) {
 
@@ -159,9 +159,9 @@ api = {
 
         delete(new_json._id);
 
-        collection.update({
+        collection.updateOne({
 
-            '_id': new mongo.ObjectID(req.params._id)
+            '_id': new ObjectID(req.params._id)
         },
         new_json,
         {'safe': true},
@@ -201,7 +201,7 @@ api = {
 
         collection.remove({
 
-            '_id': new mongo.ObjectID(req.params._id)
+            '_id': new ObjectID(req.params._id)
         },
         {'safe': true},
         function (err) {

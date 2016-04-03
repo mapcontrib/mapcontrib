@@ -1,34 +1,30 @@
 
 var secretKey = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})',
 db = {
-
     'host': process.env.MONGO_HOST ? process.env.MONGO_HOST : 'localhost',
     'port': '27017',
-    'name': 'mapcontrib',
-    'options': {
-
-        'auto_reconnect': true,
-        'safe': true
-    }
+    'name': 'mapcontrib'
 };
-
 
 
 
 var fs = require('fs'),
 path = require('path'),
-format = require('util').format,
-Promise = require('es6-promise').Promise;
+Promise = require('es6-promise').Promise,
+Api = require('./api'),
+Passport = require('./passport'),
+CONST = require('./public/js/const'),
+settings = require('./public/js/settings'),
+_ = require('underscore');
 
 
 
 
-var mongo = require('mongodb'),
-mongoClient = new mongo.MongoClient(new mongo.Server(db.host, db.port), db.options),
-database = mongoClient.db(db.name),
-init = require('./init.js');
+var MongoClient = require('mongodb').MongoClient,
+init = require('./init.js'),
+mongoUrl = 'mongodb://'+ db.host +':'+ db.port +'/'+ db.name;
 
-database.open(function (err, db) {
+MongoClient.connect(mongoUrl, function (err, db) {
 
     if(err) throw err;
 
@@ -39,6 +35,9 @@ database.open(function (err, db) {
             throw err;
         });
     });
+
+    new Passport(app, db, settings);
+    new Api(app, db, CONST);
 });
 
 
@@ -87,13 +86,6 @@ app.use(serveStatic(path.join(__dirname, 'public')));
 
 
 
-
-var CONST = require('./public/js/const'),
-settings = require('./public/js/settings'),
-_ = require('underscore');
-
-
-
 var dataDirectory = path.join(__dirname, 'upload');
 
 if ( !fs.existsSync( dataDirectory ) ) {
@@ -104,316 +96,20 @@ if ( !fs.existsSync( dataDirectory ) ) {
 
 
 
-
-
-var passport = require('passport'),
-OpenStreetMapStrategy = require('passport-openstreetmap').Strategy;
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-passport.serializeUser(function(user, done) {
-
-    done(null, user._id.toString());
-});
-
-
-passport.deserializeUser(function(userId, done) {
-
-    var collection = database.collection('user');
-
-    collection.findOne({
-
-        '_id': new mongo.ObjectID(userId)
-    }, function (err, user) {
-
-        if (user) {
-
-            return done(null, userId);
-        }
-
-        return done(err);
-    });
-});
-
-
-
-passport.use(new OpenStreetMapStrategy({
-
-        'consumerKey': settings.oauthConsumerKey,
-        'consumerSecret': settings.oauthSecret,
-        'callbackURL': '/auth/callback',
-        'passReqToCallback': true,
-    },
-    function(req, token, tokenSecret, profile, done) {
-
-        var collection = database.collection('user'),
-        userData = {
-
-            'osmId': profile.id,
-            'displayName': profile.displayName,
-            'avatar': profile._xml2json.user.img['@'].href,
-            'token': token,
-            'tokenSecret': tokenSecret,
-        };
-
-
-        collection.findOne({
-
-            'osmId': userData.osmId
-        }, function (err, user) {
-
-            if (err) {
-
-                return done(err);
-            }
-
-            if (user) {
-
-                for ( var key in userData) {
-
-                    user[key] = userData[key];
-                }
-
-                collection.update({
-
-                    '_id': user._id
-                },
-                user,
-                { 'safe': true },
-                function (err, results) {
-
-                    if (results) {
-
-                        req.session.user = user;
-
-                        return done(err, user);
-                    }
-
-                    return done(err);
-                });
-            }
-            else {
-
-                collection.insert(userData, {'safe': true}, function (err, results) {
-
-                    if (results) {
-
-                        result = results[0];
-                        result._id = result._id.toString();
-
-                        req.session.user = result;
-
-                        return done(err, result);
-                    }
-
-                    return done(err);
-                });
-            }
-        });
-    }
-));
-
-
-
-
 app.get('/', function (req, res) {
 
     res.redirect('/theme-s8c2d4');
 });
 
-app.get('/auth', function (req, res) {
 
-    if ( req.query.authCallback ) {
-
-        req.session.authCallback = req.query.authCallback;
-    }
-
-    passport.authenticate('openstreetmap')(req, res);
-});
-
-
-app.get('/auth/callback', function (req, res) {
-
-    var callbackUrl = '/';
-
-    if ( req.session.authCallback ) {
-
-        callbackUrl = req.session.authCallback;
-    }
-
-    passport.authenticate('openstreetmap', {
-
-        'successRedirect': callbackUrl,
-        'failureRedirect': callbackUrl +'/#oups'
-    })(req, res);
-});
-
-
-app.get('/connect', function (req, res) {
-
-    if ( req.query.authCallback ) {
-
-        req.session.authCallback = req.query.authCallback;
-    }
-
-    passport.authorize('openstreetmap')(req, res);
-});
-
-
-app.get('/connect/callback', function (req, res) {
-
-    var callbackUrl = '/';
-
-    if ( req.session.authCallback ) {
-
-        callbackUrl = req.session.authCallback;
-    }
-
-    passport.authorize('openstreetmap', {
-
-        'successRedirect': callbackUrl,
-        'failureRedirect': callbackUrl +'/#oups'
-    })(req, res);
-});
-
-
-
-
-
-
-
-function isLoggedIn (req, res, next) {
-
-    if ( req.isAuthenticated() ) {
-
-        return next();
-    }
-
-    res.sendStatus(401);
-}
-
-
-
-var userApi = require('./api/user.js'),
-themeApi = require('./api/theme.js'),
-poiLayerApi = require('./api/poiLayer.js'),
-presetApi = require('./api/preset.js'),
-options = {
-
-    'CONST': CONST,
-    'database': database,
-};
-
-
-userApi.setOptions( options );
-themeApi.setOptions( options );
-poiLayerApi.setOptions( options );
-presetApi.setOptions( options );
-
-
-app.get('/api/user/logout', userApi.api.logout);
-// app.get('/api/user', userApi.api.getAll);
-app.get('/api/user/:_id', userApi.api.get);
-app.post('/api/user', isLoggedIn, userApi.api.post);
-app.put('/api/user/:_id', isLoggedIn, userApi.api.put);
-// app.delete('/api/user/:_id', isLoggedIn, userApi.api.delete);
-
-app.get('/api/theme', themeApi.api.getAll);
-app.get('/api/theme/:_id', themeApi.api.get);
-app.post('/api/theme', isLoggedIn, themeApi.api.post);
-app.put('/api/theme/:_id', isLoggedIn, themeApi.api.put);
-// app.delete('/api/theme/:_id', isLoggedIn, themeApi.api.delete);
-
-app.get('/api/poiLayer', poiLayerApi.api.getAll);
-app.get('/api/theme/:themeId/poiLayers', poiLayerApi.api.getAll);
-app.get('/api/poiLayer/:_id', poiLayerApi.api.get);
-app.post('/api/poiLayer', isLoggedIn, poiLayerApi.api.post);
-app.put('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.put);
-app.delete('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.delete);
-
-app.get('/api/preset', presetApi.api.getAll);
-app.get('/api/theme/:themeId/presets', presetApi.api.getAll);
-app.get('/api/preset/:_id', presetApi.api.get);
-app.post('/api/preset', isLoggedIn, presetApi.api.post);
-app.put('/api/preset/:_id', isLoggedIn, presetApi.api.put);
-app.delete('/api/preset/:_id', isLoggedIn, presetApi.api.delete);
-
-app.get('/theme-:fragment', function (req, res) {
-
-    var json = {};
-
-    if ( req.session.user ) {
-
-        json.user = JSON.stringify( req.session.user );
-    }
-    else {
-
-        json.user = '{}';
-    }
-
-    themeApi.api.findFromFragment(req.params.fragment)
-    .then(function ( themeObject ) {
-
-        var promises = [
-            poiLayerApi.api.findFromThemeId(themeObject._id),
-            presetApi.api.findFromThemeId(themeObject._id),
-        ];
-
-        if ( req.session.user ) {
-
-            promises.push(
-
-                themeApi.api.findFromOwnerId(req.session.user._id)
-                .then(function (themes) {
-
-                    req.session.themes = [];
-
-                    for (var i in themes) {
-
-                        var themeId = themes[i]._id.toString();
-
-                        if (
-                            req.session.themes.indexOf( themeId ) === -1
-                            || themes[i].owners.indexOf('*') !== -1
-                        ) {
-
-                            req.session.themes.push( themeId );
-                        }
-                    }
-                })
-            );
-        }
-
-        Promise.all(promises)
-        .then(function ( results ) {
-
-            json.theme = JSON.stringify( themeObject );
-            json.poiLayers = JSON.stringify( results[0] );
-            json.presets = JSON.stringify( results[1] );
-
-            res.render('themeMap', json);
-        })
-        .catch( onPromiseError.bind(this, res) );
-    })
-    .catch( onPromiseError.bind(this, res) );
-});
-
-function onPromiseError(errorCode) {
-
-    res.sendStatus(errorCode);
-}
 
 
 
 
 if (app.get('env') !== 'production') {
-
     app.use(errorHandler());
 }
 
 app.listen(app.get('port'), function(){
-
     console.log('Express server listening on port ' + app.get('port'));
 });
