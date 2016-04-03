@@ -5,6 +5,11 @@
 ![MapContrib](screenshot.png)
 
 
+## Contribution
+
+Installation instructions and informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+
+
 ## Thanks
 
 MapContrib is what it is because of some crazy people and free and open source projects. Let's name a few:
