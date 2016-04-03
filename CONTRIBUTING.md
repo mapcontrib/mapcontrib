@@ -18,7 +18,7 @@ We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
     $ npm start
 
 It will install all the dependancies and run the NodeJs based server.
-You must have a MongoDB server running on localhost.
+You must have a MongoDB server running on localhost. By default the application will be available at [http://localhost:8080](http://localhost:8080).
 
 
 ### Watch
