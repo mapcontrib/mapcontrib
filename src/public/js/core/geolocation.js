@@ -11,6 +11,7 @@ export default class Geolocation {
      */
     constructor(map) {
         this._dragged = false;
+        this._zoomed = false;
         this._locateInProgress = false;
         this._map = map;
     }
@@ -25,6 +26,7 @@ export default class Geolocation {
         }
 
         this._dragged = false;
+        this._zoomed = false;
         this._locateInProgress = true;
 
         this._addEventListeners();
@@ -88,7 +90,8 @@ export default class Geolocation {
         this._map
         .on('locationfound', this._onLocationFound, this)
         .on('locationerror', this._onLocationError, this)
-        .on('dragend', this._onDragEnd, this)
+        .on('dragstart', this._onDragStart, this)
+        .on('userzoomstart', this._onUserZoomStart, this)
         .on('moveend', this._onMoveEnd, this);
     }
 
@@ -102,7 +105,8 @@ export default class Geolocation {
         this._map
         .off('locationfound', this._onLocationFound, this)
         .off('locationerror', this._onLocationError, this)
-        .off('dragend', this._onDragEnd, this)
+        .off('dragstart', this._onDragStart, this)
+        .off('userzoomstart', this._onUserZoomStart, this)
         .off('moveend', this._onMoveEnd, this);
     }
 
@@ -134,9 +138,20 @@ export default class Geolocation {
         });
 
         if (this._dragged === false) {
-            let zoom = this._map.getBoundsZoom(e.bounds);
-            this._map.setView(e.latlng, zoom, { 'animate': true});
+            let zoom = this._map.getZoom();
+
+            if (this._zoomed === false) {
+                zoom = this._map.getBoundsZoom(e.bounds);
+            }
+
+            this._map.setView(
+                e.latlng,
+                zoom,
+                { 'animate': true}
+            );
         }
+
+        console.log(this._dragged, this._zoomed);
     }
 
     /**
@@ -157,11 +172,19 @@ export default class Geolocation {
     }
 
     /**
-     * The dragend event handler.
+     * The dragstart event handler.
      * @access private
      */
-    _onDragEnd() {
+    _onDragStart() {
         this._dragged = true;
+    }
+
+    /**
+    * The userzoomstart event handler.
+    * @access private
+    */
+    _onUserZoomStart() {
+        this._zoomed = true;
     }
 
     /**
