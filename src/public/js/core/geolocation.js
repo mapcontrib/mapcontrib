@@ -150,8 +150,6 @@ export default class Geolocation {
                 { 'animate': true}
             );
         }
-
-        console.log(this._dragged, this._zoomed);
     }
 
     /**
