@@ -46,7 +46,13 @@ module.exports = function Api(app, db, CONST){
     app.put('/api/preset/:_id', isLoggedIn, presetApi.api.put);
     app.delete('/api/preset/:_id', isLoggedIn, presetApi.api.delete);
 
-    app.get('/theme-:fragment', function (req, res) {
+    app.get('/', function (req, res) {
+
+        res.render('home');
+    });
+
+
+    app.get('/t/:fragment-*', function (req, res) {
 
         var json = {};
 

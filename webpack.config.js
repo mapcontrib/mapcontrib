@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
-const extractCSS = new ExtractTextPlugin('../css/theme.bundle.css');
+const extractCSS = new ExtractTextPlugin('../css/bundle.css');
 
 var plugins = [
     extractCSS
@@ -35,6 +35,7 @@ module.exports = {
     plugins: plugins,
     context: path.join(__dirname, 'src', 'public'),
     entry: {
+        home: './js/home',
         theme: './js/theme'
     },
     output: {
