@@ -1073,13 +1073,11 @@ export default Marionette.LayoutView.extend({
 
     onClickZoomIn: function () {
 
-        this._map.fireEvent('userzoomstart');
         this._map.zoomIn();
     },
 
     onClickZoomOut: function () {
 
-        this._map.fireEvent('userzoomstart');
         this._map.zoomOut();
     },
 

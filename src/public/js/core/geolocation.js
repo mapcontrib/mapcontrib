@@ -10,9 +10,9 @@ export default class Geolocation {
      * @param {object} map - A Leaflet map.
      */
     constructor(map) {
-        this._dragged = false;
-        this._zoomed = false;
-        this._locateInProgress = false;
+        this._isDragged = false;
+        this._isLocateInProgress = false;
+        this._lastAutomaticZoom = null;
         this._map = map;
     }
 
@@ -21,13 +21,13 @@ export default class Geolocation {
      * @access public
      */
     locate() {
-        if (this._locateInProgress === true) {
+        if (this._isLocateInProgress === true) {
             this.stopLocate();
         }
 
-        this._dragged = false;
-        this._zoomed = false;
-        this._locateInProgress = true;
+        this._isDragged = false;
+        this._isLocateInProgress = true;
+        this._lastAutomaticZoom = null;
 
         this._addEventListeners();
 
@@ -43,7 +43,7 @@ export default class Geolocation {
      * @access public
      */
     stopLocate() {
-        this._locateInProgress = false;
+        this._isLocateInProgress = false;
 
         this._map.stopLocate();
         this._removeEventListeners();
@@ -91,7 +91,6 @@ export default class Geolocation {
         .on('locationfound', this._onLocationFound, this)
         .on('locationerror', this._onLocationError, this)
         .on('dragstart', this._onDragStart, this)
-        .on('userzoomstart', this._onUserZoomStart, this)
         .on('moveend', this._onMoveEnd, this);
     }
 
@@ -106,7 +105,6 @@ export default class Geolocation {
         .off('locationfound', this._onLocationFound, this)
         .off('locationerror', this._onLocationError, this)
         .off('dragstart', this._onDragStart, this)
-        .off('userzoomstart', this._onUserZoomStart, this)
         .off('moveend', this._onMoveEnd, this);
     }
 
@@ -137,17 +135,18 @@ export default class Geolocation {
             'fillOpacity': 1
         });
 
-        if (this._dragged === false) {
+        if (this._isDragged === false) {
             let zoom = this._map.getZoom();
 
-            if (this._zoomed === false) {
+            if (!this._lastAutomaticZoom || this._lastAutomaticZoom === zoom) {
                 zoom = this._map.getBoundsZoom(e.bounds);
+                this._lastAutomaticZoom = zoom;
             }
 
             this._map.setView(
                 e.latlng,
                 zoom,
-                { 'animate': true}
+                { 'animate': false}
             );
         }
     }
@@ -174,15 +173,7 @@ export default class Geolocation {
      * @access private
      */
     _onDragStart() {
-        this._dragged = true;
-    }
-
-    /**
-    * The userzoomstart event handler.
-    * @access private
-    */
-    _onUserZoomStart() {
-        this._zoomed = true;
+        this._isDragged = true;
     }
 
     /**
