@@ -9,6 +9,7 @@ import CONST from '../const';
 import L from 'leaflet';
 import OverPassLayer from 'leaflet-overpass-layer';
 import marked from 'marked';
+import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
 import MainTitleView from './mainTitle';
 import LoginModalView from './loginModal';
@@ -311,7 +312,7 @@ export default Marionette.LayoutView.extend({
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
 
-
+        console.log(document.fullscreenEnabled);
         if ( !document.fullscreenEnabled) {
 
             this.ui.expandScreenButton.addClass('hide');
