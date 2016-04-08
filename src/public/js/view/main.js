@@ -32,13 +32,9 @@ import ZoomNotificationView from './zoomNotification';
 import OverpassTimeoutNotificationView from './overpassTimeoutNotification';
 import OverpassErrorNotificationView from './overpassErrorNotification';
 
-import ThemeModel from '../model/theme';
 import PoiLayerModel from '../model/poiLayer';
 import PresetModel from '../model/preset';
 import OsmNodeModel from '../model/osmNode';
-
-import PoiLayerCollection from '../collection/poiLayer';
-import PresetCollection from '../collection/preset';
 
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
@@ -149,11 +145,10 @@ export default Marionette.LayoutView.extend({
     initialize: function (app) {
 
         this._app = app;
+        this.model = this._app.getTheme();
+        this._poiLayers = this._app.getPoiLayers();
+        this._presets = this._app.getPresets();
         this._user = this._app.getUser();
-
-        this.model = new ThemeModel( window.theme );
-        this._poiLayers = new PoiLayerCollection( window.poiLayers );
-        this._presets = new PresetCollection( window.presets );
 
         this._seenZoomNotification = false;
         this._minDataZoom = 0;

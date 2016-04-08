@@ -65,6 +65,7 @@ module.exports = Backbone.Model.extend({
 
         name = name.replace(/-/g, '_');
         name = name.replace(/ /g, '_');
+        name = name.replace(/_{2,}/g, '_');
         name = name.replace(/[^a-zA-Z0-9\_]/g, '');
 
         return name;
