@@ -312,21 +312,16 @@ export default Marionette.LayoutView.extend({
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
 
-        console.log(document.fullscreenEnabled);
         if ( !document.fullscreenEnabled) {
-
             this.ui.expandScreenButton.addClass('hide');
             this.ui.compressScreenButton.addClass('hide');
         }
 
         $(window).on('fullscreenchange', () => {
-
             if ( document.fullscreenElement ) {
-
                 this.onExpandScreen();
             }
             else {
-
                 this.onCompressScreen();
             }
         });
