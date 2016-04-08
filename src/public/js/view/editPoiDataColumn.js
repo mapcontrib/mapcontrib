@@ -228,14 +228,14 @@ export default Marionette.LayoutView.extend({
             this.options.dataFromOSM.type,
             (remoteData) => {
 
-                // if ( this._remoteData.version !== remoteData.version ) {
+                if ( this._remoteData.version !== remoteData.version ) {
 
                     this.displayConflict( remoteData );
-                // }
-                // else {
-                //
-                //     this.prepareXml( remoteData );
-                // }
+                }
+                else {
+
+                    this.prepareXml( remoteData );
+                }
             }
         );
     },
@@ -351,7 +351,7 @@ export default Marionette.LayoutView.extend({
         value = $input.val(),
         remoteValue = remoteData.tags[tag] ? remoteData.tags[tag] : '';
 
-        // if ( value !== remoteValue ) {
+        if ( value !== remoteValue ) {
 
             this._unresolvedConflicts++;
 
@@ -369,7 +369,7 @@ export default Marionette.LayoutView.extend({
             $('.take_btn', field).click( this.onClickTake.bind(this, field, $input, remoteValue) );
 
             $('.reject_btn', field).click( this.onClickReject.bind(this, field) );
-        // }
+        }
     },
 
 
