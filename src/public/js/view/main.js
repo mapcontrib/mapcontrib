@@ -1262,8 +1262,10 @@ export default Marionette.LayoutView.extend({
 
     onClickLogin: function () {
 
+        let authCallback = `/t/${this.model.get('fragment')}-${this.model.buildWebLinkName()}`;
+
         this._loginModalView = new LoginModalView({
-            'fragment': this.model.get('fragment')
+            'authCallback': authCallback
         });
 
         this.getRegion('loginModal').show( this._loginModalView );

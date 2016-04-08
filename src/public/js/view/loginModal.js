@@ -23,7 +23,7 @@ export default Marionette.LayoutView.extend({
 
         return {
 
-            'authCallback': '/theme-'+ this.options.fragment,
+            'authCallback': this.options.authCallback,
         };
     },
 

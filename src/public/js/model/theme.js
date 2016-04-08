@@ -48,5 +48,22 @@ module.exports = Backbone.Model.extend({
         }
 
         return false;
+    },
+
+    /**
+     * Returns a URL-friendly name of the theme.
+     *
+     * @author Guillaume AMAT
+     * @return string
+     */
+    buildWebLinkName: function () {
+
+        var name = this.get('name') || '';
+
+        name = name.replace(/-/g, '_');
+        name = name.replace(/ /g, '_');
+        name = name.replace(/[^a-zA-Z0-9\_]/g, '');
+
+        return name;
     }
 });
