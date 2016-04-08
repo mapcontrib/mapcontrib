@@ -51,8 +51,6 @@ export default Marionette.LayoutView.extend({
 
     onRender: function () {
 
-        var self = this;
-
         document.title = document.l10n.getSync('pageTitleWithMapName', {
 
             'map': {

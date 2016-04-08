@@ -29,8 +29,6 @@ export default Marionette.LayoutView.extend({
 
     initialize: function () {
 
-        var self = this;
-
         this._radio = Wreqr.radio.channel('global');
     },
 

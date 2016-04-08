@@ -767,8 +767,6 @@ export default Marionette.LayoutView.extend({
 
     updatePoiLayerIcons: function (poiLayerModel) {
 
-        var self = this;
-
         this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
 
             if ( layer._icon ) {
@@ -826,8 +824,7 @@ export default Marionette.LayoutView.extend({
 
     updatePoiLayerMinZoom: function (poiLayerModel) {
 
-        var self = this,
-        overpassLayer = this._mapLayers[ poiLayerModel.cid ]._overpassLayer;
+        var overpassLayer = this._mapLayers[ poiLayerModel.cid ]._overpassLayer;
 
         overpassLayer.options.minZoom = poiLayerModel.get('minZoom');
 
@@ -1265,9 +1262,9 @@ export default Marionette.LayoutView.extend({
 
     onClickLogin: function () {
 
-        var self = this;
-
-        this._loginModalView = new LoginModalView({ 'fragment': this.model.get('fragment') });
+        this._loginModalView = new LoginModalView({
+            'fragment': this.model.get('fragment')
+        });
 
         this.getRegion('loginModal').show( this._loginModalView );
     },

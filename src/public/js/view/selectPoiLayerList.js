@@ -10,15 +10,6 @@ export default Marionette.CollectionView.extend({
 
     className: 'list-group',
 
-    initialize: function () {
-
-        var self = this;
-
-        this._radio = Wreqr.radio.channel('global');
-
-        this._user = this._radio.reqres.request('model', 'user');
-    },
-
     addChild: function(child, ChildView, index){
 
         if ( child.isVisible() ) {

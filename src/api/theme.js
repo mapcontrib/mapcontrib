@@ -40,14 +40,13 @@ api = {
 
             var result = results.ops[0];
 
-            self.getNewFragment(result, req, res);
+            api.getNewFragment(result, req, res);
         });
     },
 
     getNewFragment: function (theme, req, res) {
 
         var fragment,
-        self = this,
         collection = options.database.collection('theme'),
         shasum = crypto.createHash('sha1');
 
