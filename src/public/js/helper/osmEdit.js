@@ -5,9 +5,10 @@ import { DOMImplementation, XMLSerializer } from 'xmldom';
 export default class OsmEdit{
 
     /**
-    * @access public
-    * @param {object} osmAuth - Instance of osm-auth.
-    */
+     * @author Guillaume AMAT
+     * @access public
+     * @param {object} osmAuth - Instance of osm-auth.
+     */
     constructor (osmAuth) {
 
         this._auth = osmAuth;
@@ -22,6 +23,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @author Guillaume AMAT
      * @access public
      * @param {string} changesetCreatedBy - Application used to send datas to OSM (in the changeset).
      */
@@ -31,6 +33,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @author Guillaume AMAT
      * @access public
      * @param {string} changesetComment - Comment used in the changeset.
      */
@@ -40,6 +43,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @author Guillaume AMAT
      * @access public
      * @param {number} lat - Node's latitude.
      */
@@ -49,6 +53,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @author Guillaume AMAT
      * @access public
      * @param {number} lon - Node's longitude.
      */
@@ -58,6 +63,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @author Guillaume AMAT
      * @access public
      * @param {array} tags - Node's tags.
      */
@@ -67,6 +73,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @author Guillaume AMAT
      * @access public
      * @param {string} uid - UID of the node's editor.
      */
@@ -76,6 +83,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @author Guillaume AMAT
      * @access public
      * @param {string} timestamp - Timestamp of the node creation.
      */
@@ -85,6 +93,7 @@ export default class OsmEdit{
     }
 
     /**
+     * @author Guillaume AMAT
      * @access public
      * @param {string} displayName - Display name of the node's editor.
      */
@@ -95,8 +104,10 @@ export default class OsmEdit{
 
     /**
      * Creates a node in OSM.
+     *
+     * @author Guillaume AMAT
      * @access public
-     * @returns {promise}
+     * @return {promise}
      */
     createNode() {
 
@@ -130,8 +141,10 @@ export default class OsmEdit{
 
     /**
      * Builds a changeset XML.
+     *
+     * @author Guillaume AMAT
      * @access private
-     * @returns string
+     * @return {string} - The changeset XML.
      */
     _buildChangesetXml() {
 
@@ -159,9 +172,11 @@ export default class OsmEdit{
 
     /**
      * Builds a node XML.
+     *
+     * @author Guillaume AMAT
      * @access private
      * @param {number} changesetId - The changeset ID used during the call to OSM.
-     * @returns string
+     * @return {string} - The node XML.
      */
     _buildNodeXml(changesetId) {
 
@@ -198,9 +213,11 @@ export default class OsmEdit{
 
 
     /**
-     * Asks OSM to create a changeset and returns its ID.
+     * Asks OSM to create a changeset and return its ID.
+     *
+     * @author Guillaume AMAT
      * @access private
-     * @returns {promise}
+     * @return {promise}
      */
     _createChangeset() {
 
@@ -236,9 +253,11 @@ export default class OsmEdit{
 
     /**
      * Checks if a given changeset is still opened at OSM.
+     *
+     * @author Guillaume AMAT
      * @access private
      * @param {number} changesetId - The changeset ID used during the call to OSM.
-     * @returns {promise}
+     * @return {promise}
      */
     _isChangesetStillOpen(changesetId) {
 
@@ -277,8 +296,10 @@ export default class OsmEdit{
 
     /**
      * Gets a changeset ID from an old one or a creation.
+     *
+     * @author Guillaume AMAT
      * @access private
-     * @returns {promise}
+     * @return {promise}
      */
     _getChangesetId() {
 
@@ -321,9 +342,11 @@ export default class OsmEdit{
 
      /**
       * Sends the node xml to OSM.
+      *
+      * @author Guillaume AMAT
       * @access private
       * @param {number} changesetId - The changeset ID to use during the sending.
-      * @returns {promise}
+      * @return {promise}
       */
      _sendXml(changesetId) {
 

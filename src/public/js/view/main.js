@@ -146,18 +146,20 @@ export default Marionette.LayoutView.extend({
         'keydown': 'onKeyDown',
     },
 
-    initialize: function () {
+    initialize: function (app) {
+
+        this._app = app;
+        this._user = this._app.getUser();
+
+        this.model = new ThemeModel( window.theme );
+        this._poiLayers = new PoiLayerCollection( window.poiLayers );
+        this._presets = new PresetCollection( window.presets );
 
         this._seenZoomNotification = false;
         this._minDataZoom = 0;
         this._poiLoadingSpool = [];
 
         this._radio = Wreqr.radio.channel('global');
-
-        this.model = new ThemeModel( window.theme );
-
-        this._poiLayers = new PoiLayerCollection( window.poiLayers );
-        this._presets = new PresetCollection( window.presets );
 
 
         this._radio.reqres.setHandlers({
@@ -266,16 +268,12 @@ export default Marionette.LayoutView.extend({
 
     onRender: function () {
 
-        var isLogged = this._radio.reqres.request('var', 'isLogged'),
-        userModel = this._radio.reqres.request('model', 'user');
-
-
-        if ( isLogged ) {
+        if ( this._app.isLogged() ) {
 
             this.renderUserButtonLogged();
             this.showContribButton();
 
-            if ( this.model.isOwner(userModel) === true ) {
+            if ( this.model.isOwner(this._user) === true ) {
 
                 this.showEditTools();
             }
@@ -912,7 +910,7 @@ export default Marionette.LayoutView.extend({
     onCommandEditPoiData: function (dataFromOSM, poiLayerModel) {
 
         var view = new EditPoiDataColumnView({
-
+            'app': this._app,
             'dataFromOSM': dataFromOSM,
             'poiLayerModel': poiLayerModel,
         });
@@ -924,9 +922,8 @@ export default Marionette.LayoutView.extend({
 
     renderUserButtonLogged: function () {
 
-        var user = this._radio.reqres.request('model', 'user'),
-        avatar = user.get('avatar'),
-        letters = user.get('displayName')
+        var avatar = this._user.get('avatar'),
+        letters = this._user.get('displayName')
         .toUpperCase()
         .split(' ')
         .splice(0, 3)
@@ -1018,7 +1015,9 @@ export default Marionette.LayoutView.extend({
 
     showContribForm: function (options) {
 
-        var view = new ContribFormColumnView(options);
+        options.user = this._user;
+
+        var view = new ContribFormColumnView( options );
 
         this.getRegion('contribFormColumn').show( view );
 

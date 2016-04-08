@@ -41,10 +41,10 @@ export default Marionette.LayoutView.extend({
         'submit': 'onSubmit',
     },
 
-    initialize: function () {
+    initialize: function (options) {
 
         this._radio = Wreqr.radio.channel('global');
-        this._user = this._radio.reqres.request('model', 'user');
+        this._user = options.user;
     },
 
     _buildNewMarker: function () {

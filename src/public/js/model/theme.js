@@ -30,7 +30,8 @@ module.exports = Backbone.Model.extend({
      * Check if a user is owner of this theme.
      *
      * @author Guillaume AMAT
-     * @param userModel - A user model
+     * @access public
+     * @param {object} userModel - A user model
      * @return boolean
      */
     isOwner: function (userModel) {
@@ -54,6 +55,8 @@ module.exports = Backbone.Model.extend({
      * Returns a URL-friendly name of the theme.
      *
      * @author Guillaume AMAT
+     * @static
+     * @access public
      * @return string
      */
     buildWebLinkName: function () {

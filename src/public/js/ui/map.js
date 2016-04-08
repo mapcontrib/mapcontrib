@@ -6,10 +6,13 @@ import CONST from '../const';
 export default class MapUi {
 
     /**
+     * Returns the POI layer Leaflet icon.
+     *
+     * @author Guillaume AMAT
      * @static
      * @access public
      * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
-     * @returns {object} - A Leaflet divIcon.
+     * @return {object} - A Leaflet divIcon.
      */
     static buildPoiLayerIcon (L, poiLayerModel) {
 
@@ -18,10 +21,13 @@ export default class MapUi {
 
 
     /**
+     * Returns the POI layer HTML icon.
+     *
+     * @author Guillaume AMAT
      * @static
      * @access public
      * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
-     * @returns {string} - The HTML tags of the icon.
+     * @return {string} - The HTML tags of the icon.
      */
     static buildPoiLayerHtmlIcon (poiLayerModel) {
 
@@ -39,10 +45,13 @@ export default class MapUi {
 
 
     /**
+     * Returns the POI layer icon options.
+     *
+     * @author Guillaume AMAT
      * @static
      * @access private
      * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
-     * @returns {object} - The icon options.
+     * @return {object} - The icon options.
      */
     static _buildPoiLayerIconOptions (poiLayerModel) {
 

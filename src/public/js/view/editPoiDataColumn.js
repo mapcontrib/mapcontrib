@@ -36,16 +36,17 @@ export default Marionette.LayoutView.extend({
         'reset': 'onReset',
     },
 
-    initialize: function () {
+    initialize: function (options) {
 
+        this._app = options.app;
+        this._user = this._app.getUser();
         this._radio = Wreqr.radio.channel('global');
 
-        if ( !this._radio.reqres.request('var', 'isLogged') ) {
+        if ( !this._app.isLogged() ) {
 
             return false;
         }
 
-        this._user = this._radio.reqres.request('model', 'user');
 
         this._unresolvedConflicts = 0;
 
@@ -87,7 +88,7 @@ export default Marionette.LayoutView.extend({
             return this;
         }
 
-        if ( !this._radio.reqres.request('var', 'isLogged') ) {
+        if ( !this._app.isLogged() ) {
 
             return this;
         }
@@ -214,7 +215,7 @@ export default Marionette.LayoutView.extend({
 
         e.preventDefault();
 
-        if ( !this._radio.reqres.request('var', 'isLogged') ) {
+        if ( !this._app.isLogged() ) {
 
             return false;
         }
@@ -227,14 +228,14 @@ export default Marionette.LayoutView.extend({
             this.options.dataFromOSM.type,
             (remoteData) => {
 
-                if ( this._remoteData.version !== remoteData.version ) {
+                // if ( this._remoteData.version !== remoteData.version ) {
 
                     this.displayConflict( remoteData );
-                }
-                else {
-
-                    this.prepareXml( remoteData );
-                }
+                // }
+                // else {
+                //
+                //     this.prepareXml( remoteData );
+                // }
             }
         );
     },
@@ -350,7 +351,7 @@ export default Marionette.LayoutView.extend({
         value = $input.val(),
         remoteValue = remoteData.tags[tag] ? remoteData.tags[tag] : '';
 
-        if ( value !== remoteValue ) {
+        // if ( value !== remoteValue ) {
 
             this._unresolvedConflicts++;
 
@@ -368,7 +369,7 @@ export default Marionette.LayoutView.extend({
             $('.take_btn', field).click( this.onClickTake.bind(this, field, $input, remoteValue) );
 
             $('.reject_btn', field).click( this.onClickReject.bind(this, field) );
-        }
+        // }
     },
 
 
