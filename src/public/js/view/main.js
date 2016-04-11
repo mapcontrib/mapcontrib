@@ -151,6 +151,9 @@ export default Marionette.LayoutView.extend({
         this._presets = this._app.getPresets();
         this._user = this._app.getUser();
 
+        this._window = this._app.getWindow();
+        this._document = this._app.getDocument();
+
         this._seenZoomNotification = false;
         this._minDataZoom = 0;
         this._poiLoadingSpool = [];
@@ -312,13 +315,13 @@ export default Marionette.LayoutView.extend({
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
 
-        if ( !document.fullscreenEnabled) {
+        if ( !this._document.fullscreenEnabled) {
             this.ui.expandScreenButton.addClass('hide');
             this.ui.compressScreenButton.addClass('hide');
         }
 
-        $(window).on('fullscreenchange', () => {
-            if ( document.fullscreenElement ) {
+        $(this._window).on('fullscreenchange', () => {
+            if ( this._document.fullscreenElement ) {
                 this.onExpandScreen();
             }
             else {
@@ -327,7 +330,7 @@ export default Marionette.LayoutView.extend({
         });
 
         this.ui.helpTextVersion.html(
-            document.l10n.getSync(
+            this._document.l10n.getSync(
                 'helpTextVersion',
                 { 'version': CONST.version }
             )
@@ -843,9 +846,9 @@ export default Marionette.LayoutView.extend({
         }
 
         var re,
-        globalWrapper = document.createElement('div'),
-        editButtonWrapper = document.createElement('div'),
-        editButton = document.createElement('button'),
+        globalWrapper = this._document.createElement('div'),
+        editButtonWrapper = this._document.createElement('div'),
+        editButton = this._document.createElement('button'),
         popupContent = marked( poiLayerModel.get('popupContent') ),
         contributionKey = dataFromOSM.type +'-'+ dataFromOSM.id,
         contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
@@ -882,7 +885,7 @@ export default Marionette.LayoutView.extend({
         if ( poiLayerModel.get('dataEditable') ) {
 
             editButton.className = 'btn btn-link';
-            editButton.innerHTML = document.l10n.getSync('editTheseInformations');
+            editButton.innerHTML = this._document.l10n.getSync('editTheseInformations');
 
             $(editButton).on('click', () => {
 
@@ -1184,12 +1187,12 @@ export default Marionette.LayoutView.extend({
 
     onClickExpandScreen: function () {
 
-        document.documentElement.requestFullscreen();
+        this._document.documentElement.requestFullscreen();
     },
 
     onClickCompressScreen: function () {
 
-        document.exitFullscreen();
+        this._document.exitFullscreen();
     },
 
     onExpandScreen: function () {
@@ -1370,7 +1373,7 @@ export default Marionette.LayoutView.extend({
 
     isLargeScreen: function () {
 
-        if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+        if ( $(this._window).width() >= settings.largeScreenMinWidth && $(this._window).height() >= settings.largeScreenMinHeight ) {
 
             return true;
         }

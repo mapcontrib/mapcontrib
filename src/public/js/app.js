@@ -34,13 +34,13 @@ export default Marionette.Application.extend({
         'root': '#rg_root',
     },
 
-    initialize: function(window, document) {
+    initialize: function(window) {
 
-        document.l10n.addEventListener('error', (err) => {
+        window.document.l10n.addEventListener('error', (err) => {
             console.error(`L20n: ${err}`);
         });
 
-        document.l10n.addEventListener('warning', (err) => {
+        window.document.l10n.addEventListener('warning', (err) => {
             console.warn(`L20n: ${err}`);
         });
 
@@ -56,6 +56,7 @@ export default Marionette.Application.extend({
 
 
         this._isLogged = false;
+        this._window = window;
         this._user = new UserModel( window.user );
         this._theme = new ThemeModel( window.theme );
         this._poiLayers = new PoiLayerCollection( window.poiLayers );
@@ -65,14 +66,22 @@ export default Marionette.Application.extend({
 
         this._radio.vent.on('session:logged', () => {
             this._isLogged = true;
-            document.body.classList.add('user_logged');
+            window.document.body.classList.add('user_logged');
         });
 
         this._radio.vent.on('session:unlogged', () => {
             this._isLogged = false;
-            document.body.classList.remove('user_logged');
+            window.document.body.classList.remove('user_logged');
             this._user = new UserModel();
         });
+    },
+
+    getWindow: function () {
+        return this._window;
+    },
+
+    getDocument: function () {
+        return this._window.document;
     },
 
     getUser: function () {

@@ -4,5 +4,5 @@ import Router from './router/theme';
 
 
 document.l10n.ready( function () {
-    new App(window, document).start(Router);
+    new App(window).start(Router);
 });
