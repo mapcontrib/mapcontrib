@@ -23,7 +23,8 @@ export default Marionette.LayoutView.extend({
 
         return {
 
-            'authCallback': this.options.authCallback,
+            'successRedirect': this.options.authSuccessCallback,
+            'failRedirect': this.options.authFailCallback,
         };
     },
 
