@@ -60,7 +60,7 @@ export default Marionette.Behavior.extend({
         var map = this._radio.reqres.request('map');
 
         if (map) {
-            $(mapElement._container).focus();
+            $(map._container).focus();
         }
 
         if (this.view.onBeforeClose) {
