@@ -62,6 +62,7 @@ export default Marionette.LayoutView.extend({
 
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
+        this.render();
     },
 
     open: function () {
@@ -119,6 +120,9 @@ export default Marionette.LayoutView.extend({
 
     getUrl: function () {
 
-        return window.location.protocol +'//'+ window.location.host +'/theme-'+ this.model.get('fragment');
+        return window.location.protocol +
+        '//'+
+        window.location.host +
+        this.model.buildPath();
     },
 });
