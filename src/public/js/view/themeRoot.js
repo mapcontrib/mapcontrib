@@ -40,12 +40,12 @@ import OsmNodeModel from '../model/osmNode';
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
 
-import mainTemplate from '../../templates/main.ejs';
+import template from '../../templates/themeRoot.ejs';
 
 
 export default Marionette.LayoutView.extend({
 
-    template: mainTemplate,
+    template: template,
 
     behaviors: {
 
