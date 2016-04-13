@@ -9,13 +9,11 @@ export default Marionette.ItemView.extend({
     template: template,
 
     behaviors: {
-
         'l20n': {},
         'column': {},
     },
 
     ui: {
-
         'column': '#edit_setting_column',
 
         'themeName': '#theme_name',
@@ -26,7 +24,6 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-
         'mouseover @ui.colorButtons': 'onOverColorButtons',
         'mouseleave @ui.colorButtons': 'onLeaveColorButtons',
         'click @ui.colorButtons': 'onClickColorButtons',
@@ -36,14 +33,12 @@ export default Marionette.ItemView.extend({
     },
 
     initialize: function () {
-
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
     },
 
     onRender: function () {
-
         this.ui.colorButtons
         .filter( '.'+ this.model.get('color') )
         .find('i')
@@ -51,31 +46,31 @@ export default Marionette.ItemView.extend({
     },
 
     onBeforeOpen: function () {
-
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
     },
 
     open: function () {
-
         this.triggerMethod('open');
     },
 
     close: function () {
-
         this.triggerMethod('close');
     },
 
     onSubmit: function (e) {
-
         e.preventDefault();
 
         var map = this._radio.reqres.request('map'),
         mapCenter = map.getCenter(),
-        mapZoomLevel = map.getZoom();
+        mapZoomLevel = map.getZoom(),
+        themeName = this.ui.themeName.val(),
+        themeDescription = this.ui.themeDescription.val();
 
-        this.model.set('name', this.ui.themeName.val());
-        this.model.set('description', this.ui.themeDescription.val());
+        this.model.set('name', themeName);
+        this.model.set('description', themeDescription);
+
+        history.pushState({}, themeName, this.model.buildPath());
 
         if ( this.ui.themePositionSetNew.prop('checked') === true ) {
 

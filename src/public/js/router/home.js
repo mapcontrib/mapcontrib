@@ -1,8 +1,7 @@
 
-import $ from 'jquery';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
-import settings from '../settings';
+import HomeRootView from '../view/homeRoot';
 
 
 export default Backbone.Router.extend({
@@ -20,23 +19,9 @@ export default Backbone.Router.extend({
     },
 
     routeDefault: function (){
-        // this._app.getRegion('root').show(
-        //     new MainView( this._app )
-        // );
-    },
-
-    routeLogout: function (){
-        $.ajax({
-            type: 'GET',
-            url: settings.apiPath +'user/logout',
-            dataType: 'json',
-            context: this,
-            complete: function () {
-
-                this.navigate('');
-
-                this._radio.vent.trigger('session:unlogged');
-            }
+        new HomeRootView({
+            'el': this._app.getRegion('root').el,
+            'app': this._app
         });
     },
 });

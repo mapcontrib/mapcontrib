@@ -1256,8 +1256,8 @@ export default Marionette.LayoutView.extend({
     onClickLogin: function () {
 
         // FIXME To have a real fail callback
-        let authSuccessCallback = `/t/${this.model.get('fragment')}-${this.model.buildWebLinkName()}`;
-        let authFailCallback = `/t/${this.model.get('fragment')}-${this.model.buildWebLinkName()}`;
+        let authSuccessCallback = this.model.buildPath();
+        let authFailCallback = this.model.buildPath();
 
         this._loginModalView = new LoginModalView({
             'authSuccessCallback': authSuccessCallback,

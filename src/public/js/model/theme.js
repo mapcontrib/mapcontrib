@@ -11,17 +11,16 @@ module.exports = Backbone.Model.extend({
     urlRoot: settings.apiPath + 'theme',
 
     defaults: {
-
         'userId': undefined,
-        'name': undefined,
-        'description': undefined,
+        'name': 'MapContrib',
+        'description': '',
         'color': 'blue',
         'tiles': ['osm'],
-        'zoomLevel': undefined,
+        'zoomLevel': 3,
         'center': {
 
-            'lat': undefined,
-            'lng': undefined,
+            'lat': 33.57,
+            'lng': 1.58,
         },
         'owners': [],
     },
@@ -35,16 +34,21 @@ module.exports = Backbone.Model.extend({
      * @return boolean
      */
     isOwner: function (userModel) {
-
         var userId = userModel.get('_id');
 
-        if ( this.get('owners').indexOf( userId ) > -1 ) {
+        if ( !userId ) {
+            return false;
+        }
 
+        if ( this.get('userId') === userId ) {
+            return true;
+        }
+
+        if ( this.get('owners').indexOf( userId ) > -1 ) {
             return true;
         }
 
         if ( this.get('owners').indexOf('*') > -1 ) {
-
             return true;
         }
 
@@ -55,12 +59,10 @@ module.exports = Backbone.Model.extend({
      * Returns a URL-friendly name of the theme.
      *
      * @author Guillaume AMAT
-     * @static
      * @access public
      * @return string
      */
     buildWebLinkName: function () {
-
         var name = this.get('name') || '';
 
         name = name.replace(/-/g, '_');
@@ -69,5 +71,19 @@ module.exports = Backbone.Model.extend({
         name = name.replace(/[^a-zA-Z0-9\_]/g, '');
 
         return name;
+    },
+
+    /**
+     * Returns the theme path.
+     *
+     * @author Guillaume AMAT
+     * @access public
+     * @return string
+     */
+    buildPath: function () {
+        return '/t/' +
+        this.get('fragment') +
+        '-' +
+        this.buildWebLinkName();
     }
 });
