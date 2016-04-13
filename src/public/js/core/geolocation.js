@@ -6,6 +6,7 @@ import GeolocationPoint from '../ui/geolocationPoint';
 export default class Geolocation {
 
     /**
+     * @author Guillaume AMAT
      * @access public
      * @param {object} map - A Leaflet map.
      */
@@ -18,6 +19,8 @@ export default class Geolocation {
 
     /**
      * Starts the location watch.
+     *
+     * @author Guillaume AMAT
      * @access public
      */
     locate() {
@@ -40,6 +43,8 @@ export default class Geolocation {
 
     /**
      * Stops the location watch.
+     *
+     * @author Guillaume AMAT
      * @access public
      */
     stopLocate() {
@@ -52,7 +57,10 @@ export default class Geolocation {
 
     /**
      * Adds the geolocation marker to the map.
+     *
+     * @author Guillaume AMAT
      * @access private
+     * @param {object} marker - A Leaflet marker.
      */
     _addMarker(marker) {
         this._marker = marker;
@@ -69,6 +77,8 @@ export default class Geolocation {
 
     /**
      * Removes the geolocation marker from the map.
+     *
+     * @author Guillaume AMAT
      * @access private
      */
     _removeMarker() {
@@ -82,6 +92,8 @@ export default class Geolocation {
 
     /**
      * Adds the needed event listeners.
+     *
+     * @author Guillaume AMAT
      * @access private
      */
     _addEventListeners() {
@@ -96,6 +108,8 @@ export default class Geolocation {
 
     /**
      * Removes the event listeners.
+     *
+     * @author Guillaume AMAT
      * @access private
      */
     _removeEventListeners() {
@@ -110,6 +124,8 @@ export default class Geolocation {
 
     /**
      * The locationfound event handler.
+     *
+     * @author Guillaume AMAT
      * @access private
      */
     _onLocationFound(e) {
@@ -153,6 +169,8 @@ export default class Geolocation {
 
     /**
      * The locationerror event handler.
+     *
+     * @author Guillaume AMAT
      * @access private
      */
     _onLocationError() {
@@ -161,8 +179,11 @@ export default class Geolocation {
 
     /**
      * The orientationfound event handler.
+     *
+     * @author Guillaume AMAT
      * @access private
      * @static
+     * @param {object} e - Event object.
      */
     static _onOrientationFound(e) {
         GeolocationPoint.rotate(e.alpha * -1);
@@ -170,6 +191,8 @@ export default class Geolocation {
 
     /**
      * The dragstart event handler.
+     *
+     * @author Guillaume AMAT
      * @access private
      */
     _onDragStart() {
@@ -178,6 +201,8 @@ export default class Geolocation {
 
     /**
      * The moveend event handler.
+     *
+     * @author Guillaume AMAT
      * @access private
      */
     _onMoveEnd() {

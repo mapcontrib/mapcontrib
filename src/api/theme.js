@@ -40,14 +40,13 @@ api = {
 
             var result = results.ops[0];
 
-            self.getNewFragment(result, req, res);
+            api.getNewFragment(result, req, res);
         });
     },
 
     getNewFragment: function (theme, req, res) {
 
         var fragment,
-        self = this,
         collection = options.database.collection('theme'),
         shasum = crypto.createHash('sha1');
 
@@ -66,9 +65,7 @@ api = {
         .toArray(function (err, results) {
 
             if(err) {
-
                 res.sendStatus(500);
-
                 return true;
             }
 
@@ -77,30 +74,25 @@ api = {
                 theme.fragment = fragment;
 
                 collection.updateOne({
-
                     '_id': theme._id
                 },
                 {
                     '$set': { 'fragment': fragment }
                 },
                 {'safe': true},
-                function (err) {
+                function (err, results, ert) {
 
                     if(err) {
-
                         res.sendStatus(500);
-
                         return true;
                     }
 
-                    var result = results.ops[0];
-                    result._id = result._id.toString();
+                    theme._id = theme._id.toString();
 
-                    res.send(result);
+                    res.send(theme);
                 });
             }
             else {
-
                 api.getNewFragment(theme, req, res);
             }
         });

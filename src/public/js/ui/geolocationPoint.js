@@ -6,11 +6,27 @@ import headingMarkerSvg from '../../img/geolocation_heading_marker.svg';
 
 export default class GeolocationPoint {
 
+    /**
+     * Rotate the marker.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {number} angle - The marker's angle.
+     */
     static rotate(angle) {
         let marker = document.querySelector('.ui-map-geolocation-marker > svg');
         marker.style.transform = `rotate(${angle}deg)`;
     }
 
+    /**
+     * Returns the default Leaflet marker.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @return {object} - The default Leaflet marker.
+     */
     static getMarker() {
         return L.marker(
             [0, 0],
@@ -26,6 +42,14 @@ export default class GeolocationPoint {
         );
     }
 
+    /**
+     * Returns the heading type Leaflet marker.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @return {object} - The heading type Leaflet marker.
+     */
     static getHeadingMarker() {
         return L.marker(
             [0, 0],
@@ -41,6 +65,14 @@ export default class GeolocationPoint {
         );
     }
 
+    /**
+     * Returns the accuracy Leaflet circle.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @return {object} - The accuracy Leaflet circle.
+     */
     static getAccuracyCircle() {
         return L.circle(
             [0, 0],

@@ -11,9 +11,7 @@ module.exports = {
     // 'overpassServer': 'http://api.openstreetmap.fr/oapi/',
     'overpassTimeout': 120 * 1000, // Milliseconds
 
-    'defaultAvatar': 'img/default_avatar.png',
-
-    'apiPath': 'api/',
+    'apiPath': '/api/',
 
     'largeScreenMinWidth': 400,
     'largeScreenMinHeight': 500,

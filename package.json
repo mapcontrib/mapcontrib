@@ -20,7 +20,7 @@
     "start": "MONGO_HOST=localhost PORT=8080 node src/server.js",
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
-    "test": "mocha --recursive --compilers js:babel-core/register"
+    "test": "mocha --recursive --inline-diffs --compilers js:babel-core/register"
   },
   "devDependencies": {
     "awesome-bootstrap-checkbox": "~0.3.7",
@@ -64,7 +64,8 @@
     "underscore": "~1.8.3",
     "url-loader": "~0.5.7",
     "webpack": "^1.12.14",
-    "xmldom": "^0.1.22"
+    "xmldom": "^0.1.22",
+    "fullscreen-api-polyfill": "~1.1.0"
   },
   "dependencies": {
     "body-parser": "~1.5.2",

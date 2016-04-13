@@ -14,38 +14,32 @@
     <style type="text/css">
 
     html, body {
-        background-color: #eeeeec;
-    }
-
-    .empty-state {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        margin-top: -64px;
-        margin-left: -64px;
-        width: 128px;
-        height: 128px;
+        background-color: #eeeeec !important;
     }
 
     </style>
+
 </head>
 <body>
 
 <section id="rg_root">
-    <img class="empty-state" src="/img/empty_state.gif" alt="" />
+    <p class="text-center prepend-xs-2 append-xs-2">
+        <img src="/img/logo.png" alt="MapContrib" />
+    </p>
+    <p class="text-center">
+        <button type="button" id="createThemeButton" class="btn btn-primary">Créer un thème</button>
+    </p>
+    <section id="rg_login_modal"></section>
 </section>
 
 <link rel="stylesheet" href="/css/bundle.css" charset="utf-8">
 
 <script type="text/javascript">
 
-    var user = <%- user %>,
-    theme = <%- theme %>,
-    poiLayers = <%- poiLayers %>,
-    presets = <%- presets %>;
+    var user = <%- user %>;
 
 </script>
-<script type="text/javascript" charset="utf-8" src="/js/theme.bundle.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/home.bundle.js"></script>
 
 </body>
 </html>

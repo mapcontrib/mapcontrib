@@ -96,9 +96,9 @@ if ( !fs.existsSync( dataDirectory ) ) {
 
 
 
-app.get('/', function (req, res) {
+app.get('/theme-s8c2d4', function (req, res) {
 
-    res.redirect('/theme-s8c2d4');
+    res.redirect('/t/s8c2d4-MapContrib');
 });
 
 

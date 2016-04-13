@@ -23,13 +23,12 @@ export default Marionette.LayoutView.extend({
 
         return {
 
-            'authCallback': '/theme-'+ this.options.fragment,
+            'successRedirect': this.options.authSuccessCallback,
+            'failRedirect': this.options.authFailCallback,
         };
     },
 
     initialize: function () {
-
-        var self = this;
 
         this._radio = Wreqr.radio.channel('global');
     },

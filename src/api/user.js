@@ -224,7 +224,7 @@ api = {
         delete req.session.user;
         delete req.session.themes;
 
-        res.sendStatus(200);
+        res.status(200).send('OK');
     },
 };
 

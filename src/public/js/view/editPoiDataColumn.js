@@ -36,16 +36,17 @@ export default Marionette.LayoutView.extend({
         'reset': 'onReset',
     },
 
-    initialize: function () {
+    initialize: function (options) {
 
+        this._app = options.app;
+        this._user = this._app.getUser();
         this._radio = Wreqr.radio.channel('global');
 
-        if ( !this._radio.reqres.request('var', 'isLogged') ) {
+        if ( !this._app.isLogged() ) {
 
             return false;
         }
 
-        this._user = this._radio.reqres.request('model', 'user');
 
         this._unresolvedConflicts = 0;
 
@@ -87,7 +88,7 @@ export default Marionette.LayoutView.extend({
             return this;
         }
 
-        if ( !this._radio.reqres.request('var', 'isLogged') ) {
+        if ( !this._app.isLogged() ) {
 
             return this;
         }
@@ -214,7 +215,7 @@ export default Marionette.LayoutView.extend({
 
         e.preventDefault();
 
-        if ( !this._radio.reqres.request('var', 'isLogged') ) {
+        if ( !this._app.isLogged() ) {
 
             return false;
         }
@@ -400,36 +401,35 @@ export default Marionette.LayoutView.extend({
 
     getChangesetId: function ( callback ) {
 
-        var self = this,
-        changesetId = sessionStorage.getItem('changesetId'),
+        var changesetId = sessionStorage.getItem('changesetId'),
         changesetXml = this._osmEdit._buildChangesetXml();
 
         if ( changesetId ) {
 
             this._osmEdit._isChangesetStillOpen(changesetId)
-            .then(function (changesetId) {
+            .then((changesetId) => {
 
                 callback(changesetId);
             })
-            .catch(function (err) {
+            .catch((err) => {
 
                 sessionStorage.removeItem('changesetId');
-                self.getChangesetId(callback);
+                this.getChangesetId(callback);
             });
         }
         else {
 
             this._osmEdit._createChangeset()
-            .then(function (changesetId) {
+            .then((changesetId) => {
 
                 sessionStorage.setItem('changesetId', changesetId);
                 callback(changesetId);
             })
-            .catch(function (err) {
+            .catch((err) => {
 
                 console.log('ERROR on put changeset: ' + err.response);
                 sessionStorage.removeItem('changesetId');
-                self.getChangesetId(callback);
+                this.getChangesetId(callback);
             });
         }
     },
@@ -437,7 +437,6 @@ export default Marionette.LayoutView.extend({
     sendXml: function (xml, changesetId) {
 
         var data,
-        self = this,
         id = this.options.dataFromOSM.id,
         type = this.options.dataFromOSM.type,
         parentElement = xml.getElementsByTagName(type)[0],
@@ -460,11 +459,13 @@ export default Marionette.LayoutView.extend({
             'options': { 'header': { 'Content-Type': 'text/xml' } },
             'content': data,
         },
-        function(err, res) {
+        (err, res) => {
 
             if (err) {
 
-                var notification = new ContributionErrorNotificationView({ 'retryCallback': self.sendXml.bind(self, xml, changesetId) });
+                var notification = new ContributionErrorNotificationView({
+                    'retryCallback': this.sendXml.bind(this, xml, changesetId)
+                });
 
                 $('body').append( notification.el );
 
@@ -473,15 +474,19 @@ export default Marionette.LayoutView.extend({
                 return;
             }
 
-            self._radio.commands.execute('map:updatePoiPopup', self.options.poiLayerModel, self.options.dataFromOSM);
+            this._radio.commands.execute(
+                'map:updatePoiPopup',
+                this.options.poiLayerModel,
+                this.options.dataFromOSM
+            );
 
 
-            var key = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
+            var key = this.options.dataFromOSM.type +'-'+ this.options.dataFromOSM.id,
             contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
 
-            self.options.dataFromOSM.version++;
+            this.options.dataFromOSM.version++;
 
-            contributions[ key ] = self.options.dataFromOSM;
+            contributions[ key ] = this.options.dataFromOSM;
 
             localStorage.setItem( 'contributions', JSON.stringify( contributions ) );
         });

@@ -9,8 +9,9 @@ import CONST from '../const';
 import L from 'leaflet';
 import OverPassLayer from 'leaflet-overpass-layer';
 import marked from 'marked';
+import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
-import MainTitleView from './mainTitle';
+import ThemeTitleView from './themeTitle';
 import LoginModalView from './loginModal';
 import ConflictModalView from './conflictModal';
 import GeocodeWidgetView from './geocodeWidget';
@@ -32,23 +33,19 @@ import ZoomNotificationView from './zoomNotification';
 import OverpassTimeoutNotificationView from './overpassTimeoutNotification';
 import OverpassErrorNotificationView from './overpassErrorNotification';
 
-import ThemeModel from '../model/theme';
 import PoiLayerModel from '../model/poiLayer';
 import PresetModel from '../model/preset';
 import OsmNodeModel from '../model/osmNode';
 
-import PoiLayerCollection from '../collection/poiLayer';
-import PresetCollection from '../collection/preset';
-
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
 
-import mainTemplate from '../../templates/main.ejs';
+import template from '../../templates/themeRoot.ejs';
 
 
 export default Marionette.LayoutView.extend({
 
-    template: mainTemplate,
+    template: template,
 
     behaviors: {
 
@@ -146,18 +143,22 @@ export default Marionette.LayoutView.extend({
         'keydown': 'onKeyDown',
     },
 
-    initialize: function () {
+    initialize: function (app) {
+
+        this._app = app;
+        this.model = this._app.getTheme();
+        this._poiLayers = this._app.getPoiLayers();
+        this._presets = this._app.getPresets();
+        this._user = this._app.getUser();
+
+        this._window = this._app.getWindow();
+        this._document = this._app.getDocument();
 
         this._seenZoomNotification = false;
         this._minDataZoom = 0;
         this._poiLoadingSpool = [];
 
         this._radio = Wreqr.radio.channel('global');
-
-        this.model = new ThemeModel( window.theme );
-
-        this._poiLayers = new PoiLayerCollection( window.poiLayers );
-        this._presets = new PresetCollection( window.presets );
 
 
         this._radio.reqres.setHandlers({
@@ -266,16 +267,12 @@ export default Marionette.LayoutView.extend({
 
     onRender: function () {
 
-        var isLogged = this._radio.reqres.request('var', 'isLogged'),
-        userModel = this._radio.reqres.request('model', 'user');
-
-
-        if ( isLogged ) {
+        if ( this._app.isLogged() ) {
 
             this.renderUserButtonLogged();
             this.showContribButton();
 
-            if ( this.model.isOwner(userModel) === true ) {
+            if ( this.model.isOwner(this._user) === true ) {
 
                 this.showEditTools();
             }
@@ -302,7 +299,7 @@ export default Marionette.LayoutView.extend({
         this._zoomNotificationView = new ZoomNotificationView();
 
 
-        this.getRegion('mainTitle').show( new MainTitleView({ 'model': this.model }) );
+        this.getRegion('mainTitle').show( new ThemeTitleView({ 'model': this.model }) );
 
         this.getRegion('geocodeWidget').show( this._geocodeWidgetView );
         this.getRegion('selectPoiColumn').show( this._selectPoiColumnView );
@@ -318,27 +315,22 @@ export default Marionette.LayoutView.extend({
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
 
-
-        if ( !document.fullscreenEnabled) {
-
+        if ( !this._document.fullscreenEnabled) {
             this.ui.expandScreenButton.addClass('hide');
             this.ui.compressScreenButton.addClass('hide');
         }
 
-        $(window).on('fullscreenchange', () => {
-
-            if ( document.fullscreenElement ) {
-
+        $(this._window).on('fullscreenchange', () => {
+            if ( this._document.fullscreenElement ) {
                 this.onExpandScreen();
             }
             else {
-
                 this.onCompressScreen();
             }
         });
 
         this.ui.helpTextVersion.html(
-            document.l10n.getSync(
+            this._document.l10n.getSync(
                 'helpTextVersion',
                 { 'version': CONST.version }
             )
@@ -767,8 +759,6 @@ export default Marionette.LayoutView.extend({
 
     updatePoiLayerIcons: function (poiLayerModel) {
 
-        var self = this;
-
         this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
 
             if ( layer._icon ) {
@@ -826,8 +816,7 @@ export default Marionette.LayoutView.extend({
 
     updatePoiLayerMinZoom: function (poiLayerModel) {
 
-        var self = this,
-        overpassLayer = this._mapLayers[ poiLayerModel.cid ]._overpassLayer;
+        var overpassLayer = this._mapLayers[ poiLayerModel.cid ]._overpassLayer;
 
         overpassLayer.options.minZoom = poiLayerModel.get('minZoom');
 
@@ -857,9 +846,9 @@ export default Marionette.LayoutView.extend({
         }
 
         var re,
-        globalWrapper = document.createElement('div'),
-        editButtonWrapper = document.createElement('div'),
-        editButton = document.createElement('button'),
+        globalWrapper = this._document.createElement('div'),
+        editButtonWrapper = this._document.createElement('div'),
+        editButton = this._document.createElement('button'),
         popupContent = marked( poiLayerModel.get('popupContent') ),
         contributionKey = dataFromOSM.type +'-'+ dataFromOSM.id,
         contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
@@ -896,7 +885,7 @@ export default Marionette.LayoutView.extend({
         if ( poiLayerModel.get('dataEditable') ) {
 
             editButton.className = 'btn btn-link';
-            editButton.innerHTML = document.l10n.getSync('editTheseInformations');
+            editButton.innerHTML = this._document.l10n.getSync('editTheseInformations');
 
             $(editButton).on('click', () => {
 
@@ -915,7 +904,7 @@ export default Marionette.LayoutView.extend({
     onCommandEditPoiData: function (dataFromOSM, poiLayerModel) {
 
         var view = new EditPoiDataColumnView({
-
+            'app': this._app,
             'dataFromOSM': dataFromOSM,
             'poiLayerModel': poiLayerModel,
         });
@@ -927,9 +916,8 @@ export default Marionette.LayoutView.extend({
 
     renderUserButtonLogged: function () {
 
-        var user = this._radio.reqres.request('model', 'user'),
-        avatar = user.get('avatar'),
-        letters = user.get('displayName')
+        var avatar = this._user.get('avatar'),
+        letters = this._user.get('displayName')
         .toUpperCase()
         .split(' ')
         .splice(0, 3)
@@ -1021,7 +1009,9 @@ export default Marionette.LayoutView.extend({
 
     showContribForm: function (options) {
 
-        var view = new ContribFormColumnView(options);
+        options.user = this._user;
+
+        var view = new ContribFormColumnView( options );
 
         this.getRegion('contribFormColumn').show( view );
 
@@ -1197,12 +1187,12 @@ export default Marionette.LayoutView.extend({
 
     onClickExpandScreen: function () {
 
-        document.documentElement.requestFullscreen();
+        this._document.documentElement.requestFullscreen();
     },
 
     onClickCompressScreen: function () {
 
-        document.exitFullscreen();
+        this._document.exitFullscreen();
     },
 
     onExpandScreen: function () {
@@ -1265,9 +1255,14 @@ export default Marionette.LayoutView.extend({
 
     onClickLogin: function () {
 
-        var self = this;
+        // FIXME To have a real fail callback
+        let authSuccessCallback = this.model.buildPath();
+        let authFailCallback = this.model.buildPath();
 
-        this._loginModalView = new LoginModalView({ 'fragment': this.model.get('fragment') });
+        this._loginModalView = new LoginModalView({
+            'authSuccessCallback': authSuccessCallback,
+            'authFailCallback': authFailCallback
+        });
 
         this.getRegion('loginModal').show( this._loginModalView );
     },
@@ -1381,7 +1376,7 @@ export default Marionette.LayoutView.extend({
 
     isLargeScreen: function () {
 
-        if ( $(window).width() >= settings.largeScreenMinWidth && $(window).height() >= settings.largeScreenMinHeight ) {
+        if ( $(this._window).width() >= settings.largeScreenMinWidth && $(this._window).height() >= settings.largeScreenMinHeight ) {
 
             return true;
         }

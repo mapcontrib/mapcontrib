@@ -1,6 +1,6 @@
 
 import App from './app';
-import Router from './router/theme';
+import Router from './router/home';
 
 
 document.l10n.ready( function () {

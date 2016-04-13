@@ -4,7 +4,7 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from '../const';
 import marked from 'marked';
-import template from '../../templates/mainTitle.ejs';
+import template from '../../templates/themeTitle.ejs';
 
 
 export default Marionette.LayoutView.extend({
@@ -50,8 +50,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-
-        var self = this;
 
         document.title = document.l10n.getSync('pageTitleWithMapName', {
 

@@ -46,18 +46,21 @@ module.exports = function Api(app, db, CONST){
     app.put('/api/preset/:_id', isLoggedIn, presetApi.api.put);
     app.delete('/api/preset/:_id', isLoggedIn, presetApi.api.delete);
 
-    app.get('/theme-:fragment', function (req, res) {
+    app.get('/', function (req, res) {
 
-        var json = {};
+        var templateVars = {
+            'user': req.session.user ? JSON.stringify(req.session.user) : '{}'
+        };
 
-        if ( req.session.user ) {
+        res.render('home', templateVars);
+    });
 
-            json.user = JSON.stringify( req.session.user );
-        }
-        else {
 
-            json.user = '{}';
-        }
+    app.get('/t/:fragment-*', function (req, res) {
+
+        var templateVars = {
+            'user': req.session.user ? JSON.stringify(req.session.user) : '{}'
+        };
 
         themeApi.api.findFromFragment(req.params.fragment)
         .then(function ( themeObject ) {
@@ -95,11 +98,11 @@ module.exports = function Api(app, db, CONST){
             Promise.all(promises)
             .then(function ( results ) {
 
-                json.theme = JSON.stringify( themeObject );
-                json.poiLayers = JSON.stringify( results[0] );
-                json.presets = JSON.stringify( results[1] );
+                templateVars.theme = JSON.stringify( themeObject );
+                templateVars.poiLayers = JSON.stringify( results[0] );
+                templateVars.presets = JSON.stringify( results[1] );
 
-                res.render('themeMap', json);
+                res.render('themeMap', templateVars);
             })
             .catch( onPromiseError.bind(this, res) );
         })
@@ -110,9 +113,7 @@ module.exports = function Api(app, db, CONST){
 
 
 function isLoggedIn (req, res, next) {
-
     if ( req.isAuthenticated() ) {
-
         return next();
     }
 
@@ -122,6 +123,5 @@ function isLoggedIn (req, res, next) {
 
 
 function onPromiseError(errorCode, res) {
-
     res.sendStatus(errorCode);
 }
