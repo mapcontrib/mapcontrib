@@ -40,6 +40,10 @@ export default Marionette.LayoutView.extend({
         'click @ui.iframeHeightUnitDropdown a': 'onClickHeightUnit',
     },
 
+    modelEvents: {
+        'change': 'render'
+    },
+
     templateHelpers: function () {
 
 
@@ -62,7 +66,6 @@ export default Marionette.LayoutView.extend({
 
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
-        this.render();
     },
 
     open: function () {
