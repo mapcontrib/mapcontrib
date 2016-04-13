@@ -3,7 +3,7 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
 import settings from '../settings';
-import MainView from '../view/main';
+import ThemeRootView from '../view/themeRoot';
 
 
 export default Backbone.Router.extend({
@@ -22,7 +22,7 @@ export default Backbone.Router.extend({
 
     routeDefault: function (){
         this._app.getRegion('root').show(
-            new MainView( this._app )
+            new ThemeRootView( this._app )
         );
     },
 

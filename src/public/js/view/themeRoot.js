@@ -11,7 +11,7 @@ import OverPassLayer from 'leaflet-overpass-layer';
 import marked from 'marked';
 import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
-import MainTitleView from './mainTitle';
+import ThemeTitleView from './themeTitle';
 import LoginModalView from './loginModal';
 import ConflictModalView from './conflictModal';
 import GeocodeWidgetView from './geocodeWidget';
@@ -299,7 +299,7 @@ export default Marionette.LayoutView.extend({
         this._zoomNotificationView = new ZoomNotificationView();
 
 
-        this.getRegion('mainTitle').show( new MainTitleView({ 'model': this.model }) );
+        this.getRegion('mainTitle').show( new ThemeTitleView({ 'model': this.model }) );
 
         this.getRegion('geocodeWidget').show( this._geocodeWidgetView );
         this.getRegion('selectPoiColumn').show( this._selectPoiColumnView );
