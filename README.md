@@ -1,4 +1,4 @@
-# MapContrib [![Build Status](https://api.travis-ci.org/MapContrib/MapContrib.svg?branch=develop)](http://travis-ci.org/MapContrib/MapContrib)
+# ![MapContrib](logo.png) [![Build Status](https://api.travis-ci.org/MapContrib/MapContrib.svg?branch=develop)](http://travis-ci.org/MapContrib/MapContrib)
 
 > OpenStreetMap contribution. Everywhere.
 
