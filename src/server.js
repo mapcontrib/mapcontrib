@@ -57,8 +57,8 @@ MongoStore = require('connect-mongo')(session),
 app = express();
 
 app.use(compression());
-app.engine('html', ejs.renderFile);
-app.set('view engine', 'html');
+app.engine('ejs', ejs.renderFile);
+app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
