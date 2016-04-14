@@ -102,7 +102,7 @@ module.exports = function Api(app, db, CONST){
                 templateVars.poiLayers = JSON.stringify( results[0] );
                 templateVars.presets = JSON.stringify( results[1] );
 
-                res.render('themeMap', templateVars);
+                res.render('theme', templateVars);
             })
             .catch( onPromiseError.bind(this, res) );
         })
