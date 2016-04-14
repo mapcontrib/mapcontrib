@@ -2,10 +2,11 @@
 import Marionette from 'backbone.marionette';
 import LoginModalView from './loginModal';
 import ThemeModel from '../model/theme';
+import template from '../../templates/homeRoot.ejs';
 
 export default Marionette.LayoutView.extend({
 
-    template: false,
+    template: template,
 
     behaviors: {
         'l20n': {},
@@ -23,8 +24,8 @@ export default Marionette.LayoutView.extend({
         'click @ui.createThemeButton': 'onClickCreateTheme'
     },
 
-    initialize: function (options) {
-        this._app = options.app;
+    initialize: function (app) {
+        this._app = app;
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
     },

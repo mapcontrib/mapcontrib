@@ -19,9 +19,8 @@ export default Backbone.Router.extend({
     },
 
     routeDefault: function (){
-        new HomeRootView({
-            'el': this._app.getRegion('root').el,
-            'app': this._app
-        });
+        this._app.getRegion('root').show(
+            new HomeRootView( this._app )
+        );
     },
 });

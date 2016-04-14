@@ -17,19 +17,23 @@
         background-color: #eeeeec !important;
     }
 
+    .empty-state {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -64px;
+        margin-left: -64px;
+        width: 128px;
+        height: 128px;
+    }
+
     </style>
 
 </head>
 <body>
 
 <section id="rg_root">
-    <p class="text-center prepend-xs-2 append-xs-2">
-        <img src="/img/logo.png" alt="MapContrib" />
-    </p>
-    <p class="text-center">
-        <button type="button" id="createThemeButton" class="btn btn-primary">Créer un thème</button>
-    </p>
-    <section id="rg_login_modal"></section>
+    <img class="empty-state" src="/img/empty_state.gif" alt="" />
 </section>
 
 <link rel="stylesheet" href="/css/bundle.css" charset="utf-8">
