@@ -1,8 +1,10 @@
 <div class="checkbox">
     <input type="checkbox" id="poi_layer_visibility_<%- _id %>" class="visibility_checkbox" value="1">
     <label for="poi_layer_visibility_<%- _id %>">
-        <%= name %>
-        <div class="help-block">
+        <div class="text-ellipsis">
+            <%= name %>
+        </div>
+        <div class="help-block text-wrap">
             <%= description %>
         </div>
         <div class="help-block zoom_tip"></div>
