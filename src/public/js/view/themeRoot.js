@@ -1149,17 +1149,22 @@ export default Marionette.LayoutView.extend({
 
     updateMinDataZoom: function () {
 
-        var minDataZoom = 100000;
+        if (this._poiLayers.models.length === 0) {
+            this._minDataZoom = 0;
+        }
+        else {
+            let minDataZoom = 100000;
 
-        _.each(this._poiLayers.models, function (poiLayerModel) {
+            _.each(this._poiLayers.models, function (poiLayerModel) {
 
-            if ( poiLayerModel.get('minZoom') < minDataZoom ) {
+                if ( poiLayerModel.get('minZoom') < minDataZoom ) {
 
-                minDataZoom = poiLayerModel.get('minZoom');
-            }
-        }, this);
+                    minDataZoom = poiLayerModel.get('minZoom');
+                }
+            }, this);
 
-        this._minDataZoom = minDataZoom;
+            this._minDataZoom = minDataZoom;
+        }
 
         this.checkZoomNotification();
     },
