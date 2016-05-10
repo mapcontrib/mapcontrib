@@ -31,7 +31,7 @@ describe('MapUi', () => {
 
             let returnedOptions = MapUi._buildPoiLayerIconOptions(poiLayerModel);
 
-            assert.deepEqual(expected, returnedOptions);
+            assert.deepEqual(returnedOptions, expected);
         });
 
         it('Should return icon options (icon type: external)', () => {
@@ -53,7 +53,7 @@ describe('MapUi', () => {
 
             let returnedOptions = MapUi._buildPoiLayerIconOptions(poiLayerModel);
 
-            assert.deepEqual(expected, returnedOptions);
+            assert.deepEqual(returnedOptions, expected);
         });
     });
 
@@ -72,7 +72,7 @@ describe('MapUi', () => {
 
             let returnedHtml = MapUi.buildPoiLayerHtmlIcon(poiLayerModel);
 
-            assert.strictEqual(expected, returnedHtml);
+            assert.strictEqual(returnedHtml, expected);
         });
     });
 });
