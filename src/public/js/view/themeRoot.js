@@ -1307,7 +1307,8 @@ export default Marionette.LayoutView.extend({
     onClickMapToAddPoint: function (e) {
 
         var osmNodeModel = new OsmNodeModel({
-
+            'type': 'node',
+            'version': 0,
             'lat': e.latlng.lat,
             'lng': e.latlng.lng,
         });
