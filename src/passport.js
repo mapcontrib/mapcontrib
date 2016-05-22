@@ -5,7 +5,6 @@ ObjectID = require('mongodb').ObjectID;
 
 
 function connect(passportConnectMethod, req, res) {
-    console.log(passportConnectMethod);
     if ( req.query.successRedirect ) {
         req.session.successRedirect = req.query.successRedirect;
     }
@@ -80,7 +79,7 @@ module.exports = function Passport(app, db, settings) {
             userData = {
                 'osmId': profile.id,
                 'displayName': profile.displayName,
-                'avatar': profile._xml2json.user.img['@'].href,
+				'avatar': (profile._xml2json.user.img !== undefined) ? profile._xml2json.user.img['@'].href : undefined,
                 'token': token,
                 'tokenSecret': tokenSecret,
             };
