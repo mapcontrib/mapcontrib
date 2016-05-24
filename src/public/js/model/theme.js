@@ -15,7 +15,7 @@ module.exports = Backbone.Model.extend({
         'name': 'MapContrib',
         'description': '',
         'color': 'blue',
-        'tiles': ['osm'],
+        'tiles': ['osmFr'],
         'zoomLevel': 3,
         'center': {
 
