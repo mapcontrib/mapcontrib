@@ -2,7 +2,7 @@
     <input type="radio" name="select_tile_radio" id="select_tile_<%- id %>" class="tile_radio" value="<%- id %>"<%- checked %>>
     <label for="select_tile_<%- id %>">
         <figure>
-            <img src="<%- thumbnail %>" alt="" />
+            <%= thumbnailHtml %>
         </figure>
         <figcaption>
             <%= name %>

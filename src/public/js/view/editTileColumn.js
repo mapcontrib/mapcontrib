@@ -55,7 +55,7 @@ export default Marionette.LayoutView.extend({
 
     onRender: function () {
 
-        var tile, thumbnail,
+        var tile,
         tiles = this.model.get('tiles'),
         html = '',
         maxZoom = '';
@@ -68,10 +68,16 @@ export default Marionette.LayoutView.extend({
                 continue;
             }
 
-            thumbnail = tile.urlTemplate.replace('{s}', 'a');
-            thumbnail = thumbnail.replace('{z}', '9');
-            thumbnail = thumbnail.replace('{x}', '265');
-            thumbnail = thumbnail.replace('{y}', '181');
+            let thumbnailHtml = '';
+
+            for (let urlTemplate of tile.urlTemplate) {
+                thumbnailHtml += `<img src="${urlTemplate}" alt="" />`;
+            }
+
+            thumbnailHtml = thumbnailHtml.replace(/\{s\}/g, 'a');
+            thumbnailHtml = thumbnailHtml.replace(/\{z\}/g, '9');
+            thumbnailHtml = thumbnailHtml.replace(/\{x\}/g, '265');
+            thumbnailHtml = thumbnailHtml.replace(/\{y\}/g, '181');
 
             maxZoom = document.l10n.getSync('editTileColumn_maxZoom', {
 
@@ -84,7 +90,7 @@ export default Marionette.LayoutView.extend({
                 'name': tile.name,
                 'maxZoom': maxZoom,
                 'id': id,
-                'thumbnail': thumbnail,
+                'thumbnailHtml': thumbnailHtml,
                 'checked': (tiles.indexOf(id) > -1) ? ' checked' : '',
             });
         }

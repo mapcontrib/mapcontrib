@@ -462,7 +462,8 @@ export default Marionette.LayoutView.extend({
 
     setTileLayer: function (id) {
 
-        var tile, layer,
+        var tile,
+        tileLayersGroup = L.layerGroup(),
         tiles = this.model.get('tiles');
 
         if ( tiles.length === 0 ) {
@@ -490,14 +491,17 @@ export default Marionette.LayoutView.extend({
             return;
         }
 
-        layer = L.tileLayer(tile.urlTemplate, {
+        for (let urlTemplate of tile.urlTemplate) {
+            tileLayersGroup.addLayer(
+                L.tileLayer(urlTemplate, {
+                    'attribution': tile.attribution,
+                    'minZoom': tile.minZoom,
+                    'maxZoom': tile.maxZoom,
+                })
+            );
+        }
 
-            'attribution': tile.attribution,
-            'minZoom': tile.minZoom,
-            'maxZoom': tile.maxZoom,
-        });
-
-        this._map.addLayer(layer);
+        this._map.addLayer(tileLayersGroup);
 
         if ( this._currentTileLayer ) {
 
@@ -505,7 +509,7 @@ export default Marionette.LayoutView.extend({
         }
 
         this._currentTileId = id;
-        this._currentTileLayer = layer;
+        this._currentTileLayer = tileLayersGroup;
 
         this.updateMinDataZoom();
     },

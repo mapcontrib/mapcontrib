@@ -50,7 +50,7 @@ export default Marionette.LayoutView.extend({
 
     onRender: function () {
 
-        var tile, thumbnail, checked,
+        var tile, checked,
         tiles = this.model.get('tiles'),
         html = '';
 
@@ -62,10 +62,16 @@ export default Marionette.LayoutView.extend({
                 return;
             }
 
-            thumbnail = tile.urlTemplate.replace('{s}', 'a');
-            thumbnail = thumbnail.replace('{z}', '9');
-            thumbnail = thumbnail.replace('{x}', '265');
-            thumbnail = thumbnail.replace('{y}', '181');
+            let thumbnailHtml = '';
+
+            for (let urlTemplate of tile.urlTemplate) {
+                thumbnailHtml += `<img src="${urlTemplate}" alt="" />`;
+            }
+
+            thumbnailHtml = thumbnailHtml.replace(/\{s\}/g, 'a');
+            thumbnailHtml = thumbnailHtml.replace(/\{z\}/g, '9');
+            thumbnailHtml = thumbnailHtml.replace(/\{x\}/g, '265');
+            thumbnailHtml = thumbnailHtml.replace(/\{y\}/g, '181');
 
             if ( this._selectedInStorage && this._selectedInStorage === id ) {
 
@@ -84,7 +90,7 @@ export default Marionette.LayoutView.extend({
 
                 'name': tile.name,
                 'id': id,
-                'thumbnail': thumbnail,
+                'thumbnailHtml': thumbnailHtml,
                 'checked': checked,
             });
         });
