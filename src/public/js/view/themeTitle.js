@@ -51,14 +51,7 @@ export default Marionette.LayoutView.extend({
 
     onRender: function () {
 
-        document.title = document.l10n.getSync('pageTitleWithMapName', {
-
-            'map': {
-
-                'name': this.model.get('name')
-            }
-        });
-
+        this.setTitle();
 
         if ( this.model.get('description') ) {
 
@@ -87,15 +80,21 @@ export default Marionette.LayoutView.extend({
 
     setTitle: function () {
 
-        this.ui.title.html( this.model.get('name') );
+        let themeName = this.model.get('name');
+        let appName = document.l10n.getSync('mapcontrib');
 
-        document.title = document.l10n.getSync('pageTitleWithMapName', {
+        if (themeName === appName) {
+            document.title = appName;
+        }
+        else {
+            document.title = document.l10n.getSync('pageTitleWithMapName', {
+                'map': {
+                    'name': themeName
+                }
+            });
+        }
 
-            'map': {
-
-                'name': this.model.get('name')
-            }
-        });
+        this.ui.title.html(themeName);
     },
 
     commandSetTitleColor: function (color) {
