@@ -25,7 +25,7 @@ describe('ThemeModel', () => {
 
     describe('buildPath', () => {
         it('Should return a complete path', () => {
-            const expected = '/t/a6g07ft-A_name_with_spcial_characterS_';
+            const expected = '/t/a6g07ft-A_name_with_special_characterS_';
 
             assert.strictEqual(expected, theme.buildPath());
         });
@@ -33,7 +33,7 @@ describe('ThemeModel', () => {
 
     describe('buildWebLinkName', () => {
         it('Should return a cleaned up name', () => {
-            const expected = 'A_name_with_spcial_characterS_';
+            const expected = 'A_name_with_special_characterS_';
 
             assert.strictEqual(expected, theme.buildWebLinkName());
         });

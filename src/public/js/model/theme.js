@@ -2,6 +2,7 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 var settings = require('../settings');
+var Diacritics = require('diacritic');
 
 
 module.exports = Backbone.Model.extend({
@@ -65,6 +66,7 @@ module.exports = Backbone.Model.extend({
     buildWebLinkName: function () {
         var name = this.get('name') || '';
 
+        name = Diacritics.clean(name);
         name = name.replace(/-/g, '_');
         name = name.replace(/ /g, '_');
         name = name.replace(/_{2,}/g, '_');
