@@ -8,27 +8,36 @@ export default Marionette.CollectionView.extend({
 
     childView: ContribNodeTagsListItemView,
 
+    initialize: function () {
+
+        this.collection = new ContribNodeTagsCollection();
+    },
+
     setTags: function (tags) {
 
-        this.collection = new ContribNodeTagsCollection( tags );
-
         if (tags.length === 0) {
-
             this.collection.add({
                 'keyReadOnly': false,
                 'valueReadOnly': false
             });
         }
+        else {
+            this.collection.add( tags );
+        }
 
         this.render();
     },
 
-    addTag: function () {
+    addTag: function (tag) {
 
-        this.collection.add({
-            'keyReadOnly': false,
-            'valueReadOnly': false
-        });
+        if ( !tag ) {
+            tag = {
+                'keyReadOnly': false,
+                'valueReadOnly': false
+            };
+        }
+
+        this.collection.add( tag );
     },
 
     getTags: function () {
