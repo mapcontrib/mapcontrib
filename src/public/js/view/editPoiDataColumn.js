@@ -84,116 +84,121 @@ export default Marionette.LayoutView.extend({
             return this;
         }
 
-        var popupTag,
-        html = '',
-        dataFromOSM = this.options.dataFromOSM,
-        poiLayerModel = this.options.poiLayerModel,
-        popupContent = poiLayerModel.get('popupContent'),
-        re = new RegExp('{(.*?)}', 'g'),
-        popupTags = popupContent.match(re);
+        this.getRemoteEntityData(
+            this.options.dataFromOSM.id,
+            this.options.dataFromOSM.type
+        )
+        .then(
+            this.renderTags.bind(this)
+        );
+    },
 
+    getRemoteEntityData: function ( id, type ) {
 
-        this._tagList = new ContribNodeTagsListView();
+        return new Promise((resolve, reject) => {
 
-        this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, (remoteData) => {
+            $.ajax({
+                'method': 'GET',
+                'dataType': 'xml',
+                'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
+                'success': (xml, jqXHR, textStatus) => {
 
-            this._remoteData = remoteData;
+                    var key, value,
+                    parentElement = xml.getElementsByTagName(type)[0],
+                    tags = xml.documentElement.getElementsByTagName('tag'),
+                    version = parseInt( parentElement.getAttribute('version') ),
+                    result = {
 
-            if ( popupTags) {
+                        'version': version,
+                        'tags': {},
+                        'xml': xml
+                    },
+                    contributionKey = this.options.dataFromOSM.type +'-'+ this.options.dataFromOSM.id,
+                    contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
 
-                for (var i in popupTags) {
+                    if ( contributions[ contributionKey ] ) {
 
-                    popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
-                    popupTag = popupTags[i];
+                        if ( version >= contributions[ contributionKey ].version ) {
 
-                    this._tagList.addTag({
-                        'key': popupTag,
-                        'value': dataFromOSM.tags[popupTag],
-                        'keyReadOnly': false,
-                        'valueReadOnly': false,
-                    });
-                }
-            }
+                            delete contributions[ contributionKey ];
 
-            for (var key in remoteData.tags) {
+                            localStorage.setItem('contributions', JSON.stringify( contributions ));
+                        }
+                        else {
 
-                var value = remoteData.tags[ key ];
+                            this.options.dataFromOSM = contributions[ contributionKey ];
+                        }
+                    }
 
-                if ( popupTags && popupTags.indexOf(key) > -1 ) {
-                    continue;
-                }
+                    for (var j in tags) {
 
-                this._tagList.addTag({
-                    'key': key,
-                    'value': value,
-                    'keyReadOnly': true,
-                    'valueReadOnly': false,
-                });
-            }
+                        if ( tags[j].getAttribute ) {
 
-            this.ui.footer.removeClass('hide');
+                            key = tags[j].getAttribute('k');
+                            value = tags[j].getAttribute('v');
 
-            this.model.set('tags', this._tagList.getTags());
+                            result.tags[ key ] = value;
+                        }
+                    }
 
-            this.getRegion('tagList').show( this._tagList );
+                    resolve(result);
+                },
+                'error': (jqXHR, textStatus, error) => {
+
+                    console.error('FIXME');
+                    reject();
+                },
+            });
         });
     },
 
-    getRemoteEntityData: function ( id, type, callback ) {
+    renderTags: function (remoteData) {
 
-        $.ajax({
+        this._remoteData = remoteData;
+        this._tagList = new ContribNodeTagsListView();
 
-            'method': 'GET',
-            'dataType': 'xml',
-            'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
-            'success': (xml, jqXHR, textStatus) => {
+        var popupTag,
+        popupContent = this.options.poiLayerModel.get('popupContent'),
+        re = new RegExp('{(.*?)}', 'g'),
+        popupTags = popupContent.match(re);
 
-                var key, value,
-                parentElement = xml.getElementsByTagName(type)[0],
-                tags = xml.documentElement.getElementsByTagName('tag'),
-                version = parseInt( parentElement.getAttribute('version') ),
-                result = {
+        if ( popupTags) {
 
-                    'version': version,
-                    'tags': {},
-                    'xml': xml
-                },
-                contributionKey = this.options.dataFromOSM.type +'-'+ this.options.dataFromOSM.id,
-                contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
+            for (var i in popupTags) {
 
-                if ( contributions[ contributionKey ] ) {
+                popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
+                popupTag = popupTags[i];
 
-                    if ( version >= contributions[ contributionKey ].version ) {
+                this._tagList.addTag({
+                    'key': popupTag,
+                    'value': this.options.dataFromOSM.tags[popupTag],
+                    'keyReadOnly': false,
+                    'valueReadOnly': false,
+                });
+            }
+        }
 
-                        delete contributions[ contributionKey ];
+        for (var key in remoteData.tags) {
 
-                        localStorage.setItem('contributions', JSON.stringify( contributions ));
-                    }
-                    else {
+            var value = remoteData.tags[ key ];
 
-                        this.options.dataFromOSM = contributions[ contributionKey ];
-                    }
-                }
+            if ( popupTags && popupTags.indexOf(key) > -1 ) {
+                continue;
+            }
 
+            this._tagList.addTag({
+                'key': key,
+                'value': value,
+                'keyReadOnly': false,
+                'valueReadOnly': false,
+            });
+        }
 
-                for (var j in tags) {
+        this.ui.footer.removeClass('hide');
 
-                    if ( tags[j].getAttribute ) {
+        this.model.set('tags', this._tagList.getTags());
 
-                        key = tags[j].getAttribute('k');
-                        value = tags[j].getAttribute('v');
-
-                        result.tags[ key ] = value;
-                    }
-                }
-
-                callback( result );
-            },
-            'error': (jqXHR, textStatus, error) => {
-
-                console.error('FIXME');
-            },
-        });
+        this.getRegion('tagList').show( this._tagList );
     },
 
     onSubmit: function (e) {
