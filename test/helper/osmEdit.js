@@ -25,7 +25,7 @@ describe('OsmEditHelper', () => {
         });
     });
 
-    describe('_buildNodeXml', () => {
+    describe('_buildXml', () => {
 
         it('Should return a serialized node XML', () => {
 
@@ -50,7 +50,7 @@ describe('OsmEditHelper', () => {
             ]);
 
 
-            let returnedXml = osmEdit._buildNodeXml(85964251);
+            let returnedXml = osmEdit._buildXml(85964251);
 
             assert.strictEqual(returnedXml, expected);
         });

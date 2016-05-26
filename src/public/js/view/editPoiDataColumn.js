@@ -84,13 +84,19 @@ export default Marionette.LayoutView.extend({
             return this;
         }
 
+        fetch('https://duckduckgo.com/?q=javascript+fetch+410&ia=web')
+        .then(function(a, b, c){console.log(a, b, c);});
+
         this.getRemoteEntityData(
             this.options.dataFromOSM.id,
             this.options.dataFromOSM.type
         )
-        .then(
-            this.renderTags.bind(this)
-        );
+        .then((remoteData) => {
+            this.renderTags(remoteData);
+        })
+        .catch(() => {
+            console.error('FIXME');
+        });
     },
 
     getRemoteEntityData: function ( id, type ) {
@@ -108,7 +114,6 @@ export default Marionette.LayoutView.extend({
                     tags = xml.documentElement.getElementsByTagName('tag'),
                     version = parseInt( parentElement.getAttribute('version') ),
                     result = {
-
                         'version': version,
                         'tags': {},
                         'xml': xml
@@ -144,8 +149,6 @@ export default Marionette.LayoutView.extend({
                     resolve(result);
                 },
                 'error': (jqXHR, textStatus, error) => {
-
-                    console.error('FIXME');
                     reject();
                 },
             });
