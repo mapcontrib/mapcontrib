@@ -3,14 +3,12 @@ import { DOMImplementation, XMLSerializer } from 'xmldom';
 
 
 export default class OsmEdit{
-
     /**
      * @author Guillaume AMAT
      * @access public
      * @param {object} osmAuth - Instance of osm-auth.
      */
     constructor (osmAuth) {
-
         this._auth = osmAuth;
         this._changesetCreatedBy = null;
         this._changesetComment = null;
@@ -31,8 +29,16 @@ export default class OsmEdit{
      * @param {string} changesetCreatedBy - Application used to send datas to OSM (in the changeset).
      */
     setChangesetCreatedBy(changesetCreatedBy) {
-
         this._changesetCreatedBy = changesetCreatedBy;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {string}
+     */
+    getChangesetCreatedBy() {
+        return this._changesetCreatedBy;
     }
 
     /**
@@ -41,8 +47,16 @@ export default class OsmEdit{
      * @param {string} changesetComment - Comment used in the changeset.
      */
     setChangesetComment(changesetComment) {
-
         this._changesetComment = changesetComment;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {string}
+     */
+    getChangesetComment() {
+        return this._changesetComment;
     }
 
     /**
@@ -51,8 +65,16 @@ export default class OsmEdit{
      * @param {number} lat - Node's latitude.
      */
     setLatitude(lat) {
-
         this._lat = lat;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {number}
+     */
+    getLatitude() {
+        return this._lat;
     }
 
     /**
@@ -61,8 +83,16 @@ export default class OsmEdit{
      * @param {number} lon - Node's longitude.
      */
     setLongitude(lon) {
-
         this._lon = lon;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {number}
+     */
+    getLongitude() {
+        return this._lon;
     }
 
     /**
@@ -71,38 +101,70 @@ export default class OsmEdit{
      * @param {array} tags - Node's tags.
      */
     setTags(tags) {
-
         this._tags = tags;
     }
 
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {string} uid - UID of the node's editor.
+     * @return {array}
+     */
+    getTags() {
+        return this._tags;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @param {string|number} uid - UID of the node's editor.
      */
     setUid(uid) {
-
         this._uid = uid;
     }
 
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {string} type - Node, way, relation.
+     * @return {string|number}
+     */
+    getUid() {
+        return this._uid;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @param {string} type - Element's type.
      */
     setType(type) {
-
         this._type = type;
     }
 
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {string} id - Node's ID.
+     * @return {string}
+     */
+    getType() {
+        return this._type;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @param {string|number} id - Element's ID.
      */
     setId(id) {
-
         this._id = id;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {string|number}
+     */
+    getId() {
+        return this._id;
     }
 
     /**
@@ -111,18 +173,34 @@ export default class OsmEdit{
      * @param {string} timestamp - Timestamp of the node creation.
      */
     setTimestamp(timestamp) {
-
         this._timestamp = timestamp;
     }
 
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {number} version - Node's version.
+     * @return {string}
+     */
+    getTimestamp() {
+        return this._timestamp;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @param {string|number} version - Element's version.
      */
     setVersion(version) {
-
         this._version = version;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {string|number}
+     */
+    getVersion() {
+        return this._version;
     }
 
     /**
@@ -131,9 +209,68 @@ export default class OsmEdit{
      * @param {string} displayName - Display name of the node's editor.
      */
     setDisplayName(displayName) {
-
         this._displayName = displayName;
     }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {string}
+     */
+    getDisplayName() {
+        return this._displayName;
+    }
+
+
+    /**
+     * Fetch an element from OSM.
+     *
+     * @author Guillaume AMAT
+     * @access public
+     * @param {string} type - Element's type.
+     * @param {string|number} id - Element's ID.
+     * @return {promise}
+     */
+    fetch(type, id) {
+        return new Promise((resolve, reject) => {
+            this._auth.xhr({
+                'method': 'GET',
+                'path': `/api/0.6/${type}/${id}`,
+                'options': {
+                    'header': {
+                        'Content-Type': 'text/xml'
+                    }
+                }
+            },
+            (err, xml) => {
+                if (err) {
+                    console.error('ERROR on fetch element: ' + err.response);
+                    return reject(err);
+                }
+
+                let key, value,
+                tags = {},
+                parentElement = xml.getElementsByTagName(type)[0],
+                tagElements = xml.documentElement.getElementsByTagName('tag'),
+                version = parseInt( parentElement.getAttribute('version') );
+
+                for (let tag of tagElements) {
+                    if ( tag.getAttribute ) {
+                        key = tag.getAttribute('k');
+                        value = tag.getAttribute('v');
+                        tags[ key ] = value;
+                    }
+                }
+
+                this.setVersion(version);
+                this.setTags(tags);
+
+                resolve(this);
+            });
+        });
+    }
+
+
 
     /**
      * Sends the node to OSM.
@@ -274,7 +411,7 @@ export default class OsmEdit{
 
                 if (err) {
 
-                    console.log('ERROR on put changeset: ' + err.response);
+                    console.error('ERROR on put changeset: ' + err.response);
                     return reject(err);
                 }
 

@@ -10,6 +10,7 @@ import CONST from '../const';
 import template from '../../templates/editPoiDataColumn.ejs';
 import ContribNodeTagsListView from '../ui/form/contribNodeTags';
 import OsmNodeModel from '../model/osmNode';
+import Cache from '../core/cache';
 
 
 
@@ -43,17 +44,34 @@ export default Marionette.LayoutView.extend({
         'submit': 'onSubmit',
     },
 
-    initialize: function (options) {
+    initialize: function () {
 
-        this._app = options.app;
+        this._app = this.options.app;
         this._user = this._app.getUser();
         this._radio = Wreqr.radio.channel('global');
-
-        this.model = new OsmNodeModel();
 
         if ( !this._app.isLogged() ) {
             return false;
         }
+
+        this.model = new OsmNodeModel({
+            'id': this.options.dataFromOverpass.id,
+            'type': this.options.dataFromOverpass.type,
+            'version': this.options.dataFromOverpass.version,
+            'lat': this.options.dataFromOverpass.lat,
+            'lng': this.options.dataFromOverpass.lon,
+            'tags': this.options.dataFromOverpass.tags,
+        });
+
+        this._osmEdit = new OsmEditHelper(
+            osmAuth({
+
+                'oauth_consumer_key': settings.oauthConsumerKey,
+                'oauth_secret': settings.oauthSecret,
+                'oauth_token': this._user.get('token'),
+                'oauth_token_secret': this._user.get('tokenSecret'),
+            })
+        );
     },
 
     onBeforeOpen: function () {
@@ -75,86 +93,48 @@ export default Marionette.LayoutView.extend({
     onRender: function () {
 
         if ( !this.options.poiLayerModel.get('dataEditable') ) {
-
             return this;
         }
 
         if ( !this._app.isLogged() ) {
-
             return this;
         }
 
-        this.getRemoteEntityData(
-            this.options.dataFromOSM.id,
-            this.options.dataFromOSM.type
+        this._osmEdit.fetch(
+            this.model.get('type'),
+            this.model.get('id')
         )
-        .then((remoteData) => {
-            this.renderTags(remoteData);
+        .then((osmEdit) => {
+            let tags = osmEdit.getTags(),
+            version = osmEdit.getVersion(),
+            type = this.model.get('type'),
+            id = this.model.get('id');
+
+            if (Cache.exists(type, id)) {
+                if (Cache.isNewerThanCache(type, id, version)) {
+                    Cache.remove(type, id);
+                }
+                else {
+                    let elementFromCache = Cache.get(type, id);
+
+                    this.model.set('id', elementFromCache.id);
+                    this.model.set('type', elementFromCache.type);
+                    this.model.set('version', elementFromCache.version);
+                    this.model.set('lat', elementFromCache.lat);
+                    this.model.set('lng', elementFromCache.lon);
+                    this.model.set('tags', elementFromCache.tags);
+                }
+            }
+
+            this.renderTags(tags);
         })
         .catch(() => {
             console.error('FIXME');
         });
     },
 
-    getRemoteEntityData: function ( id, type ) {
+    renderTags: function (tags) {
 
-        return new Promise((resolve, reject) => {
-
-            $.ajax({
-                'method': 'GET',
-                'dataType': 'xml',
-                'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
-                'success': (xml, jqXHR, textStatus) => {
-
-                    var key, value,
-                    parentElement = xml.getElementsByTagName(type)[0],
-                    tags = xml.documentElement.getElementsByTagName('tag'),
-                    version = parseInt( parentElement.getAttribute('version') ),
-                    result = {
-                        'version': version,
-                        'tags': {},
-                        'xml': xml
-                    },
-                    contributionKey = this.options.dataFromOSM.type +'-'+ this.options.dataFromOSM.id,
-                    contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
-
-                    if ( contributions[ contributionKey ] ) {
-
-                        if ( version >= contributions[ contributionKey ].version ) {
-
-                            delete contributions[ contributionKey ];
-
-                            localStorage.setItem('contributions', JSON.stringify( contributions ));
-                        }
-                        else {
-
-                            this.options.dataFromOSM = contributions[ contributionKey ];
-                        }
-                    }
-
-                    for (var j in tags) {
-
-                        if ( tags[j].getAttribute ) {
-
-                            key = tags[j].getAttribute('k');
-                            value = tags[j].getAttribute('v');
-
-                            result.tags[ key ] = value;
-                        }
-                    }
-
-                    resolve(result);
-                },
-                'error': (jqXHR, textStatus, error) => {
-                    reject();
-                },
-            });
-        });
-    },
-
-    renderTags: function (remoteData) {
-
-        this._remoteData = remoteData;
         this._tagList = new ContribNodeTagsListView();
 
         var popupTag,
@@ -164,23 +144,22 @@ export default Marionette.LayoutView.extend({
 
         if ( popupTags) {
 
-            for (var i in popupTags) {
+            for (let popupTag of popupTags) {
 
-                popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
-                popupTag = popupTags[i];
+                popupTag = popupTag.replace( /\{(.*?)\}/g, '$1' );
 
                 this._tagList.addTag({
                     'key': popupTag,
-                    'value': this.options.dataFromOSM.tags[popupTag],
+                    'value': tags[popupTag],
                     'keyReadOnly': false,
                     'valueReadOnly': false,
                 });
             }
         }
 
-        for (var key in remoteData.tags) {
+        for (let key in tags) {
 
-            var value = remoteData.tags[ key ];
+            let value = tags[key];
 
             if ( popupTags && popupTags.indexOf(key) > -1 ) {
                 continue;
@@ -195,8 +174,6 @@ export default Marionette.LayoutView.extend({
         }
 
         this.ui.footer.removeClass('hide');
-
-        this.model.set('tags', this._tagList.getTags());
 
         this.getRegion('tagList').show( this._tagList );
     },
@@ -214,40 +191,21 @@ export default Marionette.LayoutView.extend({
 
         this.model.set('tags', this._tagList.getTags());
 
+        this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+        this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
+        this._osmEdit.setId(this.model.get('id'));
+        this._osmEdit.setType(this.model.get('type'));
+        this._osmEdit.setVersion(this.model.get('version') + 1);
+        this._osmEdit.setTimestamp(this.model.get('timestamp'));
+        this._osmEdit.setLatitude(this.model.get('lat'));
+        this._osmEdit.setLongitude(this.model.get('lng'));
+        this._osmEdit.setTags(this.model.get('tags'));
+        this._osmEdit.setUid(this._user.get('osmId'));
+        this._osmEdit.setDisplayName(this._user.get('displayName'));
 
-        var osmEdit = new OsmEditHelper(
-            osmAuth({
-
-                'oauth_consumer_key': settings.oauthConsumerKey,
-                'oauth_secret': settings.oauthSecret,
-                'oauth_token': this._user.get('token'),
-                'oauth_token_secret': this._user.get('tokenSecret'),
-            })
-        );
-
-        osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
-        osmEdit.setChangesetComment(CONST.osm.changesetComment);
-        osmEdit.setId(this.model.get('id'));
-        osmEdit.setType(this.model.get('type'));
-        osmEdit.setVersion(this.model.get('version'));
-        osmEdit.setTimestamp(this.model.get('timestamp'));
-        osmEdit.setLatitude(this.model.get('lat'));
-        osmEdit.setLongitude(this.model.get('lng'));
-        osmEdit.setTags(this.model.get('tags'));
-        osmEdit.setUid(this._user.get('osmId'));
-        osmEdit.setDisplayName(this._user.get('displayName'));
-
-        osmEdit.send()
-        .then((nodeId) => {
-
-            // var key = 'node-'+ nodeId,
-            // contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
-            //
-            // this.model.set('version', 0);
-            //
-            // contributions[ key ] = this.model.attributes;
-            //
-            // localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
+        this._osmEdit.send()
+        .then((elementId) => {
+            Cache.save(this.model.attributes);
         })
         .catch(function (err) {
             console.error(err);
@@ -258,8 +216,8 @@ export default Marionette.LayoutView.extend({
     sendXml: function (xml, changesetId) {
 
         var data,
-        id = this.options.dataFromOSM.id,
-        type = this.options.dataFromOSM.type,
+        id = this.options.dataFromOverpass.id,
+        type = this.options.dataFromOverpass.type,
         parentElement = xml.getElementsByTagName(type)[0],
         version = parseInt( parentElement.getAttribute('version') ),
         serializer = new XMLSerializer();
@@ -298,16 +256,16 @@ export default Marionette.LayoutView.extend({
             this._radio.commands.execute(
                 'map:updatePoiPopup',
                 this.options.poiLayerModel,
-                this.options.dataFromOSM
+                this.options.dataFromOverpass
             );
 
 
-            var key = this.options.dataFromOSM.type +'-'+ this.options.dataFromOSM.id,
+            var key = this.options.dataFromOverpass.type +'-'+ this.options.dataFromOverpass.id,
             contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
 
-            this.options.dataFromOSM.version++;
+            this.options.dataFromOverpass.version++;
 
-            contributions[ key ] = this.options.dataFromOSM;
+            contributions[ key ] = this.options.dataFromOverpass;
 
             localStorage.setItem( 'contributions', JSON.stringify( contributions ) );
         });
