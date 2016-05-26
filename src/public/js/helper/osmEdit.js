@@ -18,9 +18,6 @@ export default class OsmEdit{
         this._lng = null;
         this._tags = [];
         this._uid = null;
-        this._version = 0;
-        this._id = null;
-        this._type = 'node';
         this._timestamp = new Date().toISOString();
         this._displayName = null;
     }
@@ -88,41 +85,11 @@ export default class OsmEdit{
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {string} type - Node, way, relation.
-     */
-    setType(type) {
-
-        this._type = type;
-    }
-
-    /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string} id - Node's ID.
-     */
-    setId(id) {
-
-        this._id = id;
-    }
-
-    /**
-     * @author Guillaume AMAT
-     * @access public
      * @param {string} timestamp - Timestamp of the node creation.
      */
     setTimestamp(timestamp) {
 
         this._timestamp = timestamp;
-    }
-
-    /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {number} version - Node's version.
-     */
-    setVersion(version) {
-
-        this._version = version;
     }
 
     /**
@@ -136,13 +103,13 @@ export default class OsmEdit{
     }
 
     /**
-     * Sends the node to OSM.
+     * Creates a node in OSM.
      *
      * @author Guillaume AMAT
      * @access public
      * @return {promise}
      */
-    send() {
+    createNode() {
 
         return new Promise((resolve, reject) => {
 
@@ -218,7 +185,6 @@ export default class OsmEdit{
         nodeElement = xml.createElement('node');
 
         nodeElement.setAttribute('changeset', changesetId);
-        nodeElement.setAttribute('version', this._version);
         nodeElement.setAttribute('timestamp', this._timestamp);
         nodeElement.setAttribute('uid', this._uid);
         nodeElement.setAttribute('display_name', this._displayName);
@@ -385,20 +351,14 @@ export default class OsmEdit{
      _sendXml(changesetId) {
 
          var data,
-         method = 'PUT',
-         path = `/api/0.6/${this._type}/create`,
          xml = this._buildNodeXml(changesetId);
-
-         if (this._id) {
-             path = `/api/0.6/${this._type}/${this._id}`;
-         }
 
          return new Promise((resolve, reject) => {
 
              this._auth.xhr({
 
-                 'method': method,
-                 'path': path,
+                 'method': 'PUT',
+                 'path': '/api/0.6/node/create',
                  'options': {
                      'header': {
                          'Content-Type': 'text/xml'

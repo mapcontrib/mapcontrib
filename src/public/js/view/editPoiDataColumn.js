@@ -8,14 +8,13 @@ import ContributionErrorNotificationView from './contributionErrorNotification';
 import OsmEditHelper from '../helper/osmEdit.js';
 import CONST from '../const';
 import template from '../../templates/editPoiDataColumn.ejs';
-import ContribNodeTagsListView from '../ui/form/contribNodeTags';
-import OsmNodeModel from '../model/osmNode';
-
+import templateField from '../../templates/editPoiDataField.ejs';
 
 
 export default Marionette.LayoutView.extend({
 
     template: template,
+    templateField: templateField,
 
     behaviors: {
 
@@ -23,24 +22,18 @@ export default Marionette.LayoutView.extend({
         'column': {},
     },
 
-    regions: {
-
-        'tagList': '.rg_tag_list',
-    },
-
     ui: {
 
         'column': '#edit_poi_data_column',
-        'content': '.content',
+        'fields': '.fields',
         'footer': '.sticky-footer',
         'footerButtons': '.sticky-footer button',
-        'addBtn': '.add_btn',
     },
 
     events: {
 
-        'click @ui.addBtn': 'onClickAddBtn',
         'submit': 'onSubmit',
+        'reset': 'onReset',
     },
 
     initialize: function (options) {
@@ -49,11 +42,27 @@ export default Marionette.LayoutView.extend({
         this._user = this._app.getUser();
         this._radio = Wreqr.radio.channel('global');
 
-        this.model = new OsmNodeModel();
-
         if ( !this._app.isLogged() ) {
+
             return false;
         }
+
+
+        this._unresolvedConflicts = 0;
+
+        this._auth = osmAuth({
+
+            'oauth_consumer_key': settings.oauthConsumerKey,
+            'oauth_secret': settings.oauthSecret,
+            'oauth_token': this._user.get('token'),
+            'oauth_token_secret': this._user.get('tokenSecret'),
+        });
+
+        this._osmEdit = new OsmEditHelper( this._auth );
+        this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+        this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
+        this._osmEdit.setUid(this._user.get('osmId'));
+        this._osmEdit.setDisplayName(this._user.get('displayName'));
     },
 
     onBeforeOpen: function () {
@@ -93,8 +102,6 @@ export default Marionette.LayoutView.extend({
         popupTags = popupContent.match(re);
 
 
-        this._tagList = new ContribNodeTagsListView();
-
         this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, (remoteData) => {
 
             this._remoteData = remoteData;
@@ -106,36 +113,44 @@ export default Marionette.LayoutView.extend({
                     popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
                     popupTag = popupTags[i];
 
-                    this._tagList.addTag({
-                        'key': popupTag,
+                    html += this.templateField({
+
+                        'tag': popupTag,
                         'value': dataFromOSM.tags[popupTag],
-                        'keyReadOnly': false,
-                        'valueReadOnly': false,
+                        'remoteValue': '',
                     });
                 }
             }
 
-            for (var key in remoteData.tags) {
+            this.ui.fields.html( html );
 
-                var value = remoteData.tags[ key ];
+            html = '';
 
-                if ( popupTags && popupTags.indexOf(key) > -1 ) {
+            for (var tag in remoteData.tags) {
+
+                var value = remoteData.tags[ tag ];
+
+                if ( popupTags && popupTags.indexOf(tag) > -1 ) {
+
                     continue;
                 }
 
-                this._tagList.addTag({
-                    'key': key,
+                html += this.templateField({
+
+                    'tag': tag,
                     'value': value,
-                    'keyReadOnly': true,
-                    'valueReadOnly': false,
+                    'remoteValue': '',
                 });
+            }
+
+            if ( html ) {
+
+                this.ui.fields.append( '<hr>' + html );
             }
 
             this.ui.footer.removeClass('hide');
 
-            this.model.set('tags', this._tagList.getTags());
-
-            this.getRegion('tagList').show( this._tagList );
+            document.l10n.localizeNode( this.ui.fields[0] );
         });
     },
 
@@ -207,48 +222,217 @@ export default Marionette.LayoutView.extend({
 
         this.ui.footerButtons.prop('disabled', true);
 
-        this.model.set('tags', this._tagList.getTags());
+        this.getRemoteEntityData(
 
+            this.options.dataFromOSM.id,
+            this.options.dataFromOSM.type,
+            (remoteData) => {
 
-        var osmEdit = new OsmEditHelper(
-            osmAuth({
+                if ( this._remoteData.version !== remoteData.version ) {
 
-                'oauth_consumer_key': settings.oauthConsumerKey,
-                'oauth_secret': settings.oauthSecret,
-                'oauth_token': this._user.get('token'),
-                'oauth_token_secret': this._user.get('tokenSecret'),
-            })
+                    this.displayConflict( remoteData );
+                }
+                else {
+
+                    this.prepareXml( remoteData );
+                }
+            }
         );
+    },
 
-        osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
-        osmEdit.setChangesetComment(CONST.osm.changesetComment);
-        osmEdit.setId(this.model.get('id'));
-        osmEdit.setType(this.model.get('type'));
-        osmEdit.setVersion(this.model.get('version'));
-        osmEdit.setTimestamp(this.model.get('timestamp'));
-        osmEdit.setLatitude(this.model.get('lat'));
-        osmEdit.setLongitude(this.model.get('lng'));
-        osmEdit.setTags(this.model.get('tags'));
-        osmEdit.setUid(this._user.get('osmId'));
-        osmEdit.setDisplayName(this._user.get('displayName'));
+    prepareXml: function ( remoteData ) {
 
-        osmEdit.send()
-        .then((nodeId) => {
+        var tag, value,
+        parentElement = remoteData.xml.getElementsByTagName(this.options.dataFromOSM.type)[0],
+        tags = remoteData.xml.documentElement.getElementsByTagName('tag'),
+        remoteTags = {};
 
-            // var key = 'node-'+ nodeId,
-            // contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
-            //
-            // this.model.set('version', 0);
-            //
-            // contributions[ key ] = this.model.attributes;
-            //
-            // localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
-        })
-        .catch(function (err) {
-            console.error(err);
+        for (var i in tags) {
+
+            if ( tags[i].getAttribute ) {
+
+                remoteTags[ tags[i].getAttribute('k') ] = tags[i];
+            }
+        }
+
+        this.ui.fields
+        .find('input.form-control')
+        .each((i, input) => {
+
+            tag = $(input).data('tag');
+            value = input.value;
+
+            if ( !value ) {
+
+                if ( typeof remoteTags[tag] != 'undefined' ) {
+
+                    parentElement.removeChild( remoteTags[tag] );
+
+                    delete this.options.dataFromOSM.tags[tag];
+                }
+
+                return;
+            }
+
+            if ( remoteTags[tag] ) {
+
+                remoteTags[tag].setAttribute('v', value);
+            }
+            else {
+
+                var newTag = remoteData.xml.createElement('tag');
+
+                newTag.setAttribute('k', tag);
+                newTag.setAttribute('v', value);
+
+                parentElement.appendChild(newTag);
+            }
+
+            this.options.dataFromOSM.tags[tag] = value;
+        });
+
+
+        this.getChangesetId((changesetId) => {
+
+            this.sendXml( remoteData.xml, changesetId );
         });
     },
 
+
+    displayConflict: function ( remoteData ) {
+
+        var tag, value, newField,
+        html = '';
+
+        this._radio.commands.execute('modal:showConflict');
+
+        this.ui.fields
+        .find('.form-group')
+        .each((i, field) => {
+
+            this.displayFeedbackOnField(field, remoteData);
+        });
+
+
+        for (tag in remoteData.tags) {
+
+            value = remoteData.tags[ tag ];
+
+            if ( this._remoteData.tags[tag] ) {
+
+                continue;
+            }
+
+            html = this.templateField({
+
+                'tag': tag,
+                'value': '',
+                'remoteValue': value,
+            });
+
+            newField = $( html ).appendTo( this.ui.fields );
+
+            this.displayFeedbackOnField(newField, remoteData);
+        }
+
+        this._remoteData = remoteData;
+
+        if ( this._unresolvedConflicts === 0 ) {
+
+            this.ui.footerButtons.prop('disabled', false);
+        }
+    },
+
+
+    displayFeedbackOnField: function (field, remoteData) {
+
+        var $input = $('input.form-control', field),
+        tag = $input.data('tag'),
+        value = $input.val(),
+        remoteValue = remoteData.tags[tag] ? remoteData.tags[tag] : '';
+
+        if ( value !== remoteValue ) {
+
+            this._unresolvedConflicts++;
+
+            $('.remote_value', field).html(
+
+                document.l10n.getSync('editPoiDataColumn_remoteValue', {
+
+                    'remoteValue': remoteValue ? remoteValue : '<em>'+ document.l10n.getSync('empty') +'</em>'
+                })
+            );
+
+            $(field).addClass('has-warning has-feedback');
+            $('.merge_feedback', field).removeClass('hide');
+
+            $('.take_btn', field).click( this.onClickTake.bind(this, field, $input, remoteValue) );
+
+            $('.reject_btn', field).click( this.onClickReject.bind(this, field) );
+        }
+    },
+
+
+    onClickTake: function (field, $input, remoteValue) {
+
+        $input.val(remoteValue);
+
+        $(field).removeClass('has-warning has-feedback');
+        $('.merge_feedback', field).addClass('hide');
+
+        if ( --this._unresolvedConflicts === 0 ) {
+
+            this.ui.footerButtons.prop('disabled', false);
+        }
+    },
+
+
+    onClickReject: function (field) {
+
+        $(field).removeClass('has-warning has-feedback');
+        $('.merge_feedback', field).addClass('hide');
+
+        if ( --this._unresolvedConflicts === 0 ) {
+
+            this.ui.footerButtons.prop('disabled', false);
+        }
+    },
+
+
+    getChangesetId: function ( callback ) {
+
+        var changesetId = sessionStorage.getItem('changesetId'),
+        changesetXml = this._osmEdit._buildChangesetXml();
+
+        if ( changesetId ) {
+
+            this._osmEdit._isChangesetStillOpen(changesetId)
+            .then((changesetId) => {
+
+                callback(changesetId);
+            })
+            .catch((err) => {
+
+                sessionStorage.removeItem('changesetId');
+                this.getChangesetId(callback);
+            });
+        }
+        else {
+
+            this._osmEdit._createChangeset()
+            .then((changesetId) => {
+
+                sessionStorage.setItem('changesetId', changesetId);
+                callback(changesetId);
+            })
+            .catch((err) => {
+
+                console.log('ERROR on put changeset: ' + err.response);
+                sessionStorage.removeItem('changesetId');
+                this.getChangesetId(callback);
+            });
+        }
+    },
 
     sendXml: function (xml, changesetId) {
 
@@ -310,12 +494,8 @@ export default Marionette.LayoutView.extend({
         this.close();
     },
 
-    onClickAddBtn: function () {
+    onReset: function () {
 
-        this._tagList.addTag();
-
-        let scrollHeight = this.ui.column.height() +
-        this._tagList.el.scrollHeight;
-        this.ui.content[0].scrollTo(0, scrollHeight);
+        this.close();
     },
 });

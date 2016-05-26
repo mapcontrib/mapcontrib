@@ -25,29 +25,29 @@ describe('ThemeModel', () => {
 
     describe('buildPath', () => {
         it('Should return a complete path', () => {
-            const expected = '/t/a6g07ft-A_name_with_spcial_characterS_';
+            const expected = '/t/a6g07ft-A_name_with_special_characterS_';
 
-            assert.strictEqual(theme.buildPath(), expected);
+            assert.strictEqual(expected, theme.buildPath());
         });
     });
 
     describe('buildWebLinkName', () => {
         it('Should return a cleaned up name', () => {
-            const expected = 'A_name_with_spcial_characterS_';
+            const expected = 'A_name_with_special_characterS_';
 
-            assert.strictEqual(theme.buildWebLinkName(), expected);
+            assert.strictEqual(expected, theme.buildWebLinkName());
         });
     });
 
     describe('isOwner', () => {
         it('Should be a owner by userId', () => {
             let user = new UserModel({ '_id': '5d8e2fv4s65s8ze4sd8cv4v' });
-            assert.strictEqual(theme.isOwner(user), true);
+            assert.strictEqual(true, theme.isOwner(user));
         });
 
         it('Should be a owner by owners list', () => {
             let user = new UserModel({ '_id': '5d8e2fv4s65s8ze4sdbbbbb' });
-            assert.strictEqual(theme.isOwner(user), true);
+            assert.strictEqual(true, theme.isOwner(user));
         });
 
         it('Should be a owner by wildcard', () => {
@@ -57,12 +57,12 @@ describe('ThemeModel', () => {
                     '*'
                 ]
             });
-            assert.strictEqual(theme.isOwner(user), true);
+            assert.strictEqual(true, theme.isOwner(user));
         });
 
         it('Shouldn\'t be a owner', () => {
             let user = new UserModel({ '_id': '5d8e2fv4s65s8ze4sdccccc' });
-            assert.strictEqual(theme.isOwner(user), false);
+            assert.strictEqual(false, theme.isOwner(user));
         });
     });
 });
