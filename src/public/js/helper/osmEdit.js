@@ -211,7 +211,7 @@ export default class OsmEdit{
      * @param {number} changesetId - The changeset ID used during the call to OSM.
      * @return {string} - The node XML.
      */
-    _buildNodeXml(changesetId) {
+    _buildXml(changesetId) {
 
         var xml = new DOMImplementation().createDocument('', '', null),
         osmElement = xml.createElement('osm'),
@@ -387,7 +387,7 @@ export default class OsmEdit{
          var data,
          method = 'PUT',
          path = `/api/0.6/${this._type}/create`,
-         xml = this._buildNodeXml(changesetId);
+         xml = this._buildXml(changesetId);
 
          if (this._id) {
              path = `/api/0.6/${this._type}/${this._id}`;

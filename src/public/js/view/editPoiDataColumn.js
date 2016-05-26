@@ -84,9 +84,6 @@ export default Marionette.LayoutView.extend({
             return this;
         }
 
-        fetch('https://duckduckgo.com/?q=javascript+fetch+410&ia=web')
-        .then(function(a, b, c){console.log(a, b, c);});
-
         this.getRemoteEntityData(
             this.options.dataFromOSM.id,
             this.options.dataFromOSM.type
