@@ -105,10 +105,12 @@ export default Marionette.LayoutView.extend({
             this.model.get('id')
         )
         .then((osmEdit) => {
-            let tags = osmEdit.getTags(),
-            version = osmEdit.getVersion(),
+            let version = osmEdit.getVersion(),
             type = this.model.get('type'),
             id = this.model.get('id');
+
+            this.model.set('tags', osmEdit.getTags());
+            this.model.set('version', osmEdit.getVersion() + 1);
 
             if (Cache.exists(type, id)) {
                 if (Cache.isNewerThanCache(type, id, version)) {
@@ -126,7 +128,7 @@ export default Marionette.LayoutView.extend({
                 }
             }
 
-            this.renderTags(tags);
+            this.renderTags( this.model.get('tags') );
         })
         .catch(() => {
             console.error('FIXME');
@@ -137,20 +139,25 @@ export default Marionette.LayoutView.extend({
 
         this._tagList = new ContribNodeTagsListView();
 
-        var popupTag,
+        let popupTag, value,
         popupContent = this.options.poiLayerModel.get('popupContent'),
         re = new RegExp('{(.*?)}', 'g'),
         popupTags = popupContent.match(re);
 
         if ( popupTags) {
-
             for (let popupTag of popupTags) {
-
                 popupTag = popupTag.replace( /\{(.*?)\}/g, '$1' );
+
+                if ( tags[popupTag] ) {
+                    value = tags[popupTag];
+                }
+                else {
+                    value = '';
+                }
 
                 this._tagList.addTag({
                     'key': popupTag,
-                    'value': tags[popupTag],
+                    'value': value,
                     'keyReadOnly': false,
                     'valueReadOnly': false,
                 });
@@ -158,11 +165,15 @@ export default Marionette.LayoutView.extend({
         }
 
         for (let key in tags) {
-
-            let value = tags[key];
-
             if ( popupTags && popupTags.indexOf(key) > -1 ) {
                 continue;
+            }
+
+            if ( tags[popupTag] ) {
+                value = tags[popupTag];
+            }
+            else {
+                value = '';
             }
 
             this._tagList.addTag({
