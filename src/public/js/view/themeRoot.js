@@ -831,9 +831,7 @@ export default Marionette.LayoutView.extend({
     updatePoiPopup: function (poiLayerModel, node) {
 
         this._mapLayers[ poiLayerModel.cid ].eachLayer((layer) => {
-
             if ( !layer._dataFromOverpass || layer._dataFromOverpass.id !== node.id ) {
-
                 return;
             }
 

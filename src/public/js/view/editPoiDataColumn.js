@@ -57,7 +57,7 @@ export default Marionette.LayoutView.extend({
         this.model = new OsmNodeModel({
             'id': this.options.dataFromOverpass.id,
             'type': this.options.dataFromOverpass.type,
-            'version': this.options.dataFromOverpass.version,
+            'version': this.options.dataFromOverpass.version + 1,
             'lat': this.options.dataFromOverpass.lat,
             'lng': this.options.dataFromOverpass.lon,
             'tags': this.options.dataFromOverpass.tags,
@@ -119,7 +119,7 @@ export default Marionette.LayoutView.extend({
 
                     this.model.set('id', elementFromCache.id);
                     this.model.set('type', elementFromCache.type);
-                    this.model.set('version', elementFromCache.version);
+                    this.model.set('version', elementFromCache.version + 1);
                     this.model.set('lat', elementFromCache.lat);
                     this.model.set('lng', elementFromCache.lon);
                     this.model.set('tags', elementFromCache.tags);
@@ -183,7 +183,6 @@ export default Marionette.LayoutView.extend({
         e.preventDefault();
 
         if ( !this._app.isLogged() ) {
-
             return false;
         }
 
@@ -195,7 +194,7 @@ export default Marionette.LayoutView.extend({
         this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
         this._osmEdit.setId(this.model.get('id'));
         this._osmEdit.setType(this.model.get('type'));
-        this._osmEdit.setVersion(this.model.get('version') + 1);
+        this._osmEdit.setVersion(this.model.get('version'));
         this._osmEdit.setTimestamp(this.model.get('timestamp'));
         this._osmEdit.setLatitude(this.model.get('lat'));
         this._osmEdit.setLongitude(this.model.get('lng'));
@@ -203,74 +202,31 @@ export default Marionette.LayoutView.extend({
         this._osmEdit.setUid(this._user.get('osmId'));
         this._osmEdit.setDisplayName(this._user.get('displayName'));
 
-        this._osmEdit.send()
-        .then((elementId) => {
-            Cache.save(this.model.attributes);
-        })
-        .catch(function (err) {
-            console.error(err);
-        });
+        this.sendContributionToOSM();
+
+        this.close();
     },
 
-
-    sendXml: function (xml, changesetId) {
-
-        var data,
-        id = this.options.dataFromOverpass.id,
-        type = this.options.dataFromOverpass.type,
-        parentElement = xml.getElementsByTagName(type)[0],
-        version = parseInt( parentElement.getAttribute('version') ),
-        serializer = new XMLSerializer();
-
-        parentElement.setAttribute('changeset', changesetId);
-        parentElement.setAttribute('timestamp', new Date().toISOString());
-        parentElement.setAttribute('uid', this._user.get('osmId'));
-        parentElement.setAttribute('display_name', this._user.get('displayName'));
-        parentElement.removeAttribute('user');
-
-        data = serializer.serializeToString(xml);
-
-
-        this._auth.xhr({
-
-            'method': 'PUT',
-            'path': '/api/0.6/'+ type +'/'+ id,
-            'options': { 'header': { 'Content-Type': 'text/xml' } },
-            'content': data,
-        },
-        (err, res) => {
-
-            if (err) {
-
-                var notification = new ContributionErrorNotificationView({
-                    'retryCallback': this.sendXml.bind(this, xml, changesetId)
-                });
-
-                $('body').append( notification.el );
-
-                notification.open();
-
-                return;
-            }
-
+    sendContributionToOSM: function () {
+        this._osmEdit.send()
+        .then((elementId) => {
             this._radio.commands.execute(
                 'map:updatePoiPopup',
                 this.options.poiLayerModel,
-                this.options.dataFromOverpass
+                this.model.attributes
             );
 
+            Cache.save(this.model.attributes);
+        })
+        .catch(function (err) {
+            var notification = new ContributionErrorNotificationView({
+                'retryCallback': this.sendContributionToOSM.bind(this)
+            });
 
-            var key = this.options.dataFromOverpass.type +'-'+ this.options.dataFromOverpass.id,
-            contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
+            document.body.appendChild( notification.el );
 
-            this.options.dataFromOverpass.version++;
-
-            contributions[ key ] = this.options.dataFromOverpass;
-
-            localStorage.setItem( 'contributions', JSON.stringify( contributions ) );
+            notification.open();
         });
-
-        this.close();
     },
 
     onClickAddBtn: function () {

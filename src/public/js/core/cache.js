@@ -104,6 +104,6 @@ export default class Cache {
 
         contributions[contributionKey] = contribution;
 
-        localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
+        localStorage.setItem( 'contributions', JSON.stringify( contributions ) );
     }
 }
