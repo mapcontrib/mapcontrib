@@ -21,15 +21,15 @@ describe('OsmEditHelper', () => {
 
             let returnedXml = osmEdit._buildChangesetXml();
 
-            assert.strictEqual(expected, returnedXml);
+            assert.strictEqual(returnedXml, expected);
         });
     });
 
-    describe('_buildNodeXml', () => {
+    describe('_buildXml', () => {
 
         it('Should return a serialized node XML', () => {
 
-            const expected = '<osm><node changeset="85964251" timestamp="2016-03-24T12:21:30.546Z" uid="3569284" display_name="Walter White" lat="42.3" lon="0.2"><tag k="a key" v="a value"/><tag k="another key" v="another value"/></node></osm>';
+            const expected = '<osm><node changeset="85964251" version="0" timestamp="2016-03-24T12:21:30.546Z" uid="3569284" display_name="Walter White" lat="42.3" lon="0.2"><tag k="a key" v="a value"/><tag k="another key" v="another value"/></node></osm>';
 
             let osmEdit = new OsmEditHelper();
 
@@ -50,9 +50,9 @@ describe('OsmEditHelper', () => {
             ]);
 
 
-            let returnedXml = osmEdit._buildNodeXml(85964251);
+            let returnedXml = osmEdit._buildXml(85964251);
 
-            assert.strictEqual(expected, returnedXml);
+            assert.strictEqual(returnedXml, expected);
         });
     });
 });

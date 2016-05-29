@@ -39,6 +39,7 @@ import OsmNodeModel from '../model/osmNode';
 
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
+import Cache from '../core/cache';
 
 import template from '../../templates/themeRoot.ejs';
 
@@ -250,9 +251,9 @@ export default Marionette.LayoutView.extend({
 
                 this.fitBounds( latLngBounds );
             },
-            'editPoiData': (dataFromOSM, poiLayerModel) => {
+            'editPoiData': (dataFromOverpass, poiLayerModel) => {
 
-                this.onCommandEditPoiData( dataFromOSM, poiLayerModel );
+                this.onCommandEditPoiData( dataFromOverpass, poiLayerModel );
             },
         });
 
@@ -685,7 +686,7 @@ export default Marionette.LayoutView.extend({
                         'icon': icon
                     });
 
-                    marker._dataFromOSM = e;
+                    marker._dataFromOverpass = e;
 
                     if ( popupContent ) {
 
@@ -781,10 +782,10 @@ export default Marionette.LayoutView.extend({
 
         this._mapLayers[ poiLayerModel.cid ].eachLayer((layer) => {
 
-            if ( layer._dataFromOSM ) {
+            if ( layer._dataFromOverpass ) {
 
                 popup = layer.getPopup();
-                popupContent = this.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOSM );
+                popupContent = this.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOverpass );
 
                 if ( popupContent ) {
 
@@ -830,52 +831,45 @@ export default Marionette.LayoutView.extend({
     updatePoiPopup: function (poiLayerModel, node) {
 
         this._mapLayers[ poiLayerModel.cid ].eachLayer((layer) => {
-
-            if ( !layer._dataFromOSM || layer._dataFromOSM.id !== node.id ) {
-
+            if ( !layer._dataFromOverpass || layer._dataFromOverpass.id !== node.id ) {
                 return;
             }
 
-            layer._dataFromOSM = node;
+            layer._dataFromOverpass = node;
 
-            layer.setPopupContent( this.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOSM ) );
+            layer.setPopupContent( this.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOverpass ) );
         });
     },
 
-    getPoiLayerPopupContent: function (poiLayerModel, dataFromOSM) {
+    getPoiLayerPopupContent: function (poiLayerModel, dataFromOverpass) {
 
         if ( !poiLayerModel.get('popupContent') ) {
 
             return '';
         }
 
-        var re,
+        let re,
+        type = dataFromOverpass.type,
+        id = dataFromOverpass.id,
+        version = dataFromOverpass.version,
         globalWrapper = this._document.createElement('div'),
         editButtonWrapper = this._document.createElement('div'),
         editButton = this._document.createElement('button'),
-        popupContent = marked( poiLayerModel.get('popupContent') ),
-        contributionKey = dataFromOSM.type +'-'+ dataFromOSM.id,
-        contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
+        popupContent = marked( poiLayerModel.get('popupContent') );
 
-        if ( contributions[ contributionKey ] ) {
-
-            if ( dataFromOSM.version >= contributions[ contributionKey ].version ) {
-
-                delete contributions[ contributionKey ];
-
-                localStorage.setItem('contributions', JSON.stringify( contributions ));
+        if (Cache.exists(type, id)) {
+            if (Cache.isNewerThanCache(type, id, version)) {
+                Cache.remove(type, id);
             }
             else {
-
-                dataFromOSM = contributions[ contributionKey ];
+                dataFromOverpass = Cache.get(type, id, version);
             }
         }
 
-        for (var k in dataFromOSM.tags) {
-
+        for (var k in dataFromOverpass.tags) {
             re = new RegExp('{'+ k +'}', 'g');
 
-            popupContent = popupContent.replace( re, dataFromOSM.tags[k] );
+            popupContent = popupContent.replace( re, dataFromOverpass.tags[k] );
         }
 
         popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
@@ -893,7 +887,7 @@ export default Marionette.LayoutView.extend({
 
             $(editButton).on('click', () => {
 
-                this._radio.commands.execute('editPoiData', dataFromOSM, poiLayerModel);
+                this._radio.commands.execute('editPoiData', dataFromOverpass, poiLayerModel);
             });
 
             editButtonWrapper.className = 'text-center prepend-xs-1 edit_poi_data';
@@ -905,11 +899,11 @@ export default Marionette.LayoutView.extend({
         return globalWrapper;
     },
 
-    onCommandEditPoiData: function (dataFromOSM, poiLayerModel) {
+    onCommandEditPoiData: function (dataFromOverpass, poiLayerModel) {
 
         var view = new EditPoiDataColumnView({
             'app': this._app,
-            'dataFromOSM': dataFromOSM,
+            'dataFromOverpass': dataFromOverpass,
             'poiLayerModel': poiLayerModel,
         });
 
@@ -1307,7 +1301,8 @@ export default Marionette.LayoutView.extend({
     onClickMapToAddPoint: function (e) {
 
         var osmNodeModel = new OsmNodeModel({
-
+            'type': 'node',
+            'version': 0,
             'lat': e.latlng.lat,
             'lng': e.latlng.lng,
         });

@@ -8,13 +8,15 @@ import ContributionErrorNotificationView from './contributionErrorNotification';
 import OsmEditHelper from '../helper/osmEdit.js';
 import CONST from '../const';
 import template from '../../templates/editPoiDataColumn.ejs';
-import templateField from '../../templates/editPoiDataField.ejs';
+import ContribNodeTagsListView from '../ui/form/contribNodeTags';
+import OsmNodeModel from '../model/osmNode';
+import Cache from '../core/cache';
+
 
 
 export default Marionette.LayoutView.extend({
 
     template: template,
-    templateField: templateField,
 
     behaviors: {
 
@@ -22,47 +24,54 @@ export default Marionette.LayoutView.extend({
         'column': {},
     },
 
+    regions: {
+
+        'tagList': '.rg_tag_list',
+    },
+
     ui: {
 
         'column': '#edit_poi_data_column',
-        'fields': '.fields',
+        'content': '.content',
         'footer': '.sticky-footer',
         'footerButtons': '.sticky-footer button',
+        'addBtn': '.add_btn',
     },
 
     events: {
 
+        'click @ui.addBtn': 'onClickAddBtn',
         'submit': 'onSubmit',
-        'reset': 'onReset',
     },
 
-    initialize: function (options) {
+    initialize: function () {
 
-        this._app = options.app;
+        this._app = this.options.app;
         this._user = this._app.getUser();
         this._radio = Wreqr.radio.channel('global');
 
         if ( !this._app.isLogged() ) {
-
             return false;
         }
 
-
-        this._unresolvedConflicts = 0;
-
-        this._auth = osmAuth({
-
-            'oauth_consumer_key': settings.oauthConsumerKey,
-            'oauth_secret': settings.oauthSecret,
-            'oauth_token': this._user.get('token'),
-            'oauth_token_secret': this._user.get('tokenSecret'),
+        this.model = new OsmNodeModel({
+            'id': this.options.dataFromOverpass.id,
+            'type': this.options.dataFromOverpass.type,
+            'version': this.options.dataFromOverpass.version + 1,
+            'lat': this.options.dataFromOverpass.lat,
+            'lng': this.options.dataFromOverpass.lon,
+            'tags': this.options.dataFromOverpass.tags,
         });
 
-        this._osmEdit = new OsmEditHelper( this._auth );
-        this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
-        this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
-        this._osmEdit.setUid(this._user.get('osmId'));
-        this._osmEdit.setDisplayName(this._user.get('displayName'));
+        this._osmEdit = new OsmEditHelper(
+            osmAuth({
+
+                'oauth_consumer_key': settings.oauthConsumerKey,
+                'oauth_secret': settings.oauthSecret,
+                'oauth_token': this._user.get('token'),
+                'oauth_token_secret': this._user.get('tokenSecret'),
+            })
+        );
     },
 
     onBeforeOpen: function () {
@@ -84,131 +93,89 @@ export default Marionette.LayoutView.extend({
     onRender: function () {
 
         if ( !this.options.poiLayerModel.get('dataEditable') ) {
-
             return this;
         }
 
         if ( !this._app.isLogged() ) {
-
             return this;
         }
 
-        var popupTag,
-        html = '',
-        dataFromOSM = this.options.dataFromOSM,
-        poiLayerModel = this.options.poiLayerModel,
-        popupContent = poiLayerModel.get('popupContent'),
-        re = new RegExp('{(.*?)}', 'g'),
-        popupTags = popupContent.match(re);
+        this._osmEdit.fetch(
+            this.model.get('type'),
+            this.model.get('id')
+        )
+        .then((osmEdit) => {
+            let tags = osmEdit.getTags(),
+            version = osmEdit.getVersion(),
+            type = this.model.get('type'),
+            id = this.model.get('id');
 
+            if (Cache.exists(type, id)) {
+                if (Cache.isNewerThanCache(type, id, version)) {
+                    Cache.remove(type, id);
+                }
+                else {
+                    let elementFromCache = Cache.get(type, id);
 
-        this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, (remoteData) => {
-
-            this._remoteData = remoteData;
-
-            if ( popupTags) {
-
-                for (var i in popupTags) {
-
-                    popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
-                    popupTag = popupTags[i];
-
-                    html += this.templateField({
-
-                        'tag': popupTag,
-                        'value': dataFromOSM.tags[popupTag],
-                        'remoteValue': '',
-                    });
+                    this.model.set('id', elementFromCache.id);
+                    this.model.set('type', elementFromCache.type);
+                    this.model.set('version', elementFromCache.version + 1);
+                    this.model.set('lat', elementFromCache.lat);
+                    this.model.set('lng', elementFromCache.lon);
+                    this.model.set('tags', elementFromCache.tags);
                 }
             }
 
-            this.ui.fields.html( html );
-
-            html = '';
-
-            for (var tag in remoteData.tags) {
-
-                var value = remoteData.tags[ tag ];
-
-                if ( popupTags && popupTags.indexOf(tag) > -1 ) {
-
-                    continue;
-                }
-
-                html += this.templateField({
-
-                    'tag': tag,
-                    'value': value,
-                    'remoteValue': '',
-                });
-            }
-
-            if ( html ) {
-
-                this.ui.fields.append( '<hr>' + html );
-            }
-
-            this.ui.footer.removeClass('hide');
-
-            document.l10n.localizeNode( this.ui.fields[0] );
+            this.renderTags(tags);
+        })
+        .catch(() => {
+            console.error('FIXME');
         });
     },
 
-    getRemoteEntityData: function ( id, type, callback ) {
+    renderTags: function (tags) {
 
-        $.ajax({
+        this._tagList = new ContribNodeTagsListView();
 
-            'method': 'GET',
-            'dataType': 'xml',
-            'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
-            'success': (xml, jqXHR, textStatus) => {
+        var popupTag,
+        popupContent = this.options.poiLayerModel.get('popupContent'),
+        re = new RegExp('{(.*?)}', 'g'),
+        popupTags = popupContent.match(re);
 
-                var key, value,
-                parentElement = xml.getElementsByTagName(type)[0],
-                tags = xml.documentElement.getElementsByTagName('tag'),
-                version = parseInt( parentElement.getAttribute('version') ),
-                result = {
+        if ( popupTags) {
 
-                    'version': version,
-                    'tags': {},
-                    'xml': xml
-                },
-                contributionKey = this.options.dataFromOSM.type +'-'+ this.options.dataFromOSM.id,
-                contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
+            for (let popupTag of popupTags) {
 
-                if ( contributions[ contributionKey ] ) {
+                popupTag = popupTag.replace( /\{(.*?)\}/g, '$1' );
 
-                    if ( version >= contributions[ contributionKey ].version ) {
+                this._tagList.addTag({
+                    'key': popupTag,
+                    'value': tags[popupTag],
+                    'keyReadOnly': false,
+                    'valueReadOnly': false,
+                });
+            }
+        }
 
-                        delete contributions[ contributionKey ];
+        for (let key in tags) {
 
-                        localStorage.setItem('contributions', JSON.stringify( contributions ));
-                    }
-                    else {
+            let value = tags[key];
 
-                        this.options.dataFromOSM = contributions[ contributionKey ];
-                    }
-                }
+            if ( popupTags && popupTags.indexOf(key) > -1 ) {
+                continue;
+            }
 
+            this._tagList.addTag({
+                'key': key,
+                'value': value,
+                'keyReadOnly': false,
+                'valueReadOnly': false,
+            });
+        }
 
-                for (var j in tags) {
+        this.ui.footer.removeClass('hide');
 
-                    if ( tags[j].getAttribute ) {
-
-                        key = tags[j].getAttribute('k');
-                        value = tags[j].getAttribute('v');
-
-                        result.tags[ key ] = value;
-                    }
-                }
-
-                callback( result );
-            },
-            'error': (jqXHR, textStatus, error) => {
-
-                console.error('FIXME');
-            },
-        });
+        this.getRegion('tagList').show( this._tagList );
     },
 
     onSubmit: function (e) {
@@ -216,286 +183,58 @@ export default Marionette.LayoutView.extend({
         e.preventDefault();
 
         if ( !this._app.isLogged() ) {
-
             return false;
         }
 
         this.ui.footerButtons.prop('disabled', true);
 
-        this.getRemoteEntityData(
+        this.model.set('tags', this._tagList.getTags());
 
-            this.options.dataFromOSM.id,
-            this.options.dataFromOSM.type,
-            (remoteData) => {
+        this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+        this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
+        this._osmEdit.setId(this.model.get('id'));
+        this._osmEdit.setType(this.model.get('type'));
+        this._osmEdit.setVersion(this.model.get('version'));
+        this._osmEdit.setTimestamp(this.model.get('timestamp'));
+        this._osmEdit.setLatitude(this.model.get('lat'));
+        this._osmEdit.setLongitude(this.model.get('lng'));
+        this._osmEdit.setTags(this.model.get('tags'));
+        this._osmEdit.setUid(this._user.get('osmId'));
+        this._osmEdit.setDisplayName(this._user.get('displayName'));
 
-                if ( this._remoteData.version !== remoteData.version ) {
+        this.sendContributionToOSM();
 
-                    this.displayConflict( remoteData );
-                }
-                else {
-
-                    this.prepareXml( remoteData );
-                }
-            }
-        );
+        this.close();
     },
 
-    prepareXml: function ( remoteData ) {
-
-        var tag, value,
-        parentElement = remoteData.xml.getElementsByTagName(this.options.dataFromOSM.type)[0],
-        tags = remoteData.xml.documentElement.getElementsByTagName('tag'),
-        remoteTags = {};
-
-        for (var i in tags) {
-
-            if ( tags[i].getAttribute ) {
-
-                remoteTags[ tags[i].getAttribute('k') ] = tags[i];
-            }
-        }
-
-        this.ui.fields
-        .find('input.form-control')
-        .each((i, input) => {
-
-            tag = $(input).data('tag');
-            value = input.value;
-
-            if ( !value ) {
-
-                if ( typeof remoteTags[tag] != 'undefined' ) {
-
-                    parentElement.removeChild( remoteTags[tag] );
-
-                    delete this.options.dataFromOSM.tags[tag];
-                }
-
-                return;
-            }
-
-            if ( remoteTags[tag] ) {
-
-                remoteTags[tag].setAttribute('v', value);
-            }
-            else {
-
-                var newTag = remoteData.xml.createElement('tag');
-
-                newTag.setAttribute('k', tag);
-                newTag.setAttribute('v', value);
-
-                parentElement.appendChild(newTag);
-            }
-
-            this.options.dataFromOSM.tags[tag] = value;
-        });
-
-
-        this.getChangesetId((changesetId) => {
-
-            this.sendXml( remoteData.xml, changesetId );
-        });
-    },
-
-
-    displayConflict: function ( remoteData ) {
-
-        var tag, value, newField,
-        html = '';
-
-        this._radio.commands.execute('modal:showConflict');
-
-        this.ui.fields
-        .find('.form-group')
-        .each((i, field) => {
-
-            this.displayFeedbackOnField(field, remoteData);
-        });
-
-
-        for (tag in remoteData.tags) {
-
-            value = remoteData.tags[ tag ];
-
-            if ( this._remoteData.tags[tag] ) {
-
-                continue;
-            }
-
-            html = this.templateField({
-
-                'tag': tag,
-                'value': '',
-                'remoteValue': value,
-            });
-
-            newField = $( html ).appendTo( this.ui.fields );
-
-            this.displayFeedbackOnField(newField, remoteData);
-        }
-
-        this._remoteData = remoteData;
-
-        if ( this._unresolvedConflicts === 0 ) {
-
-            this.ui.footerButtons.prop('disabled', false);
-        }
-    },
-
-
-    displayFeedbackOnField: function (field, remoteData) {
-
-        var $input = $('input.form-control', field),
-        tag = $input.data('tag'),
-        value = $input.val(),
-        remoteValue = remoteData.tags[tag] ? remoteData.tags[tag] : '';
-
-        if ( value !== remoteValue ) {
-
-            this._unresolvedConflicts++;
-
-            $('.remote_value', field).html(
-
-                document.l10n.getSync('editPoiDataColumn_remoteValue', {
-
-                    'remoteValue': remoteValue ? remoteValue : '<em>'+ document.l10n.getSync('empty') +'</em>'
-                })
-            );
-
-            $(field).addClass('has-warning has-feedback');
-            $('.merge_feedback', field).removeClass('hide');
-
-            $('.take_btn', field).click( this.onClickTake.bind(this, field, $input, remoteValue) );
-
-            $('.reject_btn', field).click( this.onClickReject.bind(this, field) );
-        }
-    },
-
-
-    onClickTake: function (field, $input, remoteValue) {
-
-        $input.val(remoteValue);
-
-        $(field).removeClass('has-warning has-feedback');
-        $('.merge_feedback', field).addClass('hide');
-
-        if ( --this._unresolvedConflicts === 0 ) {
-
-            this.ui.footerButtons.prop('disabled', false);
-        }
-    },
-
-
-    onClickReject: function (field) {
-
-        $(field).removeClass('has-warning has-feedback');
-        $('.merge_feedback', field).addClass('hide');
-
-        if ( --this._unresolvedConflicts === 0 ) {
-
-            this.ui.footerButtons.prop('disabled', false);
-        }
-    },
-
-
-    getChangesetId: function ( callback ) {
-
-        var changesetId = sessionStorage.getItem('changesetId'),
-        changesetXml = this._osmEdit._buildChangesetXml();
-
-        if ( changesetId ) {
-
-            this._osmEdit._isChangesetStillOpen(changesetId)
-            .then((changesetId) => {
-
-                callback(changesetId);
-            })
-            .catch((err) => {
-
-                sessionStorage.removeItem('changesetId');
-                this.getChangesetId(callback);
-            });
-        }
-        else {
-
-            this._osmEdit._createChangeset()
-            .then((changesetId) => {
-
-                sessionStorage.setItem('changesetId', changesetId);
-                callback(changesetId);
-            })
-            .catch((err) => {
-
-                console.log('ERROR on put changeset: ' + err.response);
-                sessionStorage.removeItem('changesetId');
-                this.getChangesetId(callback);
-            });
-        }
-    },
-
-    sendXml: function (xml, changesetId) {
-
-        var data,
-        id = this.options.dataFromOSM.id,
-        type = this.options.dataFromOSM.type,
-        parentElement = xml.getElementsByTagName(type)[0],
-        version = parseInt( parentElement.getAttribute('version') ),
-        serializer = new XMLSerializer();
-
-        parentElement.setAttribute('changeset', changesetId);
-        parentElement.setAttribute('timestamp', new Date().toISOString());
-        parentElement.setAttribute('uid', this._user.get('osmId'));
-        parentElement.setAttribute('display_name', this._user.get('displayName'));
-        parentElement.removeAttribute('user');
-
-        data = serializer.serializeToString(xml);
-
-
-        this._auth.xhr({
-
-            'method': 'PUT',
-            'path': '/api/0.6/'+ type +'/'+ id,
-            'options': { 'header': { 'Content-Type': 'text/xml' } },
-            'content': data,
-        },
-        (err, res) => {
-
-            if (err) {
-
-                var notification = new ContributionErrorNotificationView({
-                    'retryCallback': this.sendXml.bind(this, xml, changesetId)
-                });
-
-                $('body').append( notification.el );
-
-                notification.open();
-
-                return;
-            }
-
+    sendContributionToOSM: function () {
+        this._osmEdit.send()
+        .then((elementId) => {
             this._radio.commands.execute(
                 'map:updatePoiPopup',
                 this.options.poiLayerModel,
-                this.options.dataFromOSM
+                this.model.attributes
             );
 
+            Cache.save(this.model.attributes);
+        })
+        .catch(function (err) {
+            var notification = new ContributionErrorNotificationView({
+                'retryCallback': this.sendContributionToOSM.bind(this)
+            });
 
-            var key = this.options.dataFromOSM.type +'-'+ this.options.dataFromOSM.id,
-            contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
+            document.body.appendChild( notification.el );
 
-            this.options.dataFromOSM.version++;
-
-            contributions[ key ] = this.options.dataFromOSM;
-
-            localStorage.setItem( 'contributions', JSON.stringify( contributions ) );
+            notification.open();
         });
-
-        this.close();
     },
 
-    onReset: function () {
+    onClickAddBtn: function () {
 
-        this.close();
+        this._tagList.addTag();
+
+        let scrollHeight = this.ui.column.height() +
+        this._tagList.el.scrollHeight;
+        this.ui.content[0].scrollTo(0, scrollHeight);
     },
 });

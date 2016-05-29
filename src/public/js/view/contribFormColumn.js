@@ -37,7 +37,6 @@ export default Marionette.LayoutView.extend({
     events: {
 
         'click @ui.addBtn': 'onClickAddBtn',
-
         'submit': 'onSubmit',
     },
 
@@ -129,6 +128,7 @@ export default Marionette.LayoutView.extend({
         e.preventDefault();
 
         this.model.set('tags', this._tagList.getTags());
+        this.model.set('timestamp', new Date().toISOString());
 
         var map = this._radio.reqres.request('map'),
         osmEdit = new OsmEditHelper(
@@ -143,6 +143,9 @@ export default Marionette.LayoutView.extend({
 
         osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
         osmEdit.setChangesetComment(CONST.osm.changesetComment);
+        osmEdit.setType(this.model.get('type'));
+        osmEdit.setVersion(this.model.get('version'));
+        osmEdit.setTimestamp(this.model.get('timestamp'));
         osmEdit.setLatitude(this.model.get('lat'));
         osmEdit.setLongitude(this.model.get('lng'));
         osmEdit.setTags(this.model.get('tags'));
@@ -153,20 +156,17 @@ export default Marionette.LayoutView.extend({
 
         this.close();
 
-        osmEdit.createNode()
-        .then(function (nodeId) {
+        osmEdit.send()
+        .then((nodeId) => {
 
             var key = 'node-'+ nodeId,
             contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
 
-            this.model.set('version', 0);
-
             contributions[ key ] = this.model.attributes;
 
             localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
-        }.bind(this))
+        })
         .catch(function (err) {
-
             console.error(err);
         });
     },
