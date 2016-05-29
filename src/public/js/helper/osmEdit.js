@@ -519,40 +519,36 @@ export default class OsmEdit{
       * @param {number} changesetId - The changeset ID to use during the sending.
       * @return {promise}
       */
-     _sendXml(changesetId) {
+    _sendXml(changesetId) {
 
-         var data,
-         method = 'PUT',
-         path = `/api/0.6/${this._type}/create`,
-         xml = this._buildXml(changesetId);
+        var data,
+        method = 'PUT',
+        path = `/api/0.6/${this._type}/create`,
+        xml = this._buildXml(changesetId);
 
-         if (this._id) {
-             path = `/api/0.6/${this._type}/${this._id}`;
-         }
+        if (this._id) {
+            path = `/api/0.6/${this._type}/${this._id}`;
+        }
 
-         return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
+            this._auth.xhr({
+                'method': method,
+                'path': path,
+                'options': {
+                    'header': {
+                        'Content-Type': 'text/xml'
+                    }
+                },
+                'content': xml,
+            },
+            (err, nodeId) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
 
-             this._auth.xhr({
-
-                 'method': method,
-                 'path': path,
-                 'options': {
-                     'header': {
-                         'Content-Type': 'text/xml'
-                     }
-                 },
-                 'content': xml,
-             },
-             (err, nodeId) => {
-
-                 if (err) {
-
-                     reject(err);
-                     return;
-                 }
-
-                 resolve(nodeId);
-             });
-         });
-     }
+                resolve(nodeId);
+            });
+        });
+    }
 }
