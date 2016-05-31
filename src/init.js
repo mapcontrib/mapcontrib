@@ -1,5 +1,4 @@
-var ObjectID = require('mongodb').ObjectID,
-Promise = require('es6-promise').Promise;
+var ObjectID = require('mongodb').ObjectID;
 
 
 

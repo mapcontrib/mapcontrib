@@ -1,21 +1,22 @@
 
-var ObjectID = require('mongodb').ObjectID,
-Promise = require('es6-promise').Promise,
-PoiLayerModel = require('../public/js/model/poiLayer'),
-options = {
+import ObjectID from 'mongodb';
+import PoiLayerModel from '../public/js/model/poiLayer';
 
+
+let options = {
     'CONST': undefined,
     'database': undefined,
-},
+};
 
-setOptions = function (hash) {
 
+function setOptions (hash) {
     options = hash;
-},
+}
 
-api = {
 
-    post: function (req, res) {
+class Api {
+
+    post (req, res) {
 
         if ( !req.session.user || !req.session.themes ) {
 
@@ -31,7 +32,7 @@ api = {
             return true;
         }
 
-        var collection = options.database.collection('poiLayer'),
+        let collection = options.database.collection('poiLayer'),
         model = new PoiLayerModel(req.body);
 
         if ( !model.isValid() ) {
@@ -41,7 +42,7 @@ api = {
             return true;
         }
 
-        collection.insertOne(req.body, {'safe': true}, function (err, results) {
+        collection.insertOne(req.body, {'safe': true}, (err, results) => {
 
             if(err) {
 
@@ -50,15 +51,15 @@ api = {
                 return true;
             }
 
-            var result = results.ops[0];
+            let result = results.ops[0];
             result._id = result._id.toString();
 
             res.send(result);
         });
-    },
+    }
 
 
-    get: function (req, res) {
+    get (req, res) {
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
@@ -67,13 +68,13 @@ api = {
             return true;
         }
 
-        var collection = options.database.collection('poiLayer');
+        let collection = options.database.collection('poiLayer');
 
         collection.find({
 
             '_id': new ObjectID(req.params._id)
         })
-        .toArray(function (err, results) {
+        .toArray((err, results) => {
 
             if(err) {
 
@@ -89,26 +90,26 @@ api = {
                 return true;
             }
 
-            var result = results[0];
+            let result = results[0];
             result._id = result._id.toString();
 
             res.send(result);
         });
-    },
+    }
 
 
-    getAll: function (req, res) {
+    getAll (req, res) {
 
-        var collection = options.database.collection('poiLayer');
+        let collection = options.database.collection('poiLayer');
 
         if ( req.params.themeId ) {
 
             api.findFromThemeId(req.params.themeId)
-            .then(function (poiLayers) {
+            .then((poiLayers) => {
 
                 res.send(poiLayers);
             })
-            .catch(function (errorCode) {
+            .catch((errorCode) => {
 
                 res.sendStatus(errorCode);
             });
@@ -117,7 +118,7 @@ api = {
         }
 
         collection.find()
-        .toArray(function (err, results) {
+        .toArray((err, results) => {
 
             if(err) {
 
@@ -128,7 +129,7 @@ api = {
 
             if (results.length > 0) {
 
-                results.forEach(function (result) {
+                results.forEach((result) => {
 
                     result._id = result._id.toString();
                 });
@@ -136,14 +137,14 @@ api = {
 
             res.send(results);
         });
-    },
+    }
 
 
-    findFromThemeId: function (themeId) {
+    findFromThemeId (themeId) {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
 
-            var collection = options.database.collection('poiLayer');
+            let collection = options.database.collection('poiLayer');
 
             if ( !themeId || !options.CONST.pattern.mongoId.test( themeId ) ) {
 
@@ -155,7 +156,7 @@ api = {
 
                 'themeId': themeId
             })
-            .toArray(function (err, results) {
+            .toArray((err, results) => {
 
                 if(err) {
 
@@ -165,7 +166,7 @@ api = {
 
                 if (results.length > 0) {
 
-                    results.forEach(function (result) {
+                    results.forEach((result) => {
 
                         result._id = result._id.toString();
                     });
@@ -174,10 +175,10 @@ api = {
                 resolve(results);
             });
         });
-    },
+    }
 
 
-    put: function (req, res) {
+    put (req, res) {
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
@@ -201,7 +202,7 @@ api = {
         }
 
 
-        var new_json = req.body,
+        let new_json = req.body,
         collection = options.database.collection('poiLayer'),
         model = new PoiLayerModel(new_json);
 
@@ -220,7 +221,7 @@ api = {
         },
         new_json,
         {'safe': true},
-        function (err) {
+        (err) => {
 
             if(err) {
 
@@ -231,11 +232,11 @@ api = {
 
             res.send({});
         });
-    },
+    }
 
 
 
-    delete: function (req, res) {
+    delete (req, res) {
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
@@ -252,13 +253,13 @@ api = {
         }
 
 
-        var collection = options.database.collection('poiLayer');
+        let collection = options.database.collection('poiLayer');
 
         collection.findOne({
 
             '_id': new ObjectID(req.params._id)
         },
-        function (err, poiLayer) {
+        (err, poiLayer) => {
 
             if(err) {
 
@@ -286,7 +287,7 @@ api = {
                 '_id': new ObjectID(req.params._id)
             },
             {'safe': true},
-            function (err) {
+            (err) => {
 
                 if(err) {
 
@@ -298,13 +299,12 @@ api = {
                 res.send({});
             });
         });
-    },
-};
+    }
+}
 
 
 
-module.exports = {
-
-    'setOptions': setOptions,
-    'api': api,
+export default {
+    setOptions,
+    'api': new Api()
 };

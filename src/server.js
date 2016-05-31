@@ -1,6 +1,6 @@
 
-var secretKey = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})',
-db = {
+const secretKey = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})';
+const db = {
     'host': process.env.MONGO_HOST ? process.env.MONGO_HOST : 'localhost',
     'port': '27017',
     'name': 'mapcontrib'
@@ -8,30 +8,29 @@ db = {
 
 
 
-var fs = require('fs'),
-path = require('path'),
-Promise = require('es6-promise').Promise,
-Api = require('./api'),
-Passport = require('./passport'),
-CONST = require('./public/js/const'),
-settings = require('./public/js/settings'),
-_ = require('underscore');
+import fs from 'fs';
+import path from 'path';
+import Api from './api';
+import Passport from './passport';
+import CONST from './public/js/const';
+import settings from './public/js/settings';
+import _ from 'underscore';
 
 
 
 
-var MongoClient = require('mongodb').MongoClient,
-init = require('./init.js'),
-mongoUrl = 'mongodb://'+ db.host +':'+ db.port +'/'+ db.name;
+import MongoClient from 'mongodb';
+import init from './init';
 
-MongoClient.connect(mongoUrl, function (err, db) {
+let mongoUrl = `mongodb://${db.host}:${db.port}/${db.name}`;
 
+MongoClient.connect(mongoUrl, (err, db) => {
     if(err) throw err;
 
     init.setDatabase(db);
 
-    init.isDone().catch(function () {
-        init.start().catch(function (err) {
+    init.isDone().catch(() => {
+        init.start().catch((err) => {
             throw err;
         });
     });
@@ -42,19 +41,21 @@ MongoClient.connect(mongoUrl, function (err, db) {
 
 
 
-var ejs = require('ejs'),
-express = require('express'),
-compression = require('compression'),
-logger = require('morgan'),
-multer = require('multer'),
-methodOverride = require('method-override'),
-session = require('express-session'),
-bodyParser = require('body-parser'),
-serveStatic = require('serve-static'),
-cookieParser = require('cookie-parser'),
-errorHandler = require('errorhandler'),
-MongoStore = require('connect-mongo')(session),
-app = express();
+import ejs from 'ejs';
+import express from 'express';
+import compression from 'compression';
+import logger from 'morgan';
+import multer from 'multer';
+import methodOverride from 'method-override';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import serveStatic from 'serve-static';
+import cookieParser from 'cookie-parser';
+import errorHandler from 'errorhandler';
+import connectMongo from 'connect-mongo';
+
+let MongoStore = connectMongo(session);
+let app = express();
 
 app.use(compression());
 app.engine('ejs', ejs.renderFile);
@@ -66,12 +67,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-
     resave: true,
     saveUninitialized: true,
     secret: secretKey,
     store: new MongoStore({
-
         'host': db.host,
         'port': db.port,
         'db': db.name,
@@ -86,22 +85,16 @@ app.use(serveStatic(path.join(__dirname, 'public')));
 
 
 
-var dataDirectory = path.join(__dirname, 'upload');
+let dataDirectory = path.join(__dirname, 'upload');
 
 if ( !fs.existsSync( dataDirectory ) ) {
-
     fs.mkdirSync(dataDirectory);
 }
 
 
-
-
-app.get('/theme-s8c2d4', function (req, res) {
-
+app.get('/theme-s8c2d4', (req, res) => {
     res.redirect('/t/s8c2d4-MapContrib');
 });
-
-
 
 
 

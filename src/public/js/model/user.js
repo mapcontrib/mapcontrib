@@ -1,17 +1,16 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var settings = require('../settings');
+import _ from 'underscore';
+import Backbone from 'backbone';
+import settings from '../settings';
 
 
-module.exports = Backbone.Model.extend({
+export default Backbone.Model.extend({
 
     idAttribute: '_id',
 
     urlRoot: settings.apiPath + 'user',
 
     defaults: {
-
         'osmId': undefined,
         'displayName': undefined,
         'avatar': undefined,

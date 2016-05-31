@@ -1,14 +1,14 @@
 
-var userApi = require('./user.js'),
-themeApi = require('./theme.js'),
-poiLayerApi = require('./poiLayer.js'),
-presetApi = require('./preset.js');
+import userApi from './user';
+import themeApi from './theme';
+import poiLayerApi from './poiLayer';
+import presetApi from './preset';
 
 
 
-module.exports = function Api(app, db, CONST){
+export default function Api(app, db, CONST){
 
-    var options = {
+    let options = {
         'CONST': CONST,
         'database': db,
     };
@@ -46,9 +46,9 @@ module.exports = function Api(app, db, CONST){
     app.put('/api/preset/:_id', isLoggedIn, presetApi.api.put);
     app.delete('/api/preset/:_id', isLoggedIn, presetApi.api.delete);
 
-    app.get('/', function (req, res) {
+    app.get('/', (req, res) => {
 
-        var templateVars = {
+        let templateVars = {
             'user': req.session.user ? JSON.stringify(req.session.user) : '{}'
         };
 
@@ -56,16 +56,16 @@ module.exports = function Api(app, db, CONST){
     });
 
 
-    app.get('/t/:fragment-*', function (req, res) {
+    app.get('/t/:fragment-*', (req, res) => {
 
-        var templateVars = {
+        let templateVars = {
             'user': req.session.user ? JSON.stringify(req.session.user) : '{}'
         };
 
         themeApi.api.findFromFragment(req.params.fragment)
-        .then(function ( themeObject ) {
+        .then(( themeObject ) => {
 
-            var promises = [
+            let promises = [
                 poiLayerApi.api.findFromThemeId(themeObject._id),
                 presetApi.api.findFromThemeId(themeObject._id),
             ];
@@ -75,13 +75,13 @@ module.exports = function Api(app, db, CONST){
                 promises.push(
 
                     themeApi.api.findFromOwnerId(req.session.user._id)
-                    .then(function (themes) {
+                    .then((themes) => {
 
                         req.session.themes = [];
 
-                        for (var i in themes) {
+                        for (let i in themes) {
 
-                            var themeId = themes[i]._id.toString();
+                            let themeId = themes[i]._id.toString();
 
                             if (
                                 req.session.themes.indexOf( themeId ) === -1 ||
@@ -96,7 +96,7 @@ module.exports = function Api(app, db, CONST){
             }
 
             Promise.all(promises)
-            .then(function ( results ) {
+            .then(( results ) => {
 
                 templateVars.theme = JSON.stringify( themeObject );
                 templateVars.poiLayers = JSON.stringify( results[0] );
@@ -108,7 +108,7 @@ module.exports = function Api(app, db, CONST){
         })
         .catch( onPromiseError.bind(this, res) );
     });
-};
+}
 
 
 

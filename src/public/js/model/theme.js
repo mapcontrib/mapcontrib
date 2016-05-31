@@ -1,11 +1,11 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var settings = require('../settings');
-var Diacritics = require('diacritic');
+import _ from 'underscore';
+import Backbone from 'backbone';
+import settings from '../settings';
+import Diacritics from 'diacritic';
 
 
-module.exports = Backbone.Model.extend({
+export default Backbone.Model.extend({
 
     idAttribute: '_id',
 
@@ -35,7 +35,7 @@ module.exports = Backbone.Model.extend({
      * @return boolean
      */
     isOwner: function (userModel) {
-        var userId = userModel.get('_id');
+        let userId = userModel.get('_id');
 
         if ( !userId ) {
             return false;
@@ -64,7 +64,7 @@ module.exports = Backbone.Model.extend({
      * @return string
      */
     buildWebLinkName: function () {
-        var name = this.get('name') || '';
+        let name = this.get('name') || '';
 
         name = Diacritics.clean(name);
         name = name.replace(/-/g, '_');

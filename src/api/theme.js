@@ -1,24 +1,25 @@
 
-var crypto = require('crypto'),
-ObjectID = require('mongodb').ObjectID,
-Promise = require('es6-promise').Promise,
-ThemeModel = require('../public/js/model/theme'),
-options = {
+import crypto from 'crypto';
+import ObjectID from 'mongodb';
+import ThemeModel from '../public/js/model/theme';
 
+
+let options = {
     'CONST': undefined,
     'database': undefined,
-},
+};
 
-setOptions = function (hash) {
 
+function setOptions (hash) {
     options = hash;
-},
+}
 
-api = {
 
-    post: function (req, res) {
+class Api {
 
-        var collection = options.database.collection('theme'),
+    post (req, res) {
+
+        let collection = options.database.collection('theme'),
         model = new ThemeModel(req.body);
 
         if ( !model.isValid() ) {
@@ -29,7 +30,7 @@ api = {
         }
 
 
-        collection.insertOne(req.body, {'safe': true}, function (err, results) {
+        collection.insertOne(req.body, {'safe': true}, (err, results) => {
 
             if(err) {
 
@@ -38,15 +39,15 @@ api = {
                 return true;
             }
 
-            var result = results.ops[0];
+            let result = results.ops[0];
 
             api.getNewFragment(result, req, res);
         });
-    },
+    }
 
-    getNewFragment: function (theme, req, res) {
+    getNewFragment (theme, req, res) {
 
-        var fragment,
+        let fragment,
         collection = options.database.collection('theme'),
         shasum = crypto.createHash('sha1');
 
@@ -62,7 +63,7 @@ api = {
 
             'fragment': fragment
         })
-        .toArray(function (err, results) {
+        .toArray((err, results) => {
 
             if(err) {
                 res.sendStatus(500);
@@ -80,7 +81,7 @@ api = {
                     '$set': { 'fragment': fragment }
                 },
                 {'safe': true},
-                function (err, results, ert) {
+                (err, results, ert) => {
 
                     if(err) {
                         res.sendStatus(500);
@@ -96,10 +97,10 @@ api = {
                 api.getNewFragment(theme, req, res);
             }
         });
-    },
+    }
 
 
-    get: function (req, res) {
+    get (req, res) {
 
         if ( !req.params._id || !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
@@ -108,13 +109,13 @@ api = {
             return true;
         }
 
-        var collection = options.database.collection('theme');
+        let collection = options.database.collection('theme');
 
         collection.find({
 
             '_id':  new ObjectID(req.params._id)
         })
-        .toArray(function (err, results) {
+        .toArray((err, results) => {
 
             if(err) {
 
@@ -130,26 +131,26 @@ api = {
                 return true;
             }
 
-            var result = results[0];
+            let result = results[0];
             result._id = result._id.toString();
 
             res.send(result);
         });
-    },
+    }
 
 
-    getAll: function (req, res) {
+    getAll (req, res) {
 
-        var collection = options.database.collection('theme');
+        let collection = options.database.collection('theme');
 
         if ( req.query.fragment ) {
 
             api.findFromFragment(req.query.fragment)
-            .then(function (theme) {
+            .then((theme) => {
 
                 res.send(theme);
             })
-            .catch(function (errorCode) {
+            .catch((errorCode) => {
 
                 res.sendStatus(errorCode);
             });
@@ -159,7 +160,7 @@ api = {
 
 
         collection.find()
-        .toArray(function (err, results) {
+        .toArray((err, results) => {
 
             if(err) {
 
@@ -170,7 +171,7 @@ api = {
 
             if (results.length > 0) {
 
-                results.forEach(function (result) {
+                results.forEach((result) => {
 
                     result._id = result._id.toString();
                 });
@@ -192,14 +193,14 @@ api = {
 
             res.send(results);
         });
-    },
+    }
 
 
-    findFromFragment: function (fragment) {
+    findFromFragment (fragment) {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
 
-            var collection = options.database.collection('theme');
+            let collection = options.database.collection('theme');
 
             if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
 
@@ -211,7 +212,7 @@ api = {
 
                 'fragment': fragment
             })
-            .toArray(function (err, results) {
+            .toArray((err, results) => {
 
                 if(err) {
 
@@ -225,20 +226,20 @@ api = {
                     return;
                 }
 
-                var result = results[0];
+                let result = results[0];
                 result._id = result._id.toString();
 
                 resolve(result);
             });
         });
-    },
+    }
 
 
-    findFromOwnerId: function (ownerId) {
+    findFromOwnerId (ownerId) {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
 
-            var collection = options.database.collection('theme');
+            let collection = options.database.collection('theme');
 
             if ( !ownerId || !options.CONST.pattern.mongoId.test( ownerId ) ) {
 
@@ -252,7 +253,7 @@ api = {
                     { 'owners': '*' }
                 ]
             })
-            .toArray(function (err, results) {
+            .toArray((err, results) => {
 
                 if(err) {
 
@@ -262,7 +263,7 @@ api = {
 
                 if (results.length > 0) {
 
-                    results.forEach(function (result) {
+                    results.forEach((result) => {
 
                         result._id = result._id.toString();
                     });
@@ -271,10 +272,10 @@ api = {
                 resolve(results);
             });
         });
-    },
+    }
 
 
-    put: function (req, res) {
+    put (req, res) {
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
@@ -291,7 +292,7 @@ api = {
         }
 
 
-        var new_json = req.body,
+        let new_json = req.body,
         collection = options.database.collection('theme'),
         model = new ThemeModel(new_json);
 
@@ -310,7 +311,7 @@ api = {
         },
         new_json,
         {'safe': true},
-        function (err) {
+        (err) => {
 
             if(err) {
 
@@ -321,11 +322,11 @@ api = {
 
             res.send({});
         });
-    },
+    }
 
 
 
-    delete: function (req, res) {
+    delete (req, res) {
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
@@ -342,14 +343,14 @@ api = {
         }
 
 
-        var collection = options.database.collection('theme');
+        let collection = options.database.collection('theme');
 
         collection.remove({
 
             '_id': new ObjectID(req.params._id)
         },
         {'safe': true},
-        function (err) {
+        (err) => {
 
             if(err) {
 
@@ -360,10 +361,10 @@ api = {
 
             res.send({});
         });
-    },
+    }
 
 
-    isThemeOwner: function (req, res, themeId) {
+    isThemeOwner (req, res, themeId) {
 
         if ( !req.session.user || !req.session.themes ) {
 
@@ -376,13 +377,12 @@ api = {
         }
 
         return true;
-    },
-};
+    }
+}
 
 
 
-module.exports = {
-
-    'setOptions': setOptions,
-    'api': api,
+export default {
+    setOptions,
+    'api': new Api()
 };

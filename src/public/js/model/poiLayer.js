@@ -1,18 +1,17 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
-var settings = require('../settings');
-var CONST = require('../const');
+import _ from 'underscore';
+import Backbone from 'backbone';
+import settings from '../settings';
+import CONST from '../const';
 
 
-module.exports = Backbone.Model.extend({
+export default Backbone.Model.extend({
 
     idAttribute: '_id',
 
     urlRoot: settings.apiPath + 'poiLayer',
 
     defaults: {
-
         'themeId': undefined,
         'name': undefined,
         'description': undefined,
@@ -36,7 +35,6 @@ module.exports = Backbone.Model.extend({
      * @return boolean
      */
      isVisible: function () {
-
         return this.get('visible');
      }
 });

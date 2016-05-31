@@ -1,23 +1,24 @@
 
-var ObjectID = require('mongodb').ObjectID,
-Promise = require('es6-promise').Promise,
-UserModel = require('../public/js/model/user'),
-options = {
+import ObjectID from 'mongodb';
+import UserModel from '../public/js/model/user';
 
+
+let options = {
     'CONST': undefined,
     'database': undefined,
-},
+};
 
-setOptions = function (hash) {
 
+function setOptions (hash) {
     options = hash;
-},
+}
 
-api = {
 
-    post: function (req, res) {
+class Api {
 
-        var collection = options.database.collection('user'),
+    post (req, res) {
+
+        let collection = options.database.collection('user'),
         model = new UserModel(req.body);
 
         if ( !model.isValid() ) {
@@ -27,7 +28,7 @@ api = {
             return true;
         }
 
-        collection.insertOne(req.body, {'safe': true}, function (err, results) {
+        collection.insertOne(req.body, {'safe': true}, (err, results) => {
 
             if(err) {
 
@@ -36,24 +37,24 @@ api = {
                 return true;
             }
 
-            var result = results.ops[0];
+            let result = results.ops[0];
             result._id = result._id.toString();
 
             res.send(result);
         });
-    },
+    }
 
 
-    get: function (req, res) {
+    get (req, res) {
 
-        api.findFromId(req, res, req.params._id, function (user) {
+        api.findFromId(req, res, req.params._id, (user) => {
 
             res.send(user);
         });
-    },
+    }
 
 
-    findFromId: function (req, res, _id, callback) {
+    findFromId (req, res, _id, callback) {
 
         if ( _id === 'me' ) {
 
@@ -72,13 +73,13 @@ api = {
             return true;
         }
 
-        var collection = options.database.collection('user');
+        let collection = options.database.collection('user');
 
         collection.find({
 
             '_id': new ObjectID(_id)
         })
-        .toArray(function (err, results) {
+        .toArray((err, results) => {
 
             if(err) {
 
@@ -94,20 +95,20 @@ api = {
                 return true;
             }
 
-            var result = results[0];
+            let result = results[0];
             result._id = result._id.toString();
 
             callback(result);
         });
-    },
+    }
 
 
-    getAll: function (req, res) {
+    getAll (req, res) {
 
-        var collection = options.database.collection('user');
+        let collection = options.database.collection('user');
 
         collection.find()
-        .toArray(function (err, results) {
+        .toArray((err, results) => {
 
             if(err) {
 
@@ -118,7 +119,7 @@ api = {
 
             if (results.length > 0) {
 
-                results.forEach(function (result) {
+                results.forEach((result) => {
 
                     result._id = result._id.toString();
                 });
@@ -126,10 +127,10 @@ api = {
 
             res.send(results);
         });
-    },
+    }
 
 
-    put: function (req, res) {
+    put (req, res) {
 
         if (req.user !== req.params._id) {
 
@@ -146,7 +147,7 @@ api = {
         }
 
 
-        var new_json = req.body,
+        let new_json = req.body,
         collection = options.database.collection('user'),
         model = new UserModel(new_json);
 
@@ -165,7 +166,7 @@ api = {
         },
         new_json,
         {'safe': true},
-        function (err) {
+        (err) => {
 
             if(err) {
 
@@ -176,11 +177,11 @@ api = {
 
             res.send({});
         });
-    },
+    }
 
 
 
-    delete: function (req, res) {
+    delete (req, res) {
 
         if (req.user !== req.params._id) {
 
@@ -197,14 +198,14 @@ api = {
         }
 
 
-        var collection = options.database.collection('user');
+        let collection = options.database.collection('user');
 
         collection.remove({
 
             '_id': new ObjectID(req.params._id)
         },
         {'safe': true},
-        function (err) {
+        (err) => {
 
             if(err) {
 
@@ -215,9 +216,9 @@ api = {
 
             res.send({});
         });
-    },
+    }
 
-    logout: function (req, res) {
+    logout (req, res) {
 
         req.logout();
 
@@ -225,13 +226,11 @@ api = {
         delete req.session.themes;
 
         res.status(200).send('OK');
-    },
-};
+    }
+}
 
 
-
-module.exports = {
-
-    'setOptions': setOptions,
-    'api': api,
+export default {
+    setOptions,
+    'api': new Api()
 };

@@ -1,12 +1,11 @@
 
-var _ = require('underscore');
-var Backbone = require('backbone');
+import _ from 'underscore';
+import Backbone from 'backbone';
 
 
-module.exports = Backbone.Model.extend({
+export default Backbone.Model.extend({
 
     defaults: {
-
         'id': undefined,
         'type': 'node',
         'version': 0,
