@@ -7,6 +7,8 @@
 
     <title data-l10n-id="pageTitle">MapContrib</title>
 
+    <link rel="stylesheet" href="/css/bundle.css" charset="utf-8">
+
     <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-touch-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon/apple-touch-icon-72x72.png">
@@ -24,32 +26,36 @@
 
     <link rel="localization" href="/locale/manifest.json">
 
-    <style type="text/css">
-
-    html, body {
-        background-color: #eeeeec !important;
-    }
-
-    .empty-state {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        margin-top: -64px;
-        margin-left: -64px;
-        width: 128px;
-        height: 128px;
-    }
-
-    </style>
-
 </head>
 <body>
 
-<section id="rg_root">
-    <img class="empty-state" src="/img/empty_state.gif" alt="" />
-</section>
+<header class="main_header append-xs-1">
+    <div class="container">
+        <div class="row prepend-xs-1 prepend-sm-2 append-xs-1 append-sm-2">
+            <div class="col-xs-6">
+                <img src="/img/logo.png" alt="MapContrib" class="img-responsive png" />
+                <img src="/img/logo.svg" alt="MapContrib" class="img-responsive svg" />
+            </div>
+            <div class="col-xs-6">
+                <button type="button" class="btn toolbar_btn login_btn" data-l10n-id="buttonLoginTooltip" data-placement="left">
+                    <i class="icon ion-happy-outline"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row append-xs-1">
+            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+                <input name="q" class="form-control input-lg search" type="search" placeholder="Rechercher un thème">
+                <i class="icon ion-search"></i>
+            </div>
+        </div>
+    </div>
+</header>
 
-<link rel="stylesheet" href="/css/bundle.css" charset="utf-8">
+
+
+
+<section id="rg_root"></section>
+
 
 <script type="text/javascript">
 
