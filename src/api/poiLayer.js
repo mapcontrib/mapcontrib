@@ -1,5 +1,5 @@
 
-import ObjectID from 'mongodb';
+import { ObjectID } from 'mongodb';
 import PoiLayerModel from '../public/js/model/poiLayer';
 
 

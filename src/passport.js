@@ -1,7 +1,7 @@
 
-var passport = require('passport'),
-OpenStreetMapStrategy = require('passport-openstreetmap').Strategy,
-ObjectID = require('mongodb').ObjectID;
+import passport from 'passport';
+import { Strategy as OpenStreetMapStrategy } from 'passport-openstreetmap';
+import { ObjectID } from 'mongodb';
 
 
 function connect(passportConnectMethod, req, res) {
@@ -18,8 +18,8 @@ function connect(passportConnectMethod, req, res) {
 
 function connectCallback(passportConnectMethod, req, res) {
 
-    var successRedirect = '/';
-    var failRedirect = '/';
+    let successRedirect = '/';
+    let failRedirect = '/';
 
     if ( req.session.successRedirect ) {
         successRedirect = req.session.successRedirect;
@@ -50,11 +50,11 @@ module.exports = function Passport(app, db, settings) {
 
     passport.deserializeUser(function(userId, done) {
 
-        var collection = db.collection('user');
+        let collection = db.collection('user');
 
         collection.findOne({
             '_id': new ObjectID(userId)
-        }, function (err, user) {
+        }, (err, user) => {
 
             if (user) {
                 return done(null, userId);
@@ -75,7 +75,7 @@ module.exports = function Passport(app, db, settings) {
         },
         function(req, token, tokenSecret, profile, done) {
 
-            var collection = db.collection('user'),
+            let collection = db.collection('user'),
             userData = {
                 'osmId': profile.id,
                 'displayName': profile.displayName,
@@ -86,14 +86,14 @@ module.exports = function Passport(app, db, settings) {
 
             collection.findOne({
                 'osmId': userData.osmId
-            }, function (err, user) {
+            }, (err, user) => {
 
                 if (err) {
                     return done(err);
                 }
 
                 if (user) {
-                    for ( var key in userData) {
+                    for ( let key in userData) {
                         user[key] = userData[key];
                     }
 
@@ -102,7 +102,7 @@ module.exports = function Passport(app, db, settings) {
                     },
                     user,
                     { 'safe': true },
-                    function (err, results) {
+                    (err, results) => {
 
                         if (results) {
                             req.session.user = user;
@@ -113,7 +113,7 @@ module.exports = function Passport(app, db, settings) {
                     });
                 }
                 else {
-                    collection.insertOne(userData, {'safe': true}, function (err, results) {
+                    collection.insertOne(userData, {'safe': true}, (err, results) => {
                         if (results) {
                             result = results.ops[0];
                             result._id = result._id.toString();
@@ -131,8 +131,8 @@ module.exports = function Passport(app, db, settings) {
     ));
 
 
-    var authenticate = passport.authenticate.bind(passport);
-    var authorize = passport.authorize.bind(passport);
+    let authenticate = passport.authenticate.bind(passport);
+    let authorize = passport.authorize.bind(passport);
 
     app.get('/auth', connect.bind(this, authenticate));
     app.get('/connect', connect.bind(this, authorize));

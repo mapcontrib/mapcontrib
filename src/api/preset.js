@@ -1,5 +1,5 @@
 
-import ObjectID from 'mongodb';
+import { ObjectID } from 'mongodb';
 import PresetModel from '../public/js/model/preset';
 
 

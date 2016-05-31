@@ -1,6 +1,6 @@
 
 import crypto from 'crypto';
-import ObjectID from 'mongodb';
+import { ObjectID } from 'mongodb';
 import ThemeModel from '../public/js/model/theme';
 
 

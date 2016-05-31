@@ -1,9 +1,9 @@
-var ObjectID = require('mongodb').ObjectID;
+
+import { ObjectID } from 'mongodb';
 
 
 
 function dummyPromiseCallback (resolve, reject, err) {
-
     if (err) {
         reject(err);
         throw err;
@@ -13,8 +13,7 @@ function dummyPromiseCallback (resolve, reject, err) {
 }
 
 
-var init = {
-
+let init = {
     '_db': undefined,
     '_themeCollection': undefined,
     '_poiLayerCollection': undefined,
@@ -23,25 +22,19 @@ var init = {
 
 
 init.setDatabase = function (db) {
-
     init._db = db;
 };
 
 
 init.isDone = function () {
-
     return new Promise( function (resolve, reject) {
-
         init._db.listCollections({'name': 'theme'})
         .toArray(function(err, items) {
-
             if (err) {
-
                 reject(err);
             }
 
             if (items.length === 0) {
-
                 reject();
             }
 
@@ -226,8 +219,7 @@ init._createIndexes = function (rootResolve, rootReject) {
 };
 
 
-module.exports = {
-
+export default {
     'setDatabase': init.setDatabase,
     'isDone': init.isDone,
     'start': init.start,

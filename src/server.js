@@ -19,7 +19,7 @@ import _ from 'underscore';
 
 
 
-import MongoClient from 'mongodb';
+import { MongoClient } from 'mongodb';
 import init from './init';
 
 let mongoUrl = `mongodb://${db.host}:${db.port}/${db.name}`;
