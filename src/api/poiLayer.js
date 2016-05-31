@@ -14,9 +14,9 @@ function setOptions (hash) {
 }
 
 
-class Api {
+let api = {
 
-    post (req, res) {
+    post: function (req, res) {
 
         if ( !req.session.user || !req.session.themes ) {
 
@@ -56,10 +56,10 @@ class Api {
 
             res.send(result);
         });
-    }
+    },
 
 
-    get (req, res) {
+    get: function (req, res) {
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
@@ -95,10 +95,10 @@ class Api {
 
             res.send(result);
         });
-    }
+    },
 
 
-    getAll (req, res) {
+    getAll: function (req, res) {
 
         let collection = options.database.collection('poiLayer');
 
@@ -137,10 +137,10 @@ class Api {
 
             res.send(results);
         });
-    }
+    },
 
 
-    findFromThemeId (themeId) {
+    findFromThemeId: function (themeId) {
 
         return new Promise((resolve, reject) => {
 
@@ -175,10 +175,10 @@ class Api {
                 resolve(results);
             });
         });
-    }
+    },
 
 
-    put (req, res) {
+    put: function (req, res) {
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
@@ -232,11 +232,11 @@ class Api {
 
             res.send({});
         });
-    }
+    },
 
 
 
-    delete (req, res) {
+    delete: function (req, res) {
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
 
@@ -300,11 +300,11 @@ class Api {
             });
         });
     }
-}
+};
 
 
 
 export default {
     setOptions,
-    'api': new Api()
+    api
 };

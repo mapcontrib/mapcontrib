@@ -14,9 +14,9 @@ function setOptions (hash) {
 }
 
 
-class Api {
+let api = {
 
-    post (req, res) {
+    post: function (req, res) {
 
         let collection = options.database.collection('user'),
         model = new UserModel(req.body);
@@ -42,19 +42,19 @@ class Api {
 
             res.send(result);
         });
-    }
+    },
 
 
-    get (req, res) {
+    get: function (req, res) {
 
         api.findFromId(req, res, req.params._id, (user) => {
 
             res.send(user);
         });
-    }
+    },
 
 
-    findFromId (req, res, _id, callback) {
+    findFromId: function (req, res, _id, callback) {
 
         if ( _id === 'me' ) {
 
@@ -100,10 +100,10 @@ class Api {
 
             callback(result);
         });
-    }
+    },
 
 
-    getAll (req, res) {
+    getAll: function (req, res) {
 
         let collection = options.database.collection('user');
 
@@ -127,10 +127,10 @@ class Api {
 
             res.send(results);
         });
-    }
+    },
 
 
-    put (req, res) {
+    put: function (req, res) {
 
         if (req.user !== req.params._id) {
 
@@ -177,11 +177,11 @@ class Api {
 
             res.send({});
         });
-    }
+    },
 
 
 
-    delete (req, res) {
+    delete: function (req, res) {
 
         if (req.user !== req.params._id) {
 
@@ -216,9 +216,9 @@ class Api {
 
             res.send({});
         });
-    }
+    },
 
-    logout (req, res) {
+    logout: function (req, res) {
 
         req.logout();
 
@@ -227,10 +227,11 @@ class Api {
 
         res.status(200).send('OK');
     }
-}
+};
+
 
 
 export default {
     setOptions,
-    'api': new Api()
+    api
 };
