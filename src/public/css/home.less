@@ -1,15 +1,25 @@
 
-@media screen and (max-width: 600px) {
+// @media screen and (max-width: 600px) {
     html, body {
         background-color: darken(@blue, 5%);
     }
-}
+// }
 
 
 .main_header .logo {
     margin-top: 4px;
     margin-bottom: 3px;
     min-width: 140px;
+}
+
+.main_header h1 a.openstreetmap {
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: underline;
+    }
 }
 
 
