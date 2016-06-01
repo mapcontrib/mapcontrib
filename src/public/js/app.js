@@ -15,8 +15,6 @@ import bootstrapMoreCss from 'bootstrap-more/bootstrap-more.css';
 import bootstrapMoreJs from 'bootstrap-more/bootstrap-more.js';
 import leafletCss from 'leaflet/dist/leaflet.css';
 
-import appStyle from '../css/app.less';
-
 import UserModel from './model/user';
 import ThemeModel from './model/theme';
 import PoiLayerCollection from './collection/poiLayer';
