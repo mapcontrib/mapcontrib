@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
-const extractCSS = new ExtractTextPlugin('../css/bundle.css');
+const extractCSS = new ExtractTextPlugin('../css/[name].bundle.css');
 
 var plugins = [
     extractCSS
