@@ -3,15 +3,12 @@
 @import 'app.less';
 
 
-html, body {
-    background-color: darken(@blue, 5%);
+.main_header .logo {
+    height: 34px;
 }
 
-
-.main_header .logo {
-    margin-top: 4px;
-    margin-bottom: 3px;
-    min-width: 140px;
+.create_theme_btn {
+    margin-right: 10px;
 }
 
 .main_header h1 a.openstreetmap {
@@ -21,6 +18,12 @@ html, body {
     &:focus,
     &:active {
         text-decoration: underline;
+    }
+}
+
+@media screen and (max-width: 767px) and (max-height: 550px) {
+    .main_header h1 {
+        font-size: 4vmax;
     }
 }
 
@@ -36,4 +39,20 @@ input.search + label .icon {
     cursor: text;
     font-size: 22px;
     color: darken(@darkGray, 10%);
+}
+
+
+.search_results > div {
+    margin-bottom: 20px;
+}
+
+.mini_theme {
+    height: 150px;
+    background-color: @lightGray;
+
+    .title {
+        font-family: 'Fira Sans';
+        text-align: center;
+        background-color: #333;
+    }
 }
