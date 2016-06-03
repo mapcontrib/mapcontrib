@@ -13,7 +13,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'createThemeButton': '#createThemeButton'
+        'createThemeButton': '.create_theme_btn'
     },
 
     regions: {
