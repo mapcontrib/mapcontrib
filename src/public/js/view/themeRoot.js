@@ -45,16 +45,13 @@ import template from '../../templates/themeRoot.ejs';
 
 
 export default Marionette.LayoutView.extend({
-
     template: template,
 
     behaviors: {
-
         'l20n': {},
     },
 
     ui: {
-
         'map': '#main_map',
         'toolbarButtons': '.toolbar .toolbar_btn',
 
@@ -91,7 +88,6 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
-
         'mainTitle': '#rg_main_title',
 
         'loginModal': '#rg_login_modal',
@@ -118,7 +114,6 @@ export default Marionette.LayoutView.extend({
     },
 
     events: {
-
         'click @ui.zoomInButton': 'onClickZoomIn',
         'click @ui.zoomOutButton': 'onClickZoomOut',
         'click @ui.geocodeButton': 'onClickGeocode',
@@ -145,7 +140,6 @@ export default Marionette.LayoutView.extend({
     },
 
     initialize: function (app) {
-
         this._app = app;
         this.model = this._app.getTheme();
         this._poiLayers = this._app.getPoiLayers();
@@ -163,103 +157,78 @@ export default Marionette.LayoutView.extend({
 
 
         this._radio.reqres.setHandlers({
-
             'poiLayers': (layerId) => {
-
                 return this._poiLayers;
             },
             'presets': (layerId) => {
-
                 return this._presets;
             },
             'map:getCurrentZoom': (tileId) => {
-
                 if (this._map) {
-
                     return this._map.getZoom();
                 }
             },
             'getFragment': () => {
-
                 return this.model.get('fragment');
             },
         });
 
         this._radio.commands.setHandlers({
-
             'column:showPoiLayer': (poiLayerModel) => {
-
                 this.onCommandShowPoiLayer( poiLayerModel );
             },
             'column:showContribForm': (presetModel) => {
-
                 this.onCommandShowContribForm( presetModel );
             },
             'column:showPresetTags': (presetModel) => {
-
                 this.onCommandShowPresetTags( presetModel );
             },
             'modal:showEditPoiMarker': (poiLayerModel) => {
-
                 this.onCommandShowEditPoiMarker( poiLayerModel );
             },
             'modal:showConflict': () => {
-
                 this.onCommandShowConflict();
             },
             'map:setTileLayer': (tileId) => {
-
                 this.setTileLayer( tileId );
             },
             'map:addPoiLayer': (poiLayerModel) => {
-
                 this.addPoiLayer( poiLayerModel );
             },
             'map:removePoiLayer': (poiLayerModel) => {
-
                 this.removePoiLayer( poiLayerModel );
             },
             'map:showPoiLayer': (poiLayerModel) => {
-
                 this.showPoiLayer( poiLayerModel );
             },
             'map:hidePoiLayer': (poiLayerModel) => {
-
                 this.hidePoiLayer( poiLayerModel );
             },
             'map:updatePoiLayerIcons': (poiLayerModel) => {
-
                 this.updatePoiLayerIcons( poiLayerModel );
             },
             'map:updatePoiLayerPopups': (poiLayerModel) => {
-
                 this.updatePoiLayerPopups( poiLayerModel );
             },
             'map:updatePoiLayerMinZoom': (poiLayerModel) => {
-
                 this.updatePoiLayerMinZoom( poiLayerModel );
             },
             'map:updatePoiPopup': (poiLayerModel, node) => {
-
                 this.updatePoiPopup( poiLayerModel, node );
             },
             'map:setPosition': (latLng, zoomLevel) => {
-
                 this.setPosition( latLng, zoomLevel );
             },
             'map:fitBounds': (latLngBounds) => {
-
                 this.fitBounds( latLngBounds );
             },
             'editPoiData': (dataFromOverpass, poiLayerModel) => {
-
                 this.onCommandEditPoiData( dataFromOverpass, poiLayerModel );
             },
         });
 
 
         this._radio.vent.on('session:unlogged', () => {
-
             this.renderUserButtonNotLogged();
             this.hideContribButton();
             this.hideEditTools();
@@ -267,19 +236,15 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-
         if ( this._app.isLogged() ) {
-
             this.renderUserButtonLogged();
             this.showContribButton();
 
             if ( this.model.isOwner(this._user) === true ) {
-
                 this.showEditTools();
             }
         }
         else {
-
             this.renderUserButtonNotLogged();
             this.hideContribButton();
             this.hideEditTools();
@@ -339,14 +304,12 @@ export default Marionette.LayoutView.extend({
     },
 
     onShow: function () {
-
         var center = this.model.get('center'),
         zoomLevel = this.model.get('zoomLevel'),
         hiddenPoiLayers = [],
         storageMapState = localStorage.getItem('mapState-'+ this.model.get('fragment'));
 
         if ( storageMapState ) {
-
             storageMapState = JSON.parse( storageMapState );
             center = storageMapState.center;
             zoomLevel = storageMapState.zoomLevel;
@@ -354,16 +317,13 @@ export default Marionette.LayoutView.extend({
         }
 
         this.ui.toolbarButtons.tooltip({
-
             'container': 'body',
             'delay': {
-
                 'show': CONST.tooltip.showDelay,
                 'hide': CONST.tooltip.hideDelay
             }
         })
         .on('click', function () {
-
             $(this)
             .blur()
             .tooltip('hide');
@@ -376,55 +336,44 @@ export default Marionette.LayoutView.extend({
 
         this._radio.reqres.removeHandler('map');
         this._radio.reqres.setHandler('map', () => {
-
             return this._map;
         });
 
         this._map
         .setView([center.lat, center.lng], zoomLevel)
         .on('popupopen', (e) => {
-
             this.onPopupOpen(e);
         })
         .on('popupclose', (e) => {
-
             this.onPopupClose(e);
         })
         .on('moveend', (e) => {
-
             this.onMoveEnd();
         })
         .on('zoomend', (e) => {
-
             this.onZoomEnd(e);
             this._radio.vent.trigger('map:zoomChanged');
         })
         .on('zoomlevelschange', (e) => {
-
             this.onZoomLevelsChange(e);
             this._radio.vent.trigger('map:zoomChanged');
         })
         .on('locationfound', () => {
-
             this.onLocationFound();
         })
         .on('locationerror', () => {
-
             this.onLocationError();
         });
 
 
         if ( storageMapState ) {
-
             this.setTileLayer(storageMapState.selectedTile);
         }
         else {
-
             this.setTileLayer();
         }
 
         L.control.scale({
-
             'position': 'bottomright',
         }).addTo(this._map);
 
@@ -433,13 +382,10 @@ export default Marionette.LayoutView.extend({
         this._mapLayers = {};
 
         _.each(this._poiLayers.getVisibleLayers(), (poiLayerModel) => {
-
             if ( hiddenPoiLayers.indexOf(poiLayerModel.get('_id')) === -1 ) {
-
                 this.addPoiLayer( poiLayerModel );
             }
             else {
-
                 this.addPoiLayer( poiLayerModel, true );
             }
         }, this);
@@ -448,12 +394,10 @@ export default Marionette.LayoutView.extend({
         this.updateMinDataZoom();
 
         this._poiLayers.on('add', (model) => {
-
             this.addPoiLayer(model);
         }, this);
 
         this._poiLayers.on('destroy', (model) => {
-
             this.removePoiLayer(model);
         }, this);
 
@@ -462,27 +406,22 @@ export default Marionette.LayoutView.extend({
     },
 
     setTileLayer: function (id) {
-
         var tile,
         tileLayersGroup = L.layerGroup(),
         tiles = this.model.get('tiles');
 
         if ( tiles.length === 0 ) {
-
             tiles = ['osm'];
         }
 
         if ( !id ) {
-
             id = tiles[0];
         }
 
         if ( !this._currentTileId ) {
-
             this._currentTileId = tiles[0];
         }
         else if ( this._currentTileId === id ) {
-
             return;
         }
 
@@ -505,7 +444,6 @@ export default Marionette.LayoutView.extend({
         this._map.addLayer(tileLayersGroup);
 
         if ( this._currentTileLayer ) {
-
             this._map.removeLayer( this._currentTileLayer );
         }
 
@@ -516,9 +454,7 @@ export default Marionette.LayoutView.extend({
     },
 
     showPoiLoadingProgress: function (poiLayerModel) {
-
         if ( !this._poiLoadingSpool[ poiLayerModel.cid ] ) {
-
             this._poiLoadingSpool[ poiLayerModel.cid ] = 0;
         }
 
@@ -529,9 +465,7 @@ export default Marionette.LayoutView.extend({
     },
 
     hidePoiLoadingProgress: function (poiLayerModel) {
-
         if ( !this._poiLoadingSpool[ poiLayerModel.cid ] ) {
-
             return;
         }
 
@@ -540,19 +474,16 @@ export default Marionette.LayoutView.extend({
         var countRequests = 0;
 
         for (var cid in this._poiLoadingSpool) {
-
             countRequests += this._poiLoadingSpool[cid];
         }
 
         if ( countRequests === 0) {
-
             $('.poi_loading', this.ui.controlPoiButton).addClass('hide');
             $('i', this.ui.controlPoiButton).removeClass('hide');
         }
     },
 
     addPoiLayer: function (poiLayerModel, hidden) {
-
         var split,
         layerGroup = L.layerGroup(),
         overpassRequest = '',
@@ -561,32 +492,26 @@ export default Marionette.LayoutView.extend({
         layerGroup._poiIds = [];
 
         overpassRequestSplit.forEach(function (row) {
-
             if ( !row.toLowerCase().trim() ) {
-
                 return;
             }
 
             split = row.toLowerCase().trim().split(' ');
 
             if ( split[0] !== 'out' || split.indexOf('skel') !== -1 || split.indexOf('ids_only') !== -1 ) {
-
                 overpassRequest += row + ';';
                 return;
             }
 
             if ( split.indexOf('body') !== -1 ) {
-
                 delete split[ split.indexOf('body') ];
             }
 
             if ( split.indexOf('center') === -1 ) {
-
                 split.push('center');
             }
 
             if ( split.indexOf('meta') === -1 ) {
-
                 split.push('meta');
             }
 
@@ -596,7 +521,6 @@ export default Marionette.LayoutView.extend({
 
 
         layerGroup._overpassLayer = new OverPassLayer({
-
             'debug': settings.debug,
             'endPoint': settings.overpassServer,
             'minZoom': poiLayerModel.get('minZoom'),
@@ -604,120 +528,73 @@ export default Marionette.LayoutView.extend({
             'retryOnTimeout': true,
             'query': overpassRequest,
             'beforeRequest': () => {
-
                 this.showPoiLoadingProgress( poiLayerModel );
             },
             'afterRequest': () => {
-
                 this.hidePoiLoadingProgress( poiLayerModel );
             },
             'onSuccess': (data) => {
-
-                var wayBodyNodes = {},
+                let wayBodyNodes = this._buildWayBodyNodesObjectFromOverpassResult(data),
                 icon = MapUi.buildPoiLayerIcon( L, poiLayerModel );
 
-
-                data.elements.forEach((e) => {
-
-                    if ( e.tags ) {
-
-                        return;
-                    }
-
-                    wayBodyNodes[e.id] = e;
-                });
-
-
-                data.elements.forEach((e) => {
-
+                for (let e of data.elements) {
                     if( !e.tags ) {
-
-                        return;
+                        continue;
                     }
 
                     if ( layerGroup._poiIds.indexOf(e.id) > -1 ) {
-
-                        return;
+                        continue;
                     }
 
                     layerGroup._poiIds.push(e.id);
 
-
-                    var pos,
-                    popupOptions = {};
-
-                    if(e.type === 'node') {
-
-                        pos = new L.LatLng(e.lat, e.lon);
+                    if( e.type === 'node' ) {
+                        let pos = new L.LatLng(e.lat, e.lon);
                     }
-                    else {
+                    else if ( e.nodes ) {
+                        let popupContent = this.getPoiLayerPopupContent(poiLayerModel, e);
+                        let nodePositions = this._buildPositionArrayFromWayBodyNodes(e, wayBodyNodes);
+                        let isClosedPolygon = _.isEqual(
+                            nodePositions[0],
+                            nodePositions[ nodePositions.length - 1 ]
+                        );
 
-                        pos = new L.LatLng(e.center.lat, e.center.lon);
-
-                        if ( e.nodes ) {
-
-                            var nodePositions = [];
-
-                            e.nodes.forEach((node) => {
-
-                                if ( wayBodyNodes[node] ) {
-
-                                    nodePositions.push(
-
-                                        L.latLng(
-
-                                            wayBodyNodes[node].lat,
-                                            wayBodyNodes[node].lon
-                                        )
-                                    );
-                                }
+                        if ( isClosedPolygon ) {
+                            let pos = new L.LatLng(e.center.lat, e.center.lon);
+                            let marker = L.marker(pos, {
+                                'icon': icon
                             });
+                            let polygon = L.polygon(
+                                nodePositions,
+                                CONST.map.wayPolygonOptions
+                            );
 
-                            var polygon = L.polygon( nodePositions, CONST.map.wayPolygonOptions );
+                            marker._dataFromOverpass = e;
 
+                            this._bindPopupTo(polygon, popupContent);
                             layerGroup.addLayer( polygon );
-                        }
-                    }
 
-
-                    var popupContent = this.getPoiLayerPopupContent(poiLayerModel, e),
-                    marker = L.marker(pos, {
-
-                        'icon': icon
-                    });
-
-                    marker._dataFromOverpass = e;
-
-                    if ( popupContent ) {
-
-                        if ( this.isLargeScreen() ) {
-
-                            popupOptions = {
-
-                                'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
-                                'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
-                            };
+                            this._bindPopupTo(marker, popupContent);
+                            layerGroup.addLayer( marker );
                         }
                         else {
+                            let polyline = L.polyline(
+                                nodePositions,
+                                CONST.map.wayPolylineOptions
+                            );
 
-                            popupOptions = {
+                            this._bindPopupTo(polyline, popupContent);
 
-                                'autoPanPadding': L.point(0, 0),
-                            };
+                            layerGroup.addLayer( polyline );
                         }
-
-                        marker.bindPopup(
-
-                            L.popup( popupOptions ).setContent( popupContent )
-                        );
                     }
-
-                    layerGroup.addLayer( marker );
-                });
+                    else {
+                        continue;
+                    }
+                }
             },
 
             onTimeout: function (xhr) {
-
                 var notification = new OverpassTimeoutNotificationView({ 'model': poiLayerModel });
 
                 $('body').append( notification.el );
@@ -726,7 +603,6 @@ export default Marionette.LayoutView.extend({
             },
 
             onError: function (xhr) {
-
                 var notification = new OverpassErrorNotificationView({ 'model': poiLayerModel });
 
                 $('body').append( notification.el );
@@ -740,34 +616,27 @@ export default Marionette.LayoutView.extend({
         this._mapLayers[ poiLayerModel.cid ] = layerGroup;
 
         if ( !hidden ) {
-
             this.showPoiLayer( poiLayerModel );
         }
     },
 
     removePoiLayer: function (poiLayerModel) {
-
         this.hidePoiLayer( poiLayerModel );
 
         delete( this._mapLayers[ poiLayerModel.cid ] );
     },
 
     showPoiLayer: function (poiLayerModel) {
-
         this._map.addLayer( this._mapLayers[ poiLayerModel.cid ] );
     },
 
     hidePoiLayer: function (poiLayerModel) {
-
         this._map.removeLayer( this._mapLayers[ poiLayerModel.cid ] );
     },
 
     updatePoiLayerIcons: function (poiLayerModel) {
-
         this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
-
             if ( layer._icon ) {
-
                 layer.setIcon(
                     MapUi.buildPoiLayerIcon( L, poiLayerModel )
                 );
@@ -776,29 +645,22 @@ export default Marionette.LayoutView.extend({
     },
 
     updatePoiLayerPopups: function (poiLayerModel) {
-
         var popup,
         popupContent;
 
         this._mapLayers[ poiLayerModel.cid ].eachLayer((layer) => {
-
             if ( layer._dataFromOverpass ) {
-
                 popup = layer.getPopup();
                 popupContent = this.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOverpass );
 
                 if ( popupContent ) {
-
                     if ( popup ) {
-
                         popup.setContent( popupContent );
                     }
                     else {
-
                         layer.bindPopup(
 
                             L.popup({
-
                                 'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
                                 'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
                             })
@@ -807,9 +669,7 @@ export default Marionette.LayoutView.extend({
                     }
                 }
                 else {
-
                     if ( popup ) {
-
                         layer
                         .closePopup()
                         .unbindPopup();
@@ -820,7 +680,6 @@ export default Marionette.LayoutView.extend({
     },
 
     updatePoiLayerMinZoom: function (poiLayerModel) {
-
         var overpassLayer = this._mapLayers[ poiLayerModel.cid ]._overpassLayer;
 
         overpassLayer.options.minZoom = poiLayerModel.get('minZoom');
@@ -829,7 +688,6 @@ export default Marionette.LayoutView.extend({
     },
 
     updatePoiPopup: function (poiLayerModel, node) {
-
         this._mapLayers[ poiLayerModel.cid ].eachLayer((layer) => {
             if ( !layer._dataFromOverpass || layer._dataFromOverpass.id !== node.id ) {
                 return;
@@ -842,9 +700,7 @@ export default Marionette.LayoutView.extend({
     },
 
     getPoiLayerPopupContent: function (poiLayerModel, dataFromOverpass) {
-
         if ( !poiLayerModel.get('popupContent') ) {
-
             return '';
         }
 
@@ -881,12 +737,10 @@ export default Marionette.LayoutView.extend({
         globalWrapper.innerHTML = popupContent;
 
         if ( poiLayerModel.get('dataEditable') ) {
-
             editButton.className = 'btn btn-link';
             editButton.innerHTML = this._document.l10n.getSync('editTheseInformations');
 
             $(editButton).on('click', () => {
-
                 this._radio.commands.execute('editPoiData', dataFromOverpass, poiLayerModel);
             });
 
@@ -900,7 +754,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onCommandEditPoiData: function (dataFromOverpass, poiLayerModel) {
-
         var view = new EditPoiDataColumnView({
             'app': this._app,
             'dataFromOverpass': dataFromOverpass,
@@ -913,32 +766,27 @@ export default Marionette.LayoutView.extend({
     },
 
     renderUserButtonLogged: function () {
-
         var avatar = this._user.get('avatar'),
         letters = this._user.get('displayName')
         .toUpperCase()
         .split(' ')
         .splice(0, 3)
         .map(function (name) {
-
             return name[0];
         })
         .join('');
 
         if (letters.length > 3) {
-
             letters = letters[0];
         }
 
 
         if (avatar) {
-
             this.ui.userButton
             .addClass('avatar')
             .html('<img src="'+ avatar +'" alt="'+ letters +'">');
         }
         else {
-
             this.ui.userButton
             .removeClass('avatar')
             .html(letters);
@@ -949,48 +797,38 @@ export default Marionette.LayoutView.extend({
     },
 
     renderUserButtonNotLogged: function () {
-
         this.ui.loginButton.removeClass('hide');
         this.ui.userButton.addClass('hide');
     },
 
     showContribButton: function () {
-
         this.ui.contribButton.removeClass('hide');
     },
 
     hideContribButton: function () {
-
         this.ui.contribButton.addClass('hide');
     },
 
     showEditTools: function () {
-
         this.ui.editToolbar.removeClass('hide');
     },
 
     hideEditTools: function () {
-
         this.ui.editToolbar.addClass('hide');
     },
 
 
 
     onCommandShowPoiLayer: function (poiLayerModel) {
-
         var view;
 
         if ( poiLayerModel ) {
-
             view = new EditPoiLayerColumnView({
-
                 'model': poiLayerModel
             });
         }
         else {
-
             view = new EditPoiLayerColumnView({
-
                 'model': new PoiLayerModel({ 'themeId': this.model.get('_id') })
             });
         }
@@ -1001,12 +839,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onCommandShowContribForm: function (options) {
-
         this.showContribForm(options);
     },
 
     showContribForm: function (options) {
-
         options.user = this._user;
 
         var view = new ContribFormColumnView( options );
@@ -1017,20 +853,15 @@ export default Marionette.LayoutView.extend({
     },
 
     onCommandShowPresetTags: function (presetModel) {
-
         var view;
 
         if ( presetModel ) {
-
             view = new EditPresetTagsColumnView({
-
                 'model': presetModel
             });
         }
         else {
-
             view = new EditPresetTagsColumnView({
-
                 'model': new PresetModel({ 'themeId': this.model.get('_id') })
             });
         }
@@ -1043,9 +874,7 @@ export default Marionette.LayoutView.extend({
 
 
     onCommandShowEditPoiMarker: function (poiLayerModel) {
-
         var view = new EditPoiMarkerModalView({
-
             'model': poiLayerModel
         });
 
@@ -1053,67 +882,55 @@ export default Marionette.LayoutView.extend({
     },
 
     onCommandShowConflict: function () {
-
         this.getRegion('conflictModal').show( new ConflictModalView() );
     },
 
 
 
     onClickZoomIn: function () {
-
         this._map.zoomIn();
     },
 
     onClickZoomOut: function () {
-
         this._map.zoomOut();
     },
 
     onClickGeocode: function () {
-
         this._geocodeWidgetView.toggle();
     },
 
     onClickLocate: function () {
-
         this.showLocateProgress();
         this._geolocation.locate();
     },
 
     onClickLocateWait: function () {
-
         this.hideLocateProgress();
         this._geolocation.stopLocate();
     },
 
     onLocationFound: function () {
-
         this.hideLocateProgress();
     },
 
     onLocationError: function () {
-
         this.hideLocateProgress();
     },
 
     showLocateProgress: function () {
-
         this.ui.locateButton.addClass('hide');
         this.ui.locateWaitButton.removeClass('hide');
     },
 
     hideLocateProgress: function () {
-
         this.ui.locateWaitButton.addClass('hide');
         this.ui.locateButton.removeClass('hide');
     },
 
     updateSessionMapState: function () {
-
         var key = 'mapState-'+ this.model.get('fragment'),
         oldState = JSON.parse( localStorage.getItem( key ) ) || {},
         newState = _.extend( oldState, {
-
             'center': this._map.getCenter(),
             'zoomLevel': this._map.getZoom(),
         } );
@@ -1122,13 +939,11 @@ export default Marionette.LayoutView.extend({
     },
 
     onMoveEnd: function (e) {
-
         this._map.stopLocate();
         this.updateSessionMapState();
     },
 
     onZoomEnd: function (e) {
-
         this.ui.toolbarZoomLevel.text(
             this._map.getZoom()
         );
@@ -1137,7 +952,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onZoomLevelsChange: function (e) {
-
         this.ui.toolbarZoomLevel.text(
             this._map.getZoom()
         );
@@ -1146,7 +960,6 @@ export default Marionette.LayoutView.extend({
     },
 
     updateMinDataZoom: function () {
-
         if (this._poiLayers.models.length === 0) {
             this._minDataZoom = 0;
         }
@@ -1154,9 +967,7 @@ export default Marionette.LayoutView.extend({
             let minDataZoom = 100000;
 
             _.each(this._poiLayers.models, function (poiLayerModel) {
-
                 if ( poiLayerModel.get('minZoom') < minDataZoom ) {
-
                     minDataZoom = poiLayerModel.get('minZoom');
                 }
             }, this);
@@ -1168,20 +979,16 @@ export default Marionette.LayoutView.extend({
     },
 
     checkZoomNotification: function () {
-
         if (this._map.getZoom() < this._minDataZoom ) {
-
             this.ui.zoomInButton.addClass('glow');
 
             if ( !this._seenZoomNotification ) {
-
                 this._seenZoomNotification = true;
 
                 this._zoomNotificationView.open();
             }
         }
         else if ( this._map.getZoom() >= this._minDataZoom ) {
-
             this.ui.zoomInButton.removeClass('glow');
 
             this._zoomNotificationView.close();
@@ -1189,51 +996,41 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickExpandScreen: function () {
-
         this._document.documentElement.requestFullscreen();
     },
 
     onClickCompressScreen: function () {
-
         this._document.exitFullscreen();
     },
 
     onExpandScreen: function () {
-
         this.ui.expandScreenButton.addClass('hide');
         this.ui.compressScreenButton.removeClass('hide');
     },
 
     onCompressScreen: function () {
-
         this.ui.compressScreenButton.addClass('hide');
         this.ui.expandScreenButton.removeClass('hide');
     },
 
     onClickSelectPoi: function () {
-
         this._selectPoiColumnView.open();
     },
 
     onClickSelectTile: function () {
-
         this._selectTileColumnView.open();
     },
 
     onClickHelp: function () {
-
         if ( this.ui.help.hasClass('open') ) {
-
             this.closeHelp();
         }
         else {
-
             this.openHelp();
         }
     },
 
     openHelp: function () {
-
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
 
@@ -1242,9 +1039,7 @@ export default Marionette.LayoutView.extend({
     },
 
     closeHelp: function () {
-
         this.ui.help.one('transitionend', () => {
-
             this.ui.helpToolbar.removeClass('on_top');
         });
 
@@ -1252,12 +1047,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickHelpClose: function () {
-
         this.closeHelp();
     },
 
     onClickLogin: function () {
-
         // FIXME To have a real fail callback
         let authSuccessCallback = this.model.buildPath();
         let authFailCallback = this.model.buildPath();
@@ -1271,17 +1064,14 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickUser: function () {
-
         this._userColumnView.open();
     },
 
     onClickLink: function () {
-
         this._linkColumnView.open();
     },
 
     onClickContrib: function (e) {
-
         e.stopPropagation();
 
         this.showContribCrosshair();
@@ -1290,16 +1080,13 @@ export default Marionette.LayoutView.extend({
 
         $('body').one('click.contribCrosshair', this.hideContribCrosshair.bind(this) );
         $('body').on('keyup.contribCrosshair', (e) => {
-
             if ( e.keyCode === 27 ) {
-
                 this.hideContribCrosshair();
             }
         });
     },
 
     onClickMapToAddPoint: function (e) {
-
         var osmNodeModel = new OsmNodeModel({
             'type': 'node',
             'version': 0,
@@ -1308,68 +1095,55 @@ export default Marionette.LayoutView.extend({
         });
 
         if ( this._presets.models.length === 0 ) {
-
             this.showContribForm({
                 'model': osmNodeModel
             });
         }
         else {
-
             this._contribColumnView.setModel( osmNodeModel );
             this._contribColumnView.open();
         }
     },
 
     showContribCrosshair: function () {
-
         this.ui.map.css('cursor', 'crosshair');
     },
 
     hideContribCrosshair: function () {
-
         $('body').off('.contribCrosshair', this.hideContribCrosshair.bind(this) );
 
         this.ui.map.css('cursor', 'default');
     },
 
     onClickEditSetting: function () {
-
         this._editSettingColumnView.open();
     },
 
     onClickEditPoi: function () {
-
         this._editPoiColumnView.open();
     },
 
     onClickEditTile: function () {
-
         this._editTileColumnView.open();
     },
 
     onClickEditPreset: function () {
-
         this._editPresetColumnView.open();
     },
 
     setPosition: function (latLng, zoomLevel) {
-
         this._map.setView( latLng, zoomLevel, { 'animate': true } );
     },
 
     fitBounds: function (latLngBounds) {
-
         this._map.fitBounds( latLngBounds, { 'animate': true } );
     },
 
     onKeyDown: function (e) {
-
         switch ( e.keyCode ) {
-
             case 70:
 
                 if ( e.ctrlKey ) {
-
                     e.preventDefault();
 
                     this.onClickGeocode();
@@ -1379,9 +1153,7 @@ export default Marionette.LayoutView.extend({
     },
 
     isLargeScreen: function () {
-
         if ( $(this._window).width() >= settings.largeScreenMinWidth && $(this._window).height() >= settings.largeScreenMinHeight ) {
-
             return true;
         }
 
@@ -1389,13 +1161,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onPopupOpen: function (e) {
-
         if ( !this.isLargeScreen() ) {
-
             this._geocodeWidgetView.close();
 
             this._toolbarsState = {
-
                 'controlToolbar': this.ui.controlToolbar.hasClass('open'),
                 'userToolbar': this.ui.userToolbar.hasClass('open'),
                 'helpToolbar': this.ui.helpToolbar.hasClass('open'),
@@ -1410,13 +1179,71 @@ export default Marionette.LayoutView.extend({
     },
 
     onPopupClose: function (e) {
-
         for (var toolbar in this._toolbarsState) {
-
             if ( this._toolbarsState[toolbar] ) {
-
                 this.ui[toolbar].addClass('open');
             }
         }
     },
+
+    _buildWayBodyNodesObjectFromOverpassResult: function (overpassResult) {
+        let wayBodyNodes = {};
+
+        for (let element of overpassResult.elements) {
+            if ( element.tags ) {
+                continue;
+            }
+
+            wayBodyNodes[ element.id ] = element;
+        }
+
+        return wayBodyNodes;
+    },
+
+    _buildPositionArrayFromWayBodyNodes: function (element, wayBodyNodes) {
+        let nodePositions = [];
+
+        for (let node of element.nodes) {
+            if ( wayBodyNodes[node] ) {
+                nodePositions.push(
+                    L.latLng(
+                        wayBodyNodes[node].lat,
+                        wayBodyNodes[node].lon
+                    )
+                );
+            }
+        }
+
+        return nodePositions;
+    },
+
+    _bindPopupTo: function (element, popupContent) {
+        if ( popupContent ) {
+            let popupOptions;
+
+            if ( this.isLargeScreen() ) {
+                popupOptions = {
+                    'autoPanPaddingTopLeft': L.point(
+                        CONST.map.panPadding.left,
+                        CONST.map.panPadding.top
+                    ),
+                    'autoPanPaddingBottomRight': L.point(
+                        CONST.map.panPadding.right,
+                        CONST.map.panPadding.bottom
+                    ),
+                };
+            }
+            else {
+                popupOptions = {
+                    'autoPanPadding': L.point(0, 0),
+                };
+            }
+
+            element.bindPopup(
+                L.popup( popupOptions ).setContent( popupContent )
+            );
+        }
+
+        return false;
+    }
 });

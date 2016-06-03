@@ -52,6 +52,13 @@ module.exports = {
             'fillOpacity': 0.5,
         },
 
+        'wayPolylineOptions': {
+
+            'color': '#F8981D',
+            'weight': 8,
+            'opacity': 0.8
+        },
+
         'markers': {
 
             'marker1': {
