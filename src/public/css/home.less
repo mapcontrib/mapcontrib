@@ -29,15 +29,15 @@
 
 
 input.search {
-    padding-left: 36px;
+    padding-left: 34px;
 }
 
 input.search + label .icon {
     position: absolute;
-    left: 28px;
-    top: 8px;
+    left: 26px;
+    top: 4px;
     cursor: text;
-    font-size: 22px;
+    font-size: 18px;
     color: darken(@darkGray, 10%);
 }
 
@@ -49,10 +49,15 @@ input.search + label .icon {
 .mini_theme {
     height: 150px;
     background-color: @lightGray;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
     .title {
-        font-family: 'Fira Sans';
+        font-size: 14px;
         text-align: center;
-        background-color: #333;
+        margin: 0;
+        padding: 7px 8px 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
