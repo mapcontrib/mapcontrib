@@ -53,6 +53,9 @@
 <empty "Vide">
 <editTheseInformations "Éditer ces informations">
 <loadingData title:"Certaines données sont en cours de chargement">
+<createATheme "Créer un thème">
+<searchATheme placeholder:"Rechercher un thème">
+<aboutMapContrib "À propos de MapContrib">
 
 
 /* Help */

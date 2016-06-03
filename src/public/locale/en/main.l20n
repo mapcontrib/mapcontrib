@@ -53,6 +53,9 @@
 <empty "Empty">
 <editTheseInformations "Edit these informations">
 <loadingData title:"Some data are being loaded">
+<createATheme "Create a theme">
+<searchATheme placeholder:"Search a theme">
+<aboutMapContrib "About MapContrib">
 
 
 /* Help */
