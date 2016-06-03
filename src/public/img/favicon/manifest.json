@@ -1,39 +1,75 @@
 {
     "name": "MapContrib",
     "icons": [{
-        "src": "/img/favicon/android-chrome-36x36.png",
+        "src": "/img/favicon/16x16.png",
+        "type": "image/png",
+        "sizes": "16x16"
+    }, {
+        "src": "/img/favicon/32x32.png",
+        "type": "image/png",
+        "sizes": "32x32"
+    }, {
+        "src": "/img/favicon/36x36.png",
         "type": "image/png",
         "sizes": "36x36"
     }, {
-        "src": "/img/favicon/android-chrome-48x48.png",
+        "src": "/img/favicon/48x48.png",
         "type": "image/png",
         "sizes": "48x48"
     }, {
-        "src": "/img/favicon/android-chrome-72x72.png",
+        "src": "/img/favicon/57x57.png",
+        "type": "image/png",
+        "sizes": "57x57"
+    }, {
+        "src": "/img/favicon/60x60.png",
+        "type": "image/png",
+        "sizes": "60x60"
+    }, {
+        "src": "/img/favicon/72x72.png",
         "type": "image/png",
         "sizes": "72x72"
     }, {
-        "src": "/img/favicon/android-chrome-96x96.png",
+        "src": "/img/favicon/76x76.png",
+        "type": "image/png",
+        "sizes": "76x76"
+    }, {
+        "src": "/img/favicon/96x96.png",
         "type": "image/png",
         "sizes": "96x96"
     }, {
-        "src": "/img/favicon/android-chrome-144x144.png",
+        "src": "/img/favicon/114x114.png",
+        "type": "image/png",
+        "sizes": "114x114"
+    }, {
+        "src": "/img/favicon/120x120.png",
+        "type": "image/png",
+        "sizes": "120x120"
+    }, {
+        "src": "/img/favicon/144x144.png",
         "type": "image/png",
         "sizes": "144x144"
     }, {
-        "src": "/img/favicon/android-chrome-192x192.png",
+        "src": "/img/favicon/152x152.png",
+        "type": "image/png",
+        "sizes": "152x152"
+    }, {
+        "src": "/img/favicon/180x180.png",
+        "type": "image/png",
+        "sizes": "180x180"
+    }, {
+        "src": "/img/favicon/192x192.png",
         "type": "image/png",
         "sizes": "192x192"
     }, {
-        "src": "/img/favicon/android-chrome-256x256.png",
+        "src": "/img/favicon/256x256.png",
         "type": "image/png",
         "sizes": "256x256"
     }, {
-        "src": "/img/favicon/android-chrome-384x384.png",
+        "src": "/img/favicon/384x384.png",
         "type": "image/png",
         "sizes": "384x384"
     }, {
-        "src": "/img/favicon/android-chrome-512x512.png",
+        "src": "/img/favicon/512x512.png",
         "type": "image/png",
         "sizes": "512x512"
     }]
