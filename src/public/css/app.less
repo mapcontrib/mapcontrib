@@ -1,125 +1,47 @@
 
 
-@import 'variables.less';
+@import 'variable.less';
+@import 'font.less';
+@import 'form.less';
 @import 'toolbar.less';
 @import 'widget.less';
 @import 'marker.less';
-@import 'font/fira.css';
-@import 'font/voltaire.css';
-@import 'font/charissil.css';
-
-@import 'ui/geolocationPoint.less';
 
 
 
 @keyframes appear {
-
     0% {
-
         opacity: 0;
     }
 
-
     100% {
-
         opacity: 1;
     }
 }
 
+@keyframes bounce {
+    0%, 5%, 13%, 20%, 25% {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        transform: translate3d(0, 0, 0);
+    }
 
+    10%, 11% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(12px, 0, 0);
+    }
 
-body {
+    17% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(6px, 0, 0);
+    }
 
-    color: @anthracite;
-}
-
-h1, h2, h3, h4, h5, h6,
-.control-label {
-
-    font-family: 'Fira Sans';
-    font-weight: normal;
-}
-
-
-.nowrap {
-
-    white-space: nowrap;
-}
-
-textarea.font-monospace {
-
-    font-size: 12px;
-}
-
-
-input[disabled],
-select[disabled],
-textarea[disabled],
-.form-control[disabled],
-input[readonly],
-select[readonly],
-textarea[readonly],
-.form-control[readonly],
-fieldset[disabled] .form-control {
-
-    cursor: default;
-}
-
-button,
-.btn,
-.nav > li > a {
-
-    border-radius: 0;
-}
-
-input,
-select,
-textarea,
-.form-control,
-.list-group-item,
-.list-group-item:first-child,
-.list-group-item:last-child,
-fieldset .form-control {
-
-    border-radius: 0 !important;
-    box-shadow: none;
-
-    &:hover,
-    &.focus,
-    &:focus,
-    &.active,
-    &:active {
-
-        box-shadow: none;
+    22% {
+        transform: translate3d(2px, 0, 0);
     }
 }
-
-.list-group {
-
-    /* Fixes a placement bug on items when they are moved/dragged more than once */
-    position: relative;
-
-    .list-group-item {
-
-        label .help-block,
-        label .help-block p:last-child {
-
-            margin-bottom: 0;
-        }
-
-        &.active {
-
-            background: @gray;
-            color: @anthracite;
-        }
-    }
-}
-
-
 
 
 .icon-preview {
-
     position: absolute;
     top: 8px;
     right: 11px;
@@ -128,29 +50,106 @@ fieldset .form-control {
     font-size: 19px;
 }
 
+.marker-form-widget {
+    height: 42px;
 
-@keyframes bounce {
-
-    0%, 5%, 13%, 20%, 25% {
-
-        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-        transform: translate3d(0, 0, 0);
+    .marker,
+    .btn {
+        float: left;
     }
 
-    10%, 11% {
-
-        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-        transform: translate3d(12px, 0, 0);
+    .marker {
+        margin-left: 15px;
+        margin-right: 20px;
     }
 
-    17% {
+    .btn {
+        margin-top: 4px;
+    }
+}
 
-        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-        transform: translate3d(6px, 0, 0);
+
+.zoom_tip {
+    font-style: italic;
+}
+
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+.list-group {
+    /* Fixes a placement bug on items when they are moved/dragged more than once */
+    position: relative;
+
+    .list-group-item {
+        label .help-block,
+        label .help-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        &.active {
+            background: @gray;
+            color: @anthracite;
+        }
+    }
+}
+
+.list-group.reorderable {
+    .list-group-item {
+        padding-left: 30px;
+
+        .reorder_icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 6px;
+            cursor: grab;
+        }
+    }
+}
+
+.list-group.removeable {
+    .list-group-item {
+        padding-right: 46px;
+
+        .remove_btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 40px;
+            background: transparent;
+            border-color: transparent;
+        }
+    }
+}
+
+.sticky-footer {
+    position: sticky;
+    z-index: 10;
+    bottom: 0;
+    padding: 20px 0;
+    margin: 20px 0 0 0;
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+
+.dropdown-menu {
+    border-radius: 0;
+    padding: 0;
+    border: none;
+
+    li a {
+        padding: 8px 16px;
     }
 
-    22% {
-
-        transform: translate3d(2px, 0, 0);
+    .divider {
+        margin: 4px 0;
     }
 }
