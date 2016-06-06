@@ -7,6 +7,7 @@
 
 
 <mapcontrib "MapContrib">
+<slogan "Contribution thématique à <a>OpenStreetMap</a>">
 
 
 <pageTitle "{{ mapcontrib }}">
