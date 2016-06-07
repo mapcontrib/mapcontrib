@@ -254,7 +254,9 @@ export default class OsmEdit{
                 tagElements = xml.documentElement.getElementsByTagName('tag'),
                 version = parseInt( parentElement.getAttribute('version') );
 
-                for (let tag of tagElements) {
+                for (let index in tagElements) {
+                    let tag = tagElements[index];
+
                     if ( tag.getAttribute ) {
                         key = tag.getAttribute('k');
                         value = tag.getAttribute('v');
