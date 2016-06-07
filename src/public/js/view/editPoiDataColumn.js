@@ -136,7 +136,6 @@ export default Marionette.LayoutView.extend({
     },
 
     renderTags: function (tags) {
-
         this._tagList = new ContribNodeTagsListView();
 
         let popupTag, value,
@@ -169,16 +168,9 @@ export default Marionette.LayoutView.extend({
                 continue;
             }
 
-            if ( tags[popupTag] ) {
-                value = tags[popupTag];
-            }
-            else {
-                value = '';
-            }
-
             this._tagList.addTag({
                 'key': key,
-                'value': value,
+                'value': tags[key],
                 'keyReadOnly': false,
                 'valueReadOnly': false,
             });
