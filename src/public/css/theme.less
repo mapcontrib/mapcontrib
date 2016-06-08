@@ -322,7 +322,6 @@ html, body {
 
 
 
-@zoomNotificationWidth: 300px;
 #zoom_notification {
 
     z-index: @zoomNotificationZIndex;
@@ -336,11 +335,17 @@ html, body {
     padding-bottom: 15px;
     padding-right: 24px;
     padding-left: 24px;
+    opacity: 1;
+    transition: opacity 0.1s linear;
     transform: translate(( @toolbarBtnSize + @zoomNotificationWidth ) * -1, 0);
 
     &.open {
 
         transform: translate(0, 0);
+    }
+
+    &.disappear {
+        opacity: 0;
     }
 
     p {

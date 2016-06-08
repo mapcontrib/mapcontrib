@@ -548,11 +548,20 @@ export default Marionette.LayoutView.extend({
 
                     layerGroup._poiIds.push(e.id);
 
+                    let popupContent = this.getPoiLayerPopupContent(poiLayerModel, e);
+
                     if( e.type === 'node' ) {
                         let pos = new L.LatLng(e.lat, e.lon);
+                        let marker = L.marker(pos, {
+                            'icon': icon
+                        });
+
+                        marker._dataFromOverpass = e;
+
+                        this._bindPopupTo(marker, popupContent);
+                        layerGroup.addLayer( marker );
                     }
                     else if ( e.nodes ) {
-                        let popupContent = this.getPoiLayerPopupContent(poiLayerModel, e);
                         let nodePositions = this._buildPositionArrayFromWayBodyNodes(e, wayBodyNodes);
                         let isClosedPolygon = _.isEqual(
                             nodePositions[0],
@@ -569,11 +578,12 @@ export default Marionette.LayoutView.extend({
                                 CONST.map.wayPolygonOptions
                             );
 
-                            marker._dataFromOverpass = e;
 
+                            polygon._dataFromOverpass = e;
                             this._bindPopupTo(polygon, popupContent);
                             layerGroup.addLayer( polygon );
 
+                            marker._dataFromOverpass = e;
                             this._bindPopupTo(marker, popupContent);
                             layerGroup.addLayer( marker );
                         }
@@ -584,7 +594,6 @@ export default Marionette.LayoutView.extend({
                             );
 
                             this._bindPopupTo(polyline, popupContent);
-
                             layerGroup.addLayer( polyline );
                         }
                     }
@@ -645,21 +654,16 @@ export default Marionette.LayoutView.extend({
     },
 
     updatePoiLayerPopups: function (poiLayerModel) {
-        var popup,
-        popupContent;
-
         this._mapLayers[ poiLayerModel.cid ].eachLayer((layer) => {
             if ( layer._dataFromOverpass ) {
-                popup = layer.getPopup();
-                popupContent = this.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOverpass );
+                let popupContent = this.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOverpass );
 
                 if ( popupContent ) {
-                    if ( popup ) {
-                        popup.setContent( popupContent );
+                    if ( layer._popup ) {
+                        layer._popup.setContent( popupContent );
                     }
                     else {
                         layer.bindPopup(
-
                             L.popup({
                                 'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
                                 'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
@@ -669,7 +673,7 @@ export default Marionette.LayoutView.extend({
                     }
                 }
                 else {
-                    if ( popup ) {
+                    if ( layer._popup ) {
                         layer
                         .closePopup()
                         .unbindPopup();
@@ -1171,6 +1175,7 @@ export default Marionette.LayoutView.extend({
                 'editToolbar': this.ui.editToolbar.hasClass('open'),
             };
 
+            this._zoomNotificationView.disappear();
             this.ui.controlToolbar.removeClass('open');
             this.ui.userToolbar.removeClass('open');
             this.ui.helpToolbar.removeClass('open');
@@ -1184,6 +1189,8 @@ export default Marionette.LayoutView.extend({
                 this.ui[toolbar].addClass('open');
             }
         }
+
+        this._zoomNotificationView.appear();
     },
 
     _buildWayBodyNodesObjectFromOverpassResult: function (overpassResult) {
@@ -1239,9 +1246,9 @@ export default Marionette.LayoutView.extend({
                 };
             }
 
-            element.bindPopup(
-                L.popup( popupOptions ).setContent( popupContent )
-            );
+            let popup = L.popup( popupOptions ).setContent( popupContent );
+            element._popup = popup;
+            element.bindPopup( popup );
         }
 
         return false;

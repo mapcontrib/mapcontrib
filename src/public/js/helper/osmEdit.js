@@ -233,39 +233,36 @@ export default class OsmEdit{
      */
     fetch(type, id) {
         return new Promise((resolve, reject) => {
-            this._auth.xhr({
+            $.ajax({
                 'method': 'GET',
-                'path': `/api/0.6/${type}/${id}`,
-                'options': {
-                    'header': {
-                        'Content-Type': 'text/xml'
+                'dataType': 'xml',
+                'url': `https://api.openstreetmap.org/api/0.6/${type}/${id}`,
+                'error': (jqXHR, textStatus, errorThrown) => {
+                    console.error(`ERROR on fetch element: ${errorThrown}`);
+                    return reject(errorThrown);
+                },
+                'success': (xml, jqXHR, textStatus) => {
+                    let key, value,
+                    tags = {},
+                    parentElement = xml.getElementsByTagName(type)[0],
+                    tagElements = xml.documentElement.getElementsByTagName('tag'),
+                    version = parseInt( parentElement.getAttribute('version') );
+
+                    for (let index in tagElements) {
+                        let tag = tagElements[index];
+
+                        if ( tag.getAttribute ) {
+                            key = tag.getAttribute('k');
+                            value = tag.getAttribute('v');
+                            tags[ key ] = value;
+                        }
                     }
+
+                    this.setVersion(version);
+                    this.setTags(tags);
+
+                    resolve(this);
                 }
-            },
-            (err, xml) => {
-                if (err) {
-                    console.error('ERROR on fetch element: ' + err.response);
-                    return reject(err);
-                }
-
-                let key, value,
-                tags = {},
-                parentElement = xml.getElementsByTagName(type)[0],
-                tagElements = xml.documentElement.getElementsByTagName('tag'),
-                version = parseInt( parentElement.getAttribute('version') );
-
-                for (let tag of tagElements) {
-                    if ( tag.getAttribute ) {
-                        key = tag.getAttribute('k');
-                        value = tag.getAttribute('v');
-                        tags[ key ] = value;
-                    }
-                }
-
-                this.setVersion(version);
-                this.setTags(tags);
-
-                resolve(this);
             });
         });
     }
