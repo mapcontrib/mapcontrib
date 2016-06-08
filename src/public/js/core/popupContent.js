@@ -14,6 +14,10 @@ export default class PopupContent {
         let matches = content.match(re);
         let tags = [];
 
+        if (!matches) {
+            return [];
+        }
+
         for (let rawTag of matches) {
             tags.push(
                 rawTag.replace( /\{(.*?)\}/g, '$1' )
