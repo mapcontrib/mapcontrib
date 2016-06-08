@@ -1175,6 +1175,7 @@ export default Marionette.LayoutView.extend({
                 'editToolbar': this.ui.editToolbar.hasClass('open'),
             };
 
+            this._zoomNotificationView.disappear();
             this.ui.controlToolbar.removeClass('open');
             this.ui.userToolbar.removeClass('open');
             this.ui.helpToolbar.removeClass('open');
@@ -1188,6 +1189,8 @@ export default Marionette.LayoutView.extend({
                 this.ui[toolbar].addClass('open');
             }
         }
+
+        this._zoomNotificationView.appear();
     },
 
     _buildWayBodyNodesObjectFromOverpassResult: function (overpassResult) {
