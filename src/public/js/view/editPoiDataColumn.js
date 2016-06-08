@@ -11,6 +11,7 @@ import template from '../../templates/editPoiDataColumn.ejs';
 import ContribNodeTagsListView from '../ui/form/contribNodeTags';
 import OsmNodeModel from '../model/osmNode';
 import Cache from '../core/cache';
+import PopupContent from '../core/popupContent';
 
 
 
@@ -140,13 +141,10 @@ export default Marionette.LayoutView.extend({
 
         let popupTag, value,
         popupContent = this.options.poiLayerModel.get('popupContent'),
-        re = new RegExp('{(.*?)}', 'g'),
-        popupTags = popupContent.match(re);
+        popupTags = PopupContent.findTagsFromContent(popupContent);
 
         if ( popupTags) {
             for (let popupTag of popupTags) {
-                popupTag = popupTag.replace( /\{(.*?)\}/g, '$1' );
-
                 if ( tags[popupTag] ) {
                     value = tags[popupTag];
                 }
