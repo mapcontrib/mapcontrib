@@ -1,4 +1,5 @@
 
+import config from 'config';
 import userApi from './user';
 import themeApi from './theme';
 import layerApi from './layer';
@@ -47,7 +48,8 @@ export default function Api(app, db, CONST){
 
     app.get('/', (req, res) => {
         let templateVars = {
-            'user': req.session.user ? JSON.stringify(req.session.user) : '{}'
+            'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
+            'config': JSON.stringify( config.get('client') )
         };
 
         res.render('home', templateVars);
@@ -56,7 +58,8 @@ export default function Api(app, db, CONST){
 
     app.get('/t/:fragment-*', (req, res) => {
         let templateVars = {
-            'user': req.session.user ? JSON.stringify(req.session.user) : '{}'
+            'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
+            'config': JSON.stringify( config.get('client') )
         };
 
         themeApi.api.findFromFragment(req.params.fragment)

@@ -2,13 +2,13 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import BackboneRelational from 'backbone-relational';
-import settings from '../settings';
+import CONST from '../const';
 
 
 export default Backbone.RelationalModel.extend({
     idAttribute: '_id',
 
-    urlRoot: settings.apiPath + 'preset',
+    urlRoot: CONST.apiPath + 'preset',
 
     defaults: {
         'themeId': undefined,

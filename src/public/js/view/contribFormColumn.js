@@ -6,7 +6,6 @@ import osmAuth from 'osm-auth';
 import OsmEditHelper from '../helper/osmEdit.js';
 import MapUi from '../ui/map';
 import CONST from '../const';
-import settings from '../settings';
 import LayerModel from '../model/layer';
 import ContribNodeTagsListView from '../ui/form/contribNodeTags';
 import template from '../../templates/contribFormColumn.ejs';
@@ -48,10 +47,10 @@ export default Marionette.LayoutView.extend({
         icon = MapUi.buildLayerIcon(
             L,
             new LayerModel({
-                'markerShape': settings.newPoiMarkerShape,
+                'markerShape': config.newPoiMarkerShape,
                 'markerIconType': CONST.map.markerIconType.library,
-                'markerIcon': settings.newPoiMarkerIcon,
-                'markerColor': settings.newPoiMarkerColor
+                'markerIcon': config.newPoiMarkerIcon,
+                'markerColor': config.newPoiMarkerColor
             })
         );
 
@@ -114,8 +113,8 @@ export default Marionette.LayoutView.extend({
         var map = this._radio.reqres.request('map'),
         osmEdit = new OsmEditHelper(
             osmAuth({
-                'oauth_consumer_key': settings.oauthConsumerKey,
-                'oauth_secret': settings.oauthSecret,
+                'oauth_consumer_key': config.oauthConsumerKey,
+                'oauth_secret': config.oauthSecret,
                 'oauth_token': this._user.get('token'),
                 'oauth_token_secret': this._user.get('tokenSecret'),
             })

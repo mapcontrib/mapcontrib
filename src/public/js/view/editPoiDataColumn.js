@@ -2,7 +2,6 @@
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import settings from '../settings';
 import osmAuth from 'osm-auth';
 import ContributionErrorNotificationView from './contributionErrorNotification';
 import OsmEditHelper from '../helper/osmEdit.js';
@@ -60,8 +59,8 @@ export default Marionette.LayoutView.extend({
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
-                'oauth_consumer_key': settings.oauthConsumerKey,
-                'oauth_secret': settings.oauthSecret,
+                'oauth_consumer_key': config.oauthConsumerKey,
+                'oauth_secret': config.oauthSecret,
                 'oauth_token': this._user.get('token'),
                 'oauth_token_secret': this._user.get('tokenSecret'),
             })

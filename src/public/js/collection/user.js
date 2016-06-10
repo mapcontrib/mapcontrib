@@ -1,11 +1,11 @@
 
 import Backbone from 'backbone';
-import settings from '../settings';
+import CONST from '../const';
 import UserModel from '../model/user';
 
 
 export default Backbone.Collection.extend({
-    url: settings.apiPath + 'user',
+    url: CONST.apiPath + 'user',
 
     model: UserModel,
 

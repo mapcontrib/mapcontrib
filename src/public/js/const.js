@@ -11,8 +11,10 @@ else {
 }
 
 
-module.exports = {
+export default {
     'version': '0.7.0',
+
+    'apiPath': '/api/',
 
     'osm': {
         'changesetCreatedBy': 'MapContrib',

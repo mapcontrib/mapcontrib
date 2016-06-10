@@ -2,7 +2,6 @@
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import settings from '../settings';
 import template from '../../templates/linkColumn.ejs';
 import templateIframe from '../../templates/linkColumnIframe.ejs';
 
@@ -44,10 +43,10 @@ export default Marionette.LayoutView.extend({
 
         return {
             'url': this.getUrl(),
-            'iframeWidth': settings.shareIframeWidth,
-            'iframeWidthUnit': settings.shareIframeWidthUnit,
-            'iframeHeight': settings.shareIframeHeight,
-            'iframeHeightUnit': settings.shareIframeHeightUnit,
+            'iframeWidth': config.shareIframeWidth,
+            'iframeWidthUnit': config.shareIframeWidthUnit,
+            'iframeHeight': config.shareIframeHeight,
+            'iframeHeightUnit': config.shareIframeHeightUnit,
         };
     },
 

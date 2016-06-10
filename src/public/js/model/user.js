@@ -1,13 +1,13 @@
 
 import _ from 'underscore';
 import Backbone from 'backbone';
-import settings from '../settings';
+import CONST from '../const';
 
 
 export default Backbone.Model.extend({
     idAttribute: '_id',
 
-    urlRoot: settings.apiPath + 'user',
+    urlRoot: CONST.apiPath + 'user',
 
     defaults: {
         'osmId': undefined,

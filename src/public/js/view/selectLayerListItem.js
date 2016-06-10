@@ -2,7 +2,6 @@
 import _ from 'underscore';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import settings from '../settings';
 import marked from 'marked';
 import MapUi from '../ui/map';
 import template from '../../templates/selectLayerListItem.ejs';

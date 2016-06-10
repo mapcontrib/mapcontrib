@@ -3,3 +3,4 @@ src/public/assets
 *bundle.*
 npm-debug.log
 volumes
+local.yml

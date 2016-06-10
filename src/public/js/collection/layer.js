@@ -1,13 +1,13 @@
 
 import _ from 'underscore';
 import Backbone from 'backbone';
-import settings from '../settings';
+import CONST from '../const';
 import LayerModel from '../model/layer';
 
 
 export default Backbone.Collection.extend({
     url: function () {
-        return settings.apiPath + 'theme/'+ this.options.themeId +'/layers';
+        return CONST.apiPath + 'theme/'+ this.options.themeId +'/layers';
     },
 
     model: LayerModel,

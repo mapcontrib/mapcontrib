@@ -2,8 +2,8 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import BackboneRelational from 'backbone-relational';
-import settings from '../settings';
 import Diacritics from 'diacritic';
+import CONST from '../const';
 
 import LayerCollection from '../collection/layer';
 import PresetCollection from '../collection/preset';
@@ -14,7 +14,7 @@ import Preset from './preset';
 export default Backbone.RelationalModel.extend({
     idAttribute: '_id',
 
-    urlRoot: settings.apiPath + 'theme',
+    urlRoot: CONST.apiPath + 'theme',
 
     relations: [
         {

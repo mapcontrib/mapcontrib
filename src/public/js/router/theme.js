@@ -1,8 +1,8 @@
 
 import $ from 'jquery';
 import Backbone from 'backbone';
+import CONST from '../const';
 import Wreqr from 'backbone.wreqr';
-import settings from '../settings';
 import ThemeRootView from '../view/themeRoot';
 
 
@@ -28,7 +28,7 @@ export default Backbone.Router.extend({
     routeLogout: function (){
         $.ajax({
             type: 'GET',
-            url: settings.apiPath +'user/logout',
+            url: CONST.apiPath +'user/logout',
             dataType: 'json',
             context: this,
             complete: function () {

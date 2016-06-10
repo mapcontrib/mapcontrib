@@ -17,8 +17,8 @@
     }
   ],
   "scripts": {
-    "start": "MONGO_HOST=localhost PORT=8080 babel-node src/server.js",
-    "startFromDocker": "babel-node src/server.js",
+    "start": "cd src; babel-node server.js",
+    "startFromDocker": "cd src; babel-node server.js",
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
     "test": "mocha --recursive --inline-diffs --compilers js:babel-core/register"
@@ -37,6 +37,7 @@
     "bootstrap-more": "^0.4.12",
     "bootstrap-webpack": "0.0.5",
     "compression": "^1.6.1",
+    "config": "^1.21.0",
     "css-loader": "^0.23.1",
     "diacritic": "0.0.2",
     "ejs-loader": "^0.2.1",

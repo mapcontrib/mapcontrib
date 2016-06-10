@@ -1,13 +1,13 @@
 
 import _ from 'underscore';
 import Backbone from 'backbone';
-import settings from '../settings';
+import CONST from '../const';
 import PresetModel from '../model/preset';
 
 
 export default Backbone.Collection.extend({
     url: function () {
-        return settings.apiPath + 'theme/'+ this.options.themeId +'/presets';
+        return CONST.apiPath + 'theme/'+ this.options.themeId +'/presets';
     },
 
     model: PresetModel,

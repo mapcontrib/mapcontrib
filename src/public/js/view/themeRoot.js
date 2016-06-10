@@ -4,7 +4,6 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import settings from '../settings';
 import CONST from '../const';
 import L from 'leaflet';
 import OverPassLayer from 'leaflet-overpass-layer';
@@ -521,10 +520,10 @@ export default Marionette.LayoutView.extend({
 
 
         layerGroup._overpassLayer = new OverPassLayer({
-            'debug': settings.debug,
-            'endPoint': settings.overpassServer,
+            'debug': config.debug,
+            'endPoint': config.overpassServer,
             'minZoom': layerModel.get('minZoom'),
-            'timeout': settings.overpassTimeout,
+            'timeout': config.overpassTimeout,
             'retryOnTimeout': true,
             'query': overpassRequest,
             'beforeRequest': () => {
@@ -1157,7 +1156,7 @@ export default Marionette.LayoutView.extend({
     },
 
     isLargeScreen: function () {
-        if ( $(this._window).width() >= settings.largeScreenMinWidth && $(this._window).height() >= settings.largeScreenMinHeight ) {
+        if ( $(this._window).width() >= config.largeScreenMinWidth && $(this._window).height() >= config.largeScreenMinHeight ) {
             return true;
         }
 

@@ -1,28 +1,20 @@
 
-const secretKey = 'qsqodjcizeiufbvionkjqqsdfjhGJFJR76589964654jkhsdfskqdfglfser8754dgh4hjt54d89s6568765G+=)({}})';
-const db = {
-    'host': process.env.MONGO_HOST ? process.env.MONGO_HOST : 'localhost',
-    'port': '27017',
-    'name': 'mapcontrib'
-};
-
-
-
 import fs from 'fs';
 import path from 'path';
+import _ from 'underscore';
 import Api from './api';
 import Passport from './passport';
 import CONST from './public/js/const';
-import settings from './public/js/settings';
-import _ from 'underscore';
-
-
+import config from 'config';
 
 
 import { MongoClient } from 'mongodb';
 import init from './init';
 
-let mongoUrl = `mongodb://${db.host}:${db.port}/${db.name}`;
+let mongoHost = config.get('mongodb.host');
+let mongoPort = config.get('mongodb.port');
+let mongoBase = config.get('mongodb.database');
+let mongoUrl = `mongodb://${mongoHost}:${mongoPort}/${mongoBase}`;
 
 MongoClient.connect(mongoUrl, (err, db) => {
     if(err) throw err;
@@ -35,7 +27,7 @@ MongoClient.connect(mongoUrl, (err, db) => {
         });
     });
 
-    new Passport(app, db, settings);
+    new Passport(app, db, config);
     new Api(app, db, CONST);
 });
 
@@ -69,15 +61,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: secretKey,
+    secret: config.get('salt'),
     store: new MongoStore({
-        'host': db.host,
-        'port': db.port,
-        'db': db.name,
+        'host': config.get('mongodb.host'),
+        'port': config.get('mongodb.port'),
+        'db': config.get('mongodb.database'),
     }),
 }));
 
-app.set('port', process.env.PORT);
+app.set('port', config.get('server.port'));
 app.use(logger('dev'));
 app.use(methodOverride());
 app.use(multer({ 'dest': path.join(__dirname, 'upload') }));
@@ -98,11 +90,13 @@ app.get('/theme-s8c2d4', (req, res) => {
 
 
 
-
 if (app.get('env') !== 'production') {
     app.use(errorHandler());
 }
 
-app.listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
+
+let port = app.get('port');
+
+app.listen(port, () => {
+    console.log(`MapContrib is up on the port ${port}`);
 });
