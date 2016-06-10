@@ -7,7 +7,6 @@ import presetApi from './preset';
 
 
 export default function Api(app, db, CONST){
-
     let options = {
         'CONST': CONST,
         'database': db,
@@ -47,7 +46,6 @@ export default function Api(app, db, CONST){
     app.delete('/api/preset/:_id', isLoggedIn, presetApi.api.delete);
 
     app.get('/', (req, res) => {
-
         let templateVars = {
             'user': req.session.user ? JSON.stringify(req.session.user) : '{}'
         };
@@ -57,37 +55,31 @@ export default function Api(app, db, CONST){
 
 
     app.get('/t/:fragment-*', (req, res) => {
-
         let templateVars = {
             'user': req.session.user ? JSON.stringify(req.session.user) : '{}'
         };
 
         themeApi.api.findFromFragment(req.params.fragment)
         .then(( themeObject ) => {
-
             let promises = [
                 poiLayerApi.api.findFromThemeId(themeObject._id),
                 presetApi.api.findFromThemeId(themeObject._id),
             ];
 
             if ( req.session.user ) {
-
                 promises.push(
 
                     themeApi.api.findFromOwnerId(req.session.user._id)
                     .then((themes) => {
-
                         req.session.themes = [];
 
                         for (let i in themes) {
-
                             let themeId = themes[i]._id.toString();
 
                             if (
                                 req.session.themes.indexOf( themeId ) === -1 ||
                                 themes[i].owners.indexOf('*') !== -1
                             ) {
-
                                 req.session.themes.push( themeId );
                             }
                         }
@@ -97,7 +89,6 @@ export default function Api(app, db, CONST){
 
             Promise.all(promises)
             .then(( results ) => {
-
                 templateVars.theme = JSON.stringify( themeObject );
                 templateVars.poiLayers = JSON.stringify( results[0] );
                 templateVars.presets = JSON.stringify( results[1] );

@@ -16,14 +16,11 @@ function setOptions (hash) {
 
 
 let api = {
-
     post (req, res) {
-
         let collection = options.database.collection('theme'),
         model = new ThemeModel(req.body);
 
         if ( !model.isValid() ) {
-
             res.sendStatus(400);
 
             return true;
@@ -37,7 +34,6 @@ let api = {
                 model.toJSON(),
                 {'safe': true},
                 (err, results) => {
-
                 if(err) {
                     res.sendStatus(500);
 
@@ -53,7 +49,6 @@ let api = {
     },
 
     getNewFragment: function (res) {
-
         let collection = options.database.collection('theme'),
         shasum = crypto.createHash('sha1');
 
@@ -68,7 +63,6 @@ let api = {
                 'fragment': fragment
             })
             .toArray((err, results) => {
-
                 if(err) {
                     res.sendStatus(500);
                     return true;
@@ -86,9 +80,7 @@ let api = {
 
 
     get: function (req, res) {
-
         if ( !req.params._id || !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
@@ -97,20 +89,16 @@ let api = {
         let collection = options.database.collection('theme');
 
         collection.find({
-
             '_id':  new ObjectID(req.params._id)
         })
         .toArray((err, results) => {
-
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
             }
 
             if (results.length === 0) {
-
                 res.sendStatus(404);
 
                 return true;
@@ -125,18 +113,14 @@ let api = {
 
 
     getAll: function (req, res) {
-
         let collection = options.database.collection('theme');
 
         if ( req.query.fragment ) {
-
             api.findFromFragment(req.query.fragment)
             .then((theme) => {
-
                 res.send(theme);
             })
             .catch((errorCode) => {
-
                 res.sendStatus(errorCode);
             });
 
@@ -146,26 +130,20 @@ let api = {
 
         collection.find()
         .toArray((err, results) => {
-
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
             }
 
             if (results.length > 0) {
-
                 results.forEach((result) => {
-
                     result._id = result._id.toString();
                 });
             }
 
             if ( req.query.fragment ) {
-
                 if (results.length === 0) {
-
                     res.sendStatus(404);
 
                     return true;
@@ -182,31 +160,24 @@ let api = {
 
 
     findFromFragment: function (fragment) {
-
         return new Promise((resolve, reject) => {
-
             let collection = options.database.collection('theme');
 
             if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
-
                 reject(400);
                 return;
             }
 
             collection.find({
-
                 'fragment': fragment
             })
             .toArray((err, results) => {
-
                 if(err) {
-
                     reject(500);
                     return;
                 }
 
                 if (results.length === 0) {
-
                     reject(404);
                     return;
                 }
@@ -221,13 +192,10 @@ let api = {
 
 
     findFromOwnerId: function (ownerId) {
-
         return new Promise((resolve, reject) => {
-
             let collection = options.database.collection('theme');
 
             if ( !ownerId || !options.CONST.pattern.mongoId.test( ownerId ) ) {
-
                 reject(400);
                 return;
             }
@@ -239,17 +207,13 @@ let api = {
                 ]
             })
             .toArray((err, results) => {
-
                 if(err) {
-
                     reject(500);
                     return;
                 }
 
                 if (results.length > 0) {
-
                     results.forEach((result) => {
-
                         result._id = result._id.toString();
                     });
                 }
@@ -261,16 +225,13 @@ let api = {
 
 
     put: function (req, res) {
-
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
         if ( !api.isThemeOwner(req, res, req.params._id) ) {
-
             res.sendStatus(401);
 
             return true;
@@ -282,7 +243,6 @@ let api = {
         model = new ThemeModel(new_json);
 
         if ( !model.isValid() ) {
-
             res.sendStatus(400);
 
             return true;
@@ -291,15 +251,12 @@ let api = {
         delete(new_json._id);
 
         collection.updateOne({
-
             '_id': new ObjectID(req.params._id)
         },
         new_json,
         {'safe': true},
         (err) => {
-
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
@@ -312,16 +269,13 @@ let api = {
 
 
     delete: function (req, res) {
-
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
         if ( !api.isThemeOwner(req, res, req.params._id) ) {
-
             res.sendStatus(401);
 
             return true;
@@ -331,14 +285,11 @@ let api = {
         let collection = options.database.collection('theme');
 
         collection.remove({
-
             '_id': new ObjectID(req.params._id)
         },
         {'safe': true},
         (err) => {
-
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
@@ -350,14 +301,11 @@ let api = {
 
 
     isThemeOwner: function (req, res, themeId) {
-
         if ( !req.session.user || !req.session.themes ) {
-
             return false;
         }
 
         if ( req.session.themes.indexOf( themeId ) === -1 ) {
-
             return false;
         }
 
