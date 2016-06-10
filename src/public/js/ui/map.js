@@ -10,11 +10,11 @@ export default class MapUi {
      * @author Guillaume AMAT
      * @static
      * @access public
-     * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
+     * @param {string} layerModel - Model of the POI layer which we request its icon.
      * @return {object} - A Leaflet divIcon.
      */
-    static buildPoiLayerIcon (L, poiLayerModel) {
-        return L.divIcon( MapUi._buildPoiLayerIconOptions(poiLayerModel) );
+    static buildLayerIcon (L, layerModel) {
+        return L.divIcon( MapUi._buildLayerIconOptions(layerModel) );
     }
 
 
@@ -24,14 +24,14 @@ export default class MapUi {
      * @author Guillaume AMAT
      * @static
      * @access public
-     * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
+     * @param {string} layerModel - Model of the POI layer which we request its icon.
      * @return {string} - The HTML tags of the icon.
      */
-    static buildPoiLayerHtmlIcon (poiLayerModel) {
-        let markerColor = poiLayerModel.get('markerColor');
-        let markerShape = poiLayerModel.get('markerShape');
+    static buildLayerHtmlIcon (layerModel) {
+        let markerColor = layerModel.get('markerColor');
+        let markerShape = layerModel.get('markerShape');
         let className = CONST.map.markers[markerShape].className;
-        let iconOptions = MapUi._buildPoiLayerIconOptions(poiLayerModel);
+        let iconOptions = MapUi._buildLayerIconOptions(layerModel);
 
         let html = `<div class="${className} ${markerColor}">`;
         html += `${iconOptions.html}`;
@@ -47,15 +47,15 @@ export default class MapUi {
      * @author Guillaume AMAT
      * @static
      * @access private
-     * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
+     * @param {string} layerModel - Model of the POI layer which we request its icon.
      * @return {object} - The icon options.
      */
-    static _buildPoiLayerIconOptions (poiLayerModel) {
-        var markerShape = poiLayerModel.get('markerShape'),
-        markerIcon = poiLayerModel.get('markerIcon'),
-        markerIconType = poiLayerModel.get('markerIconType'),
-        markerIconUrl = poiLayerModel.get('markerIconUrl'),
-        markerColor = poiLayerModel.get('markerColor'),
+    static _buildLayerIconOptions (layerModel) {
+        var markerShape = layerModel.get('markerShape'),
+        markerIcon = layerModel.get('markerIcon'),
+        markerIconType = layerModel.get('markerIconType'),
+        markerIconUrl = layerModel.get('markerIconUrl'),
+        markerColor = layerModel.get('markerColor'),
         iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
 
         iconOptions.className += ' '+ markerColor;

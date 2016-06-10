@@ -1,7 +1,7 @@
 
 import userApi from './user';
 import themeApi from './theme';
-import poiLayerApi from './poiLayer';
+import layerApi from './layer';
 import presetApi from './preset';
 
 
@@ -14,7 +14,7 @@ export default function Api(app, db, CONST){
 
     userApi.setOptions( options );
     themeApi.setOptions( options );
-    poiLayerApi.setOptions( options );
+    layerApi.setOptions( options );
     presetApi.setOptions( options );
 
 
@@ -31,12 +31,12 @@ export default function Api(app, db, CONST){
     app.put('/api/theme/:_id', isLoggedIn, themeApi.api.put);
     // app.delete('/api/theme/:_id', isLoggedIn, themeApi.api.delete);
 
-    app.get('/api/poiLayer', poiLayerApi.api.getAll);
-    app.get('/api/theme/:themeId/poiLayers', poiLayerApi.api.getAll);
-    app.get('/api/poiLayer/:_id', poiLayerApi.api.get);
-    app.post('/api/poiLayer', isLoggedIn, poiLayerApi.api.post);
-    app.put('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.put);
-    app.delete('/api/poiLayer/:_id', isLoggedIn, poiLayerApi.api.delete);
+    app.get('/api/layer', layerApi.api.getAll);
+    app.get('/api/theme/:themeId/layers', layerApi.api.getAll);
+    app.get('/api/layer/:_id', layerApi.api.get);
+    app.post('/api/layer', isLoggedIn, layerApi.api.post);
+    app.put('/api/layer/:_id', isLoggedIn, layerApi.api.put);
+    app.delete('/api/layer/:_id', isLoggedIn, layerApi.api.delete);
 
     app.get('/api/preset', presetApi.api.getAll);
     app.get('/api/theme/:themeId/presets', presetApi.api.getAll);
@@ -62,7 +62,7 @@ export default function Api(app, db, CONST){
         themeApi.api.findFromFragment(req.params.fragment)
         .then(( themeObject ) => {
             let promises = [
-                poiLayerApi.api.findFromThemeId(themeObject._id),
+                layerApi.api.findFromThemeId(themeObject._id),
                 presetApi.api.findFromThemeId(themeObject._id),
             ];
 
@@ -90,7 +90,7 @@ export default function Api(app, db, CONST){
             Promise.all(promises)
             .then(( results ) => {
                 templateVars.theme = JSON.stringify( themeObject );
-                templateVars.poiLayers = JSON.stringify( results[0] );
+                templateVars.layers = JSON.stringify( results[0] );
                 templateVars.presets = JSON.stringify( results[1] );
 
                 res.render('theme', templateVars);

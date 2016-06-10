@@ -82,7 +82,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-        if ( !this.options.poiLayerModel.get('dataEditable') ) {
+        if ( !this.options.layerModel.get('dataEditable') ) {
             return this;
         }
 
@@ -129,7 +129,7 @@ export default Marionette.LayoutView.extend({
         this._tagList = new ContribNodeTagsListView();
 
         let popupTag, value,
-        popupContent = this.options.poiLayerModel.get('popupContent'),
+        popupContent = this.options.layerModel.get('popupContent'),
         popupTags = PopupContent.findTagsFromContent(popupContent);
 
         if ( popupTags) {
@@ -201,7 +201,7 @@ export default Marionette.LayoutView.extend({
         .then((elementId) => {
             this._radio.commands.execute(
                 'map:updatePoiPopup',
-                this.options.poiLayerModel,
+                this.options.layerModel,
                 this.model.attributes
             );
 

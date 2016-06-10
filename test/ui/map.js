@@ -4,12 +4,12 @@ import assert from 'assert';
 
 import CONST from '../../src/public/js/const';
 import MapUi from '../../src/public/js/ui/map';
-import PoiLayerModel from '../../src/public/js/model/poiLayer';
+import LayerModel from '../../src/public/js/model/layer';
 
 
 
 describe('MapUi', () => {
-    describe('_buildPoiLayerIconOptions', () => {
+    describe('_buildLayerIconOptions', () => {
         it('Should return icon options (icon type: library)', () => {
             const expected = {
                 iconSize: [ 36, 42 ],
@@ -19,14 +19,14 @@ describe('MapUi', () => {
                 html: '<i class="fa fa-star fa-fw"></i>'
             };
 
-            let poiLayerModel = new PoiLayerModel({
+            let layerModel = new LayerModel({
                 'markerShape': 'marker2',
                 'markerIcon': 'star',
                 'markerIconType': CONST.map.markerIconType.library,
                 'markerColor': 'purple',
             });
 
-            let returnedOptions = MapUi._buildPoiLayerIconOptions(poiLayerModel);
+            let returnedOptions = MapUi._buildLayerIconOptions(layerModel);
 
             assert.deepEqual(returnedOptions, expected);
         });
@@ -40,31 +40,31 @@ describe('MapUi', () => {
                 html: '<img src="http://myiconfromtheweb" class="external-icon">'
             };
 
-            let poiLayerModel = new PoiLayerModel({
+            let layerModel = new LayerModel({
                 'markerShape': 'marker3',
                 'markerIconUrl': 'http://myiconfromtheweb',
                 'markerIconType': CONST.map.markerIconType.external,
                 'markerColor': 'yellow',
             });
 
-            let returnedOptions = MapUi._buildPoiLayerIconOptions(poiLayerModel);
+            let returnedOptions = MapUi._buildLayerIconOptions(layerModel);
 
             assert.deepEqual(returnedOptions, expected);
         });
     });
 
-    describe('buildPoiLayerHtmlIcon', () => {
+    describe('buildLayerHtmlIcon', () => {
         it('Should return a complete html icon', () => {
             const expected = `<div class="marker marker-2 purple"><i class="fa fa-star fa-fw"></i></div>`;
 
-            let poiLayerModel = new PoiLayerModel({
+            let layerModel = new LayerModel({
                 'markerShape': 'marker2',
                 'markerIcon': 'star',
                 'markerIconType': CONST.map.markerIconType.library,
                 'markerColor': 'purple',
             });
 
-            let returnedHtml = MapUi.buildPoiLayerHtmlIcon(poiLayerModel);
+            let returnedHtml = MapUi.buildLayerHtmlIcon(layerModel);
 
             assert.strictEqual(returnedHtml, expected);
         });

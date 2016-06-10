@@ -5,7 +5,7 @@ import Marionette from 'backbone.marionette';
 import settings from '../settings';
 import marked from 'marked';
 import MapUi from '../ui/map';
-import template from '../../templates/selectPoiLayerListItem.ejs';
+import template from '../../templates/selectLayerListItem.ejs';
 
 
 export default Marionette.ItemView.extend({
@@ -42,7 +42,7 @@ export default Marionette.ItemView.extend({
 
         this._fragment = fragment;
 
-        if ( storage && storage.hiddenPoiLayers && storage.hiddenPoiLayers.indexOf(this.model.get('_id')) > -1 ) {
+        if ( storage && storage.hiddenLayers && storage.hiddenLayers.indexOf(this.model.get('_id')) > -1 ) {
             this._layerIsVisible = false;
         }
         else {
@@ -55,7 +55,7 @@ export default Marionette.ItemView.extend({
     templateHelpers: function () {
         return {
             'description': marked( this.model.get('description') ),
-            'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
+            'marker': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
@@ -83,24 +83,24 @@ export default Marionette.ItemView.extend({
         var newState,
         key = 'mapState-'+ this._fragment,
         oldState = JSON.parse( localStorage.getItem( key ) ) || {},
-        hiddenPoiLayers = oldState.hiddenPoiLayers || [];
+        hiddenLayers = oldState.hiddenLayers || [];
 
         this._layerIsVisible = this._layerIsVisible ? false : true;
 
         this.ui.visibilityCheckbox[0].checked = this._layerIsVisible;
 
         if ( this._layerIsVisible ) {
-            this._radio.commands.execute( 'map:showPoiLayer', this.model );
+            this._radio.commands.execute( 'map:showLayer', this.model );
 
-            hiddenPoiLayers = _.without( hiddenPoiLayers, this.model.get('_id') );
+            hiddenLayers = _.without( hiddenLayers, this.model.get('_id') );
         }
         else {
-            this._radio.commands.execute( 'map:hidePoiLayer', this.model );
+            this._radio.commands.execute( 'map:hideLayer', this.model );
 
-            hiddenPoiLayers = _.union( hiddenPoiLayers, [this.model.get('_id')] );
+            hiddenLayers = _.union( hiddenLayers, [this.model.get('_id')] );
         }
 
-        newState = _.extend( oldState, { 'hiddenPoiLayers': hiddenPoiLayers } );
+        newState = _.extend( oldState, { 'hiddenLayers': hiddenLayers } );
         localStorage.setItem( key, JSON.stringify( newState ) );
     },
 

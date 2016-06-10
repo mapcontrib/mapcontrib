@@ -128,17 +128,17 @@
 
 
 /* Edit POI layer column */
-<editPoiLayerColumn_title "Layer edit">
-<editPoiLayerColumn_layerName "Name">
-<editPoiLayerColumn_layerDescription "Description">
-<editPoiLayerColumn_visibilityAndEdition "Visibility and edition">
-<editPoiLayerColumn_visible "Visible by users">
-<editPoiLayerColumn_dataEditable "Allow to edit data">
-<editPoiLayerColumn_layerZoomLevel "Minimum zoom">
-<editPoiLayerColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
-<editPoiLayerColumn_layerOverpassRequest "Overpass request">
-<editPoiLayerColumn_marker "Marker">
-<editPoiLayerColumn_layerPopupContent "Popup content">
+<editLayerColumn_title "Layer edit">
+<editLayerColumn_layerName "Name">
+<editLayerColumn_layerDescription "Description">
+<editLayerColumn_visibilityAndEdition "Visibility and edition">
+<editLayerColumn_visible "Visible by users">
+<editLayerColumn_dataEditable "Allow to edit data">
+<editLayerColumn_layerZoomLevel "Minimum zoom">
+<editLayerColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
+<editLayerColumn_layerOverpassRequest "Overpass request">
+<editLayerColumn_marker "Marker">
+<editLayerColumn_layerPopupContent "Popup content">
 
 
 /* Edit POI marker modal */

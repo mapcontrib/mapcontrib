@@ -1,11 +1,11 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import SelectPoiLayerListItemView from './selectPoiLayerListItem';
+import SelectLayerListItemView from './selectLayerListItem';
 
 
 export default Marionette.CollectionView.extend({
-    childView: SelectPoiLayerListItemView,
+    childView: SelectLayerListItemView,
 
     className: 'list-group',
 

@@ -17,7 +17,7 @@ import leafletCss from 'leaflet/dist/leaflet.css';
 
 import UserModel from './model/user';
 import ThemeModel from './model/theme';
-import PoiLayerCollection from './collection/poiLayer';
+import LayerCollection from './collection/layer';
 import PresetCollection from './collection/preset';
 import L20nBehavior from './behavior/l20n';
 import ColumnBehavior from './behavior/column';
@@ -56,7 +56,7 @@ export default Marionette.Application.extend({
         this._window = window;
         this._user = new UserModel( window.user );
         this._theme = new ThemeModel( window.theme );
-        this._poiLayers = new PoiLayerCollection( window.poiLayers );
+        this._layers = new LayerCollection( window.layers );
         this._presets = new PresetCollection( window.presets );
         this._radio = Wreqr.radio.channel('global');
 
@@ -89,8 +89,8 @@ export default Marionette.Application.extend({
         return this._theme;
     },
 
-    getPoiLayers: function () {
-        return this._poiLayers;
+    getLayers: function () {
+        return this._layers;
     },
 
     getPresets: function () {

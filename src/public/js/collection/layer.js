@@ -2,15 +2,15 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import settings from '../settings';
-import PoiLayerModel from '../model/poiLayer';
+import LayerModel from '../model/layer';
 
 
 export default Backbone.Collection.extend({
     url: function () {
-        return settings.apiPath + 'theme/'+ this.options.themeId +'/poiLayers';
+        return settings.apiPath + 'theme/'+ this.options.themeId +'/layers';
     },
 
-    model: PoiLayerModel,
+    model: LayerModel,
 
     comparator: 'order',
 

@@ -2,7 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
-import template from '../../templates/editPoiLayerColumn.ejs';
+import template from '../../templates/editLayerColumn.ejs';
 
 
 export default Marionette.ItemView.extend({
@@ -39,7 +39,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         return {
-            'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
+            'marker': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
@@ -74,10 +74,10 @@ export default Marionette.ItemView.extend({
     onChangedMapZoom: function () {
         var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
 
-        this.ui.currentMapZoom.html( document.l10n.getSync('editPoiLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
+        this.ui.currentMapZoom.html( document.l10n.getSync('editLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
     },
     updateMarkerIcon: function () {
-        var html = MapUi.buildPoiLayerHtmlIcon( this.model );
+        var html = MapUi.buildLayerHtmlIcon( this.model );
 
         this.ui.markerWrapper.html( html );
     },
@@ -146,30 +146,30 @@ export default Marionette.ItemView.extend({
         this.model.save({}, {
             'success': () => {
                 if ( addToCollection ) {
-                    this._radio.reqres.request('poiLayers').add( this.model );
+                    this._radio.reqres.request('layers').add( this.model );
                 }
 
                 if ( updateMinZoom ) {
-                    this._radio.commands.execute('map:updatePoiLayerMinZoom', this.model);
+                    this._radio.commands.execute('map:updateLayerMinZoom', this.model);
                 }
 
                 if ( updateMarkers ) {
-                    this._radio.commands.execute('map:updatePoiLayerIcons', this.model);
+                    this._radio.commands.execute('map:updateLayerIcons', this.model);
                 }
 
                 if ( updatePopups ) {
-                    this._radio.commands.execute('map:updatePoiLayerPopups', this.model);
+                    this._radio.commands.execute('map:updateLayerPopups', this.model);
                 }
 
                 if ( updateVisibility ) {
                     if ( this.model.get('visible') ) {
-                        this._radio.commands.execute('map:addPoiLayer', this.model);
+                        this._radio.commands.execute('map:addLayer', this.model);
                     }
                     else {
-                        this._radio.commands.execute('map:removePoiLayer', this.model);
+                        this._radio.commands.execute('map:removeLayer', this.model);
                     }
 
-                    this._radio.commands.execute('column:selectPoiLayer:render');
+                    this._radio.commands.execute('column:selectLayer:render');
                 }
 
                 this.close();

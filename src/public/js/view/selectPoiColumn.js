@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import SelectPoiLayerListView from './selectPoiLayerList';
+import SelectLayerListView from './selectLayerList';
 import template from '../../templates/selectPoiColumn.ejs';
 
 
@@ -24,14 +24,14 @@ export default Marionette.LayoutView.extend({
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
 
-        this._radio.commands.setHandler('column:selectPoiLayer:render', this.render.bind(this));
+        this._radio.commands.setHandler('column:selectLayer:render', this.render.bind(this));
     },
 
     onRender: function () {
-        var poiLayers = this._radio.reqres.request('poiLayers'),
-        selectPoiLayerListView = new SelectPoiLayerListView({ 'collection': poiLayers });
+        var layers = this._radio.reqres.request('layers'),
+        selectLayerListView = new SelectLayerListView({ 'collection': layers });
 
-        this.getRegion('layerList').show( selectPoiLayerListView );
+        this.getRegion('layerList').show( selectLayerListView );
     },
 
     onBeforeOpen: function () {

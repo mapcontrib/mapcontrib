@@ -2,7 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
-import template from '../../templates/editPoiLayerListItem.ejs';
+import template from '../../templates/editLayerListItem.ejs';
 
 
 export default Marionette.ItemView.extend({
@@ -35,7 +35,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         return {
-            'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
+            'marker': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
@@ -44,7 +44,7 @@ export default Marionette.ItemView.extend({
     },
 
     onClick: function () {
-        this._radio.commands.execute( 'column:showPoiLayer', this.model );
+        this._radio.commands.execute( 'column:showLayer', this.model );
     },
 
     onClickRemove: function (e) {

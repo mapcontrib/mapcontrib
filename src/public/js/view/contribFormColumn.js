@@ -7,7 +7,7 @@ import OsmEditHelper from '../helper/osmEdit.js';
 import MapUi from '../ui/map';
 import CONST from '../const';
 import settings from '../settings';
-import PoiLayerModel from '../model/poiLayer';
+import LayerModel from '../model/layer';
 import ContribNodeTagsListView from '../ui/form/contribNodeTags';
 import template from '../../templates/contribFormColumn.ejs';
 
@@ -45,9 +45,9 @@ export default Marionette.LayoutView.extend({
             this.model.get('lat'),
             this.model.get('lng')
         ),
-        icon = MapUi.buildPoiLayerIcon(
+        icon = MapUi.buildLayerIcon(
             L,
-            new PoiLayerModel({
+            new LayerModel({
                 'markerShape': settings.newPoiMarkerShape,
                 'markerIconType': CONST.map.markerIconType.library,
                 'markerIcon': settings.newPoiMarkerIcon,

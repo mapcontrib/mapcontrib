@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import EditPoiLayerListView from './editPoiLayerList';
+import EditLayerListView from './editLayerList';
 import template from '../../templates/editPoiColumn.ejs';
 
 
@@ -31,10 +31,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-        var poiLayers = this._radio.reqres.request('poiLayers'),
-        editPoiLayerListView = new EditPoiLayerListView({ 'collection': poiLayers });
+        var layers = this._radio.reqres.request('layers'),
+        editLayerListView = new EditLayerListView({ 'collection': layers });
 
-        this.getRegion('layerList').show( editPoiLayerListView );
+        this.getRegion('layerList').show( editLayerListView );
     },
 
     onBeforeOpen: function () {
@@ -51,6 +51,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickAdd: function () {
-        this._radio.commands.execute('column:showPoiLayer');
+        this._radio.commands.execute('column:showLayer');
     },
 });

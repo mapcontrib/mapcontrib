@@ -23,7 +23,7 @@ import ContribColumnView from './contribColumn';
 import ContribFormColumnView from './contribFormColumn';
 import EditSettingColumnView from './editSettingColumn';
 import EditPoiColumnView from './editPoiColumn';
-import EditPoiLayerColumnView from './editPoiLayerColumn';
+import EditLayerColumnView from './editLayerColumn';
 import EditPoiMarkerModalView from './editPoiMarkerModal';
 import EditTileColumnView from './editTileColumn';
 import EditPresetColumnView from './editPresetColumn';
@@ -33,7 +33,7 @@ import ZoomNotificationView from './zoomNotification';
 import OverpassTimeoutNotificationView from './overpassTimeoutNotification';
 import OverpassErrorNotificationView from './overpassErrorNotification';
 
-import PoiLayerModel from '../model/poiLayer';
+import LayerModel from '../model/layer';
 import PresetModel from '../model/preset';
 import OsmNodeModel from '../model/osmNode';
 
@@ -103,7 +103,7 @@ export default Marionette.LayoutView.extend({
         'contribFormColumn': '#rg_contrib_form_column',
         'editSettingColumn': '#rg_edit_setting_column',
         'editPoiColumn': '#rg_edit_poi_column',
-        'editPoiLayerColumn': '#rg_edit_poi_layer_column',
+        'editLayerColumn': '#rg_edit_poi_layer_column',
         'editPoiMarkerModal': '#rg_edit_poi_marker_modal',
         'editTileColumn': '#rg_edit_tile_column',
         'editPresetColumn': '#rg_edit_preset_column',
@@ -142,7 +142,7 @@ export default Marionette.LayoutView.extend({
     initialize: function (app) {
         this._app = app;
         this.model = this._app.getTheme();
-        this._poiLayers = this._app.getPoiLayers();
+        this._layers = this._app.getLayers();
         this._presets = this._app.getPresets();
         this._user = this._app.getUser();
 
@@ -157,8 +157,8 @@ export default Marionette.LayoutView.extend({
 
 
         this._radio.reqres.setHandlers({
-            'poiLayers': (layerId) => {
-                return this._poiLayers;
+            'layers': (layerId) => {
+                return this._layers;
             },
             'presets': (layerId) => {
                 return this._presets;
@@ -174,8 +174,8 @@ export default Marionette.LayoutView.extend({
         });
 
         this._radio.commands.setHandlers({
-            'column:showPoiLayer': (poiLayerModel) => {
-                this.onCommandShowPoiLayer( poiLayerModel );
+            'column:showLayer': (layerModel) => {
+                this.onCommandShowLayer( layerModel );
             },
             'column:showContribForm': (presetModel) => {
                 this.onCommandShowContribForm( presetModel );
@@ -183,8 +183,8 @@ export default Marionette.LayoutView.extend({
             'column:showPresetTags': (presetModel) => {
                 this.onCommandShowPresetTags( presetModel );
             },
-            'modal:showEditPoiMarker': (poiLayerModel) => {
-                this.onCommandShowEditPoiMarker( poiLayerModel );
+            'modal:showEditPoiMarker': (layerModel) => {
+                this.onCommandShowEditPoiMarker( layerModel );
             },
             'modal:showConflict': () => {
                 this.onCommandShowConflict();
@@ -192,29 +192,29 @@ export default Marionette.LayoutView.extend({
             'map:setTileLayer': (tileId) => {
                 this.setTileLayer( tileId );
             },
-            'map:addPoiLayer': (poiLayerModel) => {
-                this.addPoiLayer( poiLayerModel );
+            'map:addLayer': (layerModel) => {
+                this.addLayer( layerModel );
             },
-            'map:removePoiLayer': (poiLayerModel) => {
-                this.removePoiLayer( poiLayerModel );
+            'map:removeLayer': (layerModel) => {
+                this.removeLayer( layerModel );
             },
-            'map:showPoiLayer': (poiLayerModel) => {
-                this.showPoiLayer( poiLayerModel );
+            'map:showLayer': (layerModel) => {
+                this.showLayer( layerModel );
             },
-            'map:hidePoiLayer': (poiLayerModel) => {
-                this.hidePoiLayer( poiLayerModel );
+            'map:hideLayer': (layerModel) => {
+                this.hideLayer( layerModel );
             },
-            'map:updatePoiLayerIcons': (poiLayerModel) => {
-                this.updatePoiLayerIcons( poiLayerModel );
+            'map:updateLayerIcons': (layerModel) => {
+                this.updateLayerIcons( layerModel );
             },
-            'map:updatePoiLayerPopups': (poiLayerModel) => {
-                this.updatePoiLayerPopups( poiLayerModel );
+            'map:updateLayerPopups': (layerModel) => {
+                this.updateLayerPopups( layerModel );
             },
-            'map:updatePoiLayerMinZoom': (poiLayerModel) => {
-                this.updatePoiLayerMinZoom( poiLayerModel );
+            'map:updateLayerMinZoom': (layerModel) => {
+                this.updateLayerMinZoom( layerModel );
             },
-            'map:updatePoiPopup': (poiLayerModel, node) => {
-                this.updatePoiPopup( poiLayerModel, node );
+            'map:updatePoiPopup': (layerModel, node) => {
+                this.updatePoiPopup( layerModel, node );
             },
             'map:setPosition': (latLng, zoomLevel) => {
                 this.setPosition( latLng, zoomLevel );
@@ -222,8 +222,8 @@ export default Marionette.LayoutView.extend({
             'map:fitBounds': (latLngBounds) => {
                 this.fitBounds( latLngBounds );
             },
-            'editPoiData': (dataFromOverpass, poiLayerModel) => {
-                this.onCommandEditPoiData( dataFromOverpass, poiLayerModel );
+            'editPoiData': (dataFromOverpass, layerModel) => {
+                this.onCommandEditPoiData( dataFromOverpass, layerModel );
             },
         });
 
@@ -306,14 +306,14 @@ export default Marionette.LayoutView.extend({
     onShow: function () {
         var center = this.model.get('center'),
         zoomLevel = this.model.get('zoomLevel'),
-        hiddenPoiLayers = [],
+        hiddenLayers = [],
         storageMapState = localStorage.getItem('mapState-'+ this.model.get('fragment'));
 
         if ( storageMapState ) {
             storageMapState = JSON.parse( storageMapState );
             center = storageMapState.center;
             zoomLevel = storageMapState.zoomLevel;
-            hiddenPoiLayers = storageMapState.hiddenPoiLayers || [];
+            hiddenLayers = storageMapState.hiddenLayers || [];
         }
 
         this.ui.toolbarButtons.tooltip({
@@ -381,24 +381,24 @@ export default Marionette.LayoutView.extend({
 
         this._mapLayers = {};
 
-        _.each(this._poiLayers.getVisibleLayers(), (poiLayerModel) => {
-            if ( hiddenPoiLayers.indexOf(poiLayerModel.get('_id')) === -1 ) {
-                this.addPoiLayer( poiLayerModel );
+        _.each(this._layers.getVisibleLayers(), (layerModel) => {
+            if ( hiddenLayers.indexOf(layerModel.get('_id')) === -1 ) {
+                this.addLayer( layerModel );
             }
             else {
-                this.addPoiLayer( poiLayerModel, true );
+                this.addLayer( layerModel, true );
             }
         }, this);
 
 
         this.updateMinDataZoom();
 
-        this._poiLayers.on('add', (model) => {
-            this.addPoiLayer(model);
+        this._layers.on('add', (model) => {
+            this.addLayer(model);
         }, this);
 
-        this._poiLayers.on('destroy', (model) => {
-            this.removePoiLayer(model);
+        this._layers.on('destroy', (model) => {
+            this.removeLayer(model);
         }, this);
 
 
@@ -453,23 +453,23 @@ export default Marionette.LayoutView.extend({
         this.updateMinDataZoom();
     },
 
-    showPoiLoadingProgress: function (poiLayerModel) {
-        if ( !this._poiLoadingSpool[ poiLayerModel.cid ] ) {
-            this._poiLoadingSpool[ poiLayerModel.cid ] = 0;
+    showPoiLoadingProgress: function (layerModel) {
+        if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
+            this._poiLoadingSpool[ layerModel.cid ] = 0;
         }
 
-        this._poiLoadingSpool[ poiLayerModel.cid ] += 1;
+        this._poiLoadingSpool[ layerModel.cid ] += 1;
 
         $('i', this.ui.controlPoiButton).addClass('hide');
         $('.poi_loading', this.ui.controlPoiButton).removeClass('hide');
     },
 
-    hidePoiLoadingProgress: function (poiLayerModel) {
-        if ( !this._poiLoadingSpool[ poiLayerModel.cid ] ) {
+    hidePoiLoadingProgress: function (layerModel) {
+        if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
             return;
         }
 
-        this._poiLoadingSpool[ poiLayerModel.cid ] -= 1;
+        this._poiLoadingSpool[ layerModel.cid ] -= 1;
 
         var countRequests = 0;
 
@@ -483,11 +483,11 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addPoiLayer: function (poiLayerModel, hidden) {
+    addLayer: function (layerModel, hidden) {
         var split,
         layerGroup = L.layerGroup(),
         overpassRequest = '',
-        overpassRequestSplit = poiLayerModel.get('overpassRequest').split(';');
+        overpassRequestSplit = layerModel.get('overpassRequest').split(';');
 
         layerGroup._poiIds = [];
 
@@ -523,19 +523,19 @@ export default Marionette.LayoutView.extend({
         layerGroup._overpassLayer = new OverPassLayer({
             'debug': settings.debug,
             'endPoint': settings.overpassServer,
-            'minZoom': poiLayerModel.get('minZoom'),
+            'minZoom': layerModel.get('minZoom'),
             'timeout': settings.overpassTimeout,
             'retryOnTimeout': true,
             'query': overpassRequest,
             'beforeRequest': () => {
-                this.showPoiLoadingProgress( poiLayerModel );
+                this.showPoiLoadingProgress( layerModel );
             },
             'afterRequest': () => {
-                this.hidePoiLoadingProgress( poiLayerModel );
+                this.hidePoiLoadingProgress( layerModel );
             },
             'onSuccess': (data) => {
                 let wayBodyNodes = this._buildWayBodyNodesObjectFromOverpassResult(data),
-                icon = MapUi.buildPoiLayerIcon( L, poiLayerModel );
+                icon = MapUi.buildLayerIcon( L, layerModel );
 
                 for (let e of data.elements) {
                     if( !e.tags ) {
@@ -548,7 +548,7 @@ export default Marionette.LayoutView.extend({
 
                     layerGroup._poiIds.push(e.id);
 
-                    let popupContent = this.getPoiLayerPopupContent(poiLayerModel, e);
+                    let popupContent = this.getLayerPopupContent(layerModel, e);
 
                     if( e.type === 'node' ) {
                         let pos = new L.LatLng(e.lat, e.lon);
@@ -604,7 +604,7 @@ export default Marionette.LayoutView.extend({
             },
 
             onTimeout: function (xhr) {
-                var notification = new OverpassTimeoutNotificationView({ 'model': poiLayerModel });
+                var notification = new OverpassTimeoutNotificationView({ 'model': layerModel });
 
                 $('body').append( notification.el );
 
@@ -612,7 +612,7 @@ export default Marionette.LayoutView.extend({
             },
 
             onError: function (xhr) {
-                var notification = new OverpassErrorNotificationView({ 'model': poiLayerModel });
+                var notification = new OverpassErrorNotificationView({ 'model': layerModel });
 
                 $('body').append( notification.el );
 
@@ -622,41 +622,41 @@ export default Marionette.LayoutView.extend({
 
         layerGroup.addLayer( layerGroup._overpassLayer );
 
-        this._mapLayers[ poiLayerModel.cid ] = layerGroup;
+        this._mapLayers[ layerModel.cid ] = layerGroup;
 
         if ( !hidden ) {
-            this.showPoiLayer( poiLayerModel );
+            this.showLayer( layerModel );
         }
     },
 
-    removePoiLayer: function (poiLayerModel) {
-        this.hidePoiLayer( poiLayerModel );
+    removeLayer: function (layerModel) {
+        this.hideLayer( layerModel );
 
-        delete( this._mapLayers[ poiLayerModel.cid ] );
+        delete( this._mapLayers[ layerModel.cid ] );
     },
 
-    showPoiLayer: function (poiLayerModel) {
-        this._map.addLayer( this._mapLayers[ poiLayerModel.cid ] );
+    showLayer: function (layerModel) {
+        this._map.addLayer( this._mapLayers[ layerModel.cid ] );
     },
 
-    hidePoiLayer: function (poiLayerModel) {
-        this._map.removeLayer( this._mapLayers[ poiLayerModel.cid ] );
+    hideLayer: function (layerModel) {
+        this._map.removeLayer( this._mapLayers[ layerModel.cid ] );
     },
 
-    updatePoiLayerIcons: function (poiLayerModel) {
-        this._mapLayers[ poiLayerModel.cid ].eachLayer(function (layer) {
+    updateLayerIcons: function (layerModel) {
+        this._mapLayers[ layerModel.cid ].eachLayer(function (layer) {
             if ( layer._icon ) {
                 layer.setIcon(
-                    MapUi.buildPoiLayerIcon( L, poiLayerModel )
+                    MapUi.buildLayerIcon( L, layerModel )
                 );
             }
         });
     },
 
-    updatePoiLayerPopups: function (poiLayerModel) {
-        this._mapLayers[ poiLayerModel.cid ].eachLayer((layer) => {
+    updateLayerPopups: function (layerModel) {
+        this._mapLayers[ layerModel.cid ].eachLayer((layer) => {
             if ( layer._dataFromOverpass ) {
-                let popupContent = this.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOverpass );
+                let popupContent = this.getLayerPopupContent( layerModel, layer._dataFromOverpass );
 
                 if ( popupContent ) {
                     if ( layer._popup ) {
@@ -683,28 +683,28 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    updatePoiLayerMinZoom: function (poiLayerModel) {
-        var overpassLayer = this._mapLayers[ poiLayerModel.cid ]._overpassLayer;
+    updateLayerMinZoom: function (layerModel) {
+        var overpassLayer = this._mapLayers[ layerModel.cid ]._overpassLayer;
 
-        overpassLayer.options.minZoom = poiLayerModel.get('minZoom');
+        overpassLayer.options.minZoom = layerModel.get('minZoom');
 
         this.updateMinDataZoom();
     },
 
-    updatePoiPopup: function (poiLayerModel, node) {
-        this._mapLayers[ poiLayerModel.cid ].eachLayer((layer) => {
+    updatePoiPopup: function (layerModel, node) {
+        this._mapLayers[ layerModel.cid ].eachLayer((layer) => {
             if ( !layer._dataFromOverpass || layer._dataFromOverpass.id !== node.id ) {
                 return;
             }
 
             layer._dataFromOverpass = node;
 
-            layer.setPopupContent( this.getPoiLayerPopupContent( poiLayerModel, layer._dataFromOverpass ) );
+            layer.setPopupContent( this.getLayerPopupContent( layerModel, layer._dataFromOverpass ) );
         });
     },
 
-    getPoiLayerPopupContent: function (poiLayerModel, dataFromOverpass) {
-        if ( !poiLayerModel.get('popupContent') ) {
+    getLayerPopupContent: function (layerModel, dataFromOverpass) {
+        if ( !layerModel.get('popupContent') ) {
             return '';
         }
 
@@ -715,7 +715,7 @@ export default Marionette.LayoutView.extend({
         globalWrapper = this._document.createElement('div'),
         editButtonWrapper = this._document.createElement('div'),
         editButton = this._document.createElement('button'),
-        popupContent = marked( poiLayerModel.get('popupContent') );
+        popupContent = marked( layerModel.get('popupContent') );
 
         if (Cache.exists(type, id)) {
             if (Cache.isNewerThanCache(type, id, version)) {
@@ -740,12 +740,12 @@ export default Marionette.LayoutView.extend({
 
         globalWrapper.innerHTML = popupContent;
 
-        if ( poiLayerModel.get('dataEditable') ) {
+        if ( layerModel.get('dataEditable') ) {
             editButton.className = 'btn btn-link';
             editButton.innerHTML = this._document.l10n.getSync('editTheseInformations');
 
             $(editButton).on('click', () => {
-                this._radio.commands.execute('editPoiData', dataFromOverpass, poiLayerModel);
+                this._radio.commands.execute('editPoiData', dataFromOverpass, layerModel);
             });
 
             editButtonWrapper.className = 'text-center prepend-xs-1 edit_poi_data';
@@ -757,11 +757,11 @@ export default Marionette.LayoutView.extend({
         return globalWrapper;
     },
 
-    onCommandEditPoiData: function (dataFromOverpass, poiLayerModel) {
+    onCommandEditPoiData: function (dataFromOverpass, layerModel) {
         var view = new EditPoiDataColumnView({
             'app': this._app,
             'dataFromOverpass': dataFromOverpass,
-            'poiLayerModel': poiLayerModel,
+            'layerModel': layerModel,
         });
 
         this.getRegion('editPoiDataColumn').show( view );
@@ -823,21 +823,21 @@ export default Marionette.LayoutView.extend({
 
 
 
-    onCommandShowPoiLayer: function (poiLayerModel) {
+    onCommandShowLayer: function (layerModel) {
         var view;
 
-        if ( poiLayerModel ) {
-            view = new EditPoiLayerColumnView({
-                'model': poiLayerModel
+        if ( layerModel ) {
+            view = new EditLayerColumnView({
+                'model': layerModel
             });
         }
         else {
-            view = new EditPoiLayerColumnView({
-                'model': new PoiLayerModel({ 'themeId': this.model.get('_id') })
+            view = new EditLayerColumnView({
+                'model': new LayerModel({ 'themeId': this.model.get('_id') })
             });
         }
 
-        this.getRegion('editPoiLayerColumn').show( view );
+        this.getRegion('editLayerColumn').show( view );
 
         view.open();
     },
@@ -877,9 +877,9 @@ export default Marionette.LayoutView.extend({
 
 
 
-    onCommandShowEditPoiMarker: function (poiLayerModel) {
+    onCommandShowEditPoiMarker: function (layerModel) {
         var view = new EditPoiMarkerModalView({
-            'model': poiLayerModel
+            'model': layerModel
         });
 
         this.getRegion('editPoiMarkerModal').show( view );
@@ -964,15 +964,15 @@ export default Marionette.LayoutView.extend({
     },
 
     updateMinDataZoom: function () {
-        if (this._poiLayers.models.length === 0) {
+        if (this._layers.models.length === 0) {
             this._minDataZoom = 0;
         }
         else {
             let minDataZoom = 100000;
 
-            _.each(this._poiLayers.models, function (poiLayerModel) {
-                if ( poiLayerModel.get('minZoom') < minDataZoom ) {
-                    minDataZoom = poiLayerModel.get('minZoom');
+            _.each(this._layers.models, function (layerModel) {
+                if ( layerModel.get('minZoom') < minDataZoom ) {
+                    minDataZoom = layerModel.get('minZoom');
                 }
             }, this);
 

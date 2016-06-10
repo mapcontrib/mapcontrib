@@ -16,7 +16,7 @@ function dummyPromiseCallback (resolve, reject, err) {
 let init = {
     '_db': undefined,
     '_themeCollection': undefined,
-    '_poiLayerCollection': undefined,
+    '_layerCollection': undefined,
     '_userCollection': undefined,
 };
 
@@ -65,7 +65,7 @@ init._cleanDatabase = function (rootResolve, rootReject) {
 
     dropPromises.push(
         new Promise( function (resolve, reject) {
-            init._db.dropCollection('poiLayer', function (err) {
+            init._db.dropCollection('layer', function (err) {
                 resolve();
             });
         })
@@ -119,10 +119,10 @@ init._fillDatabase = function (rootResolve, rootReject) {
             });
         }),
         new Promise( function (resolve, reject) {
-            init._db.createCollection('poiLayer', function (err, collection) {
-                init._poiLayerCollection = collection;
+            init._db.createCollection('layer', function (err, collection) {
+                init._layerCollection = collection;
 
-                init._poiLayerCollection.insertMany([
+                init._layerCollection.insertMany([
                         {
                             '_id' : new ObjectID('5249c43c6e789470197b5974'),
                             'themeId': '5249c43c6e789470197b5973',
@@ -191,7 +191,7 @@ init._createIndexes = function (rootResolve, rootReject) {
             );
         }),
         new Promise( function (resolve, reject) {
-            init._poiLayerCollection.createIndex(
+            init._layerCollection.createIndex(
                 { 'themeId': 1 },
                 dummyPromiseCallback.bind(this, resolve, reject)
             );

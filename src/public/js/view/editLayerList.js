@@ -4,14 +4,14 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import jquery_ui_sortable from 'jquery-ui/sortable';
 import jquery_ui_touch_punch from 'jquery-ui-touch-punch';
-import EditPoiLayerListEmptyView from './editPoiLayerListEmpty';
-import EditPoiLayerListItemView from './editPoiLayerListItem';
+import EditLayerListEmptyView from './editLayerListEmpty';
+import EditLayerListItemView from './editLayerListItem';
 
 
 export default Marionette.CollectionView.extend({
-    childView: EditPoiLayerListItemView,
+    childView: EditLayerListItemView,
 
-    emptyView: EditPoiLayerListEmptyView,
+    emptyView: EditLayerListEmptyView,
 
     className: 'list-group reorderable removeable',
 

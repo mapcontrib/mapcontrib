@@ -1,6 +1,6 @@
 
 import { ObjectID } from 'mongodb';
-import PoiLayerModel from '../public/js/model/poiLayer';
+import LayerModel from '../public/js/model/layer';
 
 
 let options = {
@@ -28,8 +28,8 @@ let api = {
             return true;
         }
 
-        let collection = options.database.collection('poiLayer'),
-        model = new PoiLayerModel(req.body);
+        let collection = options.database.collection('layer'),
+        model = new LayerModel(req.body);
 
         if ( !model.isValid() ) {
             res.sendStatus(400);
@@ -59,7 +59,7 @@ let api = {
             return true;
         }
 
-        let collection = options.database.collection('poiLayer');
+        let collection = options.database.collection('layer');
 
         collection.find({
             '_id': new ObjectID(req.params._id)
@@ -86,12 +86,12 @@ let api = {
 
 
     getAll: function (req, res) {
-        let collection = options.database.collection('poiLayer');
+        let collection = options.database.collection('layer');
 
         if ( req.params.themeId ) {
             api.findFromThemeId(req.params.themeId)
-            .then((poiLayers) => {
-                res.send(poiLayers);
+            .then((layers) => {
+                res.send(layers);
             })
             .catch((errorCode) => {
                 res.sendStatus(errorCode);
@@ -121,7 +121,7 @@ let api = {
 
     findFromThemeId: function (themeId) {
         return new Promise((resolve, reject) => {
-            let collection = options.database.collection('poiLayer');
+            let collection = options.database.collection('layer');
 
             if ( !themeId || !options.CONST.pattern.mongoId.test( themeId ) ) {
                 reject(400);
@@ -170,8 +170,8 @@ let api = {
 
 
         let new_json = req.body,
-        collection = options.database.collection('poiLayer'),
-        model = new PoiLayerModel(new_json);
+        collection = options.database.collection('layer'),
+        model = new LayerModel(new_json);
 
         if ( !model.isValid() ) {
             res.sendStatus(400);
@@ -213,25 +213,25 @@ let api = {
         }
 
 
-        let collection = options.database.collection('poiLayer');
+        let collection = options.database.collection('layer');
 
         collection.findOne({
             '_id': new ObjectID(req.params._id)
         },
-        (err, poiLayer) => {
+        (err, layer) => {
             if(err) {
                 res.sendStatus(500);
 
                 return true;
             }
 
-            if ( !poiLayer ) {
+            if ( !layer ) {
                 res.sendStatus(400);
 
                 return true;
             }
 
-            if ( !poiLayer.themeId || req.session.themes.indexOf( poiLayer.themeId ) === -1 ) {
+            if ( !layer.themeId || req.session.themes.indexOf( layer.themeId ) === -1 ) {
                 res.sendStatus(401);
 
                 return true;
