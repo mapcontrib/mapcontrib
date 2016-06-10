@@ -6,56 +6,46 @@ import template from '../../templates/contribColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-
     template: template,
 
     behaviors: {
-
         'l20n': {},
         'column': {},
     },
 
     regions: {
-
         'presetsNav': '.rg_presets_nav',
         'freeAdditionNav': '.rg_free_addition_nav',
     },
 
     ui: {
-
         'column': '#contrib_column',
     },
 
     initialize: function () {
-
         this._radio = Wreqr.radio.channel('global');
     },
 
     setModel: function (model) {
-
         this.model = model;
 
         this.render();
     },
 
     onBeforeOpen: function () {
-
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
     },
 
     open: function () {
-
         this.triggerMethod('open');
     },
 
     close: function () {
-
         this.triggerMethod('close');
     },
 
     onRender: function () {
-
         var presetNavItems = [],
         presetsNav = new NavPillsStackedListView(),
         freeAdditionNav = new NavPillsStackedListView(),
@@ -81,7 +71,6 @@ export default Marionette.LayoutView.extend({
         presetsNav.setItems(presetNavItems);
 
         freeAdditionNav.setItems([{
-
             'label': document.l10n.getSync('contribColumn_freeAddition'),
             'callback': this._radio.commands.execute.bind(
                 this._radio.commands,

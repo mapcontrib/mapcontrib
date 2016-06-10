@@ -6,13 +6,11 @@ import template from '../../templates/editPoiLayerColumn.ejs';
 
 
 export default Marionette.ItemView.extend({
-
     template: template,
 
     behaviors: {
         'l20n': {},
         'column': {
-
             'destroyOnClose': true,
         },
     },

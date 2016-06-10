@@ -7,7 +7,6 @@ import ThemeRootView from '../view/themeRoot';
 
 
 export default Backbone.Router.extend({
-
     routes: {
         '': 'routeDefault',
         'oups': 'routeDefault',
@@ -33,7 +32,6 @@ export default Backbone.Router.extend({
             dataType: 'json',
             context: this,
             complete: function () {
-
                 this.navigate('');
 
                 this._radio.vent.trigger('session:unlogged');

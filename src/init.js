@@ -45,17 +45,14 @@ init.isDone = function () {
 
 
 init.start = function () {
-
     console.log('Database initialization...');
 
     return new Promise( function (rootResolve, rootReject) {
-
         return init._cleanDatabase(rootResolve, rootReject);
     } );
 };
 
 init._cleanDatabase = function (rootResolve, rootReject) {
-
     var dropPromises = [];
 
     dropPromises.push(
@@ -85,15 +82,12 @@ init._cleanDatabase = function (rootResolve, rootReject) {
 };
 
 init._fillDatabase = function (rootResolve, rootReject) {
-
     var insertPromises = [
         new Promise( function (resolve, reject) {
             init._db.createCollection('theme', function (err, collection) {
-
                 init._themeCollection = collection;
 
                 init._themeCollection.insertOne({
-
                         '_id' : new ObjectID('5249c43c6e789470197b5973'),
                         'name': 'MapContrib',
                         'description': 'Ceci est une description :)',
@@ -115,7 +109,6 @@ init._fillDatabase = function (rootResolve, rootReject) {
                         ],
                         'zoomLevel': 12,
                         'center': {
-
                             'lat': 44.82921,
                             'lng': -0.5834,
                         },
@@ -127,7 +120,6 @@ init._fillDatabase = function (rootResolve, rootReject) {
         }),
         new Promise( function (resolve, reject) {
             init._db.createCollection('poiLayer', function (err, collection) {
-
                 init._poiLayerCollection = collection;
 
                 init._poiLayerCollection.insertMany([
@@ -165,7 +157,6 @@ init._fillDatabase = function (rootResolve, rootReject) {
         }),
         new Promise( function (resolve, reject) {
             init._db.createCollection('user', function (err, collection) {
-
                 init._userCollection = collection;
 
                 resolve();
@@ -184,7 +175,6 @@ init._fillDatabase = function (rootResolve, rootReject) {
 };
 
 init._createIndexes = function (rootResolve, rootReject) {
-
     var indexesPromises = [
         new Promise( function (resolve, reject) {
             init._userCollection.createIndex(

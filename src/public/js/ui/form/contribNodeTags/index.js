@@ -5,16 +5,13 @@ import ContribNodeTagsListItemView from './listItem';
 
 
 export default Marionette.CollectionView.extend({
-
     childView: ContribNodeTagsListItemView,
 
     initialize: function () {
-
         this.collection = new ContribNodeTagsCollection();
     },
 
     setTags: function (tags) {
-
         if (tags.length === 0) {
             this.collection.add({
                 'keyReadOnly': false,
@@ -29,7 +26,6 @@ export default Marionette.CollectionView.extend({
     },
 
     addTag: function (tag) {
-
         if ( !tag ) {
             tag = {
                 'keyReadOnly': false,
@@ -41,7 +37,6 @@ export default Marionette.CollectionView.extend({
     },
 
     getTags: function () {
-
         return this.collection.toJSON();
     },
 });

@@ -5,7 +5,6 @@ import ThemeModel from '../model/theme';
 import template from '../../templates/homeRoot.ejs';
 
 export default Marionette.LayoutView.extend({
-
     template: template,
 
     behaviors: {

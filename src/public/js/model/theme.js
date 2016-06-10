@@ -6,7 +6,6 @@ import Diacritics from 'diacritic';
 
 
 export default Backbone.Model.extend({
-
     idAttribute: '_id',
 
     urlRoot: settings.apiPath + 'theme',
@@ -19,7 +18,6 @@ export default Backbone.Model.extend({
         'tiles': ['osmFr'],
         'zoomLevel': 3,
         'center': {
-
             'lat': 33.57,
             'lng': 1.58,
         },

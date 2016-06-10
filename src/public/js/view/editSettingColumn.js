@@ -5,7 +5,6 @@ import template from '../../templates/editSettingColumn.ejs';
 
 
 export default Marionette.ItemView.extend({
-
     template: template,
 
     behaviors: {
@@ -73,21 +72,17 @@ export default Marionette.ItemView.extend({
         history.pushState({}, themeName, this.model.buildPath());
 
         if ( this.ui.themePositionSetNew.prop('checked') === true ) {
-
             this.model.set('center', mapCenter);
             this.model.set('zoomLevel', mapZoomLevel);
         }
 
         this.model.save({}, {
-
             'success': () => {
-
                 this._oldModel = this.model.clone();
 
                 this.close();
             },
             'error': () => {
-
                 // FIXME
                 console.error('nok');
             },
@@ -95,7 +90,6 @@ export default Marionette.ItemView.extend({
     },
 
     onReset: function () {
-
         this.model.set( this._oldModel.toJSON() );
 
         this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
@@ -106,17 +100,14 @@ export default Marionette.ItemView.extend({
     },
 
     onOverColorButtons: function (e) {
-
         this._radio.commands.execute('ui:setTitleColor', e.target.dataset.color);
     },
 
     onLeaveColorButtons: function (e) {
-
         this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
     },
 
     onClickColorButtons: function (e) {
-
         $('i', this.ui.colorButtons).removeClass('fa-check');
 
         e.target.querySelector('i').classList.add('fa-check');

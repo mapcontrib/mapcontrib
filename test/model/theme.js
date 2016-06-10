@@ -8,7 +8,6 @@ import UserModel from '../../src/public/js/model/user';
 
 
 describe('ThemeModel', () => {
-
     let theme;
 
     before(() => {

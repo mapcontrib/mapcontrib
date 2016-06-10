@@ -9,7 +9,6 @@ import template from '../../templates/selectPoiLayerListItem.ejs';
 
 
 export default Marionette.ItemView.extend({
-
     template: template,
 
     tagName: 'a',
@@ -17,29 +16,24 @@ export default Marionette.ItemView.extend({
     className: 'list-group-item',
 
     attributes: {
-
         'href': '#',
     },
 
     modelEvents: {
-
         'change': 'render'
     },
 
     ui: {
-
         'visibilityCheckbox': '.visibility_checkbox',
         'zoomTip': '.zoom_tip',
     },
 
     events: {
-
         'click': 'onClick',
         'click label': 'onClickLabel',
     },
 
     initialize: function () {
-
         this._radio = Wreqr.radio.channel('global');
 
         var fragment = this._radio.reqres.request('getFragment'),
@@ -49,11 +43,9 @@ export default Marionette.ItemView.extend({
         this._fragment = fragment;
 
         if ( storage && storage.hiddenPoiLayers && storage.hiddenPoiLayers.indexOf(this.model.get('_id')) > -1 ) {
-
             this._layerIsVisible = false;
         }
         else {
-
             this._layerIsVisible = true;
         }
 
@@ -61,27 +53,22 @@ export default Marionette.ItemView.extend({
     },
 
     templateHelpers: function () {
-
         return {
-
             'description': marked( this.model.get('description') ),
             'marker': MapUi.buildPoiLayerHtmlIcon( this.model ),
         };
     },
 
     onRender: function () {
-
         var currentZoom = this._radio.reqres.request('map:getCurrentZoom'),
         n = (this.model.get('minZoom') - currentZoom) || 0;
 
         if ( n > 0 ) {
-
             this.ui.zoomTip
             .html( document.l10n.getSync('selectPoiColumn_needToZoom', {'n': n}) )
             .removeClass('hide');
         }
         else {
-
             this.ui.zoomTip
             .addClass('hide')
             .empty();
@@ -91,7 +78,6 @@ export default Marionette.ItemView.extend({
     },
 
     onClick: function (e) {
-
         e.stopPropagation();
 
         var newState,
@@ -104,13 +90,11 @@ export default Marionette.ItemView.extend({
         this.ui.visibilityCheckbox[0].checked = this._layerIsVisible;
 
         if ( this._layerIsVisible ) {
-
             this._radio.commands.execute( 'map:showPoiLayer', this.model );
 
             hiddenPoiLayers = _.without( hiddenPoiLayers, this.model.get('_id') );
         }
         else {
-
             this._radio.commands.execute( 'map:hidePoiLayer', this.model );
 
             hiddenPoiLayers = _.union( hiddenPoiLayers, [this.model.get('_id')] );
@@ -121,7 +105,6 @@ export default Marionette.ItemView.extend({
     },
 
     onClickLabel: function (e) {
-
         e.preventDefault();
     },
 });

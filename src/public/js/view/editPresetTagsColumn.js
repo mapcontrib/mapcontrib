@@ -7,17 +7,14 @@ import template from '../../templates/editPresetTagsColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-
     template: template,
 
     behaviors: {
-
         'l20n': {},
         'column': {},
     },
 
     ui: {
-
         'column': '#edit_preset_tags_column',
         'content': '.content',
         'nameInput': '#preset_name',
@@ -27,36 +24,30 @@ export default Marionette.LayoutView.extend({
     },
 
     events: {
-
         'click @ui.addBtn': 'onClickAddBtn',
 
         'submit': 'onSubmit',
     },
 
     initialize: function () {
-
         this._radio = Wreqr.radio.channel('global');
     },
 
     setModel: function (model) {
-
         this.model = model;
 
         this.render();
     },
 
     open: function () {
-
         this.triggerMethod('open');
     },
 
     close: function () {
-
         this.triggerMethod('close');
     },
 
     onRender: function () {
-
         this._tagList = new PresetNodeTagsListView();
 
         this._tagList.setTags( this.model.get('tags') );
@@ -65,7 +56,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickAddBtn: function () {
-
         this._tagList.addTag();
 
         let scrollHeight = this.ui.column.height() +
@@ -74,7 +64,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onSubmit: function (e) {
-
         e.preventDefault();
 
         var addToCollection = false;
@@ -85,16 +74,12 @@ export default Marionette.LayoutView.extend({
 
 
         if ( !this.model.get('_id') ) {
-
             addToCollection = true;
         }
 
         this.model.save({}, {
-
             'success': function () {
-
                 if ( addToCollection ) {
-
                     this._radio.reqres.request('presets').add( this.model );
                 }
 
@@ -102,7 +87,6 @@ export default Marionette.LayoutView.extend({
             }.bind(this),
 
             'error': function () {
-
                 // FIXME
                 console.error('nok');
             },

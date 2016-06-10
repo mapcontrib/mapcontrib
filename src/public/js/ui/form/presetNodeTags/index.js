@@ -5,15 +5,12 @@ import PresetNodeTagsListItemView from './listItem';
 
 
 export default Marionette.CollectionView.extend({
-
     childView: PresetNodeTagsListItemView,
 
     setTags: function (tags) {
-
         this.collection = new PresetNodeTagsCollection( tags );
 
         if (tags.length === 0) {
-
             this.collection.add({});
         }
 
@@ -21,12 +18,10 @@ export default Marionette.CollectionView.extend({
     },
 
     addTag: function () {
-
         this.collection.add({});
     },
 
     getTags: function () {
-
         return this.collection.toJSON();
     },
 });

@@ -6,7 +6,6 @@ import listTemplate from './list.ejs';
 
 
 export default Marionette.CompositeView.extend({
-
     template: listTemplate,
 
     childView: NavPillsStackedListItemView,
@@ -14,7 +13,6 @@ export default Marionette.CompositeView.extend({
     childViewContainer: 'ul',
 
     setItems: function (items) {
-
         this.collection = new NavPillsStackedCollection( items );
 
         this.render();

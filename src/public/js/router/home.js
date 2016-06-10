@@ -5,7 +5,6 @@ import HomeRootView from '../view/homeRoot';
 
 
 export default Backbone.Router.extend({
-
     routes: {
         '': 'routeDefault',
         'oups': 'routeDefault',

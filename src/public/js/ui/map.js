@@ -4,7 +4,6 @@ import CONST from '../const';
 
 
 export default class MapUi {
-
     /**
      * Returns the POI layer Leaflet icon.
      *
@@ -15,7 +14,6 @@ export default class MapUi {
      * @return {object} - A Leaflet divIcon.
      */
     static buildPoiLayerIcon (L, poiLayerModel) {
-
         return L.divIcon( MapUi._buildPoiLayerIconOptions(poiLayerModel) );
     }
 
@@ -30,7 +28,6 @@ export default class MapUi {
      * @return {string} - The HTML tags of the icon.
      */
     static buildPoiLayerHtmlIcon (poiLayerModel) {
-
         let markerColor = poiLayerModel.get('markerColor');
         let markerShape = poiLayerModel.get('markerShape');
         let className = CONST.map.markers[markerShape].className;
@@ -54,7 +51,6 @@ export default class MapUi {
      * @return {object} - The icon options.
      */
     static _buildPoiLayerIconOptions (poiLayerModel) {
-
         var markerShape = poiLayerModel.get('markerShape'),
         markerIcon = poiLayerModel.get('markerIcon'),
         markerIconType = poiLayerModel.get('markerIconType'),
@@ -68,7 +64,6 @@ export default class MapUi {
             case CONST.map.markerIconType.external:
 
                 if ( markerIconUrl ) {
-
                     iconOptions.html += '<img src="'+ markerIconUrl +'" class="external-icon">';
                 }
                 break;
@@ -76,7 +71,6 @@ export default class MapUi {
             default:
             case CONST.map.markerIconType.library:
                 if ( markerIcon ) {
-
                     iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
                 }
         }

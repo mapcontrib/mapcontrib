@@ -4,6 +4,5 @@ import ContribNodeTagsModel from './model';
 
 
 export default Backbone.Collection.extend({
-
     model: ContribNodeTagsModel,
 });

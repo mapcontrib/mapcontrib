@@ -28,13 +28,11 @@ import WidgetBehavior from './behavior/widget';
 
 
 export default Marionette.Application.extend({
-
     regions: {
         'root': '#rg_root',
     },
 
     initialize: function(window) {
-
         window.document.l10n.addEventListener('error', (err) => {
             console.error(`L20n: ${err}`);
         });

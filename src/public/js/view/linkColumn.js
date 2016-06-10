@@ -8,18 +8,15 @@ import templateIframe from '../../templates/linkColumnIframe.ejs';
 
 
 export default Marionette.LayoutView.extend({
-
     template: template,
     templateIframe: templateIframe,
 
     behaviors: {
-
         'l20n': {},
         'column': {},
     },
 
     ui: {
-
         'column': '#link_column',
         'autoSelects': '.auto_select',
         'iframeCode': '#iframe_code',
@@ -32,7 +29,6 @@ export default Marionette.LayoutView.extend({
     },
 
     events: {
-
         'click @ui.autoSelects': 'onClickAutoSelects',
         'keyup @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
         'change @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
@@ -46,9 +42,7 @@ export default Marionette.LayoutView.extend({
 
     templateHelpers: function () {
 
-
         return {
-
             'url': this.getUrl(),
             'iframeWidth': settings.shareIframeWidth,
             'iframeWidthUnit': settings.shareIframeWidthUnit,
@@ -58,35 +52,28 @@ export default Marionette.LayoutView.extend({
     },
 
     initialize: function () {
-
         this._radio = Wreqr.radio.channel('global');
     },
 
     onBeforeOpen: function () {
-
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
     },
 
     open: function () {
-
         this.triggerMethod('open');
     },
 
     close: function () {
-
         this.triggerMethod('close');
     },
 
     onRender: function () {
-
         this.renderIframeCode();
     },
 
     renderIframeCode: function () {
-
         var html = this.templateIframe({
-
             'url': this.getUrl(),
             'iframeWidth': this.ui.iframeWidth.val(),
             'iframeHeight': this.ui.iframeHeight.val(),
@@ -99,12 +86,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickAutoSelects: function (e) {
-
         e.target.select();
     },
 
     onClickWidthUnit: function (e) {
-
         e.preventDefault();
 
         this.ui.iframeWidthUnit.html( $(e.target).data('unit') );
@@ -113,7 +98,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickHeightUnit: function (e) {
-
         e.preventDefault();
 
         this.ui.iframeHeightUnit.html( $(e.target).data('unit') );
@@ -122,7 +106,6 @@ export default Marionette.LayoutView.extend({
     },
 
     getUrl: function () {
-
         return window.location.protocol +
         '//'+
         window.location.host +

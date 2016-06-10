@@ -6,7 +6,6 @@ import CONST from '../const';
 
 
 export default Backbone.Model.extend({
-
     idAttribute: '_id',
 
     urlRoot: settings.apiPath + 'poiLayer',

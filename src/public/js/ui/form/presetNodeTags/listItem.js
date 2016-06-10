@@ -4,11 +4,9 @@ import listItemTemplate from './listItem.ejs';
 
 
 export default Marionette.ItemView.extend({
-
     template: listItemTemplate,
 
     ui: {
-
         'key': '.key',
         'value': '.value',
         'keyReadOnly': '.keyReadOnly',
@@ -17,7 +15,6 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-
         'change @ui.key': 'onChangeKey',
         'change @ui.value': 'onChangeValue',
         'change @ui.keyReadOnly': 'onChangeKeyReadOnly',
@@ -26,14 +23,12 @@ export default Marionette.ItemView.extend({
     },
 
     templateHelpers: function () {
-
         return {
             'cid': this.model.cid
         };
     },
 
     onRender: function () {
-
         document.l10n.localizeNode( this.el );
 
         this.ui.keyReadOnly.prop(
@@ -53,17 +48,14 @@ export default Marionette.ItemView.extend({
     },
 
     onChangeKey: function (e) {
-
         this.model.set('key', this.ui.key.val());
     },
 
     onChangeValue: function (e) {
-
         this.model.set('value', this.ui.value.val());
     },
 
     onChangeKeyReadOnly: function (e) {
-
         this.model.set('keyReadOnly', this.ui.keyReadOnly.prop('checked'));
 
         this.ui.valueReadOnly.prop(
@@ -73,12 +65,10 @@ export default Marionette.ItemView.extend({
     },
 
     onChangeValueReadOnly: function (e) {
-
         this.model.set('valueReadOnly', this.ui.valueReadOnly.prop('checked'));
     },
 
     onClickRemoveBtn: function (e) {
-
         this.model.destroy();
     },
 });

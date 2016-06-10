@@ -16,22 +16,18 @@ import PopupContent from '../core/popupContent';
 
 
 export default Marionette.LayoutView.extend({
-
     template: template,
 
     behaviors: {
-
         'l20n': {},
         'column': {},
     },
 
     regions: {
-
         'tagList': '.rg_tag_list',
     },
 
     ui: {
-
         'column': '#edit_poi_data_column',
         'content': '.content',
         'footer': '.sticky-footer',
@@ -40,13 +36,11 @@ export default Marionette.LayoutView.extend({
     },
 
     events: {
-
         'click @ui.addBtn': 'onClickAddBtn',
         'submit': 'onSubmit',
     },
 
     initialize: function () {
-
         this._app = this.options.app;
         this._user = this._app.getUser();
         this._radio = Wreqr.radio.channel('global');
@@ -66,7 +60,6 @@ export default Marionette.LayoutView.extend({
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
-
                 'oauth_consumer_key': settings.oauthConsumerKey,
                 'oauth_secret': settings.oauthSecret,
                 'oauth_token': this._user.get('token'),
@@ -76,23 +69,19 @@ export default Marionette.LayoutView.extend({
     },
 
     onBeforeOpen: function () {
-
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
     },
 
     open: function () {
-
         this.triggerMethod('open');
     },
 
     close: function () {
-
         this.triggerMethod('close');
     },
 
     onRender: function () {
-
         if ( !this.options.poiLayerModel.get('dataEditable') ) {
             return this;
         }
@@ -180,7 +169,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onSubmit: function (e) {
-
         e.preventDefault();
 
         if ( !this._app.isLogged() ) {
@@ -231,7 +219,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickAddBtn: function () {
-
         this._tagList.addTag();
 
         let scrollHeight = this.ui.column.height() +

@@ -8,30 +8,25 @@ import templateListItem from '../../templates/selectTileListItem.ejs';
 
 
 export default Marionette.LayoutView.extend({
-
     template: template,
     templateListItem: templateListItem,
 
     behaviors: {
-
         'l20n': {},
         'column': {},
     },
 
     ui: {
-
         'column': '#select_tile_column',
         'tileList': '.tile_list',
         'tiles': '.tile_list input',
     },
 
     events: {
-
         'click @ui.tiles': 'onClickTiles',
     },
 
     initialize: function () {
-
         this._radio = Wreqr.radio.channel('global');
 
         var fragment = this._radio.reqres.request('getFragment'),
@@ -41,7 +36,6 @@ export default Marionette.LayoutView.extend({
         this._fragment = fragment;
 
         if ( storage.selectedTile ) {
-
             this._selectedInStorage = storage.selectedTile;
         }
 
@@ -49,13 +43,11 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-
         var tile, checked,
         tiles = this.model.get('tiles'),
         html = '';
 
         tiles.forEach((id) => {
-
             tile = CONST.map.tiles[id];
 
             if (!tile) {
@@ -74,20 +66,16 @@ export default Marionette.LayoutView.extend({
             thumbnailHtml = thumbnailHtml.replace(/\{y\}/g, '181');
 
             if ( this._selectedInStorage && this._selectedInStorage === id ) {
-
                 checked = ' checked';
             }
             else if (id === tiles[0]) {
-
                 checked = ' checked';
             }
             else {
-
                 checked = '';
             }
 
             html += this.templateListItem({
-
                 'name': tile.name,
                 'id': id,
                 'thumbnailHtml': thumbnailHtml,
@@ -101,7 +89,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickTiles: function (e) {
-
         var newState,
         key = 'mapState-'+ this._fragment,
         oldState = JSON.parse( localStorage.getItem( key ) );
@@ -113,23 +100,19 @@ export default Marionette.LayoutView.extend({
     },
 
     onChangeModelTiles: function () {
-
         this.render();
     },
 
     onBeforeOpen: function () {
-
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
     },
 
     open: function () {
-
         this.triggerMethod('open');
     },
 
     close: function () {
-
         this.triggerMethod('close');
     },
 });

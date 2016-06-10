@@ -1,7 +1,6 @@
 
 
 export default class PopupContent {
-
     /**
      * @author Guillaume AMAT
      * @static

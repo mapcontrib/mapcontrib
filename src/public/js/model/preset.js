@@ -5,7 +5,6 @@ import settings from '../settings';
 
 
 export default Backbone.Model.extend({
-
     idAttribute: '_id',
 
     urlRoot: settings.apiPath + 'preset',

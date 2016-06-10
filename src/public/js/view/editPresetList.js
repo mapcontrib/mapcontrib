@@ -8,7 +8,6 @@ import EditPresetListItemView from './editPresetListItem';
 
 
 export default Marionette.CollectionView.extend({
-
     childView: EditPresetListItemView,
 
     emptyView: EditPresetListEmptyView,
@@ -16,28 +15,22 @@ export default Marionette.CollectionView.extend({
     className: 'list-group reorderable removeable',
 
     onRender: function () {
-
         this.$el.sortable({
-
             'axis': 'y',
             'items': 'a',
             'handle': '.reorder_icon',
             'update': () => {
-
                 this.onDnD();
             }
         });
     },
 
     onDnD: function (event, ui) {
-
         var i = 0,
         sorted_id_list = this.$el.sortable('toArray');
 
         _.each(sorted_id_list, function (preset_id) {
-
             var presetModel = this.collection.filter(function (preset) {
-
                 return preset.cid === preset_id.replace('preset-', '');
             })[0];
 

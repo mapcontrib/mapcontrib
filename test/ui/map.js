@@ -9,11 +9,8 @@ import PoiLayerModel from '../../src/public/js/model/poiLayer';
 
 
 describe('MapUi', () => {
-
     describe('_buildPoiLayerIconOptions', () => {
-
         it('Should return icon options (icon type: library)', () => {
-
             const expected = {
                 iconSize: [ 36, 42 ],
                 iconAnchor: [ 18, 42 ],
@@ -35,7 +32,6 @@ describe('MapUi', () => {
         });
 
         it('Should return icon options (icon type: external)', () => {
-
             const expected = {
                 iconSize: [ 36, 42 ],
                 iconAnchor: [ 18, 42 ],
@@ -58,9 +54,7 @@ describe('MapUi', () => {
     });
 
     describe('buildPoiLayerHtmlIcon', () => {
-
         it('Should return a complete html icon', () => {
-
             const expected = `<div class="marker marker-2 purple"><i class="fa fa-star fa-fw"></i></div>`;
 
             let poiLayerModel = new PoiLayerModel({

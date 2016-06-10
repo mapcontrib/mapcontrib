@@ -277,27 +277,21 @@ export default class OsmEdit{
      * @return {promise}
      */
     send() {
-
         return new Promise((resolve, reject) => {
-
             this._getChangesetId()
             .then(
                 changesetId => {
-
                     return this._sendXml(changesetId);
                 },
                 err => {
-
                     reject(err);
                 }
             )
             .then(
                 nodeId => {
-
                     resolve(nodeId);
                 },
                 err => {
-
                     reject(err);
                 }
             );
@@ -314,7 +308,6 @@ export default class OsmEdit{
      * @return {string} - The changeset XML.
      */
     _buildChangesetXml() {
-
         var xml = new DOMImplementation().createDocument('', '', null),
         osmElement = xml.createElement('osm'),
         changesetElement = xml.createElement('changeset'),
@@ -346,7 +339,6 @@ export default class OsmEdit{
      * @return {string} - The node XML.
      */
     _buildXml(changesetId) {
-
         var xml = new DOMImplementation().createDocument('', '', null),
         osmElement = xml.createElement('osm'),
         nodeElement = xml.createElement('node');
@@ -360,7 +352,6 @@ export default class OsmEdit{
         nodeElement.setAttribute('lon', this._lon);
 
         this._tags.forEach(tag => {
-
             if (!tag.key || !tag.value) {
                 return false;
             }
@@ -388,13 +379,10 @@ export default class OsmEdit{
      * @return {promise}
      */
     _createChangeset() {
-
         var changesetXml = this._buildChangesetXml(this._changesetCreatedBy, this._changesetComment);
 
         return new Promise((resolve, reject) => {
-
             this._auth.xhr({
-
                 'method': 'PUT',
                 'path': '/api/0.6/changeset/create',
                 'options': {
@@ -405,9 +393,7 @@ export default class OsmEdit{
                 'content': changesetXml
             },
             (err, changesetId) => {
-
                 if (err) {
-
                     console.error('ERROR on put changeset: ' + err.response);
                     return reject(err);
                 }
@@ -428,11 +414,8 @@ export default class OsmEdit{
      * @return {promise}
      */
     _isChangesetStillOpen(changesetId) {
-
         return new Promise((resolve, reject) => {
-
             this._auth.xhr({
-
                 'method': 'GET',
                 'path': '/api/0.6/changeset/'+ changesetId.toString(),
                 'options': {
@@ -442,16 +425,13 @@ export default class OsmEdit{
                 },
             },
             (err, xml) => {
-
                 if (err) {
-
                     return reject(err);
                 }
 
                 var isOpened = xml.getElementsByTagName('changeset')[0].getAttribute('open');
 
                 if (isOpened === 'false') {
-
                     return reject(err);
                 }
 
@@ -470,35 +450,28 @@ export default class OsmEdit{
      * @return {promise}
      */
     _getChangesetId() {
-
         var changesetId = parseInt( sessionStorage.getItem('osmEdit-changesetId') );
 
         if ( changesetId ) {
-
             return this._isChangesetStillOpen(changesetId)
             .then(
                 changesetId => {
-
                     return changesetId;
                 },
                 err => {
-
                     sessionStorage.removeItem('osmEdit-changesetId');
                     return this._getChangesetId();
                 }
             );
         }
         else {
-
             return this._createChangeset()
             .then(
                 changesetId => {
-
                     sessionStorage.setItem('osmEdit-changesetId', changesetId);
                     return changesetId;
                 },
                 err => {
-
                     sessionStorage.removeItem('osmEdit-changesetId');
                     return this._getChangesetId();
                 }
@@ -517,7 +490,6 @@ export default class OsmEdit{
       * @return {promise}
       */
     _sendXml(changesetId) {
-
         var data,
         method = 'PUT',
         path = `/api/0.6/${this._type}/create`,

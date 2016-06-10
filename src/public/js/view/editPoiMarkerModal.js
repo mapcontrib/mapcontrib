@@ -8,17 +8,14 @@ import template from '../../templates/editPoiMarkerModal.ejs';
 
 
 export default Marionette.ItemView.extend({
-
     template: template,
 
     behaviors: {
-
         'l20n': {},
         'modal': {},
     },
 
     ui: {
-
         'modal': '#edit_poi_marker_modal',
         'colorButtons': '.color-buttons .btn',
         'shapeButtons': '.shape-buttons .btn',
@@ -34,7 +31,6 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-
         'click @ui.colorButtons': 'onClickColorButtons',
         'click @ui.shapeButtons': 'onClickShapeButtons',
         'click @ui.iconTypeLibraryTab': 'onClickIconTypeLibraryTab',
@@ -49,7 +45,6 @@ export default Marionette.ItemView.extend({
     },
 
     initialize: function () {
-
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
@@ -58,7 +53,6 @@ export default Marionette.ItemView.extend({
     },
 
     onRender: function () {
-
         this.ui.colorButtons
         .filter( '.'+ this.model.get('markerColor') )
         .find('i')
@@ -71,7 +65,6 @@ export default Marionette.ItemView.extend({
         this.ui.iconTypeTabs.removeClass('active');
 
         switch ( this.model.get('markerIconType') ) {
-
             case CONST.map.markerIconType.external:
                 this.ui.iconTypeExternalTab.addClass('active').click();
                 break;
@@ -85,26 +78,22 @@ export default Marionette.ItemView.extend({
     },
 
     close: function () {
-
         this.triggerMethod('close');
     },
 
     onReset: function () {
-
         this.model.set( this._oldModel.toJSON() );
 
         this.close();
     },
 
     onSubmit: function (e) {
-
         e.preventDefault();
 
         this.close();
     },
 
     onClickColorButtons: function (e) {
-
         $('i', this.ui.colorButtons).removeClass('fa-check');
 
         e.target.querySelector('i').classList.add('fa-check');
@@ -113,7 +102,6 @@ export default Marionette.ItemView.extend({
     },
 
     onClickShapeButtons: function (e) {
-
         this.ui.shapeButtons.removeClass('active');
 
         e.target.classList.add('active');
@@ -122,17 +110,14 @@ export default Marionette.ItemView.extend({
     },
 
     onChangeIconName: function (e) {
-
         this.updateIconPreview();
     },
 
     onChangeIconUrl: function (e) {
-
         this.model.set('markerIconUrl', e.target.value);
     },
 
     updateIconPreview: function () {
-
         var iconName = this.ui.iconNameInput.val();
 
         this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
@@ -141,7 +126,6 @@ export default Marionette.ItemView.extend({
     },
 
     onClickIconTypeLibraryTab: function (e) {
-
         this.ui.iconTypeExternalForm.addClass('hide');
         this.ui.iconTypeLibraryForm.removeClass('hide');
 
@@ -149,7 +133,6 @@ export default Marionette.ItemView.extend({
     },
 
     onClickIconTypeExternalTab: function (e) {
-
         this.ui.iconTypeLibraryForm.addClass('hide');
         this.ui.iconTypeExternalForm.removeClass('hide');
 

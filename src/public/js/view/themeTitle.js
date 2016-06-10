@@ -8,16 +8,13 @@ import template from '../../templates/themeTitle.ejs';
 
 
 export default Marionette.LayoutView.extend({
-
     template: template,
 
     behaviors: {
-
         'l20n': {},
     },
 
     ui: {
-
         'titleWrapper': '#title',
         'title': '#title h1',
         'description': '#title .description',
@@ -25,12 +22,10 @@ export default Marionette.LayoutView.extend({
     },
 
     events: {
-
         'click @ui.descriptionButton': 'onClickDescription',
     },
 
     initialize: function () {
-
         this._radio = Wreqr.radio.channel('global');
 
         this._currentTitleColor = this.model.get('color');
@@ -42,36 +37,28 @@ export default Marionette.LayoutView.extend({
     },
 
     templateHelpers: function () {
-
         return {
-
             'description': marked( this.model.get('description') ),
         };
     },
 
     onRender: function () {
-
         this.setTitle();
 
         if ( this.model.get('description') ) {
-
             this.ui.descriptionButton.removeClass('hide');
         }
     },
 
     onShow: function () {
-
         this.ui.descriptionButton.tooltip({
-
             'container': 'body',
             'delay': {
-
                 'show': CONST.tooltip.showDelay,
                 'hide': CONST.tooltip.hideDelay
             }
         })
         .on('click', function () {
-
             $(this)
             .blur()
             .tooltip('hide');
@@ -79,7 +66,6 @@ export default Marionette.LayoutView.extend({
     },
 
     setTitle: function () {
-
         let themeName = this.model.get('name');
         let appName = document.l10n.getSync('mapcontrib');
 
@@ -98,9 +84,7 @@ export default Marionette.LayoutView.extend({
     },
 
     commandSetTitleColor: function (color) {
-
         if ( this._currentTitleColor === color ) {
-
             return;
         }
 
@@ -112,23 +96,19 @@ export default Marionette.LayoutView.extend({
     },
 
     setDescription: function () {
-
         var description = marked( this.model.get('description') );
 
         if ( description ) {
-
             this.ui.description.html( description );
             this.ui.descriptionButton.removeClass('hide');
         }
         else {
-
             this.ui.description.html('');
             this.ui.descriptionButton.addClass('hide');
         }
     },
 
     onClickDescription: function () {
-
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
 

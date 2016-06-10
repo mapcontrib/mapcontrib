@@ -11,7 +11,6 @@ html, body {
 
 
 #main_map {
-
     position: fixed;
     z-index: @mapZIndex;
     top: @titleHeight;
@@ -20,49 +19,40 @@ html, body {
     right: 0;
 
     .leaflet-popup-content-wrapper {
-
         border-radius: 0;
 
         .leaflet-popup-content {
-
             margin: 20px;
 
             h1 {
-
                 font-size: 24px;
             }
 
             h2 {
-
                 font-size: 18px;
             }
 
             h3 {
-
                 font-size: 14px;
             }
 
             h4, h5, h6 {
-
                 font-size: 16px;
             }
         }
     }
 
     .leaflet-control-minZoomIndicator {
-
         display: none !important;
     }
 
     .leaflet-bottom.leaflet-right {
-
         left: @toolbarBtnSize + 10px;
     }
 }
 
 
 #title {
-
     position: fixed;
     z-index: @titleZIndex;
     top: 0;
@@ -73,7 +63,6 @@ html, body {
     transition: all ease-out .3s;
 
     .title_head {
-
         display: inline-block;
         position: relative;
         left: 50%;
@@ -89,7 +78,6 @@ html, body {
     }
 
     .description_btn {
-
         color: #fff;
         position: fixed;
         top: 0;
@@ -101,13 +89,11 @@ html, body {
         &.focus,
         &:active,
         &.active {
-
             color: #fff;
         }
     }
 
     .description {
-
         display: none;
         margin-top: 60px;
         animation-duration: .4s;
@@ -116,12 +102,10 @@ html, body {
     }
 
     &.open {
-
         height: 100%;
         overflow: auto;
 
         .title_head {
-
             left: 0;
             transform: translate(0, 30px);
             font-size: 36px;
@@ -132,7 +116,6 @@ html, body {
         }
 
         .description {
-
             display: block;
             animation-name: appear;
             animation-direction: normal;
@@ -143,7 +126,6 @@ html, body {
 
 
 #edit_setting_column .btn-color {
-
     &.blue,
     &.purple,
     &.turquoise,
@@ -151,7 +133,6 @@ html, body {
     &.green,
     &.red,
     &.anthracite {
-
         color: #fff;
     }
 
@@ -164,7 +145,6 @@ html, body {
     &.anthracite { background: @anthracite; }
 
     &.white {
-
         background: #fff;
         color: @anthracite;
     }
@@ -174,7 +154,6 @@ html, body {
 
 .btn-color,
 .btn-marker-color {
-
     border-color: rgba(255, 255, 255, 0.8);
 
     &:hover,
@@ -182,18 +161,15 @@ html, body {
     &.focus,
     &:active,
     &.active {
-
         color: #fff;
     }
 
     &.white {
-
         &:hover,
         &:focus,
         &.focus,
         &:active,
         &.active {
-
             color: @anthracite;
         }
     }
@@ -208,7 +184,6 @@ html, body {
 
 
 #help {
-
     position: fixed;
     bottom: 0;
     left: 0;
@@ -220,12 +195,10 @@ html, body {
     overflow: hidden;
 
     h2 {
-
         font-size: 36px;
     }
 
     .close_btn {
-
         position: fixed;
         top: 0;
         right: 0;
@@ -235,7 +208,6 @@ html, body {
     h2,
     p,
     .close_btn {
-
         display: none;
         animation-duration: .4s;
         animation-timing-function: ease-in-out;
@@ -243,7 +215,6 @@ html, body {
     }
 
     &.open {
-
         width: 100%;
         height: 100%;
         overflow: auto;
@@ -251,7 +222,6 @@ html, body {
         h2,
         p,
         .close_btn {
-
             display: block;
             animation-name: appear;
             animation-direction: normal;
@@ -261,14 +231,11 @@ html, body {
 
 
 #edit_poi_column .rg_layer_list {
-
     .list-group-item {
-
         padding-right: 70px;
     }
 
     .marker {
-
         transform: scale(.6);
         position: absolute;
         top: -1px;
@@ -278,11 +245,9 @@ html, body {
 }
 
 .rg_layer_list .checkbox {
-
     padding-right: 40px;
 
     .marker {
-
         position: absolute;
         top: 0;
         right: -4px;
@@ -291,16 +256,12 @@ html, body {
 }
 
 .tile_list {
-
     .checkbox,
     .radio {
-
         label {
-
             display: block;
 
             figure {
-
                 background: @lightGray;
                 overflow: hidden;
                 height: 120px;
@@ -314,7 +275,6 @@ html, body {
     }
 
     .max_zoom {
-
         font-size: 13px;
         opacity: .8;
     }
@@ -323,7 +283,6 @@ html, body {
 
 
 #zoom_notification {
-
     z-index: @zoomNotificationZIndex;
     top: @titleHeight;
     left: @toolbarBtnSize;
@@ -340,7 +299,6 @@ html, body {
     transform: translate(( @toolbarBtnSize + @zoomNotificationWidth ) * -1, 0);
 
     &.open {
-
         transform: translate(0, 0);
     }
 
@@ -349,19 +307,16 @@ html, body {
     }
 
     p {
-
         margin: 0;
     }
 
     .close_btn {
-
         position: absolute;
         top: -13px;
         right: -24px;
     }
 
     .fa-arrow-left {
-
         position: absolute;
         top: 3px;
         left: -10px;
@@ -374,9 +329,7 @@ html, body {
 }
 
 @media screen and (max-width: ( @zoomNotificationWidth + @toolbarBtnSize )) {
-
     #zoom_notification {
-
         right: 0;
         width: auto;
     }
@@ -385,19 +338,15 @@ html, body {
 
 
 body {
-
     .edit_poi_data {
-
         display: none;
 
         button {
-
             padding: 0;
         }
     }
 
     &.user_logged .edit_poi_data {
-
         display: block;
     }
 }
@@ -410,7 +359,6 @@ body {
 @geocodeResultItemHeight: 46px;
 
 #geocode_widget {
-
     position: fixed;
     z-index: @geocodeZIndex;
     top: @geocodeWidgetTop + 30; // zoom level height
@@ -422,18 +370,15 @@ body {
     transform: translate(-100%, 0);
 
     input {
-
         height: @toolbarBtnSize;
         border-color: #fff;
     }
 
     &.open {
-
         transform: translate(0, 0);
     }
 
     .results {
-
         position: absolute;
         top: @toolbarBtnSize;
         left: @toolbarBtnSize;
@@ -443,7 +388,6 @@ body {
         transition: all ease-out .2s;
 
         .list-group-item {
-
             border-color: @gray #fff;
             height: @geocodeResultItemHeight;
             overflow: hidden;
@@ -454,10 +398,8 @@ body {
 }
 
 @media screen and ( max-height: (@geocodeWidgetTop + @toolbarBtnSize + (5 * @geocodeResultItemHeight))  ) {
-
     #geocode_widget,
     .results {
-
         bottom: 0;
     }
 }

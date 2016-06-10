@@ -4,7 +4,6 @@ import GeolocationPoint from '../ui/geolocationPoint';
 
 
 export default class Geolocation {
-
     /**
      * @author Guillaume AMAT
      * @access public

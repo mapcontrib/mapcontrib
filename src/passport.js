@@ -17,7 +17,6 @@ function connect(passportConnectMethod, req, res) {
 }
 
 function connectCallback(passportConnectMethod, req, res) {
-
     let successRedirect = '/';
     let failRedirect = '/';
 
@@ -38,7 +37,6 @@ function connectCallback(passportConnectMethod, req, res) {
 
 
 module.exports = function Passport(app, db, settings) {
-
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -49,13 +47,11 @@ module.exports = function Passport(app, db, settings) {
 
 
     passport.deserializeUser(function(userId, done) {
-
         let collection = db.collection('user');
 
         collection.findOne({
             '_id': new ObjectID(userId)
         }, (err, user) => {
-
             if (user) {
                 return done(null, userId);
             }
@@ -74,7 +70,6 @@ module.exports = function Passport(app, db, settings) {
             'passReqToCallback': true,
         },
         function(req, token, tokenSecret, profile, done) {
-
             let collection = db.collection('user'),
             userData = {
                 'osmId': profile.id,
@@ -87,7 +82,6 @@ module.exports = function Passport(app, db, settings) {
             collection.findOne({
                 'osmId': userData.osmId
             }, (err, user) => {
-
                 if (err) {
                     return done(err);
                 }
@@ -103,7 +97,6 @@ module.exports = function Passport(app, db, settings) {
                     user,
                     { 'safe': true },
                     (err, results) => {
-
                         if (results) {
                             req.session.user = user;
                             return done(err, user);

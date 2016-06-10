@@ -7,11 +7,8 @@ import OsmEditHelper from '../../src/public/js/helper/osmEdit';
 
 
 describe('OsmEditHelper', () => {
-
     describe('_buildChangesetXML', () => {
-
         it('Should return a serialized changeset XML', () => {
-
             const expected = '<osm><changeset><tag k="created_by" v="a string"/><tag k="comment" v="another string"/></changeset></osm>';
 
             let osmEdit = new OsmEditHelper();
@@ -26,9 +23,7 @@ describe('OsmEditHelper', () => {
     });
 
     describe('_buildXml', () => {
-
         it('Should return a serialized node XML', () => {
-
             const expected = '<osm><node changeset="85964251" version="0" timestamp="2016-03-24T12:21:30.546Z" uid="3569284" display_name="Walter White" lat="42.3" lon="0.2"><tag k="a key" v="a value"/><tag k="another key" v="another value"/></node></osm>';
 
             let osmEdit = new OsmEditHelper();

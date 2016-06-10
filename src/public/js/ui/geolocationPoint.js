@@ -5,7 +5,6 @@ import headingMarkerSvg from '../../img/geolocation_heading_marker.svg';
 
 
 export default class GeolocationPoint {
-
     /**
      * Rotate the marker.
      *

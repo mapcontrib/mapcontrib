@@ -1,6 +1,5 @@
 
 module.exports = {
-
     'debug': false,
 
     'oauthConsumerKey': 'A5WLFE5cwbK6PHZI71yoZMT2q5cZyTSO4XDarrDW',

@@ -7,11 +7,8 @@ import PopupContent from '../../src/public/js/core/popupContent';
 
 
 describe('PopupContent', () => {
-
     describe('findTagsFromContent', () => {
-
         it('Should return tag list', () => {
-
             const expected = ['amenity', 'other_tag'];
             const popupContent = 'This text contains the {amenity} tag and an {other_tag}.';
 
@@ -21,7 +18,6 @@ describe('PopupContent', () => {
         });
 
         it('Should return an empty tag list', () => {
-
             const expected = [];
             const popupContent = 'This text does not contain tags!';
 

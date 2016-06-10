@@ -5,7 +5,6 @@ import template from '../../templates/zoomNotification.ejs';
 
 
 export default Marionette.LayoutView.extend({
-
     template: template,
 
     behaviors: {
