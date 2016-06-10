@@ -1,436 +1,47 @@
 
 
-@import 'variables.less';
+@import 'variable.less';
+@import 'font.less';
+@import 'form.less';
 @import 'toolbar.less';
 @import 'widget.less';
 @import 'marker.less';
-@import 'font/fira.css';
-@import 'font/voltaire.css';
-@import 'font/charissil.css';
-
-@import 'ui/geolocationPoint.less';
-
 
 
 
 @keyframes appear {
-
     0% {
-
         opacity: 0;
     }
 
-
     100% {
-
         opacity: 1;
     }
 }
 
+@keyframes bounce {
+    0%, 5%, 13%, 20%, 25% {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        transform: translate3d(0, 0, 0);
+    }
 
+    10%, 11% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(12px, 0, 0);
+    }
 
-body {
+    17% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(6px, 0, 0);
+    }
 
-    color: @anthracite;
-}
-
-h1, h2, h3, h4, h5, h6,
-.control-label {
-
-    font-family: 'Fira Sans';
-    font-weight: normal;
-}
-
-
-.nowrap {
-
-    white-space: nowrap;
-}
-
-textarea.font-monospace {
-
-    font-size: 12px;
-}
-
-
-input[disabled],
-select[disabled],
-textarea[disabled],
-.form-control[disabled],
-input[readonly],
-select[readonly],
-textarea[readonly],
-.form-control[readonly],
-fieldset[disabled] .form-control {
-
-    cursor: default;
-}
-
-button,
-.btn,
-.nav > li > a {
-
-    border-radius: 0;
-}
-
-input,
-select,
-textarea,
-.form-control,
-.list-group-item,
-.list-group-item:first-child,
-.list-group-item:last-child,
-fieldset .form-control {
-
-    border-radius: 0 !important;
-    box-shadow: none;
-
-    &:hover,
-    &.focus,
-    &:focus,
-    &.active,
-    &:active {
-
-        box-shadow: none;
+    22% {
+        transform: translate3d(2px, 0, 0);
     }
 }
 
-.list-group {
-
-    /* Fixes a placement bug on items when they are moved/dragged more than once */
-    position: relative;
-
-    .list-group-item {
-
-        label .help-block,
-        label .help-block p:last-child {
-
-            margin-bottom: 0;
-        }
-
-        &.active {
-
-            background: @gray;
-            color: @anthracite;
-        }
-    }
-}
-
-
-
-
-#main_map {
-
-    position: fixed;
-    z-index: @mapZIndex;
-    top: @titleHeight;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    .leaflet-popup-content-wrapper {
-
-        border-radius: 0;
-
-        .leaflet-popup-content {
-
-            margin: 20px;
-
-            h1 {
-
-                font-size: 24px;
-            }
-
-            h2 {
-
-                font-size: 18px;
-            }
-
-            h3 {
-
-                font-size: 14px;
-            }
-
-            h4, h5, h6 {
-
-                font-size: 16px;
-            }
-        }
-    }
-
-    .leaflet-control-minZoomIndicator {
-
-        display: none !important;
-    }
-
-    .leaflet-bottom.leaflet-right {
-
-        left: @toolbarBtnSize + 10px;
-    }
-}
-
-
-#title {
-
-    position: fixed;
-    z-index: @titleZIndex;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: @titleHeight;
-
-    transition: all ease-out .3s;
-
-    .title_head {
-
-        display: inline-block;
-        position: relative;
-        left: 50%;
-        transform: translate(-50%, 0);
-        font-size: 16px;
-        line-height: @titleHeight;
-        margin: 0;
-        max-width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        transition: all ease-out .3s;
-    }
-
-    .description_btn {
-
-        color: #fff;
-        position: fixed;
-        top: 0;
-        right: 0;
-        padding: 3px 12px 5px 12px;
-
-        &:hover,
-        &:focus,
-        &.focus,
-        &:active,
-        &.active {
-
-            color: #fff;
-        }
-    }
-
-    .description {
-
-        display: none;
-        margin-top: 60px;
-        animation-duration: .4s;
-        animation-timing-function: ease-in-out;
-        animation-fill-mode: forwards;
-    }
-
-    &.open {
-
-        height: 100%;
-        overflow: auto;
-
-        .title_head {
-
-            left: 0;
-            transform: translate(0, 30px);
-            font-size: 36px;
-            line-height: 50px;
-            max-width: none;
-            white-space: normal;
-            overflow: visible;
-        }
-
-        .description {
-
-            display: block;
-            animation-name: appear;
-            animation-direction: normal;
-        }
-    }
-}
-
-
-
-#edit_setting_column .btn-color {
-
-    &.blue,
-    &.purple,
-    &.turquoise,
-    &.orange,
-    &.green,
-    &.red,
-    &.anthracite {
-
-        color: #fff;
-    }
-
-    &.blue { background: @blue; }
-    &.purple { background: @purple; }
-    &.turquoise { background: @turquoise; }
-    &.orange { background: @orange; }
-    &.green { background: @green; }
-    &.red { background: @red; }
-    &.anthracite { background: @anthracite; }
-
-    &.white {
-
-        background: #fff;
-        color: @anthracite;
-    }
-}
-
-
-
-.btn-color,
-.btn-marker-color {
-
-    border-color: rgba(255, 255, 255, 0.8);
-
-    &:hover,
-    &:focus,
-    &.focus,
-    &:active,
-    &.active {
-
-        color: #fff;
-    }
-
-    &.white {
-
-        &:hover,
-        &:focus,
-        &.focus,
-        &:active,
-        &.active {
-
-            color: @anthracite;
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-#help {
-
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: @modalZIndex;
-    width: 0;
-    height: 0;
-    transition: all ease-out .3s;
-    background: #fff;
-    overflow: hidden;
-
-    h2 {
-
-        font-size: 36px;
-    }
-
-    .close_btn {
-
-        position: fixed;
-        top: 0;
-        right: 0;
-        color: @anthracite;
-    }
-
-    h2,
-    p,
-    .close_btn {
-
-        display: none;
-        animation-duration: .4s;
-        animation-timing-function: ease-in-out;
-        animation-fill-mode: forwards;
-    }
-
-    &.open {
-
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-
-        h2,
-        p,
-        .close_btn {
-
-            display: block;
-            animation-name: appear;
-            animation-direction: normal;
-        }
-    }
-}
-
-
-#edit_poi_column .rg_layer_list {
-
-    .list-group-item {
-
-        padding-right: 70px;
-    }
-
-    .marker {
-
-        transform: scale(.6);
-        position: absolute;
-        top: -1px;
-        right: 35px;
-        cursor: pointer;
-    }
-}
-
-.rg_layer_list .checkbox {
-
-    padding-right: 40px;
-
-    .marker {
-
-        position: absolute;
-        top: 0;
-        right: -4px;
-        cursor: pointer;
-    }
-}
-
-.tile_list {
-
-    .checkbox,
-    .radio {
-
-        label {
-
-            display: block;
-
-            figure {
-
-                background: @lightGray;
-                overflow: hidden;
-                height: 120px;
-                position: relative;
-
-                img {
-                    position: absolute;
-                }
-            }
-        }
-    }
-
-    .max_zoom {
-
-        font-size: 13px;
-        opacity: .8;
-    }
-}
 
 .icon-preview {
-
     position: absolute;
     top: 8px;
     right: 11px;
@@ -439,168 +50,106 @@ fieldset .form-control {
     font-size: 19px;
 }
 
+.marker-form-widget {
+    height: 42px;
 
-#zoom_notification {
-
-    z-index: @zoomNotificationZIndex;
-    top: @titleHeight;
-    left: @toolbarBtnSize;
-    bottom: auto;
-    right: auto;
-    width: @zoomNotificationWidth;
-    min-height: @toolbarBtnSize;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-right: 24px;
-    padding-left: 24px;
-    opacity: 1;
-    transition: opacity 0.1s linear;
-    transform: translate(( @toolbarBtnSize + @zoomNotificationWidth ) * -1, 0);
-
-    &.open {
-
-        transform: translate(0, 0);
+    .marker,
+    .btn {
+        float: left;
     }
 
-    &.disappear {
-        opacity: 0;
+    .marker {
+        margin-left: 15px;
+        margin-right: 20px;
     }
 
-    p {
-
-        margin: 0;
-    }
-
-    .close_btn {
-
-        position: absolute;
-        top: -13px;
-        right: -24px;
-    }
-
-    .fa-arrow-left {
-
-        position: absolute;
-        top: 3px;
-        left: -10px;
-        animation-duration: 4s;
-        animation-fill-mode: both;
-        animation-iteration-count: infinite;
-        animation-name: bounce;
-        transform-origin: center bottom;
-    }
-}
-
-@media screen and (max-width: ( @zoomNotificationWidth + @toolbarBtnSize )) {
-
-    #zoom_notification {
-
-        right: 0;
-        width: auto;
-    }
-}
-
-@keyframes bounce {
-
-    0%, 5%, 13%, 20%, 25% {
-
-        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-        transform: translate3d(0, 0, 0);
-    }
-
-    10%, 11% {
-
-        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-        transform: translate3d(12px, 0, 0);
-    }
-
-    17% {
-
-        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-        transform: translate3d(6px, 0, 0);
-    }
-
-    22% {
-
-        transform: translate3d(2px, 0, 0);
+    .btn {
+        margin-top: 4px;
     }
 }
 
 
-body {
-
-    .edit_poi_data {
-
-        display: none;
-
-        button {
-
-            padding: 0;
-        }
-    }
-
-    &.user_logged .edit_poi_data {
-
-        display: block;
-    }
+.zoom_tip {
+    font-style: italic;
 }
 
 
-
-
-
-@geocodeWidgetTop: @titleHeight + (@toolbarBtnSize * 2) + @bootstrapMoreTinyAppend;
-@geocodeResultItemHeight: 46px;
-
-#geocode_widget {
-
-    position: fixed;
-    z-index: @geocodeZIndex;
-    top: @geocodeWidgetTop + 30; // zoom level height
-    left: 0;
-    padding-left: @toolbarBtnSize;
-    width: 500px;
+img {
     max-width: 100%;
-    transition: transform ease-out .2s;
-    transform: translate(-100%, 0);
+    height: auto;
+}
 
-    input {
 
-        height: @toolbarBtnSize;
-        border-color: #fff;
-    }
+.list-group {
+    /* Fixes a placement bug on items when they are moved/dragged more than once */
+    position: relative;
 
-    &.open {
+    .list-group-item {
+        label .help-block,
+        label .help-block p:last-child {
+            margin-bottom: 0;
+        }
 
-        transform: translate(0, 0);
-    }
-
-    .results {
-
-        position: absolute;
-        top: @toolbarBtnSize;
-        left: @toolbarBtnSize;
-        right: 0;
-        margin: 0;
-        overflow: auto;
-        transition: all ease-out .2s;
-
-        .list-group-item {
-
-            border-color: @gray #fff;
-            height: @geocodeResultItemHeight;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        &.active {
+            background: @gray;
+            color: @anthracite;
         }
     }
 }
 
-@media screen and ( max-height: (@geocodeWidgetTop + @toolbarBtnSize + (5 * @geocodeResultItemHeight))  ) {
+.list-group.reorderable {
+    .list-group-item {
+        padding-left: 30px;
 
-    #geocode_widget,
-    .results {
+        .reorder_icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 6px;
+            cursor: grab;
+        }
+    }
+}
 
-        bottom: 0;
+.list-group.removeable {
+    .list-group-item {
+        padding-right: 46px;
+
+        .remove_btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 40px;
+            background: transparent;
+            border-color: transparent;
+        }
+    }
+}
+
+.sticky-footer {
+    position: sticky;
+    z-index: 10;
+    bottom: 0;
+    padding: 20px 0;
+    margin: 20px 0 0 0;
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+
+.dropdown-menu {
+    border-radius: 0;
+    padding: 0;
+    border: none;
+
+    li a {
+        padding: 8px 16px;
+    }
+
+    .divider {
+        margin: 4px 0;
     }
 }

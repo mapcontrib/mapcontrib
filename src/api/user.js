@@ -15,23 +15,18 @@ function setOptions (hash) {
 
 
 let api = {
-
     post: function (req, res) {
-
         let collection = options.database.collection('user'),
         model = new UserModel(req.body);
 
         if ( !model.isValid() ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
         collection.insertOne(req.body, {'safe': true}, (err, results) => {
-
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
@@ -46,28 +41,22 @@ let api = {
 
 
     get: function (req, res) {
-
         api.findFromId(req, res, req.params._id, (user) => {
-
             res.send(user);
         });
     },
 
 
     findFromId: function (req, res, _id, callback) {
-
         if ( _id === 'me' ) {
-
             _id = req.user;
         }
         else if ( req.user !== _id ) {
-
             res.sendStatus(401);
 
             return true;
         }
         else if ( !options.CONST.pattern.mongoId.test( _id ) ) {
-
             res.sendStatus(400);
 
             return true;
@@ -76,20 +65,16 @@ let api = {
         let collection = options.database.collection('user');
 
         collection.find({
-
             '_id': new ObjectID(_id)
         })
         .toArray((err, results) => {
-
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
             }
 
             if (results.length === 0) {
-
                 res.sendStatus(404);
 
                 return true;
@@ -104,23 +89,18 @@ let api = {
 
 
     getAll: function (req, res) {
-
         let collection = options.database.collection('user');
 
         collection.find()
         .toArray((err, results) => {
-
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
             }
 
             if (results.length > 0) {
-
                 results.forEach((result) => {
-
                     result._id = result._id.toString();
                 });
             }
@@ -131,16 +111,13 @@ let api = {
 
 
     put: function (req, res) {
-
         if (req.user !== req.params._id) {
-
             res.sendStatus(401);
 
             return true;
         }
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
@@ -152,7 +129,6 @@ let api = {
         model = new UserModel(new_json);
 
         if ( !model.isValid() ) {
-
             res.sendStatus(400);
 
             return true;
@@ -161,15 +137,12 @@ let api = {
         delete(new_json._id);
 
         collection.updateOne({
-
             '_id': new ObjectID(req.params._id)
         },
         new_json,
         {'safe': true},
         (err) => {
-
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
@@ -182,16 +155,13 @@ let api = {
 
 
     delete: function (req, res) {
-
         if (req.user !== req.params._id) {
-
             res.sendStatus(401);
 
             return true;
         }
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
@@ -201,14 +171,11 @@ let api = {
         let collection = options.database.collection('user');
 
         collection.remove({
-
             '_id': new ObjectID(req.params._id)
         },
         {'safe': true},
         (err) => {
-
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
@@ -219,7 +186,6 @@ let api = {
     },
 
     logout: function (req, res) {
-
         req.logout();
 
         delete req.session.user;

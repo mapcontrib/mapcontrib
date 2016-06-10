@@ -2,7 +2,7 @@
 
 # ![MapContrib](logo.png)
 
-> OpenStreetMap contribution. Everywhere.
+> Thematic OpenStreetMap contribution
 
 ![MapContrib](screenshot.png)
 

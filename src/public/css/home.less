@@ -1,0 +1,67 @@
+
+
+@import 'app.less';
+
+
+.main_header .logo {
+    height: 34px;
+}
+
+.create_theme_btn {
+    margin-right: 10px;
+}
+
+.main_header h1 a.openstreetmap {
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: underline;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .main_header h1 {
+        font-size: 28px;
+    }
+}
+@media screen and (max-width: 420px) {
+    .main_header h1 {
+        font-size: 20px;
+    }
+}
+
+input.search {
+    padding-left: 34px;
+}
+
+input.search + label .icon {
+    position: absolute;
+    left: 26px;
+    top: 4px;
+    cursor: text;
+    font-size: 18px;
+    color: darken(@darkGray, 10%);
+}
+
+
+.search_results > div {
+    margin-bottom: 20px;
+}
+
+.mini_theme {
+    height: 150px;
+    background-color: @lightGray;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    .title {
+        font-size: 14px;
+        text-align: center;
+        margin: 0;
+        padding: 7px 8px 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
