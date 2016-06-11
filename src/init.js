@@ -1,7 +1,31 @@
 
 import { ObjectID } from 'mongodb';
+import Database from './database';
 
 
+let database = new Database();
+
+database.connect((err, db) => {
+    if (err) throw err;
+
+    let init = new Init(db);
+
+    console.log('Database initialization...');
+
+    init.cleanDatabase()
+    .then( init.fillDatabase.bind(init), onCatch)
+    .then( init.createIndexes.bind(init), onCatch)
+    .then(() => {
+        console.log('Initialization finished');
+        db.close();
+    })
+    .catch(onCatch);
+});
+
+
+function onCatch (err) {
+    throw err;
+}
 
 function dummyPromiseCallback (resolve, reject, err) {
     if (err) {
@@ -13,204 +37,160 @@ function dummyPromiseCallback (resolve, reject, err) {
 }
 
 
-let init = {
-    '_db': undefined,
-    '_themeCollection': undefined,
-    '_layerCollection': undefined,
-    '_userCollection': undefined,
-};
+class Init {
+    constructor (db) {
+        this._db = db;
+        this._themeCollection = undefined;
+        this._layerCollection = undefined;
+        this._userCollection = undefined;
+    }
 
+    cleanDatabase () {
+        let dropPromises = [
+            new Promise((resolve, reject) => {
+                this._db.dropCollection('theme', err => {
+                    resolve();
+                });
+            }),
+            new Promise((resolve, reject) => {
+                this._db.dropCollection('layer', err => {
+                    resolve();
+                });
+            })
+        ];
 
-init.setDatabase = function (db) {
-    init._db = db;
-};
-
-
-init.isDone = function () {
-    return new Promise( function (resolve, reject) {
-        init._db.listCollections({'name': 'theme'})
-        .toArray(function(err, items) {
-            if (err) {
-                reject(err);
-            }
-
-            if (items.length === 0) {
-                reject();
-            }
-
-            resolve();
+        return Promise.all(dropPromises)
+        .then(() => {
+            console.log('Database cleaned');
+        })
+        .catch(err => {
+            throw err;
         });
-    });
-};
+    }
 
+    fillDatabase () {
+        let insertPromises = [
+            new Promise((resolve, reject) => {
+                this._db.createCollection('theme', (err, collection) => {
+                    this._themeCollection = collection;
 
-init.start = function () {
-    console.log('Database initialization...');
+                    this._themeCollection.insertOne({
+                            '_id' : new ObjectID('5249c43c6e789470197b5973'),
+                            'name': 'MapContrib',
+                            'description': 'Ceci est une description :)',
+                            'fragment': 's8c2d4',
+                            'color': 'blue',
+                            'tiles': [
 
-    return new Promise( function (rootResolve, rootReject) {
-        return init._cleanDatabase(rootResolve, rootReject);
-    } );
-};
+                                'osmFr',
+                                'mapboxStreetsSatellite',
+                                'osmRoads',
+                                'transport',
+                                'hot',
+                                'openCycleMap',
+                                'watercolor',
+                                'osmMonochrome',
+                                'hydda',
+                                'openTopoMap',
+                                'openRiverboatMap'
+                            ],
+                            'zoomLevel': 12,
+                            'center': {
+                                'lat': 44.82921,
+                                'lng': -0.5834,
+                            },
+                        },
+                        {'safe': true},
+                        dummyPromiseCallback.bind(this, resolve, reject)
+                    );
+                });
+            }),
+            new Promise((resolve, reject) => {
+                this._db.createCollection('layer', (err, collection) => {
+                    this._layerCollection = collection;
 
-init._cleanDatabase = function (rootResolve, rootReject) {
-    var dropPromises = [];
-
-    dropPromises.push(
-        new Promise( function (resolve, reject) {
-            init._db.dropCollection('theme', function (err) {
-                resolve();
-            });
-        })
-    );
-
-    dropPromises.push(
-        new Promise( function (resolve, reject) {
-            init._db.dropCollection('layer', function (err) {
-                resolve();
-            });
-        })
-    );
-
-    return Promise.all(dropPromises)
-    .then(function () {
-        console.log('Database cleaned');
-        return init._fillDatabase(rootResolve, rootReject);
-    })
-    .catch(function (err) {
-        throw err;
-    });
-};
-
-init._fillDatabase = function (rootResolve, rootReject) {
-    var insertPromises = [
-        new Promise( function (resolve, reject) {
-            init._db.createCollection('theme', function (err, collection) {
-                init._themeCollection = collection;
-
-                init._themeCollection.insertOne({
-                        '_id' : new ObjectID('5249c43c6e789470197b5973'),
-                        'name': 'MapContrib',
-                        'description': 'Ceci est une description :)',
-                        'fragment': 's8c2d4',
-                        'color': 'blue',
-                        'tiles': [
-
-                            'osmFr',
-                            'mapboxStreetsSatellite',
-                            'osmRoads',
-                            'transport',
-                            'hot',
-                            'openCycleMap',
-                            'watercolor',
-                            'osmMonochrome',
-                            'hydda',
-                            'openTopoMap',
-                            'openRiverboatMap'
+                    this._layerCollection.insertMany(
+                        [
+                            {
+                                '_id' : new ObjectID('5249c43c6e789470197b5974'),
+                                'themeId': '5249c43c6e789470197b5973',
+                                'name': 'Déchèteries',
+                                'description': 'Déchèteries, centres de tri, etc.',
+                                'overpassRequest': "(node['amenity'='recycling']['recycling_type'='centre']({{bbox}});relation['amenity'='recycling']['recycling_type'='centre']({{bbox}});way['amenity'='recycling']['recycling_type'='centre']({{bbox}}));out body center;>;out skel;",
+                                'minZoom': 14,
+                                'popupContent': '# Nom : {name}\n\n_Amenity :_ {amenity}',
+                                'order': 0,
+                                'markerShape': 'marker1',
+                                'markerColor': 'green',
+                                'markerIcon': 'recycle',
+                            },
+                            {
+                                '_id' : new ObjectID('5249c43c6e789470197b5975'),
+                                'themeId': '5249c43c6e789470197b5973',
+                                'name': 'Poubelles',
+                                'description': 'Poubelles de toutes sortes',
+                                'overpassRequest': "(node['amenity'='waste_basket']({{bbox}});relation['amenity'='waste_basket']({{bbox}});way['amenity'='waste_basket']({{bbox}}));out body center;>;out skel;",
+                                'minZoom': 14,
+                                'popupContent': '# Nom : {name}\n\n_Amenity :_ {amenity}',
+                                'order': 1,
+                                'markerShape': 'marker1',
+                                'markerColor': 'yellow',
+                                'markerIcon': 'trash',
+                            }
                         ],
-                        'zoomLevel': 12,
-                        'center': {
-                            'lat': 44.82921,
-                            'lng': -0.5834,
-                        },
-                    },
-                    {'safe': true},
+                        {'safe': true},
+                        dummyPromiseCallback.bind(this, resolve, reject)
+                    );
+                });
+            }),
+            new Promise((resolve, reject) => {
+                this._db.createCollection('user', (err, collection) => {
+                    this._userCollection = collection;
+
+                    resolve();
+                });
+            }),
+        ];
+
+        return Promise.all(insertPromises)
+        .then(() => {
+            console.log('Database fulfilled');
+        })
+        .catch(err => {
+            throw err;
+        });
+    }
+
+    createIndexes () {
+        let indexesPromises = [
+            new Promise((resolve, reject) => {
+                this._userCollection.createIndex(
+                    { 'osmId': 1 },
+                    { 'unique': true },
                     dummyPromiseCallback.bind(this, resolve, reject)
                 );
-            });
-        }),
-        new Promise( function (resolve, reject) {
-            init._db.createCollection('layer', function (err, collection) {
-                init._layerCollection = collection;
-
-                init._layerCollection.insertMany([
-                        {
-                            '_id' : new ObjectID('5249c43c6e789470197b5974'),
-                            'themeId': '5249c43c6e789470197b5973',
-                            'name': 'Déchèteries',
-                            'description': 'Déchèteries, centres de tri, etc.',
-                            'overpassRequest': "(node['amenity'='recycling']['recycling_type'='centre']({{bbox}});relation['amenity'='recycling']['recycling_type'='centre']({{bbox}});way['amenity'='recycling']['recycling_type'='centre']({{bbox}}));out body center;>;out skel;",
-                            'minZoom': 14,
-                            'popupContent': '# Nom : {name}\n\n_Amenity :_ {amenity}',
-                            'order': 0,
-                            'markerShape': 'marker1',
-                            'markerColor': 'green',
-                            'markerIcon': 'recycle',
-                        },
-                        {
-                            '_id' : new ObjectID('5249c43c6e789470197b5975'),
-                            'themeId': '5249c43c6e789470197b5973',
-                            'name': 'Poubelles',
-                            'description': 'Poubelles de toutes sortes',
-                            'overpassRequest': "(node['amenity'='waste_basket']({{bbox}});relation['amenity'='waste_basket']({{bbox}});way['amenity'='waste_basket']({{bbox}}));out body center;>;out skel;",
-                            'minZoom': 14,
-                            'popupContent': '# Nom : {name}\n\n_Amenity :_ {amenity}',
-                            'order': 1,
-                            'markerShape': 'marker1',
-                            'markerColor': 'yellow',
-                            'markerIcon': 'trash',
-                        }
-                    ],
-                    {'safe': true},
+            }),
+            new Promise((resolve, reject) => {
+                this._themeCollection.createIndex(
+                    { 'fragment': 1 },
+                    { 'unique': true },
                     dummyPromiseCallback.bind(this, resolve, reject)
                 );
-            });
-        }),
-        new Promise( function (resolve, reject) {
-            init._db.createCollection('user', function (err, collection) {
-                init._userCollection = collection;
+            }),
+            new Promise((resolve, reject) => {
+                this._layerCollection.createIndex(
+                    { 'themeId': 1 },
+                    dummyPromiseCallback.bind(this, resolve, reject)
+                );
+            }),
+        ];
 
-                resolve();
-            });
-        }),
-    ];
-
-    return Promise.all(insertPromises)
-    .then(function () {
-        console.log('Database fulfilled');
-        return init._createIndexes(rootResolve, rootReject);
-    })
-    .catch(function (err) {
-        throw err;
-    });
-};
-
-init._createIndexes = function (rootResolve, rootReject) {
-    var indexesPromises = [
-        new Promise( function (resolve, reject) {
-            init._userCollection.createIndex(
-                { 'osmId': 1 },
-                { 'unique': true },
-                dummyPromiseCallback.bind(this, resolve, reject)
-            );
-        }),
-        new Promise( function (resolve, reject) {
-            init._themeCollection.createIndex(
-                { 'fragment': 1 },
-                { 'unique': true },
-                dummyPromiseCallback.bind(this, resolve, reject)
-            );
-        }),
-        new Promise( function (resolve, reject) {
-            init._layerCollection.createIndex(
-                { 'themeId': 1 },
-                dummyPromiseCallback.bind(this, resolve, reject)
-            );
-        }),
-    ];
-
-    return Promise.all(indexesPromises)
-    .then(function () {
-        console.log('Collections\' indexes created');
-        return rootResolve();
-    })
-    .catch(function (err) {
-        return rootReject(err);
-    });
-};
-
-
-export default {
-    'setDatabase': init.setDatabase,
-    'isDone': init.isDone,
-    'start': init.start,
-};
+        return Promise.all(indexesPromises)
+        .then(() => {
+            console.log('Collections\' indexes created');
+        })
+        .catch(err => {
+            throw err;
+        });
+    }
+}
