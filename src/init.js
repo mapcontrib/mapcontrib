@@ -1,26 +1,51 @@
 
+import readline from 'readline';
 import { ObjectID } from 'mongodb';
 import Database from './database';
 
 
-let database = new Database();
 
-database.connect((err, db) => {
-    if (err) throw err;
-
-    let init = new Init(db);
-
-    console.log('Database initialization...');
-
-    init.cleanDatabase()
-    .then( init.fillDatabase.bind(init), onCatch)
-    .then( init.createIndexes.bind(init), onCatch)
-    .then(() => {
-        console.log('Initialization finished');
-        db.close();
-    })
-    .catch(onCatch);
+const rl = readline.createInterface({
+  'input': process.stdin,
+  'output': process.stdout
 });
+
+console.log(`/!\\ WARNING /!\\`);
+console.log();
+console.log(`The MapContrib's database will be completely erased!`);
+
+rl.question(`Are you sure you want to do it? (yes/[no]) `, (answer) => {
+    console.log();
+
+    if (answer === 'yes') {
+        let database = new Database();
+
+        database.connect((err, db) => {
+            if (err) throw err;
+
+            let init = new Init(db);
+
+            console.log(`Initialization started`);
+
+            init.cleanDatabase()
+            .then( init.fillDatabase.bind(init), onCatch)
+            .then( init.createIndexes.bind(init), onCatch)
+            .then(() => {
+                console.log(`Initialization finished`);
+                db.close();
+            })
+            .catch(onCatch);
+        });
+    }
+    else {
+        console.log(`Initialization aborted`);
+    }
+
+    rl.close();
+});
+
+
+
 
 
 function onCatch (err) {
@@ -61,7 +86,7 @@ class Init {
 
         return Promise.all(dropPromises)
         .then(() => {
-            console.log('Database cleaned');
+            console.log(`Database cleaned`);
         })
         .catch(err => {
             throw err;
@@ -154,7 +179,7 @@ class Init {
 
         return Promise.all(insertPromises)
         .then(() => {
-            console.log('Database fulfilled');
+            console.log(`Database fulfilled`);
         })
         .catch(err => {
             throw err;
@@ -187,7 +212,7 @@ class Init {
 
         return Promise.all(indexesPromises)
         .then(() => {
-            console.log('Collections\' indexes created');
+            console.log(`Collections' indexes created`);
         })
         .catch(err => {
             throw err;
