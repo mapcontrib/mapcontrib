@@ -19,8 +19,9 @@ Informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUT
     $ npm install
     $ npm run build
     $ npm test
+    $ npm run init
 
-It will install all the dependancies and test the code.
+It will install all the dependancies, test the code and initialize the database.
 
 
 ## Launch the server
