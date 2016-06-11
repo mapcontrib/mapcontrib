@@ -19,6 +19,7 @@ import connectMongo from 'connect-mongo';
 import CONST from './public/js/const';
 import config from 'config';
 import Database from './database';
+import Migrate from './migrate';
 import Api from './api';
 import Passport from './passport';
 
@@ -64,10 +65,18 @@ if (app.get('env') !== 'production') {
 let database = new Database();
 
 database.connect((err, db) => {
-    if(err) throw err;
+    if(err) {
+        throw err;
+    }
 
-    new Passport(app, db, config);
-    new Api(app, db, CONST);
+    let migrate = new Migrate(db);
+
+    migrate.start()
+    .then(() => {
+        new Passport(app, db, config);
+        new Api(app, db, CONST);
+    })
+    .catch(err => { throw err; });
 });
 
 

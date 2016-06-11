@@ -19,9 +19,8 @@ Informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUT
     $ npm install
     $ npm run build
     $ npm test
-    $ npm run init
 
-It will install all the dependancies, test the code and initialize the database.
+It will install all the dependancies and test the code.
 
 
 ## Launch the server
@@ -30,16 +29,26 @@ By default the application will be available at [http://localhost:8080](http://l
 
 ### Docker Compose
 
+To launch the Node.js based server.
+
     $ docker-compose up
 
+MongoDB is rather slow to create the database files the first time... The Node.js container will surely break.
+Just wait a few seconds and rerun the up command.
+
+Then, you will have to initialize the database, in antoher terminal simply run:
+
+    $ docker-compose run node npm run init
 
 ### Manual
 
-You must have a MongoDB server running on localhost.
+You must have a MongoDB server running on localhost. To initialize the database the first time, run:
+
+    $ npm run init
+
+To launch the Node.js based server.
 
     $ npm start
-
-It launches the Node.js based server.
 
 
 ## Thanks

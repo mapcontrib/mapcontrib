@@ -66,7 +66,6 @@ class Init {
     constructor (db) {
         this._db = db;
         this._themeCollection = undefined;
-        this._layerCollection = undefined;
         this._userCollection = undefined;
     }
 
@@ -78,7 +77,7 @@ class Init {
                 });
             }),
             new Promise((resolve, reject) => {
-                this._db.dropCollection('layer', err => {
+                this._db.dropCollection('user', err => {
                     resolve();
                 });
             })
@@ -124,45 +123,31 @@ class Init {
                                 'lat': 44.82921,
                                 'lng': -0.5834,
                             },
+                            'layers': [
+                                {
+                                    'name': 'Déchèteries',
+                                    'description': 'Déchèteries, centres de tri, etc.',
+                                    'overpassRequest': "(node['amenity'='recycling']['recycling_type'='centre']({{bbox}});relation['amenity'='recycling']['recycling_type'='centre']({{bbox}});way['amenity'='recycling']['recycling_type'='centre']({{bbox}}));out body center;>;out skel;",
+                                    'minZoom': 14,
+                                    'popupContent': '# Nom : {name}\n\n_Amenity :_ {amenity}',
+                                    'order': 0,
+                                    'markerShape': 'marker1',
+                                    'markerColor': 'green',
+                                    'markerIcon': 'recycle',
+                                },
+                                {
+                                    'name': 'Poubelles',
+                                    'description': 'Poubelles de toutes sortes',
+                                    'overpassRequest': "(node['amenity'='waste_basket']({{bbox}});relation['amenity'='waste_basket']({{bbox}});way['amenity'='waste_basket']({{bbox}}));out body center;>;out skel;",
+                                    'minZoom': 14,
+                                    'popupContent': '# Nom : {name}\n\n_Amenity :_ {amenity}',
+                                    'order': 1,
+                                    'markerShape': 'marker1',
+                                    'markerColor': 'yellow',
+                                    'markerIcon': 'trash',
+                                }
+                            ],
                         },
-                        {'safe': true},
-                        dummyPromiseCallback.bind(this, resolve, reject)
-                    );
-                });
-            }),
-            new Promise((resolve, reject) => {
-                this._db.createCollection('layer', (err, collection) => {
-                    this._layerCollection = collection;
-
-                    this._layerCollection.insertMany(
-                        [
-                            {
-                                '_id' : new ObjectID('5249c43c6e789470197b5974'),
-                                'themeId': '5249c43c6e789470197b5973',
-                                'name': 'Déchèteries',
-                                'description': 'Déchèteries, centres de tri, etc.',
-                                'overpassRequest': "(node['amenity'='recycling']['recycling_type'='centre']({{bbox}});relation['amenity'='recycling']['recycling_type'='centre']({{bbox}});way['amenity'='recycling']['recycling_type'='centre']({{bbox}}));out body center;>;out skel;",
-                                'minZoom': 14,
-                                'popupContent': '# Nom : {name}\n\n_Amenity :_ {amenity}',
-                                'order': 0,
-                                'markerShape': 'marker1',
-                                'markerColor': 'green',
-                                'markerIcon': 'recycle',
-                            },
-                            {
-                                '_id' : new ObjectID('5249c43c6e789470197b5975'),
-                                'themeId': '5249c43c6e789470197b5973',
-                                'name': 'Poubelles',
-                                'description': 'Poubelles de toutes sortes',
-                                'overpassRequest': "(node['amenity'='waste_basket']({{bbox}});relation['amenity'='waste_basket']({{bbox}});way['amenity'='waste_basket']({{bbox}}));out body center;>;out skel;",
-                                'minZoom': 14,
-                                'popupContent': '# Nom : {name}\n\n_Amenity :_ {amenity}',
-                                'order': 1,
-                                'markerShape': 'marker1',
-                                'markerColor': 'yellow',
-                                'markerIcon': 'trash',
-                            }
-                        ],
                         {'safe': true},
                         dummyPromiseCallback.bind(this, resolve, reject)
                     );
@@ -199,12 +184,6 @@ class Init {
                 this._themeCollection.createIndex(
                     { 'fragment': 1 },
                     { 'unique': true },
-                    dummyPromiseCallback.bind(this, resolve, reject)
-                );
-            }),
-            new Promise((resolve, reject) => {
-                this._layerCollection.createIndex(
-                    { 'themeId': 1 },
                     dummyPromiseCallback.bind(this, resolve, reject)
                 );
             }),
