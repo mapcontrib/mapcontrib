@@ -1,5 +1,6 @@
 
 import crypto from 'crypto';
+import Backbone from 'backbone';
 import Diacritics from 'diacritic';
 import { ObjectID } from 'mongodb';
 import ThemeModel from '../public/js/model/theme';
@@ -18,6 +19,8 @@ function setOptions (hash) {
 
 let api = {
     post (req, res) {
+        Backbone.Relational.store.reset();
+
         let collection = options.database.collection('theme'),
         model = new ThemeModel(req.body);
 
@@ -43,6 +46,8 @@ let api = {
 
                 let result = results.ops[0];
                 result._id = result._id.toString();
+
+                req.session.themes.push( result._id );
 
                 res.send(result);
             });
@@ -292,6 +297,7 @@ let api = {
             return true;
         }
 
+        Backbone.Relational.store.reset();
 
         let new_json = req.body,
         collection = options.database.collection('theme'),

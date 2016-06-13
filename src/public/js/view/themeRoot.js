@@ -141,8 +141,8 @@ export default Marionette.LayoutView.extend({
     initialize: function (app) {
         this._app = app;
         this.model = this._app.getTheme();
-        this._layers = this._app.getLayers();
-        this._presets = this._app.getPresets();
+        this._layers = this.model.get('layers');
+        this._presets = this.model.get('presets');
         this._user = this._app.getUser();
 
         this._window = this._app.getWindow();
@@ -156,12 +156,6 @@ export default Marionette.LayoutView.extend({
 
 
         this._radio.reqres.setHandlers({
-            'layers': (layerId) => {
-                return this._layers;
-            },
-            'presets': (layerId) => {
-                return this._presets;
-            },
             'map:getCurrentZoom': (tileId) => {
                 if (this._map) {
                     return this._map.getZoom();
@@ -173,6 +167,9 @@ export default Marionette.LayoutView.extend({
         });
 
         this._radio.commands.setHandlers({
+            'theme:save': () => {
+                this.model.save();
+            },
             'column:showLayer': (layerModel) => {
                 this.onCommandShowLayer( layerModel );
             },
@@ -251,7 +248,7 @@ export default Marionette.LayoutView.extend({
 
 
         this._geocodeWidgetView = new GeocodeWidgetView();
-        this._selectPoiColumnView = new SelectPoiColumnView();
+        this._selectPoiColumnView = new SelectPoiColumnView({ 'model': this.model });
         this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
         this._userColumnView = new UserColumnView();
         this._linkColumnView = new LinkColumnView({ 'model': this.model });
@@ -381,7 +378,7 @@ export default Marionette.LayoutView.extend({
         this._mapLayers = {};
 
         _.each(this._layers.getVisibleLayers(), (layerModel) => {
-            if ( hiddenLayers.indexOf(layerModel.get('_id')) === -1 ) {
+            if ( hiddenLayers.indexOf(layerModel.get('uniqid')) === -1 ) {
                 this.addLayer( layerModel );
             }
             else {
@@ -391,10 +388,6 @@ export default Marionette.LayoutView.extend({
 
 
         this.updateMinDataZoom();
-
-        this._layers.on('add', (model) => {
-            this.addLayer(model);
-        }, this);
 
         this._layers.on('destroy', (model) => {
             this.removeLayer(model);
@@ -483,10 +476,11 @@ export default Marionette.LayoutView.extend({
     },
 
     addLayer: function (layerModel, hidden) {
-        var split,
+        let split,
         layerGroup = L.layerGroup(),
         overpassRequest = '',
-        overpassRequestSplit = layerModel.get('overpassRequest').split(';');
+        originalOverpassRequest = layerModel.get('overpassRequest') || '',
+        overpassRequestSplit = originalOverpassRequest.split(';');
 
         layerGroup._poiIds = [];
 
@@ -516,8 +510,6 @@ export default Marionette.LayoutView.extend({
 
             overpassRequest += split.join(' ') + ';';
         });
-
-
 
         layerGroup._overpassLayer = new OverPassLayer({
             'debug': config.debug,
@@ -827,12 +819,17 @@ export default Marionette.LayoutView.extend({
 
         if ( layerModel ) {
             view = new EditLayerColumnView({
-                'model': layerModel
+                'model': layerModel,
+                'theme': this.model,
             });
         }
         else {
+            let layerModel = new LayerModel();
+            this.model.get('layers').add( layerModel );
+
             view = new EditLayerColumnView({
-                'model': new LayerModel({ 'themeId': this.model.get('_id') })
+                'model': layerModel,
+                'theme': this.model,
             });
         }
 
@@ -860,12 +857,17 @@ export default Marionette.LayoutView.extend({
 
         if ( presetModel ) {
             view = new EditPresetTagsColumnView({
-                'model': presetModel
+                'model': presetModel,
+                'theme': this.model,
             });
         }
         else {
+            let presetModel = new PresetModel();
+            this.model.get('presets').add( presetModel );
+
             view = new EditPresetTagsColumnView({
-                'model': new PresetModel({ 'themeId': this.model.get('_id') })
+                'model': presetModel,
+                'theme': this.model,
             });
         }
 

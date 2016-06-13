@@ -66,23 +66,12 @@ export default Marionette.LayoutView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        var addToCollection = false;
-
         this.model.set('name', this.ui.nameInput.val());
         this.model.set('description', this.ui.descriptionInput.val());
         this.model.set('tags', this._tagList.getTags());
 
-
-        if ( !this.model.get('_id') ) {
-            addToCollection = true;
-        }
-
-        this.model.save({}, {
+        this.options.theme.save({}, {
             'success': function () {
-                if ( addToCollection ) {
-                    this._radio.reqres.request('presets').add( this.model );
-                }
-
                 this.close();
             }.bind(this),
 

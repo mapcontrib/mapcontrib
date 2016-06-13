@@ -74,7 +74,11 @@ export default Marionette.ItemView.extend({
     onChangedMapZoom: function () {
         var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
 
-        this.ui.currentMapZoom.html( document.l10n.getSync('editLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}) );
+        this.ui.currentMapZoom.html(
+            document.l10n.getSync(
+                'editLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}
+            )
+        );
     },
     updateMarkerIcon: function () {
         var html = MapUi.buildLayerHtmlIcon( this.model );
@@ -89,7 +93,7 @@ export default Marionette.ItemView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        var addToCollection = false,
+        var addToMap = false,
         updateMarkers = false,
         updateMinZoom = false,
         updatePopups = false,
@@ -103,8 +107,8 @@ export default Marionette.ItemView.extend({
         this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
 
-        if ( !this.model.get('_id') ) {
-            addToCollection = true;
+        if ( typeof this._oldModel.get('overpassRequest') === 'undefined' ) {
+            addToMap = true;
         }
 
         if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
@@ -143,10 +147,10 @@ export default Marionette.ItemView.extend({
             updateVisibility = true;
         }
 
-        this.model.save({}, {
+        this.options.theme.save({}, {
             'success': () => {
-                if ( addToCollection ) {
-                    this._radio.reqres.request('layers').add( this.model );
+                if ( addToMap ) {
+                    this._radio.commands.execute('map:addLayer', this.model);
                 }
 
                 if ( updateMinZoom ) {

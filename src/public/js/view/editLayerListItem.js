@@ -51,5 +51,6 @@ export default Marionette.ItemView.extend({
         e.stopPropagation();
 
         this.model.destroy();
+        this._radio.commands.execute('theme:save');
     },
 });

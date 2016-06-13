@@ -41,7 +41,7 @@ export default Marionette.ItemView.extend({
 
         this._fragment = fragment;
 
-        if ( storage && storage.hiddenLayers && storage.hiddenLayers.indexOf(this.model.get('_id')) > -1 ) {
+        if ( storage && storage.hiddenLayers && storage.hiddenLayers.indexOf(this.model.get('uniqid')) > -1 ) {
             this._layerIsVisible = false;
         }
         else {
@@ -53,7 +53,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         return {
-            'description': marked( this.model.get('description') ),
+            'description': marked( this.model.get('description') || '' ),
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
@@ -91,12 +91,12 @@ export default Marionette.ItemView.extend({
         if ( this._layerIsVisible ) {
             this._radio.commands.execute( 'map:showLayer', this.model );
 
-            hiddenLayers = _.without( hiddenLayers, this.model.get('_id') );
+            hiddenLayers = _.without( hiddenLayers, this.model.get('uniqid') );
         }
         else {
             this._radio.commands.execute( 'map:hideLayer', this.model );
 
-            hiddenLayers = _.union( hiddenLayers, [this.model.get('_id')] );
+            hiddenLayers = _.union( hiddenLayers, [this.model.get('uniqid')] );
         }
 
         newState = _.extend( oldState, { 'hiddenLayers': hiddenLayers } );

@@ -6,11 +6,8 @@ import CONST from '../const';
 
 
 export default Backbone.RelationalModel.extend({
-    idAttribute: '_id',
-
-    urlRoot: CONST.apiPath + 'layer',
-
     defaults: {
+        'uniqid': undefined,
         'type': CONST.layerType.overpass,
         'name': undefined,
         'description': undefined,
@@ -27,6 +24,13 @@ export default Backbone.RelationalModel.extend({
 
         // Overpass type specific
         'overpassRequest': undefined,
+    },
+
+    initialize: function () {
+        if (!this.get('uniqid')) {
+            let uniqid = this.cid +'_'+ new Date().getTime();
+            this.set('uniqid', uniqid);
+        }
     },
 
     /**

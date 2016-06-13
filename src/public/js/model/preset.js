@@ -6,15 +6,18 @@ import CONST from '../const';
 
 
 export default Backbone.RelationalModel.extend({
-    idAttribute: '_id',
-
-    urlRoot: CONST.apiPath + 'preset',
-
     defaults: {
-        'themeId': undefined,
+        'uniqid': undefined,
         'name': undefined,
         'description': undefined,
         'order': undefined,
         'tags': [], // [{'key': '', 'value': '', 'readOnly': true}, [...]]
+    },
+
+    initialize: function () {
+        if (!this.get('uniqid')) {
+            let uniqid = this.cid +'_'+ new Date().getTime();
+            this.set('uniqid', uniqid);
+        }
     },
 });

@@ -28,7 +28,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-        var layers = this._radio.reqres.request('layers'),
+        var layers = this.model.get('layers'),
         selectLayerListView = new SelectLayerListView({ 'collection': layers });
 
         this.getRegion('layerList').show( selectLayerListView );

@@ -35,12 +35,12 @@ export default Marionette.CollectionView.extend({
             })[0];
 
             presetModel.set({'order': i});
-            presetModel.save();
 
             i++;
 
         }, this);
 
+        this.options.theme.save();
         this.collection.sort();
     },
 });

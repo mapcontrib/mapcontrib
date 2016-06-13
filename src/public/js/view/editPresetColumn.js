@@ -33,8 +33,11 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-        var presets = this._radio.reqres.request('presets'),
-        editPresetListView = new EditPresetListView({ 'collection': presets });
+        var presets = this.model.get('presets'),
+        editPresetListView = new EditPresetListView({
+            'collection': presets,
+            'theme': this.model
+        });
 
         this.getRegion('presetList').show( editPresetListView );
     },

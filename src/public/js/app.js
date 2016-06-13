@@ -56,8 +56,6 @@ export default Marionette.Application.extend({
         this._window = window;
         this._user = new UserModel( window.user );
         this._theme = new ThemeModel( window.theme );
-        this._layers = new LayerCollection( window.layers );
-        this._presets = new PresetCollection( window.presets );
         this._radio = Wreqr.radio.channel('global');
 
 
@@ -87,14 +85,6 @@ export default Marionette.Application.extend({
 
     getTheme: function () {
         return this._theme;
-    },
-
-    getLayers: function () {
-        return this._layers;
-    },
-
-    getPresets: function () {
-        return this._presets;
     },
 
     isLogged: function () {

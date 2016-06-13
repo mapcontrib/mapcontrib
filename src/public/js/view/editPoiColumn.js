@@ -31,8 +31,11 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-        var layers = this._radio.reqres.request('layers'),
-        editLayerListView = new EditLayerListView({ 'collection': layers });
+        var layers = this.model.get('layers'),
+        editLayerListView = new EditLayerListView({
+            'collection': layers,
+            'theme': this.model
+        });
 
         this.getRegion('layerList').show( editLayerListView );
     },

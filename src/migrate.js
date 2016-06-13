@@ -51,10 +51,11 @@ export default class Migrate {
                         layers[ themeId ] = [];
                     }
 
+                    layer.type = this._CONST.layerType.overpass;
+                    layer.uniqid = layer._id.toString();
+
                     delete layer._id;
                     delete layer.themeId;
-
-                    layer.type = this._CONST.layerType.overpass;
 
                     layers[ themeId ].push(layer);
                 }
@@ -98,6 +99,8 @@ export default class Migrate {
                     if ( !presets[ themeId ] ) {
                         presets[ themeId ] = [];
                     }
+
+                    preset.uniqid = preset._id.toString();
 
                     delete preset._id;
                     delete preset.themeId;

@@ -2,6 +2,8 @@
 import passport from 'passport';
 import { Strategy as OpenStreetMapStrategy } from 'passport-openstreetmap';
 import { ObjectID } from 'mongodb';
+import themeApi from './api/theme';
+
 
 
 function connect(passportConnectMethod, req, res) {
@@ -90,18 +92,34 @@ export default function Passport  (app, db, config) {
                         user[key] = userData[key];
                     }
 
-                    collection.updateOne({
-                        '_id': user._id
-                    },
-                    user,
-                    { 'safe': true },
-                    (err, results) => {
-                        if (results) {
-                            req.session.user = user;
-                            return done(err, user);
+                    themeApi.api.findFromOwnerId(user._id.toString())
+                    .then((themes) => {
+                        req.session.themes = [];
+
+                        for (let i in themes) {
+                            let themeId = themes[i]._id.toString();
+
+                            if (
+                                req.session.themes.indexOf( themeId ) === -1 ||
+                                themes[i].owners.indexOf('*') !== -1
+                            ) {
+                                req.session.themes.push( themeId );
+                            }
                         }
 
-                        return done(err);
+                        collection.updateOne({
+                            '_id': user._id
+                        },
+                        user,
+                        { 'safe': true },
+                        (err, results) => {
+                            if (results) {
+                                req.session.user = user;
+                                return done(err, user);
+                            }
+
+                            return done(err);
+                        });
                     });
                 }
                 else {

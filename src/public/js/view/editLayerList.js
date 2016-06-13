@@ -36,12 +36,12 @@ export default Marionette.CollectionView.extend({
             })[0];
 
             layerModel.set({'order': i});
-            layerModel.save();
 
             i++;
 
         }, this);
 
+        this.options.theme.save();
         this.collection.sort();
     },
 });

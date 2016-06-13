@@ -6,10 +6,6 @@ import LayerModel from '../model/layer';
 
 
 export default Backbone.Collection.extend({
-    url: function () {
-        return CONST.apiPath + 'theme/'+ this.options.themeId +'/layers';
-    },
-
     model: LayerModel,
 
     comparator: 'order',
@@ -21,11 +17,11 @@ export default Backbone.Collection.extend({
     },
 
     onAdd: function (model) {
-        if (model.get('_id')) {
+        if (typeof model.get('order') !== 'undefined') {
             return;
         }
 
-        var max_order_model = _.max( this.models, function (model) {
+        let max_order_model = _.max( this.models, function (model) {
             return model.get('order') || 0;
         }),
         max_order = (max_order_model.get('order') || 0);
