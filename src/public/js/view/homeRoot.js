@@ -86,7 +86,8 @@ export default Marionette.LayoutView.extend({
             'reset': true,
             'merge': false,
             'data': {
-                'q': searchString
+                'q': searchString,
+                'hasLayer': true
             }
         });
     },

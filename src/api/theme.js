@@ -122,7 +122,7 @@ let api = {
         let collection = options.database.collection('theme');
         let filters = {};
 
-        if (req.get('hasLayer')) {
+        if (req.query.hasLayer) {
             filters.layers = {
                 '$exists': true,
                 '$not': {
