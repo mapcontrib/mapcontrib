@@ -34,6 +34,10 @@ export default Marionette.LayoutView.extend({
         this._document = this._app.getDocument();
         this._searchTimeout = null;
         this.collection = new ThemeCollection();
+
+        if (window.highlightList) {
+            this.collection.add(window.highlightList);
+        }
     },
 
     onRender: function () {

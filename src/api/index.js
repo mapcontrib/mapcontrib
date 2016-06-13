@@ -29,12 +29,39 @@ export default function Api(app, db, CONST){
     // app.delete('/api/theme/:_id', isLoggedIn, themeApi.api.delete);
 
     app.get('/', (req, res) => {
+        let clientConfig = config.get('client');
         let templateVars = {
             'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
-            'config': JSON.stringify( config.get('client') )
+            'config': JSON.stringify( clientConfig ),
+            'highlightList': []
         };
 
-        res.render('home', templateVars);
+        if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
+            let promises = [];
+
+            for (let fragment of clientConfig.highlightedThemes) {
+                promises.push(
+                    themeApi.api.findFromFragment(fragment)
+                );
+            }
+
+            Promise.all(promises)
+            .then((themeObjects) => {
+                let highlightList = [];
+
+                for (let themeObject of themeObjects) {
+                    highlightList.push(themeObject);
+                }
+
+                templateVars.highlightList = JSON.stringify( highlightList );
+
+                res.render('home', templateVars);
+            })
+            .catch( onPromiseError.bind(this, res) );
+        }
+        else {
+            res.render('home', templateVars);
+        }
     });
 
 
