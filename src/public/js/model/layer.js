@@ -16,7 +16,6 @@ export default Backbone.RelationalModel.extend({
         'description': undefined,
         'visible': true,
         'dataEditable': true,
-        'overpassRequest': undefined,
         'minZoom': 14,
         'popupContent': undefined,
         'order': undefined,
@@ -25,6 +24,9 @@ export default Backbone.RelationalModel.extend({
         'markerIconType': CONST.map.markerIconType.library,
         'markerIcon': undefined,
         'markerIconUrl': undefined,
+
+        // Overpass type specific
+        'overpassRequest': undefined,
     },
 
     /**
