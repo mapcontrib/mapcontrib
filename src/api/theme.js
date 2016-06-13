@@ -1,5 +1,6 @@
 
 import crypto from 'crypto';
+import Diacritics from 'diacritic';
 import { ObjectID } from 'mongodb';
 import ThemeModel from '../public/js/model/theme';
 
@@ -114,6 +115,16 @@ let api = {
 
     getAll: function (req, res) {
         let collection = options.database.collection('theme');
+        let filters = {};
+
+        if (req.get('hasLayer')) {
+            filters.layers = {
+                '$exists': true,
+                '$not': {
+                    '$size': 0
+                }
+            };
+        }
 
         if ( req.query.fragment ) {
             api.findFromFragment(req.query.fragment)
@@ -128,7 +139,9 @@ let api = {
         }
 
 
-        collection.find()
+        collection.find(
+            filters
+        )
         .toArray((err, results) => {
             if(err) {
                 res.sendStatus(500);
@@ -153,8 +166,50 @@ let api = {
 
                 return true;
             }
+            else if ( req.query.q ) {
+                if (req.query.q.length < 3) {
+                    res.status(400).send('Query too short');
+                    return;
+                }
 
-            res.send(results);
+                let query = Diacritics.clean(req.query.q);
+                let re = new RegExp(`${query}`, 'i');
+                let filteredResults = [];
+
+                for (let theme of results) {
+                    let layerSearchableStrings = [];
+
+                    if (theme.layers) {
+                        for (let layer of theme.layers) {
+                            layerSearchableStrings.push(
+                                [
+                                    layer.name,
+                                    layer.description,
+                                    layer.overpassRequest
+                                ].join(' ')
+                            );
+                        }
+                    }
+
+                    let searchableString = [
+                            theme.name,
+                            theme.description,
+                            theme.fragment,
+                            layerSearchableStrings.join(' ')
+                    ].join(' ');
+
+                    searchableString = Diacritics.clean(searchableString);
+
+                    if ( re.test(searchableString) ) {
+                        filteredResults.push(theme);
+                    }
+                }
+
+                res.send(filteredResults);
+            }
+            else {
+                res.send(results);
+            }
         });
     },
 

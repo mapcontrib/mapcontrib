@@ -1,6 +1,8 @@
 
 
 @import 'app.less';
+@import 'ui/themeThumbList.less';
+
 
 
 .main_header .logo {
@@ -43,25 +45,4 @@ input.search + label .icon {
     cursor: text;
     font-size: 18px;
     color: darken(@darkGray, 10%);
-}
-
-
-.search_results > div {
-    margin-bottom: 20px;
-}
-
-.mini_theme {
-    height: 150px;
-    background-color: @lightGray;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    .title {
-        font-size: 14px;
-        text-align: center;
-        margin: 0;
-        padding: 7px 8px 5px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
 }
