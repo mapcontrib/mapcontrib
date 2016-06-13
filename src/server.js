@@ -16,13 +16,16 @@ import cookieParser from 'cookie-parser';
 import errorHandler from 'errorhandler';
 import connectMongo from 'connect-mongo';
 
-import CONST from './public/js/const';
+import SERVER_CONST from './const';
+import PUBLIC_CONST from './public/js/const';
 import config from 'config';
 import Database from './database';
 import Migrate from './migrate';
 import Api from './api';
 import Passport from './passport';
 
+
+const CONST = _.extend(SERVER_CONST, PUBLIC_CONST);
 
 
 
@@ -69,7 +72,7 @@ database.connect((err, db) => {
         throw err;
     }
 
-    let migrate = new Migrate(db);
+    let migrate = new Migrate(db, CONST);
 
     migrate.start()
     .then(() => {

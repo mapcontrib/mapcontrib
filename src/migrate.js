@@ -17,8 +17,9 @@ function dummyPromiseCallback (resolve, reject, err) {
 
 
 export default class Migrate {
-    constructor (db) {
+    constructor (db, CONST) {
         this._db = db;
+        this._CONST = CONST;
     }
 
     start () {
@@ -52,6 +53,8 @@ export default class Migrate {
 
                     delete layer._id;
                     delete layer.themeId;
+
+                    layer.type = this._CONST.layerType.overpass;
 
                     layers[ themeId ].push(layer);
                 }

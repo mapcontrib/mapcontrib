@@ -11,7 +11,7 @@ export default Backbone.RelationalModel.extend({
     urlRoot: CONST.apiPath + 'layer',
 
     defaults: {
-        'themeId': undefined,
+        'type': CONST.layerType.overpass,
         'name': undefined,
         'description': undefined,
         'visible': true,

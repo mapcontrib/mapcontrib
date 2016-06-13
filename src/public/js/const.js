@@ -21,12 +21,6 @@ export default {
         'changesetComment': 'Test from MapContrib (developpement in progress)'
     },
 
-    'pattern': {
-        'integer': /^[0-9]+$/,
-        'mongoId': /^[a-z0-9]{24}$/,
-        'fragment': /^[a-z0-9]{6}$/,
-    },
-
     'tooltip': {
         'showDelay': 500, // ms
         'hideDelay': 0, // ms
@@ -228,4 +222,10 @@ export default {
             }
         },
     },
+
+    'layerType': {
+        'overpass': 'overpass',
+        'osmose': 'osmose',
+        'shape': 'shape',
+    }
 };

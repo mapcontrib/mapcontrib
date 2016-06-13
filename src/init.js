@@ -1,7 +1,11 @@
 
 import readline from 'readline';
 import { ObjectID } from 'mongodb';
+import SERVER_CONST from './const';
+import PUBLIC_CONST from './public/js/const';
 import Database from './database';
+
+const CONST = _.extend(SERVER_CONST, PUBLIC_CONST);
 
 
 
@@ -125,6 +129,7 @@ class Init {
                             },
                             'layers': [
                                 {
+                                    'type': CONST.layerType.overpass,
                                     'name': 'Déchèteries',
                                     'description': 'Déchèteries, centres de tri, etc.',
                                     'overpassRequest': "(node['amenity'='recycling']['recycling_type'='centre']({{bbox}});relation['amenity'='recycling']['recycling_type'='centre']({{bbox}});way['amenity'='recycling']['recycling_type'='centre']({{bbox}}));out body center;>;out skel;",
@@ -136,6 +141,7 @@ class Init {
                                     'markerIcon': 'recycle',
                                 },
                                 {
+                                    'type': CONST.layerType.overpass,
                                     'name': 'Poubelles',
                                     'description': 'Poubelles de toutes sortes',
                                     'overpassRequest': "(node['amenity'='waste_basket']({{bbox}});relation['amenity'='waste_basket']({{bbox}});way['amenity'='waste_basket']({{bbox}}));out body center;>;out skel;",
