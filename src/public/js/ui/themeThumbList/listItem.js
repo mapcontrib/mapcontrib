@@ -10,12 +10,13 @@ export default Marionette.ItemView.extend({
     className: 'col-xs-12 col-sm-4 col-lg-3 append-xs-1',
 
     ui: {
-        'rootElement': '.ui-theme-thumb-theme',
         'markersContainer': '.ui-theme-thumb-markers',
     },
 
-    events: {
-        'click @ui.rootElement': 'onClickRootElement',
+    templateHelpers: function () {
+        return {
+            'href': this.model.buildPath(),
+        };
     },
 
     onRender: function () {
@@ -39,10 +40,4 @@ export default Marionette.ItemView.extend({
             }
         }
     },
-
-    onClickRootElement: function (e) {
-        window.location.replace(
-            this.model.buildPath()
-        );
-    }
 });
