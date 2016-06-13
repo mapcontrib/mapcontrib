@@ -16,12 +16,23 @@
 
     .marker {
         cursor: pointer;
+        font-size: 0;
     }
 }
 
 .ui-theme-thumb-markers {
     position: relative;
     height: 130px;
+    overflow: hidden;
+}
+
+.ui-theme-thumb-tile-1,
+.ui-theme-thumb-tile-2 {
+    position: absolute;
+}
+
+.ui-theme-thumb-tile-2 {
+    left: 256px;
 }
 
 .ui-theme-thumb-marker-0,
