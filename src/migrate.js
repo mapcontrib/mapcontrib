@@ -47,6 +47,10 @@ export default class Migrate {
                 for (let layer of results) {
                     let themeId = layer.themeId;
 
+                    if (!themeId || themeId.length !== 24) {
+                        continue;
+                    }
+
                     if ( !layers[ themeId ] ) {
                         layers[ themeId ] = [];
                     }
@@ -95,6 +99,10 @@ export default class Migrate {
 
                 for (let preset of results) {
                     let themeId = preset.themeId;
+
+                    if (!themeId || themeId.length !== 24) {
+                        continue;
+                    }
 
                     if ( !presets[ themeId ] ) {
                         presets[ themeId ] = [];
