@@ -88,7 +88,8 @@
     "multer": "^0.1.8",
     "passport": "^0.2.1",
     "passport-openstreetmap": "^0.1.2",
-    "serve-static": "^1.9.2"
+    "serve-static": "^1.9.2",
+    "sifter": "^0.5.1"
   },
   "private": true
 }

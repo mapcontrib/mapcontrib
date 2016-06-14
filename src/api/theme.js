@@ -1,7 +1,7 @@
 
 import crypto from 'crypto';
 import Backbone from 'backbone';
-import Diacritics from 'diacritic';
+import Sifter from 'sifter';
 import { ObjectID } from 'mongodb';
 import ThemeModel from '../public/js/model/theme';
 
@@ -177,40 +177,49 @@ let api = {
                     return;
                 }
 
-                let query = Diacritics.clean(req.query.q);
-                let re = new RegExp(`${query}`, 'i');
-                let filteredResults = [];
+                let searchFields = [];
 
                 for (let theme of results) {
-                    let layerSearchableStrings = [];
+                    let layerfields = [];
 
-                    if (theme.layers) {
-                        for (let layer of theme.layers) {
-                            layerSearchableStrings.push(
-                                [
-                                    layer.name,
-                                    layer.description,
-                                    layer.overpassRequest
-                                ].join(' ')
-                            );
-                        }
+                    for (let layer of theme.layers) {
+                        layerfields.push([
+                            layer.name,
+                            layer.description,
+                            layer.overpassRequest
+                        ].join(' '));
                     }
 
-                    let searchableString = [
-                            theme.name,
-                            theme.description,
-                            theme.fragment,
-                            layerSearchableStrings.join(' ')
-                    ].join(' ');
-
-                    searchableString = Diacritics.clean(searchableString);
-
-                    if ( re.test(searchableString) ) {
-                        filteredResults.push(theme);
-                    }
+                    searchFields.push({
+                        'name': theme.name,
+                        'description': theme.description,
+                        'fragment': theme.fragment,
+                        'layers': layerfields.join(' '),
+                    });
                 }
 
-                res.send(filteredResults);
+                let searchResults = [];
+                let sifter = new Sifter(searchFields);
+                let sifterResults = sifter.search(
+                    req.query.q,
+                    {
+                        'fields': [
+                            'name',
+                            'description',
+                            'fragment',
+                            'layers',
+                        ],
+                        'limit': 30
+                    }
+                );
+
+                for (let result of sifterResults.items) {
+                    searchResults.push(
+                        results[ result.id ]
+                    );
+                }
+
+                res.send(searchResults);
             }
             else {
                 res.send(results);
