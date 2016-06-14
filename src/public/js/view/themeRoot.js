@@ -252,7 +252,7 @@ export default Marionette.LayoutView.extend({
         this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
         this._userColumnView = new UserColumnView();
         this._linkColumnView = new LinkColumnView({ 'model': this.model });
-        this._contribColumnView = new ContribColumnView({ 'model': this.model });
+        this._contribColumnView = new ContribColumnView({ 'theme': this.model });
         this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
         this._editPoiColumnView = new EditPoiColumnView({ 'model': this.model });
         this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
