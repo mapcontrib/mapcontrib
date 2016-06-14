@@ -23,6 +23,11 @@ Informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUT
 It will install all the dependancies and test the code.
 
 
+## OpenStreetMap tokens
+
+In order to let the users log in, you have to register a new app on [osm.org](https://openstreetmap.org). When done, you will have two tokens to put in a new `src/config/local.yml` file (manual copy of `src/config/default.yml`).
+
+
 ## Launch the server
 
 By default the application will be available at [http://localhost:8080](http://localhost:8080).
