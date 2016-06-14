@@ -33,7 +33,7 @@ export default function Api(app, db, CONST){
         let templateVars = {
             'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
             'config': JSON.stringify( clientConfig ),
-            'highlightList': []
+            'highlightList': '[]',
         };
 
         if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
