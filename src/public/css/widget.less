@@ -74,7 +74,7 @@
         text-align: justify;
         margin: 0;
     }
-    
+
     h3 {
 		margin: 15px 0 5px 0;
     }
@@ -157,6 +157,30 @@
         &.btn {
             color: @blue;
             text-decoration: none;
+        }
+    }
+
+    .btn-default,
+    a.btn-default {
+        background: inherit;
+        border-color: #ccc;
+        color: @anthracite;
+
+        &:hover,
+        &.focus,
+        &:focus,
+        &.active,
+        &:active {
+            background: @lightGray;
+            border-color: #ccc;
+            color: @anthracite;
+
+            &[disabled],
+            &.disabled {
+                background: @gray;
+                border-color: #ccc;
+                color: @anthracite;
+            }
         }
     }
 
