@@ -1,9 +1,6 @@
 
 debug: false
 
-oauthConsumerKey:
-oauthSecret:
-
 salt: '/m<gkZCXr44_={Zr/=64]ojGhAL;m/q>*@";[Eo,8C<Lht^`WiC$WSP4R,a]eozd~aTG^7'
 
 server:
@@ -16,6 +13,9 @@ mongodb:
 
 
 client:
+    oauthConsumerKey:
+    oauthSecret:
+
     overpassServer: http://overpass-api.de/api/
     overpassTimeout: 120000 # Milliseconds
 

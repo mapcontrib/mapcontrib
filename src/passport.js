@@ -65,8 +65,8 @@ export default function Passport  (app, db, config) {
 
     passport.use(
         new OpenStreetMapStrategy({
-            'consumerKey': config.oauthConsumerKey,
-            'consumerSecret': config.oauthSecret,
+            'consumerKey': config.client.oauthConsumerKey,
+            'consumerSecret': config.client.oauthSecret,
             'callbackURL': '/auth/callback',
             'passReqToCallback': true,
         },
