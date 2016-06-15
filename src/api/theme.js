@@ -16,45 +16,63 @@ function setOptions (hash) {
     options = hash;
 }
 
+function addThemeInUserSession (session, theme) {
+    theme._id = theme._id.toString();
+    session.themes.push( theme._id );
+    return true;
+}
+
 
 let api = {
     post (req, res) {
+        if (!req.session.user) {
+            res.sendStatus(401);
+        }
+
+        api.createTheme( req.session, req.session.user._id.toString() )
+        .then(result => {
+            result._id = result._id.toString();
+            res.send(result);
+        })
+        .catch(errorCode => {
+            res.sendStatus(errorCode);
+        });
+    },
+
+    createTheme (session, userId) {
         Backbone.Relational.store.reset();
 
         let collection = options.database.collection('theme'),
-        model = new ThemeModel(req.body);
+        model = new ThemeModel({
+            'userId': userId,
+            'owners': [ userId ]
+        });
 
-        if ( !model.isValid() ) {
-            res.sendStatus(400);
+        return new Promise((resolve, reject) => {
+            api.getNewFragment()
+            .then(fragment => {
+                model.set('fragment', fragment);
 
-            return true;
-        }
+                collection.insertOne(
+                    model.toJSON(),
+                    {'safe': true},
+                    (err, results) => {
+                        if(err) {
+                            return reject(500);
+                        }
 
-        api.getNewFragment(res)
-        .then((fragment) => {
-            model.set('fragment', fragment);
+                        let result = results.ops[0];
 
-            collection.insertOne(
-                model.toJSON(),
-                {'safe': true},
-                (err, results) => {
-                if(err) {
-                    res.sendStatus(500);
+                        addThemeInUserSession(session, result);
 
-                    return true;
-                }
-
-                let result = results.ops[0];
-                result._id = result._id.toString();
-
-                req.session.themes.push( result._id );
-
-                res.send(result);
+                        resolve(result);
+                    }
+                );
             });
         });
     },
 
-    getNewFragment: function (res) {
+    getNewFragment: function () {
         let collection = options.database.collection('theme'),
         shasum = crypto.createHash('sha1');
 
@@ -70,15 +88,14 @@ let api = {
             })
             .toArray((err, results) => {
                 if(err) {
-                    res.sendStatus(500);
-                    return true;
+                    return reject(500);
                 }
 
                 if (results.length === 0) {
                     resolve(fragment);
                 }
                 else {
-                    return api.getNewFragment(res);
+                    return api.getNewFragment();
                 }
             });
         });

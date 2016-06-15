@@ -50,20 +50,7 @@ export default Marionette.LayoutView.extend({
 
     onClickCreateTheme: function (e) {
         if (this._app.isLogged()) {
-            let userId = this._app.getUser().get('_id');
-            let theme = new ThemeModel({
-                'userId': userId,
-                'owners': [ userId ]
-            });
-
-            theme.save({}, {
-                'success': () => {
-                    window.location.replace(
-                        theme.buildPath()
-                    );
-                },
-                'error': this.displayLoginModal.bind(this)
-            });
+            window.location.replace('/create_theme');
         }
         else {
             this.displayLoginModal();
@@ -98,7 +85,7 @@ export default Marionette.LayoutView.extend({
 
     displayLoginModal: function () {
         let loginModalView = new LoginModalView({
-            'authSuccessCallback': '/',
+            'authSuccessCallback': '/create_theme',
             'authFailCallback': '/'
         });
 

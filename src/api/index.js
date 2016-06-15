@@ -1,7 +1,9 @@
 
+import Backbone from 'backbone';
 import config from 'config';
 import userApi from './user';
 import themeApi from './theme';
+import ThemeModel from '../public/js/model/theme';
 
 
 
@@ -76,6 +78,28 @@ export default function Api(app, db, CONST){
             templateVars.theme = JSON.stringify( themeObject );
 
             res.render('theme', templateVars);
+        })
+        .catch( onPromiseError.bind(this, res) );
+    });
+
+
+    app.get('/create_theme', (req, res) => {
+        if (!req.session.user) {
+            res.sendStatus(401);
+        }
+
+        let userId = req.session.user._id.toString();
+
+        themeApi.api.createTheme(req.session, userId)
+        .then(theme => {
+            Backbone.Relational.store.reset();
+
+            let collection = options.database.collection('theme'),
+            model = new ThemeModel(theme);
+
+            res.redirect(
+                model.buildPath()
+            );
         })
         .catch( onPromiseError.bind(this, res) );
     });
