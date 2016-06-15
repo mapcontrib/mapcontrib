@@ -7,6 +7,7 @@ import Marionette from 'backbone.marionette';
 import CONST from '../const';
 import L from 'leaflet';
 import OverPassLayer from 'leaflet-overpass-layer';
+import MarkerCluster from 'leaflet.markercluster';
 import marked from 'marked';
 import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
@@ -478,6 +479,17 @@ export default Marionette.LayoutView.extend({
     addLayer: function (layerModel, hidden) {
         let split,
         layerGroup = L.layerGroup(),
+        markerCluster = L.markerClusterGroup({
+            'polygonOptions': CONST.map.markerCLusterPolygonOptions,
+            'iconCreateFunction': function(cluster) {
+                let count = cluster.getChildCount();
+                let color = layerModel.get('markerColor');
+
+                return L.divIcon({
+                    html: `<div class="marker-cluster ${color}">${count}</div>`
+                });
+            }
+        }),
         overpassRequest = '',
         originalOverpassRequest = layerModel.get('overpassRequest') || '',
         overpassRequestSplit = originalOverpassRequest.split(';');
@@ -550,7 +562,7 @@ export default Marionette.LayoutView.extend({
                         marker._dataFromOverpass = e;
 
                         this._bindPopupTo(marker, popupContent);
-                        layerGroup.addLayer( marker );
+                        markerCluster.addLayer( marker );
                     }
                     else if ( e.nodes ) {
                         let nodePositions = this._buildPositionArrayFromWayBodyNodes(e, wayBodyNodes);
@@ -572,11 +584,11 @@ export default Marionette.LayoutView.extend({
 
                             polygon._dataFromOverpass = e;
                             this._bindPopupTo(polygon, popupContent);
-                            layerGroup.addLayer( polygon );
+                            markerCluster.addLayer( polygon );
 
                             marker._dataFromOverpass = e;
                             this._bindPopupTo(marker, popupContent);
-                            layerGroup.addLayer( marker );
+                            markerCluster.addLayer( marker );
                         }
                         else {
                             let polyline = L.polyline(
@@ -585,13 +597,15 @@ export default Marionette.LayoutView.extend({
                             );
 
                             this._bindPopupTo(polyline, popupContent);
-                            layerGroup.addLayer( polyline );
+                            markerCluster.addLayer( polyline );
                         }
                     }
                     else {
                         continue;
                     }
                 }
+
+                markerCluster.refreshClusters();
             },
 
             onTimeout: function (xhr) {
@@ -611,6 +625,7 @@ export default Marionette.LayoutView.extend({
             },
         });
 
+        layerGroup.addLayer( markerCluster );
         layerGroup.addLayer( layerGroup._overpassLayer );
 
         this._mapLayers[ layerModel.cid ] = layerGroup;
@@ -635,12 +650,20 @@ export default Marionette.LayoutView.extend({
     },
 
     updateLayerIcons: function (layerModel) {
-        this._mapLayers[ layerModel.cid ].eachLayer(function (layer) {
-            if ( layer._icon ) {
-                layer.setIcon(
-                    MapUi.buildLayerIcon( L, layerModel )
-                );
+        this._mapLayers[ layerModel.cid ].eachLayer(layer => {
+            if (!layer._markerCluster) {
+                return;
             }
+
+            layer.eachLayer(marker => {
+                if ( marker._icon ) {
+                    marker.setIcon(
+                        MapUi.buildLayerIcon( L, layerModel )
+                    );
+                }
+            });
+
+            layer.refreshClusters();
         });
     },
 

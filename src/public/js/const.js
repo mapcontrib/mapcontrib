@@ -11,6 +11,18 @@ else {
 }
 
 
+let colors = {
+    'orange': '#F8981D',
+    'red': '#E85657',
+    'purple': '#553445',
+    'blue': '#38B8E2',
+    'turquoise': '#00B6AD',
+    'green': '#1D9650',
+    'gray': '#eee',
+    'anthracite': '#3B3F45',
+};
+
+
 export default {
     'version': '0.7.0',
 
@@ -20,6 +32,8 @@ export default {
         'changesetCreatedBy': 'MapContrib',
         'changesetComment': 'Test from MapContrib (developpement in progress)'
     },
+
+    'colors': colors,
 
     'tooltip': {
         'showDelay': 500, // ms
@@ -35,16 +49,24 @@ export default {
         },
 
         'wayPolygonOptions': {
-            'color': '#F8981D',
+            'color': colors.orange,
             'weight': 2,
             'opacity': 1,
             'fillOpacity': 0.5,
         },
 
         'wayPolylineOptions': {
-            'color': '#F8981D',
+            'color': colors.orange,
             'weight': 8,
             'opacity': 0.8
+        },
+
+        'markerCLusterPolygonOptions': {
+            'stroke': false,
+            'color': colors.anthracite,
+            'weight': 2,
+            'opacity': 1,
+            'fillOpacity': 0.5,
         },
 
         'markers': {
