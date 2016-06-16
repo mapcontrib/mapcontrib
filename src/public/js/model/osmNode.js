@@ -10,7 +10,7 @@ export default Backbone.Model.extend({
         'version': 0,
         'timestamp': new Date().toISOString(),
         'lat': undefined,
-        'lng': undefined,
+        'lon': undefined,
         'tags': [], // [{'key': '', 'value': ''}, [...]]
     }
 });

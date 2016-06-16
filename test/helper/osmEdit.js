@@ -33,16 +33,10 @@ describe('OsmEditHelper', () => {
             osmEdit.setUid(3569284);
             osmEdit.setTimestamp('2016-03-24T12:21:30.546Z');
             osmEdit.setDisplayName('Walter White');
-            osmEdit.setTags([
-                {
-                    'key': 'a key',
-                    'value': 'a value'
-                },
-                {
-                    'key': 'another key',
-                    'value': 'another value'
-                }
-            ]);
+            osmEdit.setTags({
+                'a key': 'a value',
+                'another key': 'another value'
+            });
 
 
             let returnedXml = osmEdit._buildXml(85964251);

@@ -13,7 +13,7 @@ export default class OsmEdit{
         this._changesetCreatedBy = null;
         this._changesetComment = null;
         this._lat = null;
-        this._lng = null;
+        this._lon = null;
         this._tags = [];
         this._uid = null;
         this._version = 0;
@@ -288,8 +288,8 @@ export default class OsmEdit{
                 }
             )
             .then(
-                nodeId => {
-                    resolve(nodeId);
+                version => {
+                    resolve(version);
                 },
                 err => {
                     reject(err);
@@ -343,6 +343,10 @@ export default class OsmEdit{
         osmElement = xml.createElement('osm'),
         nodeElement = xml.createElement('node');
 
+        if (this._id) {
+            nodeElement.setAttribute('id', this._id);
+        }
+
         nodeElement.setAttribute('changeset', changesetId);
         nodeElement.setAttribute('version', this._version);
         nodeElement.setAttribute('timestamp', this._timestamp);
@@ -351,17 +355,13 @@ export default class OsmEdit{
         nodeElement.setAttribute('lat', this._lat);
         nodeElement.setAttribute('lon', this._lon);
 
-        this._tags.forEach(tag => {
-            if (!tag.key || !tag.value) {
-                return false;
-            }
-
+        for (let key in this._tags) {
             let tagElement = xml.createElement('tag');
 
-            tagElement.setAttribute('k', tag.key);
-            tagElement.setAttribute('v', tag.value);
+            tagElement.setAttribute('k', key);
+            tagElement.setAttribute('v', this._tags[key]);
             nodeElement.appendChild(tagElement);
-        });
+        }
 
         osmElement.appendChild(nodeElement);
         xml.appendChild(osmElement);
@@ -510,13 +510,13 @@ export default class OsmEdit{
                 },
                 'content': xml,
             },
-            (err, nodeId) => {
+            (err, version) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                resolve(nodeId);
+                resolve(version);
             });
         });
     }

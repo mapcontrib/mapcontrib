@@ -8,6 +8,4 @@ export default Backbone.Collection.extend({
     url: CONST.apiPath + 'theme',
 
     model: ThemeModel,
-
-    comparator: 'name',
 });
