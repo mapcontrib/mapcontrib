@@ -49,12 +49,12 @@ export default Marionette.LayoutView.extend({
         }
 
         this.model = new OsmNodeModel({
-            'id': this.options.dataFromOverpass.id,
-            'type': this.options.dataFromOverpass.type,
-            'version': this.options.dataFromOverpass.version + 1,
-            'lat': this.options.dataFromOverpass.lat,
-            'lng': this.options.dataFromOverpass.lon,
-            'tags': this.options.dataFromOverpass.tags,
+            'id': this.options.osmElement.id,
+            'type': this.options.osmElement.type,
+            'version': this.options.osmElement.version,
+            'lat': this.options.osmElement.lat,
+            'lon': this.options.osmElement.lon,
+            'tags': this.options.osmElement.tags,
         });
 
         this._osmEdit = new OsmEditHelper(
@@ -99,7 +99,7 @@ export default Marionette.LayoutView.extend({
             id = this.model.get('id');
 
             this.model.set('tags', osmEdit.getTags());
-            this.model.set('version', osmEdit.getVersion() + 1);
+            this.model.set('version', osmEdit.getVersion());
 
             if (Cache.exists(type, id)) {
                 if (Cache.isNewerThanCache(type, id, version)) {
@@ -110,9 +110,8 @@ export default Marionette.LayoutView.extend({
 
                     this.model.set('id', elementFromCache.id);
                     this.model.set('type', elementFromCache.type);
-                    this.model.set('version', elementFromCache.version + 1);
                     this.model.set('lat', elementFromCache.lat);
-                    this.model.set('lng', elementFromCache.lon);
+                    this.model.set('lon', elementFromCache.lon);
                     this.model.set('tags', elementFromCache.tags);
                 }
             }
@@ -185,7 +184,7 @@ export default Marionette.LayoutView.extend({
         this._osmEdit.setVersion(this.model.get('version'));
         this._osmEdit.setTimestamp(this.model.get('timestamp'));
         this._osmEdit.setLatitude(this.model.get('lat'));
-        this._osmEdit.setLongitude(this.model.get('lng'));
+        this._osmEdit.setLongitude(this.model.get('lon'));
         this._osmEdit.setTags(this.model.get('tags'));
         this._osmEdit.setUid(this._user.get('osmId'));
         this._osmEdit.setDisplayName(this._user.get('displayName'));
@@ -197,17 +196,19 @@ export default Marionette.LayoutView.extend({
 
     sendContributionToOSM: function () {
         this._osmEdit.send()
-        .then((elementId) => {
+        .then((version) => {
+            this.model.set('version', version);
+
             this._radio.commands.execute(
                 'map:updatePoiPopup',
                 this.options.layerModel,
-                this.model.attributes
+                this.model.toJSON()
             );
 
             Cache.save(this.model.attributes);
         })
-        .catch(function (err) {
-            var notification = new ContributionErrorNotificationView({
+        .catch((err) => {
+            let notification = new ContributionErrorNotificationView({
                 'retryCallback': this.sendContributionToOSM.bind(this)
             });
 

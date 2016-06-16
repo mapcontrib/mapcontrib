@@ -7,6 +7,7 @@ import Marionette from 'backbone.marionette';
 import CONST from '../const';
 import L from 'leaflet';
 import OverPassLayer from 'leaflet-overpass-layer';
+import MarkerCluster from 'leaflet.markercluster';
 import marked from 'marked';
 import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
@@ -39,6 +40,7 @@ import OsmNodeModel from '../model/osmNode';
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
 import Cache from '../core/cache';
+import MapData from '../core/mapData';
 
 import template from '../../templates/themeRoot.ejs';
 
@@ -141,8 +143,8 @@ export default Marionette.LayoutView.extend({
     initialize: function (app) {
         this._app = app;
         this.model = this._app.getTheme();
-        this._layers = this.model.get('layers');
-        this._presets = this.model.get('presets');
+        this._layerCollection = this.model.get('layers');
+        this._presetCollection = this.model.get('presets');
         this._user = this._app.getUser();
 
         this._window = this._app.getWindow();
@@ -151,6 +153,8 @@ export default Marionette.LayoutView.extend({
         this._seenZoomNotification = false;
         this._minDataZoom = 0;
         this._poiLoadingSpool = [];
+
+        this._mapData = new MapData();
 
         this._radio = Wreqr.radio.channel('global');
 
@@ -218,8 +222,8 @@ export default Marionette.LayoutView.extend({
             'map:fitBounds': (latLngBounds) => {
                 this.fitBounds( latLngBounds );
             },
-            'editPoiData': (dataFromOverpass, layerModel) => {
-                this.onCommandEditPoiData( dataFromOverpass, layerModel );
+            'editPoiData': (osmElement, layerModel) => {
+                this.onCommandEditPoiData( osmElement, layerModel );
             },
         });
 
@@ -374,10 +378,7 @@ export default Marionette.LayoutView.extend({
         }).addTo(this._map);
 
 
-
-        this._mapLayers = {};
-
-        _.each(this._layers.getVisibleLayers(), (layerModel) => {
+        _.each(this._layerCollection.getVisibleLayers(), (layerModel) => {
             if ( hiddenLayers.indexOf(layerModel.get('uniqid')) === -1 ) {
                 this.addLayer( layerModel );
             }
@@ -389,7 +390,7 @@ export default Marionette.LayoutView.extend({
 
         this.updateMinDataZoom();
 
-        this._layers.on('destroy', (model) => {
+        this._layerCollection.on('destroy', (model) => {
             this.removeLayer(model);
         }, this);
 
@@ -478,11 +479,23 @@ export default Marionette.LayoutView.extend({
     addLayer: function (layerModel, hidden) {
         let split,
         layerGroup = L.layerGroup(),
+        markerCluster = L.markerClusterGroup({
+            'polygonOptions': CONST.map.markerCLusterPolygonOptions,
+            'animate': false,
+            'animateAddingMarkers': false,
+            'iconCreateFunction': function(cluster) {
+                let count = cluster.getChildCount();
+                let color = layerModel.get('markerColor');
+
+                return L.divIcon({
+                    html: `<div class="marker-cluster ${color}">${count}</div>`
+                });
+            }
+        }),
         overpassRequest = '',
         originalOverpassRequest = layerModel.get('overpassRequest') || '',
         overpassRequestSplit = originalOverpassRequest.split(';');
 
-        layerGroup._poiIds = [];
 
         overpassRequestSplit.forEach(function (row) {
             if ( !row.toLowerCase().trim() ) {
@@ -511,7 +524,7 @@ export default Marionette.LayoutView.extend({
             overpassRequest += split.join(' ') + ';';
         });
 
-        layerGroup._overpassLayer = new OverPassLayer({
+        let overpassLayer = new OverPassLayer({
             'debug': config.debug,
             'endPoint': config.overpassServer,
             'minZoom': layerModel.get('minZoom'),
@@ -533,11 +546,11 @@ export default Marionette.LayoutView.extend({
                         continue;
                     }
 
-                    if ( layerGroup._poiIds.indexOf(e.id) > -1 ) {
+                    if ( this._mapData.hasOsmElement(e, layerModel.cid) ) {
                         continue;
                     }
 
-                    layerGroup._poiIds.push(e.id);
+                    this._mapData.setOsmElement(e, layerModel.cid);
 
                     let popupContent = this.getLayerPopupContent(layerModel, e);
 
@@ -547,10 +560,9 @@ export default Marionette.LayoutView.extend({
                             'icon': icon
                         });
 
-                        marker._dataFromOverpass = e;
-
                         this._bindPopupTo(marker, popupContent);
-                        layerGroup.addLayer( marker );
+                        markerCluster.addLayer( marker );
+                        this._mapData.addMarker(marker, e, layerModel.cid);
                     }
                     else if ( e.nodes ) {
                         let nodePositions = this._buildPositionArrayFromWayBodyNodes(e, wayBodyNodes);
@@ -570,13 +582,13 @@ export default Marionette.LayoutView.extend({
                             );
 
 
-                            polygon._dataFromOverpass = e;
                             this._bindPopupTo(polygon, popupContent);
-                            layerGroup.addLayer( polygon );
+                            markerCluster.addLayer( polygon );
+                            this._mapData.addPolygon(polygon, e, layerModel.cid);
 
-                            marker._dataFromOverpass = e;
                             this._bindPopupTo(marker, popupContent);
-                            layerGroup.addLayer( marker );
+                            markerCluster.addLayer( marker );
+                            this._mapData.addMarker(marker, e, layerModel.cid);
                         }
                         else {
                             let polyline = L.polyline(
@@ -585,13 +597,16 @@ export default Marionette.LayoutView.extend({
                             );
 
                             this._bindPopupTo(polyline, popupContent);
-                            layerGroup.addLayer( polyline );
+                            markerCluster.addLayer( polyline );
+                            this._mapData.addPolyline(polyline, e, layerModel.cid);
                         }
                     }
                     else {
                         continue;
                     }
                 }
+
+                markerCluster.refreshClusters();
             },
 
             onTimeout: function (xhr) {
@@ -611,9 +626,12 @@ export default Marionette.LayoutView.extend({
             },
         });
 
-        layerGroup.addLayer( layerGroup._overpassLayer );
+        layerGroup.addLayer( markerCluster );
+        layerGroup.addLayer( overpassLayer );
 
-        this._mapLayers[ layerModel.cid ] = layerGroup;
+        this._mapData.setRootLayer(layerGroup, layerModel.cid);
+        this._mapData.setMarkerCluster(markerCluster, layerModel.cid);
+        this._mapData.setOverpassLayer(overpassLayer, layerModel.cid);
 
         if ( !hidden ) {
             this.showLayer( layerModel );
@@ -623,86 +641,109 @@ export default Marionette.LayoutView.extend({
     removeLayer: function (layerModel) {
         this.hideLayer( layerModel );
 
-        delete( this._mapLayers[ layerModel.cid ] );
+        this._mapData.removeLayerId(layerModel.cid);
     },
 
     showLayer: function (layerModel) {
-        this._map.addLayer( this._mapLayers[ layerModel.cid ] );
+        this._map.addLayer(
+            this._mapData.getRootLayer(layerModel.cid)
+        );
     },
 
     hideLayer: function (layerModel) {
-        this._map.removeLayer( this._mapLayers[ layerModel.cid ] );
+        this._map.removeLayer(
+            this._mapData.getRootLayer(layerModel.cid)
+        );
     },
 
     updateLayerIcons: function (layerModel) {
-        this._mapLayers[ layerModel.cid ].eachLayer(function (layer) {
-            if ( layer._icon ) {
-                layer.setIcon(
-                    MapUi.buildLayerIcon( L, layerModel )
-                );
-            }
-        });
+        let markers = this._mapData.getMarkersFromLayer(layerModel.cid);
+        let markerCluster = this._mapData.getMarkerCluster(layerModel.cid);
+
+        for (let marker of markers) {
+            marker.refreshIconOptions(
+                MapUi.buildLayerIconOptions( layerModel )
+            );
+        }
+
+        markerCluster.refreshClusters();
     },
 
     updateLayerPopups: function (layerModel) {
-        this._mapLayers[ layerModel.cid ].eachLayer((layer) => {
-            if ( layer._dataFromOverpass ) {
-                let popupContent = this.getLayerPopupContent( layerModel, layer._dataFromOverpass );
+        let osmElements = this._mapData.getOsmElements(layerModel.cid);
 
-                if ( popupContent ) {
-                    if ( layer._popup ) {
-                        layer._popup.setContent( popupContent );
+        for (let type in osmElements) {
+            for (let id in osmElements[type]) {
+                let osmElement = osmElements[type][id];
+                let layers = this._mapData.getObjectsFromOsmElement(
+                    osmElement,
+                    layerModel.cid
+                );
+
+                for (let layer of layers) {
+                    let popupContent = this.getLayerPopupContent( layerModel, osmElement );
+
+                    if ( popupContent ) {
+                        if ( layer._popup ) {
+                            layer._popup.setContent( popupContent );
+                        }
+                        else {
+                            layer.bindPopup(
+                                L.popup({
+                                    'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
+                                    'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
+                                })
+                                .setContent( popupContent )
+                            );
+                        }
                     }
                     else {
-                        layer.bindPopup(
-                            L.popup({
-                                'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
-                                'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
-                            })
-                            .setContent( popupContent )
-                        );
-                    }
-                }
-                else {
-                    if ( layer._popup ) {
-                        layer
-                        .closePopup()
-                        .unbindPopup();
+                        if ( layer._popup ) {
+                            layer
+                            .closePopup()
+                            .unbindPopup();
+                        }
                     }
                 }
             }
-        });
+        }
     },
 
     updateLayerMinZoom: function (layerModel) {
-        var overpassLayer = this._mapLayers[ layerModel.cid ]._overpassLayer;
+        let overpassLayer = this._mapData.getOverpassLayer(layerModel.cid);
 
         overpassLayer.options.minZoom = layerModel.get('minZoom');
 
         this.updateMinDataZoom();
     },
 
-    updatePoiPopup: function (layerModel, node) {
-        this._mapLayers[ layerModel.cid ].eachLayer((layer) => {
-            if ( !layer._dataFromOverpass || layer._dataFromOverpass.id !== node.id ) {
-                return;
-            }
+    updatePoiPopup: function (layerModel, osmElement) {
+        this._mapData.setOsmElement(osmElement, layerModel.cid);
 
-            layer._dataFromOverpass = node;
+        let layers = this._mapData.getObjectsFromOsmElement(
+            osmElement,
+            layerModel.cid
+        );
 
-            layer.setPopupContent( this.getLayerPopupContent( layerModel, layer._dataFromOverpass ) );
-        });
+        for (let layer of layers) {
+            layer.setPopupContent(
+                this.getLayerPopupContent(
+                    layerModel,
+                    osmElement
+                )
+            );
+        }
     },
 
-    getLayerPopupContent: function (layerModel, dataFromOverpass) {
+    getLayerPopupContent: function (layerModel, osmElement) {
         if ( !layerModel.get('popupContent') ) {
             return '';
         }
 
         let re,
-        type = dataFromOverpass.type,
-        id = dataFromOverpass.id,
-        version = dataFromOverpass.version,
+        type = osmElement.type,
+        id = osmElement.id,
+        version = osmElement.version,
         globalWrapper = this._document.createElement('div'),
         editButtonWrapper = this._document.createElement('div'),
         editButton = this._document.createElement('button'),
@@ -713,14 +754,14 @@ export default Marionette.LayoutView.extend({
                 Cache.remove(type, id);
             }
             else {
-                dataFromOverpass = Cache.get(type, id, version);
+                osmElement = Cache.get(type, id, version);
             }
         }
 
-        for (var k in dataFromOverpass.tags) {
+        for (var k in osmElement.tags) {
             re = new RegExp('{'+ k +'}', 'g');
 
-            popupContent = popupContent.replace( re, dataFromOverpass.tags[k] );
+            popupContent = popupContent.replace( re, osmElement.tags[k] );
         }
 
         popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
@@ -736,7 +777,7 @@ export default Marionette.LayoutView.extend({
             editButton.innerHTML = this._document.l10n.getSync('editTheseInformations');
 
             $(editButton).on('click', () => {
-                this._radio.commands.execute('editPoiData', dataFromOverpass, layerModel);
+                this._radio.commands.execute('editPoiData', osmElement, layerModel);
             });
 
             editButtonWrapper.className = 'text-center prepend-xs-1 edit_poi_data';
@@ -748,10 +789,10 @@ export default Marionette.LayoutView.extend({
         return globalWrapper;
     },
 
-    onCommandEditPoiData: function (dataFromOverpass, layerModel) {
+    onCommandEditPoiData: function (osmElement, layerModel) {
         var view = new EditPoiDataColumnView({
             'app': this._app,
-            'dataFromOverpass': dataFromOverpass,
+            'osmElement': osmElement,
             'layerModel': layerModel,
         });
 
@@ -965,13 +1006,13 @@ export default Marionette.LayoutView.extend({
     },
 
     updateMinDataZoom: function () {
-        if (this._layers.models.length === 0) {
+        if (this._layerCollection.models.length === 0) {
             this._minDataZoom = 0;
         }
         else {
             let minDataZoom = 100000;
 
-            _.each(this._layers.models, function (layerModel) {
+            _.each(this._layerCollection.models, function (layerModel) {
                 if ( layerModel.get('minZoom') < minDataZoom ) {
                     minDataZoom = layerModel.get('minZoom');
                 }
@@ -1096,10 +1137,10 @@ export default Marionette.LayoutView.extend({
             'type': 'node',
             'version': 0,
             'lat': e.latlng.lat,
-            'lng': e.latlng.lng,
+            'lon': e.latlng.lng,
         });
 
-        if ( this._presets.models.length === 0 ) {
+        if ( this._presetCollection.models.length === 0 ) {
             this.showContribForm({
                 'model': osmNodeModel
             });

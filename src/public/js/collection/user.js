@@ -8,6 +8,4 @@ export default Backbone.Collection.extend({
     url: CONST.apiPath + 'user',
 
     model: UserModel,
-
-    comparator: 'displayName',
 });

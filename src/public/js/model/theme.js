@@ -18,16 +18,16 @@ export default Backbone.RelationalModel.extend({
 
     relations: [
         {
-            type: Backbone.HasMany,
-            key: 'layers',
-            relatedModel: Layer,
-            collectionType: LayerCollection,
+            'type': Backbone.HasMany,
+            'key': 'layers',
+            'relatedModel': Layer,
+            'collectionType': LayerCollection,
         },
         {
-            type: Backbone.HasMany,
-            key: 'presets',
-            relatedModel: Preset,
-            collectionType: PresetCollection,
+            'type': Backbone.HasMany,
+            'key': 'presets',
+            'relatedModel': Preset,
+            'collectionType': PresetCollection,
         },
     ],
 

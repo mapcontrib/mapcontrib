@@ -9,7 +9,7 @@ import LayerModel from '../../src/public/js/model/layer';
 
 
 describe('MapUi', () => {
-    describe('_buildLayerIconOptions', () => {
+    describe('buildLayerIconOptions', () => {
         it('Should return icon options (icon type: library)', () => {
             const expected = {
                 iconSize: [ 36, 42 ],
@@ -26,7 +26,7 @@ describe('MapUi', () => {
                 'markerColor': 'purple',
             });
 
-            let returnedOptions = MapUi._buildLayerIconOptions(layerModel);
+            let returnedOptions = MapUi.buildLayerIconOptions(layerModel);
 
             assert.deepEqual(returnedOptions, expected);
         });
@@ -47,7 +47,7 @@ describe('MapUi', () => {
                 'markerColor': 'yellow',
             });
 
-            let returnedOptions = MapUi._buildLayerIconOptions(layerModel);
+            let returnedOptions = MapUi.buildLayerIconOptions(layerModel);
 
             assert.deepEqual(returnedOptions, expected);
         });

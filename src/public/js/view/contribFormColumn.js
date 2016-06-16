@@ -42,7 +42,7 @@ export default Marionette.LayoutView.extend({
     _buildNewMarker: function () {
         var pos = new L.LatLng(
             this.model.get('lat'),
-            this.model.get('lng')
+            this.model.get('lon')
         ),
         icon = MapUi.buildLayerIcon(
             L,
@@ -126,7 +126,7 @@ export default Marionette.LayoutView.extend({
         osmEdit.setVersion(this.model.get('version'));
         osmEdit.setTimestamp(this.model.get('timestamp'));
         osmEdit.setLatitude(this.model.get('lat'));
-        osmEdit.setLongitude(this.model.get('lng'));
+        osmEdit.setLongitude(this.model.get('lon'));
         osmEdit.setTags(this.model.get('tags'));
         osmEdit.setUid(this._user.get('osmId'));
         osmEdit.setDisplayName(this._user.get('displayName'));
