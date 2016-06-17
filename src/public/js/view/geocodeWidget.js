@@ -30,18 +30,11 @@ export default Marionette.LayoutView.extend({
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
 
-        switch ( this.model.get('geocoder') ) {
-            case CONST.geocodeType.nominatim:
-                this._geocoder = leafletControlGeocoder.nominatim();
-                break;
-            default:
-                this._geocoder = leafletControlGeocoder.photon();
-        }
-
         this.on('open', this.onOpen);
     },
 
     open: function () {
+        this._setGeocoder();
         this.triggerMethod('open');
     },
 
@@ -50,6 +43,7 @@ export default Marionette.LayoutView.extend({
     },
 
     toggle: function () {
+        this._setGeocoder();
         this.triggerMethod('toggle');
     },
 
@@ -118,7 +112,7 @@ export default Marionette.LayoutView.extend({
             for (let result of results) {
                 elements.push(
                     $( this.templateResultItem({
-                        'name': this.buildGeocodeResultName(result),
+                        'name': this._buildGeocodeResultName(result),
                     }))
                     .on('click', this.onGeocodeResultClick.bind(this))
                 );
@@ -141,12 +135,12 @@ export default Marionette.LayoutView.extend({
         this.close();
     },
 
-    buildGeocodeResultName: function (result) {
+    _buildGeocodeResultName: function (result) {
         switch ( this.model.get('geocoder') ) {
-            case CONST.geocodeType.nominatim:
+            case CONST.geocoder.nominatim:
                 return result.name;
 
-            case CONST.geocodeType.photon:
+            case CONST.geocoder.photon:
                 let infos = [ result.properties.name ];
 
                 if (result.properties.country) {
@@ -212,4 +206,14 @@ export default Marionette.LayoutView.extend({
             current.click();
         }
     },
+
+    _setGeocoder: function () {
+        switch ( this.model.get('geocoder') ) {
+            case CONST.geocoder.nominatim:
+                this._geocoder = leafletControlGeocoder.nominatim();
+                break;
+            default:
+                this._geocoder = leafletControlGeocoder.photon();
+        }
+    }
 });

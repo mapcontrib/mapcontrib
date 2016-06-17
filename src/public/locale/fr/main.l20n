@@ -119,6 +119,9 @@
 <editSettingColumn_position "Positionnement">
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
+<editSettingColumn_geocoder "Geocoder">
+<editSettingColumn_photon "Photon">
+<editSettingColumn_nominatim "Nominatim">
 
 
 /* Edit POI column */

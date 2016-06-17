@@ -2,6 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from '../../templates/editSettingColumn.ejs';
+import CONST from '../const';
 
 
 export default Marionette.ItemView.extend({
@@ -20,6 +21,11 @@ export default Marionette.ItemView.extend({
         'colorButtons': '.color-buttons .btn',
         'themePositionKeepOld': '#theme_position_keep_old',
         'themePositionSetNew': '#theme_position_set_new',
+        'geocoderSection': '.geocoder',
+        'photonSection': '.photon',
+        'nominatimSection': '.nominatim',
+        'themeGeocoderPhoton': '#theme_geocoder_photon',
+        'themeGeocoderNominatim': '#theme_geocoder_nominatim',
     },
 
     events: {
@@ -42,6 +48,28 @@ export default Marionette.ItemView.extend({
         .filter( '.'+ this.model.get('color') )
         .find('i')
         .addClass('fa-check');
+
+
+        if ( config.availableGeocoders.length > 1 ) {
+            this.ui.geocoderSection.removeClass('hide');
+
+            let modelGeocoder = this.model.get('geocoder');
+
+            if ( config.availableGeocoders.indexOf(modelGeocoder) > -1 ) {
+                let geocoder = modelGeocoder.ucfirst();
+                this.ui[`themeGeocoder${geocoder}`].prop('checked', 'true');
+            }
+            else {
+                let defaultGeocoder = config.defaultGeocoder.ucfirst();
+                this.ui[`themeGeocoder${defaultGeocoder}`].prop('checked', 'true');
+            }
+
+            for (let geocoder in CONST.geocoder) {
+                if ( config.availableGeocoders.indexOf(geocoder) > -1 ) {
+                    this.ui[`${geocoder}Section`].removeClass('hide');
+                }
+            }
+        }
     },
 
     onBeforeOpen: function () {
@@ -75,6 +103,17 @@ export default Marionette.ItemView.extend({
             this.model.set('center', mapCenter);
             this.model.set('zoomLevel', mapZoomLevel);
         }
+
+        if (config.availableGeocoders.length > 1) {
+            for (let geocoder in CONST.geocoder) {
+                let ucFirstGeocoder = geocoder.ucfirst();
+                if ( this.ui[`themeGeocoder${ucFirstGeocoder}`].prop('checked') === true ) {
+                    this.model.set('geocoder', geocoder);
+                    console.log(geocoder);
+                }
+            }
+        }
+
 
         this.model.save({}, {
             'success': () => {

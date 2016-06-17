@@ -250,8 +250,8 @@ export default {
         'osmose': 'osmose',
         'shape': 'shape',
     },
-    
-    'geocodeType': {
+
+    'geocoder': {
         'nominatim': 'nominatim',
         'photon': 'photon'
     },

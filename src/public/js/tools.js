@@ -21,3 +21,10 @@ if (!String.prototype.trim) {
         return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
     };
 }
+
+
+if (!String.prototype.ucfirst) {
+    String.prototype.ucfirst = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+}

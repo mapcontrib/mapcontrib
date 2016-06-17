@@ -47,8 +47,10 @@ export default Backbone.RelationalModel.extend({
     },
 
     initialize: function() {
-        if (typeof window !== 'undefined' && typeof config !== 'undefined') {
-            this.set('geocoder', CONST.geocodeType[ config.defaultGeocoder ]);
+        if (!this.get('geocoder')) {
+            if (typeof window !== 'undefined' && typeof config !== 'undefined') {
+                this.set('geocoder', CONST.geocoder[ config.defaultGeocoder ]);
+            }
         }
     },
 
