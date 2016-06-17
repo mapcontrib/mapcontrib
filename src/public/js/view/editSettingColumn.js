@@ -109,7 +109,6 @@ export default Marionette.ItemView.extend({
                 let ucFirstGeocoder = geocoder.ucfirst();
                 if ( this.ui[`themeGeocoder${ucFirstGeocoder}`].prop('checked') === true ) {
                     this.model.set('geocoder', geocoder);
-                    console.log(geocoder);
                 }
             }
         }
