@@ -249,5 +249,10 @@ export default {
         'overpass': 'overpass',
         'osmose': 'osmose',
         'shape': 'shape',
-    }
+    },
+    
+    'geocodeType': {
+        'nominatim': 'nominatim',
+        'photon': 'photon'
+    },
 };
