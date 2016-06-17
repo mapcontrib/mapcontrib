@@ -22,14 +22,17 @@ let colors = {
     'anthracite': '#3B3F45',
 };
 
+let version = '0.7.10';
+
+
 
 export default {
-    'version': '0.7.0',
+    'version': version,
 
     'apiPath': '/api/',
 
     'osm': {
-        'changesetCreatedBy': 'MapContrib',
+        'changesetCreatedBy': `MapContrib ${version}`,
         'changesetComment': 'Test from MapContrib (developpement in progress)'
     },
 
