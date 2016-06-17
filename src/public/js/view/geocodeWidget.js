@@ -114,7 +114,7 @@ export default Marionette.LayoutView.extend({
                     $( this.templateResultItem({
                         'name': this._buildGeocodeResultName(result),
                     }))
-                    .on('click', this.onGeocodeResultClick.bind(this))
+                    .on('click', this.onGeocodeResultClick.bind(this, result))
                 );
 
                 i++;
@@ -129,7 +129,7 @@ export default Marionette.LayoutView.extend({
 
     },
 
-    onGeocodeResultClick: function () {
+    onGeocodeResultClick: function (result) {
         this._radio.commands.execute('map:fitBounds', result.bbox);
 
         this.close();
