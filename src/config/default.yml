@@ -30,3 +30,8 @@ client:
     newPoiMarkerShape: marker1
     newPoiMarkerIcon: star
     newPoiMarkerColor: gray
+
+    defaultGeocoder: photon
+    activatedGeocoders:
+        - photon
+        - nominatim

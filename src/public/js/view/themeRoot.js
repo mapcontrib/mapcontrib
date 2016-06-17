@@ -251,7 +251,7 @@ export default Marionette.LayoutView.extend({
         }
 
 
-        this._geocodeWidgetView = new GeocodeWidgetView();
+        this._geocodeWidgetView = new GeocodeWidgetView({ 'model': this.model });
         this._selectPoiColumnView = new SelectPoiColumnView({ 'model': this.model });
         this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
         this._userColumnView = new UserColumnView();

@@ -30,12 +30,13 @@ export default Marionette.LayoutView.extend({
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
 
-
-        this._geocodeType = 'photon';
-        this._geocoder = leafletControlGeocoder.photon();
-
-        // this._geocodeType = 'nominatim';
-        // this._geocoder = leafletControlGeocoder.nominatim();
+        switch ( this.model.get('geocoder') ) {
+            case CONST.geocodeType.nominatim:
+                this._geocoder = leafletControlGeocoder.nominatim();
+                break;
+            default:
+                this._geocoder = leafletControlGeocoder.photon();
+        }
 
         this.on('open', this.onOpen);
     },
@@ -141,7 +142,7 @@ export default Marionette.LayoutView.extend({
     },
 
     buildGeocodeResultName: function (result) {
-        switch (this._geocodeType) {
+        switch ( this.model.get('geocoder') ) {
             case CONST.geocodeType.nominatim:
                 return result.name;
 
