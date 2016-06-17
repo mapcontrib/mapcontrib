@@ -32,6 +32,6 @@ client:
     newPoiMarkerColor: gray
 
     defaultGeocoder: photon
-    activatedGeocoders:
+    availableGeocoders:
         - photon
         - nominatim
