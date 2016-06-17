@@ -249,5 +249,10 @@ export default {
         'overpass': 'overpass',
         'osmose': 'osmose',
         'shape': 'shape',
-    }
+    },
+
+    'geocoder': {
+        'nominatim': 'nominatim',
+        'photon': 'photon'
+    },
 };

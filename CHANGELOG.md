@@ -7,4 +7,5 @@
 * Adds proper configuration files.
 * Adds an automatic migration script, executed when the server is launched.
 * Plugin Leaflet.MarkerCluster added.
+* It is now possible to choose the geocoder betwwen Nominatim and Photon (default).
 * Multiple fixes and other additions.
