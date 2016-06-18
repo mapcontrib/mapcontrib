@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1
+
+* Fixes the themes selection when logging in.
+
 ## 0.8.0
 
 * There is now a proper home page, with search form and highlighted themes.
