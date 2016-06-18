@@ -22,18 +22,18 @@ export default Marionette.Behavior.extend({
     initialize: function (options) {
         this._radio = Wreqr.radio.channel('global');
 
-        this.listenTo(this._radio.vent, 'notification:closeAll', this.onClose);
+        this.listenTo(this._radio.vent, 'contextual:closeAll', this.onClose);
 
         this._isOpened = false;
     },
 
     onRender: function () {
         $('body').append( this.el );
-        this.ui.notification.attr('tabindex', 0);
+        this.ui.contextual.attr('tabindex', 0);
     },
 
     onDestroy: function () {
-        this.stopListening(this._radio.vent, 'notification:closeAll');
+        this.stopListening(this._radio.vent, 'contextual:closeAll');
     },
 
     onToggle: function () {
@@ -53,7 +53,7 @@ export default Marionette.Behavior.extend({
         }
 
         window.requestAnimationFrame(() => {
-            this.ui.notification.addClass('open').focus();
+            this.ui.contextual.addClass('open').focus();
 
             if (this.view.onAfterOpen) {
                 this.view.onAfterOpen();
@@ -62,7 +62,7 @@ export default Marionette.Behavior.extend({
     },
 
     onClose: function () {
-        var mapElement = this._radio.reqres.request('map')._container;
+        let mapElement = this._radio.reqres.request('map')._container;
 
         this._isOpened = false;
 
@@ -73,7 +73,7 @@ export default Marionette.Behavior.extend({
         }
 
         window.requestAnimationFrame(() => {
-            this.ui.notification.on('transitionend', () => {
+            this.ui.contextual.on('transitionend', () => {
                 if (this.view.onAfterClose) {
                     this.view.onAfterClose();
                 }

@@ -23,6 +23,28 @@
     }
 }
 
+.contextual {
+    position: fixed;
+    transition: transform ease-out .2s;
+    outline: 0;
+
+    &.top {
+        left: 50%;
+        top: 0;
+        transform: translate(-50%, -100%);
+    }
+
+    &.bottom {
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%, 100%);
+    }
+
+    &.open {
+        transform: translate(-50%, 0);
+    }
+}
+
 
 .column {
     z-index: @columnZIndex;
@@ -65,13 +87,12 @@
 .notification {
     z-index: @notificationZIndex;
     bottom: 0;
-    right: 0;
     width: @notificationWidth;
     max-width: 100%;
     padding-bottom: 10px;
+    text-align: justify;
 
     p {
-        text-align: justify;
         margin: 0;
     }
 
@@ -86,6 +107,19 @@
             right: 0;
             z-index: 10;
         }
+    }
+}
+
+
+.contextual {
+    z-index: @contextualZIndex;
+    width: @contextualWidth;
+    max-width: 100%;
+    padding-bottom: 10px;
+    text-align: justify;
+
+    h3 {
+		margin: 15px 0 5px 0;
     }
 }
 
@@ -801,6 +835,7 @@
 .colored,
 .column,
 .notification,
+.contextual,
 .pop,
 .fullpage {
     &.orange {

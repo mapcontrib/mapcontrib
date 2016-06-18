@@ -612,15 +612,11 @@ export default Marionette.LayoutView.extend({
             onTimeout: function (xhr) {
                 var notification = new OverpassTimeoutNotificationView({ 'model': layerModel });
 
-                $('body').append( notification.el );
-
                 notification.open();
             },
 
             onError: function (xhr) {
                 var notification = new OverpassErrorNotificationView({ 'model': layerModel });
-
-                $('body').append( notification.el );
 
                 notification.open();
             },
@@ -886,7 +882,7 @@ export default Marionette.LayoutView.extend({
     showContribForm: function (options) {
         options.user = this._user;
 
-        var view = new ContribFormColumnView( options );
+        let view = new ContribFormColumnView( options );
 
         this.getRegion('contribFormColumn').show( view );
 
@@ -1118,26 +1114,9 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickContrib: function (e) {
-        e.stopPropagation();
-
-        this.showContribCrosshair();
-
-        this._map.once('click', this.onClickMapToAddPoint.bind(this));
-
-        $('body').one('click.contribCrosshair', this.hideContribCrosshair.bind(this) );
-        $('body').on('keyup.contribCrosshair', (e) => {
-            if ( e.keyCode === 27 ) {
-                this.hideContribCrosshair();
-            }
-        });
-    },
-
-    onClickMapToAddPoint: function (e) {
-        var osmNodeModel = new OsmNodeModel({
+        let osmNodeModel = new OsmNodeModel({
             'type': 'node',
             'version': 0,
-            'lat': e.latlng.lat,
-            'lon': e.latlng.lng,
         });
 
         if ( this._presetCollection.models.length === 0 ) {
@@ -1149,16 +1128,6 @@ export default Marionette.LayoutView.extend({
             this._contribColumnView.setModel( osmNodeModel );
             this._contribColumnView.open();
         }
-    },
-
-    showContribCrosshair: function () {
-        this.ui.map.css('cursor', 'crosshair');
-    },
-
-    hideContribCrosshair: function () {
-        $('body').off('.contribCrosshair', this.hideContribCrosshair.bind(this) );
-
-        this.ui.map.css('cursor', 'default');
     },
 
     onClickEditSetting: function () {

@@ -49,6 +49,9 @@
 <close "Fermer">
 <save "Enregistrer">
 <cancel "Annuler">
+<next "Suivant">
+<previous "Précédent">
+<back "Retour">
 <customize "Personnaliser">
 <letsGo "C'est parti">
 <empty "Vide">
@@ -217,3 +220,11 @@
 <uiFormNodeTags_value placeholder:"Valeur">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
+
+
+/* Contribution form column */
+<contribFormColumn_placeOnMap "Placer sur la carte">
+
+
+/* New POI placement contextual */
+<newPoiPlacementContextual_text "Placez la croix à l'exact endroit du nœud.">

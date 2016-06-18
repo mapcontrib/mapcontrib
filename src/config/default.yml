@@ -27,9 +27,9 @@ client:
     shareIframeHeight: 400
     shareIframeHeightUnit: px
 
-    newPoiMarkerShape: marker1
+    newPoiMarkerShape: marker3
     newPoiMarkerIcon: star
-    newPoiMarkerColor: gray
+    newPoiMarkerColor: yellow
 
     defaultGeocoder: photon
     availableGeocoders:

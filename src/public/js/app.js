@@ -23,6 +23,7 @@ import L20nBehavior from './behavior/l20n';
 import ColumnBehavior from './behavior/column';
 import ModalBehavior from './behavior/modal';
 import NotificationBehavior from './behavior/notification';
+import ContextualBehavior from './behavior/contextual';
 import WidgetBehavior from './behavior/widget';
 
 
@@ -47,6 +48,7 @@ export default Marionette.Application.extend({
                 'column': ColumnBehavior,
                 'modal': ModalBehavior,
                 'notification': NotificationBehavior,
+                'contextual': ContextualBehavior,
                 'widget': WidgetBehavior,
             };
         };

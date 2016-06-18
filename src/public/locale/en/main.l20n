@@ -49,6 +49,9 @@
 <close "Close">
 <save "Save">
 <cancel "Cancel">
+<next "Next">
+<previous "Previous">
+<back "Back">
 <customize "Customize">
 <letsGo "Let's go">
 <empty "Empty">
@@ -217,3 +220,11 @@
 <uiFormNodeTags_value placeholder:"Value">
 <uiFormNodeTags_keyReadOnly "Read-only key">
 <uiFormNodeTags_valueReadOnly "Read-only value">
+
+
+/* Contribution form column */
+<contribFormColumn_placeOnMap "Place on the map">
+
+
+/* New POI placement contextual */
+<newPoiPlacementContextual_text "Put the cross the exact node place.">
