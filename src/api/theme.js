@@ -287,9 +287,21 @@ let api = {
             }
 
             collection.find({
-                $or: [
-                    { 'owners': ownerId },
-                    { 'owners': '*' }
+                '$or': [
+                    {
+                        'owners': {
+                            '$elemMatch': {
+                                '$eq': ownerId
+                            }
+                        }
+                    },
+                    {
+                        'owners': {
+                            '$elemMatch': {
+                                '$eq': '*'
+                            }
+                        }
+                    },
                 ]
             })
             .toArray((err, results) => {
