@@ -15,8 +15,8 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'change @ui.key': 'onChangeKey',
-        'change @ui.value': 'onChangeValue',
+        'blur @ui.key': 'onBlurKey',
+        'blur @ui.value': 'onBlurValue',
         'change @ui.keyReadOnly': 'onChangeKeyReadOnly',
         'change @ui.valueReadOnly': 'onChangeValueReadOnly',
         'click @ui.removeBtn': 'onClickRemoveBtn',
@@ -47,12 +47,18 @@ export default Marionette.ItemView.extend({
         );
     },
 
-    onChangeKey: function (e) {
-        this.model.set('key', this.ui.key.val());
+    onBlurKey: function (e) {
+        this.model.set(
+            'key',
+            this.ui.key.val().trim()
+        );
     },
 
-    onChangeValue: function (e) {
-        this.model.set('value', this.ui.value.val());
+    onBlurValue: function (e) {
+        this.model.set(
+            'value',
+            this.ui.value.val().trim()
+        );
     },
 
     onChangeKeyReadOnly: function (e) {
