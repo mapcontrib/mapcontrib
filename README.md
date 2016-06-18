@@ -80,6 +80,8 @@ MapContrib is what it is because of some crazy people and free and open source p
 * Frédéric Rodrigo: The force he has ([Osmose](https://github.com/osm-fr/osmose-backend))
 * Yohan Boniface ([uMap](https://bitbucket.org/yohanboniface/umap), [Leaflet-Storage](https://github.com/yohanboniface/Leaflet.Storage))
 * Noémie Lehuby ([OpenBeerMap](https://github.com/OpenBeerMap/OpenBeerMap.github.io))
+* Adrien Pavie ([OpenLevelUp](http://openlevelup.net), [YoHours](http://projets.pavie.info/yohours))
+* Les Libres Géographes
 * OpenStreetMap ([OSM](http://osm.org))
 * Leaflet ([Website](http://leafletjs.com))
 * Overpass API ([Website](http://www.overpass-api.de), [Overpass Turbo](http://overpass-turbo.eu))
