@@ -1,125 +1,90 @@
 
+import $ from 'jquery';
+import Backbone from 'backbone';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-],
-function (
+export default Marionette.Behavior.extend({
+    ui: {
+        'closeBtn': '.close_btn',
+    },
 
-    _,
-    Backbone,
-    Marionette
-) {
+    events: {
+        'click @ui.modal': 'onClickModal',
+        'click @ui.closeBtn': 'onClickClose',
+        'keyup': 'onKeyUp',
+    },
 
-    'use strict';
+    initialize: function (options) {
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-    return Marionette.Behavior.extend({
+    onRender: function () {
+        this.ui.modal.attr('tabindex', 0);
+    },
 
-        ui: {
+    onShow: function () {
+        this.onOpen();
+    },
 
-            'closeBtn': '.close_btn',
-        },
+    onOpen: function () {
+        if (this.view.onBeforeOpen) {
+            this.view.onBeforeOpen();
+        }
 
-        events: {
+        setTimeout(() => {
+            window.requestAnimationFrame(() => {
+                this.ui.modal.addClass('open').focus();
 
-            'click @ui.modal': 'onClickModal',
-            'click @ui.closeBtn': 'onClickClose',
-            'keyup': 'onKeyUp',
-        },
-
-        initialize: function (options) {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
-
-        onRender: function () {
-
-            this.ui.modal.attr('tabindex', 0);
-        },
-
-        onShow: function () {
-
-            this.onOpen();
-        },
-
-        onOpen: function () {
-
-            var self = this;
-
-            if (this.view.onBeforeOpen) {
-
-                this.view.onBeforeOpen();
-            }
-
-            setTimeout(function () {
-
-                window.requestAnimationFrame(function () {
-
-                    self.ui.modal.addClass('open').focus();
-
-                    if (self.view.onAfterOpen) {
-
-                        self.view.onAfterOpen();
-                    }
-                });
-            }, 100);
-        },
-
-        onClose: function () {
-
-            var self = this,
-            mapElement = this._radio.reqres.request('map')._container;
-
-            $(mapElement).focus();
-
-            if (this.view.onBeforeClose) {
-
-                this.view.onBeforeClose();
-            }
-
-            window.requestAnimationFrame(function () {
-
-                self.ui.modal.on('transitionend', function () {
-
-                    if (self.view.onAfterClose) {
-
-                        self.view.onAfterClose();
-                    }
-
-                    self.view.destroy();
-                })
-                .removeClass('open');
+                if (this.view.onAfterOpen) {
+                    this.view.onAfterOpen();
+                }
             });
-        },
+        }, 100);
+    },
 
-        onClickModal: function (e) {
+    onClose: function () {
+        var map = this._radio.reqres.request('map');
 
-            if (e.target !== this.ui.modal[0]) {
+        if (map) {
+            $(map._container).focus();
+        }
 
-                return;
-            }
+        if (this.view.onBeforeClose) {
+            this.view.onBeforeClose();
+        }
 
-            this.onClose();
-        },
+        window.requestAnimationFrame(() => {
+            this.ui.modal.on('transitionend', () => {
+                if (this.view.onAfterClose) {
+                    this.view.onAfterClose();
+                }
 
-        onClickClose: function () {
+                this.view.destroy();
+            })
+            .removeClass('open');
+        });
+    },
 
-            this.onClose();
-        },
+    onClickModal: function (e) {
+        if (e.target !== this.ui.modal[0]) {
+            return;
+        }
 
-        onKeyUp: function (e) {
+        this.onClose();
+    },
 
-            switch ( e.keyCode ) {
+    onClickClose: function () {
+        this.onClose();
+    },
 
-                case 27:
+    onKeyUp: function (e) {
+        switch ( e.keyCode ) {
+            case 27:
 
-                    this.onClose();
-                    break;
-            }
-        },
-    });
+                this.onClose();
+                break;
+        }
+    },
 });

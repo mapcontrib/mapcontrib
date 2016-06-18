@@ -1,20 +1,8 @@
 
+import Backbone from 'backbone';
+import PresetNodeTagsModel from './model';
 
-define([
 
-    'backbone',
-    'ui/form/presetNodeTags/model',
-],
-function (
-
-    Backbone,
-    PresetNodeTagsModel
-) {
-
-    'use strict';
-
-    return Backbone.Collection.extend({
-
-        model: PresetNodeTagsModel,
-    });
+export default Backbone.Collection.extend({
+    model: PresetNodeTagsModel,
 });

@@ -1,139 +1,100 @@
 
+import $ from 'jquery';
+import Backbone from 'backbone';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-],
-function (
+export default Marionette.Behavior.extend({
+    defaults: {
+        'destroyOnClose': false,
+    },
 
-    _,
-    Backbone,
-    Marionette
-) {
+    ui: {
+        'closeBtn': '.close_btn',
+    },
 
-    'use strict';
+    events: {
+        'click @ui.closeBtn': 'onClickClose',
+        'keyup': 'onKeyUp',
+    },
 
-    return Marionette.Behavior.extend({
+    initialize: function (options) {
+        this._radio = Wreqr.radio.channel('global');
 
-        defaults: {
+        this.listenTo(this._radio.vent, 'column:closeAll', this.onClose);
 
-            'destroyOnClose': false,
-        },
+        this._isOpened = false;
+    },
 
-        ui: {
+    onRender: function () {
+        this.ui.column.attr('tabindex', 0);
+    },
 
-            'closeBtn': '.close_btn',
-        },
+    onDestroy: function () {
+        this.stopListening(this._radio.vent, 'column:closeAll');
+    },
 
-        events: {
+    onToggle: function () {
+        if ( this._isOpened ) {
+            this.onClose();
+        }
+        else {
+            this.onOpen();
+        }
+    },
 
-            'click @ui.closeBtn': 'onClickClose',
-            'keyup': 'onKeyUp',
-        },
+    onOpen: function () {
+        this._isOpened = true;
 
-        initialize: function (options) {
+        if (this.view.onBeforeOpen) {
+            this.view.onBeforeOpen();
+        }
 
-            var self = this;
+        window.requestAnimationFrame(() => {
+            this.ui.column.addClass('open').focus();
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+            if (this.view.onAfterOpen) {
+                this.view.onAfterOpen();
+            }
+        });
+    },
 
-            this.listenTo(this._radio.vent, 'column:closeAll', this.onClose);
+    onClose: function () {
+        var mapElement = this._radio.reqres.request('map')._container;
 
-            this._isOpened = false;
-        },
+        this._isOpened = false;
 
-        onRender: function () {
+        $(mapElement).focus();
 
-            this.ui.column.attr('tabindex', 0);
-        },
+        if (this.view.onBeforeClose) {
+            this.view.onBeforeClose();
+        }
 
-        onDestroy: function () {
+        window.requestAnimationFrame(() => {
+            this.ui.column.on('transitionend', () => {
+                if (this.view.onAfterClose) {
+                    this.view.onAfterClose();
+                }
 
-            this.stopListening(this._radio.vent, 'column:closeAll');
-        },
+                if ( this.options.destroyOnClose ) {
+                    this.view.destroy();
+                }
+            })
+            .removeClass('open');
+        });
+    },
 
-        onToggle: function () {
+    onClickClose: function () {
+        this.onClose();
+    },
 
-            if ( this._isOpened ) {
+    onKeyUp: function (e) {
+        switch ( e.keyCode ) {
+            case 27:
 
                 this.onClose();
-            }
-            else {
-
-                this.onOpen();
-            }
-        },
-
-        onOpen: function () {
-
-            var self = this;
-
-            this._isOpened = true;
-
-            if (this.view.onBeforeOpen) {
-
-                this.view.onBeforeOpen();
-            }
-
-            window.requestAnimationFrame(function () {
-
-                self.ui.column.addClass('open').focus();
-
-                if (self.view.onAfterOpen) {
-
-                    self.view.onAfterOpen();
-                }
-            });
-        },
-
-        onClose: function () {
-
-            var self = this,
-            mapElement = this._radio.reqres.request('map')._container;
-
-            this._isOpened = false;
-
-            $(mapElement).focus();
-
-            if (this.view.onBeforeClose) {
-
-                this.view.onBeforeClose();
-            }
-
-            window.requestAnimationFrame(function () {
-
-                self.ui.column.on('transitionend', function () {
-
-                    if (self.view.onAfterClose) {
-
-                        self.view.onAfterClose();
-                    }
-
-                    if ( self.options.destroyOnClose ) {
-
-                        self.view.destroy();
-                    }
-                })
-                .removeClass('open');
-            });
-        },
-
-        onClickClose: function () {
-
-            this.onClose();
-        },
-
-        onKeyUp: function (e) {
-
-            switch ( e.keyCode ) {
-
-                case 27:
-
-                    this.onClose();
-                    break;
-            }
-        },
-    });
+                break;
+        }
+    },
 });

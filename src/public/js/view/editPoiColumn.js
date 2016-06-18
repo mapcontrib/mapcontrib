@@ -1,86 +1,59 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import EditLayerListView from './editLayerList';
+import template from '../../templates/editPoiColumn.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'view/editPoiLayerList',
-],
-function (
+export default Marionette.LayoutView.extend({
+    template: template,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    EditPoiLayerListView
-) {
+    behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-    'use strict';
+    regions: {
+        'layerList': '.rg_layer_list',
+    },
 
-    return Marionette.LayoutView.extend({
+    ui: {
+        'column': '#edit_poi_column',
+        'addButton': '.add_btn',
+    },
 
-        template: JST['editPoiColumn.html'],
+    events: {
+        'click @ui.addButton': 'onClickAdd',
+    },
 
-        behaviors: {
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-            'l20n': {},
-            'column': {},
-        },
+    onRender: function () {
+        var layers = this.model.get('layers'),
+        editLayerListView = new EditLayerListView({
+            'collection': layers,
+            'theme': this.model
+        });
 
-        regions: {
+        this.getRegion('layerList').show( editLayerListView );
+    },
 
-            'layerList': '.rg_layer_list',
-        },
+    onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-        ui: {
+    open: function () {
+        this.triggerMethod('open');
+    },
 
-            'column': '#edit_poi_column',
-            'addButton': '.add_btn',
-        },
+    close: function () {
+        this.triggerMethod('close');
+    },
 
-        events: {
-
-            'click @ui.addButton': 'onClickAdd',
-        },
-
-        initialize: function () {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
-
-        onRender: function () {
-
-            var poiLayers = this._radio.reqres.request('poiLayers'),
-            editPoiLayerListView = new EditPoiLayerListView({ 'collection': poiLayers });
-
-            this.getRegion('layerList').show( editPoiLayerListView );
-        },
-
-        onBeforeOpen: function () {
-
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
-
-        open: function () {
-
-            this.triggerMethod('open');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-
-        onClickAdd: function () {
-
-            this._radio.commands.execute('column:showPoiLayer');
-        },
-    });
+    onClickAdd: function () {
+        this._radio.commands.execute('column:showLayer');
+    },
 });

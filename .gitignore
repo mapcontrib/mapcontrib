@@ -1,8 +1,6 @@
-dist
 node_modules
-src/public/bower_components
-src/public/css/app.css
-src/public/css/libraries.css
-src/public/templates/templates.js
-src/npm-debug.log
+src/public/assets
+*bundle.*
+npm-debug.log
 volumes
+local.yml

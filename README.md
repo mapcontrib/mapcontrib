@@ -1,64 +1,88 @@
-# MapContrib
+[![Build Status](https://api.travis-ci.org/MapContrib/MapContrib.svg?branch=develop)](http://travis-ci.org/MapContrib/MapContrib)
+
+# ![MapContrib](logo.png)
+
+> Thematic OpenStreetMap contribution
+
+![MapContrib](screenshot.png)
 
 
-## Contributing with translations
+## Contribution
 
-We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
+Informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 
-## Contributing with code
+## Installation
 
-### Installation
-
-    $ git clone git@github.com:MapContrib/MapContrib.git
-    $ sudo npm install -g grunt grunt-cli bower
+    $ git clone https://github.com/MapContrib/MapContrib.git
+    $ cd MapContrib
     $ npm install
-    $ bower install
-    $ grunt
+    $ npm run build
+    $ npm test
+
+It will install all the dependancies and test the code.
 
 
-### Branches
+## OpenStreetMap tokens
 
-We use [Git Flow](https://github.com/nvie/gitflow) to manage our branches. It means that the master branch is always clean and pointing to the latest public release.
-
-
-### Database
-
-We use MongoDB, go to the `db` directory and execute `import_database.sh`. It will create a database called **mapcontrib**.
-
-### Automatic tasks
-
-A Grunt task watch the files modifications and generate CSS from Less, JST templates from HTML, etc.
-
-You just need to launch:
-
-    $ grunt watch
+In order to let the users log in, you have to register a new app on [osm.org](https://openstreetmap.org). When done, you will have two tokens to put in a new `src/config/local.yml` file (manual copy of `src/config/default.yml`).
 
 
-The server have to be launched with the command:
+## Launch the server
 
-    $ node src/server.js
+By default the application will be available at [http://localhost:8080](http://localhost:8080).
 
-It serves static files and provide the REST API.
+### Docker Compose
 
+#### Launch
 
-### Build
+To launch the Node.js based server.
 
-When your done, you can build a minified version of all the Javascript files and clean up a bit the folders by launching:
+    $ docker-compose up
 
-    $ grunt build
+MongoDB is rather slow to create the database files the first time... The Node.js container will surely break.
+Just wait a few seconds and rerun the up command.
 
-A new directory called **dist** will contain your shiny new MapContrib.
+#### Initial data
+
+Then, you will have to initialize the database, in antoher terminal simply run:
+
+    $ docker-compose run node npm run init
+
+### Manual
+
+#### Configuration
+
+You can create your own configuration file by picking some sections from the `config/default.yml` file.
+
+For example, MapContrib uses MongoDB to store data. By default, it will try to connect to a localhost running MongoDB.
+If you want to use a MongoDB server on another host/port/whatever, create a `config/local.yml` file by picking the mongodb section of the `config/default.yml` file and adapt the configuration.
+
+#### Initial data
+
+To initialize the database the first time, run:
+
+    $ npm run init
+
+#### Launch
+
+To launch the Node.js based server.
+
+    $ npm start
 
 
 ## Thanks
 
 MapContrib is what it is because of some crazy people and free and open source projects. Let's name a few:
 
-* Vincent Bergeot: Just the MapContrib's daddy...
-* Guillaume Amat : Just the MapContrib main developer...
+* Vincent Bergeot: MapContrib's daddy
+* Guillaume Amat: MapContrib's main developer
 * Frédéric Rodrigo: The force he has ([Osmose](https://github.com/osm-fr/osmose-backend))
 * Yohan Boniface ([uMap](https://bitbucket.org/yohanboniface/umap), [Leaflet-Storage](https://github.com/yohanboniface/Leaflet.Storage))
-* Nohémie Lehuby ([OpenBeerMap](https://github.com/OpenBeerMap/OpenBeerMap.github.io))
+* Noémie Lehuby ([OpenBeerMap](https://github.com/OpenBeerMap/OpenBeerMap.github.io))
+* Adrien Pavie ([OpenLevelUp](http://openlevelup.net), [YoHours](http://projets.pavie.info/yohours))
+* Les Libres Géographes
 * OpenStreetMap ([OSM](http://osm.org))
 * Leaflet ([Website](http://leafletjs.com))
+* Overpass API ([Website](http://www.overpass-api.de), [Overpass Turbo](http://overpass-turbo.eu))
+* Mapbox ([Website](https://www.mapbox.com))

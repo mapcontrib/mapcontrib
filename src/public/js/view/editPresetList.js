@@ -1,76 +1,46 @@
 
+import _ from 'underscore';
+import Marionette from 'backbone.marionette';
+import jquery_ui_sortable from 'jquery-ui/sortable';
+import jquery_ui_touch_punch from 'jquery-ui-touch-punch';
+import EditPresetListEmptyView from './editPresetListEmpty';
+import EditPresetListItemView from './editPresetListItem';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'jquery-ui-sortable',
-    'jquery-ui-touch-punch',
-    'view/editPresetListEmpty',
-    'view/editPresetListItem',
-],
-function (
+export default Marionette.CollectionView.extend({
+    childView: EditPresetListItemView,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    jquery_ui_sortable,
-    jquery_ui_touch_punch,
-    EditPresetListEmptyView,
-    EditPresetListItemView
-) {
+    emptyView: EditPresetListEmptyView,
 
-    'use strict';
+    className: 'list-group reorderable removeable',
 
-    return Marionette.CollectionView.extend({
+    onRender: function () {
+        this.$el.sortable({
+            'axis': 'y',
+            'items': 'a',
+            'handle': '.reorder_icon',
+            'update': () => {
+                this.onDnD();
+            }
+        });
+    },
 
-        childView: EditPresetListItemView,
+    onDnD: function (event, ui) {
+        var i = 0,
+        sorted_id_list = this.$el.sortable('toArray');
 
-        emptyView: EditPresetListEmptyView,
+        _.each(sorted_id_list, function (preset_id) {
+            var presetModel = this.collection.filter(function (preset) {
+                return preset.cid === preset_id.replace('preset-', '');
+            })[0];
 
-        className: 'list-group reorderable removeable',
+            presetModel.set({'order': i});
 
-        onRender: function () {
+            i++;
 
-            var self = this;
+        }, this);
 
-            this.$el.sortable({
-
-                'axis': 'y',
-                'items': 'a',
-                'handle': '.reorder_icon',
-                'update': function () {
-
-                    self.onDnD();
-                }
-            });
-        },
-
-        onDnD: function (event, ui) {
-
-            var i = 0,
-            sorted_id_list = this.$el.sortable('toArray');
-
-            _.each(sorted_id_list, function (preset_id) {
-
-                var presetModel = this.collection.filter(function (preset) {
-
-                    return preset.cid === preset_id.replace('preset-', '');
-                })[0];
-
-                presetModel.set({'order': i});
-                presetModel.save();
-
-                i++;
-
-            }, this);
-
-            this.collection.sort();
-        },
-    });
+        this.options.theme.save();
+        this.collection.sort();
+    },
 });

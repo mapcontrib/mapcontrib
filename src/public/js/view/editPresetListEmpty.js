@@ -1,22 +1,8 @@
 
+import Marionette from 'backbone.marionette';
+import template from '../../templates/editPresetListEmpty.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'settings',
-],
-function (
-
-    _,
-    Backbone,
-    settings
-) {
-
-    'use strict';
-
-    return Marionette.ItemView.extend({
-
-        template: JST['editPresetListEmpty.html'],
-    });
+export default Marionette.ItemView.extend({
+    template: template,
 });

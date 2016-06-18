@@ -1,21 +1,61 @@
 
+import _ from 'underscore';
+import CONST from '../const';
 
-define(['const'],
-function (CONST) {
 
-    'use strict';
+export default class MapUi {
+    /**
+     * Returns the POI layer Leaflet icon.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {string} layerModel - Model of the POI layer which we request its icon.
+     * @return {object} - A Leaflet divIcon.
+     */
+    static buildLayerIcon (L, layerModel) {
+        return L.divIcon( MapUi.buildLayerIconOptions(layerModel) );
+    }
+
 
     /**
-     * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
-     * @returns {object} - A Leaflet divIcon.
+     * Returns the POI layer HTML icon.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {string} layerModel - Model of the POI layer which we request its icon.
+     * @return {string} - The HTML tags of the icon.
      */
-    function buildPoiLayerIcon (poiLayerModel) {
+    static buildLayerHtmlIcon (layerModel) {
+        let markerColor = layerModel.get('markerColor');
+        let markerShape = layerModel.get('markerShape');
+        let className = CONST.map.markers[markerShape].className;
+        let iconOptions = MapUi.buildLayerIconOptions(layerModel);
 
-        var markerShape = poiLayerModel.get('markerShape'),
-        markerIcon = poiLayerModel.get('markerIcon'),
-        markerIconType = poiLayerModel.get('markerIconType'),
-        markerIconUrl = poiLayerModel.get('markerIconUrl'),
-        markerColor = poiLayerModel.get('markerColor'),
+        let html = `<div class="${className} ${markerColor}">`;
+        html += `${iconOptions.html}`;
+        html += `</div>`;
+
+        return html;
+    }
+
+
+    /**
+     * Returns the POI layer icon options.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {string} layerModel - Model of the POI layer which we request its icon.
+     * @return {object} - The icon options.
+     */
+    static buildLayerIconOptions (layerModel) {
+        var markerShape = layerModel.get('markerShape'),
+        markerIcon = layerModel.get('markerIcon'),
+        markerIconType = layerModel.get('markerIconType'),
+        markerIconUrl = layerModel.get('markerIconUrl'),
+        markerColor = layerModel.get('markerColor'),
         iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
 
         iconOptions.className += ' '+ markerColor;
@@ -24,7 +64,6 @@ function (CONST) {
             case CONST.map.markerIconType.external:
 
                 if ( markerIconUrl ) {
-
                     iconOptions.html += '<img src="'+ markerIconUrl +'" class="external-icon">';
                 }
                 break;
@@ -32,58 +71,10 @@ function (CONST) {
             default:
             case CONST.map.markerIconType.library:
                 if ( markerIcon ) {
-
                     iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
                 }
         }
 
-        return L.divIcon( iconOptions );
+        return iconOptions;
     }
-
-
-    /**
-    * @param {string} poiLayerModel - Model of the POI layer which we request its icon.
-     * @returns {string} - The HTML tags of the icon.
-     */
-    function buildPoiLayerHtmlIcon (poiLayerModel) {
-
-        var html = '',
-        markerShape = poiLayerModel.get('markerShape'),
-        markerIcon = poiLayerModel.get('markerIcon'),
-        markerIconType = poiLayerModel.get('markerIconType'),
-        markerIconUrl = poiLayerModel.get('markerIconUrl'),
-        markerColor = poiLayerModel.get('markerColor'),
-        iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
-
-        html += '<div class="marker marker-1 '+ markerColor +'">';
-        html += iconOptions.html;
-
-        switch (markerIconType) {
-            case CONST.map.markerIconType.external:
-
-                if ( markerIconUrl ) {
-
-                    html += '<img src="'+ markerIconUrl +'" class="external-icon">';
-                }
-                break;
-
-            default:
-            case CONST.map.markerIconType.library:
-                if ( markerIcon ) {
-
-                    html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
-                }
-        }
-
-        html += '</div>';
-
-        return html;
-    }
-
-
-
-    return {
-        'buildPoiLayerIcon': buildPoiLayerIcon,
-        'buildPoiLayerHtmlIcon': buildPoiLayerHtmlIcon,
-    };
-});
+}

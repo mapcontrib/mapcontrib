@@ -1,90 +1,61 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import PresetModel from '../model/preset';
+import EditPresetListView from './editPresetList';
+import EditPresetTagsColumnView from './editPresetTagsColumn';
+import template from '../../templates/editPresetColumn.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'model/preset',
-    'view/editPresetList',
-    'view/editPresetTagsColumn',
-],
-function (
+export default Marionette.LayoutView.extend({
+    template: template,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    PresetModel,
-    EditPresetListView,
-    EditPresetTagsColumnView
-) {
+    behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-    'use strict';
+    regions: {
+        'presetList': '.rg_preset_list',
+    },
 
-    return Marionette.LayoutView.extend({
+    ui: {
+        'column': '#edit_preset_column',
+        'addButton': '.add_btn',
+    },
 
-        template: JST['editPresetColumn.html'],
+    events: {
+        'click @ui.addButton': 'onClickAdd',
+    },
 
-        behaviors: {
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-            'l20n': {},
-            'column': {},
-        },
+    onRender: function () {
+        var presets = this.model.get('presets'),
+        editPresetListView = new EditPresetListView({
+            'collection': presets,
+            'theme': this.model
+        });
 
-        regions: {
+        this.getRegion('presetList').show( editPresetListView );
+    },
 
-            'presetList': '.rg_preset_list',
-        },
+    onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-        ui: {
+    open: function () {
+        this.triggerMethod('open');
+    },
 
-            'column': '#edit_preset_column',
-            'addButton': '.add_btn',
-        },
+    close: function () {
+        this.triggerMethod('close');
+    },
 
-        events: {
-
-            'click @ui.addButton': 'onClickAdd',
-        },
-
-        initialize: function () {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
-
-        onRender: function () {
-
-            var presets = this._radio.reqres.request('presets'),
-            editPresetListView = new EditPresetListView({ 'collection': presets });
-
-            this.getRegion('presetList').show( editPresetListView );
-        },
-
-        onBeforeOpen: function () {
-
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
-
-        open: function () {
-
-            this.triggerMethod('open');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-
-        onClickAdd: function () {
-
-            this._radio.commands.execute('column:showPresetTags');
-        },
-    });
+    onClickAdd: function () {
+        this._radio.commands.execute('column:showPresetTags');
+    },
 });

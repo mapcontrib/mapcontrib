@@ -1,231 +1,219 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import leafletControlGeocoder from 'leaflet-control-geocoder';
+import template from '../../templates/geocodeWidget.ejs';
+import templateResultItem from '../../templates/geocodeResultItem.ejs';
+import CONST from '../const';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'settings',
-    'leaflet-control-geocoder',
-],
-function (
+export default Marionette.LayoutView.extend({
+    template: template,
+    templateResultItem: templateResultItem,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    settings,
-    leafletControlGeocoder
-) {
+    behaviors: {
+        'l20n': {},
+        'widget': {},
+    },
 
-    'use strict';
+    ui: {
+        'widget': '#geocode_widget',
+        'query': 'input',
+        'resultList': '.results',
+    },
 
-    return Marionette.LayoutView.extend({
+    events: {
+        'keyup @ui.query': 'onKeyUpQuery',
+        'keydown @ui.query': 'onKeyDownQuery',
+    },
 
-        template: JST['geocodeWidget.html'],
-        templateResultItem: JST['geocodeResultItem.html'],
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
 
-        behaviors: {
+        this.on('open', this.onOpen);
+    },
 
-            'l20n': {},
-            'widget': {},
-        },
+    open: function () {
+        this._setGeocoder();
+        this.triggerMethod('open');
+    },
 
-        ui: {
+    close: function () {
+        this.triggerMethod('close');
+    },
 
-            'widget': '#geocode_widget',
-            'query': 'input',
-            'resultList': '.results',
-        },
+    toggle: function () {
+        this._setGeocoder();
+        this.triggerMethod('toggle');
+    },
 
-        events: {
+    onAfterOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
 
-            'keyup @ui.query': 'onKeyUpQuery',
-            'keydown @ui.query': 'onKeyDownQuery',
-        },
+        this.ui.widget.one('transitionend', () => {
+            this.ui.query.focus();
+        });
+    },
 
-        initialize: function () {
+    onKeyUpQuery: function (e) {
+        if ( this._queryInterval ) {
+            clearInterval(this._queryInterval);
+        }
 
-            var self = this;
+        var query = this.ui.query.val();
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+        if ( this._lastQuery && this._lastQuery === query ) {
+            return false;
+        }
 
-            this._geocoder = L.Control.Geocoder.nominatim();
+        this._queryInterval = setTimeout(() => {
+            this.geocode( query );
+        }, 350);
+    },
 
-            this.on('open', this.onOpen);
-        },
+    onKeyDownQuery: function (e) {
+        if ( [9, 13, 38, 40].indexOf(e.keyCode) > -1 ) {
+            e.preventDefault();
+        }
 
-        open: function () {
+        switch ( e.keyCode ) {
+            case 40: // Down arrow
+            case 9: // Tab
 
-            this.triggerMethod('open');
-        },
+                this.activeNextResult();
+                break;
 
-        close: function () {
+            case 38: // Up arrow
 
-            this.triggerMethod('close');
-        },
+                this.activePreviousResult();
+                break;
 
-        toggle: function () {
+            case 13: // Enter
 
-            this.triggerMethod('toggle');
-        },
+                this.visitResult();
+                break;
+        }
+    },
 
-        onAfterOpen: function () {
+    geocode: function (query) {
+        var elements = [];
 
-            var self = this;
+        this._lastQuery = query;
 
-            this._radio.vent.trigger('column:closeAll');
+        if ( !query ) {
+            this.ui.resultList.empty();
 
-            this.ui.widget.one('transitionend', function () {
+            return;
+        }
 
-                self.ui.query.focus();
-            });
-        },
+        this._geocoder.geocode(query, (results) => {
+            let i = 0;
 
-        onKeyUpQuery: function (e) {
+            for (let result of results) {
+                elements.push(
+                    $( this.templateResultItem({
+                        'name': this._buildGeocodeResultName(result),
+                    }))
+                    .on('click', this.onGeocodeResultClick.bind(this, result))
+                );
 
-            if ( this._queryInterval ) {
+                i++;
 
-                clearInterval(this._queryInterval);
-            }
-
-            var self = this,
-            query = this.ui.query.val();
-
-            if ( this._lastQuery && this._lastQuery === query ) {
-
-                return false;
-            }
-
-            this._queryInterval = setTimeout(function () {
-
-                self.geocode( query );
-            }, 350);
-        },
-
-        onKeyDownQuery: function (e) {
-
-            if ( [9, 13, 38, 40].indexOf(e.keyCode) > -1 ) {
-
-                e.preventDefault();
-            }
-
-            switch ( e.keyCode ) {
-                case 40: // Down arrow
-                case 9: // Tab
-
-                    this.activeNextResult();
+                if (i === 5) {
                     break;
-
-                case 38: // Up arrow
-
-                    this.activePreviousResult();
-                    break;
-
-                case 13: // Enter
-
-                    this.visitResult();
-                    break;
-            }
-        },
-
-        geocode: function (query) {
-
-            var self = this,
-            elements = [];
-
-            this._lastQuery = query;
-
-            if ( !query ) {
-
-                this.ui.resultList.empty();
-
-                return;
+                }
             }
 
-            this._geocoder.geocode(query, function(results) {
+            this.ui.resultList.html( elements );
+        });
 
-                results.forEach(function (result) {
+    },
 
-                    elements.push(
+    onGeocodeResultClick: function (result) {
+        this._radio.commands.execute('map:fitBounds', result.bbox);
 
-                        $( self.templateResultItem({
+        this.close();
+    },
 
-                            'name': result.name,
-                        }))
-                        .on('click', function () {
+    _buildGeocodeResultName: function (result) {
+        switch ( this.model.get('geocoder') ) {
+            case CONST.geocoder.nominatim:
+                return result.name;
 
-                            self._radio.commands.execute('map:fitBounds', result.bbox);
+            case CONST.geocoder.photon:
+                let infos = [ result.properties.name ];
 
-                            self.close();
-                        })
-                    );
-                });
+                if (result.properties.country) {
+                    infos.push( result.properties.country );
+                }
 
-                self.ui.resultList.html( elements );
-            });
+                if (result.properties.state) {
+                    infos.push( result.properties.state );
+                }
 
-        },
+                return infos.join(', ');
 
-        activeNextResult: function () {
+            default:
+                return result.name;
+        }
+    },
 
-            var current = this.ui.resultList.find('.active');
+    activeNextResult: function () {
+        var current = this.ui.resultList.find('.active');
 
-            if ( !current.length ) {
+        if ( !current.length ) {
+            this.ui.resultList
+            .children()
+            .first()
+            .addClass('active');
+        }
+        else {
+            current
+            .removeClass('active')
+            .next()
+            .addClass('active');
+        }
+    },
 
-                this.ui.resultList
-                .children()
-                .first()
-                .addClass('active');
-            }
-            else {
+    activePreviousResult: function () {
+        var current = this.ui.resultList.find('.active');
 
-                current
-                .removeClass('active')
-                .next()
-                .addClass('active');
-            }
-        },
+        if ( !current.length ) {
+            this.ui.resultList
+            .children()
+            .last()
+            .addClass('active');
+        }
+        else {
+            current
+            .removeClass('active')
+            .prev()
+            .addClass('active');
+        }
+    },
 
-        activePreviousResult: function () {
+    visitResult: function () {
+        var current = this.ui.resultList.find('.active');
 
-            var current = this.ui.resultList.find('.active');
+        if ( !current.length ) {
+            this.ui.resultList
+            .children()
+            .first()
+            .addClass('active')
+            .click();
+        }
+        else {
+            current.click();
+        }
+    },
 
-            if ( !current.length ) {
-
-                this.ui.resultList
-                .children()
-                .last()
-                .addClass('active');
-            }
-            else {
-
-                current
-                .removeClass('active')
-                .prev()
-                .addClass('active');
-            }
-        },
-
-        visitResult: function () {
-
-            var current = this.ui.resultList.find('.active');
-
-            if ( !current.length ) {
-
-                this.ui.resultList
-                .children()
-                .first()
-                .addClass('active')
-                .click();
-            }
-            else {
-
-                current.click();
-            }
-        },
-    });
+    _setGeocoder: function () {
+        switch ( this.model.get('geocoder') ) {
+            case CONST.geocoder.nominatim:
+                this._geocoder = leafletControlGeocoder.nominatim();
+                break;
+            default:
+                this._geocoder = leafletControlGeocoder.photon();
+        }
+    }
 });

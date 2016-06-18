@@ -1,43 +1,38 @@
 
-var mongo = require('mongodb'),
-requirejs = require('requirejs'),
-Promise = require('es6-promise').Promise,
-UserModel = requirejs('model/user'),
-options = {
+import { ObjectID } from 'mongodb';
+import UserModel from '../public/js/model/user';
 
+
+let options = {
     'CONST': undefined,
     'database': undefined,
-},
+};
 
-setOptions = function (hash) {
 
+function setOptions (hash) {
     options = hash;
-},
+}
 
-api = {
 
+let api = {
     post: function (req, res) {
-
-        var collection = options.database.collection('user'),
+        let collection = options.database.collection('user'),
         model = new UserModel(req.body);
 
         if ( !model.isValid() ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
-        collection.insert(req.body, {'safe': true}, function (err, results) {
-
+        collection.insertOne(req.body, {'safe': true}, (err, results) => {
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
             }
 
-            var result = results[0];
+            let result = results.ops[0];
             result._id = result._id.toString();
 
             res.send(result);
@@ -46,56 +41,46 @@ api = {
 
 
     get: function (req, res) {
-
-        api.findFromId(req, res, req.params._id, function (user) {
-
+        api.findFromId(req, res, req.params._id, (user) => {
             res.send(user);
         });
     },
 
 
     findFromId: function (req, res, _id, callback) {
-
         if ( _id === 'me' ) {
-
             _id = req.user;
         }
         else if ( req.user !== _id ) {
-
             res.sendStatus(401);
 
             return true;
         }
         else if ( !options.CONST.pattern.mongoId.test( _id ) ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
-        var collection = options.database.collection('user');
+        let collection = options.database.collection('user');
 
         collection.find({
-
-            '_id': new mongo.ObjectID(_id)
+            '_id': new ObjectID(_id)
         })
-        .toArray(function (err, results) {
-
+        .toArray((err, results) => {
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
             }
 
             if (results.length === 0) {
-
                 res.sendStatus(404);
 
                 return true;
             }
 
-            var result = results[0];
+            let result = results[0];
             result._id = result._id.toString();
 
             callback(result);
@@ -104,23 +89,18 @@ api = {
 
 
     getAll: function (req, res) {
-
-        var collection = options.database.collection('user');
+        let collection = options.database.collection('user');
 
         collection.find()
-        .toArray(function (err, results) {
-
+        .toArray((err, results) => {
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
             }
 
             if (results.length > 0) {
-
-                results.forEach(function (result) {
-
+                results.forEach((result) => {
                     result._id = result._id.toString();
                 });
             }
@@ -131,28 +111,24 @@ api = {
 
 
     put: function (req, res) {
-
         if (req.user !== req.params._id) {
-
             res.sendStatus(401);
 
             return true;
         }
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
 
-        var new_json = req.body,
+        let new_json = req.body,
         collection = options.database.collection('user'),
         model = new UserModel(new_json);
 
         if ( !model.isValid() ) {
-
             res.sendStatus(400);
 
             return true;
@@ -160,16 +136,13 @@ api = {
 
         delete(new_json._id);
 
-        collection.update({
-
-            '_id': new mongo.ObjectID(req.params._id)
+        collection.updateOne({
+            '_id': new ObjectID(req.params._id)
         },
         new_json,
         {'safe': true},
-        function (err) {
-
+        (err) => {
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
@@ -182,33 +155,27 @@ api = {
 
 
     delete: function (req, res) {
-
         if (req.user !== req.params._id) {
-
             res.sendStatus(401);
 
             return true;
         }
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
 
-        var collection = options.database.collection('user');
+        let collection = options.database.collection('user');
 
         collection.remove({
-
-            '_id': new mongo.ObjectID(req.params._id)
+            '_id': new ObjectID(req.params._id)
         },
         {'safe': true},
-        function (err) {
-
+        (err) => {
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
@@ -219,20 +186,18 @@ api = {
     },
 
     logout: function (req, res) {
-
         req.logout();
 
         delete req.session.user;
         delete req.session.themes;
 
-        res.sendStatus(200);
-    },
+        res.status(200).send('OK');
+    }
 };
 
 
 
-module.exports = {
-
-    'setOptions': setOptions,
-    'api': api,
+export default {
+    setOptions,
+    api
 };

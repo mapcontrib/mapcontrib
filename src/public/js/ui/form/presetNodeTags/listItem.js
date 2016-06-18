@@ -1,99 +1,74 @@
 
+import Marionette from 'backbone.marionette';
+import listItemTemplate from './listItem.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'templates',
-],
-function (
+export default Marionette.ItemView.extend({
+    template: listItemTemplate,
 
-    _,
-    Backbone,
-    Marionette,
-    templates
-) {
+    ui: {
+        'key': '.key',
+        'value': '.value',
+        'keyReadOnly': '.keyReadOnly',
+        'valueReadOnly': '.valueReadOnly',
+        'removeBtn': '.remove_btn',
+    },
 
-    'use strict';
+    events: {
+        'change @ui.key': 'onChangeKey',
+        'change @ui.value': 'onChangeValue',
+        'change @ui.keyReadOnly': 'onChangeKeyReadOnly',
+        'change @ui.valueReadOnly': 'onChangeValueReadOnly',
+        'click @ui.removeBtn': 'onClickRemoveBtn',
+    },
 
-    return Marionette.ItemView.extend({
+    templateHelpers: function () {
+        return {
+            'cid': this.model.cid
+        };
+    },
 
-        template: JST['ui/form/presetNodeTags/listItem.html'],
+    onRender: function () {
+        document.l10n.localizeNode( this.el );
 
-        ui: {
+        this.ui.keyReadOnly.prop(
+            'checked',
+            this.model.get('keyReadOnly')
+        );
 
-            'key': '.key',
-            'value': '.value',
-            'keyReadOnly': '.keyReadOnly',
-            'valueReadOnly': '.valueReadOnly',
-            'removeBtn': '.remove_btn',
-        },
+        this.ui.valueReadOnly.prop(
+            'disabled',
+            !this.model.get('keyReadOnly')
+        );
 
-        events: {
+        this.ui.valueReadOnly.prop(
+            'checked',
+            this.model.get('valueReadOnly')
+        );
+    },
 
-            'change @ui.key': 'onChangeKey',
-            'change @ui.value': 'onChangeValue',
-            'change @ui.keyReadOnly': 'onChangeKeyReadOnly',
-            'change @ui.valueReadOnly': 'onChangeValueReadOnly',
-            'click @ui.removeBtn': 'onClickRemoveBtn',
-        },
+    onChangeKey: function (e) {
+        this.model.set('key', this.ui.key.val());
+    },
 
-        templateHelpers: function () {
+    onChangeValue: function (e) {
+        this.model.set('value', this.ui.value.val());
+    },
 
-            return {
-                'cid': this.model.cid
-            };
-        },
+    onChangeKeyReadOnly: function (e) {
+        this.model.set('keyReadOnly', this.ui.keyReadOnly.prop('checked'));
 
-        onRender: function () {
+        this.ui.valueReadOnly.prop(
+            'disabled',
+            !this.model.get('keyReadOnly')
+        );
+    },
 
-            document.l10n.localizeNode( this.el );
+    onChangeValueReadOnly: function (e) {
+        this.model.set('valueReadOnly', this.ui.valueReadOnly.prop('checked'));
+    },
 
-            this.ui.keyReadOnly.prop(
-                'checked',
-                this.model.get('keyReadOnly')
-            );
-
-            this.ui.valueReadOnly.prop(
-                'disabled',
-                !this.model.get('keyReadOnly')
-            );
-
-            this.ui.valueReadOnly.prop(
-                'checked',
-                this.model.get('valueReadOnly')
-            );
-        },
-
-        onChangeKey: function (e) {
-
-            this.model.set('key', this.ui.key.val());
-        },
-
-        onChangeValue: function (e) {
-
-            this.model.set('value', this.ui.value.val());
-        },
-
-        onChangeKeyReadOnly: function (e) {
-
-            this.model.set('keyReadOnly', this.ui.keyReadOnly.prop('checked'));
-
-            this.ui.valueReadOnly.prop(
-                'disabled',
-                !this.model.get('keyReadOnly')
-            );
-        },
-
-        onChangeValueReadOnly: function (e) {
-
-            this.model.set('valueReadOnly', this.ui.valueReadOnly.prop('checked'));
-        },
-
-        onClickRemoveBtn: function (e) {
-
-            this.model.destroy();
-        },
-    });
+    onClickRemoveBtn: function (e) {
+        this.model.destroy();
+    },
 });

@@ -1,56 +1,40 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/zoomNotification.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-],
-function (
+export default Marionette.LayoutView.extend({
+    template: template,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates
-) {
+    behaviors: {
+        'l20n': {},
+        'notification': {},
+    },
 
-    'use strict';
+    ui: {
+        'notification': '#zoom_notification',
 
-    return Marionette.LayoutView.extend({
+        'content': '.content',
+    },
 
-        template: JST['zoomNotification.html'],
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-        behaviors: {
+    open: function () {
+        this.triggerMethod('open');
+    },
 
-            'l20n': {},
-            'notification': {},
-        },
+    close: function () {
+        this.triggerMethod('close');
+    },
 
-        ui: {
+    disappear: function () {
+        this.ui.notification.addClass('disappear');
+    },
 
-            'notification': '#zoom_notification',
-
-            'content': '.content',
-        },
-
-        initialize: function () {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
-
-        open: function () {
-
-            this.triggerMethod('open');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-    });
+    appear: function () {
+        this.ui.notification.removeClass('disappear');
+    },
 });

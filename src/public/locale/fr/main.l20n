@@ -7,6 +7,7 @@
 
 
 <mapcontrib "MapContrib">
+<slogan "Contribution thématique à <a>OpenStreetMap</a>">
 
 
 <pageTitle "{{ mapcontrib }}">
@@ -39,6 +40,7 @@
 
 
 
+<goBackToHome "Revenir à l'accueil">
 <myThemes "Mes thèmes">
 <preferences "Préférences">
 <login "Se connecter">
@@ -52,6 +54,9 @@
 <empty "Vide">
 <editTheseInformations "Éditer ces informations">
 <loadingData title:"Certaines données sont en cours de chargement">
+<createATheme "Créer un thème">
+<searchATheme placeholder:"Rechercher un thème (3 caractères min.)">
+<aboutMapContrib "À propos de MapContrib">
 
 
 /* Help */
@@ -60,6 +65,7 @@
 <helpText2 "MapContrib vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
 <helpText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbL&nbsp;»</a>, permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
 <helpText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
+<helpTextVersion "Cette instance de MapContrib utilise la version {{ $version }}.">
 
 
 /* Login modal */
@@ -113,6 +119,9 @@
 <editSettingColumn_position "Positionnement">
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
+<editSettingColumn_geocoder "Géocodeur">
+<editSettingColumn_photon "Photon">
+<editSettingColumn_nominatim "Nominatim">
 
 
 /* Edit POI column */
@@ -122,17 +131,17 @@
 
 
 /* Edit POI layer column */
-<editPoiLayerColumn_title "Édition de la couche">
-<editPoiLayerColumn_layerName "Nom">
-<editPoiLayerColumn_layerDescription "Description">
-<editPoiLayerColumn_visibilityAndEdition "Visibilité et édition">
-<editPoiLayerColumn_dataEditable "Permettre l'édition des données">
-<editPoiLayerColumn_visible "Visible par les utilisateurs">
-<editPoiLayerColumn_layerZoomLevel "Zoom minimum">
-<editPoiLayerColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
-<editPoiLayerColumn_layerOverpassRequest "Requête Overpass">
-<editPoiLayerColumn_marker "Marqueur">
-<editPoiLayerColumn_layerPopupContent "Contenu des bulles">
+<editLayerColumn_title "Édition de la couche">
+<editLayerColumn_layerName "Nom">
+<editLayerColumn_layerDescription "Description">
+<editLayerColumn_visibilityAndEdition "Visibilité et édition">
+<editLayerColumn_dataEditable "Permettre l'édition des données">
+<editLayerColumn_visible "Visible par les utilisateurs">
+<editLayerColumn_layerZoomLevel "Zoom minimum">
+<editLayerColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
+<editLayerColumn_layerOverpassRequest "Requête Overpass">
+<editLayerColumn_marker "Marqueur">
+<editLayerColumn_layerPopupContent "Contenu des bulles">
 
 
 /* Edit POI marker modal */

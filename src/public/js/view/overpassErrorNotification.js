@@ -1,69 +1,43 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/overpassErrorNotification.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-],
-function (
+export default Marionette.ItemView.extend({
+    template: template,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates
-) {
-
-    'use strict';
-
-    return Marionette.ItemView.extend({
-
-        template: JST['overpassErrorNotification.html'],
-
-        behaviors: {
-
-            'l20n': {},
-            'notification': {
-
-                'destroyOnClose': true,
-            },
+    behaviors: {
+        'l20n': {},
+        'notification': {
+            'destroyOnClose': true,
         },
+    },
 
-        ui: {
+    ui: {
+        'notification': '.notification',
 
-            'notification': '.notification',
+        'content': '.content',
+    },
 
-            'content': '.content',
-        },
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
 
-        initialize: function () {
+        return this.render();
+    },
 
-            var self = this;
+    open: function () {
+        this.triggerMethod('open');
+    },
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+    close: function () {
+        this.triggerMethod('close');
+    },
 
-            return this.render();
-        },
+    onRender: function () {
+        this.ui.content.html(
 
-        open: function () {
-
-            this.triggerMethod('open');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-
-        onRender: function () {
-
-            this.ui.content.html(
-
-                document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
-            );
-        },
-    });
+            document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
+        );
+    },
 });

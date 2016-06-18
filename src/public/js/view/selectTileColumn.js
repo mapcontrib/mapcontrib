@@ -1,142 +1,118 @@
 
-
-define([
-
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'const',
-],
-function (
-
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    CONST
-) {
-
-    'use strict';
-
-    return Marionette.LayoutView.extend({
-
-        template: JST['selectTileColumn.html'],
-        templateListItem: JST['selectTileListItem.html'],
-
-        behaviors: {
-
-            'l20n': {},
-            'column': {},
-        },
-
-        ui: {
-
-            'column': '#select_tile_column',
-            'tileList': '.tile_list',
-            'tiles': '.tile_list input',
-        },
-
-        events: {
-
-            'click @ui.tiles': 'onClickTiles',
-        },
-
-        initialize: function () {
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-
-            var self = this,
-            fragment = this._radio.reqres.request('getFragment'),
-            storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) ) || {};
+import _ from 'underscore';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import CONST from '../const';
+import template from '../../templates/selectTileColumn.ejs';
+import templateListItem from '../../templates/selectTileListItem.ejs';
 
 
-            this._fragment = fragment;
+export default Marionette.LayoutView.extend({
+    template: template,
+    templateListItem: templateListItem,
 
-            if ( storage.selectedTile ) {
+    behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-                this._selectedInStorage = storage.selectedTile;
+    ui: {
+        'column': '#select_tile_column',
+        'tileList': '.tile_list',
+        'tiles': '.tile_list input',
+    },
+
+    events: {
+        'click @ui.tiles': 'onClickTiles',
+    },
+
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+
+        var fragment = this._radio.reqres.request('getFragment'),
+        storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) ) || {};
+
+
+        this._fragment = fragment;
+
+        if ( storage.selectedTile ) {
+            this._selectedInStorage = storage.selectedTile;
+        }
+
+        this.listenTo(this.model, 'change:tiles', this.onChangeModelTiles);
+    },
+
+    onRender: function () {
+        var tile, checked,
+        tiles = this.model.get('tiles'),
+        html = '';
+
+        tiles.forEach((id) => {
+            tile = CONST.map.tiles[id];
+
+            if (!tile) {
+                return;
             }
 
-            this.listenTo(this.model, 'change:tiles', this.onChangeModelTiles);
-        },
+            let thumbnailHtml = '';
 
-        onRender: function () {
+            for (let urlTemplate of tile.urlTemplate) {
+                thumbnailHtml += `<img src="${urlTemplate}" alt="" />`;
+            }
 
-            var tile, thumbnail, checked,
-            self = this,
-            tiles = this.model.get('tiles'),
-            html = '';
+            thumbnailHtml = thumbnailHtml.replace(/\{s\}/g, 'a');
+            thumbnailHtml = thumbnailHtml.replace(/\{z\}/g, '9');
+            thumbnailHtml = thumbnailHtml.replace(/\{x\}/g, '265');
+            thumbnailHtml = thumbnailHtml.replace(/\{y\}/g, '181');
 
-            tiles.forEach(function (id) {
+            if ( this._selectedInStorage && this._selectedInStorage === id ) {
+                checked = ' checked';
+            }
+            else if (id === tiles[0]) {
+                checked = ' checked';
+            }
+            else {
+                checked = '';
+            }
 
-                tile = CONST.map.tiles[id];
-
-                thumbnail = tile.urlTemplate.replace('{s}', 'a');
-                thumbnail = thumbnail.replace('{z}', '9');
-                thumbnail = thumbnail.replace('{x}', '265');
-                thumbnail = thumbnail.replace('{y}', '181');
-
-                if ( self._selectedInStorage && self._selectedInStorage === id ) {
-
-                    checked = ' checked';
-                }
-                else if (id === tiles[0]) {
-
-                    checked = ' checked';
-                }
-                else {
-
-                    checked = '';
-                }
-
-                html += self.templateListItem({
-
-                    'name': tile.name,
-                    'id': id,
-                    'thumbnail': thumbnail,
-                    'checked': checked,
-                });
+            html += this.templateListItem({
+                'name': tile.name,
+                'id': id,
+                'thumbnailHtml': thumbnailHtml,
+                'checked': checked,
             });
+        });
 
-            this.ui.tileList.html( html );
+        this.ui.tileList.html( html );
 
-            this.bindUIElements();
-        },
+        this.bindUIElements();
+    },
 
-        onClickTiles: function (e) {
+    onClickTiles: function (e) {
+        var newState,
+        key = 'mapState-'+ this._fragment,
+        oldState = JSON.parse( localStorage.getItem( key ) );
 
-            var newState,
-            key = 'mapState-'+ this._fragment,
-            oldState = JSON.parse( localStorage.getItem( key ) );
+        newState = _.extend( oldState, { 'selectedTile': e.target.value } );
+        localStorage.setItem( key, JSON.stringify( newState ) );
 
-            newState = _.extend( oldState, { 'selectedTile': e.target.value } );
-            localStorage.setItem( key, JSON.stringify( newState ) );
+        this._radio.commands.execute('map:setTileLayer', e.target.value);
+    },
 
-            this._radio.commands.execute('map:setTileLayer', e.target.value);
-        },
+    onChangeModelTiles: function () {
+        this.render();
+    },
 
-        onChangeModelTiles: function () {
+    onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-            this.render();
-        },
+    open: function () {
+        this.triggerMethod('open');
+    },
 
-        onBeforeOpen: function () {
-
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
-
-        open: function () {
-
-            this.triggerMethod('open');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-    });
+    close: function () {
+        this.triggerMethod('close');
+    },
 });

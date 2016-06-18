@@ -1,13 +1,14 @@
 mongo:
     image: mongo:2.6.11
+    expose:
+        - "27017"
     volumes:
         - ./volumes/mongo:/data/db
 
 node:
     image: node:slim
     environment:
-        - PORT=8080
-        - MONGO_HOST=mongo
+        - NODE_CONFIG={"mongodb":{"host":"mongo"}}
     ports:
         - "8080:8080"
     links:
@@ -15,4 +16,4 @@ node:
     volumes:
         - ./:/data
     working_dir: /data
-    command: node src/server.js
+    command: npm run startFromDocker

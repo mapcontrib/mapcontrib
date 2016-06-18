@@ -1,49 +1,25 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/conflictModal.ejs';
 
-define([
+export default Marionette.LayoutView.extend({
+    template: template,
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-],
-function (
+    behaviors: {
+        'l20n': {},
+        'modal': {},
+    },
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates
-) {
+    ui: {
+        'modal': '#conflict_modal',
+    },
 
-    'use strict';
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-    return Marionette.LayoutView.extend({
-
-        template: JST['conflictModal.html'],
-
-        behaviors: {
-
-            'l20n': {},
-            'modal': {},
-        },
-
-        ui: {
-
-            'modal': '#conflict_modal',
-        },
-
-        initialize: function () {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-    });
+    close: function () {
+        this.triggerMethod('close');
+    },
 });

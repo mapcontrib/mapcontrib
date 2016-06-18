@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title data-l10n-id="pageTitle">MapContrib</title>
+
+    <%# Apple %>
+    <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon/72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon/114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon/120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon/144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon/152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/180x180.png">
+
+    <%# Android %>
+    <link rel="icon" type="image/png" sizes="36x36" href="/img/favicon/36x36.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/img/favicon/48x48.png">
+    <link rel="icon" type="image/png" sizes="72x72" href="/img/favicon/72x72.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/96x96.png">
+    <link rel="icon" type="image/png" sizes="144x144" href="/img/favicon/144x144.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/192x192.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="/img/favicon/256x256.png">
+    <link rel="icon" type="image/png" sizes="384x384" href="/img/favicon/384x384.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/img/favicon/512x512.png">
+
+    <%# Global %>
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/96x96.png">
+
+    <link rel="manifest" href="/img/favicon/manifest.json">
+
+    <link rel="localization" href="/locale/manifest.json">
+
+    <style type="text/css">
+
+    html, body {
+        background-color: #eeeeec;
+    }
+
+    .empty-state {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -64px;
+        margin-left: -64px;
+        width: 128px;
+        height: 128px;
+    }
+
+    </style>
+</head>
+<body>
+
+<section id="rg_root">
+    <img class="empty-state" src="/img/empty_state.gif" alt="" />
+</section>
+
+<link rel="stylesheet" href="/css/theme.bundle.css" charset="utf-8">
+
+<script type="text/javascript">
+
+    var user = <%- user %>,
+    theme = <%- theme %>,
+    config = <%- config %>;
+
+</script>
+<script type="text/javascript" charset="utf-8" src="/js/theme.bundle.js"></script>
+
+</body>
+</html>

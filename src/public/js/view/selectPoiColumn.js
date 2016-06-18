@@ -1,77 +1,49 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import SelectLayerListView from './selectLayerList';
+import template from '../../templates/selectPoiColumn.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'view/selectPoiLayerList',
-],
-function (
+export default Marionette.LayoutView.extend({
+    template: template,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    SelectPoiLayerListView
-) {
+    behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-    'use strict';
+    regions: {
+        'layerList': '.rg_layer_list',
+    },
 
-    return Marionette.LayoutView.extend({
+    ui: {
+        'column': '#select_poi_column',
+    },
 
-        template: JST['selectPoiColumn.html'],
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
 
-        behaviors: {
+        this._radio.commands.setHandler('column:selectLayer:render', this.render.bind(this));
+    },
 
-            'l20n': {},
-            'column': {},
-        },
+    onRender: function () {
+        var layers = this.model.get('layers'),
+        selectLayerListView = new SelectLayerListView({ 'collection': layers });
 
-        regions: {
+        this.getRegion('layerList').show( selectLayerListView );
+    },
 
-            'layerList': '.rg_layer_list',
-        },
+    onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-        ui: {
+    open: function () {
+        this.triggerMethod('open');
+    },
 
-            'column': '#select_poi_column',
-        },
-
-        initialize: function () {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-
-            this._radio.commands.setHandler('column:selectPoiLayer:render', this.render.bind(this));
-        },
-
-        onRender: function () {
-
-            var poiLayers = this._radio.reqres.request('poiLayers'),
-            selectPoiLayerListView = new SelectPoiLayerListView({ 'collection': poiLayers });
-
-            this.getRegion('layerList').show( selectPoiLayerListView );
-        },
-
-        onBeforeOpen: function () {
-
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
-
-        open: function () {
-
-            this.triggerMethod('open');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-    });
+    close: function () {
+        this.triggerMethod('close');
+    },
 });

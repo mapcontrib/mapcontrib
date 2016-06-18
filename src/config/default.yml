@@ -1,0 +1,37 @@
+
+debug: false
+
+salt: '/m<gkZCXr44_={Zr/=64]ojGhAL;m/q>*@";[Eo,8C<Lht^`WiC$WSP4R,a]eozd~aTG^7'
+
+server:
+    port: 8080
+
+mongodb:
+    host: localhost
+    port: 27017
+    database: mapcontrib
+
+
+client:
+    oauthConsumerKey:
+    oauthSecret:
+
+    overpassServer: http://overpass-api.de/api/
+    overpassTimeout: 120000 # Milliseconds
+
+    largeScreenMinWidth: 400
+    largeScreenMinHeight: 500
+
+    shareIframeWidth: 100
+    shareIframeWidthUnit: '%'
+    shareIframeHeight: 400
+    shareIframeHeightUnit: px
+
+    newPoiMarkerShape: marker1
+    newPoiMarkerIcon: star
+    newPoiMarkerColor: gray
+
+    defaultGeocoder: photon
+    availableGeocoders:
+        - photon
+        - nominatim

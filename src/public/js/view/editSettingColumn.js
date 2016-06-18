@@ -1,150 +1,155 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/editSettingColumn.ejs';
+import CONST from '../const';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-],
-function (
+export default Marionette.ItemView.extend({
+    template: template,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates
-) {
+    behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-    'use strict';
+    ui: {
+        'column': '#edit_setting_column',
 
-    return Marionette.ItemView.extend({
+        'themeName': '#theme_name',
+        'themeDescription': '#theme_description',
+        'colorButtons': '.color-buttons .btn',
+        'themePositionKeepOld': '#theme_position_keep_old',
+        'themePositionSetNew': '#theme_position_set_new',
+        'geocoderSection': '.geocoder',
+        'photonSection': '.photon',
+        'nominatimSection': '.nominatim',
+        'themeGeocoderPhoton': '#theme_geocoder_photon',
+        'themeGeocoderNominatim': '#theme_geocoder_nominatim',
+    },
 
-        template: JST['editSettingColumn.html'],
+    events: {
+        'mouseover @ui.colorButtons': 'onOverColorButtons',
+        'mouseleave @ui.colorButtons': 'onLeaveColorButtons',
+        'click @ui.colorButtons': 'onClickColorButtons',
 
-        behaviors: {
+        'submit': 'onSubmit',
+        'reset': 'onReset',
+    },
 
-            'l20n': {},
-            'column': {},
-        },
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
 
-        ui: {
+        this._oldModel = this.model.clone();
+    },
 
-            'column': '#edit_setting_column',
+    onRender: function () {
+        this.ui.colorButtons
+        .filter( '.'+ this.model.get('color') )
+        .find('i')
+        .addClass('fa-check');
 
-            'themeName': '#theme_name',
-            'themeDescription': '#theme_description',
-            'colorButtons': '.color-buttons .btn',
-            'themePositionKeepOld': '#theme_position_keep_old',
-            'themePositionSetNew': '#theme_position_set_new',
-        },
 
-        events: {
+        if ( config.availableGeocoders.length > 1 ) {
+            this.ui.geocoderSection.removeClass('hide');
 
-            'mouseover @ui.colorButtons': 'onOverColorButtons',
-            'mouseleave @ui.colorButtons': 'onLeaveColorButtons',
-            'click @ui.colorButtons': 'onClickColorButtons',
+            let modelGeocoder = this.model.get('geocoder');
 
-            'submit': 'onSubmit',
-            'reset': 'onReset',
-        },
-
-        initialize: function () {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-
-            this._oldModel = this.model.clone();
-        },
-
-        onRender: function () {
-
-            this.ui.colorButtons
-            .filter( '.'+ this.model.get('color') )
-            .find('i')
-            .addClass('fa-check');
-        },
-
-        onBeforeOpen: function () {
-
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
-
-        open: function () {
-
-            this.triggerMethod('open');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-
-        onSubmit: function (e) {
-
-            e.preventDefault();
-
-            var self = this,
-            map = this._radio.reqres.request('map'),
-            mapCenter = map.getCenter(),
-            mapZoomLevel = map.getZoom();
-
-            this.model.set('name', this.ui.themeName.val());
-            this.model.set('description', this.ui.themeDescription.val());
-
-            if ( this.ui.themePositionSetNew.prop('checked') === true ) {
-
-                this.model.set('center', mapCenter);
-                this.model.set('zoomLevel', mapZoomLevel);
+            if ( config.availableGeocoders.indexOf(modelGeocoder) > -1 ) {
+                let geocoder = modelGeocoder.ucfirst();
+                this.ui[`themeGeocoder${geocoder}`].prop('checked', 'true');
+            }
+            else {
+                let defaultGeocoder = config.defaultGeocoder.ucfirst();
+                this.ui[`themeGeocoder${defaultGeocoder}`].prop('checked', 'true');
             }
 
-            this.model.save({}, {
+            for (let geocoder in CONST.geocoder) {
+                if ( config.availableGeocoders.indexOf(geocoder) > -1 ) {
+                    this.ui[`${geocoder}Section`].removeClass('hide');
+                }
+            }
+        }
+    },
 
-                'success': function () {
+    onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-                    self._oldModel = self.model.clone();
+    open: function () {
+        this.triggerMethod('open');
+    },
 
-                    self.close();
-                },
-                'error': function () {
+    close: function () {
+        this.triggerMethod('close');
+    },
 
-                    // FIXME
-                    console.error('nok');
-                },
-            });
-        },
+    onSubmit: function (e) {
+        e.preventDefault();
 
-        onReset: function () {
+        var map = this._radio.reqres.request('map'),
+        mapCenter = map.getCenter(),
+        mapZoomLevel = map.getZoom(),
+        themeName = this.ui.themeName.val(),
+        themeDescription = this.ui.themeDescription.val();
 
-            this.model.set( this._oldModel.toJSON() );
+        this.model.set('name', themeName);
+        this.model.set('description', themeDescription);
 
-            this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
+        history.pushState({}, themeName, this.model.buildPath());
 
-            this.ui.column.one('transitionend', this.render);
+        if ( this.ui.themePositionSetNew.prop('checked') === true ) {
+            this.model.set('center', mapCenter);
+            this.model.set('zoomLevel', mapZoomLevel);
+        }
 
-            this.close();
-        },
+        if (config.availableGeocoders.length > 1) {
+            for (let geocoder in CONST.geocoder) {
+                let ucFirstGeocoder = geocoder.ucfirst();
+                if ( this.ui[`themeGeocoder${ucFirstGeocoder}`].prop('checked') === true ) {
+                    this.model.set('geocoder', geocoder);
+                }
+            }
+        }
 
-        onOverColorButtons: function (e) {
 
-            this._radio.commands.execute('ui:setTitleColor', e.target.dataset.color);
-        },
+        this.model.save({}, {
+            'success': () => {
+                this._oldModel = this.model.clone();
 
-        onLeaveColorButtons: function (e) {
+                this.close();
+            },
+            'error': () => {
+                // FIXME
+                console.error('nok');
+            },
+        });
+    },
 
-            this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
-        },
+    onReset: function () {
+        this.model.set( this._oldModel.toJSON() );
 
-        onClickColorButtons: function (e) {
+        this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
 
-            $('i', this.ui.colorButtons).removeClass('fa-check');
+        this.ui.column.one('transitionend', this.render);
 
-            e.target.querySelector('i').classList.add('fa-check');
+        this.close();
+    },
 
-            this.model.set('color', e.target.dataset.color);
-        },
-    });
+    onOverColorButtons: function (e) {
+        this._radio.commands.execute('ui:setTitleColor', e.target.dataset.color);
+    },
+
+    onLeaveColorButtons: function (e) {
+        this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
+    },
+
+    onClickColorButtons: function (e) {
+        $('i', this.ui.colorButtons).removeClass('fa-check');
+
+        e.target.querySelector('i').classList.add('fa-check');
+
+        this.model.set('color', e.target.dataset.color);
+    },
 });

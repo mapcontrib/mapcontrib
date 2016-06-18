@@ -1,141 +1,113 @@
 
-
-define([
-
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'settings',
-],
-function (
-
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    settings
-) {
-
-    'use strict';
-
-    return Marionette.LayoutView.extend({
-
-        template: JST['linkColumn.html'],
-        templateIframe: JST['linkColumnIframe.html'],
-
-        behaviors: {
-
-            'l20n': {},
-            'column': {},
-        },
-
-        ui: {
-
-            'column': '#link_column',
-            'autoSelects': '.auto_select',
-            'iframeCode': '#iframe_code',
-            'iframeWidth': '#iframe_width',
-            'iframeHeight': '#iframe_height',
-            'iframeWidthUnit': '#iframe_width_unit',
-            'iframeHeightUnit': '#iframe_height_unit',
-            'iframeWidthUnitDropdown': '#iframe_width_unit_dropdown',
-            'iframeHeightUnitDropdown': '#iframe_height_unit_dropdown',
-        },
-
-        events: {
-
-            'click @ui.autoSelects': 'onClickAutoSelects',
-            'keyup @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
-            'change @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
-            'click @ui.iframeWidthUnitDropdown a': 'onClickWidthUnit',
-            'click @ui.iframeHeightUnitDropdown a': 'onClickHeightUnit',
-        },
-
-        templateHelpers: function () {
+import $ from 'jquery';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/linkColumn.ejs';
+import templateIframe from '../../templates/linkColumnIframe.ejs';
 
 
-            return {
+export default Marionette.LayoutView.extend({
+    template: template,
+    templateIframe: templateIframe,
 
-                'url': this.getUrl(),
-                'iframeWidth': settings.shareIframeWidth,
-                'iframeWidthUnit': settings.shareIframeWidthUnit,
-                'iframeHeight': settings.shareIframeHeight,
-                'iframeHeightUnit': settings.shareIframeHeightUnit,
-            };
-        },
+    behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-        initialize: function () {
+    ui: {
+        'column': '#link_column',
+        'autoSelects': '.auto_select',
+        'iframeCode': '#iframe_code',
+        'iframeWidth': '#iframe_width',
+        'iframeHeight': '#iframe_height',
+        'iframeWidthUnit': '#iframe_width_unit',
+        'iframeHeightUnit': '#iframe_height_unit',
+        'iframeWidthUnitDropdown': '#iframe_width_unit_dropdown',
+        'iframeHeightUnitDropdown': '#iframe_height_unit_dropdown',
+    },
 
-            var self = this;
+    events: {
+        'click @ui.autoSelects': 'onClickAutoSelects',
+        'keyup @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
+        'change @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
+        'click @ui.iframeWidthUnitDropdown a': 'onClickWidthUnit',
+        'click @ui.iframeHeightUnitDropdown a': 'onClickHeightUnit',
+    },
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
+    modelEvents: {
+        'change': 'render'
+    },
 
-        onBeforeOpen: function () {
+    templateHelpers: function () {
 
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
+        return {
+            'url': this.getUrl(),
+            'iframeWidth': config.shareIframeWidth,
+            'iframeWidthUnit': config.shareIframeWidthUnit,
+            'iframeHeight': config.shareIframeHeight,
+            'iframeHeightUnit': config.shareIframeHeightUnit,
+        };
+    },
 
-        open: function () {
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-            this.triggerMethod('open');
-        },
+    onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-        close: function () {
+    open: function () {
+        this.triggerMethod('open');
+    },
 
-            this.triggerMethod('close');
-        },
+    close: function () {
+        this.triggerMethod('close');
+    },
 
-        onRender: function () {
+    onRender: function () {
+        this.renderIframeCode();
+    },
 
-            this.renderIframeCode();
-        },
+    renderIframeCode: function () {
+        var html = this.templateIframe({
+            'url': this.getUrl(),
+            'iframeWidth': this.ui.iframeWidth.val(),
+            'iframeHeight': this.ui.iframeHeight.val(),
+            'iframeWidthUnit': (this.ui.iframeWidthUnit.html() == 'px') ? '' : this.ui.iframeWidthUnit.html(),
+            'iframeHeightUnit': (this.ui.iframeHeightUnit.html() == 'px') ? '' : this.ui.iframeHeightUnit.html(),
+            'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
+        });
 
-        renderIframeCode: function () {
+        this.ui.iframeCode.html( html );
+    },
 
-            var html = this.templateIframe({
+    onClickAutoSelects: function (e) {
+        e.target.select();
+    },
 
-                'url': this.getUrl(),
-                'iframeWidth': this.ui.iframeWidth.val(),
-                'iframeHeight': this.ui.iframeHeight.val(),
-                'iframeWidthUnit': (this.ui.iframeWidthUnit.html() == 'px') ? '' : this.ui.iframeWidthUnit.html(),
-                'iframeHeightUnit': (this.ui.iframeHeightUnit.html() == 'px') ? '' : this.ui.iframeHeightUnit.html(),
-                'subLinkMessage': document.l10n.getSync('linkColumn_seeBigger'),
-            });
+    onClickWidthUnit: function (e) {
+        e.preventDefault();
 
-            this.ui.iframeCode.html( html );
-        },
+        this.ui.iframeWidthUnit.html( $(e.target).data('unit') );
 
-        onClickAutoSelects: function (e) {
+        this.renderIframeCode();
+    },
 
-            e.target.select();
-        },
+    onClickHeightUnit: function (e) {
+        e.preventDefault();
 
-        onClickWidthUnit: function (e) {
+        this.ui.iframeHeightUnit.html( $(e.target).data('unit') );
 
-            e.preventDefault();
+        this.renderIframeCode();
+    },
 
-            this.ui.iframeWidthUnit.html( $(e.target).data('unit') );
-
-            this.renderIframeCode();
-        },
-
-        onClickHeightUnit: function (e) {
-
-            e.preventDefault();
-
-            this.ui.iframeHeightUnit.html( $(e.target).data('unit') );
-
-            this.renderIframeCode();
-        },
-
-        getUrl: function () {
-
-            return window.location.protocol +'//'+ window.location.host +'/theme-'+ this.model.get('fragment');
-        },
-    });
+    getUrl: function () {
+        return window.location.protocol +
+        '//'+
+        window.location.host +
+        this.model.buildPath();
+    },
 });

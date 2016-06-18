@@ -1,24 +1,12 @@
 
+import Backbone from 'backbone';
 
-define([
 
-    'backbone',
-],
-function (
-
-    Backbone
-) {
-
-    'use strict';
-
-    return Backbone.Model.extend({
-
-        defaults: {
-
-            'label': '',
-            'description': '',
-            'href': '#',
-            'callback': undefined,
-        },
-    });
+export default Backbone.Model.extend({
+    defaults: {
+        'label': '',
+        'description': '',
+        'href': '#',
+        'callback': undefined,
+    },
 });

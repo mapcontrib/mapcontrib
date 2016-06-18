@@ -1,35 +1,23 @@
 
+import _ from 'underscore';
+import Backbone from 'backbone';
+import BackboneRelational from 'backbone-relational';
+import CONST from '../const';
 
-define([
 
-    'underscore',
-    'backbone',
-    'settings',
-    'const',
-],
-function (
+export default Backbone.RelationalModel.extend({
+    defaults: {
+        'uniqid': undefined,
+        'name': undefined,
+        'description': undefined,
+        'order': undefined,
+        'tags': [], // [{'key': '', 'value': '', 'readOnly': true}, [...]]
+    },
 
-    _,
-    Backbone,
-    settings,
-    CONST
-) {
-
-    'use strict';
-
-    return Backbone.Model.extend({
-
-        idAttribute: '_id',
-
-        urlRoot: settings.apiPath + 'preset',
-
-        defaults: {
-
-            'themeId': undefined,
-            'name': undefined,
-            'description': undefined,
-            'order': undefined,
-            'tags': [], // [{'key': '', 'value': '', 'readOnly': true}, [...]]
-        },
-    });
+    initialize: function () {
+        if (!this.get('uniqid')) {
+            let uniqid = this.cid +'_'+ new Date().getTime();
+            this.set('uniqid', uniqid);
+        }
+    },
 });

@@ -1,0 +1,22 @@
+<div class="form-group append-xs-2">
+    <div class="input-group">
+        <input type="text" class="form-control key" data-l10n-id="uiFormNodeTags_key" value="<%- key %>" spellcheck="false" autocomplete="on" autocorrect="off">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-info info_btn" tabindex="-1"><i class="fa fa-fw fa-info-circle"></i></button>
+        </div>
+    </div>
+    <div class="input-group">
+        <input type="text" class="form-control value" data-l10n-id="uiFormNodeTags_value" value="<%- value %>">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>
+        </div>
+    </div>
+    <div class="checkbox">
+        <input type="checkbox" id="keyReadOnly_<%- cid %>" class="keyReadOnly" value="1">
+        <label for="keyReadOnly_<%- cid %>" data-l10n-id="uiFormNodeTags_keyReadOnly">Clef en lecture seule</label>
+    </div>
+    <div class="checkbox">
+        <input type="checkbox" id="valueReadOnly_<%- cid %>" class="valueReadOnly" value="1">
+        <label for="valueReadOnly_<%- cid %>" data-l10n-id="uiFormNodeTags_valueReadOnly">Valeur en lecture seule</label>
+    </div>
+</div>

@@ -1,525 +1,228 @@
 
+import $ from 'jquery';
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import osmAuth from 'osm-auth';
+import ContributionErrorNotificationView from './contributionErrorNotification';
+import OsmEditHelper from '../helper/osmEdit.js';
+import CONST from '../const';
+import template from '../../templates/editPoiDataColumn.ejs';
+import ContribNodeTagsListView from '../ui/form/contribNodeTags';
+import OsmNodeModel from '../model/osmNode';
+import Cache from '../core/cache';
+import PopupContent from '../core/popupContent';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-    'settings',
-    'osm-auth',
-    'view/contributionErrorNotification',
-    'helper/osmEdit',
-    'const',
-],
-function (
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates,
-    settings,
-    osmAuth,
-    ContributionErrorNotificationView,
-    OsmEditHelper,
-    CONST
-) {
+export default Marionette.LayoutView.extend({
+    template: template,
 
-    'use strict';
+    behaviors: {
+        'l20n': {},
+        'column': {},
+    },
 
-    return Marionette.LayoutView.extend({
+    regions: {
+        'tagList': '.rg_tag_list',
+    },
 
-        template: JST['editPoiDataColumn.html'],
-        templateField: JST['editPoiDataField.html'],
+    ui: {
+        'column': '#edit_poi_data_column',
+        'content': '.content',
+        'footer': '.sticky-footer',
+        'footerButtons': '.sticky-footer button',
+        'addBtn': '.add_btn',
+    },
 
-        behaviors: {
+    events: {
+        'click @ui.addBtn': 'onClickAddBtn',
+        'submit': 'onSubmit',
+    },
 
-            'l20n': {},
-            'column': {},
-        },
+    initialize: function () {
+        this._app = this.options.app;
+        this._user = this._app.getUser();
+        this._radio = Wreqr.radio.channel('global');
 
-        ui: {
+        if ( !this._app.isLogged() ) {
+            return false;
+        }
 
-            'column': '#edit_poi_data_column',
-            'fields': '.fields',
-            'footer': '.sticky-footer',
-            'footerButtons': '.sticky-footer button',
-        },
+        this.model = new OsmNodeModel({
+            'id': this.options.osmElement.id,
+            'type': this.options.osmElement.type,
+            'version': this.options.osmElement.version,
+            'lat': this.options.osmElement.lat,
+            'lon': this.options.osmElement.lon,
+            'tags': this.options.osmElement.tags,
+        });
 
-        events: {
-
-            'submit': 'onSubmit',
-            'reset': 'onReset',
-        },
-
-        initialize: function () {
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-
-            if ( !this._radio.reqres.request('var', 'isLogged') ) {
-
-                return false;
-            }
-
-            var self = this;
-
-            this._user = this._radio.reqres.request('model', 'user');
-
-            this._unresolvedConflicts = 0;
-
-            this._auth = osmAuth({
-
-                'oauth_consumer_key': settings.oauthConsumerKey,
-                'oauth_secret': settings.oauthSecret,
+        this._osmEdit = new OsmEditHelper(
+            osmAuth({
+                'oauth_consumer_key': config.oauthConsumerKey,
+                'oauth_secret': config.oauthSecret,
                 'oauth_token': this._user.get('token'),
                 'oauth_token_secret': this._user.get('tokenSecret'),
-            });
-
-            this._osmEdit = new OsmEditHelper( this._auth );
-            this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
-            this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
-            this._osmEdit.setUid(this._user.get('osmId'));
-            this._osmEdit.setDisplayName(this._user.get('displayName'));
-        },
-
-        onBeforeOpen: function () {
-
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
-
-        open: function () {
-
-            this.triggerMethod('open');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-
-        onRender: function () {
-
-            if ( !this.options.poiLayerModel.get('dataEditable') ) {
-
-                return this;
-            }
-
-            if ( !this._radio.reqres.request('var', 'isLogged') ) {
-
-                return this;
-            }
-
-            var popupTag,
-            self = this,
-            html = '',
-            dataFromOSM = this.options.dataFromOSM,
-            poiLayerModel = this.options.poiLayerModel,
-            popupContent = poiLayerModel.get('popupContent'),
-            re = new RegExp('{(.*?)}', 'g'),
-            popupTags = popupContent.match(re);
-
-
-            this.getRemoteEntityData( dataFromOSM.id, dataFromOSM.type, function (remoteData) {
-
-                self._remoteData = remoteData;
-
-                if ( popupTags) {
-
-                    for (var i in popupTags) {
-
-                        popupTags[i] = popupTags[i].replace( /\{(.*?)\}/g, '$1' );
-                        popupTag = popupTags[i];
-
-                        html += self.templateField({
-
-                            'tag': popupTag,
-                            'value': dataFromOSM.tags[popupTag],
-                            'remoteValue': '',
-                        });
-                    }
-                }
-
-                self.ui.fields.html( html );
-
-                html = '';
-
-                for (var tag in remoteData.tags) {
-
-                    var value = remoteData.tags[ tag ];
-
-                    if ( popupTags && popupTags.indexOf(tag) > -1 ) {
-
-                        continue;
-                    }
-
-                    html += self.templateField({
-
-                        'tag': tag,
-                        'value': value,
-                        'remoteValue': '',
-                    });
-                }
-
-                if ( html ) {
-
-                    self.ui.fields.append( '<hr>' + html );
-                }
-
-                self.ui.footer.removeClass('hide');
-
-                document.l10n.localizeNode( self.ui.fields[0] );
-            });
-        },
-
-        getRemoteEntityData: function ( id, type, callback ) {
-
-            var self = this;
-
-            $.ajax({
-
-                'method': 'GET',
-                'dataType': 'xml',
-                'url': 'https://api.openstreetmap.org/api/0.6/'+ type +'/'+ id,
-                'success': function (xml, jqXHR, textStatus) {
-
-                    var key, value,
-                    parentElement = xml.getElementsByTagName(type)[0],
-                    tags = xml.documentElement.getElementsByTagName('tag'),
-                    version = parseInt( parentElement.getAttribute('version') ),
-                    result = {
-
-                        'version': version,
-                        'tags': {},
-                        'xml': xml
-                    },
-                    contributionKey = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
-                    contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
-
-                    if ( contributions[ contributionKey ] ) {
-
-                        if ( version >= contributions[ contributionKey ].version ) {
-
-                            delete contributions[ contributionKey ];
-
-                            localStorage.setItem('contributions', JSON.stringify( contributions ));
-                        }
-                        else {
-
-                            self.options.dataFromOSM = contributions[ contributionKey ];
-                        }
-                    }
-
-
-                    for (var j in tags) {
-
-                        if ( tags[j].getAttribute ) {
-
-                            key = tags[j].getAttribute('k');
-                            value = tags[j].getAttribute('v');
-
-                            result.tags[ key ] = value;
-                        }
-                    }
-
-                    callback( result );
-                },
-                'error': function (jqXHR, textStatus, error) {
-
-                    console.error('FIXME');
-                },
-            });
-        },
-
-        onSubmit: function (e) {
-
-            var self = this;
-
-            e.preventDefault();
-
-            if ( !this._radio.reqres.request('var', 'isLogged') ) {
-
-                return false;
-            }
-
-            this.ui.footerButtons.prop('disabled', true);
-
-            this.getRemoteEntityData(
-
-                this.options.dataFromOSM.id,
-                this.options.dataFromOSM.type,
-                function (remoteData) {
-
-                    if ( self._remoteData.version !== remoteData.version ) {
-
-                        self.displayConflict( remoteData );
-                    }
-                    else {
-
-                        self.prepareXml( remoteData );
-                    }
-                }
-            );
-        },
-
-        prepareXml: function ( remoteData ) {
-
-            var tag, value,
-            self = this,
-            parentElement = remoteData.xml.getElementsByTagName(this.options.dataFromOSM.type)[0],
-            tags = remoteData.xml.documentElement.getElementsByTagName('tag'),
-            remoteTags = {};
-
-            for (var i in tags) {
-
-                if ( tags[i].getAttribute ) {
-
-                    remoteTags[ tags[i].getAttribute('k') ] = tags[i];
-                }
-            }
-
-            this.ui.fields
-            .find('input.form-control')
-            .each(function (i, input) {
-
-                tag = $(input).data('tag');
-                value = input.value;
-
-                if ( !value ) {
-
-                    if ( typeof remoteTags[tag] != 'undefined' ) {
-
-                        parentElement.removeChild( remoteTags[tag] );
-
-                        delete self.options.dataFromOSM.tags[tag];
-                    }
-
-                    return;
-                }
-
-                if ( remoteTags[tag] ) {
-
-                    remoteTags[tag].setAttribute('v', value);
+            })
+        );
+    },
+
+    onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
+
+    open: function () {
+        this.triggerMethod('open');
+    },
+
+    close: function () {
+        this.triggerMethod('close');
+    },
+
+    onRender: function () {
+        if ( !this.options.layerModel.get('dataEditable') ) {
+            return this;
+        }
+
+        if ( !this._app.isLogged() ) {
+            return this;
+        }
+
+        this._osmEdit.fetch(
+            this.model.get('type'),
+            this.model.get('id')
+        )
+        .then((osmEdit) => {
+            let version = osmEdit.getVersion(),
+            type = this.model.get('type'),
+            id = this.model.get('id');
+
+            this.model.set('tags', osmEdit.getTags());
+            this.model.set('version', osmEdit.getVersion());
+
+            if (Cache.exists(type, id)) {
+                if (Cache.isNewerThanCache(type, id, version)) {
+                    Cache.remove(type, id);
                 }
                 else {
+                    let elementFromCache = Cache.get(type, id);
 
-                    var newTag = remoteData.xml.createElement('tag');
+                    this.model.set('id', elementFromCache.id);
+                    this.model.set('type', elementFromCache.type);
+                    this.model.set('lat', elementFromCache.lat);
+                    this.model.set('lon', elementFromCache.lon);
+                    this.model.set('tags', elementFromCache.tags);
+                }
+            }
 
-                    newTag.setAttribute('k', tag);
-                    newTag.setAttribute('v', value);
+            this.renderTags( this.model.get('tags') );
+        })
+        .catch(() => {
+            console.error('FIXME');
+        });
+    },
 
-                    parentElement.appendChild(newTag);
+    renderTags: function (tags) {
+        this._tagList = new ContribNodeTagsListView();
+
+        let popupTag, value,
+        popupContent = this.options.layerModel.get('popupContent'),
+        popupTags = PopupContent.findTagsFromContent(popupContent);
+
+        if ( popupTags) {
+            for (let popupTag of popupTags) {
+                if ( tags[popupTag] ) {
+                    value = tags[popupTag];
+                }
+                else {
+                    value = '';
                 }
 
-                self.options.dataFromOSM.tags[tag] = value;
-            });
-
-
-            this.getChangesetId(function (changesetId) {
-
-                self.sendXml( remoteData.xml, changesetId );
-            });
-        },
-
-
-        displayConflict: function ( remoteData ) {
-
-            var tag, value, newField,
-            self = this,
-            html = '';
-
-            this._radio.commands.execute('modal:showConflict');
-
-            this.ui.fields
-            .find('.form-group')
-            .each(function (i, field) {
-
-                self.displayFeedbackOnField(field, remoteData);
-            });
-
-
-            for (tag in remoteData.tags) {
-
-                value = remoteData.tags[ tag ];
-
-                if ( this._remoteData.tags[tag] ) {
-
-                    continue;
-                }
-
-                html = this.templateField({
-
-                    'tag': tag,
-                    'value': '',
-                    'remoteValue': value,
-                });
-
-                newField = $( html ).appendTo( this.ui.fields );
-
-                this.displayFeedbackOnField(newField, remoteData);
-            }
-
-            this._remoteData = remoteData;
-
-            if ( this._unresolvedConflicts === 0 ) {
-
-                this.ui.footerButtons.prop('disabled', false);
-            }
-        },
-
-
-        displayFeedbackOnField: function (field, remoteData) {
-
-            var self = this,
-            $input = $('input.form-control', field),
-            tag = $input.data('tag'),
-            value = $input.val(),
-            remoteValue = remoteData.tags[tag] ? remoteData.tags[tag] : '';
-
-            if ( value !== remoteValue ) {
-
-                this._unresolvedConflicts++;
-
-                $('.remote_value', field).html(
-
-                    document.l10n.getSync('editPoiDataColumn_remoteValue', {
-
-                        'remoteValue': remoteValue ? remoteValue : '<em>'+ document.l10n.getSync('empty') +'</em>'
-                    })
-                );
-
-                $(field).addClass('has-warning has-feedback');
-                $('.merge_feedback', field).removeClass('hide');
-
-                $('.take_btn', field).click( self.onClickTake.bind(this, field, $input, remoteValue) );
-
-                $('.reject_btn', field).click( self.onClickReject.bind(this, field) );
-            }
-        },
-
-
-        onClickTake: function (field, $input, remoteValue) {
-
-            $input.val(remoteValue);
-
-            $(field).removeClass('has-warning has-feedback');
-            $('.merge_feedback', field).addClass('hide');
-
-            if ( --this._unresolvedConflicts === 0 ) {
-
-                this.ui.footerButtons.prop('disabled', false);
-            }
-        },
-
-
-        onClickReject: function (field) {
-
-            $(field).removeClass('has-warning has-feedback');
-            $('.merge_feedback', field).addClass('hide');
-
-            if ( --this._unresolvedConflicts === 0 ) {
-
-                this.ui.footerButtons.prop('disabled', false);
-            }
-        },
-
-
-        getChangesetId: function ( callback ) {
-
-            var self = this,
-            changesetId = sessionStorage.getItem('changesetId'),
-            changesetXml = this._osmEdit._buildChangesetXml();
-
-            if ( changesetId ) {
-
-                this._osmEdit._isChangesetStillOpen(changesetId)
-                .then(function (changesetId) {
-
-                    callback(changesetId);
-                })
-                .catch(function (err) {
-
-                    sessionStorage.removeItem('changesetId');
-                    self.getChangesetId(callback);
+                this._tagList.addTag({
+                    'key': popupTag,
+                    'value': value,
+                    'keyReadOnly': false,
+                    'valueReadOnly': false,
                 });
             }
-            else {
+        }
 
-                this._osmEdit._createChangeset()
-                .then(function (changesetId) {
-
-                    sessionStorage.setItem('changesetId', changesetId);
-                    callback(changesetId);
-                })
-                .catch(function (err) {
-
-                    console.log('ERROR on put changeset: ' + err.response);
-                    sessionStorage.removeItem('changesetId');
-                    self.getChangesetId(callback);
-                });
+        for (let key in tags) {
+            if ( popupTags && popupTags.indexOf(key) > -1 ) {
+                continue;
             }
-        },
 
-        sendXml: function (xml, changesetId) {
+            this._tagList.addTag({
+                'key': key,
+                'value': tags[key],
+                'keyReadOnly': false,
+                'valueReadOnly': false,
+            });
+        }
 
-            var data,
-            self = this,
-            id = this.options.dataFromOSM.id,
-            type = this.options.dataFromOSM.type,
-            parentElement = xml.getElementsByTagName(type)[0],
-            version = parseInt( parentElement.getAttribute('version') ),
-            serializer = new XMLSerializer();
+        this.ui.footer.removeClass('hide');
 
-            parentElement.setAttribute('changeset', changesetId);
-            parentElement.setAttribute('timestamp', new Date().toISOString());
-            parentElement.setAttribute('uid', this._user.get('osmId'));
-            parentElement.setAttribute('display_name', this._user.get('displayName'));
-            parentElement.removeAttribute('user');
+        this.getRegion('tagList').show( this._tagList );
+    },
 
-            data = serializer.serializeToString(xml);
+    onSubmit: function (e) {
+        e.preventDefault();
 
+        if ( !this._app.isLogged() ) {
+            return false;
+        }
 
-            this._auth.xhr({
+        this.ui.footerButtons.prop('disabled', true);
 
-                'method': 'PUT',
-                'path': '/api/0.6/'+ type +'/'+ id,
-                'options': { 'header': { 'Content-Type': 'text/xml' } },
-                'content': data,
-            },
-            function(err, res) {
+        this.model.set('tags', this._tagList.getTags());
 
-                if (err) {
+        this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+        this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
+        this._osmEdit.setId(this.model.get('id'));
+        this._osmEdit.setType(this.model.get('type'));
+        this._osmEdit.setVersion(this.model.get('version'));
+        this._osmEdit.setTimestamp(this.model.get('timestamp'));
+        this._osmEdit.setLatitude(this.model.get('lat'));
+        this._osmEdit.setLongitude(this.model.get('lon'));
+        this._osmEdit.setTags(this.model.get('tags'));
+        this._osmEdit.setUid(this._user.get('osmId'));
+        this._osmEdit.setDisplayName(this._user.get('displayName'));
 
-                    var notification = new ContributionErrorNotificationView({ 'retryCallback': self.sendXml.bind(self, xml, changesetId) });
+        this.sendContributionToOSM();
 
-                    $('body').append( notification.el );
+        this.close();
+    },
 
-                    notification.open();
+    sendContributionToOSM: function () {
+        this._osmEdit.send()
+        .then((version) => {
+            this.model.set('version', version);
 
-                    return;
-                }
+            this._radio.commands.execute(
+                'map:updatePoiPopup',
+                this.options.layerModel,
+                this.model.toJSON()
+            );
 
-                self._radio.commands.execute('map:updatePoiPopup', self.options.poiLayerModel, self.options.dataFromOSM);
-
-
-                var key = self.options.dataFromOSM.type +'-'+ self.options.dataFromOSM.id,
-                contributions = JSON.parse( localStorage.getItem('contributions') ) || {};
-
-                self.options.dataFromOSM.version++;
-
-                contributions[ key ] = self.options.dataFromOSM;
-
-                localStorage.setItem( 'contributions', JSON.stringify( contributions ) );
+            Cache.save(this.model.attributes);
+        })
+        .catch((err) => {
+            let notification = new ContributionErrorNotificationView({
+                'retryCallback': this.sendContributionToOSM.bind(this)
             });
 
-            this.close();
-        },
+            document.body.appendChild( notification.el );
 
-        onReset: function () {
+            notification.open();
+        });
+    },
 
-            this.close();
-        },
-    });
+    onClickAddBtn: function () {
+        this._tagList.addTag();
+
+        let scrollHeight = this.ui.column.height() +
+        this._tagList.el.scrollHeight;
+        this.ui.content[0].scrollTo(0, scrollHeight);
+    },
 });

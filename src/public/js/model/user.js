@@ -1,33 +1,19 @@
 
+import _ from 'underscore';
+import Backbone from 'backbone';
+import CONST from '../const';
 
-define([
 
-    'underscore',
-    'backbone',
-    'settings',
-],
-function (
+export default Backbone.Model.extend({
+    idAttribute: '_id',
 
-    _,
-    Backbone,
-    settings
-) {
+    urlRoot: CONST.apiPath + 'user',
 
-    'use strict';
-
-    return Backbone.Model.extend({
-
-        idAttribute: '_id',
-
-        urlRoot: settings.apiPath + 'user',
-
-        defaults: {
-
-            'osmId': undefined,
-            'displayName': undefined,
-            'avatar': undefined,
-            'token': undefined,
-            'tokenSecret': undefined,
-        }
-    });
+    defaults: {
+        'osmId': undefined,
+        'displayName': undefined,
+        'avatar': undefined,
+        'token': undefined,
+        'tokenSecret': undefined,
+    }
 });

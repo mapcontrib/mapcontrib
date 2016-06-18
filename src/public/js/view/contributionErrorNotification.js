@@ -1,75 +1,48 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/contributionErrorNotification.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-],
-function (
+export default Marionette.LayoutView.extend({
+    template: template,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates
-) {
-
-    'use strict';
-
-    return Marionette.LayoutView.extend({
-
-        template: JST['contributionErrorNotification.html'],
-
-        behaviors: {
-
-            'l20n': {},
-            'notification': {
-
-                'destroyOnClose': true,
-            },
+    behaviors: {
+        'l20n': {},
+        'notification': {
+            'destroyOnClose': true,
         },
+    },
 
-        ui: {
+    ui: {
+        'notification': '.notification',
 
-            'notification': '.notification',
+        'content': '.content',
 
-            'content': '.content',
+        'retryButton': '.retry_btn',
+    },
 
-            'retryButton': '.retry_btn',
-        },
+    events: {
+        'click @ui.retryButton': 'onClickRetry',
+    },
 
-        events: {
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
 
-            'click @ui.retryButton': 'onClickRetry',
-        },
+        return this.render();
+    },
 
-        initialize: function () {
+    open: function () {
+        this.triggerMethod('open');
+    },
 
-            var self = this;
+    close: function () {
+        this.triggerMethod('close');
+    },
 
-            this._radio = Backbone.Wreqr.radio.channel('global');
+    onClickRetry: function () {
+        this.options.retryCallback();
 
-            return this.render();
-        },
-
-        open: function () {
-
-            this.triggerMethod('open');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-
-        onClickRetry: function () {
-
-            this.options.retryCallback();
-            
-            this.close();
-        },
-    });
+        this.close();
+    },
 });

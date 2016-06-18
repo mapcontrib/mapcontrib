@@ -1,64 +1,119 @@
 
+import _ from 'underscore';
+import Backbone from 'backbone';
+import BackboneRelational from 'backbone-relational';
+import Diacritics from 'diacritic';
+import CONST from '../const';
 
-define([
+import LayerCollection from '../collection/layer';
+import PresetCollection from '../collection/preset';
+import Layer from './layer';
+import Preset from './preset';
 
-    'underscore',
-    'backbone',
-    'settings',
-],
-function (
 
-    _,
-    Backbone,
-    settings
-) {
+export default Backbone.RelationalModel.extend({
+    idAttribute: '_id',
 
-    'use strict';
+    urlRoot: CONST.apiPath + 'theme',
 
-    return Backbone.Model.extend({
-
-        idAttribute: '_id',
-
-        urlRoot: settings.apiPath + 'theme',
-
-        defaults: {
-
-            'userId': undefined,
-            'name': undefined,
-            'description': undefined,
-            'color': 'blue',
-            'tiles': ['osm'],
-            'zoomLevel': undefined,
-            'center': {
-
-                'lat': undefined,
-                'lng': undefined,
-            },
-            'owners': [],
+    relations: [
+        {
+            'type': Backbone.HasMany,
+            'key': 'layers',
+            'relatedModel': Layer,
+            'collectionType': LayerCollection,
         },
+        {
+            'type': Backbone.HasMany,
+            'key': 'presets',
+            'relatedModel': Preset,
+            'collectionType': PresetCollection,
+        },
+    ],
 
-        /**
-         * Check if a user is owner of this theme.
-         *
-         * @author Guillaume AMAT
-         * @param userModel - A user model
-         * @return boolean
-         */
-        isOwner: function (userModel) {
+    defaults: {
+        'userId': undefined,
+        'name': 'MapContrib',
+        'description': '',
+        'color': 'blue',
+        'tiles': ['osmFr'],
+        'zoomLevel': 3,
+        'center': {
+            'lat': 33.57,
+            'lng': 1.58,
+        },
+        'owners': [],
+        'geocoder': undefined,
+    },
 
-            var userId = userModel.get('_id');
-
-            if ( this.get('owners').indexOf( userId ) > -1 ) {
-
-                return true;
+    initialize: function() {
+        if (!this.get('geocoder')) {
+            if (typeof window !== 'undefined' && typeof config !== 'undefined') {
+                this.set('geocoder', CONST.geocoder[ config.defaultGeocoder ]);
             }
+        }
+    },
 
-            if ( this.get('owners').indexOf('*') > -1 ) {
+    /**
+     * Check if a user is owner of this theme.
+     *
+     * @author Guillaume AMAT
+     * @access public
+     * @param {object} userModel - A user model
+     * @return boolean
+     */
+    isOwner: function (userModel) {
+        let userId = userModel.get('_id');
 
-                return true;
-            }
-
+        if ( !userId ) {
             return false;
         }
-    });
+
+        if ( this.get('userId') === userId ) {
+            return true;
+        }
+
+        if ( this.get('owners').indexOf( userId ) > -1 ) {
+            return true;
+        }
+
+        if ( this.get('owners').indexOf('*') > -1 ) {
+            return true;
+        }
+
+        return false;
+    },
+
+    /**
+     * Returns a URL-friendly name of the theme.
+     *
+     * @author Guillaume AMAT
+     * @access public
+     * @return string
+     */
+    buildWebLinkName: function () {
+        let name = this.get('name') || '';
+
+        name = Diacritics.clean(name);
+        name = name.replace(/-/g, '_');
+        name = name.replace(/ /g, '_');
+        name = name.replace(/_{2,}/g, '_');
+        name = name.replace(/[^a-zA-Z0-9\_]/g, '');
+
+        return name;
+    },
+
+    /**
+     * Returns the theme path.
+     *
+     * @author Guillaume AMAT
+     * @access public
+     * @return string
+     */
+    buildPath: function () {
+        return '/t/' +
+        this.get('fragment') +
+        '-' +
+        this.buildWebLinkName();
+    }
 });

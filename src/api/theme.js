@@ -1,145 +1,133 @@
 
-var crypto = require('crypto'),
-mongo = require('mongodb'),
-requirejs = require('requirejs'),
-Promise = require('es6-promise').Promise,
-ThemeModel = requirejs('model/theme'),
-options = {
+import crypto from 'crypto';
+import Backbone from 'backbone';
+import Sifter from 'sifter';
+import { ObjectID } from 'mongodb';
+import ThemeModel from '../public/js/model/theme';
 
+
+let options = {
     'CONST': undefined,
     'database': undefined,
-},
+};
 
-setOptions = function (hash) {
 
+function setOptions (hash) {
     options = hash;
-},
+}
 
-api = {
+function addThemeInUserSession (session, theme) {
+    theme._id = theme._id.toString();
+    session.themes.push( theme._id );
+    return true;
+}
 
-    post: function (req, res) {
 
-        var collection = options.database.collection('theme'),
-        model = new ThemeModel(req.body);
-
-        if ( !model.isValid() ) {
-
-            res.sendStatus(400);
-
-            return true;
+let api = {
+    post (req, res) {
+        if (!req.session.user) {
+            res.sendStatus(401);
         }
 
-
-        collection.insert(req.body, {'safe': true}, function (err, results) {
-
-            if(err) {
-
-                res.sendStatus(500);
-
-                return true;
-            }
-
-            var result = results[0];
-
-            self.getNewFragment(result, req, res);
+        api.createTheme( req.session, req.session.user._id.toString() )
+        .then(result => {
+            result._id = result._id.toString();
+            res.send(result);
+        })
+        .catch(errorCode => {
+            res.sendStatus(errorCode);
         });
     },
 
-    getNewFragment: function (theme, req, res) {
+    createTheme (session, userId) {
+        Backbone.Relational.store.reset();
 
-        var fragment,
-        self = this,
-        collection = options.database.collection('theme'),
+        let collection = options.database.collection('theme'),
+        model = new ThemeModel({
+            'userId': userId,
+            'owners': [ userId ]
+        });
+
+        return new Promise((resolve, reject) => {
+            api.getNewFragment()
+            .then(fragment => {
+                model.set('fragment', fragment);
+
+                collection.insertOne(
+                    model.toJSON(),
+                    {'safe': true},
+                    (err, results) => {
+                        if(err) {
+                            return reject(500);
+                        }
+
+                        let result = results.ops[0];
+
+                        addThemeInUserSession(session, result);
+
+                        resolve(result);
+                    }
+                );
+            });
+        });
+    },
+
+    getNewFragment: function () {
+        let collection = options.database.collection('theme'),
         shasum = crypto.createHash('sha1');
 
-        shasum.update( [
-
-            theme._id.toString(),
+        shasum.update([
             new Date().getTime().toString()
         ].join('') );
 
-        fragment = shasum.digest('hex').substr(0, 6);
+        let fragment = shasum.digest('hex').substr(0, 6);
 
-        collection.find({
+        return new Promise((resolve, reject) => {
+            collection.find({
+                'fragment': fragment
+            })
+            .toArray((err, results) => {
+                if(err) {
+                    return reject(500);
+                }
 
-            'fragment': fragment
-        })
-        .toArray(function (err, results) {
-
-            if(err) {
-
-                res.sendStatus(500);
-
-                return true;
-            }
-
-            if (results.length === 0) {
-
-                theme.fragment = fragment;
-
-                collection.update({
-
-                    '_id': theme._id
-                },
-                {
-                    '$set': { 'fragment': fragment }
-                },
-                {'safe': true},
-                function (err) {
-
-                    if(err) {
-
-                        res.sendStatus(500);
-
-                        return true;
-                    }
-
-                    var result = results[0];
-                    result._id = result._id.toString();
-
-                    res.send(result);
-                });
-            }
-            else {
-
-                api.getNewFragment(theme, req, res);
-            }
+                if (results.length === 0) {
+                    resolve(fragment);
+                }
+                else {
+                    return api.getNewFragment();
+                }
+            });
         });
     },
 
 
     get: function (req, res) {
-
         if ( !req.params._id || !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
-        var collection = options.database.collection('theme');
+        let collection = options.database.collection('theme');
 
         collection.find({
-
-            '_id':  new mongo.ObjectID(req.params._id)
+            '_id':  new ObjectID(req.params._id)
         })
-        .toArray(function (err, results) {
-
+        .toArray((err, results) => {
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
             }
 
             if (results.length === 0) {
-
                 res.sendStatus(404);
 
                 return true;
             }
 
-            var result = results[0];
+            let result = results[0];
             result._id = result._id.toString();
 
             res.send(result);
@@ -148,18 +136,24 @@ api = {
 
 
     getAll: function (req, res) {
+        let collection = options.database.collection('theme');
+        let filters = {};
 
-        var collection = options.database.collection('theme');
+        if (req.query.hasLayer) {
+            filters.layers = {
+                '$exists': true,
+                '$not': {
+                    '$size': 0
+                }
+            };
+        }
 
         if ( req.query.fragment ) {
-
             api.findFromFragment(req.query.fragment)
-            .then(function (theme) {
-
+            .then((theme) => {
                 res.send(theme);
             })
-            .catch(function (errorCode) {
-
+            .catch((errorCode) => {
                 res.sendStatus(errorCode);
             });
 
@@ -167,28 +161,24 @@ api = {
         }
 
 
-        collection.find()
-        .toArray(function (err, results) {
-
+        collection.find(
+            filters
+        )
+        .toArray((err, results) => {
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
             }
 
             if (results.length > 0) {
-
-                results.forEach(function (result) {
-
+                results.forEach((result) => {
                     result._id = result._id.toString();
                 });
             }
 
             if ( req.query.fragment ) {
-
                 if (results.length === 0) {
-
                     res.sendStatus(404);
 
                     return true;
@@ -198,43 +188,87 @@ api = {
 
                 return true;
             }
+            else if ( req.query.q ) {
+                if (req.query.q.length < 3) {
+                    res.status(400).send('Query too short');
+                    return;
+                }
 
-            res.send(results);
+                let searchFields = [];
+
+                for (let theme of results) {
+                    let layerfields = [];
+
+                    for (let layer of theme.layers) {
+                        layerfields.push([
+                            layer.name,
+                            layer.description,
+                            layer.overpassRequest
+                        ].join(' '));
+                    }
+
+                    searchFields.push({
+                        'name': theme.name,
+                        'description': theme.description,
+                        'fragment': theme.fragment,
+                        'layers': layerfields.join(' '),
+                    });
+                }
+
+                let searchResults = [];
+                let sifter = new Sifter(searchFields);
+                let sifterResults = sifter.search(
+                    req.query.q,
+                    {
+                        'fields': [
+                            'name',
+                            'description',
+                            'fragment',
+                            'layers',
+                        ],
+                        'limit': 30
+                    }
+                );
+
+                for (let result of sifterResults.items) {
+                    searchResults.push(
+                        results[ result.id ]
+                    );
+                }
+
+                res.send(searchResults);
+            }
+            else {
+                res.send(results);
+            }
         });
     },
 
 
     findFromFragment: function (fragment) {
-
-        return new Promise(function (resolve, reject) {
-
-            var collection = options.database.collection('theme');
+        return new Promise((resolve, reject) => {
+            let collection = options.database.collection('theme');
 
             if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
-
                 reject(400);
                 return;
             }
 
             collection.find({
-
                 'fragment': fragment
             })
-            .toArray(function (err, results) {
-
+            .toArray((err, results) => {
                 if(err) {
-
                     reject(500);
                     return;
                 }
 
                 if (results.length === 0) {
-
                     reject(404);
                     return;
                 }
 
-                var result = results[0];
+                let result = results[0];
                 result._id = result._id.toString();
 
                 resolve(result);
@@ -244,13 +278,10 @@ api = {
 
 
     findFromOwnerId: function (ownerId) {
-
-        return new Promise(function (resolve, reject) {
-
-            var collection = options.database.collection('theme');
+        return new Promise((resolve, reject) => {
+            let collection = options.database.collection('theme');
 
             if ( !ownerId || !options.CONST.pattern.mongoId.test( ownerId ) ) {
-
                 reject(400);
                 return;
             }
@@ -261,18 +292,14 @@ api = {
                     { 'owners': '*' }
                 ]
             })
-            .toArray(function (err, results) {
-
+            .toArray((err, results) => {
                 if(err) {
-
                     reject(500);
                     return;
                 }
 
                 if (results.length > 0) {
-
-                    results.forEach(function (result) {
-
+                    results.forEach((result) => {
                         result._id = result._id.toString();
                     });
                 }
@@ -284,28 +311,25 @@ api = {
 
 
     put: function (req, res) {
-
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
         if ( !api.isThemeOwner(req, res, req.params._id) ) {
-
             res.sendStatus(401);
 
             return true;
         }
 
+        Backbone.Relational.store.reset();
 
-        var new_json = req.body,
+        let new_json = req.body,
         collection = options.database.collection('theme'),
         model = new ThemeModel(new_json);
 
         if ( !model.isValid() ) {
-
             res.sendStatus(400);
 
             return true;
@@ -313,16 +337,13 @@ api = {
 
         delete(new_json._id);
 
-        collection.update({
-
-            '_id': new mongo.ObjectID(req.params._id)
+        collection.updateOne({
+            '_id': new ObjectID(req.params._id)
         },
         new_json,
         {'safe': true},
-        function (err) {
-
+        (err) => {
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
@@ -335,33 +356,27 @@ api = {
 
 
     delete: function (req, res) {
-
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-
             res.sendStatus(400);
 
             return true;
         }
 
         if ( !api.isThemeOwner(req, res, req.params._id) ) {
-
             res.sendStatus(401);
 
             return true;
         }
 
 
-        var collection = options.database.collection('theme');
+        let collection = options.database.collection('theme');
 
         collection.remove({
-
-            '_id': new mongo.ObjectID(req.params._id)
+            '_id': new ObjectID(req.params._id)
         },
         {'safe': true},
-        function (err) {
-
+        (err) => {
             if(err) {
-
                 res.sendStatus(500);
 
                 return true;
@@ -373,25 +388,21 @@ api = {
 
 
     isThemeOwner: function (req, res, themeId) {
-
         if ( !req.session.user || !req.session.themes ) {
-
             return false;
         }
 
         if ( req.session.themes.indexOf( themeId ) === -1 ) {
-
             return false;
         }
 
         return true;
-    },
+    }
 };
 
 
 
-module.exports = {
-
-    'setOptions': setOptions,
-    'api': api,
+export default {
+    setOptions,
+    api
 };

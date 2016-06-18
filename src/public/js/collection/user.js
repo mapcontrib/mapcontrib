@@ -1,28 +1,11 @@
 
+import Backbone from 'backbone';
+import CONST from '../const';
+import UserModel from '../model/user';
 
-define([
 
-    'underscore',
-    'backbone',
-    'settings',
-    'model/user',
-],
-function (
+export default Backbone.Collection.extend({
+    url: CONST.apiPath + 'user',
 
-    _,
-    Backbone,
-    settings,
-    UserModel
-) {
-
-    'use strict';
-
-    return Backbone.Collection.extend({
-
-        url: settings.apiPath + 'user',
-
-        model: UserModel,
-
-        comparator: 'displayName',
-    });
+    model: UserModel,
 });

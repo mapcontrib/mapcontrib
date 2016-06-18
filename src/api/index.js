@@ -1,0 +1,122 @@
+
+import Backbone from 'backbone';
+import config from 'config';
+import userApi from './user';
+import themeApi from './theme';
+import ThemeModel from '../public/js/model/theme';
+
+
+
+export default function Api(app, db, CONST){
+    let options = {
+        'CONST': CONST,
+        'database': db,
+    };
+
+    userApi.setOptions( options );
+    themeApi.setOptions( options );
+
+
+    app.get('/api/user/logout', userApi.api.logout);
+    // app.get('/api/user', userApi.api.getAll);
+    app.get('/api/user/:_id', userApi.api.get);
+    app.post('/api/user', isLoggedIn, userApi.api.post);
+    app.put('/api/user/:_id', isLoggedIn, userApi.api.put);
+    // app.delete('/api/user/:_id', isLoggedIn, userApi.api.delete);
+
+    app.get('/api/theme', themeApi.api.getAll);
+    app.get('/api/theme/:_id', themeApi.api.get);
+    app.post('/api/theme', isLoggedIn, themeApi.api.post);
+    app.put('/api/theme/:_id', isLoggedIn, themeApi.api.put);
+    // app.delete('/api/theme/:_id', isLoggedIn, themeApi.api.delete);
+
+    app.get('/', (req, res) => {
+        let clientConfig = config.get('client');
+        let templateVars = {
+            'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
+            'config': JSON.stringify( clientConfig ),
+            'highlightList': '[]',
+        };
+
+        if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
+            let promises = [];
+
+            for (let fragment of clientConfig.highlightedThemes) {
+                promises.push(
+                    themeApi.api.findFromFragment(fragment)
+                );
+            }
+
+            Promise.all(promises)
+            .then((themeObjects) => {
+                let highlightList = [];
+
+                for (let themeObject of themeObjects) {
+                    highlightList.push(themeObject);
+                }
+
+                templateVars.highlightList = JSON.stringify( highlightList );
+
+                res.render('home', templateVars);
+            })
+            .catch( onPromiseError.bind(this, res) );
+        }
+        else {
+            res.render('home', templateVars);
+        }
+    });
+
+
+    app.get('/t/:fragment-*', (req, res) => {
+        let templateVars = {
+            'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
+            'config': JSON.stringify( config.get('client') )
+        };
+
+        themeApi.api.findFromFragment(req.params.fragment)
+        .then(( themeObject ) => {
+            templateVars.theme = JSON.stringify( themeObject );
+
+            res.render('theme', templateVars);
+        })
+        .catch( onPromiseError.bind(this, res) );
+    });
+
+
+    app.get('/create_theme', (req, res) => {
+        if (!req.session.user) {
+            res.sendStatus(401);
+        }
+
+        let userId = req.session.user._id.toString();
+
+        themeApi.api.createTheme(req.session, userId)
+        .then(theme => {
+            Backbone.Relational.store.reset();
+
+            let collection = options.database.collection('theme'),
+            model = new ThemeModel(theme);
+
+            res.redirect(
+                model.buildPath()
+            );
+        })
+        .catch( onPromiseError.bind(this, res) );
+    });
+}
+
+
+
+function isLoggedIn (req, res, next) {
+    if ( req.isAuthenticated() ) {
+        return next();
+    }
+
+    res.sendStatus(401);
+}
+
+
+
+function onPromiseError(res, errorCode) {
+    res.sendStatus(errorCode);
+}

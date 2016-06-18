@@ -1,63 +1,38 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/loginModal.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'bootstrap',
-    'templates',
-],
-function (
+export default Marionette.LayoutView.extend({
+    template: template,
 
-    _,
-    Backbone,
-    Marionette,
-    Bootstrap,
-    templates
-) {
+    behaviors: {
+        'l20n': {},
+        'modal': {},
+    },
 
-    'use strict';
+    ui: {
+        'modal': '#login_modal',
+    },
 
-    return Marionette.LayoutView.extend({
+    templateHelpers: function () {
+        return {
+            'successRedirect': this.options.authSuccessCallback,
+            'failRedirect': this.options.authFailCallback,
+        };
+    },
 
-        template: JST['loginModal.html'],
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-        behaviors: {
+    onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('widget:closeAll');
+    },
 
-            'l20n': {},
-            'modal': {},
-        },
-
-        ui: {
-
-            'modal': '#login_modal',
-        },
-
-        templateHelpers: function () {
-
-            return {
-
-                'authCallback': '/theme-'+ this.options.fragment,
-            };
-        },
-
-        initialize: function () {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
-
-        onBeforeOpen: function () {
-
-            this._radio.vent.trigger('column:closeAll');
-            this._radio.vent.trigger('widget:closeAll');
-        },
-
-        close: function () {
-
-            this.triggerMethod('close');
-        },
-    });
+    close: function () {
+        this.triggerMethod('close');
+    },
 });

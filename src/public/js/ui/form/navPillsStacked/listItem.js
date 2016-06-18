@@ -1,59 +1,37 @@
 
+import Marionette from 'backbone.marionette';
+import marked from 'marked';
+import listItemTemplate from './listItem.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'marionette',
-    'templates',
-],
-function (
+export default Marionette.ItemView.extend({
+    template: listItemTemplate,
 
-    _,
-    Backbone,
-    Marionette,
-    templates
-) {
+    tagName: 'li',
 
-    'use strict';
+    attributes: {
+        'role': 'presentation',
+    },
 
-    return Marionette.ItemView.extend({
+    ui: {
+        'link': 'a',
+    },
 
-        template: JST['ui/form/navPillsStacked/listItem.html'],
+    events: {
+        'click @ui.link': 'onClick'
+    },
 
-        tagName: 'li',
+    templateHelpers: function () {
+        return {
+            'description': marked( this.model.get('description') ),
+        };
+    },
 
-        attributes: {
+    onClick: function (e) {
+        var callback = this.model.get('callback');
 
-            'role': 'presentation',
-        },
-
-        ui: {
-
-            'link': 'a',
-        },
-
-        events: {
-
-            'click @ui.link': 'onClick'
-        },
-
-        templateHelpers: function () {
-
-            return {
-
-                'description': markdown.toHTML( this.model.get('description') ),
-            };
-        },
-
-        onClick: function (e) {
-
-            var callback = this.model.get('callback');
-
-            if (callback) {
-
-                callback();
-            }
+        if (callback) {
+            callback();
         }
-    });
+    }
 });

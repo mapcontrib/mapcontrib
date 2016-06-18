@@ -1,71 +1,49 @@
 
+import Wreqr from 'backbone.wreqr';
+import Marionette from 'backbone.marionette';
+import template from '../../templates/editPresetListItem.ejs';
 
-define([
 
-    'underscore',
-    'backbone',
-    'settings',
-],
-function (
+export default Marionette.ItemView.extend({
+    template: template,
 
-    _,
-    Backbone,
-    settings
-) {
+    tagName: 'a',
 
-    'use strict';
+    className: 'list-group-item',
 
-    return Marionette.ItemView.extend({
+    attributes: {
+        'href': '#',
+    },
 
-        template: JST['editPresetListItem.html'],
+    modelEvents: {
+        'change': 'render'
+    },
 
-        tagName: 'a',
+    ui: {
+        'remove_btn': '.remove_btn'
+    },
 
-        className: 'list-group-item',
+    events: {
+        'click': 'onClick',
+        'click @ui.remove_btn': 'onClickRemove',
+    },
 
-        attributes: {
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+    },
 
-            'href': '#',
-        },
+    onRender: function () {
+        this.el.id = 'preset-'+ this.model.cid;
+    },
 
-        modelEvents: {
+    onClick: function () {
+        this._radio.commands.execute( 'column:showPresetTags', this.model );
+    },
 
-            'change': 'render'
-        },
+    onClickRemove: function (e) {
+        e.stopPropagation();
 
-        ui: {
-
-            'remove_btn': '.remove_btn'
-        },
-
-        events: {
-
-            'click': 'onClick',
-            'click @ui.remove_btn': 'onClickRemove',
-        },
-
-        initialize: function () {
-
-            var self = this;
-
-            this._radio = Backbone.Wreqr.radio.channel('global');
-        },
-
-        onRender: function () {
-
-            this.el.id = 'preset-'+ this.model.cid;
-        },
-
-        onClick: function () {
-
-            this._radio.commands.execute( 'column:showPresetTags', this.model );
-        },
-
-        onClickRemove: function (e) {
-
-            e.stopPropagation();
-
-            this.model.destroy();
-        },
-    });
+        this.model.destroy();
+        this._radio.commands.execute('theme:save');
+    },
 });
