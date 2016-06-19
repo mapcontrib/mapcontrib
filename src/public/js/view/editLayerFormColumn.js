@@ -2,7 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
-import template from '../../templates/editLayerColumn.ejs';
+import template from '../../templates/editLayerFormColumn.ejs';
 
 
 export default Marionette.ItemView.extend({
@@ -76,7 +76,7 @@ export default Marionette.ItemView.extend({
 
         this.ui.currentMapZoom.html(
             document.l10n.getSync(
-                'editLayerColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}
+                'editLayerFormColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}
             )
         );
     },

@@ -15,16 +15,16 @@ import ThemeTitleView from './themeTitle';
 import LoginModalView from './loginModal';
 import ConflictModalView from './conflictModal';
 import GeocodeWidgetView from './geocodeWidget';
-import SelectPoiColumnView from './selectPoiColumn';
+import SelectLayerColumnView from './selectLayerColumn';
 import SelectTileColumnView from './selectTileColumn';
 import UserColumnView from './userColumn';
 import LinkColumnView from './linkColumn';
 import ContribColumnView from './contribColumn';
 import ContribFormColumnView from './contribFormColumn';
 import EditSettingColumnView from './editSettingColumn';
-import EditPoiColumnView from './editPoiColumn';
-import EditLayerColumnView from './editLayerColumn';
-import EditPoiMarkerModalView from './editPoiMarkerModal';
+import EditLayerListColumnView from './editLayerListColumn';
+import EditLayerFormColumnView from './editLayerFormColumn';
+import EditLayerMarkerModalView from './editLayerMarkerModal';
 import EditTileColumnView from './editTileColumn';
 import EditPresetColumnView from './editPresetColumn';
 import EditPresetTagsColumnView from './editPresetTagsColumn';
@@ -96,16 +96,16 @@ export default Marionette.LayoutView.extend({
 
         'geocodeWidget': '#rg_geocode_widget',
 
-        'selectPoiColumn': '#rg_select_poi_column',
+        'selectLayerColumn': '#rg_select_poi_column',
         'selectTileColumn': '#rg_select_tile_column',
         'userColumn': '#rg_user_column',
         'linkColumn': '#rg_link_column',
         'contribColumn': '#rg_contrib_column',
         'contribFormColumn': '#rg_contrib_form_column',
         'editSettingColumn': '#rg_edit_setting_column',
-        'editPoiColumn': '#rg_edit_poi_column',
-        'editLayerColumn': '#rg_edit_poi_layer_column',
-        'editPoiMarkerModal': '#rg_edit_poi_marker_modal',
+        'editLayerListColumn': '#rg_edit_poi_column',
+        'editLayerFormColumn': '#rg_edit_poi_layer_column',
+        'editLayerMarkerModal': '#rg_edit_poi_marker_modal',
         'editTileColumn': '#rg_edit_tile_column',
         'editPresetColumn': '#rg_edit_preset_column',
         'editPresetTagsColumn': '#rg_edit_preset_tags_column',
@@ -252,13 +252,13 @@ export default Marionette.LayoutView.extend({
 
 
         this._geocodeWidgetView = new GeocodeWidgetView({ 'model': this.model });
-        this._selectPoiColumnView = new SelectPoiColumnView({ 'model': this.model });
+        this._selectLayerColumnView = new SelectLayerColumnView({ 'model': this.model });
         this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
         this._userColumnView = new UserColumnView();
         this._linkColumnView = new LinkColumnView({ 'model': this.model });
         this._contribColumnView = new ContribColumnView({ 'theme': this.model });
         this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
-        this._editPoiColumnView = new EditPoiColumnView({ 'model': this.model });
+        this._editLayerListColumnView = new EditLayerListColumnView({ 'model': this.model });
         this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
         this._editPresetColumnView = new EditPresetColumnView({ 'model': this.model });
 
@@ -268,13 +268,13 @@ export default Marionette.LayoutView.extend({
         this.getRegion('mainTitle').show( new ThemeTitleView({ 'model': this.model }) );
 
         this.getRegion('geocodeWidget').show( this._geocodeWidgetView );
-        this.getRegion('selectPoiColumn').show( this._selectPoiColumnView );
+        this.getRegion('selectLayerColumn').show( this._selectLayerColumnView );
         this.getRegion('selectTileColumn').show( this._selectTileColumnView );
         this.getRegion('userColumn').show( this._userColumnView );
         this.getRegion('linkColumn').show( this._linkColumnView );
         this.getRegion('contribColumn').show( this._contribColumnView );
         this.getRegion('editSettingColumn').show( this._editSettingColumnView );
-        this.getRegion('editPoiColumn').show( this._editPoiColumnView );
+        this.getRegion('editLayerListColumn').show( this._editLayerListColumnView );
         this.getRegion('editTileColumn').show( this._editTileColumnView );
         this.getRegion('editPresetColumn').show( this._editPresetColumnView );
 
@@ -873,7 +873,7 @@ export default Marionette.LayoutView.extend({
         var view;
 
         if ( layerModel ) {
-            view = new EditLayerColumnView({
+            view = new EditLayerFormColumnView({
                 'model': layerModel,
                 'theme': this.model,
             });
@@ -882,13 +882,13 @@ export default Marionette.LayoutView.extend({
             let layerModel = new LayerModel();
             this.model.get('layers').add( layerModel );
 
-            view = new EditLayerColumnView({
+            view = new EditLayerFormColumnView({
                 'model': layerModel,
                 'theme': this.model,
             });
         }
 
-        this.getRegion('editLayerColumn').show( view );
+        this.getRegion('editLayerFormColumn').show( view );
 
         view.open();
     },
@@ -934,11 +934,11 @@ export default Marionette.LayoutView.extend({
 
 
     onCommandShowEditPoiMarker: function (layerModel) {
-        var view = new EditPoiMarkerModalView({
+        var view = new EditLayerMarkerModalView({
             'model': layerModel
         });
 
-        this.getRegion('editPoiMarkerModal').show( view );
+        this.getRegion('editLayerMarkerModal').show( view );
     },
 
     onCommandShowConflict: function () {
@@ -1074,7 +1074,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickSelectPoi: function () {
-        this._selectPoiColumnView.open();
+        this._selectLayerColumnView.open();
     },
 
     onClickSelectTile: function () {
@@ -1153,7 +1153,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickEditPoi: function () {
-        this._editPoiColumnView.open();
+        this._editLayerListColumnView.open();
     },
 
     onClickEditTile: function () {

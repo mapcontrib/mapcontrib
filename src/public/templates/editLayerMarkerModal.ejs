@@ -7,15 +7,15 @@
                     <form>
 
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#marker_color_and_shape" aria-controls="marker_color_and_shape" role="tab" data-toggle="tab" data-l10n-id="editPoiMarkerModal_colorAndShape"></a></li>
-                            <li role="presentation"><a href="#marker_icon" aria-controls="marker_icon" role="tab" data-toggle="tab" data-l10n-id="editPoiMarkerModal_icon"></a></li>
+                            <li role="presentation" class="active"><a href="#marker_color_and_shape" aria-controls="marker_color_and_shape" role="tab" data-toggle="tab" data-l10n-id="editLayerMarkerModal_colorAndShape"></a></li>
+                            <li role="presentation"><a href="#marker_icon" aria-controls="marker_icon" role="tab" data-toggle="tab" data-l10n-id="editLayerMarkerModal_icon"></a></li>
                         </ul>
 
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active prepend-xs-2 append-xs-2" id="marker_color_and_shape">
 
                                 <div class="form-group">
-                                    <label class="control-label" data-l10n-id="editPoiMarkerModal_color"></label>
+                                    <label class="control-label" data-l10n-id="editLayerMarkerModal_color"></label>
                                     <div class="color-buttons">
                                         <button type="button" class="btn btn-xs btn-marker-color green" data-color="green"><div><i class="fa fa-fw"></i></div></button>
                                         <button type="button" class="btn btn-xs btn-marker-color blue" data-color="blue"><div><i class="fa fa-fw"></i></div></button>
@@ -32,7 +32,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label" data-l10n-id="editPoiMarkerModal_shape"></label>
+                                    <label class="control-label" data-l10n-id="editLayerMarkerModal_shape"></label>
                                     <div class="shape-buttons">
                                         <button type="button" class="btn btn-marker-shape marker1" data-shape="marker1">
                                             <img src="/img/markers/1.svg" alt="" />
@@ -53,20 +53,20 @@
                                         <div class="btn-group btn-group-justified append-xs-2" data-toggle="buttons">
                                             <label class="btn btn-default" id="iconTypeLibraryTab">
                                                 <input type="radio" name="marker_icon_type" class="marker_icon_type_tab" autocomplete="off" checked>
-                                                <span data-l10n-id="editPoiMarkerModal_library"></span>
+                                                <span data-l10n-id="editLayerMarkerModal_library"></span>
                                             </label>
                                             <label class="btn btn-default" id="iconTypeExternalTab">
                                                 <input type="radio" name="marker_icon_type" class="marker_icon_type_tab" autocomplete="off">
-                                                <span data-l10n-id="editPoiMarkerModal_external"></span>
+                                                <span data-l10n-id="editLayerMarkerModal_external"></span>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group form-library">
-                                    <p data-l10n-id="editPoiMarkerModal_iconDescriptionLibrary1"></p>
-                                    <p data-l10n-id="editPoiMarkerModal_iconDescriptionLibrary2"><a href="http://fortawesome.github.io/Font-Awesome/icons" target="_blank"></a></p>
-                                    <label for="marker_icon_name" class="control-label prepend-xs-1" data-l10n-id="editPoiMarkerModal_iconName"></label>
+                                    <p data-l10n-id="editLayerMarkerModal_iconDescriptionLibrary1"></p>
+                                    <p data-l10n-id="editLayerMarkerModal_iconDescriptionLibrary2"><a href="http://fortawesome.github.io/Font-Awesome/icons" target="_blank"></a></p>
+                                    <label for="marker_icon_name" class="control-label prepend-xs-1" data-l10n-id="editLayerMarkerModal_iconName"></label>
                                     <div class="input-group">
                                         <span class="input-group-addon">fa-</span>
                                         <input type="text" class="form-control" id="markerIconName" placeholder="home" value="<%- markerIcon %>">
@@ -75,9 +75,9 @@
                                 </div>
 
                                 <div class="form-group form-external hide">
-                                    <p data-l10n-id="editPoiMarkerModal_iconDescriptionExternal1"></p>
-                                    <p data-l10n-id="editPoiMarkerModal_iconDescriptionExternal2"></p>
-                                    <label for="marker_icon_url" class="control-label prepend-xs-1" data-l10n-id="editPoiMarkerModal_iconUrl"></label>
+                                    <p data-l10n-id="editLayerMarkerModal_iconDescriptionExternal1"></p>
+                                    <p data-l10n-id="editLayerMarkerModal_iconDescriptionExternal2"></p>
+                                    <label for="marker_icon_url" class="control-label prepend-xs-1" data-l10n-id="editLayerMarkerModal_iconUrl"></label>
                                     <input type="text" class="form-control" id="markerIconUrl" placeholder="http://..." value="<%- markerIconUrl %>">
                                 </div>
 

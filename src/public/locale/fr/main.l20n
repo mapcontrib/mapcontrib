@@ -80,9 +80,9 @@
 
 
 /* POI column */
-<selectPoiColumn_title "Centres d'intérêts">
-<selectPoiColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte.">
-<selectPoiColumn_needToZoom[plural($n)] {
+<selectLayerColumn_title "Centres d'intérêts">
+<selectLayerColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte.">
+<selectLayerColumn_needToZoom[plural($n)] {
   one: "Pour voir ces données, vous devez zoomer une fois.",
   many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
 }>
@@ -128,38 +128,38 @@
 
 
 /* Edit POI column */
-<editPoiColumn_title "Centres d'intérêt">
-<editPoiColumn_clickButton "Cliquez sur le bouton ci-dessous">
-<editPoiColumn_addLayer "Ajouter une couche">
+<editLayerListColumn_title "Centres d'intérêt">
+<editLayerListColumn_clickButton "Cliquez sur le bouton ci-dessous">
+<editLayerListColumn_addLayer "Ajouter une couche">
 
 
 /* Edit POI layer column */
-<editLayerColumn_title "Édition de la couche">
-<editLayerColumn_layerName "Nom">
-<editLayerColumn_layerDescription "Description">
-<editLayerColumn_visibilityAndEdition "Visibilité et édition">
-<editLayerColumn_dataEditable "Permettre l'édition des données">
-<editLayerColumn_visible "Visible par les utilisateurs">
-<editLayerColumn_layerZoomLevel "Zoom minimum">
-<editLayerColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
-<editLayerColumn_layerOverpassRequest "Requête Overpass">
-<editLayerColumn_marker "Marqueur">
-<editLayerColumn_layerPopupContent "Contenu des bulles">
+<editLayerFormColumn_title "Édition de la couche">
+<editLayerFormColumn_layerName "Nom">
+<editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_visibilityAndEdition "Visibilité et édition">
+<editLayerFormColumn_dataEditable "Permettre l'édition des données">
+<editLayerFormColumn_visible "Visible par les utilisateurs">
+<editLayerFormColumn_layerZoomLevel "Zoom minimum">
+<editLayerFormColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
+<editLayerFormColumn_layerOverpassRequest "Requête Overpass">
+<editLayerFormColumn_marker "Marqueur">
+<editLayerFormColumn_layerPopupContent "Contenu des bulles">
 
 
 /* Edit POI marker modal */
-<editPoiMarkerModal_colorAndShape "Couleur et forme">
-<editPoiMarkerModal_color "Couleur">
-<editPoiMarkerModal_shape "Forme">
-<editPoiMarkerModal_icon "Icône">
-<editPoiMarkerModal_library "Bibliothèque">
-<editPoiMarkerModal_external "Externe">
-<editPoiMarkerModal_iconName "Nom de l'icône">
-<editPoiMarkerModal_iconUrl "Url de l'icône">
-<editPoiMarkerModal_iconDescriptionLibrary1 "Les icônes sont tirées de la bibliothèque Font Awesome.">
-<editPoiMarkerModal_iconDescriptionLibrary2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
-<editPoiMarkerModal_iconDescriptionExternal1 "Vous pouvez utiliser votre propre icône si elle est hébergée sur internet.">
-<editPoiMarkerModal_iconDescriptionExternal2 "Renseignez son adresse dans le champs ci-dessous.">
+<editLayerMarkerModal_colorAndShape "Couleur et forme">
+<editLayerMarkerModal_color "Couleur">
+<editLayerMarkerModal_shape "Forme">
+<editLayerMarkerModal_icon "Icône">
+<editLayerMarkerModal_library "Bibliothèque">
+<editLayerMarkerModal_external "Externe">
+<editLayerMarkerModal_iconName "Nom de l'icône">
+<editLayerMarkerModal_iconUrl "Url de l'icône">
+<editLayerMarkerModal_iconDescriptionLibrary1 "Les icônes sont tirées de la bibliothèque Font Awesome.">
+<editLayerMarkerModal_iconDescriptionLibrary2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
+<editLayerMarkerModal_iconDescriptionExternal1 "Vous pouvez utiliser votre propre icône si elle est hébergée sur internet.">
+<editLayerMarkerModal_iconDescriptionExternal2 "Renseignez son adresse dans le champs ci-dessous.">
 
 
 /* Edit tiles column */

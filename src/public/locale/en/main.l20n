@@ -80,9 +80,9 @@
 
 
 /* POI column */
-<selectPoiColumn_title "Points of interest">
-<selectPoiColumn_explanation "Select the points of interest you want to see on the map">
-<selectPoiColumn_needToZoom[plural($n)] {
+<selectLayerColumn_title "Points of interest">
+<selectLayerColumn_explanation "Select the points of interest you want to see on the map">
+<selectLayerColumn_needToZoom[plural($n)] {
   one: "To see these data, you need to zoom once.",
   many: "To see these data, you need to zoom {{ $n }} times."
 }>
@@ -128,38 +128,38 @@
 
 
 /* Edit POI column */
-<editPoiColumn_title "Points of interest">
-<editPoiColumn_clickButton "Click the button below">
-<editPoiColumn_addLayer "Add a layer">
+<editLayerListColumn_title "Points of interest">
+<editLayerListColumn_clickButton "Click the button below">
+<editLayerListColumn_addLayer "Add a layer">
 
 
 /* Edit POI layer column */
-<editLayerColumn_title "Layer edit">
-<editLayerColumn_layerName "Name">
-<editLayerColumn_layerDescription "Description">
-<editLayerColumn_visibilityAndEdition "Visibility and edition">
-<editLayerColumn_visible "Visible by users">
-<editLayerColumn_dataEditable "Allow to edit data">
-<editLayerColumn_layerZoomLevel "Minimum zoom">
-<editLayerColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
-<editLayerColumn_layerOverpassRequest "Overpass request">
-<editLayerColumn_marker "Marker">
-<editLayerColumn_layerPopupContent "Popup content">
+<editLayerFormColumn_title "Layer edit">
+<editLayerFormColumn_layerName "Name">
+<editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_visibilityAndEdition "Visibility and edition">
+<editLayerFormColumn_visible "Visible by users">
+<editLayerFormColumn_dataEditable "Allow to edit data">
+<editLayerFormColumn_layerZoomLevel "Minimum zoom">
+<editLayerFormColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
+<editLayerFormColumn_layerOverpassRequest "Overpass request">
+<editLayerFormColumn_marker "Marker">
+<editLayerFormColumn_layerPopupContent "Popup content">
 
 
 /* Edit POI marker modal */
-<editPoiMarkerModal_colorAndShape "Color and shape">
-<editPoiMarkerModal_color "Color">
-<editPoiMarkerModal_shape "Shape">
-<editPoiMarkerModal_icon "Icon">
-<editPoiMarkerModal_library "Library">
-<editPoiMarkerModal_external "External">
-<editPoiMarkerModal_iconName "Icon name">
-<editPoiMarkerModal_iconUrl "Icon url">
-<editPoiMarkerModal_iconDescription1 "Icons come from the Font Awesome collection.">
-<editPoiMarkerModal_iconDescription2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
-<editPoiMarkerModal_iconDescriptionExternal1 "You can use your own icon if it is hosted on the internet.">
-<editPoiMarkerModal_iconDescriptionExternal2 "Fill its address in the field below.">
+<editLayerMarkerModal_colorAndShape "Color and shape">
+<editLayerMarkerModal_color "Color">
+<editLayerMarkerModal_shape "Shape">
+<editLayerMarkerModal_icon "Icon">
+<editLayerMarkerModal_library "Library">
+<editLayerMarkerModal_external "External">
+<editLayerMarkerModal_iconName "Icon name">
+<editLayerMarkerModal_iconUrl "Icon url">
+<editLayerMarkerModal_iconDescription1 "Icons come from the Font Awesome collection.">
+<editLayerMarkerModal_iconDescription2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
+<editLayerMarkerModal_iconDescriptionExternal1 "You can use your own icon if it is hosted on the internet.">
+<editLayerMarkerModal_iconDescriptionExternal2 "Fill its address in the field below.">
 
 
 /* Edit tiles column */

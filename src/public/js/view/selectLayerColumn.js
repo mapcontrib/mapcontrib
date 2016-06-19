@@ -1,8 +1,8 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import EditLayerListView from './editLayerList';
-import template from '../../templates/editPoiColumn.ejs';
+import SelectLayerListView from './selectLayerList';
+import template from '../../templates/selectLayerColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
@@ -18,26 +18,20 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#edit_poi_column',
-        'addButton': '.add_btn',
-    },
-
-    events: {
-        'click @ui.addButton': 'onClickAdd',
+        'column': '#select_poi_column',
     },
 
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
+
+        this._radio.commands.setHandler('column:selectLayer:render', this.render.bind(this));
     },
 
     onRender: function () {
         var layers = this.model.get('layers'),
-        editLayerListView = new EditLayerListView({
-            'collection': layers,
-            'theme': this.model
-        });
+        selectLayerListView = new SelectLayerListView({ 'collection': layers });
 
-        this.getRegion('layerList').show( editLayerListView );
+        this.getRegion('layerList').show( selectLayerListView );
     },
 
     onBeforeOpen: function () {
@@ -51,9 +45,5 @@ export default Marionette.LayoutView.extend({
 
     close: function () {
         this.triggerMethod('close');
-    },
-
-    onClickAdd: function () {
-        this._radio.commands.execute('column:showLayer');
     },
 });

@@ -4,7 +4,7 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from '../const';
 import icons from '../icons.json';
-import template from '../../templates/editPoiMarkerModal.ejs';
+import template from '../../templates/editLayerMarkerModal.ejs';
 
 
 export default Marionette.ItemView.extend({
