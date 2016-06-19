@@ -485,6 +485,7 @@ export default Marionette.LayoutView.extend({
             'polygonOptions': CONST.map.markerCLusterPolygonOptions,
             'animate': false,
             'animateAddingMarkers': false,
+            'spiderfyOnMaxZoom': false,
             'iconCreateFunction': function(cluster) {
                 let count = cluster.getChildCount();
                 let color = layerModel.get('markerColor');
