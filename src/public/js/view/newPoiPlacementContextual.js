@@ -1,4 +1,5 @@
 
+import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import L from 'leaflet';
@@ -59,32 +60,15 @@ export default Marionette.ItemView.extend({
     },
 
     onOpen: function () {
-        this._addCross();
+        this._showCross();
     },
 
-    _addCross: function () {
-        let center = this._map.getCenter();
-
-        let icon = L.divIcon({
-            iconSize: [50, 50],
-            iconAnchor: [25, 25],
-            className: 'contribution_cross',
-        });
-
-        this._cross = L.marker(center, {
-            icon: icon,
-            clickable: false,
-            zIndexOffset: 1000
-        });
-
-        this._map
-        .on('move', this.onMapMove, this)
-        .addLayer(this._cross);
+    _showCross: function () {
+        $('body').addClass('contribution_cross_visible');
     },
 
-    _removeCross: function () {
-        this._map.removeLayer(this._cross)
-        .off('move', this.onMapMove, this);
+    _hideCross: function () {
+        $('body').removeClass('contribution_cross_visible');
     },
 
     onMapMove: function () {
@@ -120,7 +104,7 @@ export default Marionette.ItemView.extend({
         this.model.set('lat', mapCenter.lat);
         this.model.set('lon', mapCenter.lng);
 
-        this._removeCross();
+        this._hideCross();
 
         this._map.addLayer(
             this._buildNewMarker( this.model )
@@ -159,7 +143,7 @@ export default Marionette.ItemView.extend({
     },
 
     onClickBack: function () {
-        this._removeCross();
+        this._hideCross();
         this.close();
         this.options.contribFormColumn.open();
     },
