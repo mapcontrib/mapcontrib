@@ -1241,6 +1241,7 @@ export default Marionette.LayoutView.extend({
 
             if ( this.isLargeScreen() ) {
                 popupOptions = {
+                    'closeButton': false,
                     'autoPanPaddingTopLeft': L.point(
                         CONST.map.panPadding.left,
                         CONST.map.panPadding.top
@@ -1253,6 +1254,7 @@ export default Marionette.LayoutView.extend({
             }
             else {
                 popupOptions = {
+                    'closeButton': false,
                     'autoPanPadding': L.point(0, 0),
                 };
             }
