@@ -28,8 +28,8 @@ export default Marionette.LayoutView.extend({
         'keyup @ui.searchInput': 'onKeyUpSearchInput',
     },
 
-    initialize: function (app) {
-        this._app = app;
+    initialize: function (options) {
+        this._app = options.app;
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
         this._searchTimeout = null;

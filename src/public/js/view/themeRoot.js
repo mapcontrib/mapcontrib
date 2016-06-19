@@ -140,8 +140,8 @@ export default Marionette.LayoutView.extend({
         'keydown': 'onKeyDown',
     },
 
-    initialize: function (app) {
-        this._app = app;
+    initialize: function (options) {
+        this._app = options.app;
         this.model = this._app.getTheme();
         this._layerCollection = this.model.get('layers');
         this._presetCollection = this.model.get('presets');
@@ -227,11 +227,11 @@ export default Marionette.LayoutView.extend({
             },
         });
 
-
         this._radio.vent.on('session:unlogged', () => {
             this.renderUserButtonNotLogged();
             this.hideContribButton();
             this.hideEditTools();
+            this.updateAllLayerPopups();
         });
     },
 
@@ -705,6 +705,12 @@ export default Marionette.LayoutView.extend({
         }
     },
 
+    updateAllLayerPopups: function () {
+        for (let layer of this._layerCollection.models) {
+            this.updateLayerPopups(layer);
+        }
+    },
+
     updateLayerMinZoom: function (layerModel) {
         let overpassLayer = this._mapData.getOverpassLayer(layerModel.cid);
 
@@ -732,18 +738,22 @@ export default Marionette.LayoutView.extend({
     },
 
     getLayerPopupContent: function (layerModel, osmElement) {
-        if ( !layerModel.get('popupContent') ) {
+        let popupContent = marked( layerModel.get('popupContent') );
+        let dataEditable = layerModel.get('dataEditable');
+        let isLogged = this._app.isLogged();
+
+        if ( !popupContent && !dataEditable ) {
+            return '';
+        }
+
+        if ( !popupContent && !isLogged ) {
             return '';
         }
 
         let re,
         type = osmElement.type,
         id = osmElement.id,
-        version = osmElement.version,
-        globalWrapper = this._document.createElement('div'),
-        editButtonWrapper = this._document.createElement('div'),
-        editButton = this._document.createElement('button'),
-        popupContent = marked( layerModel.get('popupContent') );
+        version = osmElement.version;
 
         if (Cache.exists(type, id)) {
             if (Cache.isNewerThanCache(type, id, version)) {
@@ -766,20 +776,28 @@ export default Marionette.LayoutView.extend({
             '<a target="_blank" href=$1>$2</a>'
         );
 
+        let globalWrapper = this._document.createElement('div');
         globalWrapper.innerHTML = popupContent;
 
-        if ( layerModel.get('dataEditable') ) {
-            editButton.className = 'btn btn-link';
-            editButton.innerHTML = this._document.l10n.getSync('editTheseInformations');
+        if ( isLogged && dataEditable ) {
+            let editButton = this._document.createElement('button');
+
+            if (!popupContent) {
+                globalWrapper.className = 'global_wrapper no_popup_content';
+                editButton.className = 'btn btn-link edit_btn';
+                editButton.innerHTML = this._document.l10n.getSync('editThatElement');
+            }
+            else {
+                globalWrapper.className = 'global_wrapper has_popup_content';
+                editButton.className = 'btn btn-default btn-sm edit_btn';
+                editButton.innerHTML = '<i class="fa fa-pencil"></i>';
+            }
 
             $(editButton).on('click', () => {
                 this._radio.commands.execute('editPoiData', osmElement, layerModel);
             });
 
-            editButtonWrapper.className = 'text-center prepend-xs-1 edit_poi_data';
-            editButtonWrapper.appendChild( editButton );
-
-            globalWrapper.appendChild( editButtonWrapper );
+            globalWrapper.appendChild( editButton );
         }
 
         return globalWrapper;

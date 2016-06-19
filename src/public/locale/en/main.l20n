@@ -55,7 +55,7 @@
 <customize "Customize">
 <letsGo "Let's go">
 <empty "Empty">
-<editTheseInformations "Edit these informations">
+<editThatElement "Edit that element">
 <loadingData title:"Some data are being loaded">
 <createATheme "Create a theme">
 <searchATheme placeholder:"Search a theme (3 characters min.)">

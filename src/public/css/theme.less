@@ -23,7 +23,23 @@ html, body {
         border-radius: 0;
 
         .leaflet-popup-content {
-            margin: 20px;
+            .global_wrapper.no_popup_content {
+                margin: 0;
+            }
+
+            .global_wrapper.has_popup_content {
+                margin: 32px 13px 20px 13px;
+
+                .edit_btn {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 32px;
+                    height: 32px;
+                    color: @lightAnthracite;
+                    border-color: transparent;
+                }
+            }
 
             h1 {
                 font-size: 24px;
@@ -338,21 +354,6 @@ html, body {
 
 
 
-body {
-    .edit_poi_data {
-        display: none;
-
-        button {
-            padding: 0;
-        }
-    }
-
-    &.user_logged .edit_poi_data {
-        display: block;
-    }
-}
-
-
 
 
 
@@ -409,15 +410,4 @@ body {
     .results {
         bottom: 0;
     }
-}
-
-
-.contribution_cross {
-    // position: fixed;
-    // z-index: @contributionCrossZIndex;
-    // top: 50%;
-    // left: 50%;
-    // margin-top: -25px;
-    // margin-left: -25px;
-    background-image: url(/img/contribution_cross.svg);
 }
