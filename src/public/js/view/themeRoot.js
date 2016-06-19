@@ -29,6 +29,7 @@ import EditTileColumnView from './editTileColumn';
 import EditPresetColumnView from './editPresetColumn';
 import EditPresetTagsColumnView from './editPresetTagsColumn';
 import EditPoiDataColumnView from './editPoiDataColumn';
+import EditPoiMenuColumnView from './editPoiMenuColumn';
 import ZoomNotificationView from './zoomNotification';
 import OverpassTimeoutNotificationView from './overpassTimeoutNotification';
 import OverpassErrorNotificationView from './overpassErrorNotification';
@@ -65,7 +66,7 @@ export default Marionette.LayoutView.extend({
         'locateWaitButton': '#control_toolbar .locate_wait_btn',
         'expandScreenButton': '#control_toolbar .expand_screen_btn',
         'compressScreenButton': '#control_toolbar .compress_screen_btn',
-        'controlPoiButton': '#control_toolbar .poi_btn',
+        'controlLayerButton': '#control_toolbar .layer_btn',
         'controlTileButton': '#control_toolbar .tile_btn',
 
         'userToolbar': '#user_toolbar',
@@ -81,7 +82,7 @@ export default Marionette.LayoutView.extend({
 
         'editToolbar': '#edit_toolbar',
         'editSettingButton': '#edit_toolbar .setting_btn',
-        'editPoiButton': '#edit_toolbar .poi_btn',
+        'editLayerButton': '#edit_toolbar .layer_btn',
         'editTileButton': '#edit_toolbar .tile_btn',
         'editPresetButton': '#edit_toolbar .preset_btn',
 
@@ -96,20 +97,21 @@ export default Marionette.LayoutView.extend({
 
         'geocodeWidget': '#rg_geocode_widget',
 
-        'selectLayerColumn': '#rg_select_poi_column',
+        'selectLayerColumn': '#rg_select_layer_column',
         'selectTileColumn': '#rg_select_tile_column',
         'userColumn': '#rg_user_column',
         'linkColumn': '#rg_link_column',
         'contribColumn': '#rg_contrib_column',
         'contribFormColumn': '#rg_contrib_form_column',
         'editSettingColumn': '#rg_edit_setting_column',
-        'editLayerListColumn': '#rg_edit_poi_column',
+        'editLayerListColumn': '#rg_edit_layer_column',
         'editLayerFormColumn': '#rg_edit_poi_layer_column',
         'editLayerMarkerModal': '#rg_edit_poi_marker_modal',
         'editTileColumn': '#rg_edit_tile_column',
         'editPresetColumn': '#rg_edit_preset_column',
         'editPresetTagsColumn': '#rg_edit_preset_tags_column',
         'editPoiDataColumn': '#rg_edit_poi_data_column',
+        'editPoiMenuColumn': '#rg_edit_poi_menu_column',
 
         'zoomNotification': '#rg_zoom_notification',
     },
@@ -122,7 +124,7 @@ export default Marionette.LayoutView.extend({
         'click @ui.locateWaitButton': 'onClickLocateWait',
         'click @ui.expandScreenButton': 'onClickExpandScreen',
         'click @ui.compressScreenButton': 'onClickCompressScreen',
-        'click @ui.controlPoiButton': 'onClickSelectPoi',
+        'click @ui.controlLayerButton': 'onClickSelectLayer',
         'click @ui.controlTileButton': 'onClickSelectTile',
 
         'click @ui.helpButton': 'onClickHelp',
@@ -133,7 +135,7 @@ export default Marionette.LayoutView.extend({
         'click @ui.linkButton': 'onClickLink',
         'click @ui.contribButton': 'onClickContrib',
         'click @ui.editSettingButton': 'onClickEditSetting',
-        'click @ui.editPoiButton': 'onClickEditPoi',
+        'click @ui.editLayerButton': 'onClickEditLayer',
         'click @ui.editTileButton': 'onClickEditTile',
         'click @ui.editPresetButton': 'onClickEditPreset',
 
@@ -446,18 +448,18 @@ export default Marionette.LayoutView.extend({
         this.updateMinDataZoom();
     },
 
-    showPoiLoadingProgress: function (layerModel) {
+    showLayerLoadingProgress: function (layerModel) {
         if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
             this._poiLoadingSpool[ layerModel.cid ] = 0;
         }
 
         this._poiLoadingSpool[ layerModel.cid ] += 1;
 
-        $('i', this.ui.controlPoiButton).addClass('hide');
-        $('.poi_loading', this.ui.controlPoiButton).removeClass('hide');
+        $('i', this.ui.controlLayerButton).addClass('hide');
+        $('.layer_loading', this.ui.controlLayerButton).removeClass('hide');
     },
 
-    hidePoiLoadingProgress: function (layerModel) {
+    hideLayerLoadingProgress: function (layerModel) {
         if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
             return;
         }
@@ -471,8 +473,8 @@ export default Marionette.LayoutView.extend({
         }
 
         if ( countRequests === 0) {
-            $('.poi_loading', this.ui.controlPoiButton).addClass('hide');
-            $('i', this.ui.controlPoiButton).removeClass('hide');
+            $('.layer_loading', this.ui.controlLayerButton).addClass('hide');
+            $('i', this.ui.controlLayerButton).removeClass('hide');
         }
     },
 
@@ -532,10 +534,10 @@ export default Marionette.LayoutView.extend({
             'retryOnTimeout': true,
             'query': overpassRequest,
             'beforeRequest': () => {
-                this.showPoiLoadingProgress( layerModel );
+                this.showLayerLoadingProgress( layerModel );
             },
             'afterRequest': () => {
-                this.hidePoiLoadingProgress( layerModel );
+                this.hideLayerLoadingProgress( layerModel );
             },
             'onSuccess': (data) => {
                 let wayBodyNodes = this._buildWayBodyNodesObjectFromOverpassResult(data),
@@ -544,6 +546,15 @@ export default Marionette.LayoutView.extend({
                 for (let e of data.elements) {
                     if( !e.tags ) {
                         continue;
+                    }
+
+                    if (Cache.exists(e.type, e.id)) {
+                        if (Cache.isNewerThanCache(e.type, e.id, e.version)) {
+                            Cache.remove(e.type, e.id);
+                        }
+                        else {
+                            e = Cache.get(e.type, e.id, e.version);
+                        }
                     }
 
                     if ( this._mapData.hasOsmElement(e, layerModel.cid) ) {
@@ -755,15 +766,6 @@ export default Marionette.LayoutView.extend({
         id = osmElement.id,
         version = osmElement.version;
 
-        if (Cache.exists(type, id)) {
-            if (Cache.isNewerThanCache(type, id, version)) {
-                Cache.remove(type, id);
-            }
-            else {
-                osmElement = Cache.get(type, id, version);
-            }
-        }
-
         for (var k in osmElement.tags) {
             re = new RegExp('{'+ k +'}', 'g');
 
@@ -793,14 +795,29 @@ export default Marionette.LayoutView.extend({
                 editButton.innerHTML = '<i class="fa fa-pencil"></i>';
             }
 
-            $(editButton).on('click', () => {
-                this._radio.commands.execute('editPoiData', osmElement, layerModel);
-            });
+            $(editButton).on('click', this.onClickEditPoi.bind(this, osmElement, layerModel));
 
             globalWrapper.appendChild( editButton );
         }
 
         return globalWrapper;
+    },
+
+    onClickEditPoi: function (osmElement, layerModel, e) {
+        if (osmElement.type !== 'node') {
+            return this._radio.commands.execute('editPoiData', osmElement, layerModel);
+        }
+
+        let editPoiMenuColumnView = new EditPoiMenuColumnView({
+            'user': this._user,
+            'mapData': this._mapData,
+            'osmElement': osmElement,
+            'layerModel': layerModel,
+        });
+
+        this.getRegion('editPoiMenuColumn').show( editPoiMenuColumnView );
+
+        editPoiMenuColumnView.open();
     },
 
     onCommandEditPoiData: function (osmElement, layerModel) {
@@ -1073,7 +1090,7 @@ export default Marionette.LayoutView.extend({
         this.ui.expandScreenButton.removeClass('hide');
     },
 
-    onClickSelectPoi: function () {
+    onClickSelectLayer: function () {
         this._selectLayerColumnView.open();
     },
 
@@ -1152,7 +1169,7 @@ export default Marionette.LayoutView.extend({
         this._editSettingColumnView.open();
     },
 
-    onClickEditPoi: function () {
+    onClickEditLayer: function () {
         this._editLayerListColumnView.open();
     },
 

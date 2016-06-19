@@ -212,8 +212,6 @@ export default Marionette.LayoutView.extend({
                 'retryCallback': this.sendContributionToOSM.bind(this)
             });
 
-            document.body.appendChild( notification.el );
-
             notification.open();
         });
     },

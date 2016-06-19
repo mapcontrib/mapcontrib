@@ -25,14 +25,14 @@
 <buttonLocateWaitTooltip title:"Cancel the search of my location">
 <buttonExpandScreenTooltip title:"Full screen">
 <buttonCompressScreenTooltip title:"Exit full screen">
-<buttonPoiTooltip title:"Points of interest display">
+<buttonLayerTooltip title:"Layers display">
 <buttonTileTooltip title:"Background display">
 <buttonLoginTooltip title:"{{ login }}">
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
 <buttonEditSettingTooltip title:"Main settings">
-<buttonEditPoiTooltip title:"Points of interest">
+<buttonEditLayerTooltip title:"Layer">
 <buttonEditTileTooltip title:"Backgrounds">
 <buttonEditPresetTooltip title:"Nodes types">
 <buttonHelpTooltip title:"Help">
@@ -79,9 +79,9 @@
 <geocodeWidget_queryInput placeholder:"City, zip code, ...">
 
 
-/* POI column */
-<selectLayerColumn_title "Points of interest">
-<selectLayerColumn_explanation "Select the points of interest you want to see on the map">
+/* Layer column */
+<selectLayerColumn_title "Layers">
+<selectLayerColumn_explanation "Select the layers you want to see on the map">
 <selectLayerColumn_needToZoom[plural($n)] {
   one: "To see these data, you need to zoom once.",
   many: "To see these data, you need to zoom {{ $n }} times."
@@ -127,13 +127,13 @@
 <editSettingColumn_nominatim "Nominatim">
 
 
-/* Edit POI column */
-<editLayerListColumn_title "Points of interest">
+/* Edit layer column */
+<editLayerListColumn_title "Layers">
 <editLayerListColumn_clickButton "Click the button below">
 <editLayerListColumn_addLayer "Add a layer">
 
 
-/* Edit POI layer column */
+/* Edit layer column */
 <editLayerFormColumn_title "Layer edit">
 <editLayerFormColumn_layerName "Name">
 <editLayerFormColumn_layerDescription "Description">
@@ -147,7 +147,7 @@
 <editLayerFormColumn_layerPopupContent "Popup content">
 
 
-/* Edit POI marker modal */
+/* Edit layer marker modal */
 <editLayerMarkerModal_colorAndShape "Color and shape">
 <editLayerMarkerModal_color "Color">
 <editLayerMarkerModal_shape "Shape">
@@ -228,3 +228,13 @@
 
 /* New POI placement contextual */
 <newPoiPlacementContextual_text "Put the cross the exact node place.">
+
+
+/* Move POI contextual */
+<movePoiContextual_text "Move the element by dragging it.">
+
+
+/* Edit POI menu column */
+<editPoiMenuColumn_title "Edit an element">
+<editPoiMenuColumn_editTags "Edit the data">
+<editPoiMenuColumn_movePoi "Move the node">

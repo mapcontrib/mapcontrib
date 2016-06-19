@@ -4,10 +4,9 @@ import Marionette from 'backbone.marionette';
 import L from 'leaflet';
 import osmAuth from 'osm-auth';
 import OsmEditHelper from '../helper/osmEdit.js';
-import MapUi from '../ui/map';
 import CONST from '../const';
-import template from '../../templates/newPoiPlacementContextual.ejs';
-import LayerModel from '../model/layer';
+import template from '../../templates/movePoiContextual.ejs';
+import OsmNodeModel from '../model/osmNode';
 import ContributionErrorNotificationView from './contributionErrorNotification';
 import Cache from '../core/cache';
 
@@ -24,19 +23,32 @@ export default Marionette.ItemView.extend({
 
     ui: {
         'saveBtn': '.save_btn',
-        'backBtn': '.back_btn',
+        'cancelBtn': '.cancel_btn',
         'contextual': '.contextual',
     },
 
     events: {
-        'click @ui.backBtn': 'onClickBack',
+        'click @ui.cancelBtn': 'onClickCancel',
         'click @ui.saveBtn': 'onClickSave',
     },
 
     initialize: function (options) {
         this._radio = Wreqr.radio.channel('global');
         this._map = this._radio.reqres.request('map');
+
         this._user = options.user;
+        this._marker = options.marker;
+        this._osmElement = options.osmElement;
+        this._layerModel = options.layerModel;
+
+        this.model = new OsmNodeModel({
+            'id': this._osmElement.id,
+            'type': this._osmElement.type,
+            'version': this._osmElement.version,
+            'lat': this._osmElement.lat,
+            'lon': this._osmElement.lon,
+            'tags': this._osmElement.tags,
+        });
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
@@ -58,74 +70,15 @@ export default Marionette.ItemView.extend({
         this.triggerMethod('close');
     },
 
-    onOpen: function () {
-        this._addCross();
-    },
-
-    _addCross: function () {
-        let center = this._map.getCenter();
-
-        let icon = L.divIcon({
-            iconSize: [50, 50],
-            iconAnchor: [25, 25],
-            className: 'contribution_cross',
-        });
-
-        this._cross = L.marker(center, {
-            icon: icon,
-            clickable: false,
-            zIndexOffset: 1000
-        });
-
-        this._map
-        .on('move', this.onMapMove, this)
-        .addLayer(this._cross);
-    },
-
-    _removeCross: function () {
-        this._map.removeLayer(this._cross)
-        .off('move', this.onMapMove, this);
-    },
-
-    onMapMove: function () {
-        this._cross.setLatLng(
-            this._map.getCenter()
-        );
-    },
-
-    _buildNewMarker: function (model) {
-        let pos = new L.LatLng(
-            model.get('lat'),
-            model.get('lon')
-        );
-
-        let icon = MapUi.buildLayerIcon(
-            L,
-            new LayerModel({
-                'markerShape': config.newPoiMarkerShape,
-                'markerIconType': CONST.map.markerIconType.library,
-                'markerIcon': config.newPoiMarkerIcon,
-                'markerColor': config.newPoiMarkerColor
-            })
-        );
-
-        return L.marker(pos, {
-            'icon': icon
-        });
-    },
-
     onClickSave: function () {
-        let mapCenter = this._map.getCenter();
+        this._marker.dragging.disable();
 
-        this.model.set('lat', mapCenter.lat);
-        this.model.set('lon', mapCenter.lng);
+        let position = this._marker.getLatLng();
 
-        this._removeCross();
+        this.model.set('lat', position.lat);
+        this.model.set('lon', position.lng);
 
-        this._map.addLayer(
-            this._buildNewMarker( this.model )
-        );
-
+        this._osmEdit.setId(this.model.get('id'));
         this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
         this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
         this._osmEdit.setType(this.model.get('type'));
@@ -134,8 +87,8 @@ export default Marionette.ItemView.extend({
         this._osmEdit.setLatitude(this.model.get('lat'));
         this._osmEdit.setLongitude(this.model.get('lon'));
         this._osmEdit.setTags(this.model.get('tags'));
-        this._osmEdit.setUid(this.options.user.get('osmId'));
-        this._osmEdit.setDisplayName(this.options.user.get('displayName'));
+        this._osmEdit.setUid(this._user.get('osmId'));
+        this._osmEdit.setDisplayName(this._user.get('displayName'));
 
         this.sendContributionToOSM();
 
@@ -146,6 +99,12 @@ export default Marionette.ItemView.extend({
         this._osmEdit.send()
         .then((version) => {
             this.model.set('version', version);
+
+            this._radio.commands.execute(
+                'map:updatePoiPopup',
+                this._layerModel,
+                this.model.toJSON()
+            );
 
             Cache.save(this.model.attributes);
         })
@@ -158,9 +117,15 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    onClickBack: function () {
-        this._removeCross();
+    onClickCancel: function () {
+        this._marker.dragging.disable();
+        this._marker.setLatLng(
+            L.latLng(
+                this._osmElement.lat,
+                this._osmElement.lon
+            )
+        );
+
         this.close();
-        this.options.contribFormColumn.open();
     },
 });

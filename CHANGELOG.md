@@ -7,6 +7,8 @@
 * Tag keys and values are now trimmed when contributing and setting presets.
 * No more close button in popups as they can be closed by clicking elsewhere ine the screen.
 * The display of the edit button in popups is more convenient.
+* It is now possible to move a POI (only node ones).
+* And as always, multiple bufixes and enhancement.
 
 ## 0.8.1
 

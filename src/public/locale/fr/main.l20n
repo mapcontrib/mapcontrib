@@ -25,14 +25,14 @@
 <buttonLocateWaitTooltip title:"Annuler la recherche de mon emplacement">
 <buttonExpandScreenTooltip title:"Passer en plein écran">
 <buttonCompressScreenTooltip title:"Quitter le plein écran">
-<buttonPoiTooltip title:"Affichage des centres d'intérêts">
+<buttonLayerTooltip title:"Affichage des couches">
 <buttonTileTooltip title:"Affichage des fonds de carte">
 <buttonLoginTooltip title:"{{ login }}">
 <buttonUserTooltip title:"Mon compte">
 <buttonLinkTooltip title:"Partager">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
 <buttonEditSettingTooltip title:"Configuration générale">
-<buttonEditPoiTooltip title:"Centres d'intérêts">
+<buttonEditLayerTooltip title:"Couches">
 <buttonEditTileTooltip title:"Fonds de carte">
 <buttonEditPresetTooltip title:"Types de nœuds">
 <buttonHelpTooltip title:"Aide">
@@ -79,9 +79,9 @@
 <geocodeWidget_queryInput placeholder:"Ville, code postal, ...">
 
 
-/* POI column */
-<selectLayerColumn_title "Centres d'intérêts">
-<selectLayerColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte.">
+/* Layers column */
+<selectLayerColumn_title "Couches">
+<selectLayerColumn_explanation "Sélectionnez les couches que vous voulez voir sur la carte.">
 <selectLayerColumn_needToZoom[plural($n)] {
   one: "Pour voir ces données, vous devez zoomer une fois.",
   many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
@@ -127,13 +127,13 @@
 <editSettingColumn_nominatim "Nominatim">
 
 
-/* Edit POI column */
-<editLayerListColumn_title "Centres d'intérêt">
+/* Edit layer column */
+<editLayerListColumn_title "Couches">
 <editLayerListColumn_clickButton "Cliquez sur le bouton ci-dessous">
 <editLayerListColumn_addLayer "Ajouter une couche">
 
 
-/* Edit POI layer column */
+/* Edit layer column */
 <editLayerFormColumn_title "Édition de la couche">
 <editLayerFormColumn_layerName "Nom">
 <editLayerFormColumn_layerDescription "Description">
@@ -147,7 +147,7 @@
 <editLayerFormColumn_layerPopupContent "Contenu des bulles">
 
 
-/* Edit POI marker modal */
+/* Edit layer marker modal */
 <editLayerMarkerModal_colorAndShape "Couleur et forme">
 <editLayerMarkerModal_color "Couleur">
 <editLayerMarkerModal_shape "Forme">
@@ -228,3 +228,13 @@
 
 /* New POI placement contextual */
 <newPoiPlacementContextual_text "Placez la croix à l'exact endroit du nœud.">
+
+
+/* Move POI contextual */
+<movePoiContextual_text "Déplacez l'élément en le glissant-déposant.">
+
+
+/* Edit POI menu column */
+<editPoiMenuColumn_title "Éditer un élément">
+<editPoiMenuColumn_editTags "Éditer les données">
+<editPoiMenuColumn_movePoi "Déplacer le nœud">

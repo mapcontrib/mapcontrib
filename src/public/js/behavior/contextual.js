@@ -28,7 +28,7 @@ export default Marionette.Behavior.extend({
     },
 
     onRender: function () {
-        $('body').append( this.el );
+        document.body.appendChild( this.el );
         this.ui.contextual.attr('tabindex', 0);
     },
 
