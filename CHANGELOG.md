@@ -5,8 +5,9 @@
 * When adding a new POI, the user fill now the tags first.
 * When adding a new POI, the POI location method uses a fixed cross displayed on top of the map.
 * Tag keys and values are now trimmed when contributing and setting presets.
-* No more close button in popups as they can be closed by clicking elsewhere ine the screen.
-* The display of the edit button in popups is more convenient.
+* No more close button in popups as they can be closed by clicking elsewhere in the screen.
+* The contribution button as now a pencil as icon.
+* There is now another pencil icon in popups and its display is more convenient.
 * It is now possible to move a POI (only node ones).
 * And as always, multiple bufixes and enhancement.
 
