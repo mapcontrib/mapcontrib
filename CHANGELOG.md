@@ -10,6 +10,10 @@
 * It is now possible to move a POI (only node ones).
 * And as always, multiple bufixes and enhancement.
 
+## 0.8.2
+
+* Fixes dark-gray clusters display.
+
 ## 0.8.1
 
 * Fixes the themes selection when logging in.
