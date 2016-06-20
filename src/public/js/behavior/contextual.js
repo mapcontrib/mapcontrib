@@ -23,6 +23,7 @@ export default Marionette.Behavior.extend({
         this._radio = Wreqr.radio.channel('global');
 
         this.listenTo(this._radio.vent, 'contextual:closeAll', this.onClose);
+        this.listenTo(this._radio.vent, 'column:closeAll', this.onClose);
 
         this._isOpened = false;
     },

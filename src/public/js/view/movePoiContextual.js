@@ -76,6 +76,14 @@ export default Marionette.ItemView.extend({
         MapUi.showContributionCross();
     },
 
+    onBeforeClose: function () {
+        MapUi.hideContributionCross();
+    },
+    
+    onClickCancel: function () {
+        this.close();
+    },
+
     onClickSave: function () {
         MapUi.hideContributionCross();
 
@@ -125,18 +133,5 @@ export default Marionette.ItemView.extend({
 
             notification.open();
         });
-    },
-
-    onClickCancel: function () {
-        MapUi.hideContributionCross();
-        this._marker.dragging.disable();
-        this._marker.setLatLng(
-            L.latLng(
-                this._osmElement.lat,
-                this._osmElement.lon
-            )
-        );
-
-        this.close();
     },
 });

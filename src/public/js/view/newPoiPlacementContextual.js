@@ -63,6 +63,10 @@ export default Marionette.ItemView.extend({
         MapUi.showContributionCross();
     },
 
+    onBeforeClose: function () {
+        MapUi.hideContributionCross();
+    },
+
     onMapMove: function () {
         this._cross.setLatLng(
             this._map.getCenter()
@@ -88,6 +92,12 @@ export default Marionette.ItemView.extend({
         return L.marker(pos, {
             'icon': icon
         });
+    },
+
+    onClickBack: function () {
+        MapUi.hideContributionCross();
+        this.close();
+        this.options.contribFormColumn.open();
     },
 
     onClickSave: function () {
@@ -132,11 +142,5 @@ export default Marionette.ItemView.extend({
 
             notification.open();
         });
-    },
-
-    onClickBack: function () {
-        MapUi.hideContributionCross();
-        this.close();
-        this.options.contribFormColumn.open();
     },
 });
