@@ -72,6 +72,7 @@ export default Marionette.ItemView.extend({
     },
 
     onOpen: function () {
+        this._marker.closePopup();
         MapUi.showContributionCross();
     },
 
