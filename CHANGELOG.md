@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.3
+
+* Fixes the orientation handling in geolocation.
+
 ## 0.8.2
 
 * Fixes dark-gray clusters display.
