@@ -13,8 +13,8 @@ describe('MapUi', () => {
         it('Should return icon options (icon type: library)', () => {
             const expected = {
                 iconSize: [ 36, 42 ],
-                iconAnchor: [ 18, 42 ],
-                popupAnchor: [ 0, -38 ],
+                iconAnchor: [ 18, 38 ],
+                popupAnchor: [ 0, -34 ],
                 className: 'marker marker-2 purple',
                 html: '<i class="fa fa-star fa-fw"></i>'
             };
@@ -34,8 +34,8 @@ describe('MapUi', () => {
         it('Should return icon options (icon type: external)', () => {
             const expected = {
                 iconSize: [ 36, 42 ],
-                iconAnchor: [ 18, 42 ],
-                popupAnchor: [ 0, -38 ],
+                iconAnchor: [ 18, 38 ],
+                popupAnchor: [ 0, -34 ],
                 className: 'marker marker-3 yellow',
                 html: '<img src="http://myiconfromtheweb" class="external-icon">'
             };
