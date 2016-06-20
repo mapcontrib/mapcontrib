@@ -231,7 +231,7 @@
 
 
 /* Move POI contextual */
-<movePoiContextual_text "Déplacez l'élément en le glissant-déposant.">
+<movePoiContextual_text "Placez la croix à l'exact endroit du nœud.">
 
 
 /* Edit POI menu column */

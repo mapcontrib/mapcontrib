@@ -5,6 +5,28 @@ import CONST from '../const';
 
 export default class MapUi {
     /**
+     * Displays the contribution cross.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     */
+    static showContributionCross () {
+        document.body.classList.add('contribution_cross_visible');
+    }
+
+    /**
+     * Hides the contribution cross.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     */
+    static hideContributionCross () {
+        document.body.classList.remove('contribution_cross_visible');
+    }
+
+    /**
      * Returns the POI layer Leaflet icon.
      *
      * @author Guillaume AMAT

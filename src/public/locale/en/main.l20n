@@ -231,7 +231,7 @@
 
 
 /* Move POI contextual */
-<movePoiContextual_text "Move the element by dragging it.">
+<movePoiContextual_text "Put the cross the exact node place.">
 
 
 /* Edit POI menu column */

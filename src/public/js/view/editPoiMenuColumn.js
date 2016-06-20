@@ -64,9 +64,6 @@ export default Marionette.LayoutView.extend({
             this._layerModel.cid
         )[0];
 
-        marker.dragging.enable();
-
-
         let movePoiContextual = new MovePoiContextual({
             'user': this._user,
             'marker': marker,

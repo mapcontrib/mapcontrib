@@ -4,6 +4,7 @@ import Marionette from 'backbone.marionette';
 import L from 'leaflet';
 import osmAuth from 'osm-auth';
 import OsmEditHelper from '../helper/osmEdit.js';
+import MapUi from '../ui/map';
 import CONST from '../const';
 import template from '../../templates/movePoiContextual.ejs';
 import OsmNodeModel from '../model/osmNode';
@@ -70,13 +71,21 @@ export default Marionette.ItemView.extend({
         this.triggerMethod('close');
     },
 
+    onOpen: function () {
+        MapUi.showContributionCross();
+    },
+
     onClickSave: function () {
-        this._marker.dragging.disable();
+        MapUi.hideContributionCross();
 
-        let position = this._marker.getLatLng();
+        let mapCenter = this._map.getCenter();
 
-        this.model.set('lat', position.lat);
-        this.model.set('lon', position.lng);
+        this.model.set('lat', mapCenter.lat);
+        this.model.set('lon', mapCenter.lng);
+
+        this._marker.setLatLng(
+            L.latLng( mapCenter )
+        );
 
         this._osmEdit.setId(this.model.get('id'));
         this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
@@ -118,6 +127,7 @@ export default Marionette.ItemView.extend({
     },
 
     onClickCancel: function () {
+        MapUi.hideContributionCross();
         this._marker.dragging.disable();
         this._marker.setLatLng(
             L.latLng(
