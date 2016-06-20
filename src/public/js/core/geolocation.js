@@ -12,6 +12,7 @@ export default class Geolocation {
     constructor(map) {
         this._isDragged = false;
         this._isLocateInProgress = false;
+        this._hasHeadingMarker = false;
         this._lastAutomaticZoom = null;
         this._map = map;
     }
@@ -129,16 +130,13 @@ export default class Geolocation {
      */
     _onLocationFound(e) {
         if (!this._marker) {
-            if (DeviceOrientationEvent) {
-                this._addMarker(GeolocationPoint.getHeadingMarker());
-            }
-            else {
-                this._addMarker(GeolocationPoint.getMarker());
-            }
+            this._addMarker(
+                GeolocationPoint.getDefaultMarker()
+            );
         }
 
         if (e.heading) {
-            GeolocationPoint.rotate(e.heading);
+            this._rotateMarker(e.heading);
         }
 
         this._marker.setLatLng(e.latlng);
@@ -181,11 +179,10 @@ export default class Geolocation {
      *
      * @author Guillaume AMAT
      * @access private
-     * @static
      * @param {object} e - Event object.
      */
-    static _onOrientationFound(e) {
-        GeolocationPoint.rotate(e.alpha * -1);
+    _onOrientationFound(e) {
+        this._rotateMarker(e.alpha * -1);
     }
 
     /**
@@ -210,5 +207,21 @@ export default class Geolocation {
             'setView': false,
             'enableHighAccuracy': true,
         });
+    }
+
+    /**
+     * The moveend event handler.
+     *
+     * @author Guillaume AMAT
+     * @access private
+     * @param {number} angle - The orientation angle.
+     */
+    _rotateMarker(angle) {
+        if (!this._hasHeadingMarker) {
+            this._hasHeadingMarker = true;
+            GeolocationPoint.setHeadingIcon(this._marker);
+        }
+
+        GeolocationPoint.rotate(angle);
     }
 }
