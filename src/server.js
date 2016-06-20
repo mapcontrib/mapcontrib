@@ -28,6 +28,15 @@ import Passport from './passport';
 const CONST = _.extend(SERVER_CONST, PUBLIC_CONST);
 
 
+if (!config.get('client.oauthConsumerKey')) {
+    throw 'Error: client.oauthConsumerKey is not configured';
+}
+
+if (!config.get('client.oauthSecret')) {
+    throw 'Error: client.oauthSecret is not configured';
+}
+
+
 
 let MongoStore = connectMongo(session);
 let app = express();
