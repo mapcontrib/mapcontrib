@@ -16,6 +16,10 @@
       "email": "vincent.bergeot@numetlib.fr"
     }
   ],
+  "engines": {
+      "node": "^5.11.1",
+      "npm": "^3.8.6"
+  },
   "scripts": {
     "init": "cd src; babel-node init.js",
     "start": "cd src; babel-node server.js",

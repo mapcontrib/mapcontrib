@@ -7,7 +7,7 @@ mongo:
         - ./volumes/mongo:/data/db
 
 node:
-    image: node:slim
+    image: node:5-slim
     restart: always
     environment:
         - NODE_CONFIG={"mongodb":{"host":"mongo"}}
