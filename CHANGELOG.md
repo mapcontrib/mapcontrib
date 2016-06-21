@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.5
+
+* Fixes the versionning.
+
 ## 0.8.4
 
 * Fixes the markers position.
