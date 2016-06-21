@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.4
+
+* Fixes the markers position.
+
 ## 0.8.3
 
 * Fixes the orientation handling in geolocation.
