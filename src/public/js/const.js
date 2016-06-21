@@ -75,22 +75,22 @@ export default {
         'markers': {
             'marker1': {
                 'iconSize':     [36, 42],
-                'iconAnchor':   [18, 38],
-                'popupAnchor':  [0, -34],
+                'iconAnchor':   [18, 40],
+                'popupAnchor':  [0, -36],
                 'className': 'marker marker-1',
                 'html': marker1,
             },
             'marker2': {
                 'iconSize':     [36, 42],
-                'iconAnchor':   [18, 38],
-                'popupAnchor':  [0, -34],
+                'iconAnchor':   [18, 40],
+                'popupAnchor':  [0, -36],
                 'className': 'marker marker-2',
                 'html': marker2,
             },
             'marker3': {
                 'iconSize':     [36, 42],
-                'iconAnchor':   [18, 38],
-                'popupAnchor':  [0, -34],
+                'iconAnchor':   [18, 40],
+                'popupAnchor':  [0, -36],
                 'className': 'marker marker-3',
                 'html': marker3,
             },
