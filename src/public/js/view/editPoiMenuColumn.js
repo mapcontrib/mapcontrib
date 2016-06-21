@@ -14,7 +14,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#user_column',
+        'column': '#edit_poi_menu_column',
         'editTagsItem': '.edit_tags_item',
         'moveItem': '.move_item',
     },
