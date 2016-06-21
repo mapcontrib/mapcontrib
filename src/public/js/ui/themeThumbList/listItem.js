@@ -1,6 +1,7 @@
 
 import Marionette from 'backbone.marionette';
 import MapUi from '../map';
+import GeoUtils from '../../core/geoUtils';
 import listItemTemplate from './listItem.ejs';
 
 
@@ -14,8 +15,23 @@ export default Marionette.ItemView.extend({
     },
 
     templateHelpers: function () {
+        const zoomLevel = this.model.get('zoomLevel');
+        const mapCenter = this.model.get('center');
+        const pos = GeoUtils.zoomLatLngToXY(
+            zoomLevel,
+            mapCenter.lat,
+            mapCenter.lng
+        );
+
         return {
             'href': this.model.buildPath(),
+            'z': zoomLevel,
+            'x1': pos[0],
+            'y1': pos[1],
+            'x2': pos[0] + 1,
+            'y2': pos[1],
+            'x3': pos[0] + 2,
+            'y3': pos[1],
         };
     },
 

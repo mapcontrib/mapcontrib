@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.6
+
+* Displays the right tiles on the home page.
+
 ## 0.8.5
 
 * Fixes the versionning.
