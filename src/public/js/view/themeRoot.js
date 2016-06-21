@@ -23,7 +23,9 @@ import ContribColumnView from './contribColumn';
 import ContribFormColumnView from './contribFormColumn';
 import EditSettingColumnView from './editSettingColumn';
 import EditLayerListColumnView from './editLayerListColumn';
-import EditLayerFormColumnView from './editLayerFormColumn';
+import AddLayerMenuColumnView from './addLayerMenuColumn';
+import EditOverPassLayerFormColumnView from './editOverPassLayerFormColumn';
+import EditGpxLayerFormColumnView from './editGpxLayerFormColumn';
 import EditLayerMarkerModalView from './editLayerMarkerModal';
 import EditTileColumnView from './editTileColumn';
 import EditPresetColumnView from './editPresetColumn';
@@ -105,6 +107,7 @@ export default Marionette.LayoutView.extend({
         'contribFormColumn': '#rg_contrib_form_column',
         'editSettingColumn': '#rg_edit_setting_column',
         'editLayerListColumn': '#rg_edit_layer_column',
+        'addLayerMenuColumn': '#rg_add_layer_menu_column',
         'editLayerFormColumn': '#rg_edit_poi_layer_column',
         'editLayerMarkerModal': '#rg_edit_poi_marker_modal',
         'editTileColumn': '#rg_edit_tile_column',
@@ -176,8 +179,17 @@ export default Marionette.LayoutView.extend({
             'theme:save': () => {
                 this.model.save();
             },
-            'column:showLayer': (layerModel) => {
-                this.onCommandShowLayer( layerModel );
+            'column:showAddLayerMenu': () => {
+                this.onCommandShowAddLayerMenu();
+            },
+            'column:editOverPassLayer': (layerModel) => {
+                this.onCommandEditOverPassLayer( layerModel );
+            },
+            'column:editGpxLayer': (layerModel) => {
+                this.onCommandEditGpxLayer( layerModel );
+            },
+            'column:editCsvLayer': (layerModel) => {
+                this.onCommandEditCsvLayer( layerModel );
             },
             'column:showContribForm': (presetModel) => {
                 this.onCommandShowContribForm( presetModel );
@@ -261,6 +273,7 @@ export default Marionette.LayoutView.extend({
         this._contribColumnView = new ContribColumnView({ 'theme': this.model });
         this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
         this._editLayerListColumnView = new EditLayerListColumnView({ 'model': this.model });
+        this._addLayerMenuColumnView = new AddLayerMenuColumnView({ 'model': this.model });
         this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
         this._editPresetColumnView = new EditPresetColumnView({ 'model': this.model });
 
@@ -277,6 +290,7 @@ export default Marionette.LayoutView.extend({
         this.getRegion('contribColumn').show( this._contribColumnView );
         this.getRegion('editSettingColumn').show( this._editSettingColumnView );
         this.getRegion('editLayerListColumn').show( this._editLayerListColumnView );
+        this.getRegion('addLayerMenuColumn').show( this._addLayerMenuColumnView );
         this.getRegion('editTileColumn').show( this._editTileColumnView );
         this.getRegion('editPresetColumn').show( this._editPresetColumnView );
 
@@ -887,30 +901,60 @@ export default Marionette.LayoutView.extend({
         this.ui.editToolbar.addClass('hide');
     },
 
-
-
-    onCommandShowLayer: function (layerModel) {
-        var view;
+    onCommandEditOverPassLayer: function (layerModel) {
+        let view;
 
         if ( layerModel ) {
-            view = new EditLayerFormColumnView({
+            view = new EditOverPassLayerFormColumnView({
                 'model': layerModel,
                 'theme': this.model,
             });
         }
         else {
-            let layerModel = new LayerModel();
-            this.model.get('layers').add( layerModel );
+            let layerModel = new LayerModel({
+                'type': CONST.layerType.overpass
+            });
 
-            view = new EditLayerFormColumnView({
+            view = new EditOverPassLayerFormColumnView({
                 'model': layerModel,
                 'theme': this.model,
+                'isNew': true,
             });
         }
 
         this.getRegion('editLayerFormColumn').show( view );
 
         view.open();
+    },
+
+    onCommandEditGpxLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new EditGpxLayerFormColumnView({
+                'model': layerModel,
+                'theme': this.model,
+            });
+        }
+        else {
+            let layerModel = new LayerModel({
+                'type': CONST.layerType.gpx
+            });
+
+            view = new EditGpxLayerFormColumnView({
+                'model': layerModel,
+                'theme': this.model,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('editLayerFormColumn').show( view );
+
+        view.open();
+    },
+
+    onCommandShowAddLayerMenu: function () {
+        this._addLayerMenuColumnView.open();
     },
 
     onCommandShowContribForm: function (options) {
@@ -938,11 +982,11 @@ export default Marionette.LayoutView.extend({
         }
         else {
             let presetModel = new PresetModel();
-            this.model.get('presets').add( presetModel );
 
             view = new EditPresetTagsColumnView({
                 'model': presetModel,
                 'theme': this.model,
+                'isNew': true,
             });
         }
 

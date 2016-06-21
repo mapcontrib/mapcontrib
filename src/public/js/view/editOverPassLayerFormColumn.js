@@ -2,7 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
-import template from '../../templates/editLayerFormColumn.ejs';
+import template from '../../templates/editOverPassLayerFormColumn.ejs';
 
 
 export default Marionette.ItemView.extend({
@@ -93,8 +93,7 @@ export default Marionette.ItemView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        var addToMap = false,
-        updateMarkers = false,
+        let updateMarkers = false,
         updateMinZoom = false,
         updatePopups = false,
         updateVisibility = false;
@@ -106,10 +105,6 @@ export default Marionette.ItemView.extend({
         this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
         this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
-
-        if ( typeof this._oldModel.get('overpassRequest') === 'undefined' ) {
-            addToMap = true;
-        }
 
         if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
             updateMinZoom = true;
@@ -147,9 +142,13 @@ export default Marionette.ItemView.extend({
             updateVisibility = true;
         }
 
+        if ( this.options.isNew ) {
+            this.options.theme.get('layers').add( this.model );
+        }
+
         this.options.theme.save({}, {
             'success': () => {
-                if ( addToMap ) {
+                if ( this.options.isNew ) {
                     this._radio.commands.execute('map:addLayer', this.model);
                 }
 

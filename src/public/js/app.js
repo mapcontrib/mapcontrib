@@ -1,9 +1,9 @@
 
 import 'babel-polyfill';
 import tools from './tools';
+import jqueryForm from 'jquery-form';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
-window.Backbone.Wreqr = Wreqr;
 import Marionette from 'backbone.marionette';
 import L20n from '../lib/l20n.min.js';
 
@@ -11,6 +11,7 @@ import ionicons from 'ionicons/css/ionicons.css';
 import fontAwesome from 'font-awesome-webpack';
 import bootstrap from 'bootstrap-webpack';
 import awesomeBootstrapCheckbox from 'awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css';
+import BootstrapFileStyle from 'bootstrap-filestyle';
 import bootstrapMoreCss from 'bootstrap-more/bootstrap-more.css';
 import bootstrapMoreJs from 'bootstrap-more/bootstrap-more.js';
 import leafletCss from 'leaflet/dist/leaflet.css';

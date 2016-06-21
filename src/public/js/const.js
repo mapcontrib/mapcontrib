@@ -251,7 +251,8 @@ export default {
     'layerType': {
         'overpass': 'overpass',
         'osmose': 'osmose',
-        'shape': 'shape',
+        'gpx': 'gpx',
+        'csv': 'csv',
     },
 
     'geocoder': {

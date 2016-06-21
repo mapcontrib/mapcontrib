@@ -56,6 +56,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickAdd: function () {
+        this.close();
         this._radio.commands.execute('column:showPresetTags');
     },
 });

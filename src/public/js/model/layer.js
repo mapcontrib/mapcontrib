@@ -16,11 +16,17 @@ export default Backbone.RelationalModel.extend({
         'minZoom': 14,
         'popupContent': undefined,
         'order': undefined,
+
+        // Point based layer specific
         'markerShape': 'marker1',
         'markerColor': 'orange',
         'markerIconType': CONST.map.markerIconType.library,
         'markerIcon': undefined,
         'markerIconUrl': undefined,
+
+        // Shape files based layer specific
+        'color': 'purple',
+        'fileUri': undefined,
 
         // Overpass type specific
         'overpassRequest': undefined,

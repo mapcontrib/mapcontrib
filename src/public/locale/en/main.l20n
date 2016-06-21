@@ -137,6 +137,7 @@
 <editLayerFormColumn_title "Layer edit">
 <editLayerFormColumn_layerName "Name">
 <editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_visibility "Visibility">
 <editLayerFormColumn_visibilityAndEdition "Visibility and edition">
 <editLayerFormColumn_visible "Visible by users">
 <editLayerFormColumn_dataEditable "Allow to edit data">
@@ -145,6 +146,9 @@
 <editLayerFormColumn_layerOverpassRequest "Overpass request">
 <editLayerFormColumn_marker "Marker">
 <editLayerFormColumn_layerPopupContent "Popup content">
+<editLayerFormColumn_gpxFile "GPX file">
+<editLayerFormColumn_csvFile "CSV file">
+<editLayerFormColumn_browse "Browse">
 
 
 /* Edit layer marker modal */
@@ -238,3 +242,10 @@
 <editPoiMenuColumn_title "Edit an element">
 <editPoiMenuColumn_editTags "Edit the data">
 <editPoiMenuColumn_movePoi "Move the node">
+
+
+/* Add layer menu column */
+<addLayerMenuColumn_title "Add a layer">
+<addLayerMenuColumn_overPass "OverPass request">
+<addLayerMenuColumn_gpx "GPX file">
+<addLayerMenuColumn_csv "CSV file">

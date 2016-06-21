@@ -40,12 +40,25 @@ if (!config.get('client.oauthSecret')) {
 
 let MongoStore = connectMongo(session);
 let app = express();
+const publicDirectory = path.join(__dirname, 'public');
+const fileDirectory = path.join(publicDirectory, 'files');
+const uploadDirectory = path.join(__dirname, 'upload');
+
+if ( !fs.existsSync( fileDirectory ) ) {
+    fs.mkdirSync(fileDirectory);
+}
+
+if ( !fs.existsSync( uploadDirectory ) ) {
+    fs.mkdirSync(uploadDirectory);
+}
+
+
 
 app.use(compression());
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static( publicDirectory ));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ 'extended': true }));
@@ -64,8 +77,8 @@ app.use(session({
 app.set('port', config.get('server.port'));
 app.use(logger('dev'));
 app.use(methodOverride());
-app.use(multer({ 'dest': path.join(__dirname, 'upload') }));
-app.use(serveStatic(path.join(__dirname, 'public')));
+app.use(multer({ 'dest': uploadDirectory }));
+app.use(serveStatic( publicDirectory ));
 
 if (app.get('env') !== 'production') {
     app.use(errorHandler());
@@ -94,11 +107,61 @@ database.connect((err, db) => {
 
 
 
-let dataDirectory = path.join(__dirname, 'upload');
+app.post('/upload', (req, res) => {
+    let promises = [];
 
-if ( !fs.existsSync( dataDirectory ) ) {
-    fs.mkdirSync(dataDirectory);
+    for (let field in req.files) {
+        promises.push(
+            uploadFile(req, res, req.files[field])
+        );
+    }
+
+    Promise.all(promises)
+    .then(results => {
+        res.send(results);
+    })
+    .catch(err => {
+        res.sendStatus(500);
+    });
+});
+
+
+function uploadFile(req, res, file) {
+    const fragment = req.query.fragment;
+
+    let i = 2;
+    let publicPath = `/files/${fragment}/${file.originalname}`;
+    let directory = `${fileDirectory}/${fragment}`;
+    let fullPath = `${directory}/${file.originalname}`;
+
+    if ( !fs.existsSync( directory ) ) {
+        fs.mkdirSync( directory );
+    }
+
+    while (fs.existsSync(fullPath) === true) {
+        publicPath = `/files/${fragment}/${file.originalname}_${i}`;
+        fullPath = `${directory}/${file.originalname}_${i}`;
+        i++;
+    }
+
+    return new Promise((resolve, reject) => {
+        fs.rename(
+            file.path,
+            fullPath,
+            err => {
+                if(err) {
+                    return reject(err);
+                }
+
+                let result = {};
+                result[ file.fieldname ] = publicPath;
+                resolve(result);
+            }
+        );
+    });
 }
+
+
 
 
 
