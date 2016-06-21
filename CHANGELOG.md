@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.4
+
+* Fixes the markers position.
+* Fixes the display of the information button if title bar is white.
+
 ## 0.8.3
 
 * Fixes the orientation handling in geolocation.
