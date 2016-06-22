@@ -511,22 +511,7 @@ export default Marionette.LayoutView.extend({
     addOverPassLayer: function (layerModel, hidden) {
         let split,
         layerGroup = L.layerGroup(),
-        markerCluster = L.markerClusterGroup({
-            'polygonOptions': CONST.map.markerCLusterPolygonOptions,
-            'animate': false,
-            'animateAddingMarkers': false,
-            'spiderfyOnMaxZoom': false,
-            'disableClusteringAtZoom': 18,
-            'zoomToBoundsOnClick': true,
-            'iconCreateFunction': function(cluster) {
-                let count = cluster.getChildCount();
-                let color = layerModel.get('markerColor');
-
-                return L.divIcon({
-                    html: `<div class="marker-cluster ${color}">${count}</div>`
-                });
-            }
-        }),
+        markerCluster = this.getMarkerCluster(layerModel),
         overpassRequest = '',
         originalOverpassRequest = layerModel.get('overpassRequest') || '',
         overpassRequestSplit = originalOverpassRequest.split(';');
@@ -596,7 +581,7 @@ export default Marionette.LayoutView.extend({
 
                     this._mapData.setOsmElement(e, layerModel.cid);
 
-                    let popupContent = this.getLayerPopupContent(layerModel, e);
+                    let popupContent = this.getLayerPopupContent(layerModel, e.tags, e);
 
                     if( e.type === 'node' ) {
                         let pos = new L.LatLng(e.lat, e.lon);
@@ -679,11 +664,59 @@ export default Marionette.LayoutView.extend({
     },
 
     addGpxLayer: function (layerModel, hidden) {
-        let layer = Omnivore.gpx(
+        let omnivoreLayer = Omnivore.gpx(
             layerModel.get('fileUri')
-        );
+        )
+        .on('ready', layer => {
+            omnivoreLayer.eachLayer(path => {
+                let style = _.extend(
+                    CONST.map.wayPolylineOptions,
+                    { 'color': CONST.colors[ layerModel.get('markerColor') ] }
+                );
 
-        this._mapData.setRootLayer(layer, layerModel.cid);
+                path.setStyle(style);
+
+                this._bindPopupTo(
+                    omnivoreLayer,
+                    marked( layerModel.get('popupContent') )
+                );
+            });
+        });
+
+
+        this._mapData.setRootLayer(omnivoreLayer, layerModel.cid);
+
+        if ( !hidden ) {
+            this.showLayer( layerModel );
+        }
+    },
+
+    addCsvLayer: function (layerModel, hidden) {
+        let layerGroup = L.layerGroup(),
+        markerCluster = this.getMarkerCluster(layerModel);
+
+        const icon = MapUi.buildLayerIcon( L, layerModel );
+
+        let omnivoreLayer = Omnivore.csv(
+            layerModel.get('fileUri')
+        )
+        .on('ready', layer => {
+            omnivoreLayer.eachLayer(marker => {
+                let popupContent = this.getLayerPopupContent(
+                    layerModel,
+                    marker.feature.properties
+                );
+                marker.setIcon(icon);
+                this._bindPopupTo(marker, popupContent);
+                markerCluster.addLayer(marker);
+            });
+        });
+
+
+        layerGroup.addLayer( markerCluster );
+
+        this._mapData.setRootLayer(layerGroup, layerModel.cid);
+        this._mapData.setMarkerCluster(markerCluster, layerModel.cid);
 
         if ( !hidden ) {
             this.showLayer( layerModel );
@@ -718,7 +751,9 @@ export default Marionette.LayoutView.extend({
             );
         }
 
-        markerCluster.refreshClusters();
+        if ( layerModel.get('type') === CONST.layerType.overpass ) {
+            markerCluster.refreshClusters();
+        }
     },
 
     updateLayerPopups: function (layerModel) {
@@ -733,7 +768,11 @@ export default Marionette.LayoutView.extend({
                 );
 
                 for (let layer of layers) {
-                    let popupContent = this.getLayerPopupContent( layerModel, osmElement );
+                    let popupContent = this.getLayerPopupContent(
+                        layerModel,
+                        osmElement.tags,
+                        osmElement
+                    );
 
                     if ( popupContent ) {
                         if ( layer._popup ) {
@@ -787,13 +826,14 @@ export default Marionette.LayoutView.extend({
             layer.setPopupContent(
                 this.getLayerPopupContent(
                     layerModel,
+                    osmElement.tags,
                     osmElement
                 )
             );
         }
     },
 
-    getLayerPopupContent: function (layerModel, osmElement) {
+    getLayerPopupContent: function (layerModel, data, osmElement) {
         let popupContent = marked( layerModel.get('popupContent') );
         let dataEditable = layerModel.get('dataEditable');
         let isLogged = this._app.isLogged();
@@ -806,15 +846,12 @@ export default Marionette.LayoutView.extend({
             return '';
         }
 
-        let re,
-        type = osmElement.type,
-        id = osmElement.id,
-        version = osmElement.version;
+        let re;
 
-        for (var k in osmElement.tags) {
+        for (var k in data) {
             re = new RegExp('{'+ k +'}', 'g');
 
-            popupContent = popupContent.replace( re, osmElement.tags[k] );
+            popupContent = popupContent.replace( re, data[k] );
         }
 
         popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
@@ -846,6 +883,25 @@ export default Marionette.LayoutView.extend({
         }
 
         return globalWrapper;
+    },
+
+    getMarkerCluster: function (layerModel) {
+        return L.markerClusterGroup({
+            'polygonOptions': CONST.map.markerCLusterPolygonOptions,
+            'animate': false,
+            'animateAddingMarkers': false,
+            'spiderfyOnMaxZoom': false,
+            'disableClusteringAtZoom': 18,
+            'zoomToBoundsOnClick': true,
+            'iconCreateFunction': cluster => {
+                let count = cluster.getChildCount();
+                let color = layerModel.get('markerColor');
+
+                return L.divIcon({
+                    html: `<div class="marker-cluster ${color}">${count}</div>`
+                });
+            }
+        });
     },
 
     onClickEditPoi: function (osmElement, layerModel, e) {
