@@ -149,6 +149,7 @@
 <editLayerFormColumn_layerPopupContent "Popup content">
 <editLayerFormColumn_gpxFile "GPX file">
 <editLayerFormColumn_csvFile "CSV file">
+<editLayerFormColumn_csvDisclaimer "It must contain latitude and longitude values, in column named roughly <em>latitude</em> and <em>longitude</em>">
 <editLayerFormColumn_browse "Browse">
 
 

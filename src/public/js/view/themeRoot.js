@@ -26,6 +26,7 @@ import EditLayerListColumnView from './editLayerListColumn';
 import AddLayerMenuColumnView from './addLayerMenuColumn';
 import EditOverPassLayerFormColumnView from './editOverPassLayerFormColumn';
 import EditGpxLayerFormColumnView from './editGpxLayerFormColumn';
+import EditCsvLayerFormColumnView from './editCsvLayerFormColumn';
 import EditLayerMarkerModalView from './editLayerMarkerModal';
 import EditTileColumnView from './editTileColumn';
 import EditPresetColumnView from './editPresetColumn';
@@ -942,6 +943,32 @@ export default Marionette.LayoutView.extend({
             });
 
             view = new EditGpxLayerFormColumnView({
+                'model': layerModel,
+                'theme': this.model,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('editLayerFormColumn').show( view );
+
+        view.open();
+    },
+
+    onCommandEditCsvLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new EditCsvLayerFormColumnView({
+                'model': layerModel,
+                'theme': this.model,
+            });
+        }
+        else {
+            let layerModel = new LayerModel({
+                'type': CONST.layerType.csv
+            });
+
+            view = new EditCsvLayerFormColumnView({
                 'model': layerModel,
                 'theme': this.model,
                 'isNew': true,

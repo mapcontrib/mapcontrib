@@ -149,6 +149,7 @@
 <editLayerFormColumn_layerPopupContent "Contenu des bulles">
 <editLayerFormColumn_gpxFile "Fichier GPX">
 <editLayerFormColumn_csvFile "Fichier CSV">
+<editLayerFormColumn_csvDisclaimer "Il doit contenir les latitude et longitude, dans des colonnes nommées <em>latitude</em> et <em>longitude</em>">
 <editLayerFormColumn_browse "Parcourir">
 
 

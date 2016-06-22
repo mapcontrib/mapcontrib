@@ -4,7 +4,7 @@ import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
 import { basename, extensionname } from '../core/utils';
 import CONST from '../const';
-import template from '../../templates/editGpxLayerFormColumn.ejs';
+import template from '../../templates/editCsvLayerFormColumn.ejs';
 
 
 export default Marionette.ItemView.extend({
@@ -111,7 +111,7 @@ export default Marionette.ItemView.extend({
         if ( fileName ) {
             let extension = extensionname(fileName).toLowerCase();
 
-            if (extension !== 'gpx') {
+            if (extension !== 'csv') {
                 this.ui.fileFormGroup.addClass('has-feedback has-error');
                 return false;
             }
