@@ -497,13 +497,13 @@ export default Marionette.LayoutView.extend({
     addLayer: function (layerModel, hidden) {
         switch (layerModel.get('type')) {
             case CONST.layerType.overpass:
-                this.addOverPassLayer(layerModel);
+                this.addOverPassLayer(layerModel, hidden);
                 break;
             case CONST.layerType.gpx:
-                this.addGpxLayer(layerModel);
+                this.addGpxLayer(layerModel, hidden);
                 break;
             case CONST.layerType.csv:
-                this.addCsvLayer(layerModel);
+                this.addCsvLayer(layerModel, hidden);
                 break;
         }
     },
