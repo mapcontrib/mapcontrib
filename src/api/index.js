@@ -3,6 +3,7 @@ import Backbone from 'backbone';
 import config from 'config';
 import userApi from './user';
 import themeApi from './theme';
+import uploadApi from './upload';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -15,20 +16,22 @@ export default function Api(app, db, CONST){
 
     userApi.setOptions( options );
     themeApi.setOptions( options );
+    uploadApi.setOptions( options );
+    uploadApi.initDirectories( app );
 
 
-    app.get('/api/user/logout', userApi.api.logout);
-    // app.get('/api/user', userApi.api.getAll);
-    app.get('/api/user/:_id', userApi.api.get);
-    app.post('/api/user', isLoggedIn, userApi.api.post);
-    app.put('/api/user/:_id', isLoggedIn, userApi.api.put);
-    // app.delete('/api/user/:_id', isLoggedIn, userApi.api.delete);
+    app.get('/api/user/logout', userApi.Api.logout);
+    // app.get('/api/user', userApi.Api.getAll);
+    app.get('/api/user/:_id', userApi.Api.get);
+    app.post('/api/user', isLoggedIn, userApi.Api.post);
+    app.put('/api/user/:_id', isLoggedIn, userApi.Api.put);
+    // app.delete('/api/user/:_id', isLoggedIn, userApi.Api.delete);
 
-    app.get('/api/theme', themeApi.api.getAll);
-    app.get('/api/theme/:_id', themeApi.api.get);
-    app.post('/api/theme', isLoggedIn, themeApi.api.post);
-    app.put('/api/theme/:_id', isLoggedIn, themeApi.api.put);
-    // app.delete('/api/theme/:_id', isLoggedIn, themeApi.api.delete);
+    app.get('/api/theme', themeApi.Api.getAll);
+    app.get('/api/theme/:_id', themeApi.Api.get);
+    app.post('/api/theme', isLoggedIn, themeApi.Api.post);
+    app.put('/api/theme/:_id', isLoggedIn, themeApi.Api.put);
+    // app.delete('/api/theme/:_id', isLoggedIn, themeApi.Api.delete);
 
     app.get('/', (req, res) => {
         let clientConfig = config.get('client');
@@ -43,7 +46,7 @@ export default function Api(app, db, CONST){
 
             for (let fragment of clientConfig.highlightedThemes) {
                 promises.push(
-                    themeApi.api.findFromFragment(fragment)
+                    themeApi.Api.findFromFragment(fragment)
                 );
             }
 
@@ -66,14 +69,13 @@ export default function Api(app, db, CONST){
         }
     });
 
-
     app.get('/t/:fragment-*', (req, res) => {
         let templateVars = {
             'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
             'config': JSON.stringify( config.get('client') )
         };
 
-        themeApi.api.findFromFragment(req.params.fragment)
+        themeApi.Api.findFromFragment(req.params.fragment)
         .then(( themeObject ) => {
             templateVars.theme = JSON.stringify( themeObject );
 
@@ -90,7 +92,7 @@ export default function Api(app, db, CONST){
 
         let userId = req.session.user._id.toString();
 
-        themeApi.api.createTheme(req.session, userId)
+        themeApi.Api.createTheme(req.session, userId)
         .then(theme => {
             Backbone.Relational.store.reset();
 
@@ -103,6 +105,9 @@ export default function Api(app, db, CONST){
         })
         .catch( onPromiseError.bind(this, res) );
     });
+
+
+    app.post('/api/upload/shape', uploadApi.Api.postShapeFile);
 }
 
 

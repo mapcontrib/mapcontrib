@@ -1,5 +1,4 @@
 
-import fs from 'fs';
 import path from 'path';
 import _ from 'underscore';
 import mkdirp from 'mkdirp';
@@ -42,28 +41,6 @@ if (!config.get('client.oauthSecret')) {
 let MongoStore = connectMongo(session);
 let app = express();
 
-
-const publicDirectory = path.join(__dirname, 'public');
-const uploadDirectory = path.join(__dirname, 'upload');
-
-if ( !fs.existsSync( config.get('dataDirectory') ) ) {
-    mkdirp.sync(config.get('dataDirectory'));
-}
-
-if ( !fs.existsSync( uploadDirectory ) ) {
-    mkdirp.sync(uploadDirectory);
-}
-
-app.use(
-    express.static( publicDirectory )
-);
-app.use(
-    '/files',
-    express.static( config.get('dataDirectory') )
-);
-app.use(
-    multer({ 'dest': uploadDirectory })
-);
 
 
 
@@ -118,59 +95,6 @@ database.connect((err, db) => {
 
 
 
-app.post('/upload', (req, res) => {
-    let promises = [];
-
-    for (let field in req.files) {
-        promises.push(
-            uploadFile(req, res, req.files[field])
-        );
-    }
-
-    Promise.all(promises)
-    .then(results => {
-        res.send(results);
-    })
-    .catch(err => {
-        res.sendStatus(500);
-    });
-});
-
-
-function uploadFile(req, res, file) {
-    const fragment = req.query.fragment;
-
-    let i = 2;
-    let publicPath = `/files/theme/${fragment}/${file.originalname}`;
-    let directory = `${config.get('dataDirectory')}/theme/${fragment}`;
-    let fullPath = `${directory}/${file.originalname}`;
-
-    if ( !fs.existsSync( directory ) ) {
-        mkdirp.sync( directory );
-    }
-
-    while (fs.existsSync(fullPath) === true) {
-        publicPath = `/files/theme/${fragment}/${file.originalname}_${i}`;
-        fullPath = `${directory}/${file.originalname}_${i}`;
-        i++;
-    }
-
-    return new Promise((resolve, reject) => {
-        fs.rename(
-            file.path,
-            fullPath,
-            err => {
-                if(err) {
-                    return reject(err);
-                }
-
-                let result = {};
-                result[ file.fieldname ] = publicPath;
-                resolve(result);
-            }
-        );
-    });
-}
 
 
 

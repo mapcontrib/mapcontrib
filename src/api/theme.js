@@ -23,13 +23,13 @@ function addThemeInUserSession (session, theme) {
 }
 
 
-let api = {
-    post (req, res) {
+class Api {
+    static post (req, res) {
         if (!req.session.user) {
             res.sendStatus(401);
         }
 
-        api.createTheme( req.session, req.session.user._id.toString() )
+        Api.createTheme( req.session, req.session.user._id.toString() )
         .then(result => {
             result._id = result._id.toString();
             res.send(result);
@@ -37,9 +37,9 @@ let api = {
         .catch(errorCode => {
             res.sendStatus(errorCode);
         });
-    },
+    }
 
-    createTheme (session, userId) {
+    static createTheme (session, userId) {
         Backbone.Relational.store.reset();
 
         let collection = options.database.collection('theme'),
@@ -49,7 +49,7 @@ let api = {
         });
 
         return new Promise((resolve, reject) => {
-            api.getNewFragment()
+            Api.getNewFragment()
             .then(fragment => {
                 model.set('fragment', fragment);
 
@@ -70,9 +70,9 @@ let api = {
                 );
             });
         });
-    },
+    }
 
-    getNewFragment: function () {
+    static getNewFragment () {
         let collection = options.database.collection('theme'),
         shasum = crypto.createHash('sha1');
 
@@ -95,14 +95,14 @@ let api = {
                     resolve(fragment);
                 }
                 else {
-                    return api.getNewFragment();
+                    return Api.getNewFragment();
                 }
             });
         });
-    },
+    }
 
 
-    get: function (req, res) {
+    static get (req, res) {
         if ( !req.params._id || !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
 
@@ -132,10 +132,10 @@ let api = {
 
             res.send(result);
         });
-    },
+    }
 
 
-    getAll: function (req, res) {
+    static getAll (req, res) {
         let collection = options.database.collection('theme');
         let filters = {};
 
@@ -149,7 +149,7 @@ let api = {
         }
 
         if ( req.query.fragment ) {
-            api.findFromFragment(req.query.fragment)
+            Api.findFromFragment(req.query.fragment)
             .then((theme) => {
                 res.send(theme);
             })
@@ -242,10 +242,10 @@ let api = {
                 res.send(results);
             }
         });
-    },
+    }
 
 
-    findFromFragment: function (fragment) {
+    static findFromFragment (fragment) {
         return new Promise((resolve, reject) => {
             let collection = options.database.collection('theme');
 
@@ -274,10 +274,10 @@ let api = {
                 resolve(result);
             });
         });
-    },
+    }
 
 
-    findFromOwnerId: function (ownerId) {
+    static findFromOwnerId (ownerId) {
         return new Promise((resolve, reject) => {
             let collection = options.database.collection('theme');
 
@@ -319,17 +319,17 @@ let api = {
                 resolve(results);
             });
         });
-    },
+    }
 
 
-    put: function (req, res) {
+    static put (req, res) {
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
 
             return true;
         }
 
-        if ( !api.isThemeOwner(req, res, req.params._id) ) {
+        if ( !Api.isThemeOwner(req, res, req.params._id) ) {
             res.sendStatus(401);
 
             return true;
@@ -363,18 +363,18 @@ let api = {
 
             res.send({});
         });
-    },
+    }
 
 
 
-    delete: function (req, res) {
+    static delete (req, res) {
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
 
             return true;
         }
 
-        if ( !api.isThemeOwner(req, res, req.params._id) ) {
+        if ( !Api.isThemeOwner(req, res, req.params._id) ) {
             res.sendStatus(401);
 
             return true;
@@ -396,10 +396,10 @@ let api = {
 
             res.send({});
         });
-    },
+    }
 
 
-    isThemeOwner: function (req, res, themeId) {
+    static isThemeOwner (req, res, themeId) {
         if ( !req.session.user || !req.session.themes ) {
             return false;
         }
@@ -410,11 +410,11 @@ let api = {
 
         return true;
     }
-};
+}
 
 
 
 export default {
     setOptions,
-    api
+    Api
 };

@@ -2,6 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
+import CONST from '../const';
 import template from '../../templates/editGpxLayerFormColumn.ejs';
 
 
@@ -36,9 +37,12 @@ export default Marionette.ItemView.extend({
     },
 
     templateHelpers: function () {
+        const maxFileSize = Math.round( config.uploadMaxShapeFileSize / 1024 );
         return {
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
             'fragment': this.options.theme.get('fragment'),
+            'apiPath': `${CONST.apiPath}upload/shape`,
+            'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
         };
     },
 
