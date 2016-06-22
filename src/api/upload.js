@@ -59,7 +59,7 @@ class Api {
             }
 
             promises.push(
-                uploadFile(req, res, req.files[field], `theme/${fragment}`)
+                uploadFile(req, res, req.files[field], `theme/${fragment}/shape`)
             );
         }
 
