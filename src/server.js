@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import _ from 'underscore';
+import mkdirp from 'mkdirp';
 
 import ejs from 'ejs';
 import express from 'express';
@@ -40,17 +41,30 @@ if (!config.get('client.oauthSecret')) {
 
 let MongoStore = connectMongo(session);
 let app = express();
+
+
 const publicDirectory = path.join(__dirname, 'public');
-const fileDirectory = path.join(publicDirectory, 'files');
 const uploadDirectory = path.join(__dirname, 'upload');
 
-if ( !fs.existsSync( fileDirectory ) ) {
-    fs.mkdirSync(fileDirectory);
+if ( !fs.existsSync( config.get('dataDirectory') ) ) {
+    mkdirp.sync(config.get('dataDirectory'));
 }
 
 if ( !fs.existsSync( uploadDirectory ) ) {
-    fs.mkdirSync(uploadDirectory);
+    mkdirp.sync(uploadDirectory);
 }
+
+app.use(
+    express.static( publicDirectory )
+);
+app.use(
+    '/files',
+    express.static( config.get('dataDirectory') )
+);
+app.use(
+    multer({ 'dest': uploadDirectory })
+);
+
 
 
 
@@ -58,7 +72,6 @@ app.use(compression());
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static( publicDirectory ));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ 'extended': true }));
@@ -77,8 +90,6 @@ app.use(session({
 app.set('port', config.get('server.port'));
 app.use(logger('dev'));
 app.use(methodOverride());
-app.use(multer({ 'dest': uploadDirectory }));
-app.use(serveStatic( publicDirectory ));
 
 if (app.get('env') !== 'production') {
     app.use(errorHandler());
@@ -130,16 +141,16 @@ function uploadFile(req, res, file) {
     const fragment = req.query.fragment;
 
     let i = 2;
-    let publicPath = `/files/${fragment}/${file.originalname}`;
-    let directory = `${fileDirectory}/${fragment}`;
+    let publicPath = `/files/theme/${fragment}/${file.originalname}`;
+    let directory = `${config.get('dataDirectory')}/theme/${fragment}`;
     let fullPath = `${directory}/${file.originalname}`;
 
     if ( !fs.existsSync( directory ) ) {
-        fs.mkdirSync( directory );
+        mkdirp.sync( directory );
     }
 
     while (fs.existsSync(fullPath) === true) {
-        publicPath = `/files/${fragment}/${file.originalname}_${i}`;
+        publicPath = `/files/theme/${fragment}/${file.originalname}_${i}`;
         fullPath = `${directory}/${file.originalname}_${i}`;
         i++;
     }

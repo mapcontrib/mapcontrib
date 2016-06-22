@@ -68,6 +68,7 @@
     "less-loader": "^2.2.2",
     "less-plugin-autoprefix": "^1.4.2",
     "marked": "^0.3.5",
+    "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
     "osm-auth": "^0.2.8",
     "raw-loader": "^0.5.1",
