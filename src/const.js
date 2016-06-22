@@ -6,12 +6,15 @@ export default {
         'fragment': /^[a-z0-9]{6}$/,
     },
 
-    'uploadExtensions': [
+    'shapeFileExtensions': [
         'gpx',
         'csv',
+    ],
+
+    'pictureExtensions': [
         'jpg',
         'gif',
         'png',
         'svg',
-    ]
+    ],
 };

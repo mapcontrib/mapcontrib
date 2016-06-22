@@ -98,8 +98,13 @@ export default Marionette.ItemView.extend({
 
         this.ui.form.ajaxSubmit({
             'error': xhr => {
-                if (xhr.status === 413) {
-                    this.ui.fileFormGroup.addClass('has-feedback has-error');
+                switch (xhr.status) {
+                    case 413:
+                        this.ui.fileFormGroup.addClass('has-feedback has-error');
+                        break;
+                    case 415:
+                        this.ui.fileFormGroup.addClass('has-feedback has-error');
+                        break;
                 }
             },
             'success': response => {

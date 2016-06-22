@@ -58,6 +58,10 @@ class Api {
                 res.sendStatus(413);
             }
 
+            if ( options.CONST.shapeFileExtensions.indexOf(file.extension) === -1 ) {
+                res.sendStatus(415);
+            }
+
             promises.push(
                 uploadFile(req, res, req.files[field], `theme/${fragment}/shape`)
             );
