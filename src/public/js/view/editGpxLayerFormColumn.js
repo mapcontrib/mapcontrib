@@ -96,23 +96,28 @@ export default Marionette.ItemView.extend({
 
         this.ui.formGroups.removeClass('has-feedback has-error');
 
-        this.ui.form.ajaxSubmit({
-            'error': xhr => {
-                switch (xhr.status) {
-                    case 413:
+        if ( this.ui.layerFile.val() ) {
+            this.ui.form.ajaxSubmit({
+                'error': xhr => {
+                    switch (xhr.status) {
+                        case 413:
                         this.ui.fileFormGroup.addClass('has-feedback has-error');
                         break;
-                    case 415:
+                        case 415:
                         this.ui.fileFormGroup.addClass('has-feedback has-error');
                         break;
+                    }
+                },
+                'success': response => {
+                    let file = response[0];
+                    this.model.set('fileUri', file.layer_file);
+                    this.saveLayer();
                 }
-            },
-            'success': response => {
-                let file = response[0];
-                this.model.set('fileUri', file.layer_file);
-                this.saveLayer();
-            }
-        });
+            });
+        }
+        else {
+            this.saveLayer();
+        }
     },
 
     saveLayer: function () {
