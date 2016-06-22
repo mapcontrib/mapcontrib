@@ -58,7 +58,9 @@ class Api {
                 res.sendStatus(413);
             }
 
-            if ( options.CONST.shapeFileExtensions.indexOf(file.extension) === -1 ) {
+            let extension = file.extension.toLowerCase();
+
+            if ( options.CONST.shapeFileExtensions.indexOf(extension) === -1 ) {
                 res.sendStatus(415);
             }
 
@@ -80,6 +82,8 @@ class Api {
 
 
 function uploadFile(req, res, file, directory) {
+    file.originalname = file.originalname.toLowerCase();
+    
     let i = 2;
     let publicPath = `/files/${directory}/${file.originalname}`;
     let fullDirectory = `${config.get('dataDirectory')}/${directory}`;
