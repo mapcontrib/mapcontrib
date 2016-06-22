@@ -2,6 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
+import { basename } from '../core/utils';
 import CONST from '../const';
 import template from '../../templates/editGpxLayerFormColumn.ejs';
 
@@ -31,6 +32,8 @@ export default Marionette.ItemView.extend({
 
         'formGroups': '.form-group',
         'fileFormGroup': '.form-group.layer_file',
+
+        'actualFile': '.actual_file',
     },
 
     events: {
@@ -41,11 +44,14 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         const maxFileSize = Math.round( config.uploadMaxShapeFileSize / 1024 );
+        const file = basename(this.model.get('fileUri'));
+
         return {
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
             'fragment': this.options.theme.get('fragment'),
             'apiPath': `${CONST.apiPath}upload/shape`,
             'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
+            'file': file
         };
     },
 
@@ -59,6 +65,10 @@ export default Marionette.ItemView.extend({
 
     onRender: function () {
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
+
+        if ( this.model.get('fileUri') ) {
+            this.ui.actualFile.removeClass('hide');
+        }
     },
 
     onShow: function () {
