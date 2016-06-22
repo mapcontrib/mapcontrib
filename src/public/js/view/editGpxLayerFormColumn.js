@@ -28,6 +28,9 @@ export default Marionette.ItemView.extend({
 
         'markerWrapper': '.marker-wrapper',
         'editMarkerButton': '.edit_marker_btn',
+
+        'formGroups': '.form-group',
+        'fileFormGroup': '.form-group.layer_file',
     },
 
     events: {
@@ -91,9 +94,13 @@ export default Marionette.ItemView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
+        this.ui.formGroups.removeClass('has-feedback has-error');
+
         this.ui.form.ajaxSubmit({
             'error': xhr => {
-
+                if (xhr.status === 413) {
+                    this.ui.fileFormGroup.addClass('has-feedback has-error');
+                }
             },
             'success': response => {
                 let file = response[0];
