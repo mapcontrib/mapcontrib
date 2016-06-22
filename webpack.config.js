@@ -50,6 +50,14 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
+                // leaflet-omnivore depends on dsv@0.0.3
+                // dsv@0.0.3 is deprecated and npm replaces it by d3-dsv
+                // d3-dsv depends on fs, which is not available in a web context
+                // So... There...
+                test: /node_modules\/dsv/,
+                loader: 'transform?brfs',
+            },
+            {
                 test: /\.css$/,
                 loader: extractCSS.extract(['css'])
             },

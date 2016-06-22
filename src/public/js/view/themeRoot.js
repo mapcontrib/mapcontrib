@@ -8,6 +8,7 @@ import CONST from '../const';
 import L from 'leaflet';
 import OverPassLayer from 'leaflet-overpass-layer';
 import MarkerCluster from 'leaflet.markercluster';
+import Omnivore from 'leaflet-omnivore';
 import marked from 'marked';
 import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
@@ -494,6 +495,20 @@ export default Marionette.LayoutView.extend({
     },
 
     addLayer: function (layerModel, hidden) {
+        switch (layerModel.get('type')) {
+            case CONST.layerType.overpass:
+                this.addOverPassLayer(layerModel);
+                break;
+            case CONST.layerType.gpx:
+                this.addGpxLayer(layerModel);
+                break;
+            case CONST.layerType.csv:
+                this.addCsvLayer(layerModel);
+                break;
+        }
+    },
+
+    addOverPassLayer: function (layerModel, hidden) {
         let split,
         layerGroup = L.layerGroup(),
         markerCluster = L.markerClusterGroup({
@@ -657,6 +672,18 @@ export default Marionette.LayoutView.extend({
         this._mapData.setRootLayer(layerGroup, layerModel.cid);
         this._mapData.setMarkerCluster(markerCluster, layerModel.cid);
         this._mapData.setOverpassLayer(overpassLayer, layerModel.cid);
+
+        if ( !hidden ) {
+            this.showLayer( layerModel );
+        }
+    },
+
+    addGpxLayer: function (layerModel, hidden) {
+        let layer = Omnivore.gpx(
+            layerModel.get('fileUri')
+        );
+
+        this._mapData.setRootLayer(layer, layerModel.cid);
 
         if ( !hidden ) {
             this.showLayer( layerModel );
