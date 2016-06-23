@@ -79,10 +79,6 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    onDestroy: function () {
-        this._radio.vent.off('map:zoomChanged');
-    },
-
     open: function () {
         this.triggerMethod('open');
     },
@@ -141,7 +137,6 @@ export default Marionette.ItemView.extend({
 
     saveLayer: function () {
         let updateMarkers = false,
-        updateMinZoom = false,
         updatePopups = false,
         updateVisibility = false;
 
@@ -149,10 +144,6 @@ export default Marionette.ItemView.extend({
         this.model.set('description', this.ui.layerDescription.val());
         this.model.set('visible', this.ui.layerVisible.prop('checked'));
         this.model.set('popupContent', this.ui.layerPopupContent.val());
-
-        if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
-            updateMinZoom = true;
-        }
 
         if ( this._oldModel.get('markerIconType') !== this.model.get('markerIconType') ) {
             updateMarkers = true;
@@ -190,10 +181,6 @@ export default Marionette.ItemView.extend({
             'success': () => {
                 if ( this.options.isNew ) {
                     this._radio.commands.execute('map:addLayer', this.model);
-                }
-
-                if ( updateMinZoom ) {
-                    this._radio.commands.execute('map:updateLayerMinZoom', this.model);
                 }
 
                 if ( updateMarkers ) {
