@@ -28,7 +28,7 @@ describe('Utils', () => {
             assert.equal(result, expected);
         });
     });
-    
+
     describe('dirname', () => {
         it('Should return a directory', () => {
             const expected = '/some/directories/to/go/to';
@@ -37,6 +37,19 @@ describe('Utils', () => {
             let result = utils.dirname(path);
 
             assert.equal(result, expected);
+        });
+    });
+
+    describe('uuid', () => {
+        it('Should return a well formed uniq ID', () => {
+            const expectedType = 'string';
+            const formatRegex = /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/;
+
+            let uuid = utils.uuid();
+            console.log(uuid);
+
+            assert.equal(typeof uuid, expectedType);
+            assert.equal(formatRegex.test(uuid), true);
         });
     });
 });

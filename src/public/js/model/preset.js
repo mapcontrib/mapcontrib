@@ -3,6 +3,7 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import BackboneRelational from 'backbone-relational';
 import CONST from '../const';
+import { uuid } from '../core/utils';
 
 
 export default Backbone.RelationalModel.extend({
@@ -16,8 +17,7 @@ export default Backbone.RelationalModel.extend({
 
     initialize: function () {
         if (!this.get('uniqid')) {
-            let uniqid = this.cid +'_'+ new Date().getTime();
-            this.set('uniqid', uniqid);
+            this.set('uniqid', uuid());
         }
     },
 });
