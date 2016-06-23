@@ -860,6 +860,10 @@ export default Marionette.LayoutView.extend({
             '<a target="_blank" href=$1>$2</a>'
         );
 
+        if ( !osmElement ) {
+            return popupContent;
+        }
+
         let globalWrapper = this._document.createElement('div');
         globalWrapper.innerHTML = popupContent;
 
