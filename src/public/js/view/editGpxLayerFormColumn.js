@@ -136,7 +136,7 @@ export default Marionette.ItemView.extend({
     },
 
     saveLayer: function () {
-        let updateMarkers = false,
+        let updatePolylines = false,
         updatePopups = false,
         updateVisibility = false;
 
@@ -146,23 +146,23 @@ export default Marionette.ItemView.extend({
         this.model.set('popupContent', this.ui.layerPopupContent.val());
 
         if ( this._oldModel.get('markerIconType') !== this.model.get('markerIconType') ) {
-            updateMarkers = true;
+            updatePolylines = true;
         }
 
         if ( this._oldModel.get('markerIconUrl') !== this.model.get('markerIconUrl') ) {
-            updateMarkers = true;
+            updatePolylines = true;
         }
 
         if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
-            updateMarkers = true;
+            updatePolylines = true;
         }
 
         if ( this._oldModel.get('markerIcon') !== this.model.get('markerIcon') ) {
-            updateMarkers = true;
+            updatePolylines = true;
         }
 
         if ( this._oldModel.get('markerShape') !== this.model.get('markerShape') ) {
-            updateMarkers = true;
+            updatePolylines = true;
         }
 
         if ( this._oldModel.get('popupContent') !== this.model.get('popupContent') ) {
@@ -183,8 +183,8 @@ export default Marionette.ItemView.extend({
                     this._radio.commands.execute('map:addLayer', this.model);
                 }
 
-                if ( updateMarkers ) {
-                    this._radio.commands.execute('map:updateLayerIcons', this.model);
+                if ( updatePolylines ) {
+                    this._radio.commands.execute('map:updateLayerPolylines', this.model);
                 }
 
                 if ( updatePopups ) {

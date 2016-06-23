@@ -223,6 +223,9 @@ export default Marionette.LayoutView.extend({
             'map:updateLayerIcons': (layerModel) => {
                 this.updateLayerIcons( layerModel );
             },
+            'map:updateLayerPolylines': (layerModel) => {
+                this.updateLayerPolylines( layerModel );
+            },
             'map:updateLayerPopups': (layerModel) => {
                 this.updateLayerPopups( layerModel );
             },
@@ -575,11 +578,11 @@ export default Marionette.LayoutView.extend({
                         }
                     }
 
-                    if ( this._mapData.hasOsmElement(e, layerModel.cid) ) {
+                    if ( this._mapData.hasOsmElement(layerModel.cid, e) ) {
                         continue;
                     }
 
-                    this._mapData.setOsmElement(e, layerModel.cid);
+                    this._mapData.setOsmElement(layerModel.cid, e);
 
                     let popupContent = this.getLayerPopupContent(layerModel, e.tags, e);
 
@@ -591,7 +594,7 @@ export default Marionette.LayoutView.extend({
 
                         this._bindPopupTo(marker, popupContent);
                         markerCluster.addLayer( marker );
-                        this._mapData.addMarker(marker, e, layerModel.cid);
+                        this._mapData.addMarker(marker, layerModel.cid, e);
                     }
                     else if ( e.nodes ) {
                         let nodePositions = this._buildPositionArrayFromWayBodyNodes(e, wayBodyNodes);
@@ -613,11 +616,11 @@ export default Marionette.LayoutView.extend({
 
                             this._bindPopupTo(polygon, popupContent);
                             markerCluster.addLayer( polygon );
-                            this._mapData.addPolygon(polygon, e, layerModel.cid);
+                            this._mapData.addPolygon(polygon, layerModel.cid, e);
 
                             this._bindPopupTo(marker, popupContent);
                             markerCluster.addLayer( marker );
-                            this._mapData.addMarker(marker, e, layerModel.cid);
+                            this._mapData.addMarker(marker, layerModel.cid, e);
                         }
                         else {
                             let polyline = L.polyline(
@@ -627,7 +630,7 @@ export default Marionette.LayoutView.extend({
 
                             this._bindPopupTo(polyline, popupContent);
                             markerCluster.addLayer( polyline );
-                            this._mapData.addPolyline(polyline, e, layerModel.cid);
+                            this._mapData.addPolyline(polyline, layerModel.cid, e);
                         }
                     }
                     else {
@@ -669,17 +672,17 @@ export default Marionette.LayoutView.extend({
         )
         .on('ready', layer => {
             omnivoreLayer.eachLayer(path => {
-                let style = _.extend(
-                    CONST.map.wayPolylineOptions,
-                    { 'color': CONST.colors[ layerModel.get('markerColor') ] }
+                path.setStyle(
+                    MapUi.buildLayerPolylineStyle( layerModel )
                 );
 
-                path.setStyle(style);
-
+                console.log(path);
                 this._bindPopupTo(
                     omnivoreLayer,
                     marked( layerModel.get('popupContent') )
                 );
+
+                this._mapData.addPolyline(path, layerModel.cid);
             });
         });
 
@@ -709,6 +712,7 @@ export default Marionette.LayoutView.extend({
                 marker.setIcon(icon);
                 this._bindPopupTo(marker, popupContent);
                 markerCluster.addLayer(marker);
+                this._mapData.addMarker(marker, layerModel.cid);
             });
         });
 
@@ -751,8 +755,22 @@ export default Marionette.LayoutView.extend({
             );
         }
 
-        if ( layerModel.get('type') === CONST.layerType.overpass ) {
+        if (
+            layerModel.get('type') === CONST.layerType.overpass ||
+            layerModel.get('type') === CONST.layerType.csv
+        ) {
             markerCluster.refreshClusters();
+        }
+    },
+
+    updateLayerPolylines: function (layerModel) {
+        let polylines = this._mapData.getPolylinesFromLayer(layerModel.cid);
+
+        for (let polyline of polylines) {
+            console.log(polyline);
+            polyline.setStyle(
+                MapUi.buildLayerPolylineStyle( layerModel )
+            );
         }
     },
 
@@ -763,8 +781,8 @@ export default Marionette.LayoutView.extend({
             for (let id in osmElements[type]) {
                 let osmElement = osmElements[type][id];
                 let layers = this._mapData.getObjectsFromOsmElement(
-                    osmElement,
-                    layerModel.cid
+                    layerModel.cid,
+                    osmElement
                 );
 
                 for (let layer of layers) {
@@ -815,11 +833,11 @@ export default Marionette.LayoutView.extend({
     },
 
     updatePoiPopup: function (layerModel, osmElement) {
-        this._mapData.setOsmElement(osmElement, layerModel.cid);
+        this._mapData.setOsmElement(layerModel.cid, osmElement);
 
         let layers = this._mapData.getObjectsFromOsmElement(
-            osmElement,
-            layerModel.cid
+            layerModel.cid,
+            osmElement
         );
 
         for (let layer of layers) {

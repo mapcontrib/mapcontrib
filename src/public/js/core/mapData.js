@@ -23,23 +23,32 @@ export default class MapData {
      * @access private
      * @param {object} object
      * @param {object} collection
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the object is related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    _addObjectToListCollection (object, collection, osmElement, layerId) {
+    _addObjectToListCollection (object, collection, layerId, osmElement) {
         if (!collection[layerId]) {
             collection[layerId] = {};
         }
 
-        if (!collection[layerId][osmElement.type]) {
-            collection[layerId][osmElement.type] = {};
-        }
+        if (!osmElement) {
+            if (!collection[layerId]['non-osm']) {
+                collection[layerId]['non-osm'] = [];
+            }
 
-        if (!collection[layerId][osmElement.type][osmElement.id]) {
-            collection[layerId][osmElement.type][osmElement.id] = [];
+            collection[layerId]['non-osm'].push(object);
         }
+        else {
+            if (!collection[layerId][osmElement.type]) {
+                collection[layerId][osmElement.type] = {};
+            }
 
-        collection[layerId][osmElement.type][osmElement.id].push(object);
+            if (!collection[layerId][osmElement.type][osmElement.id]) {
+                collection[layerId][osmElement.type][osmElement.id] = [];
+            }
+
+            collection[layerId][osmElement.type][osmElement.id].push(object);
+        }
     }
 
     /**
@@ -47,10 +56,10 @@ export default class MapData {
      * @access private
      * @param {object} object
      * @param {object} collection
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the object is related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    _setObjectToCollection (object, collection, osmElement, layerId) {
+    _setObjectToCollection (object, collection, layerId, osmElement) {
         if (!collection[layerId]) {
             collection[layerId] = {};
         }
@@ -71,9 +80,16 @@ export default class MapData {
         let results = [];
 
         for (let type in collection) {
-            for (let id in collection[type]) {
-                for (let object of collection[type][id]) {
+            if (type === 'non-osm') {
+                for (let object of collection[type]) {
                     results.push(object);
+                }
+            }
+            else {
+                for (let id in collection[type]) {
+                    for (let object of collection[type][id]) {
+                        results.push(object);
+                    }
                 }
             }
         }
@@ -85,15 +101,15 @@ export default class MapData {
      * @author Guillaume AMAT
      * @access public
      * @param {L.Marker} marker - A Leaflet marker.
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the marker is related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    addMarker (marker, osmElement, layerId) {
+    addMarker (marker, layerId, osmElement) {
         this._addObjectToListCollection(
             marker,
             this._markers,
-            osmElement,
-            layerId
+            layerId,
+            osmElement
         );
     }
 
@@ -101,15 +117,15 @@ export default class MapData {
      * @author Guillaume AMAT
      * @access public
      * @param {L.Polygon} polygon - A Leaflet polygon.
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the polygon is related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    addPolygon (polygon, osmElement, layerId) {
+    addPolygon (polygon, layerId, osmElement) {
         this._addObjectToListCollection(
             polygon,
             this._polygons,
-            osmElement,
-            layerId
+            layerId,
+            osmElement
         );
     }
 
@@ -117,30 +133,30 @@ export default class MapData {
      * @author Guillaume AMAT
      * @access public
      * @param {L.Polyline} polyline - A Leaflet polyline.
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the polyline is related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    addPolyline (polyline, osmElement, layerId) {
+    addPolyline (polyline, layerId, osmElement) {
         this._addObjectToListCollection(
             polyline,
             this._polylines,
-            osmElement,
-            layerId
+            layerId,
+            osmElement
         );
     }
 
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} e - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the OSM element is related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    setOsmElement (e, layerId) {
+    setOsmElement (layerId, osmElement) {
         this._setObjectToCollection(
-            e,
+            osmElement,
             this._osmElements,
-            e,
-            layerId
+            layerId,
+            osmElement
         );
     }
 
@@ -177,19 +193,19 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} e - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the OSM element is related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    hasOsmElement (e, layerId) {
+    hasOsmElement (layerId, osmElement) {
         if (!this._osmElements[layerId]) {
             return false;
         }
 
-        if (!this._osmElements[layerId][e.type]) {
+        if (!this._osmElements[layerId][osmElement.type]) {
             return false;
         }
 
-        if (!this._osmElements[layerId][e.type][e.id]) {
+        if (!this._osmElements[layerId][osmElement.type][osmElement.id]) {
             return false;
         }
 
@@ -200,10 +216,10 @@ export default class MapData {
      * @author Guillaume AMAT
      * @access private
      * @param {object} collection
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the objects are related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    _getFromCollection (collection, osmElement, layerId) {
+    _getFromCollection (collection, layerId, osmElement) {
         if (!collection[layerId]) {
             return undefined;
         }
@@ -233,10 +249,10 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the markers are related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    getMarkersFromOsmElement (osmElement, layerId) {
+    getMarkersFromOsmElement (layerId, osmElement) {
         return this._getFromCollection(this._markers, osmElement, layerId);
     }
 
@@ -254,10 +270,10 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the polygons are related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    getPolygonsFromOsmElement (osmElement, layerId) {
+    getPolygonsFromOsmElement (layerId, osmElement) {
         return this._getFromCollection(this._polygons, osmElement, layerId);
     }
 
@@ -275,10 +291,10 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the polylines are related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    getPolylinesFromOsmElement (osmElement, layerId) {
+    getPolylinesFromOsmElement (layerId, osmElement) {
         return this._getFromCollection(this._polylines, osmElement, layerId);
     }
 
@@ -304,14 +320,37 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the objects are related to.
      */
-    getObjectsFromOsmElement (osmElement, layerId) {
+    getNonOsmObjectsFromLayer (layerId) {
+        let objects = [];
+
+        if (this._markers[layerId] && this._markers[layerId]['non-osm']) {
+            objects = _.union(this._markers[layerId]['non-osm']);
+        }
+
+        if (this._polygons[layerId] && this._polygons[layerId]['non-osm']) {
+            objects = _.union(this._polygons[layerId]['non-osm']);
+        }
+        
+        if (this._polylines[layerId] && this._polylines[layerId]['non-osm']) {
+            objects = _.union(this._polylines[layerId]['non-osm']);
+        }
+
+        return objects;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @param {number} layerId - Id of the layer the objects are related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
+     */
+    getObjectsFromOsmElement (layerId, osmElement) {
         return _.union(
-            this._getFromCollection(this._markers, osmElement, layerId),
-            this._getFromCollection(this._polygons, osmElement, layerId),
-            this._getFromCollection(this._polylines, osmElement, layerId)
+            this._getFromCollection(this._markers, layerId, osmElement),
+            this._getFromCollection(this._polygons, layerId, osmElement),
+            this._getFromCollection(this._polylines, layerId, osmElement)
         );
     }
 
@@ -369,15 +408,15 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access private
-     * @param {object} e - JSON representation of an OSM element.
      * @param {object} collection
      * @param {number} layerId - Id of the layer the objects have to be removed.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    _removeFromCollection (e, collection, layerId) {
+    _removeFromCollection (collection, layerId, osmElement) {
         if (collection[layerId]) {
-            if (collection[layerId][e.type]) {
-                if (collection[layerId][e.type][e.id]) {
-                    delete collection[layerId][e.type][e.id];
+            if (collection[layerId][osmElement.type]) {
+                if (collection[layerId][osmElement.type][osmElement.id]) {
+                    delete collection[layerId][osmElement.type][osmElement.id];
                 }
             }
         }
@@ -397,11 +436,11 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} e - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the markers are related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    removeMarkersFromOsmElement (e, layerId) {
-        this._removeFromCollection(e, this._markers, layerId);
+    removeMarkersFromOsmElement (layerId, osmElement) {
+        this._removeFromCollection(this._markers, layerId, osmElement);
     }
 
     /**
@@ -418,11 +457,11 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the polygons are related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    removePolygonsFromOsmElement (e, layerId) {
-        this._removeFromCollection(e, this._polygons, layerId);
+    removePolygonsFromOsmElement (layerId, osmElement) {
+        this._removeFromCollection(this._polygons, layerId, osmElement);
     }
 
     /**
@@ -439,11 +478,11 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} e - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the polylines are related to.
+     * @param {object} osmElement - JSON representation of an OSM element.
      */
-    removePolylinesFromOsmElement (e, layerId) {
-        this._removeFromCollection(e, this._polylines, layerId);
+    removePolylinesFromOsmElement (layerId, osmElement) {
+        this._removeFromCollection(this._polylines, layerId, osmElement);
     }
 
     /**
@@ -471,11 +510,11 @@ export default class MapData {
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {object} e - JSON representation of an OSM element.
+     * @param {object} osmElement - JSON representation of an OSM element.
      * @param {number} layerId - Id of the layer the OSM element is related to.
      */
-    removeOsmElement (e, layerId) {
-        this._removeFromCollection(e, this._osmElements, layerId);
+    removeOsmElement (layerId, osmElement) {
+        this._removeFromCollection(this._osmElements, layerId, osmElement);
     }
 
     /**

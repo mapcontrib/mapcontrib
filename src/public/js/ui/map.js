@@ -75,7 +75,7 @@ export default class MapUi {
      * @return {object} - The icon options.
      */
     static buildLayerIconOptions (layerModel) {
-        var markerShape = layerModel.get('markerShape'),
+        let markerShape = layerModel.get('markerShape'),
         markerIcon = layerModel.get('markerIcon'),
         markerIconType = layerModel.get('markerIconType'),
         markerIconUrl = layerModel.get('markerIconUrl'),
@@ -100,5 +100,24 @@ export default class MapUi {
         }
 
         return iconOptions;
+    }
+
+
+    /**
+     * Returns the layer polyline options.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {string} layerModel - Model of the POI layer which we request its icon.
+     * @return {object} - The polyline options.
+     */
+    static buildLayerPolylineStyle (layerModel) {
+        let style = _.extend(
+            CONST.map.wayPolylineOptions,
+            { 'color': CONST.colors[ layerModel.get('markerColor') ] }
+        );
+
+        return style;
     }
 }
