@@ -99,7 +99,11 @@ export default Marionette.ItemView.extend({
 
         let fileName = this.ui.layerFile.val();
 
-        if ( fileName ) {
+        if ( !fileName && this.options.isNew ) {
+            this.ui.fileFormGroup.addClass('has-feedback has-error');
+            return false;
+        }
+        else if ( fileName ) {
             let extension = extensionname(fileName).toLowerCase();
 
             if (extension !== 'gpx') {
@@ -162,24 +166,25 @@ export default Marionette.ItemView.extend({
                 if ( this.options.isNew ) {
                     this._radio.commands.execute('map:addLayer', this.model);
                 }
-
-                if ( updatePolylines ) {
-                    this._radio.commands.execute('map:updateLayerPolylines', this.model);
-                }
-
-                if ( updatePopups ) {
-                    this._radio.commands.execute('map:updateLayerPopups', this.model);
-                }
-
-                if ( updateVisibility ) {
-                    if ( this.model.get('visible') ) {
-                        this._radio.commands.execute('map:addLayer', this.model);
-                    }
-                    else {
-                        this._radio.commands.execute('map:removeLayer', this.model);
+                else {
+                    if ( updatePolylines ) {
+                        this._radio.commands.execute('map:updateLayerPolylines', this.model);
                     }
 
-                    this._radio.commands.execute('column:selectLayer:render');
+                    if ( updatePopups ) {
+                        this._radio.commands.execute('map:updateLayerPopups', this.model);
+                    }
+
+                    if ( updateVisibility ) {
+                        if ( this.model.get('visible') ) {
+                            this._radio.commands.execute('map:addLayer', this.model);
+                        }
+                        else {
+                            this._radio.commands.execute('map:removeLayer', this.model);
+                        }
+
+                        this._radio.commands.execute('column:selectLayer:render');
+                    }
                 }
 
                 this.close();

@@ -151,28 +151,29 @@ export default Marionette.ItemView.extend({
                 if ( this.options.isNew ) {
                     this._radio.commands.execute('map:addLayer', this.model);
                 }
-
-                if ( updateMinZoom ) {
-                    this._radio.commands.execute('map:updateLayerMinZoom', this.model);
-                }
-
-                if ( updateMarkers ) {
-                    this._radio.commands.execute('map:updateLayerIcons', this.model);
-                }
-
-                if ( updatePopups ) {
-                    this._radio.commands.execute('map:updateLayerPopups', this.model);
-                }
-
-                if ( updateVisibility ) {
-                    if ( this.model.get('visible') ) {
-                        this._radio.commands.execute('map:addLayer', this.model);
-                    }
-                    else {
-                        this._radio.commands.execute('map:removeLayer', this.model);
+                else {
+                    if ( updateMinZoom ) {
+                        this._radio.commands.execute('map:updateLayerMinZoom', this.model);
                     }
 
-                    this._radio.commands.execute('column:selectLayer:render');
+                    if ( updateMarkers ) {
+                        this._radio.commands.execute('map:updateLayerIcons', this.model);
+                    }
+
+                    if ( updatePopups ) {
+                        this._radio.commands.execute('map:updateLayerPopups', this.model);
+                    }
+
+                    if ( updateVisibility ) {
+                        if ( this.model.get('visible') ) {
+                            this._radio.commands.execute('map:addLayer', this.model);
+                        }
+                        else {
+                            this._radio.commands.execute('map:removeLayer', this.model);
+                        }
+
+                        this._radio.commands.execute('column:selectLayer:render');
+                    }
                 }
 
                 this.close();
