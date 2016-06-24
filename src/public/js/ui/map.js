@@ -57,7 +57,7 @@ export default class MapUi {
         if (layerModel.get('type') === CONST.layerType.gpx) {
             iconColor = layerModel.get('color');
             className = 'shape';
-            iconHtml = '<img src="/img/shape.svg" alt="">';
+            iconHtml = CONST.map.shape.html;
         }
         else {
             let markerShape = layerModel.get('markerShape');

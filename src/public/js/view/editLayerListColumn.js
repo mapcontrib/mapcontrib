@@ -19,7 +19,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#edit_poi_column',
+        'column': '#edit_layer_column',
         'addButton': '.add_btn',
     },
 

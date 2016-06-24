@@ -3,11 +3,13 @@ if (typeof window !== 'undefined') {
     var marker1 = require('../img/markers/1.svg');
     var marker2 = require('../img/markers/2.svg');
     var marker3 = require('../img/markers/3.svg');
+    var shape = require('../img/shape.svg');
 }
 else {
     var marker1 = '';
     var marker2 = '';
     var marker3 = '';
+    var shape = '';
 }
 
 let colors = {
@@ -119,6 +121,10 @@ export default {
                 'className': 'marker marker-3',
                 'html': marker3,
             },
+        },
+
+        'shape': {
+            'html': shape,
         },
 
         'markerIconType': {

@@ -50,7 +50,7 @@ export default Marionette.ItemView.extend({
         return {
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
             'fragment': this.options.theme.get('fragment'),
-            'apiPath': `${CONST.apiPath}upload/shape`,
+            'apiPath': `${CONST.apiPath}file/shape`,
             'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
             'file': file
         };
