@@ -42,10 +42,11 @@ import LayerModel from '../model/layer';
 import PresetModel from '../model/preset';
 import OsmNodeModel from '../model/osmNode';
 
+import MapDataCollection from '../collection/mapData';
+
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
 import Cache from '../core/cache';
-import MapData from '../core/mapData';
 
 import template from '../../templates/themeRoot.ejs';
 
@@ -161,7 +162,7 @@ export default Marionette.LayoutView.extend({
         this._minDataZoom = 0;
         this._poiLoadingSpool = [];
 
-        this._mapData = new MapData();
+        this._mapData = new MapDataCollection();
 
         this._radio = Wreqr.radio.channel('global');
 
@@ -578,11 +579,17 @@ export default Marionette.LayoutView.extend({
                         }
                     }
 
-                    if ( this._mapData.hasOsmElement(layerModel.cid, e) ) {
+                    if ( this._mapData.findWhere({ 'osmId': e.id }) ) {
                         continue;
                     }
 
-                    this._mapData.setOsmElement(layerModel.cid, e);
+                    let data = {
+                        'dataSource': CONST.layerType.overpass,
+                        'osmId': e.id,
+                        'element': e,
+                        'layerId': layerModel.cid,
+                        'tags': e.tags,
+                    };
 
                     let popupContent = this.getLayerPopupContent(layerModel, e.tags, e);
 
@@ -594,7 +601,12 @@ export default Marionette.LayoutView.extend({
 
                         this._bindPopupTo(marker, popupContent);
                         markerCluster.addLayer( marker );
-                        this._mapData.addMarker(marker, layerModel.cid, e);
+                        this._mapData.add(
+                            _.extend(data, {
+                                'isMarker': true,
+                                'object': marker
+                            })
+                        );
                     }
                     else if ( e.nodes ) {
                         let nodePositions = this._buildPositionArrayFromWayBodyNodes(e, wayBodyNodes);
@@ -616,11 +628,21 @@ export default Marionette.LayoutView.extend({
 
                             this._bindPopupTo(polygon, popupContent);
                             markerCluster.addLayer( polygon );
-                            this._mapData.addPolygon(polygon, layerModel.cid, e);
+                            this._mapData.add(
+                                _.extend(data, {
+                                    'isPolygon': true,
+                                    'object': polygon
+                                })
+                            );
 
                             this._bindPopupTo(marker, popupContent);
                             markerCluster.addLayer( marker );
-                            this._mapData.addMarker(marker, layerModel.cid, e);
+                            this._mapData.add(
+                                _.extend(data, {
+                                    'isMarker': true,
+                                    'object': marker
+                                })
+                            );
                         }
                         else {
                             let polyline = L.polyline(
@@ -630,7 +652,12 @@ export default Marionette.LayoutView.extend({
 
                             this._bindPopupTo(polyline, popupContent);
                             markerCluster.addLayer( polyline );
-                            this._mapData.addPolyline(polyline, layerModel.cid, e);
+                            this._mapData.add(
+                                _.extend(data, {
+                                    'isPolyline': true,
+                                    'object': polyline
+                                })
+                            );
                         }
                     }
                     else {
@@ -657,9 +684,31 @@ export default Marionette.LayoutView.extend({
         layerGroup.addLayer( markerCluster );
         layerGroup.addLayer( overpassLayer );
 
-        this._mapData.setRootLayer(layerGroup, layerModel.cid);
-        this._mapData.setMarkerCluster(markerCluster, layerModel.cid);
-        this._mapData.setOverpassLayer(overpassLayer, layerModel.cid);
+        let data = {
+            'dataSource': CONST.layerType.overpass,
+            'layerId': layerModel.cid,
+        };
+
+        this._mapData.add(
+            _.extend(data, {
+                'isRootLayer': true,
+                'object': layerGroup
+            })
+        );
+
+        this._mapData.add(
+            _.extend(data, {
+                'isMarkerCluster': true,
+                'object': markerCluster
+            })
+        );
+
+        this._mapData.add(
+            _.extend(data, {
+                'isOverPassLayer': true,
+                'object': overpassLayer
+            })
+        );
 
         if ( !hidden ) {
             this.showLayer( layerModel );
@@ -676,18 +725,27 @@ export default Marionette.LayoutView.extend({
                     MapUi.buildLayerPolylineStyle( layerModel )
                 );
 
-                console.log(path);
                 this._bindPopupTo(
                     omnivoreLayer,
                     marked( layerModel.get('popupContent') )
                 );
 
-                this._mapData.addPolyline(path, layerModel.cid);
+                this._mapData.add({
+                    'dataSource': CONST.layerType.gpx,
+                    'object': path,
+                    'layerId': layerModel.cid,
+                    'isPolyline': true,
+                });
             });
         });
 
 
-        this._mapData.setRootLayer(omnivoreLayer, layerModel.cid);
+        this._mapData.add({
+            'dataSource': CONST.layerType.gpx,
+            'object': omnivoreLayer,
+            'layerId': layerModel.cid,
+            'isRootLayer': true,
+        });
 
         if ( !hidden ) {
             this.showLayer( layerModel );
@@ -709,18 +767,38 @@ export default Marionette.LayoutView.extend({
                     layerModel,
                     marker.feature.properties
                 );
+
                 marker.setIcon(icon);
                 this._bindPopupTo(marker, popupContent);
                 markerCluster.addLayer(marker);
-                this._mapData.addMarker(marker, layerModel.cid);
+
+                this._mapData.add({
+                    'dataSource': CONST.layerType.csv,
+                    'element': marker.feature,
+                    'object': marker,
+                    'layerId': layerModel.cid,
+                    'isMarker': true,
+                    'tags': marker.feature.properties,
+                });
             });
         });
 
 
         layerGroup.addLayer( markerCluster );
 
-        this._mapData.setRootLayer(layerGroup, layerModel.cid);
-        this._mapData.setMarkerCluster(markerCluster, layerModel.cid);
+        this._mapData.add({
+            'dataSource': CONST.layerType.csv,
+            'object': layerGroup,
+            'layerId': layerModel.cid,
+            'isRootLayer': true,
+        });
+
+        this._mapData.add({
+            'dataSource': CONST.layerType.csv,
+            'object': markerCluster,
+            'layerId': layerModel.cid,
+            'isMarkerCluster': true,
+        });
 
         if ( !hidden ) {
             this.showLayer( layerModel );
@@ -730,89 +808,124 @@ export default Marionette.LayoutView.extend({
     removeLayer: function (layerModel) {
         this.hideLayer( layerModel );
 
-        this._mapData.removeLayerId(layerModel.cid);
+        this._mapData.remove(
+            this._mapData.where({
+                'layerId': layerModel.cid
+            })
+        );
     },
 
     showLayer: function (layerModel) {
         this._map.addLayer(
-            this._mapData.getRootLayer(layerModel.cid)
+            this._mapData.findWhere({
+                'layerId': layerModel.cid,
+                'isRootLayer': true
+            })
+            .get('object')
         );
     },
 
     hideLayer: function (layerModel) {
         this._map.removeLayer(
-            this._mapData.getRootLayer(layerModel.cid)
+            this._mapData.findWhere({
+                'layerId': layerModel.cid,
+                'isRootLayer': true
+            })
+            .get('object')
         );
     },
 
     updateLayerIcons: function (layerModel) {
-        let markers = this._mapData.getMarkersFromLayer(layerModel.cid);
-        let markerCluster = this._mapData.getMarkerCluster(layerModel.cid);
+        let markers = this._mapData.where({
+            'layerId': layerModel.cid,
+            'isMarker': true
+        });
 
         for (let marker of markers) {
-            marker.refreshIconOptions(
+            marker.get('object').refreshIconOptions(
                 MapUi.buildLayerIconOptions( layerModel )
             );
         }
 
-        if (
-            layerModel.get('type') === CONST.layerType.overpass ||
-            layerModel.get('type') === CONST.layerType.csv
-        ) {
-            markerCluster.refreshClusters();
+        let markerCluster = this._mapData.findWhere({
+            'layerId': layerModel.cid,
+            'isMarkerCluster': true
+        });
+
+        if ( markerCluster ) {
+            markerCluster.get('object').refreshClusters();
         }
     },
 
     updateLayerPolylines: function (layerModel) {
-        let polylines = this._mapData.getPolylinesFromLayer(layerModel.cid);
+        let polylines = this._mapData.where({
+            'layerId': layerModel.cid,
+            'isPolyline': true
+        });
 
         for (let polyline of polylines) {
-            console.log(polyline);
-            polyline.setStyle(
+            polyline.get('object').setStyle(
                 MapUi.buildLayerPolylineStyle( layerModel )
             );
         }
     },
 
     updateLayerPopups: function (layerModel) {
-        let osmElements = this._mapData.getOsmElements(layerModel.cid);
+        let objects = _.union(
+            this._mapData.where({
+                'layerId': layerModel.cid,
+                'isMarker': true
+            }),
+            this._mapData.where({
+                'layerId': layerModel.cid,
+                'isPolygon': true
+            }),
+            this._mapData.where({
+                'layerId': layerModel.cid,
+                'isPolyline': true
+            })
+        );
 
-        for (let type in osmElements) {
-            for (let id in osmElements[type]) {
-                let osmElement = osmElements[type][id];
-                let layers = this._mapData.getObjectsFromOsmElement(
-                    layerModel.cid,
-                    osmElement
+        for (let data of objects) {
+            let popupContent = '';
+            let osmId = data.get('osmId');
+            let element = data.get('element');
+            let tags = data.get('tags');
+            let object = data.get('object');
+
+            if ( osmId ) {
+                popupContent = this.getLayerPopupContent(
+                    layerModel,
+                    tags,
+                    element
                 );
+            }
+            else {
+                popupContent = this.getLayerPopupContent(
+                    layerModel,
+                    tags
+                );
+            }
 
-                for (let layer of layers) {
-                    let popupContent = this.getLayerPopupContent(
-                        layerModel,
-                        osmElement.tags,
-                        osmElement
+            if ( popupContent ) {
+                if ( object._popup ) {
+                    object._popup.setContent( popupContent );
+                }
+                else {
+                    object.bindPopup(
+                        L.popup({
+                            'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
+                            'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
+                        })
+                        .setContent( popupContent )
                     );
-
-                    if ( popupContent ) {
-                        if ( layer._popup ) {
-                            layer._popup.setContent( popupContent );
-                        }
-                        else {
-                            layer.bindPopup(
-                                L.popup({
-                                    'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
-                                    'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
-                                })
-                                .setContent( popupContent )
-                            );
-                        }
-                    }
-                    else {
-                        if ( layer._popup ) {
-                            layer
-                            .closePopup()
-                            .unbindPopup();
-                        }
-                    }
+                }
+            }
+            else {
+                if ( layer._popup ) {
+                    layer
+                    .closePopup()
+                    .unbindPopup();
                 }
             }
         }
@@ -825,23 +938,30 @@ export default Marionette.LayoutView.extend({
     },
 
     updateLayerMinZoom: function (layerModel) {
-        let overpassLayer = this._mapData.getOverpassLayer(layerModel.cid);
+        let overpassLayer = this._mapData.findWhere({
+            'layerId': layerModel.cid,
+            'isOverPassLayer': true
+        })
+        .get('object');
 
-        overpassLayer.options.minZoom = layerModel.get('minZoom');
+        overpassLayer.object.options.minZoom = layerModel.get('minZoom');
 
         this.updateMinDataZoom();
     },
 
     updatePoiPopup: function (layerModel, osmElement) {
-        this._mapData.setOsmElement(layerModel.cid, osmElement);
+        let objects = this._mapData.where({
+            'osmId': osmElement.id
+        });
 
-        let layers = this._mapData.getObjectsFromOsmElement(
-            layerModel.cid,
-            osmElement
-        );
+        for (let object of objects) {
+            object.set({
+                'element': osmElement,
+                'osmId': osmElement.id,
+                'tags': osmElement.tags,
+            });
 
-        for (let layer of layers) {
-            layer.setPopupContent(
+            object.get('object').setPopupContent(
                 this.getLayerPopupContent(
                     layerModel,
                     osmElement.tags,

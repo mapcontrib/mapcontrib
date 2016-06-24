@@ -59,14 +59,14 @@ export default Marionette.LayoutView.extend({
     onClickMove: function (e) {
         e.preventDefault();
 
-        let marker = this._mapData.getMarkersFromOsmElement(
-            this._osmElement,
-            this._layerModel.cid
-        )[0];
+        let marker = this._mapData.findWhere({
+            'osmId': osmElement.id,
+            'layerId': layerModel.cid,
+        });
 
         let movePoiContextual = new MovePoiContextual({
             'user': this._user,
-            'marker': marker,
+            'marker': marker.get('object'),
             'osmElement': this._osmElement,
             'layerModel': this._layerModel,
         });
