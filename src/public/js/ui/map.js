@@ -115,7 +115,7 @@ export default class MapUi {
     static buildLayerPolylineStyle (layerModel) {
         let style = _.extend(
             CONST.map.wayPolylineOptions,
-            { 'color': CONST.colors[ layerModel.get('markerColor') ] }
+            { 'color': CONST.colors[ layerModel.get('color') ] }
         );
 
         return style;

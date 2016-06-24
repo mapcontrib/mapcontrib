@@ -44,6 +44,8 @@ export default Marionette.ItemView.extend({
     },
 
     onRender: function () {
+        const config = MAPCONTRIB.config;
+
         this.ui.colorButtons
         .filter( '.'+ this.model.get('color') )
         .find('i')
@@ -88,6 +90,8 @@ export default Marionette.ItemView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
+        const config = MAPCONTRIB.config;
+        
         var map = this._radio.reqres.request('map'),
         mapCenter = map.getCenter(),
         mapZoomLevel = map.getZoom(),

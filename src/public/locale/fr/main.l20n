@@ -228,6 +228,10 @@
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
 
 
+/* Color selector UI */
+<uiColorSelector_label "Couleur">
+
+
 /* Contribution form column */
 <contribFormColumn_placeOnMap "Placer sur la carte">
 

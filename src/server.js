@@ -18,6 +18,7 @@ import connectMongo from 'connect-mongo';
 
 import SERVER_CONST from './const';
 import PUBLIC_CONST from './public/js/const';
+import packageJson from '../package.json';
 import config from 'config';
 import Database from './database';
 import Migrate from './migrate';
@@ -87,7 +88,7 @@ database.connect((err, db) => {
     migrate.start()
     .then(() => {
         new Passport(app, db, config);
-        new Api(app, db, CONST);
+        new Api(app, db, CONST, packageJson);
     })
     .catch(err => { throw err; });
 });
@@ -108,5 +109,5 @@ app.get('/theme-s8c2d4', (req, res) => {
 let port = app.get('port');
 
 app.listen(port, () => {
-    console.log(`MapContrib is up on the port ${port}`);
+    console.log(`MapContrib ${packageJson.version} is up on the port ${port}`);
 });

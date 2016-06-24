@@ -8,7 +8,7 @@ import ThemeModel from '../public/js/model/theme';
 
 
 
-export default function Api(app, db, CONST){
+export default function Api(app, db, CONST, packageJson){
     let options = {
         'CONST': CONST,
         'database': db,
@@ -39,6 +39,7 @@ export default function Api(app, db, CONST){
             'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
             'config': JSON.stringify( clientConfig ),
             'highlightList': '[]',
+            'version': packageJson.version,
         };
 
         if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
@@ -72,7 +73,8 @@ export default function Api(app, db, CONST){
     app.get('/t/:fragment-*', (req, res) => {
         let templateVars = {
             'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
-            'config': JSON.stringify( config.get('client') )
+            'config': JSON.stringify( config.get('client') ),
+            'version': packageJson.version,
         };
 
         themeApi.Api.findFromFragment(req.params.fragment)

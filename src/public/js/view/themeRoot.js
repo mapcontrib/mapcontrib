@@ -150,10 +150,13 @@ export default Marionette.LayoutView.extend({
 
     initialize: function (options) {
         this._app = options.app;
+        this._user = this._app.getUser();
+        this._config = this._app.getConfig();
+        this._version = this._app.getVersion();
+
         this.model = this._app.getTheme();
         this._layerCollection = this.model.get('layers');
         this._presetCollection = this.model.get('presets');
-        this._user = this._app.getUser();
 
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
@@ -320,7 +323,7 @@ export default Marionette.LayoutView.extend({
         this.ui.helpTextVersion.html(
             this._document.l10n.getSync(
                 'helpTextVersion',
-                { 'version': CONST.version }
+                { 'version': this._version }
             )
         );
     },
@@ -549,10 +552,10 @@ export default Marionette.LayoutView.extend({
         });
 
         let overpassLayer = new OverPassLayer({
-            'debug': config.debug,
-            'endPoint': config.overpassServer,
+            'debug': this._config.debug,
+            'endPoint': this._config.overpassServer,
             'minZoom': layerModel.get('minZoom'),
-            'timeout': config.overpassTimeout,
+            'timeout': this._config.overpassTimeout,
             'retryOnTimeout': true,
             'query': overpassRequest,
             'beforeRequest': () => {
@@ -1502,7 +1505,7 @@ export default Marionette.LayoutView.extend({
     },
 
     isLargeScreen: function () {
-        if ( $(this._window).width() >= config.largeScreenMinWidth && $(this._window).height() >= config.largeScreenMinHeight ) {
+        if ( $(this._window).width() >= this._config.largeScreenMinWidth && $(this._window).height() >= this._config.largeScreenMinHeight ) {
             return true;
         }
 

@@ -10,29 +10,54 @@ else {
     var marker3 = '';
 }
 
-
 let colors = {
-    'orange': '#F8981D',
-    'red': '#E85657',
-    'purple': '#553445',
-    'blue': '#38B8E2',
-    'turquoise': '#00B6AD',
-    'green': '#1D9650',
-    'gray': '#eee',
-    'anthracite': '#3B3F45',
-};
+    'white': '#fff',
+    'black': '#000',
 
-let version = '0.9.0';
+    'yellow': '#F8DC00',
+    'lightYellow': '#fce94f',
+    'darkYellow': '#c4a000',
+
+    'orange': '#F8981D',
+    'lightOrange': '#f9aa45',
+    'darkOrange': '#db7e07',
+
+    'red': '#E85657',
+    'lightRed': '#ea6364',
+    'darkRed': '#cc1c1d',
+
+    'purple': '#553445',
+    'lightPurple': '#5e3a4d',
+    'darkPurple': '#291921',
+
+    'blue': '#38B8E2',
+    'lightBlue': '#5cc5e7',
+    'darkBlue': '#1c98c1',
+
+    'turquoise': '#00B6AD',
+    'lightTurquoise': '#00bbb2',
+    'darkTurquoise': '#00837d',
+
+    'green': '#1D9650',
+    'lightGreen': '#1f9f55',
+    'darkGreen': '#156b39',
+
+    'gray': '#eee',
+    'lightGray': '#f3f3f3',
+    'darkGray': '#e4e4e4',
+
+    'anthracite': '#3B3F45',
+    'lightAnthracite': '#4e535b',
+    'darkAnthracite': '#23262a',
+};
 
 
 
 export default {
-    'version': version,
-
     'apiPath': '/api/',
 
     'osm': {
-        'changesetCreatedBy': `MapContrib ${version}`,
+        'changesetCreatedBy': `MapContrib {version}`,
         'changesetComment': 'Test from MapContrib (developpement in progress)'
     },
 

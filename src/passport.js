@@ -92,7 +92,7 @@ export default function Passport  (app, db, config) {
                         user[key] = userData[key];
                     }
 
-                    themeApi.api.findFromOwnerId(user._id.toString())
+                    themeApi.Api.findFromOwnerId(user._id.toString())
                     .then((themes) => {
                         req.session.themes = [];
 

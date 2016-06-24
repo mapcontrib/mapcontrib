@@ -35,6 +35,8 @@ export default Marionette.ItemView.extend({
     },
 
     initialize: function (options) {
+        const config = MAPCONTRIB.config;
+
         this._radio = Wreqr.radio.channel('global');
         this._map = this._radio.reqres.request('map');
         this._user = options.user;
@@ -74,6 +76,8 @@ export default Marionette.ItemView.extend({
     },
 
     _buildNewMarker: function (model) {
+        const config = MAPCONTRIB.config;
+
         let pos = new L.LatLng(
             model.get('lat'),
             model.get('lon')
@@ -112,7 +116,10 @@ export default Marionette.ItemView.extend({
             this._buildNewMarker( this.model )
         );
 
-        this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+        const createdBy = CONST.osm.changesetCreatedBy
+        .replace('{version}', MAPCONTRIB.version);
+
+        this._osmEdit.setChangesetCreatedBy(createdBy);
         this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
         this._osmEdit.setType(this.model.get('type'));
         this._osmEdit.setVersion(this.model.get('version'));

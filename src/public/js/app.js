@@ -57,8 +57,10 @@ export default Marionette.Application.extend({
 
         this._isLogged = false;
         this._window = window;
-        this._user = new UserModel( window.user );
-        this._theme = new ThemeModel( window.theme );
+        this._user = new UserModel( MAPCONTRIB.user );
+        this._config = MAPCONTRIB.config;
+        this._version = MAPCONTRIB.version;
+        this._theme = new ThemeModel( MAPCONTRIB.theme );
         this._radio = Wreqr.radio.channel('global');
 
 
@@ -84,6 +86,14 @@ export default Marionette.Application.extend({
 
     getUser: function () {
         return this._user;
+    },
+
+    getConfig: function () {
+        return this._config;
+    },
+
+    getVersion: function () {
+        return this._version;
     },
 
     getTheme: function () {

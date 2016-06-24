@@ -43,6 +43,7 @@ export default Marionette.ItemView.extend({
     },
 
     templateHelpers: function () {
+        const config = MAPCONTRIB.config;
         const maxFileSize = Math.round( config.uploadMaxShapeFileSize / 1024 );
         const file = basename(this.model.get('fileUri') || '');
 

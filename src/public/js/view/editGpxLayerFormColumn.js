@@ -4,6 +4,7 @@ import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
 import { basename, extensionname } from '../core/utils';
 import CONST from '../const';
+import ColorSelectorView from '../ui/form/colorSelector';
 import template from '../../templates/editGpxLayerFormColumn.ejs';
 
 
@@ -27,8 +28,7 @@ export default Marionette.ItemView.extend({
         'layerPopupContent': '#layer_popup_content',
         'layerFile': '#layer_file',
 
-        'markerWrapper': '.marker-wrapper',
-        'editMarkerButton': '.edit_marker_btn',
+        'colorSelector': '.color_selector',
 
         'formGroups': '.form-group',
         'fileFormGroup': '.form-group.layer_file',
@@ -37,17 +37,16 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'click @ui.editMarkerButton': 'onClickEditMarker',
         'submit': 'onSubmit',
         'reset': 'onReset',
     },
 
     templateHelpers: function () {
+        const config = MAPCONTRIB.config;
         const maxFileSize = Math.round( config.uploadMaxShapeFileSize / 1024 );
         const file = basename(this.model.get('fileUri') || '');
 
         return {
-            'marker': MapUi.buildLayerHtmlIcon( this.model ),
             'fragment': this.options.theme.get('fragment'),
             'apiPath': `${CONST.apiPath}upload/shape`,
             'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
@@ -60,10 +59,16 @@ export default Marionette.ItemView.extend({
 
         this._oldModel = this.model.clone();
 
-        this.listenTo(this.model, 'change', this.updateMarkerIcon);
+        this._colorSelector = new ColorSelectorView({
+            'color': this.model.get('color')
+        });
     },
 
     onRender: function () {
+        this.ui.colorSelector.append(
+            this._colorSelector.el
+        );
+
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
 
         if ( this.model.get('fileUri') ) {
@@ -85,16 +90,6 @@ export default Marionette.ItemView.extend({
 
     close: function () {
         this.triggerMethod('close');
-    },
-
-    updateMarkerIcon: function () {
-        var html = MapUi.buildLayerHtmlIcon( this.model );
-
-        this.ui.markerWrapper.html( html );
-    },
-
-    onClickEditMarker: function () {
-        this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
     },
 
     onSubmit: function (e) {
@@ -142,26 +137,11 @@ export default Marionette.ItemView.extend({
 
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
+        this.model.set('color', this._colorSelector.getSelectedColor());
         this.model.set('visible', this.ui.layerVisible.prop('checked'));
         this.model.set('popupContent', this.ui.layerPopupContent.val());
 
-        if ( this._oldModel.get('markerIconType') !== this.model.get('markerIconType') ) {
-            updatePolylines = true;
-        }
-
-        if ( this._oldModel.get('markerIconUrl') !== this.model.get('markerIconUrl') ) {
-            updatePolylines = true;
-        }
-
-        if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
-            updatePolylines = true;
-        }
-
-        if ( this._oldModel.get('markerIcon') !== this.model.get('markerIcon') ) {
-            updatePolylines = true;
-        }
-
-        if ( this._oldModel.get('markerShape') !== this.model.get('markerShape') ) {
+        if ( this._oldModel.get('color') !== this.model.get('color') ) {
             updatePolylines = true;
         }
 

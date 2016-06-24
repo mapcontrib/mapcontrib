@@ -48,8 +48,11 @@ export default Backbone.RelationalModel.extend({
 
     initialize: function() {
         if (!this.get('geocoder')) {
-            if (typeof window !== 'undefined' && typeof config !== 'undefined') {
-                this.set('geocoder', CONST.geocoder[ config.defaultGeocoder ]);
+            if (typeof window !== 'undefined' && typeof MAPCONTRIB !== 'undefined') {
+                this.set(
+                    'geocoder',
+                    CONST.geocoder[ MAPCONTRIB.config.defaultGeocoder ]
+                );
             }
         }
     },
