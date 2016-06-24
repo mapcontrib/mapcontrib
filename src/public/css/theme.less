@@ -3,6 +3,7 @@
 @import 'app.less';
 @import 'markerCluster.less';
 @import 'ui/geolocationPoint.less';
+@import 'ui/colorSelector.less';
 
 
 html, body {
@@ -28,7 +29,7 @@ html, body {
             }
 
             .global_wrapper.has_popup_content {
-                margin: 32px 13px 20px 13px;
+                margin: 32px 0 20px 0;
 
                 .edit_btn {
                     position: absolute;
@@ -55,6 +56,10 @@ html, body {
 
             h4, h5, h6 {
                 font-size: 16px;
+            }
+
+            ul {
+                padding-left: 20px;
             }
         }
     }
@@ -259,12 +264,13 @@ html, body {
 }
 
 
-#edit_poi_column .rg_layer_list {
+#edit_layer_column .rg_layer_list {
     .list-group-item {
         padding-right: 70px;
     }
 
-    .marker {
+    .marker,
+    .shape {
         transform: scale(.6);
         position: absolute;
         top: -1px;
@@ -276,7 +282,8 @@ html, body {
 .rg_layer_list .checkbox {
     padding-right: 40px;
 
-    .marker {
+    .marker,
+    .shape {
         position: absolute;
         top: -10px;
         right: -4px;

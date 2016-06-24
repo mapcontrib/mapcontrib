@@ -14,8 +14,8 @@ function setOptions (hash) {
 }
 
 
-let api = {
-    post: function (req, res) {
+class Api {
+    static post (req, res) {
         let collection = options.database.collection('user'),
         model = new UserModel(req.body);
 
@@ -37,17 +37,17 @@ let api = {
 
             res.send(result);
         });
-    },
+    }
 
 
-    get: function (req, res) {
-        api.findFromId(req, res, req.params._id, (user) => {
+    static get (req, res) {
+        Api.findFromId(req, res, req.params._id, (user) => {
             res.send(user);
         });
-    },
+    }
 
 
-    findFromId: function (req, res, _id, callback) {
+    static findFromId (req, res, _id, callback) {
         if ( _id === 'me' ) {
             _id = req.user;
         }
@@ -85,10 +85,10 @@ let api = {
 
             callback(result);
         });
-    },
+    }
 
 
-    getAll: function (req, res) {
+    static getAll (req, res) {
         let collection = options.database.collection('user');
 
         collection.find()
@@ -107,10 +107,10 @@ let api = {
 
             res.send(results);
         });
-    },
+    }
 
 
-    put: function (req, res) {
+    static put (req, res) {
         if (req.user !== req.params._id) {
             res.sendStatus(401);
 
@@ -150,11 +150,11 @@ let api = {
 
             res.send({});
         });
-    },
+    }
 
 
 
-    delete: function (req, res) {
+    static delete (req, res) {
         if (req.user !== req.params._id) {
             res.sendStatus(401);
 
@@ -183,9 +183,9 @@ let api = {
 
             res.send({});
         });
-    },
+    }
 
-    logout: function (req, res) {
+    static logout (req, res) {
         req.logout();
 
         delete req.session.user;
@@ -193,11 +193,11 @@ let api = {
 
         res.status(200).send('OK');
     }
-};
+}
 
 
 
 export default {
     setOptions,
-    api
+    Api
 };

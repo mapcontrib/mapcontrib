@@ -3,6 +3,7 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import BackboneRelational from 'backbone-relational';
 import CONST from '../const';
+import { uuid } from '../core/utils';
 
 
 export default Backbone.RelationalModel.extend({
@@ -16,11 +17,17 @@ export default Backbone.RelationalModel.extend({
         'minZoom': 14,
         'popupContent': undefined,
         'order': undefined,
+
+        // Point based layer specific
         'markerShape': 'marker1',
         'markerColor': 'orange',
         'markerIconType': CONST.map.markerIconType.library,
         'markerIcon': undefined,
         'markerIconUrl': undefined,
+
+        // Shape files based layer specific
+        'color': 'purple',
+        'fileUri': undefined,
 
         // Overpass type specific
         'overpassRequest': undefined,
@@ -28,8 +35,7 @@ export default Backbone.RelationalModel.extend({
 
     initialize: function () {
         if (!this.get('uniqid')) {
-            let uniqid = this.cid +'_'+ new Date().getTime();
-            this.set('uniqid', uniqid);
+            this.set('uniqid', uuid());
         }
     },
 

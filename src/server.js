@@ -1,7 +1,7 @@
 
-import fs from 'fs';
 import path from 'path';
 import _ from 'underscore';
+import mkdirp from 'mkdirp';
 
 import ejs from 'ejs';
 import express from 'express';
@@ -18,6 +18,7 @@ import connectMongo from 'connect-mongo';
 
 import SERVER_CONST from './const';
 import PUBLIC_CONST from './public/js/const';
+import packageJson from '../package.json';
 import config from 'config';
 import Database from './database';
 import Migrate from './migrate';
@@ -41,11 +42,14 @@ if (!config.get('client.oauthSecret')) {
 let MongoStore = connectMongo(session);
 let app = express();
 
+
+
+
+
 app.use(compression());
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.resolve(__dirname, 'views'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ 'extended': true }));
@@ -64,8 +68,6 @@ app.use(session({
 app.set('port', config.get('server.port'));
 app.use(logger('dev'));
 app.use(methodOverride());
-app.use(multer({ 'dest': path.join(__dirname, 'upload') }));
-app.use(serveStatic(path.join(__dirname, 'public')));
 
 if (app.get('env') !== 'production') {
     app.use(errorHandler());
@@ -86,7 +88,7 @@ database.connect((err, db) => {
     migrate.start()
     .then(() => {
         new Passport(app, db, config);
-        new Api(app, db, CONST);
+        new Api(app, db, CONST, packageJson);
     })
     .catch(err => { throw err; });
 });
@@ -94,11 +96,8 @@ database.connect((err, db) => {
 
 
 
-let dataDirectory = path.join(__dirname, 'upload');
 
-if ( !fs.existsSync( dataDirectory ) ) {
-    fs.mkdirSync(dataDirectory);
-}
+
 
 
 
@@ -110,5 +109,5 @@ app.get('/theme-s8c2d4', (req, res) => {
 let port = app.get('port');
 
 app.listen(port, () => {
-    console.log(`MapContrib is up on the port ${port}`);
+    console.log(`MapContrib ${packageJson.version} is up on the port ${port}`);
 });

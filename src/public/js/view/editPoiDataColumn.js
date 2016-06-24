@@ -59,8 +59,8 @@ export default Marionette.LayoutView.extend({
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
-                'oauth_consumer_key': config.oauthConsumerKey,
-                'oauth_secret': config.oauthSecret,
+                'oauth_consumer_key': MAPCONTRIB.config.oauthConsumerKey,
+                'oauth_secret': MAPCONTRIB.config.oauthSecret,
                 'oauth_token': this._user.get('token'),
                 'oauth_token_secret': this._user.get('tokenSecret'),
             })
@@ -177,7 +177,10 @@ export default Marionette.LayoutView.extend({
 
         this.model.set('tags', this._tagList.getTags());
 
-        this._osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
+        const createdBy = CONST.osm.changesetCreatedBy
+        .replace('{version}', MAPCONTRIB.version);
+
+        this._osmEdit.setChangesetCreatedBy(createdBy);
         this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
         this._osmEdit.setId(this.model.get('id'));
         this._osmEdit.setType(this.model.get('type'));

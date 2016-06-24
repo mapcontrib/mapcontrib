@@ -46,9 +46,12 @@
 
 <script type="text/javascript">
 
-    var user = <%- user %>,
-    config = <%- config %>,
-    highlightList = <%- highlightList %>;
+    var MAPCONTRIB = {
+        'user': <%- user %>,
+        'config': <%- config %>,
+        'version': '<%- version %>',
+        'highlightList': <%- highlightList %>,
+    };
 
 </script>
 <script type="text/javascript" charset="utf-8" src="/js/home.bundle.js"></script>

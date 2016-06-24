@@ -5,6 +5,7 @@ import EditLayerListView from './editLayerList';
 import template from '../../templates/editLayerListColumn.ejs';
 
 
+
 export default Marionette.LayoutView.extend({
     template: template,
 
@@ -18,7 +19,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#edit_poi_column',
+        'column': '#edit_layer_column',
         'addButton': '.add_btn',
     },
 
@@ -54,6 +55,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickAdd: function () {
-        this._radio.commands.execute('column:showLayer');
+        this._radio.commands.execute('column:showAddLayerMenu');
     },
 });

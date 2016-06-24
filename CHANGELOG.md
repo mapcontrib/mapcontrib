@@ -9,6 +9,7 @@
 * The contribution button as now a pencil as icon.
 * There is now another pencil icon in popups and its display is more convenient.
 * It is now possible to move a POI (only node ones).
+* New type of layers, based on GPX and CSV files are added.
 * And as always, multiple bufixes and enhancement.
 
 ## 0.8.6

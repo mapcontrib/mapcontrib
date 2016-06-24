@@ -2,6 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
+import CONST from '../const';
 import template from '../../templates/editLayerListItem.ejs';
 
 
@@ -35,7 +36,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         return {
-            'marker': MapUi.buildLayerHtmlIcon( this.model ),
+            'icon': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
@@ -44,7 +45,20 @@ export default Marionette.ItemView.extend({
     },
 
     onClick: function () {
-        this._radio.commands.execute( 'column:showLayer', this.model );
+        switch (this.model.get('type')) {
+            case CONST.layerType.overpass:
+                this._radio.commands.execute( 'column:editOverPassLayer', this.model );
+                break;
+            case CONST.layerType.gpx:
+                this._radio.commands.execute( 'column:editGpxLayer', this.model );
+                break;
+            case CONST.layerType.csv:
+                this._radio.commands.execute( 'column:editCsvLayer', this.model );
+                break;
+            case CONST.layerType.osmose:
+                this._radio.commands.execute( 'column:editOsmoseLayer', this.model );
+                break;
+        }
     },
 
     onClickRemove: function (e) {

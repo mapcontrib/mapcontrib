@@ -15,6 +15,7 @@
 
 
 <markdownAvailable "Format <a>Markdown</a> disponible">
+<maxFileSize "Le poids ne doit pas dépasser {{ $maxFileSize }} Mo">
 
 
 <buttonDescriptionTooltip title:"Lire la description">
@@ -137,6 +138,7 @@
 <editLayerFormColumn_title "Édition de la couche">
 <editLayerFormColumn_layerName "Nom">
 <editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_visibility "Visibilité">
 <editLayerFormColumn_visibilityAndEdition "Visibilité et édition">
 <editLayerFormColumn_dataEditable "Permettre l'édition des données">
 <editLayerFormColumn_visible "Visible par les utilisateurs">
@@ -145,6 +147,10 @@
 <editLayerFormColumn_layerOverpassRequest "Requête Overpass">
 <editLayerFormColumn_marker "Marqueur">
 <editLayerFormColumn_layerPopupContent "Contenu des bulles">
+<editLayerFormColumn_gpxFile "Fichier GPX">
+<editLayerFormColumn_csvFile "Fichier CSV">
+<editLayerFormColumn_csvDisclaimer "Il doit contenir les latitude et longitude, dans des colonnes nommées <em>latitude</em> et <em>longitude</em>">
+<editLayerFormColumn_browse "Parcourir">
 
 
 /* Edit layer marker modal */
@@ -222,6 +228,10 @@
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
 
 
+/* Color selector UI */
+<uiColorSelector_label "Couleur">
+
+
 /* Contribution form column */
 <contribFormColumn_placeOnMap "Placer sur la carte">
 
@@ -238,3 +248,10 @@
 <editPoiMenuColumn_title "Éditer un élément">
 <editPoiMenuColumn_editTags "Éditer les données">
 <editPoiMenuColumn_movePoi "Déplacer le nœud">
+
+
+/* Add layer menu column */
+<addLayerMenuColumn_title "Ajouter une couche">
+<addLayerMenuColumn_overPass "Requête OverPass">
+<addLayerMenuColumn_gpx "Fichier GPX">
+<addLayerMenuColumn_csv "Fichier CSV">

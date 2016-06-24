@@ -11,6 +11,7 @@ mongodb:
     port: 27017
     database: mapcontrib
 
+dataDirectory: public/files
 
 client:
     oauthConsumerKey:
@@ -35,3 +36,5 @@ client:
     availableGeocoders:
         - photon
         - nominatim
+
+    uploadMaxShapeFileSize: 2048 # Kilo Bytes

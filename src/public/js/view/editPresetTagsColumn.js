@@ -70,6 +70,10 @@ export default Marionette.LayoutView.extend({
         this.model.set('description', this.ui.descriptionInput.val());
         this.model.set('tags', this._tagList.getTags());
 
+        if (this.options.isNew) {
+            this.options.theme.get('presets').add( this.model );
+        }
+
         this.options.theme.save({}, {
             'success': function () {
                 this.close();

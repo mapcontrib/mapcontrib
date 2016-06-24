@@ -43,10 +43,10 @@ export default Marionette.LayoutView.extend({
 
         return {
             'url': this.getUrl(),
-            'iframeWidth': config.shareIframeWidth,
-            'iframeWidthUnit': config.shareIframeWidthUnit,
-            'iframeHeight': config.shareIframeHeight,
-            'iframeHeightUnit': config.shareIframeHeightUnit,
+            'iframeWidth': MAPCONTRIB.config.shareIframeWidth,
+            'iframeWidthUnit': MAPCONTRIB.config.shareIframeWidthUnit,
+            'iframeHeight': MAPCONTRIB.config.shareIframeHeight,
+            'iframeHeightUnit': MAPCONTRIB.config.shareIframeHeightUnit,
         };
     },
 

@@ -66,9 +66,12 @@
 
 <script type="text/javascript">
 
-    var user = <%- user %>,
-    theme = <%- theme %>,
-    config = <%- config %>;
+    var MAPCONTRIB = {
+        'user': <%- user %>,
+        'config': <%- config %>,
+        'version': '<%- version %>',
+        'theme': <%- theme %>,
+    };
 
 </script>
 <script type="text/javascript" charset="utf-8" src="/js/theme.bundle.js"></script>
