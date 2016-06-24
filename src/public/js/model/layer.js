@@ -26,7 +26,7 @@ export default Backbone.RelationalModel.extend({
         'markerIconUrl': undefined,
 
         // Shape files based layer specific
-        'color': 'purple',
+        'color': 'turquoise',
         'fileUri': undefined,
 
         // Overpass type specific
