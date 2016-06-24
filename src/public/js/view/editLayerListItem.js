@@ -36,7 +36,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         return {
-            'marker': MapUi.buildLayerHtmlIcon( this.model ),
+            'icon': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 

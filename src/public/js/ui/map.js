@@ -38,7 +38,7 @@ export default class MapUi {
      * @return {object} - A Leaflet divIcon.
      */
     static buildLayerIcon (L, layerModel) {
-        return L.divIcon( MapUi.buildLayerIconOptions(layerModel) );
+        return L.divIcon( MapUi.buildMarkerLayerIconOptions(layerModel) );
     }
 
 
@@ -52,13 +52,22 @@ export default class MapUi {
      * @return {string} - The HTML tags of the icon.
      */
     static buildLayerHtmlIcon (layerModel) {
-        let markerColor = layerModel.get('markerColor');
-        let markerShape = layerModel.get('markerShape');
-        let className = CONST.map.markers[markerShape].className;
-        let iconOptions = MapUi.buildLayerIconOptions(layerModel);
+        let iconColor, className, iconHtml;
 
-        let html = `<div class="${className} ${markerColor}">`;
-        html += `${iconOptions.html}`;
+        if (layerModel.get('type') === CONST.layerType.gpx) {
+            iconColor = layerModel.get('color');
+            className = 'shape';
+            iconHtml = '<img src="/img/shape.svg" alt="">';
+        }
+        else {
+            let markerShape = layerModel.get('markerShape');
+            iconColor = layerModel.get('markerColor');
+            className = CONST.map.markers[markerShape].className;
+            iconHtml = MapUi.buildMarkerLayerIconOptions(layerModel).html;
+        }
+
+        let html = `<div class="${className} ${iconColor}">`;
+        html += iconHtml;
         html += `</div>`;
 
         return html;
@@ -74,7 +83,7 @@ export default class MapUi {
      * @param {string} layerModel - Model of the POI layer which we request its icon.
      * @return {object} - The icon options.
      */
-    static buildLayerIconOptions (layerModel) {
+    static buildMarkerLayerIconOptions (layerModel) {
         let markerShape = layerModel.get('markerShape'),
         markerIcon = layerModel.get('markerIcon'),
         markerIconType = layerModel.get('markerIconType'),

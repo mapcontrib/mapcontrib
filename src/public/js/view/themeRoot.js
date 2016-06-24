@@ -846,7 +846,7 @@ export default Marionette.LayoutView.extend({
 
         for (let marker of markers) {
             marker.get('object').refreshIconOptions(
-                MapUi.buildLayerIconOptions( layerModel )
+                MapUi.buildMarkerLayerIconOptions( layerModel )
             );
         }
 
