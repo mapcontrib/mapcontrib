@@ -3,7 +3,7 @@ import Backbone from 'backbone';
 import config from 'config';
 import userApi from './user';
 import themeApi from './theme';
-import uploadApi from './upload';
+import fileApi from './file';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -12,12 +12,13 @@ export default function Api(app, db, CONST, packageJson){
     let options = {
         'CONST': CONST,
         'database': db,
+        'fileApi': fileApi,
     };
 
     userApi.setOptions( options );
     themeApi.setOptions( options );
-    uploadApi.setOptions( options );
-    uploadApi.initDirectories( app );
+    fileApi.setOptions( options );
+    fileApi.initDirectories( app );
 
 
     app.get('/api/user/logout', userApi.Api.logout);
@@ -109,7 +110,7 @@ export default function Api(app, db, CONST, packageJson){
     });
 
 
-    app.post('/api/upload/shape', uploadApi.Api.postShapeFile);
+    app.post('/api/file/shape', fileApi.Api.postShapeFile);
 }
 
 

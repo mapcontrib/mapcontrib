@@ -9,6 +9,7 @@ import ThemeModel from '../public/js/model/theme';
 let options = {
     'CONST': undefined,
     'database': undefined,
+    'fileApi': undefined,
 };
 
 
@@ -360,6 +361,8 @@ class Api {
 
                 return true;
             }
+
+            options.fileApi.cleanThemeFiles(model);
 
             res.send({});
         });

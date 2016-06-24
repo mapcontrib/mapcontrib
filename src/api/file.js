@@ -5,10 +5,11 @@ import mkdirp from 'mkdirp';
 import express from 'express';
 import multer from 'multer';
 import config from 'config';
+import { basename } from '../public/js/core/utils';
 
 
-const publicDirectory = path.join(__dirname, '..', 'public');
-const uploadDirectory = path.join(__dirname, '..', 'upload');
+const publicDirectory = path.resolve(__dirname, '..', 'public');
+const uploadDirectory = path.resolve(__dirname, '..', 'upload');
 
 let options = {
     'CONST': undefined,
@@ -40,6 +41,39 @@ function initDirectories (app) {
     app.use(
         multer({ 'dest': uploadDirectory })
     );
+}
+
+
+function cleanThemeFiles (themeModel) {
+    const fragment = themeModel.get('fragment');
+    const layers = themeModel.get('layers').models;
+    const shapeDirectory = path.resolve(
+        publicDirectory,
+        `files/theme/${fragment}/shape/`
+    );
+    const re = new RegExp(`^/files\/theme\/${fragment}\/shape/`);
+    let themeFiles = [];
+
+    for (let i in layers) {
+        let fileUri = layers[i].get('fileUri');
+
+        if ( fileUri && re.test(fileUri) ) {
+            themeFiles.push(
+                basename(fileUri)
+            );
+        }
+    }
+
+    fs.readdir(shapeDirectory, function(err, fileList) {
+        for (let i in fileList) {
+            let file = fileList[i];
+            let filePath = path.resolve(shapeDirectory, file);
+
+            if ( themeFiles.indexOf(file) === -1 ) {
+                fs.unlink(filePath);
+            }
+        }
+    });
 }
 
 
@@ -83,7 +117,7 @@ class Api {
 
 function uploadFile(req, res, file, directory) {
     file.originalname = file.originalname.toLowerCase();
-    
+
     let i = 2;
     let publicPath = `/files/${directory}/${file.originalname}`;
     let fullDirectory = `${config.get('dataDirectory')}/${directory}`;
@@ -127,5 +161,6 @@ function uploadFile(req, res, file, directory) {
 export default {
     setOptions,
     initDirectories,
+    cleanThemeFiles,
     Api,
 };

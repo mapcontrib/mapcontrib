@@ -49,7 +49,7 @@ let app = express();
 app.use(compression());
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.resolve(__dirname, 'views'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ 'extended': true }));

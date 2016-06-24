@@ -33,13 +33,13 @@ module.exports = {
     devtool: 'source-map',
     debug: true,
     plugins: plugins,
-    context: path.join(__dirname, 'src', 'public'),
+    context: path.resolve(__dirname, 'src', 'public'),
     entry: {
         home: './js/home',
         theme: './js/theme'
     },
     output: {
-        path: path.join(__dirname, 'src', 'public', 'js'),
+        path: path.resolve(__dirname, 'src', 'public', 'js'),
         filename: '[name].bundle.js'
     },
     module: {
