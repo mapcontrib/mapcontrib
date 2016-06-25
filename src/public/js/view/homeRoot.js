@@ -35,8 +35,8 @@ export default Marionette.LayoutView.extend({
         this._searchTimeout = null;
         this.collection = new ThemeCollection();
 
-        if (window.highlightList) {
-            this.collection.add(window.highlightList);
+        if (MAPCONTRIB.highlightList) {
+            this.collection.add(MAPCONTRIB.highlightList);
         }
     },
 
