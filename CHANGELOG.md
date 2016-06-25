@@ -10,6 +10,7 @@
 * There is now another pencil icon in popups and its display is more convenient.
 * It is now possible to move a POI (only node ones).
 * New type of layers, based on GPX and CSV files are added.
+* There is a new layer information column. It displays OverPass requests, original shape files and a button to download GeoJSON data.
 * And as always, multiple bufixes and enhancement.
 
 ## 0.8.6
