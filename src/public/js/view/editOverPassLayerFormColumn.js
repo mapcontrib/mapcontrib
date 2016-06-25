@@ -80,6 +80,7 @@ export default Marionette.ItemView.extend({
             )
         );
     },
+
     updateMarkerIcon: function () {
         var html = MapUi.buildLayerHtmlIcon( this.model );
 
