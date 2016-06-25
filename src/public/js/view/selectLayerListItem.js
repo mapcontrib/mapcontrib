@@ -58,6 +58,10 @@ export default Marionette.ItemView.extend({
         };
     },
 
+    onDestroy: function () {
+        this._radio.vent.off('map:zoomChanged');
+    },
+
     onRender: function () {
         var currentZoom = this._radio.reqres.request('map:getCurrentZoom'),
         n = (this.model.get('minZoom') - currentZoom) || 0;
