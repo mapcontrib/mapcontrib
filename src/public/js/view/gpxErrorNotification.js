@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/overpassErrorNotification.ejs';
+import template from '../../templates/gpxErrorNotification.ejs';
 
 
 export default Marionette.ItemView.extend({
@@ -37,8 +37,7 @@ export default Marionette.ItemView.extend({
 
     onRender: function () {
         this.ui.content.html(
-
-            document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
+            document.l10n.getSync('gpxErrorNotification_content', { 'name': this.model.get('name') })
         );
 
         this.ui.error.html(`«&nbsp;${this.options.error}&nbsp;»`);

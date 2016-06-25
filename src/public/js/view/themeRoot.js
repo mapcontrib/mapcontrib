@@ -37,6 +37,8 @@ import EditPoiMenuColumnView from './editPoiMenuColumn';
 import ZoomNotificationView from './zoomNotification';
 import OverpassTimeoutNotificationView from './overpassTimeoutNotification';
 import OverpassErrorNotificationView from './overpassErrorNotification';
+import CsvErrorNotificationView from './csvErrorNotification';
+import GpxErrorNotificationView from './gpxErrorNotification';
 
 import LayerModel from '../model/layer';
 import PresetModel from '../model/preset';
@@ -672,15 +674,16 @@ export default Marionette.LayoutView.extend({
             },
 
             onTimeout: function (xhr) {
-                var notification = new OverpassTimeoutNotificationView({ 'model': layerModel });
-
-                notification.open();
+                new OverpassTimeoutNotificationView({
+                    'model': layerModel
+                }).open();
             },
 
             onError: function (xhr) {
-                var notification = new OverpassErrorNotificationView({ 'model': layerModel });
-
-                notification.open();
+                new OverpassErrorNotificationView({
+                    'model': layerModel,
+                    'error': xhr.statusText,
+                }).open();
             },
         });
 
@@ -722,6 +725,12 @@ export default Marionette.LayoutView.extend({
         let omnivoreLayer = Omnivore.gpx(
             layerModel.get('fileUri')
         )
+        .on('error', function(error) {
+            new GpxErrorNotificationView({
+                'model': layerModel,
+                'error': error.error[0].message,
+            }).open();
+        })
         .on('ready', layer => {
             omnivoreLayer.eachLayer(path => {
                 path.setStyle(
@@ -764,6 +773,12 @@ export default Marionette.LayoutView.extend({
         let omnivoreLayer = Omnivore.csv(
             layerModel.get('fileUri')
         )
+        .on('error', function(error) {
+            new CsvErrorNotificationView({
+                'model': layerModel,
+                'error': error.error[0].message,
+            }).open();
+        })
         .on('ready', layer => {
             omnivoreLayer.eachLayer(marker => {
                 let popupContent = this.getLayerPopupContent(
@@ -947,7 +962,9 @@ export default Marionette.LayoutView.extend({
         })
         .get('object');
 
-        overpassLayer.object.options.minZoom = layerModel.get('minZoom');
+        if (overpassLayer.object) {
+            overpassLayer.object.options.minZoom = layerModel.get('minZoom');
+        }
 
         this.updateMinDataZoom();
     },

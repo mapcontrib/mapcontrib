@@ -207,12 +207,22 @@
 
 /* Overpass timeout notification */
 <overpassTimeoutNotification_title "Temps d'attente dépassé">
-<overpassTimeoutNotification_content "Il semblerait que les centres d'intérêts de type « {{ $name }} » mettent beaucoup de temps à être chargés...">
+<overpassTimeoutNotification_content "Il semblerait que les centres d'intérêts de type <em>{{ $name }}</em> mettent beaucoup de temps à être chargés...">
 
 
 /* Overpass error notification */
 <overpassErrorNotification_title "Erreur">
-<overpassErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type « {{ $name }} ».">
+<overpassErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+
+
+/* CSV error notification */
+<csvErrorNotification_title "Erreur">
+<csvErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+
+
+/* GPX error notification */
+<gpxErrorNotification_title "Erreur">
+<gpxErrorNotification_content "Une erreur est survenue lors du chargement de la couche <em>{{ $name }}</em>.">
 
 
 /* Contribution error notification */

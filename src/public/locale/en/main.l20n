@@ -207,12 +207,22 @@
 
 /* Overpass timeout notification */
 <overpassTimeoutNotification_title "Timeout">
-<overpassTimeoutNotification_content "It seems that the « {{ $name }} » points of interest take too long to be loaded...">
+<overpassTimeoutNotification_content "It seems that the <em>{{ $name }}</em> points of interest take too long to be loaded...">
 
 
 /* Overpass error notification */
 <overpassErrorNotification_title "Error">
-<overpassErrorNotification_content "An error occured during the load of the « {{ $name }} » points of interest.">
+<overpassErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
+
+
+/* CSV error notification */
+<csvErrorNotification_title "Error">
+<csvErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
+
+
+/* GPX error notification */
+<gpxErrorNotification_title "Error">
+<gpxErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> layer.">
 
 
 /* Contribution error notification */
