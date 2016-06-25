@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/overpassTimeoutNotification.ejs';
+import template from '../../templates/overPassTimeoutNotification.ejs';
 
 
 export default Marionette.ItemView.extend({

@@ -35,8 +35,8 @@ import EditPresetTagsColumnView from './editPresetTagsColumn';
 import EditPoiDataColumnView from './editPoiDataColumn';
 import EditPoiMenuColumnView from './editPoiMenuColumn';
 import ZoomNotificationView from './zoomNotification';
-import OverpassTimeoutNotificationView from './overpassTimeoutNotification';
-import OverpassErrorNotificationView from './overpassErrorNotification';
+import OverPassTimeoutNotificationView from './overPassTimeoutNotification';
+import OverPassErrorNotificationView from './overPassErrorNotification';
 import CsvErrorNotificationView from './csvErrorNotification';
 import GpxErrorNotificationView from './gpxErrorNotification';
 
@@ -674,13 +674,13 @@ export default Marionette.LayoutView.extend({
             },
 
             onTimeout: function (xhr) {
-                new OverpassTimeoutNotificationView({
+                new OverPassTimeoutNotificationView({
                     'model': layerModel
                 }).open();
             },
 
             onError: function (xhr) {
-                new OverpassErrorNotificationView({
+                new OverPassErrorNotificationView({
                     'model': layerModel,
                     'error': xhr.statusText,
                 }).open();
