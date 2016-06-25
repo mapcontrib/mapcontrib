@@ -25,12 +25,10 @@ export default Marionette.ItemView.extend({
         'layerName': '#layer_name',
         'layerDescription': '#layer_description',
         'layerVisible': '#layer_visible',
-        'layerMinZoom': '#layer_min_zoom',
         'layerPopupContent': '#layer_popup_content',
         'layerFile': '#layer_file',
 
         'colorSelector': '.color_selector',
-        'currentMapZoom': '.current_map_zoom',
 
         'formGroups': '.form-group',
         'fileFormGroup': '.form-group.layer_file',
@@ -59,17 +57,11 @@ export default Marionette.ItemView.extend({
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
 
-        if ( this.options.isNew ) {
-            this.model.set('minZoom', 0);
-        }
-
         this._oldModel = this.model.clone();
 
         this._colorSelector = new ColorSelectorView({
             'color': this.model.get('color')
         });
-
-        this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom.bind(this));
     },
 
     onRender: function () {
@@ -82,8 +74,6 @@ export default Marionette.ItemView.extend({
         if ( this.model.get('fileUri') ) {
             this.ui.actualFile.removeClass('hide');
         }
-
-        this.onChangedMapZoom();
     },
 
     onShow: function () {
@@ -94,26 +84,12 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    onDestroy: function () {
-        this._radio.vent.off('map:zoomChanged');
-    },
-
     open: function () {
         this.triggerMethod('open');
     },
 
     close: function () {
         this.triggerMethod('close');
-    },
-
-    onChangedMapZoom: function () {
-        var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
-
-        this.ui.currentMapZoom.html(
-            document.l10n.getSync(
-                'editLayerFormColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}
-            )
-        );
     },
 
     onSubmit: function (e) {
@@ -160,20 +136,15 @@ export default Marionette.ItemView.extend({
 
     saveLayer: function () {
         let updatePolylines = false,
-        updateMinZoom = false,
         updatePopups = false,
         updateVisibility = false;
 
+        this.model.set('minZoom', 0);
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
         this.model.set('color', this._colorSelector.getSelectedColor());
-        this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
         this.model.set('visible', this.ui.layerVisible.prop('checked'));
         this.model.set('popupContent', this.ui.layerPopupContent.val());
-
-        if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
-            updateMinZoom = true;
-        }
 
         if ( this._oldModel.get('color') !== this.model.get('color') ) {
             updatePolylines = true;
@@ -197,10 +168,6 @@ export default Marionette.ItemView.extend({
                     this._radio.commands.execute('map:addLayer', this.model);
                 }
                 else {
-                    if ( updateMinZoom ) {
-                        this._radio.commands.execute('map:updateLayerMinZoom', this.model);
-                    }
-
                     if ( updatePolylines ) {
                         this._radio.commands.execute('map:updateLayerPolylines', this.model);
                     }
