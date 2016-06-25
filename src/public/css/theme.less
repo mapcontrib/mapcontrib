@@ -64,6 +64,7 @@ html, body {
 
             img {
                 max-width: 100% !important;
+                height: auto !important;
             }
         }
     }
@@ -285,6 +286,7 @@ html, body {
 
 .rg_layer_list .checkbox {
     padding-right: 40px;
+    min-height: 40px;
 
     .marker,
     .shape {
@@ -292,6 +294,26 @@ html, body {
         top: -10px;
         right: -4px;
         cursor: pointer;
+    }
+
+    .zoom_tip {
+        font-style: italic;
+    }
+
+    .info_layer_btn.btn-link {
+        position: absolute;
+        top: 24px;
+        left: -20px;
+        padding: 0;
+        color: #bbb;
+
+        &:hover,
+        &:active,
+        &.active,
+        &:focus,
+        &.focus {
+            color: #ccc;
+        }
     }
 }
 

@@ -1,0 +1,29 @@
+<section id="info_gpx_layer_column" class="column left white">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="infoLayerColumn_title"></h2>
+    </header>
+
+    <div class="container-fluid content">
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 data-l10n-id="infoLayerColumn_layerName"></h3>
+                <p><%= name %></p>
+
+                <section class="description_container hide">
+                    <h3 class="prepend-xs-2" data-l10n-id="infoLayerColumn_layerDescription"></h3>
+                    <p><%= description %></p>
+                </section>
+
+                <h3 class="prepend-xs-2" data-l10n-id="infoLayerColumn_layerSource"></h3>
+                <p data-l10n-id="infoLayerColumn_gpx"><a href="<%= fileUri %>"></a></p>
+
+                <h3 class="prepend-xs-2" data-l10n-id="infoLayerColumn_geoJsonData"></h3>
+                <button type="button" class="btn btn-default download_btn" data-l10n-id="infoLayerColumn_downloadData"></button>
+            </div>
+        </div>
+    </div>
+</section>

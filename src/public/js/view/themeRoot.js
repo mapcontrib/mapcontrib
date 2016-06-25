@@ -181,6 +181,9 @@ export default Marionette.LayoutView.extend({
             'getFragment': () => {
                 return this.model.get('fragment');
             },
+            'map:data': () => {
+                return this._mapData;
+            },
         });
 
         this._radio.commands.setHandlers({

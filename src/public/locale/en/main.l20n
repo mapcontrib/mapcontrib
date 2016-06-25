@@ -265,3 +265,17 @@
 <addLayerMenuColumn_overPass "OverPass request">
 <addLayerMenuColumn_gpx "GPX file">
 <addLayerMenuColumn_csv "CSV file">
+
+
+/* Layer info column */
+<infoLayerColumn_title "Informations">
+<infoLayerColumn_layerName "Name">
+<infoLayerColumn_layerDescription "Description">
+<infoLayerColumn_layerSource "Source of data">
+<infoLayerColumn_overPass "OverPass">
+<infoLayerColumn_gpx "GPX file">
+<infoLayerColumn_csv "CSV file">
+<infoLayerColumn_layerMinZoom "Update minimum zoom">
+<infoLayerColumn_layerOverPassRequest "Requête OverPass">
+<infoLayerColumn_geoJsonData "GeoJSON data">
+<infoLayerColumn_downloadData "Download the data">

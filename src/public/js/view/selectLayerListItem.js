@@ -5,6 +5,10 @@ import Marionette from 'backbone.marionette';
 import marked from 'marked';
 import MapUi from '../ui/map';
 import template from '../../templates/selectLayerListItem.ejs';
+import CONST from '../const';
+import InfoOverPassLayerColumnView from './infoOverPassLayerColumn';
+import InfoCsvLayerColumnView from './infoCsvLayerColumn';
+import InfoGpxLayerColumnView from './infoGpxLayerColumn';
 
 
 export default Marionette.ItemView.extend({
@@ -25,11 +29,13 @@ export default Marionette.ItemView.extend({
     ui: {
         'visibilityCheckbox': '.visibility_checkbox',
         'zoomTip': '.zoom_tip',
+        'infoLayerBtn': '.info_layer_btn',
     },
 
     events: {
-        'click': 'onClick',
+        'click @ui.infoLayerBtn': 'onClickInfo', // Important : Has to be the first !
         'click label': 'onClickLabel',
+        'click': 'onClick',
     },
 
     initialize: function () {
@@ -90,7 +96,7 @@ export default Marionette.ItemView.extend({
 
         this._layerIsVisible = this._layerIsVisible ? false : true;
 
-        this.ui.visibilityCheckbox[0].checked = this._layerIsVisible;
+        this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
 
         if ( this._layerIsVisible ) {
             this._radio.commands.execute( 'map:showLayer', this.model );
@@ -109,5 +115,28 @@ export default Marionette.ItemView.extend({
 
     onClickLabel: function (e) {
         e.preventDefault();
+    },
+
+    onClickInfo: function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        switch (this.model.get('type')) {
+            case CONST.layerType.overpass:
+                new InfoOverPassLayerColumnView({
+                    'model': this.model,
+                }).open();
+                break;
+            case CONST.layerType.gpx:
+                new InfoGpxLayerColumnView({
+                    'model': this.model,
+                }).open();
+                break;
+            case CONST.layerType.csv:
+                new InfoCsvLayerColumnView({
+                    'model': this.model,
+                }).open();
+                break;
+        }
     },
 });
