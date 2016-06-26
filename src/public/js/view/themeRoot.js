@@ -720,7 +720,7 @@ export default Marionette.LayoutView.extend({
         for (let i in objects) {
             let tags;
             let object = objects[i];
-            let popupContent = this.getLayerPopupContent(
+            let popupContent = this._buildLayerPopupContent(
                 object,
                 layerModel,
                 object.feature
@@ -793,7 +793,7 @@ export default Marionette.LayoutView.extend({
         let layers = markerCluster.getLayers();
 
         for (let layer of layers) {
-            let popupContent = this.getLayerPopupContent(
+            let popupContent = this._buildLayerPopupContent(
                 layer,
                 layerModel,
                 layer.feature
@@ -842,7 +842,7 @@ export default Marionette.LayoutView.extend({
             if ( layer.feature.id === osmId ) {
                 if (layer._popup) {
                     layer._popup.setContent(
-                        this.getLayerPopupContent(
+                        this._buildLayerPopupContent(
                             layer,
                             layerModel,
                             {
@@ -855,7 +855,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    getLayerPopupContent: function (layer, layerModel, feature) {
+    _buildLayerPopupContent: function (layer, layerModel, feature) {
         let popupContent = marked( layerModel.get('popupContent') );
         let dataEditable = layerModel.get('dataEditable');
         let isLogged = this._app.isLogged();
@@ -1473,7 +1473,7 @@ export default Marionette.LayoutView.extend({
         this._zoomNotificationView.appear();
     },
 
-    _bindPopupTo: function (element, popupContent) {
+    _bindPopupTo: function (layer, popupContent) {
         if ( popupContent ) {
             let popupOptions;
 
@@ -1498,8 +1498,8 @@ export default Marionette.LayoutView.extend({
             }
 
             let popup = L.popup( popupOptions ).setContent( popupContent );
-            element._popup = popup;
-            element.bindPopup( popup );
+            layer._popup = popup;
+            layer.bindPopup( popup );
         }
 
         return false;
