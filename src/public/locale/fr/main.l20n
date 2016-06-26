@@ -150,6 +150,7 @@
 <editLayerFormColumn_gpxFile "Fichier GPX">
 <editLayerFormColumn_csvFile "Fichier CSV">
 <editLayerFormColumn_csvDisclaimer "Il doit contenir les latitude et longitude, dans des colonnes nommées <em>latitude</em> et <em>longitude</em>">
+<editLayerFormColumn_geoJsonFile "Fichier GeoJSON">
 <editLayerFormColumn_browse "Parcourir">
 
 
@@ -220,6 +221,11 @@
 <csvErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
 
 
+/* GeoJSON error notification */
+<geoJsonErrorNotification_title "Erreur">
+<geoJsonErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+
+
 /* GPX error notification */
 <gpxErrorNotification_title "Erreur">
 <gpxErrorNotification_content "Une erreur est survenue lors du chargement de la couche <em>{{ $name }}</em>.">
@@ -265,6 +271,7 @@
 <addLayerMenuColumn_overPass "Requête OverPass">
 <addLayerMenuColumn_gpx "Fichier GPX">
 <addLayerMenuColumn_csv "Fichier CSV">
+<addLayerMenuColumn_geoJson "Fichier GeoJSON">
 
 
 /* Layer info column */
@@ -275,6 +282,7 @@
 <infoLayerColumn_overPass "OverPass">
 <infoLayerColumn_gpx "<a>Fichier GPX</a>">
 <infoLayerColumn_csv "<a>Fichier CSV</a>">
+<infoLayerColumn_geoJson "<a>Fichier GeoJSON</a>">
 <infoLayerColumn_layerMinZoom "Zoom minimum de mise à jour">
 <infoLayerColumn_layerOverPassRequest "Requête OverPass">
 <infoLayerColumn_geoJsonData "Données GeoJSON">

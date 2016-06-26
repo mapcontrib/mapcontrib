@@ -55,6 +55,9 @@ export default Marionette.ItemView.extend({
             case CONST.layerType.csv:
                 this._radio.commands.execute( 'column:editCsvLayer', this.model );
                 break;
+            case CONST.layerType.geojson:
+            this._radio.commands.execute( 'column:editGeoJsonLayer', this.model );
+                break;
             case CONST.layerType.osmose:
                 this._radio.commands.execute( 'column:editOsmoseLayer', this.model );
                 break;

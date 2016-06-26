@@ -150,6 +150,7 @@
 <editLayerFormColumn_gpxFile "GPX file">
 <editLayerFormColumn_csvFile "CSV file">
 <editLayerFormColumn_csvDisclaimer "It must contain latitude and longitude values, in column named roughly <em>latitude</em> and <em>longitude</em>">
+<editLayerFormColumn_geoJsonFile "GeoJSON file">
 <editLayerFormColumn_browse "Browse">
 
 
@@ -220,6 +221,11 @@
 <csvErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
 
 
+/* GeoJSON error notification */
+<geoJsonErrorNotification_title "Error">
+<geoJsonErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
+
+
 /* GPX error notification */
 <gpxErrorNotification_title "Error">
 <gpxErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> layer.">
@@ -265,6 +271,7 @@
 <addLayerMenuColumn_overPass "OverPass request">
 <addLayerMenuColumn_gpx "GPX file">
 <addLayerMenuColumn_csv "CSV file">
+<addLayerMenuColumn_geoJson "GeoJSON file">
 
 
 /* Layer info column */
@@ -275,6 +282,7 @@
 <infoLayerColumn_overPass "OverPass">
 <infoLayerColumn_gpx "GPX file">
 <infoLayerColumn_csv "CSV file">
+<infoLayerColumn_geoJson "GeoJSON file">
 <infoLayerColumn_layerMinZoom "Update minimum zoom">
 <infoLayerColumn_layerOverPassRequest "Requête OverPass">
 <infoLayerColumn_geoJsonData "GeoJSON data">

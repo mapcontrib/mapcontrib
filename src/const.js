@@ -9,6 +9,7 @@ export default {
     'shapeFileExtensions': [
         'gpx',
         'csv',
+        'geojson',
     ],
 
     'pictureExtensions': [

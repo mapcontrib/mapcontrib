@@ -17,12 +17,14 @@ export default Marionette.LayoutView.extend({
         'overPassItem': '.overpass_item',
         'gpxItem': '.gpx_item',
         'csvItem': '.csv_item',
+        'geoJsonItem': '.geojson_item',
     },
 
     events: {
         'click @ui.overPassItem': 'onClickOverPass',
         'click @ui.gpxItem': 'onClickGpx',
         'click @ui.csvItem': 'onClickCsv',
+        'click @ui.geoJsonItem': 'onClickGeoJson',
     },
 
     initialize: function (options) {
@@ -58,5 +60,11 @@ export default Marionette.LayoutView.extend({
         e.preventDefault();
         this.close();
         this._radio.commands.execute('column:editCsvLayer');
+    },
+
+    onClickGeoJson: function (e) {
+        e.preventDefault();
+        this.close();
+        this._radio.commands.execute('column:editGeoJsonLayer');
     },
 });

@@ -28,6 +28,10 @@ let colors = {
     'lightRed': '#ea6364',
     'darkRed': '#cc1c1d',
 
+    'brown': '#B46F00',
+    'lightBrown': '#e9b96e',
+    'darkBrown': '#8f5902',
+
     'purple': '#553445',
     'lightPurple': '#5e3a4d',
     'darkPurple': '#291921',
@@ -284,6 +288,7 @@ export default {
         'osmose': 'osmose',
         'gpx': 'gpx',
         'csv': 'csv',
+        'geojson': 'geojson',
     },
 
     'geocoder': {

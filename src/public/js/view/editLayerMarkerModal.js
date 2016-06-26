@@ -3,7 +3,6 @@ import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from '../const';
-import icons from '../icons.json';
 import template from '../../templates/editLayerMarkerModal.ejs';
 
 
@@ -48,8 +47,6 @@ export default Marionette.ItemView.extend({
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
-
-        this._icons = JSON.parse(icons);
     },
 
     onRender: function () {

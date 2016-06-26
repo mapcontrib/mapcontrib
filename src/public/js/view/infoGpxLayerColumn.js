@@ -51,15 +51,10 @@ export default Marionette.LayoutView.extend({
     onClickDownload: function (e) {
         e.preventDefault();
 
-        const mapData = this._radio.reqres.request('map:data');
-        const layerName = this.model.get('name');
+        const markerCluster = this._radio.reqres.request('map:markerCluster', this.model);
+        const layerName = this.model.get('name') || document.l10n.getSync('mapcontrib');
         const fileName = `${layerName}.geojson`;
-        const layer = mapData.findWhere({
-            'layerId': this.model.cid,
-            'isRootLayer': true
-        })
-        .get('object');
 
-        LeafletHelper.downloadGeoJsonFromLayer(layer, fileName);
+        LeafletHelper.downloadGeoJsonFromLayer(markerCluster, fileName);
     },
 });

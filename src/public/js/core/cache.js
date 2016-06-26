@@ -66,7 +66,7 @@ export default class Cache {
         let {contributionKey, contributions} = Cache._getKeyAndContributions(type, id);
 
         if ( contributions[ contributionKey ] ) {
-            if ( version >= contributions[ contributionKey ].version ) {
+            if ( version > contributions[ contributionKey ].version ) {
                 return true;
             }
         }

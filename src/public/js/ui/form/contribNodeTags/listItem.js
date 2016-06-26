@@ -13,8 +13,10 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'blur @ui.key': 'onBlurKey',
-        'blur @ui.value': 'onBlurValue',
+        'blur @ui.key': 'updateKey',
+        'blur @ui.value': 'updateValue',
+        'keyup @ui.key': 'updateKey',
+        'keyup @ui.value': 'updateValue',
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
@@ -40,14 +42,14 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onBlurKey: function (e) {
+    updateKey: function (e) {
         this.model.set(
             'key',
             this.ui.key.val().trim()
         );
     },
 
-    onBlurValue: function (e) {
+    updateValue: function (e) {
         this.model.set(
             'value',
             this.ui.value.val().trim()

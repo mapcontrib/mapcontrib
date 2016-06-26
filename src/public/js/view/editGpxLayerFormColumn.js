@@ -169,7 +169,7 @@ export default Marionette.ItemView.extend({
                 }
                 else {
                     if ( updatePolylines ) {
-                        this._radio.commands.execute('map:updateLayerPolylines', this.model);
+                        this._radio.commands.execute('map:updateLayerStyles', this.model);
                     }
 
                     if ( updatePopups ) {

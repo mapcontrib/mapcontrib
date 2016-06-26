@@ -203,6 +203,11 @@ export default Marionette.LayoutView.extend({
             this.model.set('version', version);
 
             this._radio.commands.execute(
+                'saveOsmData',
+                this.model.toJSON()
+            );
+
+            this._radio.commands.execute(
                 'map:updatePoiPopup',
                 this.options.layerModel,
                 this.model.toJSON()

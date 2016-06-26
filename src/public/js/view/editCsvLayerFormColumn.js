@@ -190,7 +190,7 @@ export default Marionette.ItemView.extend({
                 }
                 else {
                     if ( updateMarkers ) {
-                        this._radio.commands.execute('map:updateLayerIcons', this.model);
+                        this._radio.commands.execute('map:updateLayerStyles', this.model);
                     }
 
                     if ( updatePopups ) {

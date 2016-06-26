@@ -28,7 +28,7 @@ export default Marionette.LayoutView.extend({
         this._radio = Wreqr.radio.channel('global');
 
         this._user = options.user;
-        this._mapData = options.mapData;
+        this._layer = options.layer;
         this._osmElement = options.osmElement;
         this._layerModel = options.layerModel;
     },
@@ -59,14 +59,9 @@ export default Marionette.LayoutView.extend({
     onClickMove: function (e) {
         e.preventDefault();
 
-        let marker = this._mapData.findWhere({
-            'osmId': osmElement.id,
-            'layerId': layerModel.cid,
-        });
-
         let movePoiContextual = new MovePoiContextual({
             'user': this._user,
-            'marker': marker.get('object'),
+            'marker': this._layer,
             'osmElement': this._osmElement,
             'layerModel': this._layerModel,
         });

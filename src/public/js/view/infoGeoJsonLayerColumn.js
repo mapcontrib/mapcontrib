@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/infoCsvLayerColumn.ejs';
+import template from '../../templates/infoGeoJsonLayerColumn.ejs';
 import LeafletHelper from '../helper/leaflet';
 
 
@@ -18,7 +18,7 @@ export default Marionette.LayoutView.extend({
     ui: {
         'description': '.description_container',
         'downloadBtn': '.download_btn',
-        'column': '#info_csv_layer_column',
+        'column': '#info_geojson_layer_column',
     },
 
     events: {
