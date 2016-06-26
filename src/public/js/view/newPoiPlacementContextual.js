@@ -75,12 +75,12 @@ export default Marionette.ItemView.extend({
         );
     },
 
-    _buildNewMarker: function (model) {
+    _buildNewMarker: function (latLng) {
         const config = MAPCONTRIB.config;
 
         let pos = new L.LatLng(
-            model.get('lat'),
-            model.get('lon')
+            latLng.lat,
+            latLng.lng
         );
 
         let icon = MapUi.buildLayerIcon(
@@ -109,11 +109,8 @@ export default Marionette.ItemView.extend({
 
         let mapCenter = this._map.getCenter();
 
-        this.model.set('lat', mapCenter.lat);
-        this.model.set('lon', mapCenter.lng);
-
         this._map.addLayer(
-            this._buildNewMarker( this.model )
+            this._buildNewMarker( mapCenter )
         );
 
         const createdBy = CONST.osm.changesetCreatedBy
@@ -121,12 +118,12 @@ export default Marionette.ItemView.extend({
 
         this._osmEdit.setChangesetCreatedBy(createdBy);
         this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
-        this._osmEdit.setType(this.model.get('type'));
-        this._osmEdit.setVersion(this.model.get('version'));
-        this._osmEdit.setTimestamp(this.model.get('timestamp'));
-        this._osmEdit.setLatitude(this.model.get('lat'));
-        this._osmEdit.setLongitude(this.model.get('lon'));
-        this._osmEdit.setTags(this.model.get('tags'));
+        this._osmEdit.setType('node');
+        this._osmEdit.setVersion(0);
+        this._osmEdit.setTimestamp();
+        this._osmEdit.setLatitude(mapCenter.lat);
+        this._osmEdit.setLongitude(mapCenter.lng);
+        this._osmEdit.setTags(this.options.tags);
         this._osmEdit.setUid(this.options.user.get('osmId'));
         this._osmEdit.setDisplayName(this.options.user.get('displayName'));
 
@@ -137,10 +134,8 @@ export default Marionette.ItemView.extend({
 
     sendContributionToOSM: function () {
         this._osmEdit.send()
-        .then((version) => {
-            this.model.set('version', version);
-
-            Cache.save(this.model.attributes);
+        .then(version => {
+            this._osmEdit.setVersion(version);
         })
         .catch((err) => {
             let notification = new ContributionErrorNotificationView({

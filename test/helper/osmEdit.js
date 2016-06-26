@@ -24,10 +24,12 @@ describe('OsmEditHelper', () => {
 
     describe('_buildXml', () => {
         it('Should return a serialized node XML', () => {
-            const expected = '<osm><node changeset="85964251" version="0" timestamp="2016-03-24T12:21:30.546Z" uid="3569284" display_name="Walter White" lat="42.3" lon="0.2"><tag k="a key" v="a value"/><tag k="another key" v="another value"/></node></osm>';
+            const expected = '<osm><node changeset="85964251" version="0" lat="42.3" lon="0.2" uid="3569284" timestamp="2016-03-24T12:21:30.546Z" display_name="Walter White"><tag k="a key" v="a value"/><tag k="another key" v="another value"/></node></osm>';
 
             let osmEdit = new OsmEditHelper();
 
+            osmEdit.setType('node');
+            osmEdit.setVersion(0);
             osmEdit.setLatitude(42.3);
             osmEdit.setLongitude(0.2);
             osmEdit.setUid(3569284);

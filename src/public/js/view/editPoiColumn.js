@@ -6,11 +6,11 @@ import osmAuth from 'osm-auth';
 import ContributionErrorNotificationView from './contributionErrorNotification';
 import OsmEditHelper from '../helper/osmEdit.js';
 import CONST from '../const';
-import template from '../../templates/editPoiDataColumn.ejs';
+import template from '../../templates/editPoiColumn.ejs';
 import ContribNodeTagsListView from '../ui/form/contribNodeTags';
-import OsmNodeModel from '../model/osmNode';
 import Cache from '../core/cache';
 import PopupContent from '../core/popupContent';
+import MovePoiContextual from './movePoiContextual';
 
 
 
@@ -27,15 +27,18 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#edit_poi_data_column',
+        'column': '#edit_poi_column',
         'content': '.content',
         'footer': '.sticky-footer',
         'footerButtons': '.sticky-footer button',
         'addBtn': '.add_btn',
+        'moveBtn': '.move_btn',
+        'moveSection': '.move_section',
     },
 
     events: {
         'click @ui.addBtn': 'onClickAddBtn',
+        'click @ui.moveBtn': 'onClickMove',
         'submit': 'onSubmit',
     },
 
@@ -43,19 +46,14 @@ export default Marionette.LayoutView.extend({
         this._app = this.options.app;
         this._user = this._app.getUser();
         this._radio = Wreqr.radio.channel('global');
+        this._layer = this.options.layer;
+        this._layerModel = this.options.layerModel;
+
+        this._contributionSent = false;
 
         if ( !this._app.isLogged() ) {
             return false;
         }
-
-        this.model = new OsmNodeModel({
-            'id': this.options.osmElement.id,
-            'type': this.options.osmElement.type,
-            'version': this.options.osmElement.version,
-            'lat': this.options.osmElement.lat,
-            'lon': this.options.osmElement.lon,
-            'tags': this.options.osmElement.tags,
-        });
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
@@ -65,6 +63,9 @@ export default Marionette.LayoutView.extend({
                 'oauth_token_secret': this._user.get('tokenSecret'),
             })
         );
+
+        this._osmEdit.setType( this.options.osmElement.type );
+        this._osmEdit.setId( this.options.osmElement.id );
     },
 
     onBeforeOpen: function () {
@@ -76,12 +77,20 @@ export default Marionette.LayoutView.extend({
         this.triggerMethod('open');
     },
 
+    onBeforeClose: function () {
+        if ( this._osmEdit.getType() === 'node' ) {
+            if (!this._contributionSent) {
+                this._layer.setLatLng( this._oldLatLng );
+            }
+        }
+    },
+
     close: function () {
         this.triggerMethod('close');
     },
 
     onRender: function () {
-        if ( !this.options.layerModel.get('dataEditable') ) {
+        if ( !this._layerModel.get('dataEditable') ) {
             return this;
         }
 
@@ -89,37 +98,31 @@ export default Marionette.LayoutView.extend({
             return this;
         }
 
-        this._osmEdit.fetch(
-            this.model.get('type'),
-            this.model.get('id')
-        )
-        .then((osmEdit) => {
-            let version = osmEdit.getVersion(),
-            type = this.model.get('type'),
-            id = this.model.get('id');
+        if ( this._osmEdit.getType() === 'node' ) {
+            this._oldLatLng = this._layer.getLatLng();
+            this.ui.moveSection.removeClass('hide');
+        }
 
-            this.model.set('tags', osmEdit.getTags());
-            this.model.set('version', osmEdit.getVersion());
+        this._osmEdit.fetch()
+        .then(osmEdit => {
+            let version = osmEdit.getVersion(),
+            type = osmEdit.getType(),
+            id = osmEdit.getId();
 
             if (Cache.exists(type, id)) {
                 if (Cache.isNewerThanCache(type, id, version)) {
                     Cache.remove(type, id);
                 }
                 else {
-                    let elementFromCache = Cache.get(type, id);
-
-                    this.model.set('id', elementFromCache.id);
-                    this.model.set('type', elementFromCache.type);
-                    this.model.set('lat', elementFromCache.lat);
-                    this.model.set('lon', elementFromCache.lon);
-                    this.model.set('tags', elementFromCache.tags);
+                    this.options.osmElement = Cache.get(type, id);
+                    osmEdit.setElement( Cache.getOsmEditElement(type, id) );
                 }
             }
 
-            this.renderTags( this.model.get('tags') );
+            this.renderTags( osmEdit.getTags() );
         })
-        .catch(() => {
-            console.error('FIXME');
+        .catch(err => {
+            console.error('FIXME', err);
         });
     },
 
@@ -127,7 +130,7 @@ export default Marionette.LayoutView.extend({
         this._tagList = new ContribNodeTagsListView();
 
         let popupTag, value,
-        popupContent = this.options.layerModel.get('popupContent'),
+        popupContent = this._layerModel.get('popupContent'),
         popupTags = PopupContent.findTagsFromContent(popupContent);
 
         if ( popupTags) {
@@ -175,45 +178,43 @@ export default Marionette.LayoutView.extend({
 
         this.ui.footerButtons.prop('disabled', true);
 
-        this.model.set('tags', this._tagList.getTags());
-
         const createdBy = CONST.osm.changesetCreatedBy
         .replace('{version}', MAPCONTRIB.version);
 
         this._osmEdit.setChangesetCreatedBy(createdBy);
         this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
-        this._osmEdit.setId(this.model.get('id'));
-        this._osmEdit.setType(this.model.get('type'));
-        this._osmEdit.setVersion(this.model.get('version'));
-        this._osmEdit.setTimestamp(this.model.get('timestamp'));
-        this._osmEdit.setLatitude(this.model.get('lat'));
-        this._osmEdit.setLongitude(this.model.get('lon'));
-        this._osmEdit.setTags(this.model.get('tags'));
+        this._osmEdit.setTimestamp();
+        this._osmEdit.setTags( this._tagList.getTags() );
         this._osmEdit.setUid(this._user.get('osmId'));
         this._osmEdit.setDisplayName(this._user.get('displayName'));
 
         this.sendContributionToOSM();
-
-        this.close();
     },
 
     sendContributionToOSM: function () {
         this._osmEdit.send()
-        .then((version) => {
-            this.model.set('version', version);
+        .then(version => {
+            this._contributionSent = true;
+
+            this._osmEdit.setVersion(version);
+
+            this.close();
+
+            this._osmEdit.hydrateOverPassObject( this.options.osmElement );
 
             this._radio.commands.execute(
                 'saveOsmData',
-                this.model.toJSON()
+                this.options.osmElement
             );
 
             this._radio.commands.execute(
                 'map:updatePoiPopup',
-                this.options.layerModel,
-                this.model.toJSON()
+                this._layerModel,
+                this.options.osmElement
             );
 
-            Cache.save(this.model.attributes);
+            Cache.save(this.options.osmElement);
+            Cache.saveOsmEditElement(this._osmEdit.getElement());
         })
         .catch((err) => {
             let notification = new ContributionErrorNotificationView({
@@ -230,5 +231,25 @@ export default Marionette.LayoutView.extend({
         let scrollHeight = this.ui.column.height() +
         this._tagList.el.scrollHeight;
         this.ui.content[0].scrollTo(0, scrollHeight);
+    },
+
+    setNewPosition: function (lat, lng) {
+        this._osmEdit.setLatitude(lat);
+        this._osmEdit.setLongitude(lng);
+
+        this._layer.setLatLng(
+            L.latLng([ lat, lng ])
+        );
+    },
+
+    onClickMove: function (e) {
+        e.preventDefault();
+
+        new MovePoiContextual({
+            'marker': this._layer,
+            'editPoiColumnView': this,
+        }).open();
+
+        this.close(true);
     },
 });

@@ -34,8 +34,7 @@ import EditLayerMarkerModalView from './editLayerMarkerModal';
 import EditTileColumnView from './editTileColumn';
 import EditPresetColumnView from './editPresetColumn';
 import EditPresetTagsColumnView from './editPresetTagsColumn';
-import EditPoiDataColumnView from './editPoiDataColumn';
-import EditPoiMenuColumnView from './editPoiMenuColumn';
+import EditPoiColumnView from './editPoiColumn';
 import ZoomNotificationView from './zoomNotification';
 import OverPassTimeoutNotificationView from './overPassTimeoutNotification';
 import OverPassErrorNotificationView from './overPassErrorNotification';
@@ -45,7 +44,6 @@ import GpxErrorNotificationView from './gpxErrorNotification';
 
 import LayerModel from '../model/layer';
 import PresetModel from '../model/preset';
-import OsmNodeModel from '../model/osmNode';
 
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
@@ -53,7 +51,6 @@ import Cache from '../core/cache';
 import OsmData from '../core/osmData';
 
 import template from '../../templates/themeRoot.ejs';
-
 
 export default Marionette.LayoutView.extend({
     template: template,
@@ -120,8 +117,7 @@ export default Marionette.LayoutView.extend({
         'editTileColumn': '#rg_edit_tile_column',
         'editPresetColumn': '#rg_edit_preset_column',
         'editPresetTagsColumn': '#rg_edit_preset_tags_column',
-        'editPoiDataColumn': '#rg_edit_poi_data_column',
-        'editPoiMenuColumn': '#rg_edit_poi_menu_column',
+        'editPoiColumn': '#rg_edit_poi_column',
 
         'zoomNotification': '#rg_zoom_notification',
     },
@@ -253,9 +249,6 @@ export default Marionette.LayoutView.extend({
             },
             'map:fitBounds': (latLngBounds) => {
                 this.fitBounds( latLngBounds );
-            },
-            'editPoiData': (osmElement, layerModel) => {
-                this.onCommandEditPoiData( osmElement, layerModel );
             },
             'saveOsmData': (osmElement) => {
                 this._osmData.save(osmElement);
@@ -846,7 +839,11 @@ export default Marionette.LayoutView.extend({
                             layer,
                             layerModel,
                             {
-                                'properties': {'tags': osmElement.tags}
+                                'properties': {
+                                    'type': osmElement.type,
+                                    'id': osmElement.id,
+                                    'tags': osmElement.tags,
+                                }
                             }
                         )
                     );
@@ -856,7 +853,7 @@ export default Marionette.LayoutView.extend({
     },
 
     _buildLayerPopupContent: function (layer, layerModel, feature) {
-        let popupContent = marked( layerModel.get('popupContent') );
+        let popupContent = layerModel.get('popupContent');
         let dataEditable = layerModel.get('dataEditable');
         let isLogged = this._app.isLogged();
         let data;
@@ -891,17 +888,17 @@ export default Marionette.LayoutView.extend({
         }
 
         popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
-        popupContent = popupContent.replace(
+        const popupContentHtml = marked(popupContent).replace(
             /<a href=(.*?)>(.*?)<\/a>/g,
             '<a target="_blank" href=$1>$2</a>'
         );
 
         if ( layerModel.get('type') !== CONST.layerType.overpass ) {
-            return popupContent;
+            return popupContentHtml;
         }
 
         let globalWrapper = this._document.createElement('div');
-        globalWrapper.innerHTML = popupContent;
+        globalWrapper.innerHTML = popupContentHtml;
 
         if ( isLogged && dataEditable ) {
             let editButton = this._document.createElement('button');
@@ -956,30 +953,14 @@ export default Marionette.LayoutView.extend({
     onClickEditPoi: function (layer, osmElementType, osmElementId, layerModel, e) {
         let osmElement = this._osmData.get(osmElementType, osmElementId);
 
-        if (osmElement.type !== 'node') {
-            return this._radio.commands.execute('editPoiData', osmElement, layerModel);
-        }
-
-        let editPoiMenuColumnView = new EditPoiMenuColumnView({
-            'user': this._user,
-            'layer': layer,
-            'osmElement': osmElement,
-            'layerModel': layerModel,
-        });
-
-        this.getRegion('editPoiMenuColumn').show( editPoiMenuColumnView );
-
-        editPoiMenuColumnView.open();
-    },
-
-    onCommandEditPoiData: function (osmElement, layerModel) {
-        var view = new EditPoiDataColumnView({
+        let view = new EditPoiColumnView({
             'app': this._app,
             'osmElement': osmElement,
             'layerModel': layerModel,
+            'layer': layer,
         });
 
-        this.getRegion('editPoiDataColumn').show( view );
+        this.getRegion('editPoiColumn').show( view );
 
         view.open();
     },
@@ -1149,7 +1130,12 @@ export default Marionette.LayoutView.extend({
     },
 
     showContribForm: function (options) {
-        options.user = this._user;
+        if (!options) {
+            options = {'user': this._user};
+        }
+        else {
+            options.user = this._user;
+        }
 
         let view = new ContribFormColumnView( options );
 
@@ -1383,18 +1369,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickContrib: function (e) {
-        let osmNodeModel = new OsmNodeModel({
-            'type': 'node',
-            'version': 0,
-        });
-
         if ( this._presetCollection.models.length === 0 ) {
-            this.showContribForm({
-                'model': osmNodeModel
-            });
+            this.showContribForm();
         }
         else {
-            this._contribColumnView.setModel( osmNodeModel );
             this._contribColumnView.open();
         }
     },

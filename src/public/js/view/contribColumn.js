@@ -24,11 +24,6 @@ export default Marionette.LayoutView.extend({
 
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
-    },
-
-    setModel: function (model) {
-        this.model = model;
-
         this.render();
     },
 
@@ -60,7 +55,6 @@ export default Marionette.LayoutView.extend({
                         this._radio.commands,
                         'column:showContribForm',
                         {
-                            'model': this.model,
                             'presetModel': presetModels[key]
                         }
                     )
@@ -74,10 +68,7 @@ export default Marionette.LayoutView.extend({
             'label': document.l10n.getSync('contribColumn_freeAddition'),
             'callback': this._radio.commands.execute.bind(
                 this._radio.commands,
-                'column:showContribForm',
-                {
-                    'model': this.model
-                }
+                'column:showContribForm'
             )
         }]);
 

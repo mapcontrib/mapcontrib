@@ -49,6 +49,7 @@
 <logout "Se déconnecter">
 <close "Fermer">
 <save "Enregistrer">
+<validate "Valider">
 <cancel "Annuler">
 <next "Suivant">
 <previous "Précédent">
@@ -188,12 +189,13 @@
 <editPresetTagsColumn_addTag "Ajouter un tag">
 
 
-/* Edit POI data column */
-<editPoiDataColumn_title "Éditer les données">
-<editPoiDataColumn_emptyState "Actualisation des données de l'élément à modifier...">
-<editPoiDataColumn_remoteValue "Nouvelle valeur distante&nbsp;:<br>{{ $remoteValue }}">
-<editPoiDataColumn_take "Prendre">
-<editPoiDataColumn_reject "Rejeter">
+/* Edit POI column */
+<editPoiColumn_title "Éditer les données">
+<editPoiColumn_movePoi "Déplacer le nœud">
+<editPoiColumn_emptyState "Actualisation des données de l'élément à modifier...">
+<editPoiColumn_remoteValue "Nouvelle valeur distante&nbsp;:<br>{{ $remoteValue }}">
+<editPoiColumn_take "Prendre">
+<editPoiColumn_reject "Rejeter">
 
 
 /* Conflict modal */
@@ -258,12 +260,6 @@
 
 /* Move POI contextual */
 <movePoiContextual_text "Placez la croix à l'exact endroit du nœud.">
-
-
-/* Edit POI menu column */
-<editPoiMenuColumn_title "Éditer un élément">
-<editPoiMenuColumn_editTags "Éditer les données">
-<editPoiMenuColumn_movePoi "Déplacer le nœud">
 
 
 /* Add layer menu column */

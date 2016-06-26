@@ -70,13 +70,10 @@ export default Marionette.LayoutView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        this.model.set('tags', this._tagList.getTags());
-        this.model.set('timestamp', new Date().toISOString());
-
         this.close();
 
         let newPoiPlacementContextual = new NewPoiPlacementContextual({
-            'model': this.model,
+            'tags': this._tagList.getTags(),
             'user': this.options.user,
             'contribFormColumn': this,
         });

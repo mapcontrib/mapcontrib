@@ -49,6 +49,7 @@
 <logout "Log out">
 <close "Close">
 <save "Save">
+<validate "Validate">
 <cancel "Cancel">
 <next "Next">
 <previous "Previous">
@@ -189,11 +190,12 @@
 
 
 /* Edit POI data column */
-<editPoiDataColumn_title "Edit data">
-<editPoiDataColumn_emptyState "Refreshing the element data...">
-<editPoiDataColumn_remoteValue "New remote value:<br>{{ $remoteValue }}">
-<editPoiDataColumn_take "Take">
-<editPoiDataColumn_reject "Reject">
+<editPoiColumn_title "Edit data">
+<editPoiColumn_movePoi "Move the node">
+<editPoiColumn_emptyState "Refreshing the element data...">
+<editPoiColumn_remoteValue "New remote value:<br>{{ $remoteValue }}">
+<editPoiColumn_take "Take">
+<editPoiColumn_reject "Reject">
 
 
 /* Conflict modal */
@@ -259,11 +261,6 @@
 /* Move POI contextual */
 <movePoiContextual_text "Put the cross the exact node place.">
 
-
-/* Edit POI menu column */
-<editPoiMenuColumn_title "Edit an element">
-<editPoiMenuColumn_editTags "Edit the data">
-<editPoiMenuColumn_movePoi "Move the node">
 
 
 /* Add layer menu column */
