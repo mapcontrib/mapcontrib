@@ -50,6 +50,7 @@ import OsmNodeModel from '../model/osmNode';
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
 import Cache from '../core/cache';
+import OsmData from '../core/osmData';
 
 import template from '../../templates/themeRoot.ejs';
 
@@ -168,7 +169,7 @@ export default Marionette.LayoutView.extend({
         this._minDataZoom = 0;
         this._poiLoadingSpool = [];
 
-        this._osmData = {};
+        this._osmData = new OsmData();
         this._markerClusters = {};
         this._overPassLayers = {};
 
@@ -257,8 +258,7 @@ export default Marionette.LayoutView.extend({
                 this.onCommandEditPoiData( osmElement, layerModel );
             },
             'saveOsmData': (osmElement) => {
-                let osmId = `${osmElement.type}/${osmElement.id}`;
-                this._osmData[ osmId ] = osmElement;
+                this._osmData.save(osmElement);
             },
         });
 
@@ -582,21 +582,29 @@ export default Marionette.LayoutView.extend({
             'onSuccess': (data) => {
                 let i = 1;
                 let objects = {};
+                let elements = [];
 
                 for (let i in data.elements) {
                     let e = data.elements[i];
+
+                    if ( this._osmData.exists(e.type, e.id) ) {
+                        continue;
+                    }
 
                     if (Cache.exists(e.type, e.id)) {
                         if (Cache.isNewerThanCache(e.type, e.id, e.version)) {
                             Cache.remove(e.type, e.id);
                         }
                         else {
-                            data.elements[i] = Cache.get(e.type, e.id, e.version);
+                            e = Cache.get(e.type, e.id, e.version);
                         }
                     }
 
-                    this._osmData[`${e.type}/${e.id}`] = e;
+                    elements.push(e);
+                    this._osmData.save(e);
                 }
+
+                data.elements = elements;
 
                 L.geoJson(
                     osmtogeojson(data),
@@ -869,7 +877,6 @@ export default Marionette.LayoutView.extend({
         }
 
         if ( layerModel.get('type') === CONST.layerType.overpass) {
-            osmId = `${feature.properties.type}/${feature.properties.id}`;
             data = feature.properties.tags;
         }
         else {
@@ -916,7 +923,16 @@ export default Marionette.LayoutView.extend({
                 editButton.innerHTML = '<i class="fa fa-pencil"></i>';
             }
 
-            $(editButton).on('click', this.onClickEditPoi.bind(this, layer, osmId, layerModel));
+            $(editButton).on(
+                'click',
+                this.onClickEditPoi.bind(
+                    this,
+                    layer,
+                    feature.properties.type,
+                    feature.properties.id,
+                    layerModel
+                )
+            );
 
             globalWrapper.appendChild( editButton );
         }
@@ -943,8 +959,8 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    onClickEditPoi: function (layer, osmId, layerModel, e) {
-        let osmElement = this._osmData[ osmId ];
+    onClickEditPoi: function (layer, osmElementType, osmElementId, layerModel, e) {
+        let osmElement = this._osmData.get(osmElementType, osmElementId);
 
         if (osmElement.type !== 'node') {
             return this._radio.commands.execute('editPoiData', osmElement, layerModel);
