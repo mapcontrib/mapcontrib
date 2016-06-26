@@ -804,13 +804,7 @@ export default Marionette.LayoutView.extend({
                     layer._popup.setContent( popupContent );
                 }
                 else {
-                    layer.bindPopup(
-                        L.popup({
-                            'autoPanPaddingTopLeft': L.point( CONST.map.panPadding.left, CONST.map.panPadding.top ),
-                            'autoPanPaddingBottomRight': L.point( CONST.map.panPadding.right, CONST.map.panPadding.bottom ),
-                        })
-                        .setContent( popupContent )
-                    );
+                    this._bindPopupTo(layer, popupContent);
                 }
             }
             else {
