@@ -1,6 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import marked from 'marked';
 import template from '../../templates/infoGpxLayerColumn.ejs';
 import LeafletHelper from '../helper/leaflet';
 
@@ -27,6 +28,12 @@ export default Marionette.LayoutView.extend({
 
     initialize: function (options) {
         this._radio = Wreqr.radio.channel('global');
+    },
+
+    templateHelpers: function () {
+        return {
+            'description': marked( this.model.get('description') || '' ),
+        };
     },
 
     onBeforeOpen: function () {
