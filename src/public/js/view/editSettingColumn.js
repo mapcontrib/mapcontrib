@@ -21,6 +21,7 @@ export default Marionette.ItemView.extend({
         'colorButtons': '.color-buttons .btn',
         'themePositionKeepOld': '#theme_position_keep_old',
         'themePositionSetNew': '#theme_position_set_new',
+        'themePositionAutoCenter': '#theme_position_auto_center',
         'geocoderSection': '.geocoder',
         'photonSection': '.photon',
         'nominatimSection': '.nominatim',
@@ -72,6 +73,10 @@ export default Marionette.ItemView.extend({
                 }
             }
         }
+
+        if ( this.model.get('autoCenter') === true ) {
+            this.ui.themePositionAutoCenter.prop('checked', true);
+        }
     },
 
     onBeforeOpen: function () {
@@ -91,7 +96,7 @@ export default Marionette.ItemView.extend({
         e.preventDefault();
 
         const config = MAPCONTRIB.config;
-        
+
         var map = this._radio.reqres.request('map'),
         mapCenter = map.getCenter(),
         mapZoomLevel = map.getZoom(),
@@ -103,9 +108,14 @@ export default Marionette.ItemView.extend({
 
         history.pushState({}, themeName, this.model.buildPath());
 
+        this.model.set('autoCenter', false);
+
         if ( this.ui.themePositionSetNew.prop('checked') === true ) {
             this.model.set('center', mapCenter);
             this.model.set('zoomLevel', mapZoomLevel);
+        }
+        else if ( this.ui.themePositionAutoCenter.prop('checked') === true ) {
+            this.model.set('autoCenter', true);
         }
 
         if (config.availableGeocoders.length > 1) {

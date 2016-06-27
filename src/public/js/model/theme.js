@@ -38,6 +38,7 @@ export default Backbone.RelationalModel.extend({
         'color': 'blue',
         'tiles': ['osmFr'],
         'zoomLevel': 3,
+        'autoCenter': false,
         'center': {
             'lat': 33.57,
             'lng': 1.58,

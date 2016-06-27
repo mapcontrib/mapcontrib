@@ -155,6 +155,7 @@ export default Marionette.LayoutView.extend({
         this._version = this._app.getVersion();
 
         this.model = this._app.getTheme();
+
         this._layerCollection = this.model.get('layers');
         this._presetCollection = this.model.get('presets');
 
@@ -261,6 +262,7 @@ export default Marionette.LayoutView.extend({
             this.hideEditTools();
             this.updateAllLayerPopups();
         });
+
     },
 
     onRender: function () {
@@ -334,7 +336,8 @@ export default Marionette.LayoutView.extend({
     },
 
     onShow: function () {
-        var center = this.model.get('center'),
+        let center = this.model.get('center'),
+        autoCenter = this.model.get('autoCenter'),
         zoomLevel = this.model.get('zoomLevel'),
         hiddenLayers = [],
         storageMapState = localStorage.getItem('mapState-'+ this.model.get('fragment'));
@@ -426,6 +429,10 @@ export default Marionette.LayoutView.extend({
 
 
         this._geolocation = new Geolocation(this._map);
+
+        if ( autoCenter ) {
+            this.onClickLocate();
+        }
     },
 
     setTileLayer: function (id) {
