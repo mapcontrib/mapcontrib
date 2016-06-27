@@ -32,6 +32,8 @@ export default Backbone.RelationalModel.extend({
     ],
 
     defaults: {
+        'creationTimestamp': new Date().toISOString(),
+        'modificationTimestamp': new Date().toISOString(),
         'userId': undefined,
         'name': 'MapContrib',
         'description': '',
