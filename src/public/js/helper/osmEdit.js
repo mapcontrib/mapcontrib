@@ -420,9 +420,9 @@ export default class OsmEdit{
         osmElement = xml.createElement('osm'),
         parentElement = xml.createElement(this._element.type);
 
-        parentElement.setAttribute('changeset', changesetId);
-
         delete this._element.attributes.user;
+
+        this._element.attributes.changeset = changesetId;
 
         for (let key in this._element.attributes) {
             parentElement.setAttribute(key, this._element.attributes[key]);
