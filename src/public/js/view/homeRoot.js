@@ -33,11 +33,8 @@ export default Marionette.LayoutView.extend({
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
         this._searchTimeout = null;
-        this.collection = new ThemeCollection();
 
-        if (MAPCONTRIB.highlightList) {
-            this.collection.add(MAPCONTRIB.highlightList);
-        }
+        this.resetThemeCollection();
     },
 
     onRender: function () {
@@ -46,6 +43,8 @@ export default Marionette.LayoutView.extend({
                 'collection': this.collection
             })
         );
+
+        this.ui.searchInput.focus();
     },
 
     onClickCreateTheme: function (e) {
@@ -70,7 +69,7 @@ export default Marionette.LayoutView.extend({
         let searchString = this.ui.searchInput.val();
 
         if (!searchString) {
-            this.collection.reset(MAPCONTRIB.highlightList);
+            this.resetThemeCollection();
         }
         else {
             this.collection.fetch({
@@ -82,6 +81,16 @@ export default Marionette.LayoutView.extend({
                 }
             });
         }
+    },
+
+    resetThemeCollection: function () {
+        this.collection = new ThemeCollection();
+
+        if (MAPCONTRIB.highlightList) {
+            this.collection.add(MAPCONTRIB.highlightList);
+        }
+
+        this.render();
     },
 
     displayLoginModal: function () {
