@@ -711,7 +711,6 @@ export default Marionette.LayoutView.extend({
         const style = MapUi.buildLayerPolylineStyle( layerModel );
 
         for (let i in objects) {
-            let tags;
             let object = objects[i];
             let popupContent = this._buildLayerPopupContent(
                 object,
