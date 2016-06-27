@@ -9,8 +9,9 @@
 * The contribution button as now a pencil as icon.
 * There is now another pencil icon in popups and its display is more convenient.
 * It is now possible to move a POI (only node ones).
-* New type of layers, based on GPX and CSV files are added.
-* There is a new layer information column. It displays OverPass requests, original shape files and a button to download GeoJSON data.
+* New type of layers, based on GPX, CSV and GeoJSON files are added.
+* There is a new layer information column. It displays OverPass requests, original data files and a button to download GeoJSON data.
+* It is now possible to automatically center the theme on the user geolocation .
 * And as always, multiple bufixes and enhancement.
 
 ## 0.8.6
