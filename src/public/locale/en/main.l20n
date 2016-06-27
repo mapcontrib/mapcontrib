@@ -124,7 +124,7 @@
 <editSettingColumn_position "Location">
 <editSettingColumn_keepOld "Keep old parameters">
 <editSettingColumn_setNew "Set the new ones">
-<editSettingColumn_autoCenter "User current localisation">
+<editSettingColumn_autoCenter "User current location">
 <editSettingColumn_geocoder "Geocoder">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">
