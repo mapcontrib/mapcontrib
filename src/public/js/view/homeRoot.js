@@ -70,17 +70,18 @@ export default Marionette.LayoutView.extend({
         let searchString = this.ui.searchInput.val();
 
         if (!searchString) {
-            return false;
+            this.collection.reset(MAPCONTRIB.highlightList);
         }
-
-        this.collection.fetch({
-            'reset': true,
-            'merge': false,
-            'data': {
-                'q': searchString,
-                'hasLayer': true
-            }
-        });
+        else {
+            this.collection.fetch({
+                'reset': true,
+                'merge': false,
+                'data': {
+                    'q': searchString,
+                    'hasLayer': true
+                }
+            });
+        }
     },
 
     displayLoginModal: function () {
