@@ -32,6 +32,8 @@ client:
     newPoiMarkerIcon: star
     newPoiMarkerColor: yellow
 
+    highlightedThemes:
+
     defaultGeocoder: photon
     availableGeocoders:
         - photon
