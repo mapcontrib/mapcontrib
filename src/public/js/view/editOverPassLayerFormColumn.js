@@ -59,6 +59,16 @@ export default Marionette.ItemView.extend({
         this.onChangedMapZoom();
     },
 
+    onShow: function () {
+        $('.info_cache_btn').popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'title': document.l10n.getSync('editLayerFormColumn_cachePopoverTitle'),
+            'content': document.l10n.getSync('editLayerFormColumn_cachePopoverContent'),
+        });
+    },
+
     onDestroy: function () {
         this._radio.vent.off('map:zoomChanged');
     },

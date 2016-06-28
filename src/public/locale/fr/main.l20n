@@ -159,6 +159,11 @@
 <editLayerFormColumn_csvDisclaimer "Il doit contenir les latitude et longitude, dans des colonnes nommées <em>latitude</em> et <em>longitude</em>">
 <editLayerFormColumn_geoJsonFile "Fichier GeoJSON">
 <editLayerFormColumn_browse "Parcourir">
+<editLayerFormColumn_cache "Système de cache">
+<editLayerFormColumn_cacheDescription "Il se substitue aux requêtes OverPass en temps réél.">
+<editLayerFormColumn_enableCache "Activer le cache">
+<editLayerFormColumn_cachePopoverTitle "Limitations">
+<editLayerFormColumn_cachePopoverContent "Les informations sont mises à jour quotidiennement à condition que la requête ne mette pas plus de 3 minutes et que le fichier final ne fasse pas plus d'1 Mo.">
 
 
 /* Edit layer marker modal */

@@ -61,6 +61,18 @@
                         <textarea rows="7" spellcheck="false" class="form-control font-monospace" id="layer_overpass_request"><%- overpassRequest %></textarea>
                     </div>
 
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="editLayerFormColumn_cache"></label>
+                        <button type="button" role="button" class="info_cache_btn pull-right">
+                            <i class="fa fa-info-circle fa-lg"></i>
+                        </button>
+                        <p data-l10n-id="editLayerFormColumn_cacheDescription"></p>
+                        <div class="checkbox">
+                            <input type="checkbox" id="layer_cache" value="1" checked>
+                            <label for="layer_cache" data-l10n-id="editLayerFormColumn_enableCache"></label>
+                        </div>
+                    </div>
+
                     <div class="form-group sticky-footer">
                         <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>
                         <button type="submit" class="btn btn-primary pull-right" data-l10n-id="save"></button>
