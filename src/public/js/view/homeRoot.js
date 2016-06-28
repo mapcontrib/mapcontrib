@@ -19,7 +19,6 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
-        'loginModal': '#rg_login_modal',
         'searchResults': '#rg_search_results',
     },
 
@@ -94,11 +93,9 @@ export default Marionette.LayoutView.extend({
     },
 
     displayLoginModal: function () {
-        let loginModalView = new LoginModalView({
+        new LoginModalView({
             'authSuccessCallback': '/create_theme',
             'authFailCallback': '/'
-        });
-
-        this.getRegion('loginModal').show( loginModalView );
+        }).open();
     }
 });

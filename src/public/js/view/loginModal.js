@@ -9,7 +9,9 @@ export default Marionette.LayoutView.extend({
 
     behaviors: {
         'l20n': {},
-        'modal': {},
+        'modal': {
+            'appendToBody': true
+        },
     },
 
     ui: {
@@ -30,6 +32,10 @@ export default Marionette.LayoutView.extend({
     onBeforeOpen: function () {
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
+    },
+
+    open: function () {
+        this.triggerMethod('open');
     },
 
     close: function () {

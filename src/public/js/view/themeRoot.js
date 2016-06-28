@@ -14,12 +14,12 @@ import marked from 'marked';
 import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
 import ThemeTitleView from './themeTitle';
-import LoginModalView from './loginModal';
 import ConflictModalView from './conflictModal';
 import GeocodeWidgetView from './geocodeWidget';
 import SelectLayerColumnView from './selectLayerColumn';
 import SelectTileColumnView from './selectTileColumn';
 import UserColumnView from './userColumn';
+import VisitorColumnView from './visitorColumn';
 import LinkColumnView from './linkColumn';
 import ContribColumnView from './contribColumn';
 import ContribFormColumnView from './contribFormColumn';
@@ -76,7 +76,6 @@ export default Marionette.LayoutView.extend({
         'controlTileButton': '#control_toolbar .tile_btn',
 
         'userToolbar': '#user_toolbar',
-        'loginButton': '#user_toolbar .login_btn',
         'userButton': '#user_toolbar .user_btn',
         'linkButton': '#user_toolbar .link_btn',
         'contribButton': '#user_toolbar .contrib_btn',
@@ -98,7 +97,6 @@ export default Marionette.LayoutView.extend({
     regions: {
         'mainTitle': '#rg_main_title',
 
-        'loginModal': '#rg_login_modal',
         'conflictModal': '#rg_conflict_modal',
 
         'geocodeWidget': '#rg_geocode_widget',
@@ -106,6 +104,7 @@ export default Marionette.LayoutView.extend({
         'selectLayerColumn': '#rg_select_layer_column',
         'selectTileColumn': '#rg_select_tile_column',
         'userColumn': '#rg_user_column',
+        'visitorColumn': '#rg_visitor_column',
         'linkColumn': '#rg_link_column',
         'contribColumn': '#rg_contrib_column',
         'contribFormColumn': '#rg_contrib_form_column',
@@ -136,7 +135,6 @@ export default Marionette.LayoutView.extend({
         'click @ui.helpButton': 'onClickHelp',
         'click @ui.helpCloseButton': 'onClickHelpClose',
 
-        'click @ui.loginButton': 'onClickLogin',
         'click @ui.userButton': 'onClickUser',
         'click @ui.linkButton': 'onClickLink',
         'click @ui.contribButton': 'onClickContrib',
@@ -258,7 +256,7 @@ export default Marionette.LayoutView.extend({
         });
 
         this._radio.vent.on('session:unlogged', () => {
-            this.renderUserButtonNotLogged();
+            this.renderUserButton();
             this.hideContribButton();
             this.hideEditTools();
             this.updateAllLayerPopups();
@@ -267,8 +265,9 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
+        this.renderUserButton();
+
         if ( this._app.isLogged() ) {
-            this.renderUserButtonLogged();
             this.showContribButton();
 
             if ( this.model.isOwner(this._user) === true ) {
@@ -276,7 +275,6 @@ export default Marionette.LayoutView.extend({
             }
         }
         else {
-            this.renderUserButtonNotLogged();
             this.hideContribButton();
             this.hideEditTools();
         }
@@ -286,6 +284,7 @@ export default Marionette.LayoutView.extend({
         this._selectLayerColumnView = new SelectLayerColumnView({ 'model': this.model });
         this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
         this._userColumnView = new UserColumnView();
+        this._visitorColumnView = new VisitorColumnView({ 'theme': this.model });
         this._linkColumnView = new LinkColumnView({ 'model': this.model });
         this._contribColumnView = new ContribColumnView({ 'theme': this.model });
         this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
@@ -303,6 +302,7 @@ export default Marionette.LayoutView.extend({
         this.getRegion('selectLayerColumn').show( this._selectLayerColumnView );
         this.getRegion('selectTileColumn').show( this._selectTileColumnView );
         this.getRegion('userColumn').show( this._userColumnView );
+        this.getRegion('visitorColumn').show( this._visitorColumnView );
         this.getRegion('linkColumn').show( this._linkColumnView );
         this.getRegion('contribColumn').show( this._contribColumnView );
         this.getRegion('editSettingColumn').show( this._editSettingColumnView );
@@ -972,40 +972,38 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    renderUserButtonLogged: function () {
-        var avatar = this._user.get('avatar'),
-        letters = this._user.get('displayName')
-        .toUpperCase()
-        .split(' ')
-        .splice(0, 3)
-        .map(function (name) {
-            return name[0];
-        })
-        .join('');
-
-        if (letters.length > 3) {
-            letters = letters[0];
-        }
-
-
-        if (avatar) {
-            this.ui.userButton
-            .addClass('avatar')
-            .html('<img src="'+ avatar +'" alt="'+ letters +'">');
-        }
-        else {
+    renderUserButton: function () {
+        if ( !this._app.isLogged() ) {
             this.ui.userButton
             .removeClass('avatar')
-            .html(letters);
+            .html('<i class="icon ion-happy-outline"></i>');
         }
+        else {
+            let avatar = this._user.get('avatar'),
+            letters = this._user.get('displayName')
+            .toUpperCase()
+            .split(' ')
+            .splice(0, 3)
+            .map(function (name) {
+                return name[0];
+            })
+            .join('');
 
-        this.ui.loginButton.addClass('hide');
-        this.ui.userButton.removeClass('hide');
-    },
+            if (letters.length > 3) {
+                letters = letters[0];
+            }
 
-    renderUserButtonNotLogged: function () {
-        this.ui.loginButton.removeClass('hide');
-        this.ui.userButton.addClass('hide');
+            if (avatar) {
+                this.ui.userButton
+                .addClass('avatar')
+                .html('<img src="'+ avatar +'" alt="'+ letters +'">');
+            }
+            else {
+                this.ui.userButton
+                .removeClass('avatar')
+                .html(letters);
+            }
+        }
     },
 
     showContribButton: function () {
@@ -1354,21 +1352,13 @@ export default Marionette.LayoutView.extend({
         this.closeHelp();
     },
 
-    onClickLogin: function () {
-        // FIXME To have a real fail callback
-        let authSuccessCallback = this.model.buildPath();
-        let authFailCallback = this.model.buildPath();
-
-        this._loginModalView = new LoginModalView({
-            'authSuccessCallback': authSuccessCallback,
-            'authFailCallback': authFailCallback
-        });
-
-        this.getRegion('loginModal').show( this._loginModalView );
-    },
-
     onClickUser: function () {
-        this._userColumnView.open();
+        if ( this._app.isLogged() ) {
+            this._userColumnView.open();
+        }
+        else {
+            this._visitorColumnView.open();
+        }
     },
 
     onClickLink: function () {

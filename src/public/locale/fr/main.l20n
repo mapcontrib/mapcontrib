@@ -98,6 +98,10 @@
 <userColumn_title "Mon compte">
 
 
+/* Visitor column */
+<visitorColumn_title "Salut !">
+
+
 /* Contribution column */
 <contribColumn_title "Ajouter un nœud">
 <contribColumn_description "Sélectionnez un type de nœud">

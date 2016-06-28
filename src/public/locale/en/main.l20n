@@ -98,6 +98,10 @@
 <userColumn_title "My account">
 
 
+/* Visitor column */
+<visitorColumn_title "Hi!">
+
+
 /* Contribution column */
 <contribColumn_title "Add a node">
 <contribColumn_description "Choose a type of node">
