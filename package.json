@@ -23,6 +23,7 @@
   "scripts": {
     "init": "cd src; babel-node init.js",
     "start": "cd src; babel-node server.js",
+    "debug": "cd src; babel-node debug server.js",
     "startFromDocker": "cd src; babel-node server.js",
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",

@@ -26,3 +26,15 @@ Don't forget to run the Webpack based watcher by typing this command:
 You can run the tests by runnning:
 
     $ npm test
+
+You can also debug your developments by using
+
+    $ npm run debug
+    $ # To start the Node.js debugger
+
+Or
+
+    $ DEBUG=* npm start
+    $ # Works with Docker Compose too
+
+See [that great article](https://blog.risingstack.com/node-hero-node-js-debugging-tutorial) for more informations about debugging.

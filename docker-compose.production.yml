@@ -11,6 +11,7 @@ node:
     restart: always
     environment:
         - NODE_CONFIG={"mongodb":{"host":"mongo"}}
+        - DEBUG
     expose:
         - "8080"
     links:
