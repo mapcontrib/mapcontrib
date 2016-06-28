@@ -115,7 +115,8 @@ export default Marionette.ItemView.extend({
             this.model.set('center', mapCenter);
             this.model.set('zoomLevel', mapZoomLevel);
         }
-        else if ( this.ui.themePositionAutoCenter.prop('checked') === true ) {
+
+        if ( this.ui.themePositionAutoCenter.prop('checked') === true ) {
             this.model.set('autoCenter', true);
         }
 

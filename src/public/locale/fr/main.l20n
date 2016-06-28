@@ -122,9 +122,10 @@
 <editSettingColumn_themeDescription "Description">
 <editSettingColumn_color "Couleur">
 <editSettingColumn_position "Positionnement">
+<editSettingColumn_geolocation "Géolocalisation">
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
-<editSettingColumn_autoCenter "Localisation de l'utilisateur">
+<editSettingColumn_autoGeolocateUser "Géolocaliser automatiquement l'utilisateur">
 <editSettingColumn_geocoder "Géocodeur">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">
