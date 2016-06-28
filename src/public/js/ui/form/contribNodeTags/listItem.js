@@ -41,15 +41,23 @@ export default Marionette.ItemView.extend({
         if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
             this.ui.removeBtn.prop('disabled', 'disabled');
         }
+
+        this.renderTagInfo();
+    },
+
+    renderTagInfo: function () {
+        const key = this.ui.key.val().trim();
+        const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
+
+        this.ui.infoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
     },
 
     updateKey: function (e) {
         const key = this.ui.key.val().trim();
-        const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
 
         this.model.set( 'key', key );
 
-        this.ui.infoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
+        this.renderTagInfo();
     },
 
     updateValue: function (e) {
