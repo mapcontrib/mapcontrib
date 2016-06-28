@@ -11,6 +11,7 @@ export default Marionette.ItemView.extend({
         'value': '.value',
         'keyReadOnly': '.keyReadOnly',
         'valueReadOnly': '.valueReadOnly',
+        'infoBtn': '.info_btn',
         'removeBtn': '.remove_btn',
     },
 
@@ -50,10 +51,11 @@ export default Marionette.ItemView.extend({
     },
 
     updateKey: function (e) {
-        this.model.set(
-            'key',
-            this.ui.key.val().trim()
-        );
+        const key = this.ui.key.val().trim();
+
+        this.model.set( 'key', key );
+
+        this.ui.infoBtn.attr('href', `http://taginfo.openstreetmap.fr/keys/${key}`);
     },
 
     updateValue: function (e) {
