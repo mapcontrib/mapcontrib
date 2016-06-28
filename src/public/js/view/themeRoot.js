@@ -569,9 +569,9 @@ export default Marionette.LayoutView.extend({
 
         let overPassLayer = new OverPassLayer({
             'debug': this._config.debug,
-            'endPoint': this._config.overpassServer,
+            'endPoint': this._config.overPassEndPoint,
             'minZoom': layerModel.get('minZoom'),
-            'timeout': this._config.overpassTimeout,
+            'timeout': this._config.overPassTimeout,
             'retryOnTimeout': true,
             'query': overpassRequest,
             'beforeRequest': () => {

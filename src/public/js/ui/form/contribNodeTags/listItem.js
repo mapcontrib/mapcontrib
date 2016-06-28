@@ -45,11 +45,11 @@ export default Marionette.ItemView.extend({
 
     updateKey: function (e) {
         const key = this.ui.key.val().trim();
-        const taginfoServiceUrl = MAPCONTRIB.config.taginfoServiceUrl;
+        const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
 
         this.model.set( 'key', key );
 
-        this.ui.infoBtn.attr('href', `${taginfoServiceUrl}/keys/${key}`);
+        this.ui.infoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
     },
 
     updateValue: function (e) {
