@@ -111,9 +111,9 @@ export default Marionette.LayoutView.extend({
 
             for (let result of results) {
                 elements.push(
-                    $( this.templateResultItem({
-                        'name': this._buildGeocodeResultName(result),
-                    }))
+                    $( this.templateResultItem(
+                        this._buildGeocodeResultName(result)
+                    ))
                     .on('click', this.onGeocodeResultClick.bind(this, result))
                 );
 
@@ -136,25 +136,34 @@ export default Marionette.LayoutView.extend({
     },
 
     _buildGeocodeResultName: function (result) {
+        let details = [];
+
         switch ( this.model.get('geocoder') ) {
             case CONST.geocoder.nominatim:
-                return result.name;
+                let splittedResult = result.name.split(', ');
+
+                return {
+                    'name': splittedResult.shift(),
+                    'detail': splittedResult.join(', ')
+                };
 
             case CONST.geocoder.photon:
-                let infos = [ result.properties.name ];
+                if (result.properties.city) {
+                    details.push( result.properties.city );
+                }
 
                 if (result.properties.country) {
-                    infos.push( result.properties.country );
+                    details.push( result.properties.country );
                 }
 
                 if (result.properties.state) {
-                    infos.push( result.properties.state );
+                    details.push( result.properties.state );
                 }
 
-                return infos.join(', ');
-
-            default:
-                return result.name;
+                return {
+                    'name': result.properties.name,
+                    'detail': details.join(', ')
+                };
         }
     },
 

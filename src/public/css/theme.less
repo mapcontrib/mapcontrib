@@ -403,7 +403,7 @@ html, body {
 
 
 @geocodeWidgetTop: @titleHeight + (@toolbarBtnSize * 2) + @bootstrapMoreTinyAppend;
-@geocodeResultItemHeight: 46px;
+@geocodeResultItemHeight: 58px;
 
 #geocode_widget {
     position: fixed;
@@ -441,6 +441,15 @@ html, body {
             text-overflow: ellipsis;
             white-space: nowrap;
 
+            .list-group-item-heading {
+                font-size: 14px;
+            }
+
+            &.active .list-group-item-text,
+            .list-group-item-text {
+                color: #aaa;
+                font-style: italic;
+            }
 
             &.active {
                 background: @gray;
