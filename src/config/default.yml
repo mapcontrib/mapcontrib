@@ -20,6 +20,8 @@ client:
     overpassServer: http://overpass-api.de/api/
     overpassTimeout: 120000 # Milliseconds
 
+    taginfoServiceUrl: https://taginfo.openstreetmap.org
+
     largeScreenMinWidth: 400
     largeScreenMinHeight: 500
 

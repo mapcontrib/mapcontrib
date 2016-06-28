@@ -52,10 +52,11 @@ export default Marionette.ItemView.extend({
 
     updateKey: function (e) {
         const key = this.ui.key.val().trim();
+        const taginfoServiceUrl = MAPCONTRIB.config.taginfoServiceUrl;
 
         this.model.set( 'key', key );
 
-        this.ui.infoBtn.attr('href', `http://taginfo.openstreetmap.fr/keys/${key}`);
+        this.ui.infoBtn.attr('href', `${taginfoServiceUrl}/keys/${key}`);
     },
 
     updateValue: function (e) {

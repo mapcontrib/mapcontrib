@@ -13,6 +13,7 @@
 * There is a new layer information column. It displays OverPass requests, original data files and a button to download GeoJSON data.
 * It is now possible to automatically center the theme on the user geolocation.
 * The home page search results revert to highlighted themes when the search input is empty.
+* The info button on contribution and preset fields is now active and send the user to the taginfo service.
 * And as always, multiple bufixes and enhancement.
 
 ## 0.8.6
