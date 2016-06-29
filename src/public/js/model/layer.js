@@ -31,6 +31,8 @@ export default Backbone.RelationalModel.extend({
 
         // Overpass type specific
         'overpassRequest': undefined,
+        'cache': false,
+        'cacheUpdateTimestamp': undefined,
     },
 
     initialize: function () {
