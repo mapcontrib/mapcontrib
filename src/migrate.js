@@ -1,19 +1,9 @@
 
 import { ObjectID } from 'mongodb';
+import logger from './lib/logger';
+import throwError from './lib/throwError';
+import dummyPromiseCallback from './lib/dummyPromiseCallback';
 
-
-function onCatch (err) {
-    throw err;
-}
-
-function dummyPromiseCallback (resolve, reject, err) {
-    if (err) {
-        reject(err);
-        throw err;
-    }
-
-    resolve();
-}
 
 
 export default class Migrate {
@@ -24,7 +14,7 @@ export default class Migrate {
 
     start () {
         return this._mergeLayersInThemes()
-        .then( this._mergePresetsInThemes.bind(this), onCatch);
+        .then( this._mergePresetsInThemes.bind(this), throwError);
     }
 
     _mergeLayersInThemes () {
