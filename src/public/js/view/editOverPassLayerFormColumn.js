@@ -30,6 +30,7 @@ export default Marionette.ItemView.extend({
         'markerWrapper': '.marker-wrapper',
         'editMarkerButton': '.edit_marker_btn',
         'currentMapZoom': '.current_map_zoom',
+        'cacheSection': '.cache_section',
     },
 
     events: {
@@ -57,6 +58,10 @@ export default Marionette.ItemView.extend({
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
         this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
         this.ui.layerCache.prop('checked', this.model.get('cache'));
+
+        if ( MAPCONTRIB.config.overPassCacheEnabled === true ) {
+            this.ui.cacheSection.removeClass('hide');
+        }
 
         this.onChangedMapZoom();
     },
