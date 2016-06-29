@@ -77,19 +77,20 @@ export default Marionette.LayoutView.extend({
         }
 
         switch ( e.keyCode ) {
+            case 27:
+                this.close();
+                break;
+
             case 40: // Down arrow
             case 9: // Tab
-
                 this.activeNextResult();
                 break;
 
             case 38: // Up arrow
-
                 this.activePreviousResult();
                 break;
 
             case 13: // Enter
-
                 this.visitResult();
                 break;
         }
