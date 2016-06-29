@@ -25,10 +25,12 @@ export default Marionette.ItemView.extend({
         'layerMinZoom': '#layer_min_zoom',
         'layerOverpassRequest': '#layer_overpass_request',
         'layerPopupContent': '#layer_popup_content',
+        'layerCache': '#layer_cache',
 
         'markerWrapper': '.marker-wrapper',
         'editMarkerButton': '.edit_marker_btn',
         'currentMapZoom': '.current_map_zoom',
+        'cacheSection': '.cache_section',
     },
 
     events: {
@@ -55,8 +57,23 @@ export default Marionette.ItemView.extend({
     onRender: function () {
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
         this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
+        this.ui.layerCache.prop('checked', this.model.get('cache'));
+
+        if ( MAPCONTRIB.config.overPassCacheEnabled === true ) {
+            this.ui.cacheSection.removeClass('hide');
+        }
 
         this.onChangedMapZoom();
+    },
+
+    onShow: function () {
+        $('.info_cache_btn').popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'title': document.l10n.getSync('editLayerFormColumn_cachePopoverTitle'),
+            'content': document.l10n.getSync('editLayerFormColumn_cachePopoverContent'),
+        });
     },
 
     onDestroy: function () {
@@ -114,6 +131,7 @@ export default Marionette.ItemView.extend({
         this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
         this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
+        this.model.set('cache', this.ui.layerCache.prop('checked'));
 
         if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
             updateMinZoom = true;

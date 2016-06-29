@@ -6,7 +6,7 @@ import mkdirp from 'mkdirp';
 import ejs from 'ejs';
 import express from 'express';
 import compression from 'compression';
-import logger from 'morgan';
+import morgan from 'morgan';
 import multer from 'multer';
 import methodOverride from 'method-override';
 import session from 'express-session';
@@ -20,6 +20,8 @@ import SERVER_CONST from './const';
 import PUBLIC_CONST from './public/js/const';
 import packageJson from '../package.json';
 import config from 'config';
+import logger from './lib/logger';
+import throwError from './lib/throwError';
 import Database from './database';
 import Migrate from './migrate';
 import Api from './api';
@@ -66,7 +68,7 @@ app.use(session({
 }));
 
 app.set('port', config.get('server.port'));
-app.use(logger('dev'));
+app.use(morgan('dev'));
 app.use(methodOverride());
 
 if (app.get('env') !== 'production') {
@@ -90,13 +92,8 @@ database.connect((err, db) => {
         new Passport(app, db, config);
         new Api(app, db, CONST, packageJson);
     })
-    .catch(err => { throw err; });
+    .catch(throwError);
 });
-
-
-
-
-
 
 
 
@@ -109,5 +106,5 @@ app.get('/theme-s8c2d4', (req, res) => {
 let port = app.get('port');
 
 app.listen(port, () => {
-    console.log(`MapContrib ${packageJson.version} is up on the port ${port}`);
+    logger.info(`MapContrib ${packageJson.version} is up on the port ${port}`);
 });

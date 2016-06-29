@@ -1,6 +1,10 @@
 
-import readline from 'readline';
+import _ from 'underscore';
+import inquirer from 'inquirer';
 import { ObjectID } from 'mongodb';
+import logger from './lib/logger';
+import throwError from './lib/throwError';
+import dummyPromiseCallback from './lib/dummyPromiseCallback';
 import SERVER_CONST from './const';
 import PUBLIC_CONST from './public/js/const';
 import Database from './database';
@@ -9,19 +13,23 @@ const CONST = _.extend(SERVER_CONST, PUBLIC_CONST);
 
 
 
-const rl = readline.createInterface({
-  'input': process.stdin,
-  'output': process.stdout
-});
-
-console.log(`/!\\ WARNING /!\\`);
+logger.info(`/!\\ WARNING /!\\`);
+logger.info();
+logger.info(`The MapContrib's database will be completely erased!`);
 console.log();
-console.log(`The MapContrib's database will be completely erased!`);
 
-rl.question(`Are you sure you want to do it? (yes/[no]) `, (answer) => {
+
+const questions = [{
+    type: 'confirm',
+    name: 'areYouSure',
+    message: `Are you sure you want to do it?`,
+    default: false
+}];
+
+inquirer.prompt( questions ).then(answers => {
     console.log();
 
-    if (answer === 'yes') {
+    if (answers.areYouSure === true) {
         let database = new Database();
 
         database.connect((err, db) => {
@@ -29,41 +37,23 @@ rl.question(`Are you sure you want to do it? (yes/[no]) `, (answer) => {
 
             let init = new Init(db);
 
-            console.log(`Initialization started`);
+            logger.info(`Initialization started`);
 
             init.cleanDatabase()
-            .then( init.fillDatabase.bind(init), onCatch)
-            .then( init.createIndexes.bind(init), onCatch)
+            .then( init.fillDatabase.bind(init), throwError)
+            .then( init.createIndexes.bind(init), throwError)
             .then(() => {
-                console.log(`Initialization finished`);
+                logger.info(`Initialization finished`);
                 db.close();
             })
-            .catch(onCatch);
+            .catch(throwError);
         });
     }
     else {
-        console.log(`Initialization aborted`);
+        logger.info(`Initialization aborted`);
     }
-
-    rl.close();
 });
 
-
-
-
-
-function onCatch (err) {
-    throw err;
-}
-
-function dummyPromiseCallback (resolve, reject, err) {
-    if (err) {
-        reject(err);
-        throw err;
-    }
-
-    resolve();
-}
 
 
 class Init {
@@ -89,7 +79,7 @@ class Init {
 
         return Promise.all(dropPromises)
         .then(() => {
-            console.log(`Database cleaned`);
+            logger.info(`Database cleaned`);
         })
         .catch(err => {
             throw err;
@@ -170,7 +160,7 @@ class Init {
 
         return Promise.all(insertPromises)
         .then(() => {
-            console.log(`Database fulfilled`);
+            logger.info(`Database fulfilled`);
         })
         .catch(err => {
             throw err;
@@ -197,7 +187,7 @@ class Init {
 
         return Promise.all(indexesPromises)
         .then(() => {
-            console.log(`Collections' indexes created`);
+            logger.info(`Collections' indexes created`);
         })
         .catch(err => {
             throw err;
