@@ -14,6 +14,7 @@
 * It is now possible to automatically center the theme on the user geolocation.
 * The home page search results revert to highlighted themes when the search input is empty.
 * The info button on contribution and preset fields is now active and send the user to the taginfo service.
+* The geocoder search results provide more informations and are prettier.
 * And as always, multiple bufixes and enhancement.
 
 ## 0.8.6
