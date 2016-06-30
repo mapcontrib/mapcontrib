@@ -300,41 +300,48 @@ export default class OsmEdit{
 
                     this.setType( parentElement.tagName );
 
-                    const attributes = parentElement.getAttributeNames();
-                    for (let key of attributes) {
-                        this._element.attributes[key] = parentElement.getAttribute(key);
+                    for (let i = 0; i < parentElement.attributes.length; i++){
+                        let att = parentElement.attributes[i];
+                        this._element.attributes[att.nodeName] = att.nodeValue;
                     }
 
+
                     if (tagElements.length > 0) {
-                        for (let tagElement of tagElements) {
-                            this._element.tags.push({
-                                'k': tagElement.getAttribute('k'),
-                                'v': tagElement.getAttribute('v'),
-                            });
+                        for (let i in tagElements) {
+                            if (tagElements.hasOwnProperty(i)) {
+                                this._element.tags.push({
+                                    'k': tagElements[i].getAttribute('k'),
+                                    'v': tagElements[i].getAttribute('v'),
+                                });
+                            }
                         }
                     }
 
                     if (ndElements.length > 0) {
-                        for (let ndElement of ndElements) {
-                            this._element.nds.push({
-                                'ref': ndElement.getAttribute('ref'),
-                            });
+                        for (let i in ndElements) {
+                            if (ndElements.hasOwnProperty(i)) {
+                                this._element.nds.push({
+                                    'ref': ndElements[i].getAttribute('ref'),
+                                });
+                            }
                         }
                     }
 
                     if (memberElements.length > 0) {
-                        for (let memberElement of memberElements) {
-                            const role = memberElement.getAttribute('role');
-                            let data = {
-                                'type': memberElement.getAttribute('type'),
-                                'ref': memberElement.getAttribute('ref'),
-                            };
+                        for (let i in memberElements) {
+                            if (memberElements.hasOwnProperty(i)) {
+                                const role = memberElements[i].getAttribute('role');
+                                let data = {
+                                    'type': memberElements[i].getAttribute('type'),
+                                    'ref': memberElements[i].getAttribute('ref'),
+                                };
 
-                            if (role) {
-                                data.role = role;
+                                if (role) {
+                                    data.role = role;
+                                }
+
+                                this._element.members.push(data);
                             }
-
-                            this._element.members.push(data);
                         }
                     }
 
