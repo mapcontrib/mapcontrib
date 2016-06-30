@@ -27,7 +27,8 @@
     "startFromDocker": "cd src; babel-node server.js",
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
-    "test": "mocha --recursive --inline-diffs --compilers js:babel-core/register"
+    "test": "mocha --recursive --inline-diffs --compilers js:babel-core/register",
+    "updateOverPassCache": "cd src; babel-node cron/updateOverPassCache.js"
   },
   "devDependencies": {
     "awesome-bootstrap-checkbox": "^0.3.7",
@@ -107,7 +108,8 @@
     "passport-openstreetmap": "^0.1.2",
     "serve-static": "^1.9.2",
     "sifter": "^0.5.1",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "private": true
 }

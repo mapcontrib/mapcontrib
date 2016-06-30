@@ -49,6 +49,7 @@ import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
 import Cache from '../core/cache';
 import OsmData from '../core/osmData';
+import OverPassHelper from '../helper/overPass';
 
 import template from '../../templates/themeRoot.ejs';
 
@@ -535,37 +536,9 @@ export default Marionette.LayoutView.extend({
         let markerCluster = this._buildMarkerCluster(layerModel);
         this._markerClusters[ layerModel.cid ] = markerCluster;
 
-        let split,
-        overpassRequest = '',
-        originalOverpassRequest = layerModel.get('overpassRequest') || '',
-        overpassRequestSplit = originalOverpassRequest.split(';');
-
-        overpassRequestSplit.forEach(function (row) {
-            if ( !row.toLowerCase().trim() ) {
-                return;
-            }
-
-            split = row.toLowerCase().trim().split(' ');
-
-            if ( split[0] !== 'out' || split.indexOf('skel') !== -1 || split.indexOf('ids_only') !== -1 ) {
-                overpassRequest += row + ';';
-                return;
-            }
-
-            if ( split.indexOf('body') !== -1 ) {
-                delete split[ split.indexOf('body') ];
-            }
-
-            if ( split.indexOf('center') === -1 ) {
-                split.push('center');
-            }
-
-            if ( split.indexOf('meta') === -1 ) {
-                split.push('meta');
-            }
-
-            overpassRequest += split.join(' ') + ';';
-        });
+        const overPassRequest = OverPassHelper.buildRequestForTheme(
+            layerModel.get('overpassRequest') || ''
+        );
 
         let overPassLayer = new OverPassLayer({
             'debug': this._config.debug,
@@ -573,7 +546,7 @@ export default Marionette.LayoutView.extend({
             'minZoom': layerModel.get('minZoom'),
             'timeout': this._config.overPassTimeout,
             'retryOnTimeout': true,
-            'query': overpassRequest,
+            'query': overPassRequest,
             'beforeRequest': () => {
                 this.showLayerLoadingProgress( layerModel );
             },

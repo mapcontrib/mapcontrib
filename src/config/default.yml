@@ -21,6 +21,7 @@ client:
     overPassEndPoint: http://overpass-api.de/api/
     overPassTimeout: 120000 # Milliseconds
     overPassCacheEnabled: true
+    overPassCacheFileSize: 1048576
 
     taginfoServiceHost: https://taginfo.openstreetmap.org/
 
