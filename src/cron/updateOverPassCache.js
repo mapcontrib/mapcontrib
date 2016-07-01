@@ -2,6 +2,9 @@
 import { ObjectID } from 'mongodb';
 import config from 'config';
 import _ from 'underscore';
+import path from 'path';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
 import osmtogeojson from 'osmtogeojson';
 import { XMLHttpRequest } from 'xmlhttprequest';
 import logger from '../lib/logger';
@@ -16,6 +19,7 @@ import OverPassHelper from '../public/js/helper/overPass';
 
 const CONST = _.extend(SERVER_CONST, PUBLIC_CONST);
 
+const publicDirectory = path.resolve(__dirname, '..', 'public');
 
 
 let database = new Database();
@@ -27,12 +31,7 @@ database.connect((err, db) => {
 
     logger.info(`Update of the OverPass cache started`);
 
-    cron.start()
-    .then(() => {
-        logger.info(`Update of the OverPass cache finished`);
-        db.close();
-    })
-    .catch(throwError);
+    cron.start();
 });
 
 
@@ -43,53 +42,175 @@ export default class UpdateOverPassCache {
         this._db = db;
     }
 
-    start () {
+    _saveCacheFile (themeFragment, layerUuid, overPassResult) {
+        logger.debug('_saveCacheFile');
+        const overPassGeoJson = osmtogeojson(overPassResult);
+        const cacheDirectory = path.resolve(
+            publicDirectory,
+            `files/theme/${themeFragment}/overPassCache/`
+        );
+
+        if ( !fs.existsSync( cacheDirectory ) ) {
+            mkdirp.sync(cacheDirectory);
+        }
+
+        const filePath = path.resolve(
+            cacheDirectory,
+            `${layerUuid}.geojson`
+        );
+
+        fs.writeFile(
+            filePath,
+            JSON.stringify( overPassGeoJson )
+        );
+    }
+
+    _retrieveData (url) {
+        logger.debug('_retrieveData');
         return new Promise((resolve, reject) => {
-            let themeCollection = this._db.collection('theme');
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', url, false);
+            xhr.send(null);
 
-            themeCollection.find({
-                'layers.type': CONST.layerType.overpass,
-                'layers.cache': true,
-            }).toArray((err, themes) => {
-                if(err) {
-                    throw err;
+            if (xhr.status === 200) {
+                const overPassJson = JSON.parse(xhr.responseText);
+
+                if (overPassJson.remark) {
+                    return reject(xhr);
                 }
 
-                if (themes.length === 0) {
-                    resolve();
-                    return;
-                }
+                return resolve(overPassJson);
+            }
 
-                for (let theme of themes) {
-                    for (let layer of theme.layers) {
-                        if (layer.type !== CONST.layerType.overpass) {
-                            continue;
-                        }
+            return reject(xhr);
+        });
+    }
 
-                        if (layer.cache === false) {
-                            continue;
-                        }
+    *_iterateLayers (themes) {
+        logger.debug('_iterateLayers');
+        for (let theme of themes) {
+            for (let layer of theme.layers) {
+                yield {theme, layer};
+            }
+        }
+    }
 
-                        const url = OverPassHelper.buildUrlForCache(
-                            config.get('client.overPassEndPoint'),
-                            layer.overpassRequest,
-                            config.get('client.overPassCacheFileSize')
-                        );
+    start () {
+        logger.debug('start');
+        let themeCollection = this._db.collection('theme');
 
-                        let xhr = new XMLHttpRequest();
-                        xhr.open('GET', url, false);
-                        xhr.send(null);
+        themeCollection.find({
+            'layers.type': CONST.layerType.overpass,
+            'layers.cache': true,
+        }).toArray((err, themes) => {
+            if(err) {
+                throw err;
+            }
 
-                        if (xhr.status === 200) {
-                            console.log(
-                                osmtogeojson(
-                                    JSON.parse(xhr.responseText)
-                                )
-                            );
-                        }
-                    }
-                }
+            if (themes.length === 0) {
+                resolve();
+                return;
+            }
 
+            this._iterate = this._iterateLayers(themes);
+            this._nextIteration();
+        });
+    }
+
+    _nextIteration () {
+        logger.debug('_nextIteration');
+        let iteration = this._iterate.next();
+        setTimeout(this._processIteration.bind(this, iteration), 30);
+    }
+
+    _retryIteration (iteration) {
+        logger.debug('_retryIteration');
+        setTimeout(this._processIteration.bind(this, iteration), 60);
+    }
+
+    _processIteration (iteration) {
+        logger.debug('_processIteration');
+        if (iteration.done) {
+            return this._end();
+        }
+
+        let theme = iteration.value.theme;
+        let layer = iteration.value.layer;
+
+        if (layer.type !== CONST.layerType.overpass) {
+            return this._nextIteration();
+        }
+
+        if (layer.cache === false) {
+            return this._nextIteration();
+        }
+
+        const url = OverPassHelper.buildUrlForCache(
+            config.get('client.overPassEndPoint'),
+            layer.overpassRequest,
+            config.get('client.overPassCacheFileSize')
+        );
+
+        this._retrieveData(url)
+        .then(data => {
+            this._saveCacheFile(
+                theme.fragment,
+                layer.uniqid,
+                data
+            );
+
+            this._nextIteration();
+        })
+        .catch(xhr => {
+            switch (xhr.status) {
+                case 429:
+                    console.log('Too many requests');
+                    break;
+                case 200:
+                    console.log(overPassJson.remark);
+                    break;
+                default:
+                    console.log('Unknown error');
+            }
+
+            this._retryIteration();
+        });
+
+        // if (needUpdate === true) {
+        //     themeCollection.updateOne({
+        //             '_id': theme._id
+        //         },
+        //         {
+        //             '$set': {'layers': theme.layers}
+        //         },
+        //         dummyPromiseCallback.bind(this, resolve, reject)
+        //     );
+        // }
+    }
+
+    _end () {
+        logger.info(`Update of the OverPass cache finished`);
+        this._db.close();
+    }
+}
+
+
+/*
+{
+  "version": 0.6,
+  "generator": "Overpass API",
+  "osm3s": {
+    "timestamp_osm_base": "2016-07-01T06:27:02Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+
+
+  ],
+"remark": "runtime error: Query timed out in \"query\" at line 1 after 2 seconds."
+}
+*/
 /*
 {
   "version": 0.6,
@@ -106,16 +227,3 @@ export default class UpdateOverPassCache {
 "remark": "runtime error: Query run out of memory in \"query\" at line 1 using about 1 MB of RAM."
 }
 */
-
-
-
-                return resolve();
-            });
-        });
-        // If timeout, save the date of the try and the reason of the failure
-        // If heavier, save the date of the try and the reason of the failure
-        // If not, save the results into a file : files/FRAGMENT/overPassCache/UUID.geojson
-        // save the date
-        // Next
-    }
-}
