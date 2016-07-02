@@ -42,59 +42,6 @@ export default class UpdateOverPassCache {
         this._db = db;
     }
 
-    _saveCacheFile (themeFragment, layerUuid, overPassResult) {
-        logger.debug('_saveCacheFile');
-        const overPassGeoJson = osmtogeojson(overPassResult);
-        const cacheDirectory = path.resolve(
-            publicDirectory,
-            `files/theme/${themeFragment}/overPassCache/`
-        );
-
-        if ( !fs.existsSync( cacheDirectory ) ) {
-            mkdirp.sync(cacheDirectory);
-        }
-
-        const filePath = path.resolve(
-            cacheDirectory,
-            `${layerUuid}.geojson`
-        );
-
-        fs.writeFile(
-            filePath,
-            JSON.stringify( overPassGeoJson )
-        );
-    }
-
-    _retrieveData (url) {
-        logger.debug('_retrieveData');
-        return new Promise((resolve, reject) => {
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', url, false);
-            xhr.send(null);
-
-            if (xhr.status === 200) {
-                const overPassJson = JSON.parse(xhr.responseText);
-
-                if (overPassJson.remark) {
-                    return reject(xhr);
-                }
-
-                return resolve(overPassJson);
-            }
-
-            return reject(xhr);
-        });
-    }
-
-    *_iterateLayers (themes) {
-        logger.debug('_iterateLayers');
-        for (let theme of themes) {
-            for (let layer of theme.layers) {
-                yield {theme, layer};
-            }
-        }
-    }
-
     start () {
         logger.debug('start');
         let themeCollection = this._db.collection('theme');
@@ -115,6 +62,15 @@ export default class UpdateOverPassCache {
             this._iterate = this._iterateLayers(themes);
             this._nextIteration();
         });
+    }
+
+    *_iterateLayers (themes) {
+        logger.debug('_iterateLayers');
+        for (let theme of themes) {
+            for (let layer of theme.layers) {
+                yield {theme, layer};
+            }
+        }
     }
 
     _nextIteration () {
@@ -186,6 +142,50 @@ export default class UpdateOverPassCache {
         //         dummyPromiseCallback.bind(this, resolve, reject)
         //     );
         // }
+    }
+
+    _retrieveData (url) {
+        logger.debug('_retrieveData');
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', url, false);
+            xhr.send(null);
+
+            if (xhr.status === 200) {
+                const overPassJson = JSON.parse(xhr.responseText);
+
+                if (overPassJson.remark) {
+                    return reject(xhr);
+                }
+
+                return resolve(overPassJson);
+            }
+
+            return reject(xhr);
+        });
+    }
+
+    _saveCacheFile (themeFragment, layerUuid, overPassResult) {
+        logger.debug('_saveCacheFile');
+        const overPassGeoJson = osmtogeojson(overPassResult);
+        const cacheDirectory = path.resolve(
+            publicDirectory,
+            `files/theme/${themeFragment}/overPassCache/`
+        );
+
+        if ( !fs.existsSync( cacheDirectory ) ) {
+            mkdirp.sync(cacheDirectory);
+        }
+
+        const filePath = path.resolve(
+            cacheDirectory,
+            `${layerUuid}.geojson`
+        );
+
+        fs.writeFile(
+            filePath,
+            JSON.stringify( overPassGeoJson )
+        );
     }
 
     _end () {
