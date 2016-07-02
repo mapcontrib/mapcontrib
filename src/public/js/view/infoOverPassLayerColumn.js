@@ -1,4 +1,6 @@
 
+import moment from 'moment-timezone';
+import currentLocale from 'current-locale';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import marked from 'marked';
@@ -17,8 +19,10 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'description': '.description_container',
+        'descriptionSection': '.description_section',
         'downloadBtn': '.download_btn',
+        'cacheSection': '.cache_section',
+        'cacheDate': '.cache_date',
         'column': '#info_overpass_layer_column',
     },
 
@@ -51,7 +55,35 @@ export default Marionette.LayoutView.extend({
 
     onRender: function () {
         if ( this.model.get('description') ) {
-            this.ui.description.removeClass('hide');
+            this.ui.descriptionSection.removeClass('hide');
+        }
+
+        if ( this.model.get('cache') ) {
+            this.ui.cacheSection.removeClass('hide');
+
+            if ( this.model.get('cacheUpdateDate') ) {
+                moment.locale(
+                    currentLocale({
+                        supportedLocales: ['fr', 'en'],
+                        fallbackLocale: 'en'
+                    })
+                );
+                const timezone = moment.tz.guess();
+                const date = moment.utc(
+                    this.model.get('cacheUpdateDate')
+                )
+                .tz(timezone)
+                .fromNow();
+
+                this.ui.cacheDate
+                .html(
+                    document.l10n.getSync(
+                        'infoLayerColumn_layerOverPassCacheDate',
+                        { date }
+                    )
+                )
+                .removeClass('hide');
+            }
         }
     },
 

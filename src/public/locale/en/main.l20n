@@ -293,5 +293,8 @@
 <infoLayerColumn_geoJson "GeoJSON file">
 <infoLayerColumn_layerMinZoom "Update minimum zoom">
 <infoLayerColumn_layerOverPassRequest "Requête OverPass">
+<infoLayerColumn_layerOverPassCache "Cache">
+<infoLayerColumn_layerOverPassCacheDescription "The request results are pre-calculated once a day.">
+<infoLayerColumn_layerOverPassCacheDate "Last update: {{ $date }}.">
 <infoLayerColumn_geoJsonData "GeoJSON data">
 <infoLayerColumn_downloadData "Download the data">

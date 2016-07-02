@@ -13,7 +13,7 @@
                 <h3 data-l10n-id="infoLayerColumn_layerName"></h3>
                 <p><%= name %></p>
 
-                <section class="description_container hide">
+                <section class="description_section hide">
                     <h3 class="prepend-xs-2" data-l10n-id="infoLayerColumn_layerDescription"></h3>
                     <p><%= description %></p>
                 </section>
@@ -26,6 +26,12 @@
 
                 <h3 class="prepend-xs-2" data-l10n-id="infoLayerColumn_layerOverPassRequest"></h3>
                 <pre><%= overpassRequest %></pre>
+
+                <section class="cache_section hide">
+                    <h3 class="prepend-xs-2" data-l10n-id="infoLayerColumn_layerOverPassCache"></h3>
+                    <p data-l10n-id="infoLayerColumn_layerOverPassCacheDescription"></p>
+                    <p class="cache_date hide"></p>
+                </section>
 
                 <h3 class="prepend-xs-2" data-l10n-id="infoLayerColumn_geoJsonData"></h3>
                 <button type="button" class="btn btn-default download_btn" data-l10n-id="infoLayerColumn_downloadData"></button>

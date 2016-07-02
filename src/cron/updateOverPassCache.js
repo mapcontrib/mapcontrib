@@ -214,7 +214,7 @@ export default class UpdateOverPassCache {
             {
                 '$set': {
                     'layers.$.cacheUpdateSuccess': true,
-                    'layers.$.cacheUpdateTimestamp': new Date().toISOString(),
+                    'layers.$.cacheUpdateDate': new Date().toISOString(),
                     'layers.$.cacheUpdateError': null,
                 }
             }
@@ -231,7 +231,7 @@ export default class UpdateOverPassCache {
             {
                 '$set': {
                     'layers.$.cacheUpdateSuccess': false,
-                    'layers.$.cacheUpdateTimestamp': new Date().toISOString(),
+                    'layers.$.cacheUpdateDate': new Date().toISOString(),
                     'layers.$.cacheUpdateError': error,
                 }
             }

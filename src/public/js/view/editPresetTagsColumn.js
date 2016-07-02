@@ -74,7 +74,7 @@ export default Marionette.LayoutView.extend({
             this.options.theme.get('presets').add( this.model );
         }
 
-        this.options.theme.set('modificationTimestamp', new Date().toISOString());
+        this.options.theme.set('modificationDate', new Date().toISOString());
         this.options.theme.save({}, {
             'success': function () {
                 this.close();
