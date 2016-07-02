@@ -190,25 +190,20 @@ export default class UpdateOverPassCache {
 
         return new Promise((resolve, reject) => {
             const overPassGeoJson = osmtogeojson(overPassResult);
-            const cacheDirectory = path.resolve(
-                publicDirectory,
-                `files/theme/${themeFragment}/overPassCache/`
-            );
+            const publicCacheDirectory = `files/theme/${themeFragment}/overPassCache/`;
+            const cacheDirectory = path.resolve( publicDirectory, publicCacheDirectory );
+            const filePath = path.join( publicCacheDirectory, `${layerUuid}.geojson` );
+
 
             if ( !fs.existsSync( cacheDirectory ) ) {
                 mkdirp.sync(cacheDirectory);
             }
 
-            const filePath = path.resolve(
-                cacheDirectory,
-                `${layerUuid}.geojson`
-            );
-
             fs.writeFile(
-                filePath,
+                path.resolve( publicDirectory, filePath ),
                 JSON.stringify( overPassGeoJson ),
                 () => {
-                    resolve(filePath);
+                    resolve(`/${filePath}`);
                 }
             );
         });
@@ -223,6 +218,7 @@ export default class UpdateOverPassCache {
             },
             {
                 '$set': {
+                    'layers.$.fileUri': filePath,
                     'layers.$.cacheUpdateSuccess': true,
                     'layers.$.cacheUpdateDate': new Date().toISOString(),
                     'layers.$.cacheUpdateError': null,

@@ -533,6 +533,13 @@ export default Marionette.LayoutView.extend({
     },
 
     addOverPassLayer: function (layerModel, hiddenLayer) {
+        const cache = layerModel.get('cache');
+        const cacheFilePath = layerModel.get('fileUri');
+
+        if (cache && cacheFilePath) {
+            return this.addOverPassCacheLayer(layerModel, hiddenLayer);
+        }
+
         let markerCluster = this._buildMarkerCluster(layerModel);
         this._markerClusters[ layerModel.cid ] = markerCluster;
 
@@ -665,6 +672,29 @@ export default Marionette.LayoutView.extend({
     },
 
     addGeoJsonLayer: function (layerModel, hiddenLayer) {
+        let omnivore = Omnivore.geojson(
+            layerModel.get('fileUri')
+        )
+        .on('error', function(error) {
+            new GeoJsonErrorNotificationView({
+                'model': layerModel,
+                'error': error.error[0].message,
+            }).open();
+        })
+        .on('ready', layer => {
+            let markerCluster = this._buildMarkerCluster(layerModel);
+
+            this._customizeDataAndDisplay(
+                layer.target._layers,
+                markerCluster,
+                layerModel,
+                CONST.layerType.geojson,
+                hiddenLayer
+            );
+        });
+    },
+
+    addOverPassCacheLayer: function (layerModel, hiddenLayer) {
         let omnivore = Omnivore.geojson(
             layerModel.get('fileUri')
         )
