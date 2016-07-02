@@ -220,6 +220,7 @@ export default class UpdateOverPassCache {
                 '$set': {
                     'layers.$.fileUri': filePath,
                     'layers.$.cacheUpdateSuccess': true,
+                    'layers.$.cacheUpdateSuccessDate': new Date().toISOString(),
                     'layers.$.cacheUpdateDate': new Date().toISOString(),
                     'layers.$.cacheUpdateError': null,
                 }

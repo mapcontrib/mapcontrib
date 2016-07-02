@@ -1,4 +1,5 @@
 
+import _ from 'underscore';
 import { DOMImplementation, XMLSerializer } from 'xmldom';
 
 
@@ -12,6 +13,10 @@ export default class OsmEdit{
         this._auth = osmAuth;
         this._changesetCreatedBy = null;
         this._changesetComment = null;
+
+        this._floatAttributes = [ 'lat', 'lon' ];
+        this._intAttributes = [ 'id', 'uid', 'version', 'changeset' ];
+
         this._resetElement();
     }
 
@@ -42,6 +47,29 @@ export default class OsmEdit{
      */
     getElement() {
         return this._element;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {object}
+     */
+    getOverPassElement() {
+        let element = _.extend(
+            {
+                'type': this._element.type,
+                'tags': {}
+            },
+            this._element.attributes
+        );
+
+        for (let i in this._element.tags) {
+            let key = this._element.tags[i].k;
+            let value = this._element.tags[i].v;
+            element.tags[ key ] = value;
+        }
+
+        return element;
     }
 
     /**
@@ -302,7 +330,17 @@ export default class OsmEdit{
 
                     for (let i = 0; i < parentElement.attributes.length; i++){
                         let att = parentElement.attributes[i];
-                        this._element.attributes[att.nodeName] = att.nodeValue;
+                        let key = att.nodeName;
+                        let value = att.nodeValue;
+
+                        if ( this._intAttributes.indexOf(att.nodeName) > -1 ) {
+                            value = parseInt(value);
+                        }
+                        else if ( this._floatAttributes.indexOf(att.nodeName) > -1 ) {
+                            value = parseFloat(value);
+                        }
+
+                        this._element.attributes[key] = value;
                     }
 
 
@@ -466,6 +504,7 @@ export default class OsmEdit{
         osmElement.appendChild(parentElement);
         xml.appendChild(osmElement);
 
+        console.log(new XMLSerializer().serializeToString(xml));
         return new XMLSerializer().serializeToString(xml);
     }
 

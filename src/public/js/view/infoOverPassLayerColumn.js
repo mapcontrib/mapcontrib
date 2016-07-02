@@ -58,10 +58,13 @@ export default Marionette.LayoutView.extend({
             this.ui.descriptionSection.removeClass('hide');
         }
 
-        if ( this.model.get('cache') ) {
+        const cache = this.model.get('cache');
+        const cacheUpdateSuccessDate = this.model.get('cacheUpdateSuccessDate');
+        
+        if ( cache && cacheUpdateSuccessDate ) {
             this.ui.cacheSection.removeClass('hide');
 
-            if ( this.model.get('cacheUpdateDate') ) {
+            if ( cacheUpdateSuccessDate ) {
                 moment.locale(
                     currentLocale({
                         supportedLocales: ['fr', 'en'],
@@ -70,7 +73,7 @@ export default Marionette.LayoutView.extend({
                 );
                 const timezone = moment.tz.guess();
                 const date = moment.utc(
-                    this.model.get('cacheUpdateDate')
+                    cacheUpdateSuccessDate
                 )
                 .tz(timezone)
                 .fromNow();

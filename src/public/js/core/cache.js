@@ -25,7 +25,7 @@ export default class Cache {
      * @param {string|number} id - Element's ID.
      * @returns {object}
      */
-    static _getKeyAndOsmEditElements (type, id) {
+    static _getKeyAndOsmElements (type, id) {
         return {
             'osmEditKey': `${type}/${id}`,
             'osmEditElements': JSON.parse( localStorage.getItem('osmEditElements') ) || {}
@@ -60,8 +60,8 @@ export default class Cache {
      * @param {string|number} id - Element's ID.
      * @returns {object}
      */
-    static getOsmEditElement (type, id) {
-        let {osmEditKey, osmEditElements} = Cache._getKeyAndOsmEditElements(type, id);
+    static getOsmElement (type, id) {
+        let {osmEditKey, osmEditElements} = Cache._getKeyAndOsmElements(type, id);
 
         if ( osmEditElements[ osmEditKey ] ) {
             return osmEditElements[ osmEditKey ];
@@ -97,7 +97,7 @@ export default class Cache {
      * @returns {boolean}
      */
     static osmEditExists (type, id) {
-        let {osmEditKey, osmEditElements} = Cache._getKeyAndOsmEditElements(type, id);
+        let {osmEditKey, osmEditElements} = Cache._getKeyAndOsmElements(type, id);
 
         if ( osmEditElements[ osmEditKey ] ) {
             return true;
@@ -136,7 +136,7 @@ export default class Cache {
      */
     static remove (type, id) {
         let {contributionKey, contributions} = Cache._getKeyAndContributions(type, id);
-        let {osmEditKey, osmEditElements} = Cache._getKeyAndOsmEditElements(type, id);
+        let {osmEditKey, osmEditElements} = Cache._getKeyAndOsmElements(type, id);
 
         if ( contributions[ contributionKey ] ) {
             delete contributions[ contributionKey ];
@@ -171,10 +171,10 @@ export default class Cache {
      * @access public
      * @param {object} osmEdit element.
      */
-    static saveOsmEditElement (osmEditElement) {
+    static saveOsmElement (osmEditElement) {
         let type = osmEditElement.type,
         id = osmEditElement.attributes.id,
-        {osmEditKey, osmEditElements} = Cache._getKeyAndOsmEditElements(type, id);
+        {osmEditKey, osmEditElements} = Cache._getKeyAndOsmElements(type, id);
 
         osmEditElements[osmEditKey] = osmEditElement;
 

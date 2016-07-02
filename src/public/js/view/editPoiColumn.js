@@ -64,8 +64,8 @@ export default Marionette.LayoutView.extend({
             })
         );
 
-        this._osmEdit.setType( this.options.osmElement.type );
-        this._osmEdit.setId( this.options.osmElement.id );
+        this._osmEdit.setType( this.options.osmType );
+        this._osmEdit.setId( this.options.osmId );
     },
 
     onBeforeOpen: function () {
@@ -114,8 +114,7 @@ export default Marionette.LayoutView.extend({
                     Cache.remove(type, id);
                 }
                 else {
-                    this.options.osmElement = Cache.get(type, id);
-                    osmEdit.setElement( Cache.getOsmEditElement(type, id) );
+                    osmEdit.setElement( Cache.getOsmElement(type, id) );
                 }
             }
 
@@ -200,21 +199,21 @@ export default Marionette.LayoutView.extend({
 
             this.close();
 
-            this._osmEdit.hydrateOverPassObject( this.options.osmElement );
+            let overPassElement = this._osmEdit.getOverPassElement();
 
             this._radio.commands.execute(
                 'saveOsmData',
-                this.options.osmElement
+                overPassElement
             );
 
             this._radio.commands.execute(
                 'map:updatePoiPopup',
                 this._layerModel,
-                this.options.osmElement
+                overPassElement
             );
 
-            Cache.save(this.options.osmElement);
-            Cache.saveOsmEditElement(this._osmEdit.getElement());
+            Cache.save(overPassElement);
+            Cache.saveOsmElement(this._osmEdit.getElement());
         })
         .catch((err) => {
             let notification = new ContributionErrorNotificationView({

@@ -24,7 +24,6 @@ export default Marionette.LayoutView.extend({
 
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
-        this.render();
     },
 
     onBeforeOpen: function () {
@@ -33,6 +32,7 @@ export default Marionette.LayoutView.extend({
     },
 
     open: function () {
+        this.render();
         this.triggerMethod('open');
     },
 
