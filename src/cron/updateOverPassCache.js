@@ -57,8 +57,7 @@ export default class UpdateOverPassCache {
             }
 
             if (themes.length === 0) {
-                resolve();
-                return;
+                return this._end();
             }
 
             this._iterate = this._iterateLayers(themes);
