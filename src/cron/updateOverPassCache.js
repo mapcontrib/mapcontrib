@@ -128,7 +128,7 @@ export default class UpdateOverPassCache {
         .catch(xhr => {
             if (xhr.status === 429) {
                 logger.info('OverPass says: Too many requests... Retrying in a few seconds');
-                return this._retryIteration();
+                return this._retryIteration(iteration);
             }
 
             if (xhr.status !== 200) {
