@@ -1,8 +1,11 @@
 
+import moment from 'moment-timezone';
+import currentLocale from 'current-locale';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
 import template from '../../templates/editOverPassLayerFormColumn.ejs';
+import CONST from '../const';
 
 
 export default Marionette.ItemView.extend({
@@ -31,6 +34,11 @@ export default Marionette.ItemView.extend({
         'editMarkerButton': '.edit_marker_btn',
         'currentMapZoom': '.current_map_zoom',
         'cacheSection': '.cache_section',
+        'cacheDate': '.cache_date',
+        'cacheErrorTimeout': '.cache_error_timeout',
+        'cacheErrorMemory': '.cache_error_memory',
+        'cacheErrorBadRequest': '.cache_error_bad_request',
+        'cacheErrorUnknown': '.cache_error_unknown',
     },
 
     events: {
@@ -61,6 +69,48 @@ export default Marionette.ItemView.extend({
 
         if ( MAPCONTRIB.config.overPassCacheEnabled === true ) {
             this.ui.cacheSection.removeClass('hide');
+        }
+
+        if ( this.model.get('cacheUpdateDate') ) {
+            moment.locale(
+                currentLocale({
+                    supportedLocales: ['fr', 'en'],
+                    fallbackLocale: 'en'
+                })
+            );
+            const timezone = moment.tz.guess();
+            const date = moment.utc(
+                this.model.get('cacheUpdateDate')
+            )
+            .tz(timezone)
+            .fromNow();
+
+            this.ui.cacheDate
+            .html(
+                document.l10n.getSync(
+                    'editLayerFormColumn_cacheDate',
+                    { date }
+                )
+            )
+            .removeClass('hide');
+        }
+
+        const cacheUpdateError = this.model.get('cacheUpdateError');
+
+        if ( cacheUpdateError ) {
+            switch (cacheUpdateError) {
+                case CONST.overPassCacheError.timeout:
+                    this.ui.cacheErrorTimeout.removeClass('hide');
+                    break;
+                case CONST.overPassCacheError.memory:
+                    this.ui.cacheErrorMemory.removeClass('hide');
+                    break;
+                case CONST.overPassCacheError.badRequest:
+                    this.ui.cacheErrorBadRequest.removeClass('hide');
+                    break;
+                default:
+                    this.ui.cacheErrorUnknown.removeClass('hide');
+            }
         }
 
         this.onChangedMapZoom();

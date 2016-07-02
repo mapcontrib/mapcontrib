@@ -299,6 +299,7 @@ export default {
     'overPassCacheError': {
         'timeout': 'timeout',
         'memory': 'memory',
+        'badRequest': 'badRequest',
         'unknown': 'unknown',
     }
 };

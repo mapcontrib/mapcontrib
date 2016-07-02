@@ -62,7 +62,9 @@ export default class UpdateOverPassCache {
             }
 
             this._iterate = this._iterateLayers(themes);
-            this._nextIteration();
+
+            let iteration = this._iterate.next();
+            this._processIteration(iteration);
         });
     }
 
@@ -78,6 +80,11 @@ export default class UpdateOverPassCache {
     _nextIteration () {
         logger.debug('_nextIteration');
         let iteration = this._iterate.next();
+
+        if (iteration.done) {
+            return this._end();
+        }
+
         setTimeout(this._processIteration.bind(this, iteration), 5 * 1000);
     }
 
@@ -88,10 +95,6 @@ export default class UpdateOverPassCache {
 
     _processIteration (iteration) {
         logger.debug('_processIteration');
-
-        if (iteration.done) {
-            return this._end();
-        }
 
         let theme = iteration.value.theme;
         let layer = iteration.value.layer;
@@ -131,6 +134,12 @@ export default class UpdateOverPassCache {
                 return this._retryIteration(iteration);
             }
 
+            if (xhr.status === 400) {
+                logger.debug('OverPass says: Bad request');
+                this._setLayerStateError(theme, layer, CONST.overPassCacheError.badRequest);
+                return this._nextIteration();
+            }
+
             if (xhr.status !== 200) {
                 logger.debug('Unknown error, next!');
                 this._setLayerStateError(theme, layer, CONST.overPassCacheError.unknown);
@@ -138,6 +147,7 @@ export default class UpdateOverPassCache {
             }
 
             let error;
+            const overPassJson = JSON.parse(xhr.responseText);
 
             if ( overPassJson.remark.indexOf('Query timed out') > -1 ) {
                 logger.debug('OverPass says: Timeout');

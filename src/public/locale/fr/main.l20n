@@ -164,6 +164,11 @@
 <editLayerFormColumn_enableCache "Activer le cache">
 <editLayerFormColumn_cachePopoverTitle "Limitations">
 <editLayerFormColumn_cachePopoverContent "Les informations sont mises à jour quotidiennement à condition que la requête exécutée sur l'ensemble du globe ne mette pas plus de 3 minutes et que le fichier final ne fasse pas plus d'1 Mo.">
+<editLayerFormColumn_cacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
+<editLayerFormColumn_cacheErrorTimeout "<i></i> La dernière mise à jour du cache a échoué en raison d'un temps d'exécution trop important.">
+<editLayerFormColumn_cacheErrorMemory "<i></i> La dernière mise à jour du cache a échoué en raison d'un poids de fichier final trop important.">
+<editLayerFormColumn_cacheErrorBadRequest "<i></i> La dernière mise à jour du cache a échoué parce que la requête est erronée.">
+<editLayerFormColumn_cacheErrorUnknown "<i></i> La dernière mise à jour du cache a échoué pour une raison inconnue.">
 
 
 /* Edit layer marker modal */
