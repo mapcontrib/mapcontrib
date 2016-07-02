@@ -295,4 +295,10 @@ export default {
         'nominatim': 'nominatim',
         'photon': 'photon'
     },
+
+    'overPassCacheError': {
+        'timeout': 'timeout',
+        'memory': 'memory',
+        'unknown': 'unknown',
+    }
 };

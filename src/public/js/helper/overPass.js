@@ -27,7 +27,7 @@ export default class OverPassHelper {
     static buildRequestForCache (request, size) {
         let finalRequest = OverPassHelper.buildRequestForTheme(request).replace('({{bbox}})', '');
 
-        return `[out:json][timeout:900][maxsize:${size}];${finalRequest}`;
+        return `[out:json][timeout:180][maxsize:${size}];${finalRequest}`;
     }
 
     /**

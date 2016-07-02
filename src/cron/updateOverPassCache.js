@@ -44,10 +44,12 @@ export default class UpdateOverPassCache {
 
     start () {
         logger.debug('start');
-        let themeCollection = this._db.collection('theme');
 
-        themeCollection.find({
+        this._themeCollection = this._db.collection('theme');
+
+        this._themeCollection.find({
             'layers.type': CONST.layerType.overpass,
+
             'layers.cache': true,
         }).toArray((err, themes) => {
             if(err) {
@@ -76,16 +78,17 @@ export default class UpdateOverPassCache {
     _nextIteration () {
         logger.debug('_nextIteration');
         let iteration = this._iterate.next();
-        setTimeout(this._processIteration.bind(this, iteration), 30);
+        setTimeout(this._processIteration.bind(this, iteration), 5 * 1000);
     }
 
     _retryIteration (iteration) {
         logger.debug('_retryIteration');
-        setTimeout(this._processIteration.bind(this, iteration), 60);
+        setTimeout(this._processIteration.bind(this, iteration), 60 * 1000);
     }
 
     _processIteration (iteration) {
         logger.debug('_processIteration');
+
         if (iteration.done) {
             return this._end();
         }
@@ -101,6 +104,10 @@ export default class UpdateOverPassCache {
             return this._nextIteration();
         }
 
+        logger.info('Next request');
+        logger.info('Theme fragment:', theme.fragment);
+        logger.info('Layer uniqid:', layer.uniqid);
+
         const url = OverPassHelper.buildUrlForCache(
             config.get('client.overPassEndPoint'),
             layer.overpassRequest,
@@ -113,39 +120,42 @@ export default class UpdateOverPassCache {
                 theme.fragment,
                 layer.uniqid,
                 data
-            );
+            )
+            .then( this._setLayerStateSuccess.bind(this, theme, layer) );
 
             this._nextIteration();
         })
         .catch(xhr => {
-            switch (xhr.status) {
-                case 429:
-                    console.log('Too many requests');
-                    break;
-                case 200:
-                    console.log(overPassJson.remark);
-                    break;
-                default:
-                    console.log('Unknown error');
+            if (xhr.status === 429) {
+                logger.info('OverPass says: Too many requests... Retrying in a few seconds');
+                return this._retryIteration();
             }
 
-            this._retryIteration();
-        });
+            if (xhr.status !== 200) {
+                logger.debug('Unknown error, next!');
+                this._setLayerStateError(theme, layer, CONST.overPassCacheError.unknown);
+                return this._nextIteration();
+            }
 
-        // if (needUpdate === true) {
-        //     themeCollection.updateOne({
-        //             '_id': theme._id
-        //         },
-        //         {
-        //             '$set': {'layers': theme.layers}
-        //         },
-        //         dummyPromiseCallback.bind(this, resolve, reject)
-        //     );
-        // }
+            let error;
+
+            if ( overPassJson.remark.indexOf('Query timed out') > -1 ) {
+                logger.debug('OverPass says: Timeout');
+                error = CONST.overPassCacheError.timeout;
+            }
+            else if ( overPassJson.remark.indexOf('Query run out of memory') > -1 ) {
+                logger.debug('OverPass says: Out of memory');
+                error = CONST.overPassCacheError.memory;
+            }
+
+            this._setLayerStateError(theme, layer, error);
+            this._nextIteration();
+        });
     }
 
     _retrieveData (url) {
         logger.debug('_retrieveData');
+
         return new Promise((resolve, reject) => {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', url, false);
@@ -167,24 +177,64 @@ export default class UpdateOverPassCache {
 
     _saveCacheFile (themeFragment, layerUuid, overPassResult) {
         logger.debug('_saveCacheFile');
-        const overPassGeoJson = osmtogeojson(overPassResult);
-        const cacheDirectory = path.resolve(
-            publicDirectory,
-            `files/theme/${themeFragment}/overPassCache/`
+
+        return new Promise((resolve, reject) => {
+            const overPassGeoJson = osmtogeojson(overPassResult);
+            const cacheDirectory = path.resolve(
+                publicDirectory,
+                `files/theme/${themeFragment}/overPassCache/`
+            );
+
+            if ( !fs.existsSync( cacheDirectory ) ) {
+                mkdirp.sync(cacheDirectory);
+            }
+
+            const filePath = path.resolve(
+                cacheDirectory,
+                `${layerUuid}.geojson`
+            );
+
+            fs.writeFile(
+                filePath,
+                JSON.stringify( overPassGeoJson ),
+                () => {
+                    resolve(filePath);
+                }
+            );
+        });
+    }
+
+    _setLayerStateSuccess (theme, layer, filePath) {
+        logger.debug('_setLayerStateSuccess');
+
+        this._themeCollection.updateOne({
+                '_id': theme._id,
+                'layers.uniqid': layer.uniqid
+            },
+            {
+                '$set': {
+                    'layers.$.cacheUpdateSuccess': true,
+                    'layers.$.cacheUpdateTimestamp': new Date().toISOString(),
+                    'layers.$.cacheUpdateError': null,
+                }
+            }
         );
+    }
 
-        if ( !fs.existsSync( cacheDirectory ) ) {
-            mkdirp.sync(cacheDirectory);
-        }
+    _setLayerStateError (theme, layer, error) {
+        logger.debug('_setLayerStateError');
 
-        const filePath = path.resolve(
-            cacheDirectory,
-            `${layerUuid}.geojson`
-        );
-
-        fs.writeFile(
-            filePath,
-            JSON.stringify( overPassGeoJson )
+        this._themeCollection.updateOne({
+                '_id': theme._id,
+                'layers.uniqid': layer.uniqid
+            },
+            {
+                '$set': {
+                    'layers.$.cacheUpdateSuccess': false,
+                    'layers.$.cacheUpdateTimestamp': new Date().toISOString(),
+                    'layers.$.cacheUpdateError': error,
+                }
+            }
         );
     }
 
@@ -193,37 +243,3 @@ export default class UpdateOverPassCache {
         this._db.close();
     }
 }
-
-
-/*
-{
-  "version": 0.6,
-  "generator": "Overpass API",
-  "osm3s": {
-    "timestamp_osm_base": "2016-07-01T06:27:02Z",
-    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
-  },
-  "elements": [
-
-
-
-  ],
-"remark": "runtime error: Query timed out in \"query\" at line 1 after 2 seconds."
-}
-*/
-/*
-{
-  "version": 0.6,
-  "generator": "Overpass API",
-  "osm3s": {
-    "timestamp_osm_base": "2016-06-30T21:28:02Z",
-    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
-  },
-  "elements": [
-
-
-
-  ],
-"remark": "runtime error: Query run out of memory in \"query\" at line 1 using about 1 MB of RAM."
-}
-*/

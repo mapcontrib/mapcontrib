@@ -35,7 +35,7 @@ describe('OverPassHelper', () => {
     describe('buildRequestForCache', () => {
         it('Should return an OverPass request built for the cache cron job', () => {
             const request = `way[amenity=recycling]({{bbox}}); out body;`;
-            const expected = `[out:json][timeout:900][maxsize:1024];way[amenity=recycling];out  center meta;`;
+            const expected = `[out:json][timeout:180][maxsize:1024];way[amenity=recycling];out  center meta;`;
             const size = 1024;
 
             const result = OverPassHelper.buildRequestForCache(request, size);
@@ -48,7 +48,7 @@ describe('OverPassHelper', () => {
             const endPoint = 'http://overpass-api.de/api/';
             const request = `way[amenity=recycling]({{bbox}}); out body;`;
             const size = 1024;
-            const expected = `http://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A900%5D%5Bmaxsize%3A1024%5D%3Bway%5Bamenity%3Drecycling%5D%3Bout%20%20center%20meta%3B`;
+            const expected = `http://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A180%5D%5Bmaxsize%3A1024%5D%3Bway%5Bamenity%3Drecycling%5D%3Bout%20%20center%20meta%3B`;
 
             const result = OverPassHelper.buildUrlForCache(endPoint, request, size);
             assert.strictEqual(expected, result);
