@@ -16,6 +16,7 @@
 * The info button on contribution and preset fields is now active and send the user to the taginfo service.
 * The geocoder search results provide more informations and are prettier.
 * There is now a cache system to pre-fetch OverPass layers results.
+* Automatically adds target blank on links in Markdown supported fields.
 * And as always, multiple bufixes and enhancement.
 
 ## 0.8.6
