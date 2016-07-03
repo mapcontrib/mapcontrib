@@ -10,7 +10,6 @@ import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import MarkerCluster from 'leaflet.markercluster';
 import Omnivore from 'leaflet-omnivore';
-import marked from 'marked';
 import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
 import ThemeTitleView from './themeTitle';
@@ -51,6 +50,7 @@ import Cache from '../core/cache';
 import OsmData from '../core/osmData';
 import OverPassHelper from '../helper/overPass';
 import GeoJsonHelper from '../helper/geoJson';
+import MarkedHelper from '../helper/marked';
 
 import template from '../../templates/themeRoot.ejs';
 
@@ -914,10 +914,7 @@ export default Marionette.LayoutView.extend({
         }
 
         popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
-        const popupContentHtml = marked(popupContent).replace(
-            /<a href=(.*?)>(.*?)<\/a>/g,
-            '<a target="_blank" href=$1>$2</a>'
-        );
+        const popupContentHtml = MarkedHelper.render(popupContent);
 
         if ( layerModel.get('type') !== CONST.layerType.overpass ) {
             return popupContentHtml;

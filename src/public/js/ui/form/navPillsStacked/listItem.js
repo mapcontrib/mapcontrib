@@ -1,6 +1,6 @@
 
 import Marionette from 'backbone.marionette';
-import marked from 'marked';
+import MarkedHelper from '../../../helper/marked';
 import listItemTemplate from './listItem.ejs';
 
 
@@ -14,24 +14,35 @@ export default Marionette.ItemView.extend({
     },
 
     ui: {
-        'link': 'a',
+        'link': '.top_link',
+        'description': '.description',
     },
 
     events: {
+        'click @ui.link a': 'onClickInnerLink',
         'click @ui.link': 'onClick'
     },
 
-    templateHelpers: function () {
-        return {
-            'description': marked( this.model.get('description') ),
-        };
-    },
-
     onClick: function (e) {
-        var callback = this.model.get('callback');
+        if ( this.ui.link.attr('href') === '#' ) {
+            e.preventDefault();
+        }
+
+        const callback = this.model.get('callback');
 
         if (callback) {
             callback();
         }
-    }
+    },
+
+    onRender: function () {
+        this.ui.description.html(
+            MarkedHelper.render( this.model.get('description') )
+        )
+        .removeClass('hide');
+    },
+
+    onClickInnerLink: function (e) {
+        e.stopPropagation();
+    },
 });

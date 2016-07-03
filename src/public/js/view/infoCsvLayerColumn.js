@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import marked from 'marked';
+import MarkedHelper from '../helper/marked';
 import template from '../../templates/infoCsvLayerColumn.ejs';
 import LeafletHelper from '../helper/leaflet';
 
@@ -32,7 +32,7 @@ export default Marionette.LayoutView.extend({
 
     templateHelpers: function () {
         return {
-            'description': marked( this.model.get('description') || '' ),
+            'description': MarkedHelper.render( this.model.get('description') || '' ),
         };
     },
 

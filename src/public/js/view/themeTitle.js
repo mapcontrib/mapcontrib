@@ -3,7 +3,7 @@ import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from '../const';
-import marked from 'marked';
+import MarkedHelper from '../helper/marked';
 import template from '../../templates/themeTitle.ejs';
 
 
@@ -38,7 +38,7 @@ export default Marionette.LayoutView.extend({
 
     templateHelpers: function () {
         return {
-            'description': marked( this.model.get('description') ),
+            'description': MarkedHelper.render( this.model.get('description') ),
         };
     },
 
@@ -96,7 +96,7 @@ export default Marionette.LayoutView.extend({
     },
 
     setDescription: function () {
-        var description = marked( this.model.get('description') );
+        var description = MarkedHelper.render( this.model.get('description') );
 
         if ( description ) {
             this.ui.description.html( description );

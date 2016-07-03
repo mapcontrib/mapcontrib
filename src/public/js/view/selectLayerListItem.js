@@ -2,7 +2,7 @@
 import _ from 'underscore';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import marked from 'marked';
+import MarkedHelper from '../helper/marked';
 import MapUi from '../ui/map';
 import template from '../../templates/selectLayerListItem.ejs';
 import CONST from '../const';
@@ -35,6 +35,7 @@ export default Marionette.ItemView.extend({
 
     events: {
         'click @ui.infoLayerBtn': 'onClickInfo', // Important : Has to be the first !
+        'click a': 'onClickLink', // Important : Has to be the second !
         'click label': 'onClickLabel',
         'click': 'onClick',
     },
@@ -60,7 +61,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         return {
-            'description': marked( this.model.get('description') || '' ),
+            'description': MarkedHelper.render( this.model.get('description') || '' ),
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
@@ -116,6 +117,10 @@ export default Marionette.ItemView.extend({
 
     onClickLabel: function (e) {
         e.preventDefault();
+    },
+
+    onClickLink: function (e) {
+        e.stopPropagation();
     },
 
     onClickInfo: function (e) {
