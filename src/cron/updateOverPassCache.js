@@ -123,9 +123,8 @@ export default class UpdateOverPassCache {
                 layer.uniqid,
                 data
             )
-            .then( this._setLayerStateSuccess.bind(this, theme, layer) );
-
-            this._nextIteration();
+            .then( this._setLayerStateSuccess.bind(this, theme, layer) )
+            .then( this._nextIteration.bind(this) );
         })
         .catch(xhr => {
             if (xhr.status === 429) {
@@ -135,14 +134,14 @@ export default class UpdateOverPassCache {
 
             if (xhr.status === 400) {
                 logger.debug('OverPass says: Bad request');
-                this._setLayerStateError(theme, layer, CONST.overPassCacheError.badRequest);
-                return this._nextIteration();
+                return this._setLayerStateError(theme, layer, CONST.overPassCacheError.badRequest)
+                .then( this._nextIteration.bind(this) );
             }
 
             if (xhr.status !== 200) {
                 logger.debug('Unknown error, next!');
-                this._setLayerStateError(theme, layer, CONST.overPassCacheError.unknown);
-                return this._nextIteration();
+                return this._setLayerStateError(theme, layer, CONST.overPassCacheError.unknown)
+                .then( this._nextIteration.bind(this) );
             }
 
             let error;
@@ -157,8 +156,8 @@ export default class UpdateOverPassCache {
                 error = CONST.overPassCacheError.memory;
             }
 
-            this._setLayerStateError(theme, layer, error);
-            this._nextIteration();
+            return this._setLayerStateError(theme, layer, error)
+            .then( this._nextIteration.bind(this) );
         });
     }
 
@@ -211,37 +210,47 @@ export default class UpdateOverPassCache {
     _setLayerStateSuccess (theme, layer, filePath) {
         logger.debug('_setLayerStateSuccess');
 
-        this._themeCollection.updateOne({
-                '_id': theme._id,
-                'layers.uniqid': layer.uniqid
-            },
-            {
-                '$set': {
-                    'layers.$.fileUri': filePath,
-                    'layers.$.cacheUpdateSuccess': true,
-                    'layers.$.cacheUpdateSuccessDate': new Date().toISOString(),
-                    'layers.$.cacheUpdateDate': new Date().toISOString(),
-                    'layers.$.cacheUpdateError': null,
+        return new Promise((resolve, reject) => {
+            this._themeCollection.updateOne({
+                    '_id': theme._id,
+                    'layers.uniqid': layer.uniqid
+                },
+                {
+                    '$set': {
+                        'layers.$.fileUri': filePath,
+                        'layers.$.cacheUpdateSuccess': true,
+                        'layers.$.cacheUpdateSuccessDate': new Date().toISOString(),
+                        'layers.$.cacheUpdateDate': new Date().toISOString(),
+                        'layers.$.cacheUpdateError': null,
+                    }
+                },
+                () => {
+                    resolve();
                 }
-            }
-        );
+            );
+        });
     }
 
     _setLayerStateError (theme, layer, error) {
         logger.debug('_setLayerStateError');
 
-        this._themeCollection.updateOne({
-                '_id': theme._id,
-                'layers.uniqid': layer.uniqid
-            },
-            {
-                '$set': {
-                    'layers.$.cacheUpdateSuccess': false,
-                    'layers.$.cacheUpdateDate': new Date().toISOString(),
-                    'layers.$.cacheUpdateError': error,
+        return new Promise((resolve, reject) => {
+            this._themeCollection.updateOne({
+                    '_id': theme._id,
+                    'layers.uniqid': layer.uniqid
+                },
+                {
+                    '$set': {
+                        'layers.$.cacheUpdateSuccess': false,
+                        'layers.$.cacheUpdateDate': new Date().toISOString(),
+                        'layers.$.cacheUpdateError': error,
+                    }
+                },
+                () => {
+                    resolve();
                 }
-            }
-        );
+            );
+        });
     }
 
     _end () {
