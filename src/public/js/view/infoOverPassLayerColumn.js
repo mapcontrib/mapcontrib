@@ -1,6 +1,6 @@
 
 import moment from 'moment-timezone';
-import currentLocale from 'current-locale';
+import Locale from '../core/locale';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import marked from 'marked';
@@ -60,17 +60,15 @@ export default Marionette.LayoutView.extend({
 
         const cache = this.model.get('cache');
         const cacheUpdateSuccessDate = this.model.get('cacheUpdateSuccessDate');
-        
+
         if ( cache && cacheUpdateSuccessDate ) {
             this.ui.cacheSection.removeClass('hide');
 
             if ( cacheUpdateSuccessDate ) {
                 moment.locale(
-                    currentLocale({
-                        supportedLocales: ['fr', 'en'],
-                        fallbackLocale: 'en'
-                    })
+                    Locale.getLocale()
                 );
+
                 const timezone = moment.tz.guess();
                 const date = moment.utc(
                     cacheUpdateSuccessDate

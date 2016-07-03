@@ -1,6 +1,6 @@
 
 import moment from 'moment-timezone';
-import currentLocale from 'current-locale';
+import Locale from '../core/locale';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
@@ -73,11 +73,9 @@ export default Marionette.ItemView.extend({
 
         if ( this.model.get('cacheUpdateDate') ) {
             moment.locale(
-                currentLocale({
-                    supportedLocales: ['fr', 'en'],
-                    fallbackLocale: 'en'
-                })
+                Locale.getLocale()
             );
+
             const timezone = moment.tz.guess();
             const date = moment.utc(
                 this.model.get('cacheUpdateDate')
