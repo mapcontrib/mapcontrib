@@ -19,7 +19,7 @@ client:
     oauthSecret:
 
     overPassEndPoint: http://overpass-api.de/api/
-    overPassTimeout: 120 # Seconds
+    overPassTimeout: 120000 # Milliseconds
     overPassCacheEnabled: true
     overPassCacheFileSize: 1048576
 
