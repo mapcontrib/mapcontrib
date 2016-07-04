@@ -27,6 +27,10 @@ export default Marionette.ItemView.extend({
         'nominatimSection': '.nominatim',
         'themeGeocoderPhoton': '#theme_geocoder_photon',
         'themeGeocoderNominatim': '#theme_geocoder_nominatim',
+        'themeInfoDisplayPopup': '#theme_info_display_popup',
+        'themeInfoDisplayModal': '#theme_info_display_modal',
+        'themeInfoDisplayColumn': '#theme_info_display_column',
+        'themeInfoDisplayFullscreen': '#theme_info_display_fullscreen',
     },
 
     events: {
@@ -77,6 +81,21 @@ export default Marionette.ItemView.extend({
         if ( this.model.get('autoCenter') === true ) {
             this.ui.themePositionAutoCenter.prop('checked', true);
         }
+
+        switch ( this.model.get('infoDisplay') ) {
+            case CONST.infoDisplay.popup:
+                this.ui.themeInfoDisplayPopup.prop('checked', true);
+                break;
+            case CONST.infoDisplay.modal:
+                this.ui.themeInfoDisplayModal.prop('checked', true);
+                break;
+            case CONST.infoDisplay.column:
+                this.ui.themeInfoDisplayColumn.prop('checked', true);
+                break;
+            case CONST.infoDisplay.fullscreen:
+                this.ui.themeInfoDisplayFullscreen.prop('checked', true);
+                break;
+        }
     },
 
     onBeforeOpen: function () {
@@ -118,6 +137,19 @@ export default Marionette.ItemView.extend({
 
         if ( this.ui.themePositionAutoCenter.prop('checked') === true ) {
             this.model.set('autoCenter', true);
+        }
+
+        if ( this.ui.themeInfoDisplayPopup.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.popup);
+        }
+        else if ( this.ui.themeInfoDisplayModal.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.modal);
+        }
+        else if ( this.ui.themeInfoDisplayColumn.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.column);
+        }
+        else if ( this.ui.themeInfoDisplayFullscreen.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.fullscreen);
         }
 
         if (config.availableGeocoders.length > 1) {

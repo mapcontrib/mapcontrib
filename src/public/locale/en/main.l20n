@@ -133,6 +133,11 @@
 <editSettingColumn_geocoder "Geocoder">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">
+<editSettingColumn_infoDisplay "Informations display">
+<editSettingColumn_popup "Popup">
+<editSettingColumn_modal "Modale window">
+<editSettingColumn_column "Column">
+<editSettingColumn_fullscreen "Full screen">
 
 
 /* Edit layer column */
@@ -212,12 +217,6 @@
 <editPoiColumn_remoteValue "New remote value:<br>{{ $remoteValue }}">
 <editPoiColumn_take "Take">
 <editPoiColumn_reject "Reject">
-
-
-/* Conflict modal */
-<conflictModal_title "Conflict">
-<conflictModal_explanation1 "Some new data have been added by another contributor while you edited your point of interest.">
-<conflictModal_explanation2 "Those new data will be displayed below the previous fields in order to let you choose to keep it or reject it.">
 
 
 /* Zoom indicator notification */

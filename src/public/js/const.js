@@ -296,6 +296,13 @@ export default {
         'photon': 'photon'
     },
 
+    'infoDisplay': {
+        'popup': 'popup',
+        'modal': 'modal',
+        'column': 'column',
+        'fullscreen': 'fullscreen',
+    },
+
     'overPassCacheError': {
         'timeout': 'timeout',
         'memory': 'memory',

@@ -13,7 +13,9 @@ import Omnivore from 'leaflet-omnivore';
 import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
 import ThemeTitleView from './themeTitle';
-import ConflictModalView from './conflictModal';
+import InfoDisplayModalView from './infoDisplayModal';
+import InfoDisplayColumnView from './infoDisplayColumn';
+import InfoDisplayFullscreenView from './infoDisplayFullscreen';
 import GeocodeWidgetView from './geocodeWidget';
 import SelectLayerColumnView from './selectLayerColumn';
 import SelectTileColumnView from './selectTileColumn';
@@ -98,8 +100,6 @@ export default Marionette.LayoutView.extend({
 
     regions: {
         'mainTitle': '#rg_main_title',
-
-        'conflictModal': '#rg_conflict_modal',
 
         'geocodeWidget': '#rg_geocode_widget',
 
@@ -218,9 +218,6 @@ export default Marionette.LayoutView.extend({
             },
             'modal:showEditPoiMarker': (layerModel) => {
                 this.onCommandShowEditPoiMarker( layerModel );
-            },
-            'modal:showConflict': () => {
-                this.onCommandShowConflict();
             },
             'map:setTileLayer': (tileId) => {
                 this.setTileLayer( tileId );
@@ -888,6 +885,8 @@ export default Marionette.LayoutView.extend({
         let data;
         let osmId;
 
+        layer._layerModel = layerModel;
+
         if ( !popupContent && !dataEditable ) {
             return '';
         }
@@ -1201,12 +1200,6 @@ export default Marionette.LayoutView.extend({
         this.getRegion('editLayerMarkerModal').show( view );
     },
 
-    onCommandShowConflict: function () {
-        this.getRegion('conflictModal').show( new ConflictModalView() );
-    },
-
-
-
     onClickZoomIn: function () {
         this._map.zoomIn();
     },
@@ -1493,8 +1486,42 @@ export default Marionette.LayoutView.extend({
             let popup = L.popup( popupOptions ).setContent( popupContent );
             layer._popup = popup;
             layer.bindPopup( popup );
+            layer.on('click', this._displayInfo, this);
         }
 
         return false;
-    }
+    },
+
+    _displayInfo: function (e) {
+        const layer = e.target;
+        const content = this._buildLayerPopupContent(
+            layer,
+            layer._layerModel,
+            layer.feature
+        );
+
+        if (this._infoDisplayView) {
+            this._infoDisplayView.close();
+        }
+
+        switch (this.model.get('infoDisplay')) {
+            case CONST.infoDisplay.modal:
+                this._infoDisplayView = new InfoDisplayModalView({
+                    'content': content
+                }).open();
+                break;
+
+            case CONST.infoDisplay.column:
+                this._infoDisplayView = new InfoDisplayColumnView({
+                    'content': content
+                }).open();
+                break;
+
+            case CONST.infoDisplay.fullscreen:
+                this._infoDisplayView = new InfoDisplayFullscreenView({
+                    'content': content
+                }).open();
+                break;
+        }
+    },
 });
