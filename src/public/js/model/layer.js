@@ -2,6 +2,7 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import BackboneRelational from 'backbone-relational';
+import Wreqr from 'backbone.wreqr';
 import CONST from '../const';
 import { uuid } from '../core/utils';
 
@@ -39,6 +40,8 @@ export default Backbone.RelationalModel.extend({
     },
 
     initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+
         if (!this.get('uniqid')) {
             this.set('uniqid', uuid());
         }
@@ -51,6 +54,13 @@ export default Backbone.RelationalModel.extend({
      * @return boolean
      */
      isVisible: function () {
-        return this.get('visible');
+         const isOwner = this._radio.reqres.request('user:isOwner');
+
+         if ( isOwner ) {
+             return true;
+         }
+         else {
+             return this.get('visible');
+         }
      }
 });

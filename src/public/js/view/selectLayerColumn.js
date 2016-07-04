@@ -28,10 +28,9 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-        var layers = this.model.get('layers'),
-        selectLayerListView = new SelectLayerListView({ 'collection': layers });
-
-        this.getRegion('layerList').show( selectLayerListView );
+        this.getRegion('layerList').show(
+            new SelectLayerListView({ 'collection': this.collection })
+        );
     },
 
     onBeforeOpen: function () {

@@ -174,13 +174,16 @@ export default Marionette.LayoutView.extend({
 
 
         this._radio.reqres.setHandlers({
-            'map:getCurrentZoom': (tileId) => {
+            'user:isOwner': () => {
+                return this.model.isOwner( this._user );
+            },
+            'theme:fragment': () => {
+                return this.model.get('fragment');
+            },
+            'map:currentZoom': (tileId) => {
                 if (this._map) {
                     return this._map.getZoom();
                 }
-            },
-            'getFragment': () => {
-                return this.model.get('fragment');
             },
             'map:markerCluster': (layerModel) => {
                 return this._markerClusters[ layerModel.cid ];
@@ -283,7 +286,7 @@ export default Marionette.LayoutView.extend({
 
 
         this._geocodeWidgetView = new GeocodeWidgetView({ 'model': this.model });
-        this._selectLayerColumnView = new SelectLayerColumnView({ 'model': this.model });
+        this._selectLayerColumnView = new SelectLayerColumnView({ 'collection': this._layerCollection });
         this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
         this._userColumnView = new UserColumnView();
         this._visitorColumnView = new VisitorColumnView({ 'theme': this.model });

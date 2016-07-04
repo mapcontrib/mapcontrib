@@ -29,7 +29,7 @@ export default Marionette.LayoutView.extend({
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
 
-        var fragment = this._radio.reqres.request('getFragment'),
+        var fragment = this._radio.reqres.request('theme:fragment'),
         storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) ) || {};
 
 

@@ -1,6 +1,7 @@
 
 import _ from 'underscore';
 import Backbone from 'backbone';
+import Wreqr from 'backbone.wreqr';
 import CONST from '../const';
 import LayerModel from '../model/layer';
 
@@ -11,7 +12,7 @@ export default Backbone.Collection.extend({
     comparator: 'order',
 
     initialize: function (models, options) {
-        this.options = options;
+        this._radio = Wreqr.radio.channel('global');
 
         this.on('add', this.onAdd);
     },
@@ -37,6 +38,13 @@ export default Backbone.Collection.extend({
      * @return An array of all the visible layers
      */
     getVisibleLayers: function () {
-        return this.where({ 'visible': true });
+        const isOwner = this._radio.reqres.request('user:isOwner');
+
+        if ( isOwner ) {
+            return this.models;
+        }
+        else {
+            return this.where({ 'visible': true });
+        }
     },
 });

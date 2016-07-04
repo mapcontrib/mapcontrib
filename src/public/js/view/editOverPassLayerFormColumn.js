@@ -137,7 +137,7 @@ export default Marionette.ItemView.extend({
     },
 
     onChangedMapZoom: function () {
-        var currentMapZoom = this._radio.reqres.request('map:getCurrentZoom');
+        var currentMapZoom = this._radio.reqres.request('map:currentZoom');
 
         this.ui.currentMapZoom.html(
             document.l10n.getSync(

@@ -43,7 +43,7 @@ export default Marionette.ItemView.extend({
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
 
-        var fragment = this._radio.reqres.request('getFragment'),
+        var fragment = this._radio.reqres.request('theme:fragment'),
         storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
 
 
@@ -71,7 +71,7 @@ export default Marionette.ItemView.extend({
     },
 
     onRender: function () {
-        var currentZoom = this._radio.reqres.request('map:getCurrentZoom'),
+        var currentZoom = this._radio.reqres.request('map:currentZoom'),
         n = (this.model.get('minZoom') - currentZoom) || 0;
 
         if ( n > 0 ) {
