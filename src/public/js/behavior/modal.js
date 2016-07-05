@@ -33,6 +33,7 @@ export default Marionette.Behavior.extend({
         if ( this.options.appendToBody && !this.view.isRendered ) {
             this.view.render();
             document.body.appendChild( this.el );
+            return setTimeout(this.onOpen.bind(this), 0);
         }
 
         if (this.view.onBeforeOpen) {
