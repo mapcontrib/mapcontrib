@@ -20,14 +20,11 @@ export default Marionette.LayoutView.extend({
         'editBtn': '.edit_btn',
     },
 
-    events: {
-        'click @ui.editBtn': 'close',
-    },
-
     onRender: function () {
         this.ui.content.append( this.options.content );
 
         if (this.options.layerModel.get('dataEditable')) {
+            this.ui.editBtn.on( 'click', this.options.editAction );
             this.ui.footer.removeClass('hide');
         }
     },

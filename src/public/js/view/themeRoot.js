@@ -50,6 +50,7 @@ import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
 import Cache from '../core/cache';
 import OsmData from '../core/osmData';
+import InfoDisplay from '../core/infoDisplay';
 import OverPassHelper from '../helper/overPass';
 import GeoJsonHelper from '../helper/geoJson';
 import MarkedHelper from '../helper/marked';
@@ -751,7 +752,14 @@ export default Marionette.LayoutView.extend({
                 object.feature
             );
 
-            this._bindPopupTo(object, popupContent);
+
+            object._layerModel = layerModel;
+
+            if ( this.model.get('infoDisplay') === CONST.infoDisplay.popup ) {
+                this._bindPopupTo(object, popupContent);
+            }
+
+            object.on('click', this._displayInfo, this);
 
             if (object.feature.geometry.type === 'Point') {
                 object.setIcon( icon );
@@ -885,56 +893,34 @@ export default Marionette.LayoutView.extend({
     },
 
     _buildLayerPopupContent: function (layer, layerModel, feature) {
-        let popupContent = layerModel.get('popupContent');
-        let dataEditable = layerModel.get('dataEditable');
-        let isLogged = this._app.isLogged();
+        const isLogged = this._app.isLogged();
+        const dataEditable = layerModel.get('dataEditable');
+        const content = InfoDisplay.buildContent(
+            layerModel,
+            feature,
+            isLogged
+        );
         let data;
-        let osmId;
 
-        layer._layerModel = layerModel;
-
-        if ( !popupContent && !dataEditable ) {
+        if ( !content && !dataEditable ) {
             return '';
         }
 
-        if ( !popupContent && !isLogged ) {
+        if ( !content && !isLogged ) {
             return '';
         }
-
-        if ( layerModel.get('type') === CONST.layerType.overpass) {
-            data = feature.properties.tags;
-        }
-        else {
-            if ( feature.properties.tags ) {
-                data = feature.properties.tags;
-            }
-            else {
-                data = feature.properties;
-            }
-        }
-
-        let re;
-
-        for (var k in data) {
-            re = new RegExp('{'+ k +'}', 'g');
-
-            popupContent = popupContent.replace( re, data[k] );
-        }
-
-        popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
-        const popupContentHtml = MarkedHelper.render(popupContent);
 
         if ( layerModel.get('type') !== CONST.layerType.overpass ) {
-            return popupContentHtml;
+            return content;
         }
 
         let globalWrapper = this._document.createElement('div');
-        globalWrapper.innerHTML = popupContentHtml;
+        globalWrapper.innerHTML = content;
 
         if ( isLogged && dataEditable ) {
             let editButton = this._document.createElement('button');
 
-            if (!popupContent) {
+            if ( !layerModel.get('popupContent') ) {
                 globalWrapper.className = 'global_wrapper no_popup_content';
                 editButton.className = 'btn btn-link edit_btn';
                 editButton.innerHTML = this._document.l10n.getSync('editThatElement');
@@ -1492,21 +1478,26 @@ export default Marionette.LayoutView.extend({
             let popup = L.popup( popupOptions ).setContent( popupContent );
             layer._popup = popup;
             layer.bindPopup( popup );
-            layer.on('click', this._displayInfo, this);
         }
 
         return false;
     },
 
     bindAllPopups: function () {
+        const isLogged = this._app.isLogged();
+
         for (let i in this._markerClusters) {
             let markerCluster = this._markerClusters[i];
             let layers = markerCluster.getLayers();
 
             for (let layer of layers) {
-                if (layer._popup) {
-                    layer.bindPopup( layer._popup );
-                }
+                let content = this._buildLayerPopupContent(
+                    layer,
+                    layer._layerModel,
+                    layer.feature
+                );
+
+                this._bindPopupTo(layer, content);
             }
         }
     },
@@ -1517,42 +1508,58 @@ export default Marionette.LayoutView.extend({
             let layers = markerCluster.getLayers();
 
             for (let layer of layers) {
-                layer.unbindPopup();
+                layer.closePopup().unbindPopup();
             }
         }
     },
 
     _displayInfo: function (e) {
         const layer = e.target;
-        const content = this._buildLayerPopupContent(
-            layer,
+        const isLogged = this._app.isLogged();
+        const content = InfoDisplay.buildContent(
             layer._layerModel,
-            layer.feature
+            layer.feature,
+            isLogged
         );
+        const editAction = this.onClickEditPoi.bind(
+            this,
+            layer,
+            layer.feature.properties.type,
+            layer.feature.properties.id,
+            layer._layerModel
+        );
+
 
         if (this._infoDisplayView) {
             this._infoDisplayView.close();
+        }
+
+        if ( !content ) {
+            return false;
         }
 
         switch (this.model.get('infoDisplay')) {
             case CONST.infoDisplay.modal:
                 this._infoDisplayView = new InfoDisplayModalView({
                     'layerModel': layer._layerModel,
-                    'content': content
+                    content,
+                    editAction,
                 }).open();
                 break;
 
             case CONST.infoDisplay.column:
                 this._infoDisplayView = new InfoDisplayColumnView({
                     'layerModel': layer._layerModel,
-                    'content': content
+                    content,
+                    editAction,
                 }).open();
                 break;
 
                     case CONST.infoDisplay.fullscreen:
                 this._infoDisplayView = new InfoDisplayFullscreenView({
                     'layerModel': layer._layerModel,
-                    'content': content
+                    content,
+                    editAction,
                 }).open();
                 break;
         }
