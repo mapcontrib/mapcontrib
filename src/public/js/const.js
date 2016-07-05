@@ -300,7 +300,6 @@ export default {
         'popup': 'popup',
         'modal': 'modal',
         'column': 'column',
-        'fullscreen': 'fullscreen',
     },
 
     'overPassCacheError': {
