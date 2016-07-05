@@ -1552,6 +1552,7 @@ export default Marionette.LayoutView.extend({
                     'layerModel': layer._layerModel,
                     content,
                     editAction,
+                    isLogged,
                 }).open();
                 break;
 
@@ -1560,6 +1561,7 @@ export default Marionette.LayoutView.extend({
                     'layerModel': layer._layerModel,
                     content,
                     editAction,
+                    isLogged,
                 }).open();
                 break;
         }

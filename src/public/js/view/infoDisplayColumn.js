@@ -23,7 +23,7 @@ export default Marionette.LayoutView.extend({
     onRender: function () {
         this.ui.content.append( this.options.content );
 
-        if (this.options.layerModel.get('dataEditable')) {
+        if (this.options.layerModel.get('dataEditable') && this.options.isLogged) {
             this.ui.editBtn.on( 'click', this.options.editAction );
             this.ui.footer.removeClass('hide');
         }
