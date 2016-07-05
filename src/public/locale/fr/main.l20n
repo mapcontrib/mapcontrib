@@ -133,6 +133,10 @@
 <editSettingColumn_geocoder "Géocodeur">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">
+<editSettingColumn_infoDisplay "Affichage des informations">
+<editSettingColumn_popup "Infobulle">
+<editSettingColumn_modal "Fenêtre modale">
+<editSettingColumn_column "Colonne">
 
 
 /* Edit layer column */
@@ -212,12 +216,6 @@
 <editPoiColumn_remoteValue "Nouvelle valeur distante&nbsp;:<br>{{ $remoteValue }}">
 <editPoiColumn_take "Prendre">
 <editPoiColumn_reject "Rejeter">
-
-
-/* Conflict modal */
-<conflictModal_title "Conflit">
-<conflictModal_explanation1 "De nouvelles données ont été saisies par un autre contributeur pendant que vous modifiez les informations de votre centre d'intérêt.">
-<conflictModal_explanation2 "Ces nouvelles données vont être affichées en-dessous des champs précédents pour que vous puissiez choisir ou non de les garder.">
 
 
 /* Zoom notification */
@@ -302,3 +300,7 @@
 <infoLayerColumn_layerOverPassCacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
 <infoLayerColumn_geoJsonData "Données GeoJSON">
 <infoLayerColumn_downloadData "Télécharger les données">
+
+
+/* Info display column */
+<infoDisplayColumn_title "Détails">

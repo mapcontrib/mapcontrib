@@ -13,7 +13,8 @@ import Omnivore from 'leaflet-omnivore';
 import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
 import ThemeTitleView from './themeTitle';
-import ConflictModalView from './conflictModal';
+import InfoDisplayModalView from './infoDisplayModal';
+import InfoDisplayColumnView from './infoDisplayColumn';
 import GeocodeWidgetView from './geocodeWidget';
 import SelectLayerColumnView from './selectLayerColumn';
 import SelectTileColumnView from './selectTileColumn';
@@ -48,6 +49,7 @@ import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
 import Cache from '../core/cache';
 import OsmData from '../core/osmData';
+import InfoDisplay from '../core/infoDisplay';
 import OverPassHelper from '../helper/overPass';
 import GeoJsonHelper from '../helper/geoJson';
 import MarkedHelper from '../helper/marked';
@@ -98,8 +100,6 @@ export default Marionette.LayoutView.extend({
 
     regions: {
         'mainTitle': '#rg_main_title',
-
-        'conflictModal': '#rg_conflict_modal',
 
         'geocodeWidget': '#rg_geocode_widget',
 
@@ -219,9 +219,6 @@ export default Marionette.LayoutView.extend({
             'modal:showEditPoiMarker': (layerModel) => {
                 this.onCommandShowEditPoiMarker( layerModel );
             },
-            'modal:showConflict': () => {
-                this.onCommandShowConflict();
-            },
             'map:setTileLayer': (tileId) => {
                 this.setTileLayer( tileId );
             },
@@ -254,6 +251,12 @@ export default Marionette.LayoutView.extend({
             },
             'map:fitBounds': (latLngBounds) => {
                 this.fitBounds( latLngBounds );
+            },
+            'map:unbindAllPopups': () => {
+                this.unbindAllPopups();
+            },
+            'map:bindAllPopups': () => {
+                this.bindAllPopups();
             },
             'saveOsmData': (osmElement) => {
                 this._osmData.save(osmElement);
@@ -748,7 +751,14 @@ export default Marionette.LayoutView.extend({
                 object.feature
             );
 
-            this._bindPopupTo(object, popupContent);
+
+            object._layerModel = layerModel;
+
+            if ( this.model.get('infoDisplay') === CONST.infoDisplay.popup ) {
+                this._bindPopupTo(object, popupContent);
+            }
+
+            object.on('click', this._displayInfo, this);
 
             if (object.feature.geometry.type === 'Point') {
                 object.setIcon( icon );
@@ -811,6 +821,10 @@ export default Marionette.LayoutView.extend({
     },
 
     updateLayerPopups: function (layerModel) {
+        if (this.model.get('infoDisplay') !== CONST.infoDisplay.popup) {
+            return false;
+        }
+
         let markerCluster = this._markerClusters[ layerModel.cid ];
         let layers = markerCluster.getLayers();
 
@@ -882,54 +896,34 @@ export default Marionette.LayoutView.extend({
     },
 
     _buildLayerPopupContent: function (layer, layerModel, feature) {
-        let popupContent = layerModel.get('popupContent');
-        let dataEditable = layerModel.get('dataEditable');
-        let isLogged = this._app.isLogged();
+        const isLogged = this._app.isLogged();
+        const dataEditable = layerModel.get('dataEditable');
+        const content = InfoDisplay.buildContent(
+            layerModel,
+            feature,
+            isLogged
+        );
         let data;
-        let osmId;
 
-        if ( !popupContent && !dataEditable ) {
+        if ( !content && !dataEditable ) {
             return '';
         }
 
-        if ( !popupContent && !isLogged ) {
+        if ( !content && !isLogged ) {
             return '';
         }
-
-        if ( layerModel.get('type') === CONST.layerType.overpass) {
-            data = feature.properties.tags;
-        }
-        else {
-            if ( feature.properties.tags ) {
-                data = feature.properties.tags;
-            }
-            else {
-                data = feature.properties;
-            }
-        }
-
-        let re;
-
-        for (var k in data) {
-            re = new RegExp('{'+ k +'}', 'g');
-
-            popupContent = popupContent.replace( re, data[k] );
-        }
-
-        popupContent = popupContent.replace( /\{(.*?)\}/g, '' );
-        const popupContentHtml = MarkedHelper.render(popupContent);
 
         if ( layerModel.get('type') !== CONST.layerType.overpass ) {
-            return popupContentHtml;
+            return content;
         }
 
         let globalWrapper = this._document.createElement('div');
-        globalWrapper.innerHTML = popupContentHtml;
+        globalWrapper.innerHTML = content;
 
         if ( isLogged && dataEditable ) {
             let editButton = this._document.createElement('button');
 
-            if (!popupContent) {
+            if ( !content ) {
                 globalWrapper.className = 'global_wrapper no_popup_content';
                 editButton.className = 'btn btn-link edit_btn';
                 editButton.innerHTML = this._document.l10n.getSync('editThatElement');
@@ -1200,12 +1194,6 @@ export default Marionette.LayoutView.extend({
 
         this.getRegion('editLayerMarkerModal').show( view );
     },
-
-    onCommandShowConflict: function () {
-        this.getRegion('conflictModal').show( new ConflictModalView() );
-    },
-
-
 
     onClickZoomIn: function () {
         this._map.zoomIn();
@@ -1496,5 +1484,84 @@ export default Marionette.LayoutView.extend({
         }
 
         return false;
-    }
+    },
+
+    bindAllPopups: function () {
+        const isLogged = this._app.isLogged();
+
+        for (let i in this._markerClusters) {
+            let markerCluster = this._markerClusters[i];
+            let layers = markerCluster.getLayers();
+
+            for (let layer of layers) {
+                let content = this._buildLayerPopupContent(
+                    layer,
+                    layer._layerModel,
+                    layer.feature
+                );
+
+                this._bindPopupTo(layer, content);
+            }
+        }
+    },
+
+    unbindAllPopups: function () {
+        for (let i in this._markerClusters) {
+            let markerCluster = this._markerClusters[i];
+            let layers = markerCluster.getLayers();
+
+            for (let layer of layers) {
+                layer.closePopup().unbindPopup();
+            }
+        }
+    },
+
+    _displayInfo: function (e) {
+        const layer = e.target;
+        const dataEditable = layer._layerModel.get('dataEditable');
+        const isLogged = this._app.isLogged();
+        const content = InfoDisplay.buildContent(
+            layer._layerModel,
+            layer.feature,
+            isLogged
+        );
+        const editAction = this.onClickEditPoi.bind(
+            this,
+            layer,
+            layer.feature.properties.type,
+            layer.feature.properties.id,
+            layer._layerModel
+        );
+
+
+        if (this._infoDisplayView) {
+            this._infoDisplayView.close();
+        }
+
+        if ( !content && !dataEditable ) {
+            return false;
+        }
+
+        if ( !content && !isLogged ) {
+            return false;
+        }
+
+        switch (this.model.get('infoDisplay')) {
+            case CONST.infoDisplay.modal:
+                this._infoDisplayView = new InfoDisplayModalView({
+                    'layerModel': layer._layerModel,
+                    content,
+                    editAction,
+                }).open();
+                break;
+
+            case CONST.infoDisplay.column:
+                this._infoDisplayView = new InfoDisplayColumnView({
+                    'layerModel': layer._layerModel,
+                    content,
+                    editAction,
+                }).open();
+                break;
+        }
+    },
 });

@@ -27,6 +27,9 @@ export default Marionette.ItemView.extend({
         'nominatimSection': '.nominatim',
         'themeGeocoderPhoton': '#theme_geocoder_photon',
         'themeGeocoderNominatim': '#theme_geocoder_nominatim',
+        'themeInfoDisplayPopup': '#theme_info_display_popup',
+        'themeInfoDisplayModal': '#theme_info_display_modal',
+        'themeInfoDisplayColumn': '#theme_info_display_column',
     },
 
     events: {
@@ -77,6 +80,18 @@ export default Marionette.ItemView.extend({
         if ( this.model.get('autoCenter') === true ) {
             this.ui.themePositionAutoCenter.prop('checked', true);
         }
+
+        switch ( this.model.get('infoDisplay') ) {
+            case CONST.infoDisplay.popup:
+                this.ui.themeInfoDisplayPopup.prop('checked', true);
+                break;
+            case CONST.infoDisplay.modal:
+                this.ui.themeInfoDisplayModal.prop('checked', true);
+                break;
+            case CONST.infoDisplay.column:
+                this.ui.themeInfoDisplayColumn.prop('checked', true);
+                break;
+        }
     },
 
     onBeforeOpen: function () {
@@ -120,6 +135,16 @@ export default Marionette.ItemView.extend({
             this.model.set('autoCenter', true);
         }
 
+        if ( this.ui.themeInfoDisplayPopup.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.popup);
+        }
+        else if ( this.ui.themeInfoDisplayModal.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.modal);
+        }
+        else if ( this.ui.themeInfoDisplayColumn.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.column);
+        }
+
         if (config.availableGeocoders.length > 1) {
             for (let geocoder in CONST.geocoder) {
                 let ucFirstGeocoder = geocoder.ucfirst();
@@ -132,6 +157,15 @@ export default Marionette.ItemView.extend({
 
         this.model.save({}, {
             'success': () => {
+                if (this.model.get('infoDisplay') !== this._oldModel.get('infoDisplay')) {
+                    if (this.model.get('infoDisplay') === CONST.infoDisplay.popup) {
+                        this._radio.commands.execute('map:bindAllPopups');
+                    }
+                    else {
+                        this._radio.commands.execute('map:unbindAllPopups');
+                    }
+                }
+
                 this._oldModel = this.model.clone();
 
                 this.close();
