@@ -1272,15 +1272,23 @@ export default Marionette.LayoutView.extend({
             this._minDataZoom = 0;
         }
         else {
-            let minDataZoom = 100000;
+            let minDataZoom = 10000;
 
-            _.each(this._layerCollection.models, function (layerModel) {
+            for (let layerModel of this._layerCollection.models) {
+                if ( layerModel.get('layerType') !== CONST.layerType.overpass ) {
+                    continue;
+                }
+
+                if ( layerModel.get('cache') === true && layerModel.get('fileUri') ) {
+                    continue;
+                }
+
                 if ( layerModel.get('minZoom') < minDataZoom ) {
                     minDataZoom = layerModel.get('minZoom');
                 }
-            }, this);
+            }
 
-            this._minDataZoom = minDataZoom;
+            this._minDataZoom = (minDataZoom === 10000) ? 0 : minDataZoom;
         }
 
         this.checkZoomNotification();
