@@ -46,6 +46,27 @@
 }
 
 
+
+.sticky-footer {
+    position: sticky;
+    z-index: 10;
+    bottom: 0;
+    padding: 20px 0;
+    margin: 20px 0 0 0;
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+.pop .sticky-footer {
+    bottom: -20px;
+    margin-bottom: -20px;
+}
+
+
+
+
+
+
 .column {
     z-index: @columnZIndex;
     top: 0;
@@ -136,6 +157,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    max-height: 100%;
     background: rgba(0, 0, 0, 0.6);
     outline: 0;
     opacity: 0;
@@ -147,6 +169,8 @@
         left: 50%;
         width: 500px;
         max-width: 100%;
+        max-height: 100%;
+        overflow: auto;
         transition: transform ease-out 0.2s;
         transform: translate(-50%, -45%);
         padding: 30px 15px;
@@ -158,6 +182,12 @@
                 margin-left: -15px;
                 margin-right: -15px;
             }
+        }
+
+        & > header .close_btn {
+            position: absolute;
+            top: 0;
+            right: 0;
         }
     }
 

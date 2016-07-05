@@ -15,7 +15,6 @@ import fullScreenPolyfill from 'fullscreen-api-polyfill';
 import ThemeTitleView from './themeTitle';
 import InfoDisplayModalView from './infoDisplayModal';
 import InfoDisplayColumnView from './infoDisplayColumn';
-import InfoDisplayFullscreenView from './infoDisplayFullscreen';
 import GeocodeWidgetView from './geocodeWidget';
 import SelectLayerColumnView from './selectLayerColumn';
 import SelectTileColumnView from './selectTileColumn';
@@ -1558,14 +1557,6 @@ export default Marionette.LayoutView.extend({
 
             case CONST.infoDisplay.column:
                 this._infoDisplayView = new InfoDisplayColumnView({
-                    'layerModel': layer._layerModel,
-                    content,
-                    editAction,
-                }).open();
-                break;
-
-                    case CONST.infoDisplay.fullscreen:
-                this._infoDisplayView = new InfoDisplayFullscreenView({
                     'layerModel': layer._layerModel,
                     content,
                     editAction,

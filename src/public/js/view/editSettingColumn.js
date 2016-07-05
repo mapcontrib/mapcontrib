@@ -30,7 +30,6 @@ export default Marionette.ItemView.extend({
         'themeInfoDisplayPopup': '#theme_info_display_popup',
         'themeInfoDisplayModal': '#theme_info_display_modal',
         'themeInfoDisplayColumn': '#theme_info_display_column',
-        'themeInfoDisplayFullscreen': '#theme_info_display_fullscreen',
     },
 
     events: {
@@ -92,9 +91,6 @@ export default Marionette.ItemView.extend({
             case CONST.infoDisplay.column:
                 this.ui.themeInfoDisplayColumn.prop('checked', true);
                 break;
-            case CONST.infoDisplay.fullscreen:
-                this.ui.themeInfoDisplayFullscreen.prop('checked', true);
-                break;
         }
     },
 
@@ -147,9 +143,6 @@ export default Marionette.ItemView.extend({
         }
         else if ( this.ui.themeInfoDisplayColumn.prop('checked') === true ) {
             this.model.set('infoDisplay', CONST.infoDisplay.column);
-        }
-        else if ( this.ui.themeInfoDisplayFullscreen.prop('checked') === true ) {
-            this.model.set('infoDisplay', CONST.infoDisplay.fullscreen);
         }
 
         if (config.availableGeocoders.length > 1) {
