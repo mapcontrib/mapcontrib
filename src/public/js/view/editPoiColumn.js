@@ -78,7 +78,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onBeforeClose: function () {
-        if ( this._osmEdit.getType() === 'node' ) {
+        if ( this._osmEdit.getType() === 'node' && this._oldLatLng ) {
             if (!this._contributionSent) {
                 this._layer.setLatLng( this._oldLatLng );
             }
@@ -98,13 +98,13 @@ export default Marionette.LayoutView.extend({
             return this;
         }
 
-        if ( this._osmEdit.getType() === 'node' ) {
-            this._oldLatLng = this._layer.getLatLng();
-            this.ui.moveSection.removeClass('hide');
-        }
-
         this._osmEdit.fetch()
         .then(osmEdit => {
+            if ( this._osmEdit.getType() === 'node' ) {
+                this._oldLatLng = this._layer.getLatLng();
+                this.ui.moveSection.removeClass('hide');
+            }
+
             let version = osmEdit.getVersion(),
             type = osmEdit.getType(),
             id = osmEdit.getId();
