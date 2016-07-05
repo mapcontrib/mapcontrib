@@ -6,6 +6,7 @@ export default Marionette.LayoutView.extend({
     template: template,
 
     behaviors: {
+        'l20n': {},
         'modal': {
             'appendToBody': true,
         },
@@ -15,6 +16,7 @@ export default Marionette.LayoutView.extend({
         'modal': '.info_display_modal',
         'content': '.info_content',
         'editBtn': '.edit_btn',
+        'footer': '.sticky-footer',
     },
 
     events: {
@@ -23,6 +25,11 @@ export default Marionette.LayoutView.extend({
 
     onRender: function () {
         this.ui.content.append( this.options.content );
+
+        if (this.options.layerModel.get('dataEditable')) {
+            this.ui.editBtn.on( 'click', this.options.editAction );
+            this.ui.footer.removeClass('hide');
+        }
     },
 
     open: function () {

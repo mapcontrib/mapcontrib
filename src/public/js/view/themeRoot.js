@@ -822,6 +822,10 @@ export default Marionette.LayoutView.extend({
     },
 
     updateLayerPopups: function (layerModel) {
+        if (this.model.get('infoDisplay') !== CONST.infoDisplay.popup) {
+            return false;
+        }
+
         let markerCluster = this._markerClusters[ layerModel.cid ];
         let layers = markerCluster.getLayers();
 
@@ -920,7 +924,7 @@ export default Marionette.LayoutView.extend({
         if ( isLogged && dataEditable ) {
             let editButton = this._document.createElement('button');
 
-            if ( !layerModel.get('popupContent') ) {
+            if ( !content ) {
                 globalWrapper.className = 'global_wrapper no_popup_content';
                 editButton.className = 'btn btn-link edit_btn';
                 editButton.innerHTML = this._document.l10n.getSync('editThatElement');
@@ -1515,6 +1519,7 @@ export default Marionette.LayoutView.extend({
 
     _displayInfo: function (e) {
         const layer = e.target;
+        const dataEditable = layer._layerModel.get('dataEditable');
         const isLogged = this._app.isLogged();
         const content = InfoDisplay.buildContent(
             layer._layerModel,
@@ -1534,7 +1539,11 @@ export default Marionette.LayoutView.extend({
             this._infoDisplayView.close();
         }
 
-        if ( !content ) {
+        if ( !content && !dataEditable ) {
+            return false;
+        }
+
+        if ( !content && !isLogged ) {
             return false;
         }
 
