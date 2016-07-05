@@ -164,6 +164,15 @@ export default Marionette.ItemView.extend({
 
         this.model.save({}, {
             'success': () => {
+                if (this.model.get('infoDisplay') !== this._oldModel.get('infoDisplay')) {
+                    if (this.model.get('infoDisplay') === CONST.infoDisplay.popup) {
+                        this._radio.commands.execute('map:bindAllPopups');
+                    }
+                    else {
+                        this._radio.commands.execute('map:unbindAllPopups');
+                    }
+                }
+
                 this._oldModel = this.model.clone();
 
                 this.close();

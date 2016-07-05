@@ -252,6 +252,12 @@ export default Marionette.LayoutView.extend({
             'map:fitBounds': (latLngBounds) => {
                 this.fitBounds( latLngBounds );
             },
+            'map:unbindAllPopups': () => {
+                this.unbindAllPopups();
+            },
+            'map:bindAllPopups': () => {
+                this.bindAllPopups();
+            },
             'saveOsmData': (osmElement) => {
                 this._osmData.save(osmElement);
             },
@@ -1492,6 +1498,30 @@ export default Marionette.LayoutView.extend({
         return false;
     },
 
+    bindAllPopups: function () {
+        for (let i in this._markerClusters) {
+            let markerCluster = this._markerClusters[i];
+            let layers = markerCluster.getLayers();
+
+            for (let layer of layers) {
+                if (layer._popup) {
+                    layer.bindPopup( layer._popup );
+                }
+            }
+        }
+    },
+
+    unbindAllPopups: function () {
+        for (let i in this._markerClusters) {
+            let markerCluster = this._markerClusters[i];
+            let layers = markerCluster.getLayers();
+
+            for (let layer of layers) {
+                layer.unbindPopup();
+            }
+        }
+    },
+
     _displayInfo: function (e) {
         const layer = e.target;
         const content = this._buildLayerPopupContent(
@@ -1507,18 +1537,21 @@ export default Marionette.LayoutView.extend({
         switch (this.model.get('infoDisplay')) {
             case CONST.infoDisplay.modal:
                 this._infoDisplayView = new InfoDisplayModalView({
+                    'layerModel': layer._layerModel,
                     'content': content
                 }).open();
                 break;
 
             case CONST.infoDisplay.column:
                 this._infoDisplayView = new InfoDisplayColumnView({
+                    'layerModel': layer._layerModel,
                     'content': content
                 }).open();
                 break;
 
-            case CONST.infoDisplay.fullscreen:
+                    case CONST.infoDisplay.fullscreen:
                 this._infoDisplayView = new InfoDisplayFullscreenView({
+                    'layerModel': layer._layerModel,
                     'content': content
                 }).open();
                 break;

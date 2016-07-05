@@ -302,3 +302,7 @@
 <infoLayerColumn_layerOverPassCacheDate "Last update: {{ $date }}.">
 <infoLayerColumn_geoJsonData "GeoJSON data">
 <infoLayerColumn_downloadData "Download the data">
+
+
+/* Info display column */
+<infoDisplayColumn_title "Details">
