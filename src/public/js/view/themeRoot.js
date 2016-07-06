@@ -1275,7 +1275,7 @@ export default Marionette.LayoutView.extend({
             let minDataZoom = 10000;
 
             for (let layerModel of this._layerCollection.models) {
-                if ( layerModel.get('layerType') !== CONST.layerType.overpass ) {
+                if ( layerModel.get('type') !== CONST.layerType.overpass ) {
                     continue;
                 }
 
