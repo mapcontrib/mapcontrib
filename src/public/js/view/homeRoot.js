@@ -16,6 +16,8 @@ export default Marionette.LayoutView.extend({
     ui: {
         'createThemeButton': '.create_theme_btn',
         'searchInput': '#q',
+        'searchIcon': 'input.search + label .icon',
+        'searchSpinner': 'input.search + label .spinner',
     },
 
     regions: {
@@ -71,15 +73,25 @@ export default Marionette.LayoutView.extend({
             this.resetThemeCollection();
         }
         else {
+            this.ui.searchIcon.addClass('hide');
+            this.ui.searchSpinner.removeClass('hide');
+
             this.collection.fetch({
                 'reset': true,
                 'merge': false,
                 'data': {
                     'q': searchString,
                     'hasLayer': true
-                }
+                },
+                'success': this.onThemesFetched.bind(this),
+                'error': this.onThemesFetched.bind(this),
             });
         }
+    },
+
+    onThemesFetched: function (collection, response, options) {
+        this.ui.searchSpinner.addClass('hide');
+        this.ui.searchIcon.removeClass('hide');
     },
 
     resetThemeCollection: function () {

@@ -36,9 +36,21 @@ input.search {
 
 input.search + label .icon {
     position: absolute;
-    left: 26px;
-    top: 4px;
     cursor: text;
+    left: 26px;
+    top: 8px;
     font-size: 18px;
+    line-height: 18px;
     color: darken(@darkGray, 10%);
+}
+
+input.search + label .spinner {
+    position: absolute;
+    cursor: text;
+    left: 24px;
+    top: 8px;
+    width: 18px;
+    height: 18px;
+    border-width: 2px;
+    border-top-color: darken(@darkGray, 10%);
 }
