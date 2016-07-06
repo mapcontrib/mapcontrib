@@ -60,6 +60,9 @@ export default Marionette.LayoutView.extend({
     onKeyUpSearchInput: function (e) {
         clearTimeout(this._searchTimeout);
 
+        this.ui.searchIcon.addClass('hide');
+        this.ui.searchSpinner.removeClass('hide');
+
         this._searchTimeout = setTimeout(
             this.fetchSearchedThemes.bind(this),
             300
@@ -73,9 +76,6 @@ export default Marionette.LayoutView.extend({
             this.resetThemeCollection();
         }
         else {
-            this.ui.searchIcon.addClass('hide');
-            this.ui.searchSpinner.removeClass('hide');
-
             this.collection.fetch({
                 'reset': true,
                 'merge': false,
