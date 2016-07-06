@@ -170,7 +170,7 @@ export default Marionette.LayoutView.extend({
                 }
 
                 return {
-                    'name': result.properties.name,
+                    'name': result.name,
                     'detail': details.join(', ')
                 };
         }
