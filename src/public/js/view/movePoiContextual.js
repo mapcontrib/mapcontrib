@@ -46,10 +46,12 @@ export default Marionette.ItemView.extend({
 
     open: function () {
         this.triggerMethod('open');
+        return this;
     },
 
     close: function () {
         this.triggerMethod('close');
+        return this;
     },
 
     onOpen: function () {

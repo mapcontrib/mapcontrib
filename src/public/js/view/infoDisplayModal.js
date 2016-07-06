@@ -34,9 +34,11 @@ export default Marionette.LayoutView.extend({
 
     open: function () {
         this.triggerMethod('open');
+        return this;
     },
 
     close: function () {
         this.triggerMethod('close');
+        return this;
     },
 });

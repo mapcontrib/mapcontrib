@@ -75,6 +75,7 @@ export default Marionette.LayoutView.extend({
 
     open: function () {
         this.triggerMethod('open');
+        return this;
     },
 
     onBeforeClose: function () {
@@ -87,6 +88,7 @@ export default Marionette.LayoutView.extend({
 
     close: function () {
         this.triggerMethod('close');
+        return this;
     },
 
     onRender: function () {
