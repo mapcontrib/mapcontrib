@@ -18,6 +18,10 @@ export default Marionette.LayoutView.extend({
         'searchInput': '#q',
         'searchIcon': 'input.search + label .icon',
         'searchSpinner': 'input.search + label .spinner',
+        'searchResults': '#rg_search_results',
+        'noResultMessage': '.no_result',
+        'charactersLeftMessage': '.characters_left',
+        'charactersLeftMessageText': '.characters_left .text',
     },
 
     regions: {
@@ -60,38 +64,55 @@ export default Marionette.LayoutView.extend({
     onKeyUpSearchInput: function (e) {
         clearTimeout(this._searchTimeout);
 
-        this.ui.searchIcon.addClass('hide');
-        this.ui.searchSpinner.removeClass('hide');
+        const charactersCount = this.ui.searchInput.val().length;
 
-        this._searchTimeout = setTimeout(
-            this.fetchSearchedThemes.bind(this),
-            300
-        );
+        if (charactersCount === 0) {
+            this.hideSpinner();
+            this.resetThemeCollection();
+        }
+        else if (charactersCount > 0 && charactersCount < 3) {
+            this.hideSpinner();
+            this.showCharactersLeftMessage();
+        }
+        else {
+            this.showSpinner();
+
+            this._searchTimeout = setTimeout(
+                this.fetchSearchedThemes.bind(this),
+                300
+            );
+        }
     },
 
     fetchSearchedThemes: function () {
         let searchString = this.ui.searchInput.val();
 
-        if (!searchString) {
-            this.resetThemeCollection();
+        this.collection.fetch({
+            'reset': true,
+            'merge': false,
+            'data': {
+                'q': searchString,
+                'hasLayer': true
+            },
+            'success': this.onThemesFetchSuccess.bind(this),
+            'error': this.onThemesFetchError.bind(this),
+        });
+    },
+
+    onThemesFetchSuccess: function (collection, response, options) {
+        this.hideSpinner();
+
+        if (collection.models.length === 0) {
+            this.showNoResultMessage();
         }
         else {
-            this.collection.fetch({
-                'reset': true,
-                'merge': false,
-                'data': {
-                    'q': searchString,
-                    'hasLayer': true
-                },
-                'success': this.onThemesFetched.bind(this),
-                'error': this.onThemesFetched.bind(this),
-            });
+            this.showResults();
         }
     },
 
-    onThemesFetched: function (collection, response, options) {
-        this.ui.searchSpinner.addClass('hide');
-        this.ui.searchIcon.removeClass('hide');
+    onThemesFetchError: function (collection, response, options) {
+        this.hideSpinner();
+        this.showNoResultMessage();
     },
 
     resetThemeCollection: function () {
@@ -102,6 +123,7 @@ export default Marionette.LayoutView.extend({
         }
 
         this.render();
+        this.showResults();
     },
 
     displayLoginModal: function () {
@@ -109,5 +131,42 @@ export default Marionette.LayoutView.extend({
             'authSuccessCallback': '/create_theme',
             'authFailCallback': '/'
         }).open();
-    }
+    },
+
+    showCharactersLeftMessage: function () {
+        const charactersLeft = 3 - this.ui.searchInput.val().length;
+
+        this.ui.charactersLeftMessageText.html(
+            document.l10n.getSync(
+                'home_charactersLeft',
+                { 'n': charactersLeft }
+            )
+        );
+
+        this.ui.noResultMessage.addClass('hide');
+        this.ui.searchResults.addClass('hide');
+        this.ui.charactersLeftMessage.removeClass('hide');
+    },
+
+    showNoResultMessage: function () {
+        this.ui.searchResults.addClass('hide');
+        this.ui.charactersLeftMessage.addClass('hide');
+        this.ui.noResultMessage.removeClass('hide');
+    },
+
+    showResults: function () {
+        this.ui.noResultMessage.addClass('hide');
+        this.ui.charactersLeftMessage.addClass('hide');
+        this.ui.searchResults.removeClass('hide');
+    },
+
+    showSpinner: function () {
+        this.ui.searchIcon.addClass('hide');
+        this.ui.searchSpinner.removeClass('hide');
+    },
+
+    hideSpinner: function () {
+        this.ui.searchSpinner.addClass('hide');
+        this.ui.searchIcon.removeClass('hide');
+    },
 });

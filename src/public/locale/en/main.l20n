@@ -64,6 +64,11 @@
 <aboutMapContrib "About MapContrib">
 
 
+/* Home */
+<home_noResult "No result">
+<home_charactersLeft "{{ $n }} characters left">
+
+
 /* Help */
 <helpTitle "Help">
 <helpText1 "MapContrib is a <a>free software</a>. It can create cartographic themes.">
