@@ -109,6 +109,9 @@ export default Marionette.LayoutView.extend({
             return;
         }
 
+        this.options.icon.addClass('hide');
+        this.options.spinner.removeClass('hide');
+
         this._geocoder.geocode(query, (results) => {
             let i = 0;
 
@@ -128,6 +131,9 @@ export default Marionette.LayoutView.extend({
             }
 
             this.ui.resultList.html( elements );
+
+            this.options.spinner.addClass('hide');
+            this.options.icon.removeClass('hide');
         });
 
     },

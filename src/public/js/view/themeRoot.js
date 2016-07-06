@@ -72,11 +72,15 @@ export default Marionette.LayoutView.extend({
         'zoomOutButton': '#control_toolbar .zoom_out_btn',
         'toolbarZoomLevel': '#control_toolbar .zoom_level',
         'geocodeButton': '#control_toolbar .geocode_btn',
+        'geocodeIcon': '#control_toolbar .geocode_btn i',
+        'geocodeSpinner': '#control_toolbar .geocode_btn .spinner',
         'locateButton': '#control_toolbar .locate_btn',
         'locateWaitButton': '#control_toolbar .locate_wait_btn',
         'expandScreenButton': '#control_toolbar .expand_screen_btn',
         'compressScreenButton': '#control_toolbar .compress_screen_btn',
         'controlLayerButton': '#control_toolbar .layer_btn',
+        'controlLayerIcon': '#control_toolbar .layer_btn i',
+        'controlLayerSpinner': '#control_toolbar .layer_btn .spinner',
         'controlTileButton': '#control_toolbar .tile_btn',
 
         'userToolbar': '#user_toolbar',
@@ -288,7 +292,11 @@ export default Marionette.LayoutView.extend({
         }
 
 
-        this._geocodeWidgetView = new GeocodeWidgetView({ 'model': this.model });
+        this._geocodeWidgetView = new GeocodeWidgetView({
+            'model': this.model,
+            'icon': this.ui.geocodeIcon,
+            'spinner': this.ui.geocodeSpinner,
+        });
         this._selectLayerColumnView = new SelectLayerColumnView({ 'collection': this._layerCollection });
         this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
         this._userColumnView = new UserColumnView();
@@ -499,8 +507,8 @@ export default Marionette.LayoutView.extend({
 
         this._poiLoadingSpool[ layerModel.cid ] += 1;
 
-        $('i', this.ui.controlLayerButton).addClass('hide');
-        $('.layer_loading', this.ui.controlLayerButton).removeClass('hide');
+        this.ui.controlLayerIcon.addClass('hide');
+        this.ui.controlLayerSpinner.removeClass('hide');
     },
 
     hideLayerLoadingProgress: function (layerModel) {
@@ -517,8 +525,8 @@ export default Marionette.LayoutView.extend({
         }
 
         if ( countRequests === 0) {
-            $('.layer_loading', this.ui.controlLayerButton).addClass('hide');
-            $('i', this.ui.controlLayerButton).removeClass('hide');
+            this.ui.controlLayerSpinner.addClass('hide');
+            this.ui.controlLayerIcon.removeClass('hide');
         }
     },
 
