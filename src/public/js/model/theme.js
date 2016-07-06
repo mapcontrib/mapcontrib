@@ -61,6 +61,10 @@ export default Backbone.RelationalModel.extend({
         }
     },
 
+    updateModificationDate: function () {
+        this.set('modificationDate', new Date().toISOString());
+    },
+
     /**
      * Check if a user is owner of this theme.
      *

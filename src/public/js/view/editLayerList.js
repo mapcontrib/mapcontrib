@@ -41,7 +41,7 @@ export default Marionette.CollectionView.extend({
 
         }, this);
 
-        this.options.theme.set('modificationDate', new Date().toISOString());
+        this.options.theme.updateModificationDate();
         this.options.theme.save();
         this.collection.sort();
     },

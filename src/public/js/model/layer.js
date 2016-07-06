@@ -9,6 +9,8 @@ import { uuid } from '../core/utils';
 
 export default Backbone.RelationalModel.extend({
     defaults: {
+        'creationDate': new Date().toISOString(),
+        'modificationDate': new Date().toISOString(),
         'uniqid': undefined,
         'type': CONST.layerType.overpass,
         'name': undefined,
@@ -45,6 +47,10 @@ export default Backbone.RelationalModel.extend({
         if (!this.get('uniqid')) {
             this.set('uniqid', uuid());
         }
+    },
+
+    updateModificationDate: function () {
+        this.set('modificationDate', new Date().toISOString());
     },
 
     /**

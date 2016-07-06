@@ -106,7 +106,7 @@ export default Marionette.LayoutView.extend({
         }
 
         this.model.set('tiles', tiles);
-        this.model.set('modificationDate', new Date().toISOString());
+        this.model.updateModificationDate();
 
         this.model.save({}, {
             'success': () => {

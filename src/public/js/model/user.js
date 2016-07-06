@@ -10,10 +10,16 @@ export default Backbone.Model.extend({
     urlRoot: CONST.apiPath + 'user',
 
     defaults: {
+        'creationDate': new Date().toISOString(),
+        'modificationDate': new Date().toISOString(),
         'osmId': undefined,
         'displayName': undefined,
         'avatar': undefined,
         'token': undefined,
         'tokenSecret': undefined,
-    }
+    },
+
+    updateModificationDate: function () {
+        this.set('modificationDate', new Date().toISOString());
+    },
 });

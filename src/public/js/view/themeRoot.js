@@ -196,7 +196,7 @@ export default Marionette.LayoutView.extend({
 
         this._radio.commands.setHandlers({
             'theme:save': () => {
-                this.model.set('modificationDate', new Date().toISOString());
+                this.model.updateModificationDate();
                 this.model.save();
             },
             'column:showAddLayerMenu': () => {

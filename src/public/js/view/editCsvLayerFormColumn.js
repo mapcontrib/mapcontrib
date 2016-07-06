@@ -185,7 +185,8 @@ export default Marionette.ItemView.extend({
             this.options.theme.get('layers').add( this.model );
         }
 
-        this.options.theme.set('modificationDate', new Date().toISOString());
+        this.model.updateModificationDate();
+        this.options.theme.updateModificationDate();
         this.options.theme.save({}, {
             'success': () => {
                 if ( this.options.isNew ) {

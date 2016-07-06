@@ -122,7 +122,7 @@ export default Marionette.ItemView.extend({
 
         this.model.set('name', themeName);
         this.model.set('description', themeDescription);
-        this.model.set('modificationDate', new Date().toISOString());
+        this.model.updateModificationDate();
 
         history.pushState({}, themeName, this.model.buildPath());
 
