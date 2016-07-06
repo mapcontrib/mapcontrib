@@ -9,7 +9,7 @@ import CONST from '../const';
 import template from '../../templates/editPoiColumn.ejs';
 import ContribNodeTagsListView from '../ui/form/contribNodeTags';
 import Cache from '../core/cache';
-import PopupContent from '../core/popupContent';
+import InfoDisplay from '../core/infoDisplay';
 import MovePoiContextual from './movePoiContextual';
 
 
@@ -132,7 +132,7 @@ export default Marionette.LayoutView.extend({
 
         let popupTag, value,
         popupContent = this._layerModel.get('popupContent'),
-        popupTags = PopupContent.findTagsFromContent(popupContent);
+        popupTags = InfoDisplay.findTagsFromContent(popupContent);
 
         if ( popupTags) {
             for (let popupTag of popupTags) {
