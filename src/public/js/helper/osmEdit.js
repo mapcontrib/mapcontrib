@@ -504,7 +504,6 @@ export default class OsmEdit{
         osmElement.appendChild(parentElement);
         xml.appendChild(osmElement);
 
-        console.log(new XMLSerializer().serializeToString(xml));
         return new XMLSerializer().serializeToString(xml);
     }
 

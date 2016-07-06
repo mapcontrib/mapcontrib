@@ -46,7 +46,6 @@ describe('Utils', () => {
             const formatRegex = /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/;
 
             let uuid = utils.uuid();
-            console.log(uuid);
 
             assert.equal(typeof uuid, expectedType);
             assert.equal(formatRegex.test(uuid), true);
