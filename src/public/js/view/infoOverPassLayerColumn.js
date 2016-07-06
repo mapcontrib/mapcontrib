@@ -41,8 +41,8 @@ export default Marionette.LayoutView.extend({
     },
 
     onBeforeOpen: function () {
-        this._radio.vent.trigger('column:closeAll');
-        this._radio.vent.trigger('widget:closeAll');
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
     open: function () {

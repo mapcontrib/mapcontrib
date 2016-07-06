@@ -1541,11 +1541,6 @@ export default Marionette.LayoutView.extend({
             layer._layerModel
         );
 
-
-        if (this._infoDisplayView) {
-            this._infoDisplayView.close();
-        }
-
         if ( !content && !dataEditable ) {
             return false;
         }

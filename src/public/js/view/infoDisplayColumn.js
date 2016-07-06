@@ -1,4 +1,5 @@
 
+import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from '../../templates/infoDisplayColumn.ejs';
 
@@ -20,6 +21,10 @@ export default Marionette.LayoutView.extend({
         'editBtn': '.edit_btn',
     },
 
+    initialize: function () {
+        this._radio = Wreqr.radio.channel('global');
+    },
+
     onRender: function () {
         this.ui.content.append( this.options.content );
 
@@ -37,5 +42,10 @@ export default Marionette.LayoutView.extend({
     close: function () {
         this.triggerMethod('close');
         return this;
+    },
+
+    onBeforeOpen: function () {
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 });

@@ -22,7 +22,7 @@ export default Marionette.Behavior.extend({
     initialize: function (options) {
         this._radio = Wreqr.radio.channel('global');
 
-        this.listenTo(this._radio.vent, 'notification:closeAll', this.onClose);
+        this.listenTo(this._radio.vent, 'notification:closeAll', this.onCloseAll);
 
         this._isOpened = false;
     },
@@ -84,6 +84,16 @@ export default Marionette.Behavior.extend({
             })
             .removeClass('open');
         });
+    },
+
+    onCloseAll: function (excludedViews) {
+        if ( !excludedViews ) {
+            return this.onClose();
+        }
+
+        if ( excludedViews.indexOf(this.view.cid) === -1 ) {
+            return this.onClose();
+        }
     },
 
     onClickClose: function () {

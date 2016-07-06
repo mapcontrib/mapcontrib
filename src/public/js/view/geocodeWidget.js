@@ -50,7 +50,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onAfterOpen: function () {
-        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
 
         this.ui.widget.one('transitionend', () => {
             this.ui.query.focus();
