@@ -18,8 +18,7 @@ import leafletCss from 'leaflet/dist/leaflet.css';
 
 import UserModel from './model/user';
 import ThemeModel from './model/theme';
-import LayerCollection from './collection/layer';
-import PresetCollection from './collection/preset';
+import NonOsmDataCollection from './collection/nonOsmData';
 import L20nBehavior from './behavior/l20n';
 import ColumnBehavior from './behavior/column';
 import ModalBehavior from './behavior/modal';
@@ -61,6 +60,7 @@ export default Marionette.Application.extend({
         this._config = MAPCONTRIB.config;
         this._version = MAPCONTRIB.version;
         this._theme = new ThemeModel( MAPCONTRIB.theme );
+        this._nonOsmData = new NonOsmDataCollection( MAPCONTRIB.nonOsmData );
         this._radio = Wreqr.radio.channel('global');
 
 
@@ -98,6 +98,10 @@ export default Marionette.Application.extend({
 
     getTheme: function () {
         return this._theme;
+    },
+
+    getNonOsmData: function () {
+        return this._nonOsmData;
     },
 
     isLogged: function () {
