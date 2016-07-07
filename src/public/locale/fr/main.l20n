@@ -263,6 +263,8 @@
 <uiFormNodeTags_value placeholder:"Valeur">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
+<uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag non soumis à OpenStreetMap">
 
 
 /* Color selector UI */

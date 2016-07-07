@@ -9,8 +9,9 @@ export default Marionette.ItemView.extend({
     ui: {
         'key': '.key',
         'value': '.value',
-        'keyReadOnly': '.keyReadOnly',
-        'valueReadOnly': '.valueReadOnly',
+        'keyReadOnly': '.key_read_only',
+        'valueReadOnly': '.value_read_only',
+        'nonOsmData': '.non_osm_data',
         'infoBtn': '.info_btn',
         'removeBtn': '.remove_btn',
     },
@@ -22,6 +23,7 @@ export default Marionette.ItemView.extend({
         'keyup @ui.value': 'updateValue',
         'change @ui.keyReadOnly': 'onChangeKeyReadOnly',
         'change @ui.valueReadOnly': 'onChangeValueReadOnly',
+        'change @ui.nonOsmData': 'onChangeNonOsmData',
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
@@ -48,7 +50,12 @@ export default Marionette.ItemView.extend({
             'checked',
             this.model.get('valueReadOnly')
         );
-        
+
+        this.ui.nonOsmData.prop(
+            'checked',
+            this.model.get('nonOsmData')
+        );
+
         this.renderTagInfo();
     },
 
@@ -85,6 +92,10 @@ export default Marionette.ItemView.extend({
 
     onChangeValueReadOnly: function (e) {
         this.model.set('valueReadOnly', this.ui.valueReadOnly.prop('checked'));
+    },
+
+    onChangeNonOsmData: function (e) {
+        this.model.set('nonOsmData', this.ui.nonOsmData.prop('checked'));
     },
 
     onClickRemoveBtn: function (e) {

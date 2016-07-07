@@ -15,7 +15,8 @@ export default Marionette.CollectionView.extend({
         if (tags.length === 0) {
             this.collection.add({
                 'keyReadOnly': false,
-                'valueReadOnly': false
+                'valueReadOnly': false,
+                'nonOsmData': false,
             });
         }
         else {
@@ -29,7 +30,8 @@ export default Marionette.CollectionView.extend({
         if ( !tag ) {
             tag = {
                 'keyReadOnly': false,
-                'valueReadOnly': false
+                'valueReadOnly': false,
+                'nonOsmData': false,
             };
         }
 

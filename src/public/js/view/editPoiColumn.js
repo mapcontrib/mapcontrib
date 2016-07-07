@@ -148,6 +148,7 @@ export default Marionette.LayoutView.extend({
                     'value': value,
                     'keyReadOnly': false,
                     'valueReadOnly': false,
+                    'nonOsmData': false,
                 });
             }
         }
@@ -162,6 +163,7 @@ export default Marionette.LayoutView.extend({
                 'value': tags[key],
                 'keyReadOnly': false,
                 'valueReadOnly': false,
+                'nonOsmData': false,
             });
         }
 
