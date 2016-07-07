@@ -9,6 +9,7 @@ export default Backbone.Model.extend({
         'osmId': undefined,
         'osmType': undefined,
         'userId': undefined,
+        'themeId': undefined,
         'tags': [], // { key: string, value: string, type: text|img }
     },
 
