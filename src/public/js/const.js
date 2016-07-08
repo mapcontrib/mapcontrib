@@ -137,6 +137,20 @@ export default {
         },
 
         'tiles': {
+            'osm': {
+                'name': 'OpenStreetMap',
+                'attribution': 'Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                'urlTemplate': ['//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                'minZoom': 0,
+                'maxZoom': 19,
+            },
+            'mapboxStreetsSatellite': {
+                'name': 'Mapbox Streets Satellite',
+                'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> - Tiles <a href="https://www.mapbox.com" target="_blank">Mapbox</a>',
+                'urlTemplate': ['http://{s}.tiles.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwY29udHJpYiIsImEiOiJjaWt6YTd1OTYwMDY3d25tMHN2b2hhaTJuIn0.HtC_5kFI2ZEZs7ouqfXTcw'],
+                'minZoom': 0,
+                'maxZoom': 22,
+            },
             'osmFr': {
                 'name': 'OpenStreetMap Français',
                 'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
@@ -154,19 +168,12 @@ export default {
                 'minZoom': 0,
                 'maxZoom': 19,
             },
-            'mapboxStreetsSatellite': {
-                'name': 'Mapbox Streets Satellite',
-                'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> - Tiles <a href="https://www.mapbox.com" target="_blank">Mapbox</a>',
-                'urlTemplate': ['http://{s}.tiles.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwY29udHJpYiIsImEiOiJjaWt6YTd1OTYwMDY3d25tMHN2b2hhaTJuIn0.HtC_5kFI2ZEZs7ouqfXTcw'],
+            'cadastre': {
+                'name': 'Cadastre Français',
+                'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                'urlTemplate': ['http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png'],
                 'minZoom': 0,
                 'maxZoom': 22,
-            },
-            'osm': {
-                'name': 'OpenStreetMap',
-                'attribution': 'Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-                'urlTemplate': ['//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'],
-                'minZoom': 0,
-                'maxZoom': 19,
             },
             'osmOutdoors': {
                 'name': 'OSM Outdoors',
