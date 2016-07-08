@@ -23,47 +23,43 @@ class Api {
             res.sendStatus(401);
         }
 
-        Api.createTheme( req.session, req.session.user._id.toString() )
-        .then(result => {
+        if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
+            res.sendStatus(400);
+
+            return true;
+        }
+
+        const collection = options.database.collection('nonOsmData');
+        const new_json = req.body;
+        const model = new ThemeModel(new_json);
+
+        if ( !model.isValid() ) {
+            res.sendStatus(400);
+
+            return true;
+        }
+
+        delete(new_json._id);
+
+
+        collection.insertOne(
+            model.toJSON(),
+            {'safe': true},
+            (err, results) => {
+                if(err) {
+                    return reject(500);
+                    res.sendStatus(errorCode);
+                }
+
+                let result = results.ops[0];
+
+                addThemeInUserSession(session, result);
+
+                resolve(result);
+            }
             result._id = result._id.toString();
             res.send(result);
-        })
-        .catch(errorCode => {
-            res.sendStatus(errorCode);
-        });
-    }
-
-    static createTheme (session, userId) {
-        Backbone.Relational.store.reset();
-
-        let collection = options.database.collection('theme'),
-        model = new ThemeModel({
-            'userId': userId,
-            'owners': [ userId ]
-        });
-
-        return new Promise((resolve, reject) => {
-            Api.getNewFragment()
-            .then(fragment => {
-                model.set('fragment', fragment);
-
-                collection.insertOne(
-                    model.toJSON(),
-                    {'safe': true},
-                    (err, results) => {
-                        if(err) {
-                            return reject(500);
-                        }
-
-                        let result = results.ops[0];
-
-                        addThemeInUserSession(session, result);
-
-                        resolve(result);
-                    }
-                );
-            });
-        });
+        );
     }
 
     static get (req, res) {
