@@ -151,30 +151,6 @@ export default {
                 'minZoom': 0,
                 'maxZoom': 22,
             },
-            'osmFr': {
-                'name': 'OpenStreetMap Français',
-                'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-                'urlTemplate': ['http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'],
-                'minZoom': 0,
-                'maxZoom': 20,
-            },
-            'osmFrBano': {
-                'name': 'OpenStreetMap Français + BANO',
-                'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> et <a href="https://openstreetmap.fr/bano" target="_blank">BANO</a>',
-                'urlTemplate': [
-                    'http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
-                    'http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png'
-                ],
-                'minZoom': 0,
-                'maxZoom': 19,
-            },
-            'cadastre': {
-                'name': 'Cadastre Français',
-                'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-                'urlTemplate': ['http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png'],
-                'minZoom': 0,
-                'maxZoom': 22,
-            },
             'osmOutdoors': {
                 'name': 'OSM Outdoors',
                 'attribution': 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" target="_blank">Gravitystorm</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
@@ -279,6 +255,30 @@ export default {
                 'urlTemplate': ['http://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png'],
                 'minZoom': 0,
                 'maxZoom': 20,
+            },
+            'osmFr': {
+                'name': 'OpenStreetMap Français',
+                'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                'urlTemplate': ['http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'],
+                'minZoom': 0,
+                'maxZoom': 20,
+            },
+            'osmFrBano': {
+                'name': 'OpenStreetMap Français + BANO',
+                'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> et <a href="https://openstreetmap.fr/bano" target="_blank">BANO</a>',
+                'urlTemplate': [
+                    'http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+                    'http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png'
+                ],
+                'minZoom': 0,
+                'maxZoom': 19,
+            },
+            'cadastre': {
+                'name': 'Cadastre Français',
+                'attribution': 'Données &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                'urlTemplate': ['http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png'],
+                'minZoom': 0,
+                'maxZoom': 22,
             },
             'osmDe': {
                 'name': 'OpenStreetMap Deutschland',
