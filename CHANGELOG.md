@@ -18,6 +18,7 @@
 * There is now a cache system to pre-fetch OverPass layers results.
 * Automatically adds target blank on links in Markdown supported fields.
 * Lets the possibility to display POI's infos in popups, modals or columns.
+* Adds the italian localization.
 * And as always, multiple bufixes and enhancement.
 
 ## 0.8.6
