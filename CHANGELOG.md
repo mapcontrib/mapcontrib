@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.8
+
+* Cleans up the root files.
+
+## 0.8.7
+
+* Adds the italian localization.
+
 ## 0.8.6
 
 * Displays the right tiles on the home page.
