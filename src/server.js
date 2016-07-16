@@ -6,6 +6,7 @@ import mkdirp from 'mkdirp';
 import ejs from 'ejs';
 import express from 'express';
 import compression from 'compression';
+import helmet from 'helmet';
 import morgan from 'morgan';
 import multer from 'multer';
 import methodOverride from 'method-override';
@@ -49,6 +50,7 @@ let app = express();
 
 
 app.use(compression());
+app.use(helmet());
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'views'));
