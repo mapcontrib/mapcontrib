@@ -1,0 +1,219 @@
+<plural($n) {
+
+    $n == 0 ? "zero" :
+    $n == 1 ? "one" :
+    "many"
+}>
+
+
+<mapcontrib "MapContrib">
+<slogan "Contributo tematico a <a>OpenStreetMap</a>">
+
+
+<pageTitle "{{ mapcontrib }}">
+<pageTitleWithMapName "{{ $map.name }} - {{ mapcontrib }}">
+
+
+<markdownAvailable "Formato <a>Markdown</a> disponibile">
+
+
+<buttonDescriptionTooltip title:"Leggi la descrizione">
+<buttonZoomInTooltip title:"Ingrandisci">
+<buttonZoomOutTooltip title:"Diminuisci">
+<buttonGeocodeTooltip title:"Trova un luogo">
+<buttonLocateTooltip title:"Mostra dove mi trovo">
+<buttonLocateWaitTooltip title:"Elimina dalla ricerca la mia posizione">
+<buttonExpandScreenTooltip title:"Schermo intero">
+<buttonCompressScreenTooltip title:"Esci dallo schermo intero">
+<buttonPoiTooltip title:"Mostra i punti di itneresse">
+<buttonTileTooltip title:"Mostra lo sfondo">
+<buttonLoginTooltip title:"{{ login }}">
+<buttonUserTooltip title:"Il mio account">
+<buttonLinkTooltip title:"Condividi">
+<buttonContribTooltip title:"Aggiungi dati mancanti">
+<buttonEditSettingTooltip title:"Impostazioni generali">
+<buttonEditPoiTooltip title:"Livello">
+<buttonEditTileTooltip title:"Sfondi">
+<buttonEditPresetTooltip title:"Tipo di Nodi">
+<buttonHelpTooltip title:"Aiuto">
+
+
+
+
+<goBackToHome "Ritorno alla home">
+<myThemes "I miei temi">
+<preferences "Preferenze">
+<login "Login">
+<loginOrSubscribe "Login oppure iscriviti">
+<logout "Logout">
+<close "Chiudi">
+<save "Salva">
+<cancel "Elimina">
+<customize "Personalizza">
+<letsGo "Comincia">
+<empty "Vuoto">
+<editTheseInformations "Modifica queste informazioni">
+<loadingData title:"Alcuni dati saranno caricati">
+<createATheme "Crea un tema">
+<searchATheme placeholder:"Cerca un tema (min. 3 caratteri)">
+<aboutMapContrib "Informazioni su MapContrib">
+
+
+/* Help */
+<helpTitle "Aiuto">
+<helpText1 "MapContrib è <a>software libero</a>. È in grado di creare temi cartografici">
+<helpText2 "Questi temi sono basati sulle mappe di <a>OpenStreetMap</a> su cui è possibile aggiungere alcuni marcatori/punti di interesse.">
+<helpText3 "Nell'utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
+<helpText4 "Kudos ad alcuni progetti ispiratori:">
+<helpTextVersion "La versione di questa istanza MapContrib è la {{ $version }}.">
+
+
+/* Login modal */
+<loginModal_explanation "Per mantenere tutto semplice, MapContrib ha solamente bisogno di connettersi al tuo account OpenStreetMap">
+
+
+/* Geocode widget */
+<geocodeWidget_queryInput placeholder:"Città, codice di avviamento postale, ...">
+
+
+/* POI column */
+<selectPoiColumn_title "Punti di interesse">
+<selectPoiColumn_explanation "Seleziona i punti di interesse che vuoi vedere sulla mappa">
+<selectPoiColumn_needToZoom[plural($n)] {
+  one: "Per visualizzare i dati hai bisogno di fare almeno uno zoom.",
+  many: "Per visualizzare i dati hai bisogno di fare almeno {{ $n }} zoom."
+}>
+
+
+/* Tile column */
+<selectTileColumn_title "Sfondi">
+
+
+/* User column */
+<userColumn_title "Il mio account">
+
+
+/* Contribution column */
+<contribColumn_title "Aggiungi un nodo">
+<contribColumn_description "Scegli il tipo di nodo">
+<contribColumn_freeAddition "Aggiunta libera di tag">
+<contribColumn_addTag "Aggiungi un tag">
+
+
+/* Link column */
+<linkColumn_title "Condividi">
+<linkColumn_linkLabel "Condividi il seguente link:">
+<linkColumn_integrateCode "Oppure integra questo codice sul tuo sito web:">
+<linkColumn_seeBigger "Vedilo più grande">
+<linkColumn_width "Larghezza">
+<linkColumn_height "Altezza">
+<linkColumn_percentage "Percentuale">
+<linkColumn_pixel "Pixel">
+
+
+/* Edit settings column */
+<editSettingColumn_title "Impostazioni">
+<editSettingColumn_themeName "Nome del tema">
+<editSettingColumn_themeDescription "Descrizione">
+<editSettingColumn_color "Colore">
+<editSettingColumn_position "Posizione">
+<editSettingColumn_keepOld "Mantieni i vecchi parametri">
+<editSettingColumn_setNew "Impostare i nuovi">
+<editSettingColumn_geocoder "Geocoder">
+<editSettingColumn_photon "Photon">
+<editSettingColumn_nominatim "Nominatim">
+
+
+/* Edit POI column */
+<editPoiColumn_title "Punti di interesse">
+<editPoiColumn_clickButton "Clic sul bottone qui sotto">
+<editPoiColumn_addLayer "Aggiungi un livello">
+
+
+/* Edit POI layer column */
+<editLayerColumn_title "Modifica livello">
+<editLayerColumn_layerName "Nome">
+<editLayerColumn_layerDescription "Descrizione">
+<editLayerColumn_visibilityAndEdition "Visibilità e modifica">
+<editLayerColumn_visible "Visibile agli utenti">
+<editLayerColumn_dataEditable "Permetti di modificare i dati">
+<editLayerColumn_layerZoomLevel "Zoom minimo">
+<editLayerColumn_currentMapZoom "La mappa fa attualmente uso del livello di zoom {{ $currentMapZoom }}">
+<editLayerColumn_layerOverpassRequest "Richiesta Overpass">
+<editLayerColumn_marker "Marcatore">
+<editLayerColumn_layerPopupContent "Contenuto popup">
+
+
+/* Edit POI marker modal */
+<editPoiMarkerModal_colorAndShape "Colore e forma">
+<editPoiMarkerModal_color "Colore">
+<editPoiMarkerModal_shape "Forma">
+<editPoiMarkerModal_icon "Icona">
+<editPoiMarkerModal_library "Libreria">
+<editPoiMarkerModal_external "Esterna">
+<editPoiMarkerModal_iconName "Nome dell'icona">
+<editPoiMarkerModal_iconUrl "URL icona">
+<editPoiMarkerModal_iconDescription1 "Le icone provengono dalla collezione Font Awesome.">
+<editPoiMarkerModal_iconDescription2 "Va a <a>questa pagina</a>, seleziona una icona e annotati il suo nome, dopodiché inseriscilo nel campo qui sotto.">
+<editPoiMarkerModal_iconDescriptionExternal1 "Puoi fare uso di una icona personalizzata se raggiungibile su un sito internet.">
+<editPoiMarkerModal_iconDescriptionExternal2 "Inserisci l´indirizzo nel campo seguente.">
+
+
+/* Edit tiles column */
+<editTileColumn_title "Sfondi">
+<editTileColumn_maxZoom "Zoom massimo: {{ $maxZoom }}">
+
+
+/* Edit presets column */
+<editPresetColumn_title "Tipo di nodi">
+<editPresetColumn_addPreset "Aggiungi un tipo di nodo">
+<editPresetColumn_clickButton "Clic sul seguente bottone">
+
+
+/* Edit presets tags column */
+<editPresetTagsColumn_title "Modifica">
+<editPresetTagsColumn_presetName "Nome del tipo di nodo">
+<editPresetTagsColumn_presetDescription "Descrizione">
+<editPresetTagsColumn_presetTags "Tag">
+<editPresetTagsColumn_addTag "Aggiungi un tag">
+
+
+/* Edit POI data column */
+<editPoiDataColumn_title "Modifica dati">
+<editPoiDataColumn_emptyState "Aggiorna i dati...">
+<editPoiDataColumn_remoteValue "Nuovo valore remoto:<br>{{ $remoteValue }}">
+<editPoiColumn_take "Accetta">
+<editPoiColumn_reject "Rifiuta">
+
+
+/* Conflict modal */
+<conflictModal_title "Conflitto">
+<conflictModal_explanation1 "Alcuni nuovi dati inseriti sono state aggiunti da un altro contributore mentre tu stavi modificando il tuo punto di interesse.">
+<conflictModal_explanation2 "Questi nuovi dati saranno mostrati con i valori precedenti in modo da permetterti di accettarli o rifiutarli.">
+
+
+/* Zoom indicator notification */
+<zoomNotification_content "Zoom alla visualizzazione dei dati">
+
+
+/* Overpass timeout notification */
+<overpassTimeoutNotification_title "Timeout">
+<overpassTimeoutNotification_content "Sembra che i punti di interesse di tipo <em>{{ $name }}</em> hanno bisogno di troppo tempo per essere caricati...">
+
+
+/* Overpass error notification */
+<overpassErrorNotification_title "Errore">
+<overpassErrorNotification_content "Si è verificato un errore durante il caricamento dei punti di interesse di tipo « {{ $name }} ».">
+
+
+/* Contribution error notification */
+<contributionErrorNotification_title "Contributo non caricato">
+<contributionErrorNotification_content "Si è verificato un errore durante l´invio del tuo contributo.">
+<contributionErrorNotification_retry "Prova ad re-inviare">
+
+
+/* Node tag field UI */
+<uiFormNodeTags_key placeholder:"Chiave">
+<uiFormNodeTags_value placeholder:"Valore">
+<uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
+<uiFormNodeTags_valueReadOnly "Valore in sola lettura">
