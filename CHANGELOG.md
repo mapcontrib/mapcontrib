@@ -21,9 +21,13 @@
 * Adds the italian localization.
 * And as always, multiple bufixes and enhancement.
 
+## 0.8.8
+
+* Cleans up the root files.
+
 ## 0.8.7
 
-* Adds the italian lcoalization.
+* Adds the italian localization.
 
 ## 0.8.6
 
