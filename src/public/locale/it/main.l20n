@@ -1,8 +1,8 @@
 <plural($n) {
 
-        $n == 0 ? "zero" :
-            $n == 1 ? "one" :
-                "many"
+    $n == 0 ? "zero" :
+    $n == 1 ? "one" :
+    "many"
 }>
 
 
@@ -90,8 +90,8 @@
 <selectLayerColumn_title "Livelli">
 <selectLayerColumn_explanation "Seleziona i livelli che vuoi vedere sulla mappa">
 <selectLayerColumn_needToZoom[plural($n)] {
-      one: "Per visualizzare i dati hai bisogno di fare almeno uno zoom",
-        many: "Per visualizzare i dati hai bisogno di fare almeno {{ $n }} zoom."
+  one: "Per visualizzare i dati hai bisogno di fare almeno uno zoom",
+  many: "Per visualizzare i dati hai bisogno di fare almeno {{ $n }} zoom."
 }>
 
 
@@ -310,4 +310,3 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Dettagli">
-

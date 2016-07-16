@@ -21,6 +21,10 @@
 * Adds the italian localization.
 * And as always, multiple bufixes and enhancement.
 
+## 0.8.7
+
+* Adds the italian lcoalization.
+
 ## 0.8.6
 
 * Displays the right tiles on the home page.
