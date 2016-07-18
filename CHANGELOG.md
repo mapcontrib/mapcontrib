@@ -21,6 +21,16 @@
 * Adds the italian localization.
 * And as always, multiple bufixes and enhancement.
 
+## 0.8.10
+
+* Uses the current HTTP protocol for tiles.
+* Adds a `{s}` in the Lyrk tiles URL.
+
+## 0.8.9
+
+* Removes the MapQuest Open tiles.
+* Fixes the OSM Monochrome tiles URL.
+
 ## 0.8.8
 
 * Cleans up the root files.
