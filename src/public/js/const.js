@@ -168,13 +168,6 @@ export default {
                 'minZoom': 0,
                 'maxZoom': 20,
             },
-            'mapquestOpen': {
-                'name': 'MapQuest Open',
-                'attribution': 'Tiles <a href="http://www.mapquest.com" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png"> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-                'urlTemplate': ['http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png'],
-                'minZoom': 0,
-                'maxZoom': 19,
-            },
             'hot': {
                 'name': 'Humanitarian (HOT)',
                 'attribution': 'Tiles &copy; <a href="http://hotosm.org" target="_blank">HOT</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
