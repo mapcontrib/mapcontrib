@@ -22,7 +22,7 @@ let colors = {
     'anthracite': '#3B3F45',
 };
 
-let version = '0.8.9';
+let version = '0.8.10';
 
 
 
