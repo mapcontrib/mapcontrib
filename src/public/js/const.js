@@ -206,7 +206,7 @@ export default {
             'osmMonochrome': {
                 'name': 'OSM Monochrome',
                 'attribution': 'Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-                'urlTemplate': ['http://www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png'],
+                'urlTemplate': ['{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'],
                 'minZoom': 1,
                 'maxZoom': 18,
             },
