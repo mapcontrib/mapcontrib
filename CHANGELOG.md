@@ -21,6 +21,11 @@
 * Adds the italian localization.
 * And as always, multiple bufixes and enhancement.
 
+## 0.8.9
+
+* Removes the MapQuest Open tiles.
+* Fixes the OSM Monochrome tiles URL.
+
 ## 0.8.8
 
 * Cleans up the root files.
