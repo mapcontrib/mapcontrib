@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.10
+
+* Uses the current HTTP protocol for tiles.
+* Adds a `{s}` in the Lyrk tiles URL.
+
 ## 0.8.9
 
 * Removes the MapQuest Open tiles.
