@@ -2,7 +2,6 @@
 
 ## 0.9.0 (development version)
 
-* When adding a new POI, the user fill now the tags first.
 * When adding a new POI, the POI location method uses a fixed cross displayed on top of the map.
 * Tag keys and values are now trimmed when contributing and setting presets.
 * No more close button in popups as they can be closed by clicking elsewhere in the screen.
