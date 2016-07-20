@@ -560,7 +560,7 @@ export default Marionette.LayoutView.extend({
             return this.addOverPassCacheLayer(layerModel, hiddenLayer);
         }
 
-        let markerCluster = this._buildMarkerCluster(layerModel);
+        const markerCluster = this._buildMarkerCluster(layerModel);
         this._markerClusters[ layerModel.cid ] = markerCluster;
         this._map.addLayer( markerCluster );
 
@@ -568,7 +568,7 @@ export default Marionette.LayoutView.extend({
             layerModel.get('overpassRequest') || ''
         );
 
-        let overPassLayer = new OverPassLayer({
+        const overPassLayer = new OverPassLayer({
             'debug': this._config.debug,
             'endPoint': this._config.overPassEndPoint,
             'minZoom': layerModel.get('minZoom'),
@@ -633,7 +633,10 @@ export default Marionette.LayoutView.extend({
         });
 
         this._overPassLayers[ layerModel.cid ] = overPassLayer;
-        this._map.addLayer( overPassLayer );
+
+        if (!hiddenLayer) {
+            this._map.addLayer( overPassLayer );
+        }
     },
 
     addGpxLayer: function (layerModel, hiddenLayer) {
@@ -800,17 +803,27 @@ export default Marionette.LayoutView.extend({
     },
 
     showLayer: function (layerModel) {
-        let markerCluster = this._markerClusters[ layerModel.cid ];
+        const markerCluster = this._markerClusters[ layerModel.cid ];
+        const overPassLayer = this._overPassLayers[ layerModel.cid ];
 
         this._map.addLayer( markerCluster );
+
+        if ( overPassLayer ) {
+            this._map.addLayer( overPassLayer );
+        }
 
         markerCluster.refreshClusters();
     },
 
     hideLayer: function (layerModel) {
-        this._map.removeLayer(
-            this._markerClusters[ layerModel.cid ]
-        );
+        const markerCluster = this._markerClusters[ layerModel.cid ];
+        const overPassLayer = this._overPassLayers[ layerModel.cid ];
+
+        this._map.removeLayer( markerCluster );
+
+        if ( overPassLayer ) {
+            this._map.removeLayer( overPassLayer );
+        }
     },
 
     updateLayerStyles: function (layerModel) {
