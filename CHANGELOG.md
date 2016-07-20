@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0 (development version)
+
+* And as always, multiple bufixes and enhancement.
+
 ## 0.10.0
 
 * When adding a new POI, the POI location method uses a fixed cross displayed on top of the map.
