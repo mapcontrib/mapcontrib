@@ -1,8 +1,11 @@
 # Changelog
 
-## 0.9.0 (development version)
+## 0.11.0 (development version)
 
-* When adding a new POI, the user fill now the tags first.
+* And as always, multiple bufixes and enhancement.
+
+## 0.10.0
+
 * When adding a new POI, the POI location method uses a fixed cross displayed on top of the map.
 * Tag keys and values are now trimmed when contributing and setting presets.
 * No more close button in popups as they can be closed by clicking elsewhere in the screen.
@@ -18,8 +21,17 @@
 * There is now a cache system to pre-fetch OverPass layers results.
 * Automatically adds target blank on links in Markdown supported fields.
 * Lets the possibility to display POI's infos in popups, modals or columns.
-* Adds the italian localization.
 * And as always, multiple bufixes and enhancement.
+
+## 0.8.10
+
+* Uses the current HTTP protocol for tiles.
+* Adds a `{s}` in the Lyrk tiles URL.
+
+## 0.8.9
+
+* Removes the MapQuest Open tiles.
+* Fixes the OSM Monochrome tiles URL.
 
 ## 0.8.8
 

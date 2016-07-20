@@ -180,8 +180,7 @@ export default Marionette.ItemView.extend({
     },
 
     onReset: function () {
-        this.model.set( this._oldModel.toJSON() );
-
+        this.model.set('color', this._oldModel.get('color'));
         this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
 
         this.ui.column.one('transitionend', this.render);

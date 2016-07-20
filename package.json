@@ -1,6 +1,6 @@
 {
   "description": "MapContrib",
-  "version": "0.9.0",
+  "version": "0.11.0",
   "license": "MIT",
   "author": {
     "name": "Guillaume AMAT",
@@ -99,6 +99,7 @@
     "errorhandler": "^1.1.1",
     "express": "^4.8.0",
     "express-session": "^1.7.2",
+    "helmet": "^2.1.1",
     "inquirer": "^1.1.0",
     "jquery": "^2.1.4",
     "js-yaml": "^3.6.1",
