@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.3
+
+* Don't expose POI edition when the layer is not an OverPass one.
+
 ## 0.10.2
 
 * Fixes a translation.
