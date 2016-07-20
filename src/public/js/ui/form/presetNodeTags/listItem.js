@@ -11,12 +11,15 @@ export default Marionette.ItemView.extend({
         'value': '.value',
         'keyReadOnly': '.keyReadOnly',
         'valueReadOnly': '.valueReadOnly',
+        'infoBtn': '.info_btn',
         'removeBtn': '.remove_btn',
     },
 
     events: {
-        'change @ui.key': 'onChangeKey',
-        'change @ui.value': 'onChangeValue',
+        'blur @ui.key': 'updateKey',
+        'blur @ui.value': 'updateValue',
+        'keyup @ui.key': 'updateKey',
+        'keyup @ui.value': 'updateValue',
         'change @ui.keyReadOnly': 'onChangeKeyReadOnly',
         'change @ui.valueReadOnly': 'onChangeValueReadOnly',
         'click @ui.removeBtn': 'onClickRemoveBtn',
@@ -45,14 +48,30 @@ export default Marionette.ItemView.extend({
             'checked',
             this.model.get('valueReadOnly')
         );
+        
+        this.renderTagInfo();
     },
 
-    onChangeKey: function (e) {
-        this.model.set('key', this.ui.key.val());
+    renderTagInfo: function () {
+        const key = this.ui.key.val().trim();
+        const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
+
+        this.ui.infoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
     },
 
-    onChangeValue: function (e) {
-        this.model.set('value', this.ui.value.val());
+    updateKey: function (e) {
+        const key = this.ui.key.val().trim();
+
+        this.model.set( 'key', key );
+
+        this.renderTagInfo();
+    },
+
+    updateValue: function (e) {
+        this.model.set(
+            'value',
+            this.ui.value.val().trim()
+        );
     },
 
     onChangeKeyReadOnly: function (e) {

@@ -33,13 +33,13 @@ module.exports = {
     devtool: 'source-map',
     debug: true,
     plugins: plugins,
-    context: path.join(__dirname, 'src', 'public'),
+    context: path.resolve(__dirname, 'src', 'public'),
     entry: {
         home: './js/home',
         theme: './js/theme'
     },
     output: {
-        path: path.join(__dirname, 'src', 'public', 'js'),
+        path: path.resolve(__dirname, 'src', 'public', 'js'),
         filename: '[name].bundle.js'
     },
     module: {
@@ -48,6 +48,14 @@ module.exports = {
                 test: /public\/js\/.*\.js$/,
                 loader: 'babel',
                 exclude: /node_modules/
+            },
+            {
+                // leaflet-omnivore depends on dsv@0.0.3
+                // dsv@0.0.3 is deprecated and npm replaces it by d3-dsv
+                // d3-dsv depends on fs, which is not available in a web context
+                // So... There...
+                test: /node_modules\/dsv/,
+                loader: 'transform?brfs',
             },
             {
                 test: /\.css$/,
@@ -59,7 +67,7 @@ module.exports = {
             },
             {
                 test: /\.json$/,
-                loader: 'raw'
+                loader: 'json'
             },
             {
                 test: /.*\.svg$/,

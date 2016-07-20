@@ -1,14 +1,15 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import L from 'leaflet';
+import ContribNodeTagsListView from '../ui/form/contribNodeTags';
+import ContributionErrorNotificationView from './contributionErrorNotification';
+import template from '../../templates/contribFormColumn.ejs';
 import osmAuth from 'osm-auth';
 import OsmEditHelper from '../helper/osmEdit.js';
-import MapUi from '../ui/map';
-import CONST from '../const';
 import LayerModel from '../model/layer';
-import ContribNodeTagsListView from '../ui/form/contribNodeTags';
-import template from '../../templates/contribFormColumn.ejs';
+import CONST from '../const';
+import MapUi from '../ui/map';
+import L from 'leaflet';
 
 
 export default Marionette.LayoutView.extend({
@@ -34,56 +35,67 @@ export default Marionette.LayoutView.extend({
         'submit': 'onSubmit',
     },
 
-    initialize: function (options) {
+    initialize: function () {
         this._radio = Wreqr.radio.channel('global');
-        this._user = options.user;
+        this._map = this._radio.reqres.request('map');
+
+        this._user = this.options.user;
+        this._center = this.options.center;
+
+        this._osmEdit = new OsmEditHelper(
+            osmAuth({
+                'oauth_consumer_key': MAPCONTRIB.config.oauthConsumerKey,
+                'oauth_secret': MAPCONTRIB.config.oauthSecret,
+                'oauth_token': this._user.get('token'),
+                'oauth_token_secret': this._user.get('tokenSecret'),
+            })
+        );
     },
 
-    _buildNewMarker: function () {
-        var pos = new L.LatLng(
-            this.model.get('lat'),
-            this.model.get('lon')
-        ),
-        icon = MapUi.buildLayerIcon(
+    _buildNewMarker: function (latLng) {
+        const pos = new L.LatLng(
+            latLng.lat,
+            latLng.lng
+        );
+
+        const icon = MapUi.buildLayerIcon(
             L,
             new LayerModel({
-                'markerShape': config.newPoiMarkerShape,
+                'markerShape': MAPCONTRIB.config.newPoiMarkerShape,
                 'markerIconType': CONST.map.markerIconType.library,
-                'markerIcon': config.newPoiMarkerIcon,
-                'markerColor': config.newPoiMarkerColor
+                'markerIcon': MAPCONTRIB.config.newPoiMarkerIcon,
+                'markerColor': MAPCONTRIB.config.newPoiMarkerColor
             })
         );
 
-        return L.marker(pos, {
-            'icon': icon
-        });
+        return L.marker(pos, { icon });
     },
 
     onBeforeOpen: function () {
-        this._radio.vent.trigger('column:closeAll');
-        this._radio.vent.trigger('widget:closeAll');
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
     open: function () {
         this.triggerMethod('open');
+        return this;
     },
 
-    onAfterOpen: function () {
-        this._tempMarker = this._buildNewMarker();
-        this._radio.reqres.request('map').addLayer(this._tempMarker);
+    onBeforeClose: function () {
+        if (!this._contributionSent) {
+            this._map.removeLayer( this._layer );
+        }
     },
 
     close: function () {
         this.triggerMethod('close');
-    },
-
-    onBeforeClose: function () {
-        if (this._tempMarker) {
-            this._radio.reqres.request('map').removeLayer(this._tempMarker);
-        }
+        return this;
     },
 
     onRender: function () {
+        this._layer = this._buildNewMarker( this._center );
+        this._map.addLayer( this._layer );
+
         this._tagList = new ContribNodeTagsListView();
 
         if (this.options.presetModel) {
@@ -99,7 +111,7 @@ export default Marionette.LayoutView.extend({
     onClickAddBtn: function () {
         this._tagList.addTag();
 
-        let scrollHeight = this.ui.column.height() +
+        const scrollHeight = this.ui.column.height() +
         this._tagList.el.scrollHeight;
         this.ui.content[0].scrollTo(0, scrollHeight);
     },
@@ -107,45 +119,36 @@ export default Marionette.LayoutView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        this.model.set('tags', this._tagList.getTags());
-        this.model.set('timestamp', new Date().toISOString());
+        const createdBy = CONST.osm.changesetCreatedBy
+        .replace('{version}', MAPCONTRIB.version);
 
-        var map = this._radio.reqres.request('map'),
-        osmEdit = new OsmEditHelper(
-            osmAuth({
-                'oauth_consumer_key': config.oauthConsumerKey,
-                'oauth_secret': config.oauthSecret,
-                'oauth_token': this._user.get('token'),
-                'oauth_token_secret': this._user.get('tokenSecret'),
-            })
-        );
+        this._osmEdit.setChangesetCreatedBy(createdBy);
+        this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
+        this._osmEdit.setType('node');
+        this._osmEdit.setVersion(0);
+        this._osmEdit.setTimestamp();
+        this._osmEdit.setLatitude(this._center.lat);
+        this._osmEdit.setLongitude(this._center.lng);
+        this._osmEdit.setTags(this._tagList.getTags());
+        this._osmEdit.setUid(this.options.user.get('osmId'));
+        this._osmEdit.setDisplayName(this.options.user.get('displayName'));
 
-        osmEdit.setChangesetCreatedBy(CONST.osm.changesetCreatedBy);
-        osmEdit.setChangesetComment(CONST.osm.changesetComment);
-        osmEdit.setType(this.model.get('type'));
-        osmEdit.setVersion(this.model.get('version'));
-        osmEdit.setTimestamp(this.model.get('timestamp'));
-        osmEdit.setLatitude(this.model.get('lat'));
-        osmEdit.setLongitude(this.model.get('lon'));
-        osmEdit.setTags(this.model.get('tags'));
-        osmEdit.setUid(this._user.get('osmId'));
-        osmEdit.setDisplayName(this._user.get('displayName'));
+        this.sendContributionToOSM();
+    },
 
-        map.addLayer( this._buildNewMarker() );
+    sendContributionToOSM: function () {
+        this._osmEdit.send()
+        .then(version => {
+            this._contributionSent = true;
 
-        this.close();
+            this._osmEdit.setVersion(version);
 
-        osmEdit.send()
-        .then((nodeId) => {
-            var key = 'node-'+ nodeId,
-            contributions = JSON.parse( localStorage.getItem('osmEdit-contributions') ) || {};
-
-            contributions[ key ] = this.model.attributes;
-
-            localStorage.setItem( 'osmEdit-contributions', JSON.stringify( contributions ) );
+            this.close();
         })
-        .catch(function (err) {
-            console.error(err);
+        .catch((err) => {
+            new ContributionErrorNotificationView({
+                'retryCallback': this.sendContributionToOSM.bind(this)
+            }).open();
         });
     },
 });

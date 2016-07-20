@@ -44,7 +44,7 @@ export default Marionette.CollectionView.extend({
             if (!tag.key || !tag.value) {
                 continue;
             }
-            
+
             tags[tag.key] = tag.value;
         }
 

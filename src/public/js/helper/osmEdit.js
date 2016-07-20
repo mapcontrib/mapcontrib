@@ -1,4 +1,5 @@
 
+import _ from 'underscore';
 import { DOMImplementation, XMLSerializer } from 'xmldom';
 
 
@@ -12,15 +13,63 @@ export default class OsmEdit{
         this._auth = osmAuth;
         this._changesetCreatedBy = null;
         this._changesetComment = null;
-        this._lat = null;
-        this._lon = null;
-        this._tags = [];
-        this._uid = null;
-        this._version = 0;
-        this._id = null;
-        this._type = 'node';
-        this._timestamp = new Date().toISOString();
-        this._displayName = null;
+
+        this._floatAttributes = [ 'lat', 'lon' ];
+        this._intAttributes = [ 'id', 'uid', 'version', 'changeset' ];
+
+        this._resetElement();
+    }
+
+    _resetElement () {
+        this._element = {
+            'type': undefined,
+            'attributes': {},
+            'tags': [],
+            'nds': [],
+            'members': [],
+        };
+    }
+
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @param {object} element.
+     */
+    setElement(element) {
+        this._element = element;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {object}
+     */
+    getElement() {
+        return this._element;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {object}
+     */
+    getOverPassElement() {
+        let element = _.extend(
+            {
+                'type': this._element.type,
+                'tags': {}
+            },
+            this._element.attributes
+        );
+
+        for (let i in this._element.tags) {
+            let key = this._element.tags[i].k;
+            let value = this._element.tags[i].v;
+            element.tags[ key ] = value;
+        }
+
+        return element;
     }
 
     /**
@@ -65,7 +114,7 @@ export default class OsmEdit{
      * @param {number} lat - Node's latitude.
      */
     setLatitude(lat) {
-        this._lat = lat;
+        this._element.attributes.lat = lat;
     }
 
     /**
@@ -74,7 +123,7 @@ export default class OsmEdit{
      * @return {number}
      */
     getLatitude() {
-        return this._lat;
+        return this._element.attributes.lat;
     }
 
     /**
@@ -83,7 +132,7 @@ export default class OsmEdit{
      * @param {number} lon - Node's longitude.
      */
     setLongitude(lon) {
-        this._lon = lon;
+        this._element.attributes.lon = lon;
     }
 
     /**
@@ -92,7 +141,7 @@ export default class OsmEdit{
      * @return {number}
      */
     getLongitude() {
-        return this._lon;
+        return this._element.attributes.lon;
     }
 
     /**
@@ -101,7 +150,16 @@ export default class OsmEdit{
      * @param {array} tags - Node's tags.
      */
     setTags(tags) {
-        this._tags = tags;
+        this._element.tags = [];
+
+        for (let key in tags) {
+            if (tags.hasOwnProperty(key)) {
+                this._element.tags.push({
+                    'k': key,
+                    'v': tags[key],
+                });
+            }
+        }
     }
 
     /**
@@ -110,7 +168,13 @@ export default class OsmEdit{
      * @return {array}
      */
     getTags() {
-        return this._tags;
+        let tags = {};
+
+        for (let tag of this._element.tags) {
+            tags[ tag.k ] = tag.v;
+        }
+
+        return tags;
     }
 
     /**
@@ -119,7 +183,7 @@ export default class OsmEdit{
      * @param {string|number} uid - UID of the node's editor.
      */
     setUid(uid) {
-        this._uid = uid;
+        this._element.attributes.uid = uid;
     }
 
     /**
@@ -128,7 +192,7 @@ export default class OsmEdit{
      * @return {string|number}
      */
     getUid() {
-        return this._uid;
+        return this._element.attributes.uid;
     }
 
     /**
@@ -137,7 +201,7 @@ export default class OsmEdit{
      * @param {string} type - Element's type.
      */
     setType(type) {
-        this._type = type;
+        this._element.type = type;
     }
 
     /**
@@ -146,7 +210,7 @@ export default class OsmEdit{
      * @return {string}
      */
     getType() {
-        return this._type;
+        return this._element.type;
     }
 
     /**
@@ -155,7 +219,7 @@ export default class OsmEdit{
      * @param {string|number} id - Element's ID.
      */
     setId(id) {
-        this._id = id;
+        this._element.attributes.id = id;
     }
 
     /**
@@ -164,7 +228,7 @@ export default class OsmEdit{
      * @return {string|number}
      */
     getId() {
-        return this._id;
+        return this._element.attributes.id;
     }
 
     /**
@@ -173,7 +237,12 @@ export default class OsmEdit{
      * @param {string} timestamp - Timestamp of the node creation.
      */
     setTimestamp(timestamp) {
-        this._timestamp = timestamp;
+        if ( !timestamp ) {
+            this._element.attributes.timestamp = new Date().toISOString();
+        }
+        else {
+            this._element.attributes.timestamp = timestamp;
+        }
     }
 
     /**
@@ -182,7 +251,7 @@ export default class OsmEdit{
      * @return {string}
      */
     getTimestamp() {
-        return this._timestamp;
+        return this._element.attributes.timestamp;
     }
 
     /**
@@ -191,7 +260,7 @@ export default class OsmEdit{
      * @param {string|number} version - Element's version.
      */
     setVersion(version) {
-        this._version = version;
+        this._element.attributes.version = version;
     }
 
     /**
@@ -200,7 +269,7 @@ export default class OsmEdit{
      * @return {string|number}
      */
     getVersion() {
-        return this._version;
+        return this._element.attributes.version;
     }
 
     /**
@@ -209,7 +278,7 @@ export default class OsmEdit{
      * @param {string} displayName - Display name of the node's editor.
      */
     setDisplayName(displayName) {
-        this._displayName = displayName;
+        this._element.attributes.display_name = displayName;
     }
 
     /**
@@ -218,7 +287,7 @@ export default class OsmEdit{
      * @return {string}
      */
     getDisplayName() {
-        return this._displayName;
+        return this._element.attributes.display_name;
     }
 
 
@@ -232,6 +301,14 @@ export default class OsmEdit{
      * @return {promise}
      */
     fetch(type, id) {
+        if ( !type ) {
+            type = this._element.type;
+        }
+
+        if ( !id ) {
+            id = this._element.attributes.id;
+        }
+
         return new Promise((resolve, reject) => {
             $.ajax({
                 'method': 'GET',
@@ -242,24 +319,69 @@ export default class OsmEdit{
                     return reject(errorThrown);
                 },
                 'success': (xml, jqXHR, textStatus) => {
-                    let key, value,
-                    tags = {},
-                    parentElement = xml.getElementsByTagName(type)[0],
-                    tagElements = xml.documentElement.getElementsByTagName('tag'),
-                    version = parseInt( parentElement.getAttribute('version') );
+                    let parentElement = xml.getElementsByTagName(type)[0],
+                    tagElements = parentElement.getElementsByTagName('tag'),
+                    ndElements = parentElement.getElementsByTagName('nd'),
+                    memberElements = parentElement.getElementsByTagName('member');
 
-                    for (let index in tagElements) {
-                        let tag = tagElements[index];
+                    this._resetElement();
 
-                        if ( tag.getAttribute ) {
-                            key = tag.getAttribute('k');
-                            value = tag.getAttribute('v');
-                            tags[ key ] = value;
+                    this.setType( parentElement.tagName );
+
+                    for (let i = 0; i < parentElement.attributes.length; i++){
+                        let att = parentElement.attributes[i];
+                        let key = att.nodeName;
+                        let value = att.nodeValue;
+
+                        if ( this._intAttributes.indexOf(att.nodeName) > -1 ) {
+                            value = parseInt(value);
+                        }
+                        else if ( this._floatAttributes.indexOf(att.nodeName) > -1 ) {
+                            value = parseFloat(value);
+                        }
+
+                        this._element.attributes[key] = value;
+                    }
+
+
+                    if (tagElements.length > 0) {
+                        for (let i in tagElements) {
+                            if (tagElements.hasOwnProperty(i)) {
+                                this._element.tags.push({
+                                    'k': tagElements[i].getAttribute('k'),
+                                    'v': tagElements[i].getAttribute('v'),
+                                });
+                            }
                         }
                     }
 
-                    this.setVersion(version);
-                    this.setTags(tags);
+                    if (ndElements.length > 0) {
+                        for (let i in ndElements) {
+                            if (ndElements.hasOwnProperty(i)) {
+                                this._element.nds.push({
+                                    'ref': ndElements[i].getAttribute('ref'),
+                                });
+                            }
+                        }
+                    }
+
+                    if (memberElements.length > 0) {
+                        for (let i in memberElements) {
+                            if (memberElements.hasOwnProperty(i)) {
+                                const role = memberElements[i].getAttribute('role');
+                                let data = {
+                                    'type': memberElements[i].getAttribute('type'),
+                                    'ref': memberElements[i].getAttribute('ref'),
+                                };
+
+                                if (role) {
+                                    data.role = role;
+                                }
+
+                                this._element.members.push(data);
+                            }
+                        }
+                    }
 
                     resolve(this);
                 }
@@ -341,29 +463,45 @@ export default class OsmEdit{
     _buildXml(changesetId) {
         var xml = new DOMImplementation().createDocument('', '', null),
         osmElement = xml.createElement('osm'),
-        nodeElement = xml.createElement('node');
+        parentElement = xml.createElement(this._element.type);
 
-        if (this._id) {
-            nodeElement.setAttribute('id', this._id);
+        delete this._element.attributes.user;
+
+        this._element.attributes.changeset = changesetId;
+
+        for (let key in this._element.attributes) {
+            parentElement.setAttribute(key, this._element.attributes[key]);
         }
 
-        nodeElement.setAttribute('changeset', changesetId);
-        nodeElement.setAttribute('version', this._version);
-        nodeElement.setAttribute('timestamp', this._timestamp);
-        nodeElement.setAttribute('uid', this._uid);
-        nodeElement.setAttribute('display_name', this._displayName);
-        nodeElement.setAttribute('lat', this._lat);
-        nodeElement.setAttribute('lon', this._lon);
-
-        for (let key in this._tags) {
+        for (let tag of this._element.tags) {
             let tagElement = xml.createElement('tag');
 
-            tagElement.setAttribute('k', key);
-            tagElement.setAttribute('v', this._tags[key]);
-            nodeElement.appendChild(tagElement);
+            tagElement.setAttribute('k', tag.k);
+            tagElement.setAttribute('v', tag.v);
+            parentElement.appendChild(tagElement);
         }
 
-        osmElement.appendChild(nodeElement);
+        for (let nd of this._element.nds) {
+            let ndElement = xml.createElement('nd');
+
+            ndElement.setAttribute('ref', nd.ref);
+            parentElement.appendChild(ndElement);
+        }
+
+        for (let member of this._element.members) {
+            let memberElement = xml.createElement('member');
+
+            memberElement.setAttribute('type', member.type);
+            memberElement.setAttribute('ref', member.ref);
+
+            if (member.role) {
+                memberElement.setAttribute('role', member.role);
+            }
+
+            parentElement.appendChild(memberElement);
+        }
+
+        osmElement.appendChild(parentElement);
         xml.appendChild(osmElement);
 
         return new XMLSerializer().serializeToString(xml);
@@ -492,11 +630,11 @@ export default class OsmEdit{
     _sendXml(changesetId) {
         var data,
         method = 'PUT',
-        path = `/api/0.6/${this._type}/create`,
+        path = `/api/0.6/${this._element.type}/create`,
         xml = this._buildXml(changesetId);
 
-        if (this._id) {
-            path = `/api/0.6/${this._type}/${this._id}`;
+        if (this._element.attributes.id) {
+            path = `/api/0.6/${this._element.type}/${this._element.attributes.id}`;
         }
 
         return new Promise((resolve, reject) => {
@@ -519,5 +657,58 @@ export default class OsmEdit{
                 resolve(version);
             });
         });
+    }
+
+
+
+     /**
+      * Puts the OsmEdit informations in an OverPass object.
+      *
+      * @author Guillaume AMAT
+      * @access public
+      * @param {object} overPassObject.
+      * @return {object}
+      */
+    hydrateOverPassObject(overPassObject) {
+        delete overPassObject.user;
+
+        overPassObject.type = this._element.type;
+
+        for (let key in this._element.attributes) {
+            overPassObject[key] = this._element.attributes[key];
+        }
+
+        overPassObject.tags = {};
+
+        for (let tag of this._element.tags) {
+            overPassObject.tags[tag.k] = tag.v;
+        }
+
+        if (this._element.type !== 'node') {
+            overPassObject.nodes = [];
+
+            for (let nd of this._element.nds) {
+                overPassObject.nodes.push(nd.ref);
+            }
+        }
+
+        if (this._element.type === 'relation') {
+            overPassObject.members = [];
+
+            for (let member of this._element.members) {
+                let data = {
+                    'type': member.type,
+                    'ref': member.ref,
+                };
+
+                if (member.role) {
+                    data.role = member.role;
+                }
+
+                overPassObject.members.push(data);
+            }
+        }
+
+        return overPassObject;
     }
 }

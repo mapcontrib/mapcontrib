@@ -32,26 +32,37 @@ export default Backbone.RelationalModel.extend({
     ],
 
     defaults: {
+        'creationDate': new Date().toISOString(),
+        'modificationDate': new Date().toISOString(),
         'userId': undefined,
         'name': 'MapContrib',
         'description': '',
         'color': 'blue',
         'tiles': ['osmFr'],
         'zoomLevel': 3,
+        'autoCenter': false,
         'center': {
             'lat': 33.57,
             'lng': 1.58,
         },
         'owners': [],
         'geocoder': undefined,
+        'infoDisplay': CONST.infoDisplay.popup,
     },
 
     initialize: function() {
         if (!this.get('geocoder')) {
-            if (typeof window !== 'undefined' && typeof config !== 'undefined') {
-                this.set('geocoder', CONST.geocoder[ config.defaultGeocoder ]);
+            if (typeof window !== 'undefined' && typeof MAPCONTRIB !== 'undefined') {
+                this.set(
+                    'geocoder',
+                    CONST.geocoder[ MAPCONTRIB.config.defaultGeocoder ]
+                );
             }
         }
+    },
+
+    updateModificationDate: function () {
+        this.set('modificationDate', new Date().toISOString());
     },
 
     /**

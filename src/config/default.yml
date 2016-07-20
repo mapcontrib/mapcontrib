@@ -1,5 +1,6 @@
 
 debug: false
+logLevel: warn
 
 salt: '/m<gkZCXr44_={Zr/=64]ojGhAL;m/q>*@";[Eo,8C<Lht^`WiC$WSP4R,a]eozd~aTG^7'
 
@@ -11,13 +12,18 @@ mongodb:
     port: 27017
     database: mapcontrib
 
+dataDirectory: public/files
 
 client:
     oauthConsumerKey:
     oauthSecret:
 
-    overpassServer: http://overpass-api.de/api/
-    overpassTimeout: 120000 # Milliseconds
+    overPassEndPoint: http://overpass-api.de/api/
+    overPassTimeout: 120000 # Milliseconds
+    overPassCacheEnabled: true
+    overPassCacheFileSize: 1048576
+
+    taginfoServiceHost: https://taginfo.openstreetmap.org/
 
     largeScreenMinWidth: 400
     largeScreenMinHeight: 500
@@ -27,11 +33,15 @@ client:
     shareIframeHeight: 400
     shareIframeHeightUnit: px
 
-    newPoiMarkerShape: marker1
+    newPoiMarkerShape: marker3
     newPoiMarkerIcon: star
-    newPoiMarkerColor: gray
+    newPoiMarkerColor: yellow
+
+    highlightedThemes:
 
     defaultGeocoder: photon
     availableGeocoders:
         - photon
         - nominatim
+
+    uploadMaxShapeFileSize: 2048 # Kilo Bytes

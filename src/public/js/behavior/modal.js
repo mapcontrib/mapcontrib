@@ -8,6 +8,7 @@ import Marionette from 'backbone.marionette';
 export default Marionette.Behavior.extend({
     ui: {
         'closeBtn': '.close_btn',
+        'appendToBody': false,
     },
 
     events: {
@@ -29,6 +30,12 @@ export default Marionette.Behavior.extend({
     },
 
     onOpen: function () {
+        if ( this.options.appendToBody && !this.view.isRendered ) {
+            this.view.render();
+            document.body.appendChild( this.el );
+            return setTimeout(this.onOpen.bind(this), 0);
+        }
+
         if (this.view.onBeforeOpen) {
             this.view.onBeforeOpen();
         }

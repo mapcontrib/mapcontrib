@@ -15,6 +15,7 @@
 
 
 <markdownAvailable "<a>Markdown</a> format available">
+<maxFileSize "The file size has to be lower than {{ $maxFileSize }} MB">
 
 
 <buttonDescriptionTooltip title:"Read the description">
@@ -25,14 +26,14 @@
 <buttonLocateWaitTooltip title:"Cancel the search of my location">
 <buttonExpandScreenTooltip title:"Full screen">
 <buttonCompressScreenTooltip title:"Exit full screen">
-<buttonPoiTooltip title:"Points of interest display">
+<buttonLayerTooltip title:"Layers display">
 <buttonTileTooltip title:"Background display">
 <buttonLoginTooltip title:"{{ login }}">
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
 <buttonEditSettingTooltip title:"Main settings">
-<buttonEditPoiTooltip title:"Points of interest">
+<buttonEditLayerTooltip title:"Layer">
 <buttonEditTileTooltip title:"Backgrounds">
 <buttonEditPresetTooltip title:"Nodes types">
 <buttonHelpTooltip title:"Help">
@@ -48,15 +49,24 @@
 <logout "Log out">
 <close "Close">
 <save "Save">
+<validate "Validate">
 <cancel "Cancel">
+<next "Next">
+<previous "Previous">
+<back "Back">
 <customize "Customize">
 <letsGo "Let's go">
 <empty "Empty">
-<editTheseInformations "Edit these informations">
+<editThatElement "Edit that element">
 <loadingData title:"Some data are being loaded">
 <createATheme "Create a theme">
 <searchATheme placeholder:"Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
+
+
+/* Home */
+<home_noResult "No result">
+<home_charactersLeft "{{ $n }} characters left">
 
 
 /* Help */
@@ -76,10 +86,10 @@
 <geocodeWidget_queryInput placeholder:"City, zip code, ...">
 
 
-/* POI column */
-<selectPoiColumn_title "Points of interest">
-<selectPoiColumn_explanation "Select the points of interest you want to see on the map">
-<selectPoiColumn_needToZoom[plural($n)] {
+/* Layer column */
+<selectLayerColumn_title "Layers">
+<selectLayerColumn_explanation "Select the layers you want to see on the map">
+<selectLayerColumn_needToZoom[plural($n)] {
   one: "To see these data, you need to zoom once.",
   many: "To see these data, you need to zoom {{ $n }} times."
 }>
@@ -91,6 +101,10 @@
 
 /* User column */
 <userColumn_title "My account">
+
+
+/* Visitor column */
+<visitorColumn_title "Hi!">
 
 
 /* Contribution column */
@@ -117,46 +131,68 @@
 <editSettingColumn_themeDescription "Description">
 <editSettingColumn_color "Color">
 <editSettingColumn_position "Location">
+<editSettingColumn_geolocation "Geolocation">
 <editSettingColumn_keepOld "Keep old parameters">
 <editSettingColumn_setNew "Set the new ones">
+<editSettingColumn_autoGeolocateUser "Automatically geolocate the user">
 <editSettingColumn_geocoder "Geocoder">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">
+<editSettingColumn_infoDisplay "Informations display">
+<editSettingColumn_popup "Popup">
+<editSettingColumn_modal "Modale window">
+<editSettingColumn_column "Column">
 
 
-/* Edit POI column */
-<editPoiColumn_title "Points of interest">
-<editPoiColumn_clickButton "Click the button below">
-<editPoiColumn_addLayer "Add a layer">
+/* Edit layer column */
+<editLayerListColumn_title "Layers">
+<editLayerListColumn_clickButton "Click the button below">
+<editLayerListColumn_addLayer "Add a layer">
 
 
-/* Edit POI layer column */
-<editLayerColumn_title "Layer edit">
-<editLayerColumn_layerName "Name">
-<editLayerColumn_layerDescription "Description">
-<editLayerColumn_visibilityAndEdition "Visibility and edition">
-<editLayerColumn_visible "Visible by users">
-<editLayerColumn_dataEditable "Allow to edit data">
-<editLayerColumn_layerZoomLevel "Minimum zoom">
-<editLayerColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
-<editLayerColumn_layerOverpassRequest "Overpass request">
-<editLayerColumn_marker "Marker">
-<editLayerColumn_layerPopupContent "Popup content">
+/* Edit layer column */
+<editLayerFormColumn_title "Layer edit">
+<editLayerFormColumn_layerName "Name">
+<editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_visibility "Visibility">
+<editLayerFormColumn_visibilityAndEdition "Visibility and edition">
+<editLayerFormColumn_visible "Visible by users">
+<editLayerFormColumn_dataEditable "Allow to edit data">
+<editLayerFormColumn_layerZoomLevel "Minimum zoom">
+<editLayerFormColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
+<editLayerFormColumn_layerOverpassRequest "Overpass request">
+<editLayerFormColumn_marker "Marker">
+<editLayerFormColumn_layerPopupContent "Popup content">
+<editLayerFormColumn_gpxFile "GPX file">
+<editLayerFormColumn_csvFile "CSV file">
+<editLayerFormColumn_csvDisclaimer "It must contain latitude and longitude values, in column named roughly <em>latitude</em> and <em>longitude</em>">
+<editLayerFormColumn_geoJsonFile "GeoJSON file">
+<editLayerFormColumn_browse "Browse">
+<editLayerFormColumn_cache "Cache">
+<editLayerFormColumn_cacheDescription "It replaces the live OverPass request.">
+<editLayerFormColumn_enableCache "Enable the cache">
+<editLayerFormColumn_cachePopoverTitle "Limitations">
+<editLayerFormColumn_cachePopoverContent "Data are daily updated while the request, executed on the entire globe, take less than 3 minutes and the final file size is lower than 1 MB.">
+<editLayerFormColumn_cacheDate "Last update: {{ $date }}.">
+<editLayerFormColumn_cacheErrorTimeout "<i></i> The last cache update failed because of an execution time too important.">
+<editLayerFormColumn_cacheErrorMemory "<i></i> The last cache update failed because of a final file size too important.">
+<editLayerFormColumn_cacheErrorBadRequest "<i></i> The last cache update failed because the request is erroneous.">
+<editLayerFormColumn_cacheErrorUnknown "<i></i> The last cache update failed for an unkown reason.">
 
 
-/* Edit POI marker modal */
-<editPoiMarkerModal_colorAndShape "Color and shape">
-<editPoiMarkerModal_color "Color">
-<editPoiMarkerModal_shape "Shape">
-<editPoiMarkerModal_icon "Icon">
-<editPoiMarkerModal_library "Library">
-<editPoiMarkerModal_external "External">
-<editPoiMarkerModal_iconName "Icon name">
-<editPoiMarkerModal_iconUrl "Icon url">
-<editPoiMarkerModal_iconDescription1 "Icons come from the Font Awesome collection.">
-<editPoiMarkerModal_iconDescription2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
-<editPoiMarkerModal_iconDescriptionExternal1 "You can use your own icon if it is hosted on the internet.">
-<editPoiMarkerModal_iconDescriptionExternal2 "Fill its address in the field below.">
+/* Edit layer marker modal */
+<editLayerMarkerModal_colorAndShape "Color and shape">
+<editLayerMarkerModal_color "Color">
+<editLayerMarkerModal_shape "Shape">
+<editLayerMarkerModal_icon "Icon">
+<editLayerMarkerModal_library "Library">
+<editLayerMarkerModal_external "External">
+<editLayerMarkerModal_iconName "Icon name">
+<editLayerMarkerModal_iconUrl "Icon url">
+<editLayerMarkerModal_iconDescription1 "Icons come from the Font Awesome collection.">
+<editLayerMarkerModal_iconDescription2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
+<editLayerMarkerModal_iconDescriptionExternal1 "You can use your own icon if it is hosted on the internet.">
+<editLayerMarkerModal_iconDescriptionExternal2 "Fill its address in the field below.">
 
 
 /* Edit tiles column */
@@ -179,17 +215,12 @@
 
 
 /* Edit POI data column */
-<editPoiDataColumn_title "Edit data">
-<editPoiDataColumn_emptyState "Refreshing the element data...">
-<editPoiDataColumn_remoteValue "New remote value:<br>{{ $remoteValue }}">
-<editPoiDataColumn_take "Take">
-<editPoiDataColumn_reject "Reject">
-
-
-/* Conflict modal */
-<conflictModal_title "Conflict">
-<conflictModal_explanation1 "Some new data have been added by another contributor while you edited your point of interest.">
-<conflictModal_explanation2 "Those new data will be displayed below the previous fields in order to let you choose to keep it or reject it.">
+<editPoiColumn_title "Edit data">
+<editPoiColumn_movePoi "Move the node">
+<editPoiColumn_emptyState "Refreshing the element data...">
+<editPoiColumn_remoteValue "New remote value:<br>{{ $remoteValue }}">
+<editPoiColumn_take "Take">
+<editPoiColumn_reject "Reject">
 
 
 /* Zoom indicator notification */
@@ -198,12 +229,27 @@
 
 /* Overpass timeout notification */
 <overpassTimeoutNotification_title "Timeout">
-<overpassTimeoutNotification_content "It seems that the « {{ $name }} » points of interest take too long to be loaded...">
+<overpassTimeoutNotification_content "It seems that the <em>{{ $name }}</em> points of interest take too long to be loaded...">
 
 
 /* Overpass error notification */
 <overpassErrorNotification_title "Error">
-<overpassErrorNotification_content "An error occured during the load of the « {{ $name }} » points of interest.">
+<overpassErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
+
+
+/* CSV error notification */
+<csvErrorNotification_title "Error">
+<csvErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
+
+
+/* GeoJSON error notification */
+<geoJsonErrorNotification_title "Error">
+<geoJsonErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
+
+
+/* GPX error notification */
+<gpxErrorNotification_title "Error">
+<gpxErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> layer.">
 
 
 /* Contribution error notification */
@@ -217,3 +263,50 @@
 <uiFormNodeTags_value placeholder:"Value">
 <uiFormNodeTags_keyReadOnly "Read-only key">
 <uiFormNodeTags_valueReadOnly "Read-only value">
+
+
+/* Color selector UI */
+<uiColorSelector_label "Color">
+
+
+/* Contribution form column */
+<contribFormColumn_placeOnMap "Place on the map">
+
+
+/* New POI placement contextual */
+<newPoiPlacementContextual_text "Put the cross the exact node place.">
+
+
+/* Move POI contextual */
+<movePoiContextual_text "Put the cross the exact node place.">
+
+
+
+/* Add layer menu column */
+<addLayerMenuColumn_title "Add a layer">
+<addLayerMenuColumn_overPass "OverPass request">
+<addLayerMenuColumn_gpx "GPX file">
+<addLayerMenuColumn_csv "CSV file">
+<addLayerMenuColumn_geoJson "GeoJSON file">
+
+
+/* Layer info column */
+<infoLayerColumn_title "Informations">
+<infoLayerColumn_layerName "Name">
+<infoLayerColumn_layerDescription "Description">
+<infoLayerColumn_layerSource "Source of data">
+<infoLayerColumn_overPass "OverPass">
+<infoLayerColumn_gpx "GPX file">
+<infoLayerColumn_csv "CSV file">
+<infoLayerColumn_geoJson "GeoJSON file">
+<infoLayerColumn_layerMinZoom "Update minimum zoom">
+<infoLayerColumn_layerOverPassRequest "Requête OverPass">
+<infoLayerColumn_layerOverPassCache "Cache">
+<infoLayerColumn_layerOverPassCacheDescription "The request results are pre-calculated once a day.">
+<infoLayerColumn_layerOverPassCacheDate "Last update: {{ $date }}.">
+<infoLayerColumn_geoJsonData "GeoJSON data">
+<infoLayerColumn_downloadData "Download the data">
+
+
+/* Info display column */
+<infoDisplayColumn_title "Details">

@@ -21,7 +21,7 @@ export default Backbone.Router.extend({
 
     routeDefault: function (){
         this._app.getRegion('root').show(
-            new ThemeRootView( this._app )
+            new ThemeRootView({'app': this._app})
         );
     },
 
@@ -31,7 +31,7 @@ export default Backbone.Router.extend({
             url: CONST.apiPath +'user/logout',
             dataType: 'json',
             context: this,
-            complete: function () {
+            complete: () => {
                 this.navigate('');
 
                 this._radio.vent.trigger('session:unlogged');

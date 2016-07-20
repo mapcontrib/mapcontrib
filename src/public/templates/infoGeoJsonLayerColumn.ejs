@@ -1,0 +1,29 @@
+<section id="info_geojson_layer_column" class="column left white">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="infoLayerColumn_title"></h2>
+    </header>
+
+    <div class="container-fluid content">
+        <div class="row">
+            <div class="col-xs-12 append-xs-2">
+                <h4 data-l10n-id="infoLayerColumn_layerName"></h4>
+                <p><%= name %></p>
+
+                <section class="description_container hide">
+                    <h4 class="prepend-xs-2" data-l10n-id="infoLayerColumn_layerDescription"></h4>
+                    <p><%= description %></p>
+                </section>
+
+                <h4 class="prepend-xs-2" data-l10n-id="infoLayerColumn_layerSource"></h4>
+                <p data-l10n-id="infoLayerColumn_geoJson"><a href="<%= fileUri %>"></a></p>
+
+                <h4 class="prepend-xs-2" data-l10n-id="infoLayerColumn_geoJsonData"></h4>
+                <button type="button" class="btn btn-default download_btn" data-l10n-id="infoLayerColumn_downloadData"></button>
+            </div>
+        </div>
+    </div>
+</section>

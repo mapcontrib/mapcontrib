@@ -11,7 +11,7 @@ export default Marionette.ItemView.extend({
     className: 'col-xs-12 col-sm-4 col-lg-3 append-xs-1',
 
     ui: {
-        'markersContainer': '.ui-theme-thumb-markers',
+        'layersContainer': '.ui-theme-thumb-layers',
     },
 
     templateHelpers: function () {
@@ -42,11 +42,11 @@ export default Marionette.ItemView.extend({
             let i = 0;
 
             for (let layer of layers.models) {
-                let markerElement = document.createElement('div');
-                markerElement.innerHTML = MapUi.buildLayerHtmlIcon( layer );
-                markerElement.classList.add(`ui-theme-thumb-marker-${i}`);
+                let iconElement = document.createElement('div');
+                iconElement.innerHTML = MapUi.buildLayerHtmlIcon( layer );
+                iconElement.classList.add(`ui-theme-thumb-layer-${i}`);
 
-                this.ui.markersContainer.append(markerElement);
+                this.ui.layersContainer.append(iconElement);
 
                 i++;
 

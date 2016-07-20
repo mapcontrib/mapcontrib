@@ -16,10 +16,15 @@ export default Marionette.LayoutView.extend({
     ui: {
         'createThemeButton': '.create_theme_btn',
         'searchInput': '#q',
+        'searchIcon': 'input.search + label .icon',
+        'searchSpinner': 'input.search + label .spinner',
+        'searchResults': '#rg_search_results',
+        'noResultMessage': '.no_result',
+        'charactersLeftMessage': '.characters_left',
+        'charactersLeftMessageText': '.characters_left .text',
     },
 
     regions: {
-        'loginModal': '#rg_login_modal',
         'searchResults': '#rg_search_results',
     },
 
@@ -28,16 +33,13 @@ export default Marionette.LayoutView.extend({
         'keyup @ui.searchInput': 'onKeyUpSearchInput',
     },
 
-    initialize: function (app) {
-        this._app = app;
+    initialize: function (options) {
+        this._app = options.app;
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
         this._searchTimeout = null;
-        this.collection = new ThemeCollection();
 
-        if (window.highlightList) {
-            this.collection.add(window.highlightList);
-        }
+        this.resetThemeCollection();
     },
 
     onRender: function () {
@@ -46,6 +48,8 @@ export default Marionette.LayoutView.extend({
                 'collection': this.collection
             })
         );
+
+        this.ui.searchInput.focus();
     },
 
     onClickCreateTheme: function (e) {
@@ -60,18 +64,28 @@ export default Marionette.LayoutView.extend({
     onKeyUpSearchInput: function (e) {
         clearTimeout(this._searchTimeout);
 
-        this._searchTimeout = setTimeout(
-            this.fetchSearchedThemes.bind(this),
-            300
-        );
+        const charactersCount = this.ui.searchInput.val().length;
+
+        if (charactersCount === 0) {
+            this.hideSpinner();
+            this.resetThemeCollection();
+        }
+        else if (charactersCount > 0 && charactersCount < 3) {
+            this.hideSpinner();
+            this.showCharactersLeftMessage();
+        }
+        else {
+            this.showSpinner();
+
+            this._searchTimeout = setTimeout(
+                this.fetchSearchedThemes.bind(this),
+                300
+            );
+        }
     },
 
     fetchSearchedThemes: function () {
         let searchString = this.ui.searchInput.val();
-
-        if (!searchString) {
-            return false;
-        }
 
         this.collection.fetch({
             'reset': true,
@@ -79,16 +93,80 @@ export default Marionette.LayoutView.extend({
             'data': {
                 'q': searchString,
                 'hasLayer': true
-            }
+            },
+            'success': this.onThemesFetchSuccess.bind(this),
+            'error': this.onThemesFetchError.bind(this),
         });
     },
 
+    onThemesFetchSuccess: function (collection, response, options) {
+        this.hideSpinner();
+
+        if (collection.models.length === 0) {
+            this.showNoResultMessage();
+        }
+        else {
+            this.showResults();
+        }
+    },
+
+    onThemesFetchError: function (collection, response, options) {
+        this.hideSpinner();
+        this.showNoResultMessage();
+    },
+
+    resetThemeCollection: function () {
+        this.collection = new ThemeCollection();
+
+        if (MAPCONTRIB.highlightList) {
+            this.collection.add(MAPCONTRIB.highlightList);
+        }
+
+        this.render();
+        this.showResults();
+    },
+
     displayLoginModal: function () {
-        let loginModalView = new LoginModalView({
+        new LoginModalView({
             'authSuccessCallback': '/create_theme',
             'authFailCallback': '/'
-        });
+        }).open();
+    },
 
-        this.getRegion('loginModal').show( loginModalView );
-    }
+    showCharactersLeftMessage: function () {
+        const charactersLeft = 3 - this.ui.searchInput.val().length;
+
+        this.ui.charactersLeftMessageText.html(
+            document.l10n.getSync(
+                'home_charactersLeft',
+                { 'n': charactersLeft }
+            )
+        );
+
+        this.ui.noResultMessage.addClass('hide');
+        this.ui.searchResults.addClass('hide');
+        this.ui.charactersLeftMessage.removeClass('hide');
+    },
+
+    showNoResultMessage: function () {
+        this.ui.searchResults.addClass('hide');
+        this.ui.charactersLeftMessage.addClass('hide');
+        this.ui.noResultMessage.removeClass('hide');
+    },
+
+    showResults: function () {
+        this.ui.noResultMessage.addClass('hide');
+        this.ui.charactersLeftMessage.addClass('hide');
+        this.ui.searchResults.removeClass('hide');
+    },
+
+    showSpinner: function () {
+        this.ui.searchIcon.addClass('hide');
+        this.ui.searchSpinner.removeClass('hide');
+    },
+
+    hideSpinner: function () {
+        this.ui.searchSpinner.addClass('hide');
+        this.ui.searchIcon.removeClass('hide');
+    },
 });

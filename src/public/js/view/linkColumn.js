@@ -43,10 +43,10 @@ export default Marionette.LayoutView.extend({
 
         return {
             'url': this.getUrl(),
-            'iframeWidth': config.shareIframeWidth,
-            'iframeWidthUnit': config.shareIframeWidthUnit,
-            'iframeHeight': config.shareIframeHeight,
-            'iframeHeightUnit': config.shareIframeHeightUnit,
+            'iframeWidth': MAPCONTRIB.config.shareIframeWidth,
+            'iframeWidthUnit': MAPCONTRIB.config.shareIframeWidthUnit,
+            'iframeHeight': MAPCONTRIB.config.shareIframeHeight,
+            'iframeHeightUnit': MAPCONTRIB.config.shareIframeHeightUnit,
         };
     },
 
@@ -55,16 +55,18 @@ export default Marionette.LayoutView.extend({
     },
 
     onBeforeOpen: function () {
-        this._radio.vent.trigger('column:closeAll');
-        this._radio.vent.trigger('widget:closeAll');
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
     open: function () {
         this.triggerMethod('open');
+        return this;
     },
 
     close: function () {
         this.triggerMethod('close');
+        return this;
     },
 
     onRender: function () {

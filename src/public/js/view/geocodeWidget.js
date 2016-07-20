@@ -36,10 +36,12 @@ export default Marionette.LayoutView.extend({
     open: function () {
         this._setGeocoder();
         this.triggerMethod('open');
+        return this;
     },
 
     close: function () {
         this.triggerMethod('close');
+        return this;
     },
 
     toggle: function () {
@@ -48,7 +50,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onAfterOpen: function () {
-        this._radio.vent.trigger('column:closeAll');
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
 
         this.ui.widget.one('transitionend', () => {
             this.ui.query.focus();
@@ -77,19 +79,20 @@ export default Marionette.LayoutView.extend({
         }
 
         switch ( e.keyCode ) {
+            case 27:
+                this.close();
+                break;
+
             case 40: // Down arrow
             case 9: // Tab
-
                 this.activeNextResult();
                 break;
 
             case 38: // Up arrow
-
                 this.activePreviousResult();
                 break;
 
             case 13: // Enter
-
                 this.visitResult();
                 break;
         }
@@ -106,14 +109,17 @@ export default Marionette.LayoutView.extend({
             return;
         }
 
+        this.options.icon.addClass('hide');
+        this.options.spinner.removeClass('hide');
+
         this._geocoder.geocode(query, (results) => {
             let i = 0;
 
             for (let result of results) {
                 elements.push(
-                    $( this.templateResultItem({
-                        'name': this._buildGeocodeResultName(result),
-                    }))
+                    $( this.templateResultItem(
+                        this._buildGeocodeResultName(result)
+                    ))
                     .on('click', this.onGeocodeResultClick.bind(this, result))
                 );
 
@@ -125,6 +131,9 @@ export default Marionette.LayoutView.extend({
             }
 
             this.ui.resultList.html( elements );
+
+            this.options.spinner.addClass('hide');
+            this.options.icon.removeClass('hide');
         });
 
     },
@@ -136,25 +145,34 @@ export default Marionette.LayoutView.extend({
     },
 
     _buildGeocodeResultName: function (result) {
+        let details = [];
+
         switch ( this.model.get('geocoder') ) {
             case CONST.geocoder.nominatim:
-                return result.name;
+                let splittedResult = result.name.split(', ');
+
+                return {
+                    'name': splittedResult.shift(),
+                    'detail': splittedResult.join(', ')
+                };
 
             case CONST.geocoder.photon:
-                let infos = [ result.properties.name ];
+                if (result.properties.city) {
+                    details.push( result.properties.city );
+                }
 
                 if (result.properties.country) {
-                    infos.push( result.properties.country );
+                    details.push( result.properties.country );
                 }
 
                 if (result.properties.state) {
-                    infos.push( result.properties.state );
+                    details.push( result.properties.state );
                 }
 
-                return infos.join(', ');
-
-            default:
-                return result.name;
+                return {
+                    'name': result.name,
+                    'detail': details.join(', ')
+                };
         }
     },
 

@@ -15,6 +15,7 @@
 
 
 <markdownAvailable "Format <a>Markdown</a> disponible">
+<maxFileSize "Le poids ne doit pas dépasser {{ $maxFileSize }} Mo">
 
 
 <buttonDescriptionTooltip title:"Lire la description">
@@ -25,14 +26,14 @@
 <buttonLocateWaitTooltip title:"Annuler la recherche de mon emplacement">
 <buttonExpandScreenTooltip title:"Passer en plein écran">
 <buttonCompressScreenTooltip title:"Quitter le plein écran">
-<buttonPoiTooltip title:"Affichage des centres d'intérêts">
+<buttonLayerTooltip title:"Affichage des couches">
 <buttonTileTooltip title:"Affichage des fonds de carte">
 <buttonLoginTooltip title:"{{ login }}">
 <buttonUserTooltip title:"Mon compte">
 <buttonLinkTooltip title:"Partager">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
 <buttonEditSettingTooltip title:"Configuration générale">
-<buttonEditPoiTooltip title:"Centres d'intérêts">
+<buttonEditLayerTooltip title:"Couches">
 <buttonEditTileTooltip title:"Fonds de carte">
 <buttonEditPresetTooltip title:"Types de nœuds">
 <buttonHelpTooltip title:"Aide">
@@ -48,15 +49,24 @@
 <logout "Se déconnecter">
 <close "Fermer">
 <save "Enregistrer">
+<validate "Valider">
 <cancel "Annuler">
+<next "Suivant">
+<previous "Précédent">
+<back "Retour">
 <customize "Personnaliser">
 <letsGo "C'est parti">
 <empty "Vide">
-<editTheseInformations "Éditer ces informations">
+<editThatElement "Éditer cet élément">
 <loadingData title:"Certaines données sont en cours de chargement">
 <createATheme "Créer un thème">
 <searchATheme placeholder:"Rechercher un thème (3 caractères min.)">
 <aboutMapContrib "À propos de MapContrib">
+
+
+/* Home */
+<home_noResult "Aucun résultat">
+<home_charactersLeft "Saisissez encore {{ $n }} caractères">
 
 
 /* Help */
@@ -76,10 +86,10 @@
 <geocodeWidget_queryInput placeholder:"Ville, code postal, ...">
 
 
-/* POI column */
-<selectPoiColumn_title "Centres d'intérêts">
-<selectPoiColumn_explanation "Sélectionnez les centres d'intérêt que vous voulez voir sur la carte.">
-<selectPoiColumn_needToZoom[plural($n)] {
+/* Layers column */
+<selectLayerColumn_title "Couches">
+<selectLayerColumn_explanation "Sélectionnez les couches que vous voulez voir sur la carte.">
+<selectLayerColumn_needToZoom[plural($n)] {
   one: "Pour voir ces données, vous devez zoomer une fois.",
   many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
 }>
@@ -91,6 +101,10 @@
 
 /* User column */
 <userColumn_title "Mon compte">
+
+
+/* Visitor column */
+<visitorColumn_title "Salut !">
 
 
 /* Contribution column */
@@ -117,46 +131,68 @@
 <editSettingColumn_themeDescription "Description">
 <editSettingColumn_color "Couleur">
 <editSettingColumn_position "Positionnement">
+<editSettingColumn_geolocation "Géolocalisation">
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
+<editSettingColumn_autoGeolocateUser "Géolocaliser automatiquement l'utilisateur">
 <editSettingColumn_geocoder "Géocodeur">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">
+<editSettingColumn_infoDisplay "Affichage des informations">
+<editSettingColumn_popup "Infobulle">
+<editSettingColumn_modal "Fenêtre modale">
+<editSettingColumn_column "Colonne">
 
 
-/* Edit POI column */
-<editPoiColumn_title "Centres d'intérêt">
-<editPoiColumn_clickButton "Cliquez sur le bouton ci-dessous">
-<editPoiColumn_addLayer "Ajouter une couche">
+/* Edit layer column */
+<editLayerListColumn_title "Couches">
+<editLayerListColumn_clickButton "Cliquez sur le bouton ci-dessous">
+<editLayerListColumn_addLayer "Ajouter une couche">
 
 
-/* Edit POI layer column */
-<editLayerColumn_title "Édition de la couche">
-<editLayerColumn_layerName "Nom">
-<editLayerColumn_layerDescription "Description">
-<editLayerColumn_visibilityAndEdition "Visibilité et édition">
-<editLayerColumn_dataEditable "Permettre l'édition des données">
-<editLayerColumn_visible "Visible par les utilisateurs">
-<editLayerColumn_layerZoomLevel "Zoom minimum">
-<editLayerColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
-<editLayerColumn_layerOverpassRequest "Requête Overpass">
-<editLayerColumn_marker "Marqueur">
-<editLayerColumn_layerPopupContent "Contenu des bulles">
+/* Edit layer column */
+<editLayerFormColumn_title "Édition de la couche">
+<editLayerFormColumn_layerName "Nom">
+<editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_visibility "Visibilité">
+<editLayerFormColumn_visibilityAndEdition "Visibilité et édition">
+<editLayerFormColumn_dataEditable "Permettre l'édition des données">
+<editLayerFormColumn_visible "Visible par les utilisateurs">
+<editLayerFormColumn_layerZoomLevel "Zoom minimum">
+<editLayerFormColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
+<editLayerFormColumn_layerOverpassRequest "Requête Overpass">
+<editLayerFormColumn_marker "Marqueur">
+<editLayerFormColumn_layerPopupContent "Contenu des bulles">
+<editLayerFormColumn_gpxFile "Fichier GPX">
+<editLayerFormColumn_csvFile "Fichier CSV">
+<editLayerFormColumn_csvDisclaimer "Il doit contenir les latitude et longitude, dans des colonnes nommées <em>latitude</em> et <em>longitude</em>">
+<editLayerFormColumn_geoJsonFile "Fichier GeoJSON">
+<editLayerFormColumn_browse "Parcourir">
+<editLayerFormColumn_cache "Cache">
+<editLayerFormColumn_cacheDescription "Il se substitue à la requête OverPass temps réél.">
+<editLayerFormColumn_enableCache "Activer le cache">
+<editLayerFormColumn_cachePopoverTitle "Limitations">
+<editLayerFormColumn_cachePopoverContent "Les informations sont mises à jour quotidiennement à condition que la requête exécutée sur l'ensemble du globe ne mette pas plus de 3 minutes et que le fichier final ne fasse pas plus d'1 Mo.">
+<editLayerFormColumn_cacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
+<editLayerFormColumn_cacheErrorTimeout "<i></i> La dernière mise à jour du cache a échoué en raison d'un temps d'exécution trop important.">
+<editLayerFormColumn_cacheErrorMemory "<i></i> La dernière mise à jour du cache a échoué en raison d'un poids de fichier final trop important.">
+<editLayerFormColumn_cacheErrorBadRequest "<i></i> La dernière mise à jour du cache a échoué parce que la requête est erronée.">
+<editLayerFormColumn_cacheErrorUnknown "<i></i> La dernière mise à jour du cache a échoué pour une raison inconnue.">
 
 
-/* Edit POI marker modal */
-<editPoiMarkerModal_colorAndShape "Couleur et forme">
-<editPoiMarkerModal_color "Couleur">
-<editPoiMarkerModal_shape "Forme">
-<editPoiMarkerModal_icon "Icône">
-<editPoiMarkerModal_library "Bibliothèque">
-<editPoiMarkerModal_external "Externe">
-<editPoiMarkerModal_iconName "Nom de l'icône">
-<editPoiMarkerModal_iconUrl "Url de l'icône">
-<editPoiMarkerModal_iconDescriptionLibrary1 "Les icônes sont tirées de la bibliothèque Font Awesome.">
-<editPoiMarkerModal_iconDescriptionLibrary2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
-<editPoiMarkerModal_iconDescriptionExternal1 "Vous pouvez utiliser votre propre icône si elle est hébergée sur internet.">
-<editPoiMarkerModal_iconDescriptionExternal2 "Renseignez son adresse dans le champs ci-dessous.">
+/* Edit layer marker modal */
+<editLayerMarkerModal_colorAndShape "Couleur et forme">
+<editLayerMarkerModal_color "Couleur">
+<editLayerMarkerModal_shape "Forme">
+<editLayerMarkerModal_icon "Icône">
+<editLayerMarkerModal_library "Bibliothèque">
+<editLayerMarkerModal_external "Externe">
+<editLayerMarkerModal_iconName "Nom de l'icône">
+<editLayerMarkerModal_iconUrl "Url de l'icône">
+<editLayerMarkerModal_iconDescriptionLibrary1 "Les icônes sont tirées de la bibliothèque Font Awesome.">
+<editLayerMarkerModal_iconDescriptionLibrary2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
+<editLayerMarkerModal_iconDescriptionExternal1 "Vous pouvez utiliser votre propre icône si elle est hébergée sur internet.">
+<editLayerMarkerModal_iconDescriptionExternal2 "Renseignez son adresse dans le champs ci-dessous.">
 
 
 /* Edit tiles column */
@@ -178,18 +214,13 @@
 <editPresetTagsColumn_addTag "Ajouter un tag">
 
 
-/* Edit POI data column */
-<editPoiDataColumn_title "Éditer les données">
-<editPoiDataColumn_emptyState "Actualisation des données de l'élément à modifier...">
-<editPoiDataColumn_remoteValue "Nouvelle valeur distante&nbsp;:<br>{{ $remoteValue }}">
-<editPoiDataColumn_take "Prendre">
-<editPoiDataColumn_reject "Rejeter">
-
-
-/* Conflict modal */
-<conflictModal_title "Conflit">
-<conflictModal_explanation1 "De nouvelles données ont été saisies par un autre contributeur pendant que vous modifiez les informations de votre centre d'intérêt.">
-<conflictModal_explanation2 "Ces nouvelles données vont être affichées en-dessous des champs précédents pour que vous puissiez choisir ou non de les garder.">
+/* Edit POI column */
+<editPoiColumn_title "Éditer les données">
+<editPoiColumn_movePoi "Déplacer le nœud">
+<editPoiColumn_emptyState "Actualisation des données de l'élément à modifier...">
+<editPoiColumn_remoteValue "Nouvelle valeur distante&nbsp;:<br>{{ $remoteValue }}">
+<editPoiColumn_take "Prendre">
+<editPoiColumn_reject "Rejeter">
 
 
 /* Zoom notification */
@@ -198,12 +229,27 @@
 
 /* Overpass timeout notification */
 <overpassTimeoutNotification_title "Temps d'attente dépassé">
-<overpassTimeoutNotification_content "Il semblerait que les centres d'intérêts de type « {{ $name }} » mettent beaucoup de temps à être chargés...">
+<overpassTimeoutNotification_content "Il semblerait que les centres d'intérêts de type <em>{{ $name }}</em> mettent beaucoup de temps à être chargés...">
 
 
 /* Overpass error notification */
 <overpassErrorNotification_title "Erreur">
-<overpassErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type « {{ $name }} ».">
+<overpassErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+
+
+/* CSV error notification */
+<csvErrorNotification_title "Erreur">
+<csvErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+
+
+/* GeoJSON error notification */
+<geoJsonErrorNotification_title "Erreur">
+<geoJsonErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+
+
+/* GPX error notification */
+<gpxErrorNotification_title "Erreur">
+<gpxErrorNotification_content "Une erreur est survenue lors du chargement de la couche <em>{{ $name }}</em>.">
 
 
 /* Contribution error notification */
@@ -217,3 +263,49 @@
 <uiFormNodeTags_value placeholder:"Valeur">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
+
+
+/* Color selector UI */
+<uiColorSelector_label "Couleur">
+
+
+/* Contribution form column */
+<contribFormColumn_placeOnMap "Placer sur la carte">
+
+
+/* New POI placement contextual */
+<newPoiPlacementContextual_text "Placez la croix à l'exact endroit du nœud.">
+
+
+/* Move POI contextual */
+<movePoiContextual_text "Placez la croix à l'exact endroit du nœud.">
+
+
+/* Add layer menu column */
+<addLayerMenuColumn_title "Ajouter une couche">
+<addLayerMenuColumn_overPass "Requête OverPass">
+<addLayerMenuColumn_gpx "Fichier GPX">
+<addLayerMenuColumn_csv "Fichier CSV">
+<addLayerMenuColumn_geoJson "Fichier GeoJSON">
+
+
+/* Layer info column */
+<infoLayerColumn_title "Informations">
+<infoLayerColumn_layerName "Nom">
+<infoLayerColumn_layerDescription "Description">
+<infoLayerColumn_layerSource "Provenance des données">
+<infoLayerColumn_overPass "OverPass">
+<infoLayerColumn_gpx "<a>Fichier GPX</a>">
+<infoLayerColumn_csv "<a>Fichier CSV</a>">
+<infoLayerColumn_geoJson "<a>Fichier GeoJSON</a>">
+<infoLayerColumn_layerMinZoom "Zoom minimum de mise à jour">
+<infoLayerColumn_layerOverPassRequest "Requête OverPass">
+<infoLayerColumn_layerOverPassCache "Cache">
+<infoLayerColumn_layerOverPassCacheDescription "Les résultats de la requête OverPass sont pré-calculés une fois par jour.">
+<infoLayerColumn_layerOverPassCacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
+<infoLayerColumn_geoJsonData "Données GeoJSON">
+<infoLayerColumn_downloadData "Télécharger les données">
+
+
+/* Info display column */
+<infoDisplayColumn_title "Détails">

@@ -21,11 +21,15 @@ export default Marionette.ItemView.extend({
         'colorButtons': '.color-buttons .btn',
         'themePositionKeepOld': '#theme_position_keep_old',
         'themePositionSetNew': '#theme_position_set_new',
+        'themePositionAutoCenter': '#theme_position_auto_center',
         'geocoderSection': '.geocoder',
         'photonSection': '.photon',
         'nominatimSection': '.nominatim',
         'themeGeocoderPhoton': '#theme_geocoder_photon',
         'themeGeocoderNominatim': '#theme_geocoder_nominatim',
+        'themeInfoDisplayPopup': '#theme_info_display_popup',
+        'themeInfoDisplayModal': '#theme_info_display_modal',
+        'themeInfoDisplayColumn': '#theme_info_display_column',
     },
 
     events: {
@@ -44,6 +48,8 @@ export default Marionette.ItemView.extend({
     },
 
     onRender: function () {
+        const config = MAPCONTRIB.config;
+
         this.ui.colorButtons
         .filter( '.'+ this.model.get('color') )
         .find('i')
@@ -70,23 +76,43 @@ export default Marionette.ItemView.extend({
                 }
             }
         }
+
+        if ( this.model.get('autoCenter') === true ) {
+            this.ui.themePositionAutoCenter.prop('checked', true);
+        }
+
+        switch ( this.model.get('infoDisplay') ) {
+            case CONST.infoDisplay.popup:
+                this.ui.themeInfoDisplayPopup.prop('checked', true);
+                break;
+            case CONST.infoDisplay.modal:
+                this.ui.themeInfoDisplayModal.prop('checked', true);
+                break;
+            case CONST.infoDisplay.column:
+                this.ui.themeInfoDisplayColumn.prop('checked', true);
+                break;
+        }
     },
 
     onBeforeOpen: function () {
-        this._radio.vent.trigger('column:closeAll');
-        this._radio.vent.trigger('widget:closeAll');
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
     open: function () {
         this.triggerMethod('open');
+        return this;
     },
 
     close: function () {
         this.triggerMethod('close');
+        return this;
     },
 
     onSubmit: function (e) {
         e.preventDefault();
+
+        const config = MAPCONTRIB.config;
 
         var map = this._radio.reqres.request('map'),
         mapCenter = map.getCenter(),
@@ -96,12 +122,29 @@ export default Marionette.ItemView.extend({
 
         this.model.set('name', themeName);
         this.model.set('description', themeDescription);
+        this.model.updateModificationDate();
 
         history.pushState({}, themeName, this.model.buildPath());
+
+        this.model.set('autoCenter', false);
 
         if ( this.ui.themePositionSetNew.prop('checked') === true ) {
             this.model.set('center', mapCenter);
             this.model.set('zoomLevel', mapZoomLevel);
+        }
+
+        if ( this.ui.themePositionAutoCenter.prop('checked') === true ) {
+            this.model.set('autoCenter', true);
+        }
+
+        if ( this.ui.themeInfoDisplayPopup.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.popup);
+        }
+        else if ( this.ui.themeInfoDisplayModal.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.modal);
+        }
+        else if ( this.ui.themeInfoDisplayColumn.prop('checked') === true ) {
+            this.model.set('infoDisplay', CONST.infoDisplay.column);
         }
 
         if (config.availableGeocoders.length > 1) {
@@ -116,6 +159,15 @@ export default Marionette.ItemView.extend({
 
         this.model.save({}, {
             'success': () => {
+                if (this.model.get('infoDisplay') !== this._oldModel.get('infoDisplay')) {
+                    if (this.model.get('infoDisplay') === CONST.infoDisplay.popup) {
+                        this._radio.commands.execute('map:bindAllPopups');
+                    }
+                    else {
+                        this._radio.commands.execute('map:unbindAllPopups');
+                    }
+                }
+
                 this._oldModel = this.model.clone();
 
                 this.close();
@@ -128,8 +180,7 @@ export default Marionette.ItemView.extend({
     },
 
     onReset: function () {
-        this.model.set( this._oldModel.toJSON() );
-
+        this.model.set('color', this._oldModel.get('color'));
         this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
 
         this.ui.column.one('transitionend', this.render);

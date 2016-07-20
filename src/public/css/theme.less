@@ -3,6 +3,7 @@
 @import 'app.less';
 @import 'markerCluster.less';
 @import 'ui/geolocationPoint.less';
+@import 'ui/colorSelector.less';
 
 
 html, body {
@@ -23,22 +24,31 @@ html, body {
         border-radius: 0;
 
         .leaflet-popup-content {
-            margin: 20px;
-
-            h1 {
-                font-size: 24px;
+            .global_wrapper.no_popup_content {
+                margin: 0;
             }
 
-            h2 {
-                font-size: 18px;
+            .global_wrapper.has_popup_content {
+                margin: 32px 0 20px 0;
+
+                .edit_btn {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 32px;
+                    height: 32px;
+                    color: @lightAnthracite;
+                    border-color: transparent;
+                }
             }
 
-            h3 {
-                font-size: 14px;
+            ul {
+                padding-left: 20px;
             }
 
-            h4, h5, h6 {
-                font-size: 16px;
+            img {
+                max-width: 100% !important;
+                height: auto !important;
             }
         }
     }
@@ -243,12 +253,13 @@ html, body {
 }
 
 
-#edit_poi_column .rg_layer_list {
+#edit_layer_column .rg_layer_list {
     .list-group-item {
         padding-right: 70px;
     }
 
-    .marker {
+    .marker,
+    .shape {
         transform: scale(.6);
         position: absolute;
         top: -1px;
@@ -259,14 +270,45 @@ html, body {
 
 .rg_layer_list .checkbox {
     padding-right: 40px;
+    min-height: 40px;
 
-    .marker {
+    .marker,
+    .shape {
         position: absolute;
-        top: 0;
+        top: -10px;
         right: -4px;
         cursor: pointer;
     }
+
+    .zoom_tip {
+        font-style: italic;
+    }
+
+    .info_layer_btn.btn-link {
+        position: absolute;
+        top: 24px;
+        left: -20px;
+        padding: 0;
+        color: #bbb;
+
+        &:hover,
+        &:active,
+        &.active,
+        &:focus,
+        &.focus {
+            color: #ccc;
+        }
+    }
 }
+
+#edit_poi_layer_column {
+    .info_cache_btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+}
+
 
 .tile_list {
     .checkbox,
@@ -350,26 +392,11 @@ html, body {
 
 
 
-body {
-    .edit_poi_data {
-        display: none;
-
-        button {
-            padding: 0;
-        }
-    }
-
-    &.user_logged .edit_poi_data {
-        display: block;
-    }
-}
-
-
 
 
 
 @geocodeWidgetTop: @titleHeight + (@toolbarBtnSize * 2) + @bootstrapMoreTinyAppend;
-@geocodeResultItemHeight: 46px;
+@geocodeResultItemHeight: 60px;
 
 #geocode_widget {
     position: fixed;
@@ -407,6 +434,14 @@ body {
             text-overflow: ellipsis;
             white-space: nowrap;
 
+            .list-group-item-heading {
+                font-size: 14px;
+            }
+
+            &.active .list-group-item-text,
+            .list-group-item-text {
+                color: #aaa;
+            }
 
             &.active {
                 background: @gray;
@@ -421,4 +456,25 @@ body {
     .results {
         bottom: 0;
     }
+}
+
+
+body.contribution_cross_visible {
+    .contribution_cross {
+        display: block;
+    }
+}
+
+.contribution_cross {
+    display: none;
+    position: fixed;
+    z-index: @contributionCrossZIndex;
+    top: 50%;
+    left: 50%;
+    margin-top: (-25px - 15px + @titleHeight);
+    margin-left: -25px;
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+    background-image: url(/img/contribution_cross.svg);
 }

@@ -26,23 +26,24 @@ export default Marionette.LayoutView.extend({
         this._radio = Wreqr.radio.channel('global');
     },
 
-    setModel: function (model) {
-        this.model = model;
-
-        this.render();
-    },
-
     onBeforeOpen: function () {
-        this._radio.vent.trigger('column:closeAll');
-        this._radio.vent.trigger('widget:closeAll');
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
     open: function () {
+        this.render();
         this.triggerMethod('open');
+        return this;
     },
 
     close: function () {
         this.triggerMethod('close');
+        return this;
+    },
+
+    setCenter: function ( center ) {
+        this._center = center;
     },
 
     onRender: function () {
@@ -60,8 +61,8 @@ export default Marionette.LayoutView.extend({
                         this._radio.commands,
                         'column:showContribForm',
                         {
-                            'model': this.model,
-                            'presetModel': presetModels[key]
+                            'presetModel': presetModels[key],
+                            'center': this._center,
                         }
                     )
                 });
@@ -76,7 +77,7 @@ export default Marionette.LayoutView.extend({
                 this._radio.commands,
                 'column:showContribForm',
                 {
-                    'model': this.model
+                    'center': this._center,
                 }
             )
         }]);

@@ -6,9 +6,10 @@ mongo:
         - ./volumes/mongo:/data/db
 
 node:
-    image: node:slim
+    image: node:5-slim
     environment:
         - NODE_CONFIG={"mongodb":{"host":"mongo"}}
+        - DEBUG
     ports:
         - "8080:8080"
     links:

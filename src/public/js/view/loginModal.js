@@ -9,7 +9,9 @@ export default Marionette.LayoutView.extend({
 
     behaviors: {
         'l20n': {},
-        'modal': {},
+        'modal': {
+            'appendToBody': true
+        },
     },
 
     ui: {
@@ -28,11 +30,17 @@ export default Marionette.LayoutView.extend({
     },
 
     onBeforeOpen: function () {
-        this._radio.vent.trigger('column:closeAll');
-        this._radio.vent.trigger('widget:closeAll');
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
+    },
+
+    open: function () {
+        this.triggerMethod('open');
+        return this;
     },
 
     close: function () {
         this.triggerMethod('close');
+        return this;
     },
 });

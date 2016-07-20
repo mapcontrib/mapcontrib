@@ -23,6 +23,49 @@
     }
 }
 
+.contextual {
+    position: fixed;
+    transition: transform ease-out .2s;
+    outline: 0;
+
+    &.top {
+        left: 50%;
+        top: 0;
+        transform: translate(-50%, -100%);
+    }
+
+    &.bottom {
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%, 100%);
+    }
+
+    &.open {
+        transform: translate(-50%, 0);
+    }
+}
+
+
+
+.sticky-footer {
+    position: sticky;
+    z-index: 10;
+    bottom: 0;
+    padding: 20px 0;
+    margin: 20px 0 0 0;
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+.pop .sticky-footer {
+    bottom: -20px;
+    margin-bottom: -20px;
+}
+
+
+
+
+
 
 .column {
     z-index: @columnZIndex;
@@ -65,13 +108,12 @@
 .notification {
     z-index: @notificationZIndex;
     bottom: 0;
-    right: 0;
     width: @notificationWidth;
     max-width: 100%;
     padding-bottom: 10px;
+    text-align: justify;
 
-    p {
-        text-align: justify;
+    p + p {
         margin: 0;
     }
 
@@ -89,6 +131,19 @@
     }
 }
 
+
+.contextual {
+    z-index: @contextualZIndex;
+    width: @contextualWidth;
+    max-width: 100%;
+    padding-bottom: 10px;
+    text-align: justify;
+
+    h3 {
+		margin: 15px 0 5px 0;
+    }
+}
+
 /* .modal is reserved by Bootstrap */
 .pop_modal {
     position: fixed;
@@ -97,6 +152,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    max-height: 100%;
     background: rgba(0, 0, 0, 0.6);
     outline: 0;
     opacity: 0;
@@ -108,6 +164,8 @@
         left: 50%;
         width: 500px;
         max-width: 100%;
+        max-height: 100%;
+        overflow: auto;
         transition: transform ease-out 0.2s;
         transform: translate(-50%, -45%);
         padding: 30px 15px;
@@ -119,6 +177,12 @@
                 margin-left: -15px;
                 margin-right: -15px;
             }
+        }
+
+        & > header .close_btn {
+            position: absolute;
+            top: 0;
+            right: 0;
         }
     }
 
@@ -133,6 +197,24 @@
 
 
 
+.popover {
+    border-radius: 0;
+}
+
+.popover-title {
+    padding: 8px 14px 6px;
+}
+
+.popover-title,
+.popover-content {
+    color: @anthracite;
+    font-size: inherit;
+}
+
+pre,
+.alert {
+    border-radius: 0;
+}
 
 
 
@@ -314,6 +396,22 @@
             p:last-child {
                 margin-bottom: 0;
             }
+
+            a {
+                text-decoration: underline;
+                color: inherit;
+                background: inherit;
+            }
+
+            a:hover,
+            a:active,
+            a.active,
+            a:focus,
+            a.focus {
+                color: inherit;
+                background: inherit;
+                text-decoration: none;
+            }
         }
     }
 
@@ -378,6 +476,7 @@
     }
 
     input + .help-block,
+    .input-group + .help-block,
     textarea + .help-block,
     figure + figcaption,
     .merge_feedback .remote_value {
@@ -489,6 +588,22 @@
 
             p:last-child {
                 margin-bottom: 0;
+            }
+
+            a {
+                text-decoration: underline;
+                color: inherit;
+                background: inherit;
+            }
+
+            a:hover,
+            a:active,
+            a.active,
+            a:focus,
+            a.focus {
+                color: inherit;
+                background: inherit;
+                text-decoration: none;
             }
         }
     }
@@ -750,6 +865,7 @@
     }
 
     input + .help-block,
+    .input-group + .help-block,
     textarea + .help-block,
     figure + figcaption,
     .merge_feedback .remote_value {
@@ -801,6 +917,7 @@
 .colored,
 .column,
 .notification,
+.contextual,
 .pop,
 .fullpage {
     &.orange {

@@ -65,8 +65,8 @@ export default function Passport  (app, db, config) {
 
     passport.use(
         new OpenStreetMapStrategy({
-            'consumerKey': config.client.oauthConsumerKey,
-            'consumerSecret': config.client.oauthSecret,
+            'consumerKey': config.get('client.oauthConsumerKey'),
+            'consumerSecret': config.get('client.oauthSecret'),
             'callbackURL': '/auth/callback',
             'passReqToCallback': true,
         },
@@ -92,7 +92,7 @@ export default function Passport  (app, db, config) {
                         user[key] = userData[key];
                     }
 
-                    themeApi.api.findFromOwnerId(user._id.toString())
+                    themeApi.Api.findFromOwnerId(user._id.toString())
                     .then((themes) => {
                         req.session.themes = [];
 

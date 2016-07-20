@@ -8,6 +8,7 @@ import Marionette from 'backbone.marionette';
 export default Marionette.Behavior.extend({
     defaults: {
         'destroyOnClose': false,
+        'appendToBody': false,
     },
 
     ui: {
@@ -22,7 +23,7 @@ export default Marionette.Behavior.extend({
     initialize: function (options) {
         this._radio = Wreqr.radio.channel('global');
 
-        this.listenTo(this._radio.vent, 'column:closeAll', this.onClose);
+        this.listenTo(this._radio.vent, 'column:closeAll', this.onCloseAll);
 
         this._isOpened = false;
     },
@@ -46,6 +47,12 @@ export default Marionette.Behavior.extend({
 
     onOpen: function () {
         this._isOpened = true;
+
+        if ( this.options.appendToBody && !this.view.isRendered ) {
+            this.view.render();
+            document.body.appendChild( this.el );
+            return setTimeout(this.onOpen.bind(this), 0);
+        }
 
         if (this.view.onBeforeOpen) {
             this.view.onBeforeOpen();
@@ -83,6 +90,16 @@ export default Marionette.Behavior.extend({
             })
             .removeClass('open');
         });
+    },
+
+    onCloseAll: function (excludedViews) {
+        if ( !excludedViews ) {
+            return this.onClose();
+        }
+
+        if ( excludedViews.indexOf(this.view.cid) === -1 ) {
+            return this.onClose();
+        }
     },
 
     onClickClose: function () {

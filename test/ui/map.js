@@ -9,12 +9,12 @@ import LayerModel from '../../src/public/js/model/layer';
 
 
 describe('MapUi', () => {
-    describe('buildLayerIconOptions', () => {
+    describe('buildMarkerLayerIconOptions', () => {
         it('Should return icon options (icon type: library)', () => {
             const expected = {
                 iconSize: [ 36, 42 ],
-                iconAnchor: [ 18, 42 ],
-                popupAnchor: [ 0, -38 ],
+                iconAnchor: [ 18, 40 ],
+                popupAnchor: [ 0, -36 ],
                 className: 'marker marker-2 purple',
                 html: '<i class="fa fa-star fa-fw"></i>'
             };
@@ -26,7 +26,7 @@ describe('MapUi', () => {
                 'markerColor': 'purple',
             });
 
-            let returnedOptions = MapUi.buildLayerIconOptions(layerModel);
+            let returnedOptions = MapUi.buildMarkerLayerIconOptions(layerModel);
 
             assert.deepEqual(returnedOptions, expected);
         });
@@ -34,8 +34,8 @@ describe('MapUi', () => {
         it('Should return icon options (icon type: external)', () => {
             const expected = {
                 iconSize: [ 36, 42 ],
-                iconAnchor: [ 18, 42 ],
-                popupAnchor: [ 0, -38 ],
+                iconAnchor: [ 18, 40 ],
+                popupAnchor: [ 0, -36 ],
                 className: 'marker marker-3 yellow',
                 html: '<img src="http://myiconfromtheweb" class="external-icon">'
             };
@@ -47,7 +47,7 @@ describe('MapUi', () => {
                 'markerColor': 'yellow',
             });
 
-            let returnedOptions = MapUi.buildLayerIconOptions(layerModel);
+            let returnedOptions = MapUi.buildMarkerLayerIconOptions(layerModel);
 
             assert.deepEqual(returnedOptions, expected);
         });

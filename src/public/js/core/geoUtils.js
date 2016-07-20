@@ -6,7 +6,7 @@ export default class GeoUtils {
             lonDeg = x / n * 360.0 - 180.0,
             latRad = Math.atan(GeoUtils._sinh(Math.PI * (1 - 2 * y / n))),
             latDeg = latRad * 180.0 / Math.PI;
-        return [lonDeg, latDeg];
+        return [latDeg, lonDeg];
     }
 
     static zoomLatLngToXY (z, lat, lng) {

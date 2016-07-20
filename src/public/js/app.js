@@ -1,9 +1,9 @@
 
 import 'babel-polyfill';
 import tools from './tools';
+import jqueryForm from 'jquery-form';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
-window.Backbone.Wreqr = Wreqr;
 import Marionette from 'backbone.marionette';
 import L20n from '../lib/l20n.min.js';
 
@@ -11,6 +11,7 @@ import ionicons from 'ionicons/css/ionicons.css';
 import fontAwesome from 'font-awesome-webpack';
 import bootstrap from 'bootstrap-webpack';
 import awesomeBootstrapCheckbox from 'awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css';
+import BootstrapFileStyle from 'bootstrap-filestyle';
 import bootstrapMoreCss from 'bootstrap-more/bootstrap-more.css';
 import bootstrapMoreJs from 'bootstrap-more/bootstrap-more.js';
 import leafletCss from 'leaflet/dist/leaflet.css';
@@ -23,6 +24,7 @@ import L20nBehavior from './behavior/l20n';
 import ColumnBehavior from './behavior/column';
 import ModalBehavior from './behavior/modal';
 import NotificationBehavior from './behavior/notification';
+import ContextualBehavior from './behavior/contextual';
 import WidgetBehavior from './behavior/widget';
 
 
@@ -47,6 +49,7 @@ export default Marionette.Application.extend({
                 'column': ColumnBehavior,
                 'modal': ModalBehavior,
                 'notification': NotificationBehavior,
+                'contextual': ContextualBehavior,
                 'widget': WidgetBehavior,
             };
         };
@@ -54,8 +57,10 @@ export default Marionette.Application.extend({
 
         this._isLogged = false;
         this._window = window;
-        this._user = new UserModel( window.user );
-        this._theme = new ThemeModel( window.theme );
+        this._user = new UserModel( MAPCONTRIB.user );
+        this._config = MAPCONTRIB.config;
+        this._version = MAPCONTRIB.version;
+        this._theme = new ThemeModel( MAPCONTRIB.theme );
         this._radio = Wreqr.radio.channel('global');
 
 
@@ -81,6 +86,14 @@ export default Marionette.Application.extend({
 
     getUser: function () {
         return this._user;
+    },
+
+    getConfig: function () {
+        return this._config;
+    },
+
+    getVersion: function () {
+        return this._version;
     },
 
     getTheme: function () {

@@ -1,0 +1,97 @@
+<section id="edit_poi_layer_column" class="column right orange">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="editLayerFormColumn_title"></h2>
+    </header>
+
+    <div class="container-fluid content">
+        <div class="row">
+            <div class="col-xs-12">
+                <form>
+                    <div class="form-group append-xs-2">
+                        <label for="layer_name" class="control-label" data-l10n-id="editLayerFormColumn_layerName"></label>
+                        <input type="text" spellcheck="true" class="form-control" id="layer_name" value="<%- name %>">
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="layer_description" class="control-label" data-l10n-id="editLayerFormColumn_layerDescription"></label>
+                        <textarea spellcheck="true" class="form-control" id="layer_description" rows="2"><%- description %></textarea>
+                        <div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="editLayerFormColumn_marker"></label>
+                        <div class="marker-form-widget">
+                            <div class="marker-wrapper">
+                                <%= marker %>
+                            </div>
+                            <button type="button" class="btn btn-default edit_marker_btn" data-l10n-id="customize"></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="editLayerFormColumn_visibilityAndEdition"></label>
+                        <div class="checkbox">
+                            <input type="checkbox" id="layer_visible" value="1" checked>
+                            <label for="layer_visible" data-l10n-id="editLayerFormColumn_visible"></label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="layer_data_editable" value="1" checked>
+                            <label for="layer_data_editable" data-l10n-id="editLayerFormColumn_dataEditable"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="layer_popup_content" class="control-label" data-l10n-id="editLayerFormColumn_layerPopupContent"></label>
+                        <textarea rows="3" class="form-control font-monospace" id="layer_popup_content"><%- popupContent %></textarea>
+                        <div class="help-block" data-l10n-id="markdownAvailable"><a target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="layer_min_zoom" class="control-label" data-l10n-id="editLayerFormColumn_layerZoomLevel"></label>
+                        <input type="number" id="layer_min_zoom" class="form-control" min="0" value="<%- minZoom %>">
+                        <div class="help-block current_map_zoom"></div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="layer_overpass_request" class="control-label" data-l10n-id="editLayerFormColumn_layerOverpassRequest"></label>
+                        <textarea rows="7" spellcheck="false" class="form-control font-monospace" id="layer_overpass_request"><%- overpassRequest %></textarea>
+                    </div>
+
+                    <div class="form-group append-xs-2 cache_section hide">
+                        <label class="control-label" data-l10n-id="editLayerFormColumn_cache"></label>
+                        <button type="button" role="button" class="info_cache_btn pull-right">
+                            <i class="fa fa-info-circle fa-lg"></i>
+                        </button>
+                        <p data-l10n-id="editLayerFormColumn_cacheDescription"></p>
+                        <div class="checkbox">
+                            <input type="checkbox" id="layer_cache" value="1">
+                            <label for="layer_cache" data-l10n-id="editLayerFormColumn_enableCache"></label>
+                        </div>
+                        <p class="cache_date hide"></p>
+                        <p class="cache_error_timeout hide" data-l10n-id="editLayerFormColumn_cacheErrorTimeout">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </p>
+                        <p class="cache_error_memory hide" data-l10n-id="editLayerFormColumn_cacheErrorMemory">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </p>
+                        <p class="cache_error_bad_request hide" data-l10n-id="editLayerFormColumn_cacheErrorBadRequest">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </p>
+                        <p class="cache_error_unknown hide" data-l10n-id="editLayerFormColumn_cacheErrorUnknown">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </p>
+                    </div>
+
+                    <div class="form-group sticky-footer">
+                        <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>
+                        <button type="submit" class="btn btn-primary pull-right" data-l10n-id="save"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
