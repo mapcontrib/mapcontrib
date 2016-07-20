@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.2
+
+* Fixes a translation.
+
 ## 0.10.1
 
 * Fixes the first time login.

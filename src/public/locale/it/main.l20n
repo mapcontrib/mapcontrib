@@ -66,7 +66,10 @@
 
 /* Home */
 <home_noResult "Nessun risultato">
-<home_charactersLeft "{{ $n }} caratteri mancanti">
+<home_charactersLeft[plural($n)] {
+  one: "1 carattere mancante",
+  many: "{{ $n }} caratteri mancanti"
+}>
 
 
 /* Help */

@@ -66,8 +66,10 @@
 
 /* Home */
 <home_noResult "Aucun résultat">
-<home_charactersLeft "Saisissez encore {{ $n }} caractères">
-
+<home_charactersLeft[plural($n)] {
+  one: "Saisissez encore 1 caractère",
+  many: "Saisissez encore {{ $n }} caractères"
+}>
 
 /* Help */
 <helpTitle "Aide">
