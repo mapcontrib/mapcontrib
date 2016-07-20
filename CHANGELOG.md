@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.11.0 (development version)
+## 0.10.2
 
-* And as always, multiple bufixes and enhancement.
+* Fixes a translation.
 
 ## 0.10.1
 
