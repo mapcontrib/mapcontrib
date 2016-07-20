@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.4
+
+* Don't execute OverPass requests when the layer is hidden.
+
 ## 0.10.3
 
 * Don't expose POI edition when the layer is not an OverPass one.
