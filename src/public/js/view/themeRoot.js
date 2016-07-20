@@ -41,6 +41,8 @@ import OverPassErrorNotificationView from './overPassErrorNotification';
 import CsvErrorNotificationView from './csvErrorNotification';
 import GeoJsonErrorNotificationView from './geoJsonErrorNotification';
 import GpxErrorNotificationView from './gpxErrorNotification';
+import NewPoiPlacementContextual from './newPoiPlacementContextual';
+
 
 import LayerModel from '../model/layer';
 import PresetModel from '../model/preset';
@@ -214,8 +216,11 @@ export default Marionette.LayoutView.extend({
             'column:editGeoJsonLayer': (layerModel) => {
                 this.onCommandEditGeoJsonLayer( layerModel );
             },
-            'column:showContribForm': (presetModel) => {
-                this.onCommandShowContribForm( presetModel );
+            'column:showContribColumn': (options) => {
+                this.onCommandShowContribColumn( options );
+            },
+            'column:showContribForm': (options) => {
+                this.onCommandShowContribForm( options );
             },
             'column:showPresetTags': (presetModel) => {
                 this.onCommandShowPresetTags( presetModel );
@@ -1150,6 +1155,15 @@ export default Marionette.LayoutView.extend({
         this._addLayerMenuColumnView.open();
     },
 
+    onCommandShowContribColumn: function (center, layer) {
+        this.showContribColumn(center, layer);
+    },
+
+    showContribColumn: function (options) {
+        this._contribColumnView.setCenter(options.center);
+        this._contribColumnView.open();
+    },
+
     onCommandShowContribForm: function (options) {
         this.showContribForm(options);
     },
@@ -1388,12 +1402,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickContrib: function (e) {
-        if ( this._presetCollection.models.length === 0 ) {
-            this.showContribForm();
-        }
-        else {
-            this._contribColumnView.open();
-        }
+        const newPoiPlacementContextual = new NewPoiPlacementContextual({
+            'collection': this._presetCollection,
+            'user': this._user,
+        }).open();
     },
 
     onClickEditSetting: function () {

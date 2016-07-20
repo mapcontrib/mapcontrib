@@ -107,7 +107,7 @@ export default Marionette.LayoutView.extend({
                 this.ui.moveSection.removeClass('hide');
             }
 
-            let version = osmEdit.getVersion(),
+            const version = osmEdit.getVersion(),
             type = osmEdit.getType(),
             id = osmEdit.getId();
 
@@ -130,12 +130,12 @@ export default Marionette.LayoutView.extend({
     renderTags: function (tags) {
         this._tagList = new ContribNodeTagsListView();
 
-        let popupTag, value,
-        popupContent = this._layerModel.get('popupContent'),
-        popupTags = InfoDisplay.findTagsFromContent(popupContent);
+        let value;
+        const popupContent = this._layerModel.get('popupContent');
+        const popupTags = InfoDisplay.findTagsFromContent(popupContent);
 
         if ( popupTags) {
-            for (let popupTag of popupTags) {
+            for (const popupTag of popupTags) {
                 if ( tags[popupTag] ) {
                     value = tags[popupTag];
                 }
@@ -153,7 +153,7 @@ export default Marionette.LayoutView.extend({
             }
         }
 
-        for (let key in tags) {
+        for (const key in tags) {
             if ( popupTags && popupTags.indexOf(key) > -1 ) {
                 continue;
             }
@@ -203,7 +203,7 @@ export default Marionette.LayoutView.extend({
 
             this.close();
 
-            let overPassElement = this._osmEdit.getOverPassElement();
+            const overPassElement = this._osmEdit.getOverPassElement();
 
             this._radio.commands.execute(
                 'saveOsmData',
@@ -220,11 +220,9 @@ export default Marionette.LayoutView.extend({
             Cache.saveOsmElement(this._osmEdit.getElement());
         })
         .catch((err) => {
-            let notification = new ContributionErrorNotificationView({
+            new ContributionErrorNotificationView({
                 'retryCallback': this.sendContributionToOSM.bind(this)
-            });
-
-            notification.open();
+            }).open();
         });
     },
 

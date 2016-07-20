@@ -42,6 +42,10 @@ export default Marionette.LayoutView.extend({
         return this;
     },
 
+    setCenter: function ( center ) {
+        this._center = center;
+    },
+
     onRender: function () {
         var presetNavItems = [],
         presetsNav = new NavPillsStackedListView(),
@@ -57,7 +61,8 @@ export default Marionette.LayoutView.extend({
                         this._radio.commands,
                         'column:showContribForm',
                         {
-                            'presetModel': presetModels[key]
+                            'presetModel': presetModels[key],
+                            'center': this._center,
                         }
                     )
                 });
@@ -70,7 +75,10 @@ export default Marionette.LayoutView.extend({
             'label': document.l10n.getSync('contribColumn_freeAddition'),
             'callback': this._radio.commands.execute.bind(
                 this._radio.commands,
-                'column:showContribForm'
+                'column:showContribForm',
+                {
+                    'center': this._center,
+                }
             )
         }]);
 
