@@ -2,6 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from '../../templates/infoDisplayColumn.ejs';
+import CONST from '../const';
 
 export default Marionette.LayoutView.extend({
     template: template,
@@ -26,9 +27,15 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
+        const layerModel = this.options.layerModel;
+
         this.ui.content.append( this.options.content );
 
-        if (this.options.layerModel.get('dataEditable') && this.options.isLogged) {
+        if (
+            layerModel.get('dataEditable')
+            && this.options.isLogged
+            && layerModel.get('type') === CONST.layerType.overpass
+        ) {
             this.ui.editBtn.on( 'click', this.options.editAction );
             this.ui.footer.removeClass('hide');
         }
