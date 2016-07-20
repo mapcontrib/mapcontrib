@@ -19,6 +19,11 @@ function setOptions (hash) {
 
 function addThemeInUserSession (session, theme) {
     theme._id = theme._id.toString();
+
+    if (!session.themes) {
+        session.themes = [];
+    }
+
     session.themes.push( theme._id );
     return true;
 }

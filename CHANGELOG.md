@@ -1,8 +1,16 @@
 # Changelog
 
-## 0.11.0 (development version)
+## 0.10.3
 
-* And as always, multiple bufixes and enhancement.
+* Don't expose POI edition when the layer is not an OverPass one.
+
+## 0.10.2
+
+* Fixes a translation.
+
+## 0.10.1
+
+* Fixes the first time login.
 
 ## 0.10.0
 
