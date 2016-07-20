@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0 (development version)
+
+* And as always, multiple bufixes and enhancement.
+
 ## 0.10.1
 
 * Fixes the first time login.
