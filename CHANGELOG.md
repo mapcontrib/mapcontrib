@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.10.5
+
+* Updates the README's screenshot.
+* Fixes an error on geolocation in some cases.
+* Hides home placeholders when a search is in progress.
+* Decreases the number of search requests in the home page.
+
 ## 0.10.4
 
 * Don't execute OverPass requests when the layer is hidden.
