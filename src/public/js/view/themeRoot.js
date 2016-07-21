@@ -23,6 +23,10 @@ import VisitorColumnView from './visitorColumn';
 import LinkColumnView from './linkColumn';
 import TempLayerListColumnView from './tempLayerListColumn';
 import AddTempLayerMenuColumnView from './addTempLayerMenuColumn';
+import TempOverPassLayerFormColumnView from './tempOverPassLayerFormColumn';
+import TempGpxLayerFormColumnView from './tempGpxLayerFormColumn';
+import TempCsvLayerFormColumnView from './tempCsvLayerFormColumn';
+import TempGeoJsonLayerFormColumnView from './tempGeoJsonLayerFormColumn';
 import ContribColumnView from './contribColumn';
 import ContribFormColumnView from './contribFormColumn';
 import EditSettingColumnView from './editSettingColumn';
@@ -122,6 +126,7 @@ export default Marionette.LayoutView.extend({
         'linkColumn': '#rg_link_column',
         'tempLayerListColumn': '#rg_temp_layer_column',
         'addTempLayerMenuColumn': '#rg_add_temp_layer_menu_column',
+        'tempLayerFormColumn': '#rg_edit_temp_layer_column',
         'contribColumn': '#rg_contrib_column',
         'contribFormColumn': '#rg_contrib_form_column',
         'editSettingColumn': '#rg_edit_setting_column',
@@ -1092,6 +1097,102 @@ export default Marionette.LayoutView.extend({
 
     hideEditTools: function () {
         this.ui.editToolbar.addClass('hide');
+    },
+
+    onCommandTempOverPassLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new TempOverPassLayerFormColumnView({
+                'model': layerModel,
+            });
+        }
+        else {
+            let layerModel = new LayerModel({
+                'type': CONST.layerType.overpass
+            });
+
+            view = new TempOverPassLayerFormColumnView({
+                'model': layerModel,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('tempLayerFormColumn').show( view );
+
+        view.open();
+    },
+
+    onCommandTempGpxLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new TempGpxLayerFormColumnView({
+                'model': layerModel,
+            });
+        }
+        else {
+            let layerModel = new LayerModel({
+                'type': CONST.layerType.gpx
+            });
+
+            view = new TempGpxLayerFormColumnView({
+                'model': layerModel,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('tempLayerFormColumn').show( view );
+
+        view.open();
+    },
+
+    onCommandTempCsvLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new TempCsvLayerFormColumnView({
+                'model': layerModel,
+            });
+        }
+        else {
+            let layerModel = new LayerModel({
+                'type': CONST.layerType.csv
+            });
+
+            view = new TempCsvLayerFormColumnView({
+                'model': layerModel,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('tempLayerFormColumn').show( view );
+
+        view.open();
+    },
+
+    onCommandTempGeoJsonLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new TempGeoJsonLayerFormColumnView({
+                'model': layerModel,
+            });
+        }
+        else {
+            let layerModel = new LayerModel({
+                'type': CONST.layerType.geojson
+            });
+
+            view = new TempGeoJsonLayerFormColumnView({
+                'model': layerModel,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('tempLayerFormColumn').show( view );
+
+        view.open();
     },
 
     onCommandEditOverPassLayer: function (layerModel) {
