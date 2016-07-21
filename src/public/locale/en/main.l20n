@@ -314,3 +314,7 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Details">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Couches temporaires">

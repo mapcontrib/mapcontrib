@@ -314,3 +314,7 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Dettagli">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Livelli temporanei">

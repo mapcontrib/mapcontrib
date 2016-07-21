@@ -21,6 +21,8 @@ import SelectTileColumnView from './selectTileColumn';
 import UserColumnView from './userColumn';
 import VisitorColumnView from './visitorColumn';
 import LinkColumnView from './linkColumn';
+import TempLayerListColumnView from './tempLayerListColumn';
+import AddTempLayerMenuColumnView from './addTempLayerMenuColumn';
 import ContribColumnView from './contribColumn';
 import ContribFormColumnView from './contribFormColumn';
 import EditSettingColumnView from './editSettingColumn';
@@ -118,6 +120,8 @@ export default Marionette.LayoutView.extend({
         'userColumn': '#rg_user_column',
         'visitorColumn': '#rg_visitor_column',
         'linkColumn': '#rg_link_column',
+        'tempLayerListColumn': '#rg_temp_layer_column',
+        'addTempLayerMenuColumn': '#rg_add_temp_layer_menu_column',
         'contribColumn': '#rg_contrib_column',
         'contribFormColumn': '#rg_contrib_form_column',
         'editSettingColumn': '#rg_edit_setting_column',
@@ -149,6 +153,7 @@ export default Marionette.LayoutView.extend({
 
         'click @ui.userButton': 'onClickUser',
         'click @ui.linkButton': 'onClickLink',
+        'click @ui.tempLayerButton': 'onClickTempLayer',
         'click @ui.contribButton': 'onClickContrib',
         'click @ui.editSettingButton': 'onClickEditSetting',
         'click @ui.editLayerButton': 'onClickEditLayer',
@@ -204,6 +209,21 @@ export default Marionette.LayoutView.extend({
             'theme:save': () => {
                 this.model.updateModificationDate();
                 this.model.save();
+            },
+            'column:showAddTempLayerMenu': () => {
+                this.onCommandShowAddTempLayerMenu();
+            },
+            'column:tempOverPassLayer': (layerModel) => {
+                this.onCommandTempOverPassLayer( layerModel );
+            },
+            'column:tempGpxLayer': (layerModel) => {
+                this.onCommandTempGpxLayer( layerModel );
+            },
+            'column:tempCsvLayer': (layerModel) => {
+                this.onCommandTempCsvLayer( layerModel );
+            },
+            'column:tempGeoJsonLayer': (layerModel) => {
+                this.onCommandTempGeoJsonLayer( layerModel );
             },
             'column:showAddLayerMenu': () => {
                 this.onCommandShowAddLayerMenu();
@@ -311,6 +331,8 @@ export default Marionette.LayoutView.extend({
         this._userColumnView = new UserColumnView();
         this._visitorColumnView = new VisitorColumnView({ 'theme': this.model });
         this._linkColumnView = new LinkColumnView({ 'model': this.model });
+        this._tempLayerListColumnView = new TempLayerListColumnView({ 'model': this.model });
+        this._addTempLayerMenuColumnView = new AddTempLayerMenuColumnView({ 'model': this.model });
         this._contribColumnView = new ContribColumnView({ 'theme': this.model });
         this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
         this._editLayerListColumnView = new EditLayerListColumnView({ 'model': this.model });
@@ -329,6 +351,8 @@ export default Marionette.LayoutView.extend({
         this.getRegion('userColumn').show( this._userColumnView );
         this.getRegion('visitorColumn').show( this._visitorColumnView );
         this.getRegion('linkColumn').show( this._linkColumnView );
+        this.getRegion('tempLayerListColumn').show( this._tempLayerListColumnView );
+        this.getRegion('addTempLayerMenuColumn').show( this._addTempLayerMenuColumnView );
         this.getRegion('contribColumn').show( this._contribColumnView );
         this.getRegion('editSettingColumn').show( this._editSettingColumnView );
         this.getRegion('editLayerListColumn').show( this._editLayerListColumnView );
@@ -1178,6 +1202,10 @@ export default Marionette.LayoutView.extend({
         this._addLayerMenuColumnView.open();
     },
 
+    onCommandShowAddTempLayerMenu: function () {
+        this._addTempLayerMenuColumnView.open();
+    },
+
     onCommandShowContribColumn: function (center, layer) {
         this.showContribColumn(center, layer);
     },
@@ -1417,6 +1445,10 @@ export default Marionette.LayoutView.extend({
 
     onClickLink: function () {
         this._linkColumnView.open();
+    },
+
+    onClickTempLayer: function () {
+        this._tempLayerListColumnView.open();
     },
 
     onClickContrib: function (e) {
