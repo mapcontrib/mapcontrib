@@ -69,6 +69,8 @@ export default Marionette.LayoutView.extend({
         'map': '#main_map',
         'toolbarButtons': '.toolbar .toolbar_btn',
 
+
+        'leftToolbar': '#left_toolbar',
         'controlToolbar': '#control_toolbar',
         'zoomInButton': '#control_toolbar .zoom_in_btn',
         'zoomOutButton': '#control_toolbar .zoom_out_btn',
@@ -85,9 +87,11 @@ export default Marionette.LayoutView.extend({
         'controlLayerSpinner': '#control_toolbar .layer_btn .spinner',
         'controlTileButton': '#control_toolbar .tile_btn',
 
+        'rightToolbar': '#right_toolbar',
         'userToolbar': '#user_toolbar',
         'userButton': '#user_toolbar .user_btn',
         'linkButton': '#user_toolbar .link_btn',
+        'userLayerButton': '#user_toolbar .user_layer_btn',
         'contribButton': '#user_toolbar .contrib_btn',
 
         'helpToolbar': '#help_toolbar',
@@ -1045,10 +1049,12 @@ export default Marionette.LayoutView.extend({
     },
 
     showContribButton: function () {
+        this.ui.userLayerButton.removeClass('hide');
         this.ui.contribButton.removeClass('hide');
     },
 
     hideContribButton: function () {
+        this.ui.userLayerButton.addClass('hide');
         this.ui.contribButton.addClass('hide');
     },
 
@@ -1385,15 +1391,10 @@ export default Marionette.LayoutView.extend({
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
 
-        this.ui.helpToolbar.addClass('on_top');
         this.ui.help.addClass('open');
     },
 
     closeHelp: function () {
-        this.ui.help.one('transitionend', () => {
-            this.ui.helpToolbar.removeClass('on_top');
-        });
-
         this.ui.help.removeClass('open');
     },
 
@@ -1470,27 +1471,15 @@ export default Marionette.LayoutView.extend({
         if ( !this.isLargeScreen() ) {
             this._geocodeWidgetView.close();
 
-            this._toolbarsState = {
-                'controlToolbar': this.ui.controlToolbar.hasClass('open'),
-                'userToolbar': this.ui.userToolbar.hasClass('open'),
-                'helpToolbar': this.ui.helpToolbar.hasClass('open'),
-                'editToolbar': this.ui.editToolbar.hasClass('open'),
-            };
-
             this._zoomNotificationView.disappear();
-            this.ui.controlToolbar.removeClass('open');
-            this.ui.userToolbar.removeClass('open');
-            this.ui.helpToolbar.removeClass('open');
-            this.ui.editToolbar.removeClass('open');
+            this.ui.leftToolbar.removeClass('open');
+            this.ui.rightToolbar.removeClass('open');
         }
     },
 
     onPopupClose: function (e) {
-        for (var toolbar in this._toolbarsState) {
-            if ( this._toolbarsState[toolbar] ) {
-                this.ui[toolbar].addClass('open');
-            }
-        }
+        this.ui.leftToolbar.addClass('open');
+        this.ui.rightToolbar.addClass('open');
 
         this._zoomNotificationView.appear();
     },
