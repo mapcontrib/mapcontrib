@@ -91,7 +91,7 @@ export default Marionette.LayoutView.extend({
         'userToolbar': '#user_toolbar',
         'userButton': '#user_toolbar .user_btn',
         'linkButton': '#user_toolbar .link_btn',
-        'userLayerButton': '#user_toolbar .user_layer_btn',
+        'tempLayerButton': '#user_toolbar .temp_layer_btn',
         'contribButton': '#user_toolbar .contrib_btn',
 
         'helpToolbar': '#help_toolbar',
@@ -1049,12 +1049,12 @@ export default Marionette.LayoutView.extend({
     },
 
     showContribButton: function () {
-        this.ui.userLayerButton.removeClass('hide');
+        this.ui.tempLayerButton.removeClass('hide');
         this.ui.contribButton.removeClass('hide');
     },
 
     hideContribButton: function () {
-        this.ui.userLayerButton.addClass('hide');
+        this.ui.tempLayerButton.addClass('hide');
         this.ui.contribButton.addClass('hide');
     },
 
