@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"Il mio account">
 <buttonLinkTooltip title:"Condividi">
 <buttonContribTooltip title:"Aggiungi dati mancanti">
+<buttonUserLayerTooltip title:"Aggiungere un livello temporaneo">
 <buttonEditSettingTooltip title:"Impostazioni generali">
 <buttonEditLayerTooltip title:"Livello">
 <buttonEditTileTooltip title:"Sfondi">

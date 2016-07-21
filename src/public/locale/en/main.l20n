@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
+<buttonUserLayerTooltip title:"Add a temporary layer">
 <buttonEditSettingTooltip title:"Main settings">
 <buttonEditLayerTooltip title:"Layer">
 <buttonEditTileTooltip title:"Backgrounds">
