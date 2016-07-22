@@ -317,3 +317,4 @@
 
 /* Temporary layers column */
 <tempLayerListColumn_title "Couches temporaires">
+<tempLayerListColumn_description "Ces couches sont éphémères. Elles ne sont visibles que par vous et disparaissent après avoir fermé MapContrib.">

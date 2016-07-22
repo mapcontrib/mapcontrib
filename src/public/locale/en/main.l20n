@@ -319,3 +319,4 @@
 
 /* Temporary layers column */
 <tempLayerListColumn_title "Temporary layers">
+<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib.">
