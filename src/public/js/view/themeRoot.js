@@ -378,10 +378,6 @@ export default Marionette.LayoutView.extend({
             this.ui.compressScreenButton.addClass('hide');
         }
 
-        if ( !File || !FileList || !FileReader) {
-            this.ui.tempLayerButton.addClass('hide');
-        }
-
         $(this._window).on('fullscreenchange', () => {
             if ( this._document.fullscreenElement ) {
                 this.onExpandScreen();

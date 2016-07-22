@@ -31,6 +31,14 @@ export default Marionette.LayoutView.extend({
         this._radio = Wreqr.radio.channel('global');
     },
 
+    onRender: function () {
+        if ( !File || !FileList || !FileReader) {
+            this.ui.gpxItem.addClass('hide');
+            this.ui.csvItem.addClass('hide');
+            this.ui.geoJsonItem.addClass('hide');
+        }
+    },
+
     onBeforeOpen: function () {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
