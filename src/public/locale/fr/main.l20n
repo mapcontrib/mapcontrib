@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"Mon compte">
 <buttonLinkTooltip title:"Partager">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
+<buttonTempLayerTooltip title:"Ajouter une couche temporaire">
 <buttonEditSettingTooltip title:"Configuration générale">
 <buttonEditLayerTooltip title:"Couches">
 <buttonEditTileTooltip title:"Fonds de carte">
@@ -62,6 +63,7 @@
 <createATheme "Créer un thème">
 <searchATheme placeholder:"Rechercher un thème (3 caractères min.)">
 <aboutMapContrib "À propos de MapContrib">
+<invalidFile "Fichier non valide">
 
 
 /* Home */
@@ -311,3 +313,8 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Détails">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Couches temporaires">
+<tempLayerListColumn_description "Ces couches sont éphémères. Elles ne sont visibles que par vous et disparaissent après avoir fermé MapContrib.">

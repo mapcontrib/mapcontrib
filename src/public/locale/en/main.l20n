@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
+<buttonTempLayerTooltip title:"Add a temporary layer">
 <buttonEditSettingTooltip title:"Main settings">
 <buttonEditLayerTooltip title:"Layer">
 <buttonEditTileTooltip title:"Backgrounds">
@@ -62,6 +63,7 @@
 <createATheme "Create a theme">
 <searchATheme placeholder:"Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
+<invalidFile "Invalid file">
 
 
 /* Home */
@@ -313,3 +315,8 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Details">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Temporary layers">
+<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib.">
