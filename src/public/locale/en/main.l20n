@@ -63,6 +63,7 @@
 <createATheme "Create a theme">
 <searchATheme placeholder:"Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
+<invalidFile "Invalid file">
 
 
 /* Home */

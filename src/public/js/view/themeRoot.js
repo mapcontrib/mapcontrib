@@ -683,19 +683,21 @@ export default Marionette.LayoutView.extend({
         const layer = Omnivore.gpx.parse(
             fileContent
         );
-        // .on('error', function(error) {
-        //     new GpxErrorNotificationView({
-        //         'model': layerModel,
-        //         'error': error.error[0].message,
-        //     }).open();
-        // });
 
-        this._customizeDataAndDisplay(
-            layer._layers,
-            markerCluster,
-            layerModel,
-            CONST.layerType.gpx
-        );
+        if ( !layer._leaflet_id ) {
+            new GpxErrorNotificationView({
+                'model': layerModel,
+                'error': document.l10n.getSync('invalidFile'),
+            }).open();
+        }
+        else {
+            this._customizeDataAndDisplay(
+                layer._layers,
+                markerCluster,
+                layerModel,
+                CONST.layerType.gpx
+            );
+        }
     },
 
     addTempCsvLayer: function (layerModel, fileContent) {
@@ -703,19 +705,21 @@ export default Marionette.LayoutView.extend({
         const layer = Omnivore.csv.parse(
             fileContent
         );
-        // .on('error', function(error) {
-        //     new CsvErrorNotificationView({
-        //         'model': layerModel,
-        //         'error': error.error[0].message,
-        //     }).open();
-        // });
 
-        this._customizeDataAndDisplay(
-            layer._layers,
-            markerCluster,
-            layerModel,
-            CONST.layerType.csv
-        );
+        if ( !layer._leaflet_id ) {
+            new CsvErrorNotificationView({
+                'model': layerModel,
+                'error': document.l10n.getSync('invalidFile'),
+            }).open();
+        }
+        else {
+            this._customizeDataAndDisplay(
+                layer._layers,
+                markerCluster,
+                layerModel,
+                CONST.layerType.csv
+            );
+        }
     },
 
     addTempGeoJsonLayer: function (layerModel, fileContent) {
@@ -723,19 +727,21 @@ export default Marionette.LayoutView.extend({
         const layer = L.geoJson(
             JSON.parse( fileContent )
         );
-        // .on('error', function(error) {
-        //     new GeoJsonErrorNotificationView({
-        //         'model': layerModel,
-        //         'error': error.error[0].message,
-        //     }).open();
-        // });
 
-        this._customizeDataAndDisplay(
-            layer._layers,
-            markerCluster,
-            layerModel,
-            CONST.layerType.geojson
-        );
+        if ( !layer._leaflet_id ) {
+            new GeoJsonErrorNotificationView({
+                'model': layerModel,
+                'error': document.l10n.getSync('invalidFile'),
+            }).open();
+        }
+        else {
+            this._customizeDataAndDisplay(
+                layer._layers,
+                markerCluster,
+                layerModel,
+                CONST.layerType.geojson
+            );
+        }
     },
 
     addLayer: function (layerModel, hidden) {
