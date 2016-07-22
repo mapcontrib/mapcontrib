@@ -1275,8 +1275,10 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
-                'type': CONST.layerType.overpass
+            const layerModel = new LayerModel({
+                'type': CONST.layerType.overpass,
+                'markerColor': 'red',
+                'color': 'red',
             });
 
             view = new TempOverPassLayerFormColumnView({
@@ -1301,8 +1303,10 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
-                'type': CONST.layerType.gpx
+            const layerModel = new LayerModel({
+                'type': CONST.layerType.gpx,
+                'markerColor': 'red',
+                'color': 'red',
             });
 
             view = new TempGpxLayerFormColumnView({
@@ -1327,8 +1331,10 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
-                'type': CONST.layerType.csv
+            const layerModel = new LayerModel({
+                'type': CONST.layerType.csv,
+                'markerColor': 'red',
+                'color': 'red',
             });
 
             view = new TempCsvLayerFormColumnView({
@@ -1353,8 +1359,10 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
-                'type': CONST.layerType.geojson
+            const layerModel = new LayerModel({
+                'type': CONST.layerType.geojson,
+                'markerColor': 'red',
+                'color': 'red',
             });
 
             view = new TempGeoJsonLayerFormColumnView({
@@ -1379,7 +1387,7 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
+            const layerModel = new LayerModel({
                 'type': CONST.layerType.overpass
             });
 
@@ -1405,7 +1413,7 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
+            const layerModel = new LayerModel({
                 'type': CONST.layerType.gpx
             });
 
@@ -1431,7 +1439,7 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
+            const layerModel = new LayerModel({
                 'type': CONST.layerType.csv
             });
 
@@ -1457,7 +1465,7 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
+            const layerModel = new LayerModel({
                 'type': CONST.layerType.geojson
             });
 
