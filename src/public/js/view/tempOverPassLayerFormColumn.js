@@ -94,11 +94,10 @@ export default Marionette.ItemView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        let updateMarkers = false,
-        updateMinZoom = false,
-        updatePopups = false,
-        updateVisibility = false,
-        color = this.model.get('markerColor');
+        let updateMarkers = false;
+        let updateMinZoom = false;
+        let updatePopups = false;
+        const color = this.model.get('markerColor');
 
         if (color === 'dark-gray') {
             this.model.set('color', 'anthracite');
@@ -109,19 +108,12 @@ export default Marionette.ItemView.extend({
 
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
-        this.model.set('visible', this.ui.layerVisible.prop('checked'));
-        this.model.set('dataEditable', this.ui.layerDataEditable.prop('checked'));
         this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
         this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
-        this.model.set('cache', this.ui.layerCache.prop('checked'));
 
         if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
             updateMinZoom = true;
-        }
-
-        if ( this._oldModel.get('dataEditable') !== this.model.get('dataEditable') ) {
-            updatePopups = true;
         }
 
         if ( this._oldModel.get('markerIconType') !== this.model.get('markerIconType') ) {
@@ -148,53 +140,25 @@ export default Marionette.ItemView.extend({
             updatePopups = true;
         }
 
-        if ( this._oldModel.get('visible') !== this.model.get('visible') ) {
-            updateVisibility = true;
-        }
-
         if ( this.options.isNew ) {
-            this.options.theme.get('layers').add( this.model );
+            this.collection.add( this.model );
+            this._radio.commands.execute('map:addTempLayer', this.model);
+        }
+        else {
+            if ( updateMinZoom ) {
+                this._radio.commands.execute('map:updateLayerMinZoom', this.model);
+            }
+
+            if ( updateMarkers ) {
+                this._radio.commands.execute('map:updateLayerStyles', this.model);
+            }
+
+            if ( updatePopups ) {
+                this._radio.commands.execute('map:updateLayerPopups', this.model);
+            }
         }
 
-        this.model.updateModificationDate();
-        this.options.theme.updateModificationDate();
-        this.options.theme.save({}, {
-            'success': () => {
-                if ( this.options.isNew ) {
-                    this._radio.commands.execute('map:addLayer', this.model);
-                }
-                else {
-                    if ( updateMinZoom ) {
-                        this._radio.commands.execute('map:updateLayerMinZoom', this.model);
-                    }
-
-                    if ( updateMarkers ) {
-                        this._radio.commands.execute('map:updateLayerStyles', this.model);
-                    }
-
-                    if ( updatePopups ) {
-                        this._radio.commands.execute('map:updateLayerPopups', this.model);
-                    }
-
-                    if ( updateVisibility ) {
-                        if ( this.model.get('visible') ) {
-                            this._radio.commands.execute('map:addLayer', this.model);
-                        }
-                        else {
-                            this._radio.commands.execute('map:removeLayer', this.model);
-                        }
-
-                        this._radio.commands.execute('column:selectLayer:render');
-                    }
-                }
-
-                this.close();
-            },
-            'error': () => {
-                // FIXME
-                console.error('nok');
-            },
-        });
+        this.close();
     },
 
     onReset: function () {

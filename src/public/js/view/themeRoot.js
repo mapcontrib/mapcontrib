@@ -51,6 +51,7 @@ import NewPoiPlacementContextual from './newPoiPlacementContextual';
 
 
 import LayerModel from '../model/layer';
+import LayerCollection from '../collection/layer';
 import PresetModel from '../model/preset';
 
 import MapUi from '../ui/map';
@@ -177,6 +178,7 @@ export default Marionette.LayoutView.extend({
         this.model = this._app.getTheme();
 
         this._layerCollection = this.model.get('layers');
+        this._tempLayerCollection = new LayerCollection();
         this._presetCollection = this.model.get('presets');
 
         this._window = this._app.getWindow();
@@ -263,6 +265,9 @@ export default Marionette.LayoutView.extend({
             'map:addLayer': (layerModel) => {
                 this.addLayer( layerModel );
             },
+            'map:addTempLayer': (layerModel, fileContent) => {
+                this.addTempLayer( layerModel, fileContent );
+            },
             'map:removeLayer': (layerModel) => {
                 this.removeLayer( layerModel );
             },
@@ -336,8 +341,8 @@ export default Marionette.LayoutView.extend({
         this._userColumnView = new UserColumnView();
         this._visitorColumnView = new VisitorColumnView({ 'theme': this.model });
         this._linkColumnView = new LinkColumnView({ 'model': this.model });
-        this._tempLayerListColumnView = new TempLayerListColumnView({ 'model': this.model });
-        this._addTempLayerMenuColumnView = new AddTempLayerMenuColumnView({ 'model': this.model });
+        this._tempLayerListColumnView = new TempLayerListColumnView({ 'collection': this._tempLayerCollection });
+        this._addTempLayerMenuColumnView = new AddTempLayerMenuColumnView();
         this._contribColumnView = new ContribColumnView({ 'theme': this.model });
         this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
         this._editLayerListColumnView = new EditLayerListColumnView({ 'model': this.model });
@@ -486,6 +491,10 @@ export default Marionette.LayoutView.extend({
             this.removeLayer(model);
         }, this);
 
+        this._tempLayerCollection.on('destroy', (model) => {
+            this.removeLayer(model);
+        }, this);
+
 
         this._geolocation = new Geolocation(this._map);
 
@@ -570,6 +579,163 @@ export default Marionette.LayoutView.extend({
             this.ui.controlLayerSpinner.addClass('hide');
             this.ui.controlLayerIcon.removeClass('hide');
         }
+    },
+
+    addTempLayer: function (layerModel, fileContent) {
+        switch (layerModel.get('type')) {
+            case CONST.layerType.overpass:
+                this.addTempOverPassLayer(layerModel);
+                break;
+            case CONST.layerType.gpx:
+                this.addTempGpxLayer(layerModel, fileContent);
+                break;
+            case CONST.layerType.csv:
+                this.addTempCsvLayer(layerModel, fileContent);
+                break;
+            case CONST.layerType.geojson:
+                this.addTempGeoJsonLayer(layerModel, fileContent);
+                break;
+        }
+    },
+
+    addTempOverPassLayer: function (layerModel) {
+        const markerCluster = this._buildMarkerCluster(layerModel);
+        this._markerClusters[ layerModel.cid ] = markerCluster;
+        this._map.addLayer( markerCluster );
+
+        const overPassRequest = OverPassHelper.buildRequestForTheme(
+            layerModel.get('overpassRequest') || ''
+        );
+
+        const overPassLayer = new OverPassLayer({
+            'debug': this._config.debug,
+            'endPoint': this._config.overPassEndPoint,
+            'minZoom': layerModel.get('minZoom'),
+            'timeout': this._config.overPassTimeout,
+            'retryOnTimeout': true,
+            'query': overPassRequest,
+            'beforeRequest': () => {
+                this.showLayerLoadingProgress( layerModel );
+            },
+            'afterRequest': () => {
+                this.hideLayerLoadingProgress( layerModel );
+            },
+            'onSuccess': (data) => {
+                let i = 1;
+                let objects = {};
+                let elements = [];
+
+                for (let i in data.elements) {
+                    let e = data.elements[i];
+
+                    if ( this._osmData.exists(e.type, e.id) ) {
+                        continue;
+                    }
+
+                    elements.push(e);
+                    this._osmData.save(e);
+                }
+
+                data.elements = elements;
+
+                L.geoJson(
+                    osmtogeojson(data),
+                    {
+                        onEachFeature: function (feature, layer) {
+                            objects[i] = layer;
+                            i++;
+                        }
+                    }
+                );
+
+                this._customizeDataAndDisplay(
+                    objects,
+                    markerCluster,
+                    layerModel,
+                    CONST.layerType.overpass,
+                    hiddenLayer
+                );
+            },
+
+            onTimeout: function (xhr) {
+                new OverPassTimeoutNotificationView({
+                    'model': layerModel
+                }).open();
+            },
+
+            onError: function (xhr) {
+                new OverPassErrorNotificationView({
+                    'model': layerModel,
+                    'error': xhr.statusText,
+                }).open();
+            },
+        });
+
+        this._overPassLayers[ layerModel.cid ] = overPassLayer;
+
+        if (!hiddenLayer) {
+            this._map.addLayer( overPassLayer );
+        }
+    },
+
+    addTempGpxLayer: function (layerModel, fileContent) {
+        const markerCluster = this._buildMarkerCluster(layerModel);
+        const layer = Omnivore.gpx.parse(
+            fileContent
+        );
+        // .on('error', function(error) {
+        //     new GpxErrorNotificationView({
+        //         'model': layerModel,
+        //         'error': error.error[0].message,
+        //     }).open();
+        // });
+
+        this._customizeDataAndDisplay(
+            layer._layers,
+            markerCluster,
+            layerModel,
+            CONST.layerType.gpx
+        );
+    },
+
+    addTempCsvLayer: function (layerModel, fileContent) {
+        const markerCluster = this._buildMarkerCluster(layerModel);
+        const layer = Omnivore.csv.parse(
+            fileContent
+        );
+        // .on('error', function(error) {
+        //     new CsvErrorNotificationView({
+        //         'model': layerModel,
+        //         'error': error.error[0].message,
+        //     }).open();
+        // });
+
+        this._customizeDataAndDisplay(
+            layer._layers,
+            markerCluster,
+            layerModel,
+            CONST.layerType.csv
+        );
+    },
+
+    addTempGeoJsonLayer: function (layerModel, fileContent) {
+        const markerCluster = this._buildMarkerCluster(layerModel);
+        const layer = L.geoJson(
+            JSON.parse( fileContent )
+        );
+        // .on('error', function(error) {
+        //     new GeoJsonErrorNotificationView({
+        //         'model': layerModel,
+        //         'error': error.error[0].message,
+        //     }).open();
+        // });
+
+        this._customizeDataAndDisplay(
+            layer._layers,
+            markerCluster,
+            layerModel,
+            CONST.layerType.geojson
+        );
     },
 
     addLayer: function (layerModel, hidden) {
@@ -677,7 +843,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addGpxLayer: function (layerModel, hiddenLayer) {
-        let omnivore = Omnivore.gpx(
+        Omnivore.gpx(
             layerModel.get('fileUri')
         )
         .on('error', function(error) {
@@ -687,7 +853,7 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            let markerCluster = this._buildMarkerCluster(layerModel);
+            const markerCluster = this._buildMarkerCluster(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
@@ -700,7 +866,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addCsvLayer: function (layerModel, hiddenLayer) {
-        let omnivore = Omnivore.csv(
+        Omnivore.csv(
             layerModel.get('fileUri')
         )
         .on('error', function(error) {
@@ -710,7 +876,7 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            let markerCluster = this._buildMarkerCluster(layerModel);
+            const markerCluster = this._buildMarkerCluster(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
@@ -723,7 +889,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addGeoJsonLayer: function (layerModel, hiddenLayer) {
-        let omnivore = Omnivore.geojson(
+        Omnivore.geojson(
             layerModel.get('fileUri')
         )
         .on('error', function(error) {
@@ -733,7 +899,7 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            let markerCluster = this._buildMarkerCluster(layerModel);
+            const markerCluster = this._buildMarkerCluster(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
@@ -746,7 +912,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addOverPassCacheLayer: function (layerModel, hiddenLayer) {
-        let omnivore = Omnivore.geojson(
+        Omnivore.geojson(
             layerModel.get('fileUri')
         )
         .on('error', function(error) {
@@ -756,7 +922,7 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            let markerCluster = this._buildMarkerCluster(layerModel);
+            const markerCluster = this._buildMarkerCluster(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
@@ -1105,6 +1271,7 @@ export default Marionette.LayoutView.extend({
         if ( layerModel ) {
             view = new TempOverPassLayerFormColumnView({
                 'model': layerModel,
+                'collection': this._tempLayerCollection,
             });
         }
         else {
@@ -1114,6 +1281,7 @@ export default Marionette.LayoutView.extend({
 
             view = new TempOverPassLayerFormColumnView({
                 'model': layerModel,
+                'collection': this._tempLayerCollection,
                 'isNew': true,
             });
         }
@@ -1129,6 +1297,7 @@ export default Marionette.LayoutView.extend({
         if ( layerModel ) {
             view = new TempGpxLayerFormColumnView({
                 'model': layerModel,
+                'collection': this._tempLayerCollection,
             });
         }
         else {
@@ -1138,6 +1307,7 @@ export default Marionette.LayoutView.extend({
 
             view = new TempGpxLayerFormColumnView({
                 'model': layerModel,
+                'collection': this._tempLayerCollection,
                 'isNew': true,
             });
         }
@@ -1153,6 +1323,7 @@ export default Marionette.LayoutView.extend({
         if ( layerModel ) {
             view = new TempCsvLayerFormColumnView({
                 'model': layerModel,
+                'collection': this._tempLayerCollection,
             });
         }
         else {
@@ -1162,6 +1333,7 @@ export default Marionette.LayoutView.extend({
 
             view = new TempCsvLayerFormColumnView({
                 'model': layerModel,
+                'collection': this._tempLayerCollection,
                 'isNew': true,
             });
         }
@@ -1177,6 +1349,7 @@ export default Marionette.LayoutView.extend({
         if ( layerModel ) {
             view = new TempGeoJsonLayerFormColumnView({
                 'model': layerModel,
+                'collection': this._tempLayerCollection,
             });
         }
         else {
@@ -1186,6 +1359,7 @@ export default Marionette.LayoutView.extend({
 
             view = new TempGeoJsonLayerFormColumnView({
                 'model': layerModel,
+                'collection': this._tempLayerCollection,
                 'isNew': true,
             });
         }

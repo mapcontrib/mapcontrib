@@ -32,10 +32,8 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
-        var layers = this.model.get('layers'),
-        tempLayerListView = new TempLayerListView({
-            'collection': layers,
-            'theme': this.model
+        const tempLayerListView = new TempLayerListView({
+            'collection': this.collection,
         });
 
         this.getRegion('layerList').show( tempLayerListView );
