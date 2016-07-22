@@ -1170,12 +1170,10 @@ export default Marionette.LayoutView.extend({
     },
 
     showContribButton: function () {
-        this.ui.tempLayerButton.removeClass('hide');
         this.ui.contribButton.removeClass('hide');
     },
 
     hideContribButton: function () {
-        this.ui.tempLayerButton.addClass('hide');
         this.ui.contribButton.addClass('hide');
     },
 
