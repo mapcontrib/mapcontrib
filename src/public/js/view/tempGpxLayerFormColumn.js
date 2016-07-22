@@ -126,15 +126,6 @@ export default Marionette.ItemView.extend({
 
         if ( this.options.isNew ) {
             this.collection.add( this.model );
-
-            const reader = new FileReader();
-
-            reader.onload = () => {
-                const fileContent = reader.result;
-                this._radio.commands.execute('map:addTempLayer', this.model, fileContent);
-            }
-
-            reader.readAsText( this.ui.layerFile.get(0).files[0] );
         }
         else {
             if ( updatePolylines ) {
@@ -144,6 +135,21 @@ export default Marionette.ItemView.extend({
             if ( updatePopups ) {
                 this._radio.commands.execute('map:updateLayerPopups', this.model);
             }
+        }
+
+        if ( fileName ) {
+            if ( !this.options.isNew ) {
+                this._radio.commands.execute('map:removeLayer', this.model);
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                const fileContent = reader.result;
+                this._radio.commands.execute('map:addTempLayer', this.model, fileContent);
+            };
+
+            reader.readAsText( this.ui.layerFile.get(0).files[0] );
         }
 
         this.close();
