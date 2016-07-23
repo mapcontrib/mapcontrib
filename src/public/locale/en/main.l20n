@@ -166,7 +166,7 @@
 <editLayerFormColumn_dataEditable "Allow to edit data">
 <editLayerFormColumn_layerZoomLevel "Minimum zoom">
 <editLayerFormColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
-<editLayerFormColumn_layerOverpassRequest "Overpass request">
+<editLayerFormColumn_layerOverpassRequest "OverPass request">
 <editLayerFormColumn_marker "Marker">
 <editLayerFormColumn_layerPopupContent "Popup content">
 <editLayerFormColumn_gpxFile "GPX file">
@@ -292,10 +292,12 @@
 
 /* Add layer menu column */
 <addLayerMenuColumn_title "Add a layer">
-<addLayerMenuColumn_overPass "OverPass request">
-<addLayerMenuColumn_gpx "GPX file">
-<addLayerMenuColumn_csv "CSV file">
-<addLayerMenuColumn_geoJson "GeoJSON file">
+<addLayerMenuColumn_remoteInformation "Remote information">
+<addLayerMenuColumn_file "File">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
 
 
 /* Layer info column */
