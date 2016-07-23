@@ -265,6 +265,9 @@ export default Marionette.LayoutView.extend({
             'map:setTileLayer': (tileId) => {
                 this.setTileLayer( tileId );
             },
+            'layer:updateOverPassRequest': (layerModel) => {
+                this.updateOverPassRequest( layerModel );
+            },
             'map:addLayer': (layerModel) => {
                 this.addLayer( layerModel );
             },
@@ -304,8 +307,8 @@ export default Marionette.LayoutView.extend({
             'map:bindAllPopups': () => {
                 this.bindAllPopups();
             },
-            'saveOsmData': (osmElement) => {
-                this._osmData.save(osmElement);
+            'saveOsmData': (osmElement, layerModel) => {
+                this._osmData.save(osmElement, layerModel.cid);
             },
         });
 
@@ -550,6 +553,15 @@ export default Marionette.LayoutView.extend({
         this.updateMinDataZoom();
     },
 
+    updateOverPassRequest: function (layerModel) {
+        this._osmData.clearLayerData(layerModel.cid);
+        
+        this._markerClusters[ layerModel.cid ].clearLayers();
+        this._overPassLayers[ layerModel.cid ].setQuery(
+            layerModel.get('overpassRequest')
+        );
+    },
+
     showLayerLoadingProgress: function (layerModel) {
         if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
             this._poiLoadingSpool[ layerModel.cid ] = 0;
@@ -717,12 +729,12 @@ export default Marionette.LayoutView.extend({
                 for (let i in data.elements) {
                     let e = data.elements[i];
 
-                    if ( this._osmData.exists(e.type, e.id) ) {
+                    if ( this._osmData.exists(e.type, e.id, layerModel.cid) ) {
                         continue;
                     }
 
                     elements.push(e);
-                    this._osmData.save(e);
+                    this._osmData.save(e, layerModel.cid);
                 }
 
                 data.elements = elements;

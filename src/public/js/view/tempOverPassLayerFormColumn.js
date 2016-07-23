@@ -97,6 +97,7 @@ export default Marionette.ItemView.extend({
         let updateMarkers = false;
         let updateMinZoom = false;
         let updatePopups = false;
+        let updateRequest = false;
         const color = this.model.get('markerColor');
 
         if (color === 'dark-gray') {
@@ -140,6 +141,10 @@ export default Marionette.ItemView.extend({
             updatePopups = true;
         }
 
+        if ( this._oldModel.get('overpassRequest') !== this.model.get('overpassRequest') ) {
+            updateRequest = true;
+        }
+
         if ( this.options.isNew ) {
             this.collection.add( this.model );
             this._radio.commands.execute('map:addTempLayer', this.model);
@@ -155,6 +160,10 @@ export default Marionette.ItemView.extend({
 
             if ( updatePopups ) {
                 this._radio.commands.execute('map:updateLayerPopups', this.model);
+            }
+
+            if ( updateRequest ) {
+                this._radio.commands.execute('layer:updateOverPassRequest', this.model);
             }
         }
 
