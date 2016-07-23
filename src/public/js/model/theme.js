@@ -1,22 +1,35 @@
 
 import _ from 'underscore';
 import Backbone from 'backbone';
+import BackboneRelational from 'backbone-relational';
 import Diacritics from 'diacritic';
 import CONST from '../const';
 
 import LayerCollection from '../collection/layer';
 import PresetCollection from '../collection/preset';
+import Layer from './layer';
+import Preset from './preset';
 
 
-export default Backbone.Model.extend({
+export default Backbone.RelationalModel.extend({
     idAttribute: '_id',
 
     urlRoot: CONST.apiPath + 'theme',
 
-    relations: {
-        'layers': LayerCollection,
-        'presets': PresetCollection,
-    },
+    relations: [
+        {
+            'type': Backbone.HasMany,
+            'key': 'layers',
+            'relatedModel': Layer,
+            'collectionType': LayerCollection,
+        },
+        {
+            'type': Backbone.HasMany,
+            'key': 'presets',
+            'relatedModel': Preset,
+            'collectionType': PresetCollection,
+        },
+    ],
 
     defaults: {
         'creationDate': new Date().toISOString(),

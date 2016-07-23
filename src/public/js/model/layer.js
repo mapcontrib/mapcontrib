@@ -1,12 +1,13 @@
 
 import _ from 'underscore';
 import Backbone from 'backbone';
+import BackboneRelational from 'backbone-relational';
 import Wreqr from 'backbone.wreqr';
 import CONST from '../const';
 import { uuid } from '../core/utils';
 
 
-export default Backbone.Model.extend({
+export default Backbone.RelationalModel.extend({
     defaults: {
         'creationDate': new Date().toISOString(),
         'modificationDate': new Date().toISOString(),
