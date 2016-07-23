@@ -199,6 +199,9 @@ export default Marionette.LayoutView.extend({
             'user:isOwner': () => {
                 return this.model.isOwner( this._user );
             },
+            'theme': () => {
+                return this.model;
+            },
             'theme:fragment': () => {
                 return this.model.get('fragment');
             },

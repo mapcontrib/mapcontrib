@@ -98,6 +98,7 @@
   one: "To see these data, you need to zoom once.",
   many: "To see these data, you need to zoom {{ $n }} times."
 }>
+<selectLayerColumn_downloadData "Download the visible data">
 
 
 /* Tile column */

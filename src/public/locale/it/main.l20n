@@ -98,6 +98,7 @@
   one: "Per visualizzare i dati hai bisogno di fare almeno uno zoom",
   many: "Per visualizzare i dati hai bisogno di fare almeno {{ $n }} zoom."
 }>
+<selectLayerColumn_downloadData "Scarica i dati visibili">
 
 
 /* Tile column */

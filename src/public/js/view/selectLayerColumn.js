@@ -3,6 +3,7 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import SelectLayerListView from './selectLayerList';
 import template from '../../templates/selectLayerColumn.ejs';
+import LeafletHelper from '../helper/leaflet';
 
 
 export default Marionette.LayoutView.extend({
@@ -19,6 +20,11 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         'column': '#select_poi_column',
+        'downloadBtn': '.download_btn',
+    },
+
+    events: {
+        'click @ui.downloadBtn': 'onClickDownload',
     },
 
     initialize: function () {
@@ -46,5 +52,14 @@ export default Marionette.LayoutView.extend({
     close: function () {
         this.triggerMethod('close');
         return this;
+    },
+
+    onClickDownload: function (e) {
+        const map = this._radio.reqres.request('map');
+        const theme = this._radio.reqres.request('theme');
+        const themeName = theme.get('name') || document.l10n.getSync('mapcontrib');
+        const fileName = `${themeName}.geojson`;
+
+        LeafletHelper.downloadGeoJsonFromBbox(map, fileName);
     },
 });

@@ -73,6 +73,7 @@
   many: "Saisissez encore {{ $n }} caractères"
 }>
 
+
 /* Help */
 <helpTitle "Aide">
 <helpText1 "MapContrib est développé avec le soutien du Département de la Gironde, dans le cadre d'un appel à projets «&nbsp;Déchets et Numériques&nbsp;».">
@@ -97,6 +98,8 @@
   one: "Pour voir ces données, vous devez zoomer une fois.",
   many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
 }>
+<selectLayerColumn_downloadData "Télécharger les données visibles">
+
 
 
 /* Tile column */
