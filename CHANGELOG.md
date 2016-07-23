@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.6
+
+* Don't set the X-Frame-Options to permit the remote use of MapContrib.
+
 ## 0.10.5
 
 * Updates the README's screenshot.
