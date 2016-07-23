@@ -50,7 +50,11 @@ let app = express();
 
 
 app.use(compression());
-app.use(helmet());
+app.use(
+    helmet({
+        frameguard: false
+    })
+);
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'views'));
