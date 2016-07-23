@@ -290,10 +290,12 @@
 
 /* Add layer menu column */
 <addLayerMenuColumn_title "Add a layer">
-<addLayerMenuColumn_overPass "OverPass request">
-<addLayerMenuColumn_gpx "GPX file">
-<addLayerMenuColumn_csv "CSV file">
-<addLayerMenuColumn_geoJson "GeoJSON file">
+<addLayerMenuColumn_remoteInformation "Remote information">
+<addLayerMenuColumn_file "File">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
 
 
 /* Layer info column */
