@@ -166,7 +166,7 @@
 <editLayerFormColumn_dataEditable "Allow to edit data">
 <editLayerFormColumn_layerZoomLevel "Minimum zoom">
 <editLayerFormColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
-<editLayerFormColumn_layerOverpassRequest "Overpass request">
+<editLayerFormColumn_layerOverpassRequest "OverPass request">
 <editLayerFormColumn_marker "Marker">
 <editLayerFormColumn_layerPopupContent "Popup content">
 <editLayerFormColumn_gpxFile "GPX file">

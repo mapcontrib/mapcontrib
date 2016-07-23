@@ -167,7 +167,7 @@
 <editLayerFormColumn_visible "Visible par les utilisateurs">
 <editLayerFormColumn_layerZoomLevel "Zoom minimum">
 <editLayerFormColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
-<editLayerFormColumn_layerOverpassRequest "Requête Overpass">
+<editLayerFormColumn_layerOverpassRequest "Requête OverPass">
 <editLayerFormColumn_marker "Marqueur">
 <editLayerFormColumn_layerPopupContent "Contenu des bulles">
 <editLayerFormColumn_gpxFile "Fichier GPX">
