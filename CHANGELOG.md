@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.7
+
+* Fixes the theme titles display.
+
 ## 0.10.6
 
 * Don't set the X-Frame-Options to permit the remote use of MapContrib.
