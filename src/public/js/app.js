@@ -3,7 +3,6 @@ import 'babel-polyfill';
 import tools from './tools';
 import jqueryForm from 'jquery-form';
 import Backbone from 'backbone';
-import BackboneNestedModels from 'backbone-nested-models';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import L20n from '../lib/l20n.min.js';
