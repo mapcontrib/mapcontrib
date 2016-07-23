@@ -98,8 +98,8 @@ export default Marionette.LayoutView.extend({
         'userToolbar': '#user_toolbar',
         'userButton': '#user_toolbar .user_btn',
         'linkButton': '#user_toolbar .link_btn',
-        'tempLayerButton': '#user_toolbar .temp_layer_btn',
-        'contribButton': '#user_toolbar .contrib_btn',
+        'tempLayerButton': '#contrib_toolbar .temp_layer_btn',
+        'contribButton': '#contrib_toolbar .contrib_btn',
 
         'helpToolbar': '#help_toolbar',
         'helpButton': '#help_toolbar .help_btn',
