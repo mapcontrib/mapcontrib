@@ -24,9 +24,7 @@ class Api {
         }
 
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-            res.sendStatus(400);
-
-            return true;
+            return res.sendStatus(400);
         }
 
         const collection = options.database.collection('nonOsmData');
@@ -34,9 +32,7 @@ class Api {
         const model = new ThemeModel(new_json);
 
         if ( !model.isValid() ) {
-            res.sendStatus(400);
-
-            return true;
+            return res.sendStatus(400);
         }
 
         delete(new_json._id);
@@ -47,18 +43,14 @@ class Api {
             {'safe': true},
             (err, results) => {
                 if(err) {
-                    return reject(500);
-                    res.sendStatus(errorCode);
+                    return res.sendStatus(500);
                 }
 
-                let result = results.ops[0];
+                const result = results.ops[0];
+                result._id = result._id.toString();
 
-                addThemeInUserSession(session, result);
-
-                resolve(result);
+                res.send(result);
             }
-            result._id = result._id.toString();
-            res.send(result);
         );
     }
 
