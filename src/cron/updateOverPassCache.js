@@ -17,12 +17,10 @@ import SERVER_CONST from '../const';
 import PUBLIC_CONST from '../public/js/const';
 import OverPassHelper from '../public/js/helper/overPass';
 
+
 const CONST = _.extend(SERVER_CONST, PUBLIC_CONST);
+const database = new Database();
 
-const publicDirectory = path.resolve(__dirname, '..', 'public');
-
-
-let database = new Database();
 
 database.connect((err, db) => {
     if (err) throw err;
@@ -156,7 +154,11 @@ export default class UpdateOverPassCache {
                 error = CONST.overPassCacheError.memory;
             }
 
-            return this._setLayerStateError(theme, layer, error)
+            return this._deleteCacheFile(
+                theme.fragment,
+                layer.uniqid
+            )
+            .then( this._setLayerStateError(theme, layer, error) )
             .then( this._nextIteration.bind(this) );
         });
     }
@@ -183,25 +185,59 @@ export default class UpdateOverPassCache {
         });
     }
 
+    _buildDirectories (themeFragment, layerUuid) {
+        logger.debug('_buildDirectories');
+
+        const publicDirectory = path.resolve(__dirname, '..', 'public');
+        const publicCacheDirectory = `files/theme/${themeFragment}/overPassCache/`;
+        const cacheDirectory = path.resolve( publicDirectory, publicCacheDirectory );
+        const filePath = path.join( publicCacheDirectory, `${layerUuid}.geojson` );
+
+        if ( !fs.existsSync( cacheDirectory ) ) {
+            mkdirp.sync(cacheDirectory);
+        }
+
+        return {
+            publicDirectory,
+            publicCacheDirectory,
+            cacheDirectory,
+            filePath,
+        };
+    }
+
     _saveCacheFile (themeFragment, layerUuid, overPassResult) {
         logger.debug('_saveCacheFile');
 
         return new Promise((resolve, reject) => {
             const overPassGeoJson = osmtogeojson(overPassResult);
-            const publicCacheDirectory = `files/theme/${themeFragment}/overPassCache/`;
-            const cacheDirectory = path.resolve( publicDirectory, publicCacheDirectory );
-            const filePath = path.join( publicCacheDirectory, `${layerUuid}.geojson` );
-
-
-            if ( !fs.existsSync( cacheDirectory ) ) {
-                mkdirp.sync(cacheDirectory);
-            }
+            const {
+                publicDirectory,
+                filePath
+            } = this._buildDirectories(themeFragment, layerUuid);
 
             fs.writeFile(
                 path.resolve( publicDirectory, filePath ),
                 JSON.stringify( overPassGeoJson ),
                 () => {
                     resolve(`/${filePath}`);
+                }
+            );
+        });
+    }
+
+    _deleteCacheFile (themeFragment, layerUuid) {
+        logger.debug('_deleteCacheFile');
+
+        return new Promise((resolve, reject) => {
+            const {
+                publicDirectory,
+                filePath
+            } = this._buildDirectories(themeFragment, layerUuid);
+
+            fs.unlink(
+                path.resolve( publicDirectory, filePath ),
+                () => {
+                    resolve();
                 }
             );
         });
@@ -241,6 +277,7 @@ export default class UpdateOverPassCache {
                 },
                 {
                     '$set': {
+                        'layers.$.fileUri': null,
                         'layers.$.cacheUpdateSuccess': false,
                         'layers.$.cacheUpdateDate': new Date().toISOString(),
                         'layers.$.cacheUpdateError': error,
