@@ -253,18 +253,21 @@ html, body {
 }
 
 
-#edit_layer_column .rg_layer_list {
-    .list-group-item {
-        padding-right: 70px;
-    }
+#temp_layer_column,
+#edit_layer_column {
+    .rg_layer_list {
+        .list-group-item {
+            padding-right: 70px;
+        }
 
-    .marker,
-    .shape {
-        transform: scale(.6);
-        position: absolute;
-        top: -1px;
-        right: 35px;
-        cursor: pointer;
+        .marker,
+        .shape {
+            transform: scale(.6);
+            position: absolute;
+            top: -1px;
+            right: 35px;
+            cursor: pointer;
+        }
     }
 }
 
@@ -284,19 +287,17 @@ html, body {
         font-style: italic;
     }
 
-    .info_layer_btn.btn-link {
-        position: absolute;
-        top: 24px;
-        left: -20px;
-        padding: 0;
-        color: #bbb;
+    .info_layer_btn {
+        color: @turquoise;
+        padding-left: 0;
+        padding-right: 0;
 
         &:hover,
         &:active,
         &.active,
         &:focus,
         &.focus {
-            color: #ccc;
+            color: @lightTurquoise;
         }
     }
 }

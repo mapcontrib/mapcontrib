@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"Il mio account">
 <buttonLinkTooltip title:"Condividi">
 <buttonContribTooltip title:"Aggiungi dati mancanti">
+<buttonTempLayerTooltip title:"Aggiungere un livello temporaneo">
 <buttonEditSettingTooltip title:"Impostazioni generali">
 <buttonEditLayerTooltip title:"Livello">
 <buttonEditTileTooltip title:"Sfondi">
@@ -62,6 +63,7 @@
 <createATheme "Crea un tema">
 <searchATheme placeholder:"Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
+<invalidFile "File non valido">
 
 
 /* Home */
@@ -96,6 +98,7 @@
   one: "Per visualizzare i dati hai bisogno di fare almeno uno zoom",
   many: "Per visualizzare i dati hai bisogno di fare almeno {{ $n }} zoom."
 }>
+<selectLayerColumn_downloadData "Scarica i dati visibili">
 
 
 /* Tile column */
@@ -313,3 +316,8 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Dettagli">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Livelli temporanei">
+<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib.">

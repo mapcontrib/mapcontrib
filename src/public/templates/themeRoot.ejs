@@ -4,13 +4,6 @@
 <div id="main_map"></div>
 
 
-<section id="help_toolbar" class="toolbar left open">
-    <button type="button" class="btn toolbar_btn help_btn" data-l10n-id="buttonHelpTooltip" data-placement="right">
-        <i class="icon ion-help-buoy"></i>
-    </button>
-</section>
-
-
 <section id="help" class="fullpage white">
     <button type="button" class="btn btn-link btn-lg close_btn">
         <i class="fa fa-close"></i>
@@ -50,80 +43,99 @@
 </section>
 
 
-<section id="control_toolbar" class="toolbar left open">
-    <button type="button" class="btn toolbar_btn zoom_in_btn" data-l10n-id="buttonZoomInTooltip" data-placement="right">
-        <i class="icon ion-plus"></i>
-    </button>
+<section id="left_toolbar" class="toolbar left open">
+    <section id="control_toolbar">
+        <button type="button" class="btn toolbar_btn zoom_in_btn" data-l10n-id="buttonZoomInTooltip" data-placement="right">
+            <i class="icon ion-plus"></i>
+        </button>
 
-    <button type="button" class="btn toolbar_btn zoom_out_btn" data-l10n-id="buttonZoomOutTooltip" data-placement="right">
-        <i class="icon ion-minus"></i>
-    </button>
+        <button type="button" class="btn toolbar_btn zoom_out_btn" data-l10n-id="buttonZoomOutTooltip" data-placement="right">
+            <i class="icon ion-minus"></i>
+        </button>
 
-    <div class="zoom_level append-xs-tiny"></div>
+        <div class="zoom_level append-xs-tiny"></div>
 
-    <button type="button" class="btn toolbar_btn geocode_btn" data-l10n-id="buttonGeocodeTooltip" data-placement="right">
-        <i class="icon ion-search"></i>
-        <div class="spinner hide"></div>
-    </button>
+        <button type="button" class="btn toolbar_btn geocode_btn" data-l10n-id="buttonGeocodeTooltip" data-placement="right">
+            <i class="icon ion-search"></i>
+            <div class="spinner hide"></div>
+        </button>
 
-    <button type="button" class="btn toolbar_btn locate_btn" data-l10n-id="buttonLocateTooltip" data-placement="right">
-        <i class="icon ion-android-locate"></i>
-    </button>
+        <button type="button" class="btn toolbar_btn locate_btn" data-l10n-id="buttonLocateTooltip" data-placement="right">
+            <i class="icon ion-android-locate"></i>
+        </button>
 
-    <button type="button" class="btn toolbar_btn locate_wait_btn hide" data-l10n-id="buttonLocateWaitTooltip" data-placement="right">
-        <div class="spinner"></div>
-    </button>
+        <button type="button" class="btn toolbar_btn locate_wait_btn hide" data-l10n-id="buttonLocateWaitTooltip" data-placement="right">
+            <div class="spinner"></div>
+        </button>
 
-    <button type="button" class="btn toolbar_btn expand_screen_btn" data-l10n-id="buttonExpandScreenTooltip" data-placement="right">
-        <i class="icon ion-arrow-expand"></i>
-    </button>
+        <button type="button" class="btn toolbar_btn expand_screen_btn" data-l10n-id="buttonExpandScreenTooltip" data-placement="right">
+            <i class="icon ion-arrow-expand"></i>
+        </button>
 
-    <button type="button" class="btn toolbar_btn compress_screen_btn hide" data-l10n-id="buttonCompressScreenTooltip" data-placement="right">
-        <i class="icon ion-arrow-shrink"></i>
-    </button>
+        <button type="button" class="btn toolbar_btn compress_screen_btn hide" data-l10n-id="buttonCompressScreenTooltip" data-placement="right">
+            <i class="icon ion-arrow-shrink"></i>
+        </button>
 
-    <button type="button" class="btn toolbar_btn layer_btn" data-l10n-id="buttonLayerTooltip" data-placement="right">
-        <i class="icon ion-social-buffer"></i>
-        <div class="spinner hide"></div>
-    </button>
+        <button type="button" class="btn toolbar_btn layer_btn" data-l10n-id="buttonLayerTooltip" data-placement="right">
+            <i class="icon ion-social-buffer"></i>
+            <div class="spinner hide"></div>
+        </button>
 
-    <button type="button" class="btn toolbar_btn tile_btn" data-l10n-id="buttonTileTooltip" data-placement="right">
-        <i class="icon ion-map"></i>
-    </button>
+        <button type="button" class="btn toolbar_btn tile_btn" data-l10n-id="buttonTileTooltip" data-placement="right">
+            <i class="icon ion-map"></i>
+        </button>
+    </section>
+
+    <section id="help_toolbar">
+        <button type="button" class="btn toolbar_btn help_btn" data-l10n-id="buttonHelpTooltip" data-placement="right">
+            <i class="icon ion-help-buoy"></i>
+        </button>
+    </section>
 </section>
 
 
-<section id="user_toolbar" class="toolbar right open">
-    <button type="button" class="btn toolbar_btn user_btn" data-l10n-id="buttonUserTooltip" data-placement="left">
-        <i class="icon ion-happy-outline"></i>
-    </button>
+<section id="right_toolbar" class="toolbar right open">
+    <section id="user_toolbar">
+        <button type="button" class="btn toolbar_btn user_btn" data-l10n-id="buttonUserTooltip" data-placement="left">
+            <i class="icon ion-happy-outline"></i>
+        </button>
 
-    <button type="button" class="btn toolbar_btn link_btn" data-l10n-id="buttonLinkTooltip" data-placement="left">
-        <i class="icon ion-android-share-alt"></i>
-    </button>
+        <button type="button" class="btn toolbar_btn link_btn" data-l10n-id="buttonLinkTooltip" data-placement="left">
+            <i class="icon ion-android-share-alt"></i>
+        </button>
+    </section>
+    <section id="contrib_toolbar">
+        <button type="button" class="btn toolbar_btn temp_layer_btn" data-l10n-id="buttonTempLayerTooltip" data-placement="left">
+            <i class="icon ion-social-buffer"></i>
+            <span class="fa-stack">
+                <i class="fa fa-circle fa-stack-1x"></i>
+                <i class="fa fa-clock-o fa-stack-1x"></i>
+            </span>
+        </button>
 
-    <button type="button" class="btn toolbar_btn contrib_btn hide" data-l10n-id="buttonContribTooltip" data-placement="left">
-        <i class="icon ion-edit"></i>
-    </button>
-</section>
+        <button type="button" class="btn toolbar_btn contrib_btn hide" data-l10n-id="buttonContribTooltip" data-placement="left">
+            <i class="icon ion-edit"></i>
+        </button>
+    </section>
 
 
-<section id="edit_toolbar" class="toolbar right open hide">
-    <button type="button" class="btn toolbar_btn setting_btn" data-l10n-id="buttonEditSettingTooltip" data-placement="left">
-        <i class="icon ion-android-options"></i>
-    </button>
+    <section id="edit_toolbar" class="open hide">
+        <button type="button" class="btn toolbar_btn setting_btn" data-l10n-id="buttonEditSettingTooltip" data-placement="left">
+            <i class="icon ion-android-options"></i>
+        </button>
 
-    <button type="button" class="btn toolbar_btn layer_btn" data-l10n-id="buttonEditLayerTooltip" data-placement="left">
-        <i class="icon ion-social-buffer"></i>
-    </button>
+        <button type="button" class="btn toolbar_btn layer_btn" data-l10n-id="buttonEditLayerTooltip" data-placement="left">
+            <i class="icon ion-social-buffer"></i>
+        </button>
 
-    <button type="button" class="btn toolbar_btn tile_btn" data-l10n-id="buttonEditTileTooltip" data-placement="left">
-        <i class="icon ion-map"></i>
-    </button>
+        <button type="button" class="btn toolbar_btn tile_btn" data-l10n-id="buttonEditTileTooltip" data-placement="left">
+            <i class="icon ion-map"></i>
+        </button>
 
-    <button type="button" class="btn toolbar_btn preset_btn" data-l10n-id="buttonEditPresetTooltip" data-placement="left">
-        <i class="icon ion-location"></i>
-    </button>
+        <button type="button" class="btn toolbar_btn preset_btn" data-l10n-id="buttonEditPresetTooltip" data-placement="left">
+            <i class="icon ion-location"></i>
+        </button>
+    </section>
 </section>
 
 
@@ -140,6 +152,9 @@
 <section id="rg_user_column"></section>
 <section id="rg_visitor_column"></section>
 <section id="rg_link_column"></section>
+<section id="rg_temp_layer_column"></section>
+<section id="rg_add_temp_layer_menu_column"></section>
+<section id="rg_edit_temp_layer_column"></section>
 <section id="rg_contrib_column"></section>
 <section id="rg_contrib_form_column"></section>
 <section id="rg_edit_setting_column"></section>

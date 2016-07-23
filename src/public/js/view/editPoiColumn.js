@@ -207,7 +207,8 @@ export default Marionette.LayoutView.extend({
 
             this._radio.commands.execute(
                 'saveOsmData',
-                overPassElement
+                overPassElement,
+                this._layerModel
             );
 
             this._radio.commands.execute(

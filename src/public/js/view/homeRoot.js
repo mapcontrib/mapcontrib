@@ -19,9 +19,9 @@ export default Marionette.LayoutView.extend({
         'searchIcon': 'input.search + label .icon',
         'searchSpinner': 'input.search + label .spinner',
         'searchResults': '#rg_search_results',
-        'noResultMessage': '.no_result',
-        'charactersLeftMessage': '.characters_left',
-        'charactersLeftMessageText': '.characters_left .text',
+        'noResultPlaceholder': '.no_result',
+        'charactersLeftPlaceholder': '.characters_left',
+        'charactersLeftPlaceholderText': '.characters_left .text',
     },
 
     regions: {
@@ -62,9 +62,17 @@ export default Marionette.LayoutView.extend({
     },
 
     onKeyUpSearchInput: function (e) {
-        clearTimeout(this._searchTimeout);
-
+        const searchString = this.ui.searchInput.val();
         const charactersCount = this.ui.searchInput.val().length;
+
+        if ( this._lastSearchedString === searchString ) {
+            console.log(this._lastSearchedString, searchString);
+            return true;
+        }
+
+        this._lastSearchedString = searchString;
+
+        clearTimeout(this._searchTimeout);
 
         if (charactersCount === 0) {
             this.hideSpinner();
@@ -72,21 +80,20 @@ export default Marionette.LayoutView.extend({
         }
         else if (charactersCount > 0 && charactersCount < 3) {
             this.hideSpinner();
-            this.showCharactersLeftMessage();
+            this.showCharactersLeftPlaceholder();
         }
         else {
             this.showSpinner();
+            this.hidePlaceholders();
 
             this._searchTimeout = setTimeout(
-                this.fetchSearchedThemes.bind(this),
+                this.fetchSearchedThemes.bind(this, searchString),
                 300
             );
         }
     },
 
-    fetchSearchedThemes: function () {
-        let searchString = this.ui.searchInput.val();
-
+    fetchSearchedThemes: function (searchString) {
         this.collection.fetch({
             'reset': true,
             'merge': false,
@@ -103,7 +110,7 @@ export default Marionette.LayoutView.extend({
         this.hideSpinner();
 
         if (collection.models.length === 0) {
-            this.showNoResultMessage();
+            this.showNoResultPlaceholder();
         }
         else {
             this.showResults();
@@ -112,7 +119,7 @@ export default Marionette.LayoutView.extend({
 
     onThemesFetchError: function (collection, response, options) {
         this.hideSpinner();
-        this.showNoResultMessage();
+        this.showNoResultPlaceholder();
     },
 
     resetThemeCollection: function () {
@@ -133,36 +140,41 @@ export default Marionette.LayoutView.extend({
         }).open();
     },
 
-    showCharactersLeftMessage: function () {
+    showCharactersLeftPlaceholder: function () {
         const charactersLeft = 3 - this.ui.searchInput.val().length;
 
-        this.ui.charactersLeftMessageText.html(
+        this.ui.charactersLeftPlaceholderText.html(
             document.l10n.getSync(
                 'home_charactersLeft',
                 { 'n': charactersLeft }
             )
         );
 
-        this.ui.noResultMessage.addClass('hide');
+        this.ui.noResultPlaceholder.addClass('hide');
         this.ui.searchResults.addClass('hide');
-        this.ui.charactersLeftMessage.removeClass('hide');
+        this.ui.charactersLeftPlaceholder.removeClass('hide');
     },
 
-    showNoResultMessage: function () {
+    showNoResultPlaceholder: function () {
         this.ui.searchResults.addClass('hide');
-        this.ui.charactersLeftMessage.addClass('hide');
-        this.ui.noResultMessage.removeClass('hide');
+        this.ui.charactersLeftPlaceholder.addClass('hide');
+        this.ui.noResultPlaceholder.removeClass('hide');
     },
 
     showResults: function () {
-        this.ui.noResultMessage.addClass('hide');
-        this.ui.charactersLeftMessage.addClass('hide');
+        this.ui.noResultPlaceholder.addClass('hide');
+        this.ui.charactersLeftPlaceholder.addClass('hide');
         this.ui.searchResults.removeClass('hide');
     },
 
     showSpinner: function () {
         this.ui.searchIcon.addClass('hide');
         this.ui.searchSpinner.removeClass('hide');
+    },
+
+    hidePlaceholders: function () {
+        this.ui.charactersLeftPlaceholder.addClass('hide');
+        this.ui.noResultPlaceholder.addClass('hide');
     },
 
     hideSpinner: function () {

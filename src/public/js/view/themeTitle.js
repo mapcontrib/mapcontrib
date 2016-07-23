@@ -16,7 +16,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         'titleWrapper': '#title',
-        'title': '#title h1',
+        'title': '#title .title_head',
         'description': '#title .description',
         'descriptionButton': '#title .description_btn',
     },
