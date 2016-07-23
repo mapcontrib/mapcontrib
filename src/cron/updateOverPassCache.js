@@ -132,13 +132,23 @@ export default class UpdateOverPassCache {
 
             if (xhr.status === 400) {
                 logger.debug('OverPass says: Bad request');
-                return this._setLayerStateError(theme, layer, CONST.overPassCacheError.badRequest)
+
+                return this._deleteCacheFile(
+                    theme.fragment,
+                    layer.uniqid
+                )
+                .then( this._setLayerStateError(theme, layer, CONST.overPassCacheError.badRequest) )
                 .then( this._nextIteration.bind(this) );
             }
 
             if (xhr.status !== 200) {
                 logger.debug('Unknown error, next!');
-                return this._setLayerStateError(theme, layer, CONST.overPassCacheError.unknown)
+
+                return this._deleteCacheFile(
+                    theme.fragment,
+                    layer.uniqid
+                )
+                .then( this._setLayerStateError(theme, layer, CONST.overPassCacheError.unknown) )
                 .then( this._nextIteration.bind(this) );
             }
 
