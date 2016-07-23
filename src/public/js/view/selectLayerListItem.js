@@ -67,12 +67,12 @@ export default Marionette.ItemView.extend({
     },
 
     onDestroy: function () {
-        this._radio.vent.off('map:zoomChanged');
+        this._radio.vent.off('map:zoomChanged', this.render);
     },
 
     onRender: function () {
-        var currentZoom = this._radio.reqres.request('map:currentZoom'),
-        n = (this.model.get('minZoom') - currentZoom) || 0;
+        const currentZoom = this._radio.reqres.request('map:currentZoom');
+        const n = (this.model.get('minZoom') - currentZoom) || 0;
 
         if ( n > 0 ) {
             this.ui.zoomTip
