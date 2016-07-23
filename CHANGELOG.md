@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.8
+
+* Fixes the zoomChanged bindings.
+
 ## 0.10.7
 
 * Fixes the theme titles display.
