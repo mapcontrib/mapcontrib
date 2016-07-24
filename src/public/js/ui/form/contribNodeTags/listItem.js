@@ -10,6 +10,7 @@ export default Marionette.ItemView.extend({
         'key': '.key',
         'value': '.value',
         'infoBtn': '.info_btn',
+        'nonOsmWarning': '.non_osm_warning',
         'removeBtn': '.remove_btn',
     },
 
@@ -40,6 +41,10 @@ export default Marionette.ItemView.extend({
 
         if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
             this.ui.removeBtn.prop('disabled', 'disabled');
+        }
+
+        if (this.model.get('nonOsmData')) {
+            this.ui.nonOsmWarning.removeClass('hide');
         }
 
         this.renderTagInfo();

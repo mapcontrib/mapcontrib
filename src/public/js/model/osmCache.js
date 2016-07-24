@@ -6,16 +6,18 @@ import CONST from '../const';
 export default Backbone.Model.extend({
     idAttribute: '_id',
 
-    urlRoot: CONST.apiPath + 'nonOsmData',
+    urlRoot: CONST.apiPath + 'osmCache',
 
     defaults: {
         'creationDate': new Date().toISOString(),
         'modificationDate': new Date().toISOString(),
         'osmId': undefined,
         'osmType': undefined,
+        'osmVersion': 0,
+        'osmElement': undefined,
+        'overPassElement': undefined,
         'userId': undefined,
         'themeFragment': undefined,
-        'tags': [], // { key: string, value: string, type: text|img }
     },
 
     updateModificationDate: function () {

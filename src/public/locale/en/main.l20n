@@ -208,7 +208,7 @@
 
 /* Edit presets column */
 <editPresetColumn_title "Nodes types">
-<editPresetColumn_addPreset "Ajouter un type de nœud">
+<editPresetColumn_addPreset "Add a node type">
 <editPresetColumn_clickButton "Click the button below">
 
 
@@ -269,6 +269,8 @@
 <uiFormNodeTags_value placeholder:"Value">
 <uiFormNodeTags_keyReadOnly "Read-only key">
 <uiFormNodeTags_valueReadOnly "Read-only value">
+<uiFormNodeTags_nonOsmData "Do not send this tag to OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap">
 
 
 /* Color selector UI */
@@ -323,3 +325,9 @@
 /* Temporary layers column */
 <tempLayerListColumn_title "Temporary layers">
 <tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib.">
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Nodes types">
+<editPoiPresetColumn_noThanks "No thanks">
+<editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?">

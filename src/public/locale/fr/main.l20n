@@ -270,6 +270,8 @@
 <uiFormNodeTags_value placeholder:"Valeur">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
+<uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag non envoyé à OpenStreetMap">
 
 
 /* Color selector UI */
@@ -323,3 +325,9 @@
 /* Temporary layers column */
 <tempLayerListColumn_title "Couches temporaires">
 <tempLayerListColumn_description "Ces couches sont éphémères. Elles ne sont visibles que par vous et disparaissent après avoir fermé MapContrib.">
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Type de nœud">
+<editPoiPresetColumn_noThanks "Non merci">
+<editPoiPresetColumn_applyPreset "Voulez-vous automatiquement ajouter les tags d'un de ces types de nœuds ?">

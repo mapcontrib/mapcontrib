@@ -8,9 +8,10 @@ import OsmEditHelper from '../helper/osmEdit.js';
 import CONST from '../const';
 import template from '../../templates/editPoiColumn.ejs';
 import ContribNodeTagsListView from '../ui/form/contribNodeTags';
-import Cache from '../core/cache';
 import InfoDisplay from '../core/infoDisplay';
 import MovePoiContextual from './movePoiContextual';
+import NonOsmDataModel from '../model/nonOsmData';
+import OsmCacheModel from '../model/osmCache';
 
 
 
@@ -19,7 +20,9 @@ export default Marionette.LayoutView.extend({
 
     behaviors: {
         'l20n': {},
-        'column': {},
+        'column': {
+            'appendToBody': true,
+        },
     },
 
     regions: {
@@ -48,6 +51,11 @@ export default Marionette.LayoutView.extend({
         this._radio = Wreqr.radio.channel('global');
         this._layer = this.options.layer;
         this._layerModel = this.options.layerModel;
+
+        this._theme = this._radio.reqres.request('theme');
+        this._nonOsmData = this._radio.reqres.request('nonOsmData');
+        this._osmCache = this._radio.reqres.request('osmCache');
+
 
         this._contributionSent = false;
 
@@ -100,24 +108,76 @@ export default Marionette.LayoutView.extend({
             return this;
         }
 
-        this._osmEdit.fetch()
-        .then(osmEdit => {
+        const promises = [ this._osmEdit.fetch() ];
+
+
+        this._nonOsmDataModel = this._nonOsmData.findWhere({
+            'themeFragment': this._theme.get('fragment'),
+            'osmId': this.options.osmId,
+            'osmType': this.options.osmType,
+        });
+
+        if ( !this._nonOsmDataModel ) {
+            this._nonOsmDataModel = new NonOsmDataModel({
+                'themeFragment': this._theme.get('fragment'),
+                'osmId': this.options.osmId,
+                'osmType': this.options.osmType,
+            });
+            this._nonOsmData.add( this._nonOsmDataModel );
+        }
+        else {
+            promises.push(
+                new Promise((resolve, reject) => {
+                    this._nonOsmDataModel.fetch({
+                        'success': model => resolve(model),
+                        'error': (model, response) => reject(response),
+                    });
+                })
+            );
+        }
+
+        this._osmCacheModel = this._osmCache.findWhere({
+            'themeFragment': this._theme.get('fragment'),
+            'osmId': this.options.osmId,
+            'osmType': this.options.osmType,
+        });
+
+        if ( !this._osmCacheModel ) {
+            this._osmCacheModel = new OsmCacheModel({
+                'themeFragment': this._theme.get('fragment'),
+                'osmId': this.options.osmId,
+                'osmType': this.options.osmType,
+            });
+            this._osmCache.add( this._osmCacheModel );
+        }
+        else {
+            promises.push(
+                new Promise((resolve, reject) => {
+                    this._osmCacheModel.fetch({
+                        'success': model => resolve(model),
+                        'error': (model, response) => reject(response),
+                    });
+                })
+            );
+        }
+
+        Promise.all(promises)
+        .then(results => {
+            const osmEdit = results[0];
+
             if ( this._osmEdit.getType() === 'node' ) {
                 this._oldLatLng = this._layer.getLatLng();
                 this.ui.moveSection.removeClass('hide');
             }
 
-            const version = osmEdit.getVersion(),
-            type = osmEdit.getType(),
-            id = osmEdit.getId();
+            const version = osmEdit.getVersion();
+            const type = osmEdit.getType();
+            const id = osmEdit.getId();
 
-            if (Cache.exists(type, id)) {
-                if (Cache.isNewerThanCache(type, id, version)) {
-                    Cache.remove(type, id);
-                }
-                else {
-                    osmEdit.setElement( Cache.getOsmElement(type, id) );
-                }
+            if ( this._osmCacheModel.get('osmVersion') > version ) {
+                osmEdit.setElement(
+                    this._osmCacheModel.get('osmElement')
+                );
             }
 
             this.renderTags( osmEdit.getTags() );
@@ -133,9 +193,40 @@ export default Marionette.LayoutView.extend({
         let value;
         const popupContent = this._layerModel.get('popupContent');
         const popupTags = InfoDisplay.findTagsFromContent(popupContent);
+        const keysAdded = [];
+
+        for (const tag of this._nonOsmDataModel.get('tags')) {
+            keysAdded.push(tag.key);
+            this._tagList.addTag({
+                'key': tag.key,
+                'value': tag.value,
+                'keyReadOnly': true,
+                'valueReadOnly': false,
+                'nonOsmData': true,
+            });
+        }
+
+        if (this.options.presetModel) {
+            for (const tag of this.options.presetModel.get('tags')) {
+                if ( keysAdded.indexOf(tag.key) > -1 ) {
+                    continue;
+                }
+
+                keysAdded.push(tag.key);
+                this._tagList.addTag(tag);
+            }
+        }
 
         if ( popupTags) {
             for (const popupTag of popupTags) {
+                if ( keysAdded.indexOf(popupTag) > -1 ) {
+                    continue;
+                }
+
+                if (popupTag === 'id' || popupTag === 'type') {
+                    continue;
+                }
+
                 if ( tags[popupTag] ) {
                     value = tags[popupTag];
                 }
@@ -143,17 +234,20 @@ export default Marionette.LayoutView.extend({
                     value = '';
                 }
 
+                keysAdded.push(popupTag);
+
                 this._tagList.addTag({
                     'key': popupTag,
                     'value': value,
                     'keyReadOnly': false,
                     'valueReadOnly': false,
+                    'nonOsmData': false,
                 });
             }
         }
 
         for (const key in tags) {
-            if ( popupTags && popupTags.indexOf(key) > -1 ) {
+            if ( keysAdded.indexOf(key) > -1 ) {
                 continue;
             }
 
@@ -162,6 +256,7 @@ export default Marionette.LayoutView.extend({
                 'value': tags[key],
                 'keyReadOnly': false,
                 'valueReadOnly': false,
+                'nonOsmData': false,
             });
         }
 
@@ -181,11 +276,36 @@ export default Marionette.LayoutView.extend({
 
         const createdBy = CONST.osm.changesetCreatedBy
         .replace('{version}', MAPCONTRIB.version);
+        const tags = this._tagList.getTags();
+        const osmTags = {};
+        const nonOsmTags = [];
+
+        for (const tag of tags) {
+            if (tag.nonOsmData) {
+                nonOsmTags.push({
+                    'key': tag.key,
+                    'value': tag.value,
+                    'type': 'text',
+                });
+            }
+            else {
+                if (!tag.key || !tag.value) {
+                    continue;
+                }
+
+                osmTags[tag.key] = tag.value;
+            }
+        }
+
+        this._nonOsmDataModel.updateModificationDate();
+        this._nonOsmDataModel.set('tags', nonOsmTags);
+        this._nonOsmDataModel.set('userId', this._user.get('osmId'));
+        this._nonOsmDataModel.save();
 
         this._osmEdit.setChangesetCreatedBy(createdBy);
         this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
         this._osmEdit.setTimestamp();
-        this._osmEdit.setTags( this._tagList.getTags() );
+        this._osmEdit.setTags( osmTags );
         this._osmEdit.setUid(this._user.get('osmId'));
         this._osmEdit.setDisplayName(this._user.get('displayName'));
 
@@ -215,8 +335,12 @@ export default Marionette.LayoutView.extend({
                 overPassElement
             );
 
-            Cache.save(overPassElement);
-            Cache.saveOsmElement(this._osmEdit.getElement());
+            this._osmCacheModel.updateModificationDate();
+            this._osmCacheModel.set('userId', this._user.get('osmId'));
+            this._osmCacheModel.set('osmVersion', version);
+            this._osmCacheModel.set('overPassElement', overPassElement);
+            this._osmCacheModel.set('osmElement', this._osmEdit.getElement());
+            this._osmCacheModel.save();
         })
         .catch((err) => {
             new ContributionErrorNotificationView({
