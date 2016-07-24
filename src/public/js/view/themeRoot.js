@@ -924,12 +924,15 @@ export default Marionette.LayoutView.extend({
 
             switch (object.feature.geometry.type) {
                 case 'Point':
+                case 'MultiPoint':
                     object.setIcon( icon );
                     break;
                 case 'LineString':
+                case 'MultiLineString':
                     object.setStyle( polylineStyle );
                     break;
                 case 'Polygon':
+                case 'MultiPolygon':
                     object.setStyle( polygonStyle );
                     break;
             }
@@ -982,18 +985,21 @@ export default Marionette.LayoutView.extend({
         const layers = markerCluster.getLayers();
 
         for (let layer of layers) {
-            switch (layer.feature.geometry.type) {
+            switch (layer.toGeoJSON().geometry.type) {
                 case 'Point':
+                case 'MultiPoint':
                     layer.refreshIconOptions(
                         MapUi.buildMarkerLayerIconOptions( layerModel )
                     );
                     break;
                 case 'LineString':
+                case 'MultiLineString':
                     layer.setStyle(
                         MapUi.buildLayerPolylineStyle( layerModel )
                     );
                     break;
                 case 'Polygon':
+                case 'MultiPolygon':
                     layer.setStyle(
                         MapUi.buildLayerPolygonStyle( layerModel )
                     );
