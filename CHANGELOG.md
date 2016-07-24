@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.10
+
+* Gives style to all the feature types.
+
 ## 0.10.9
 
 * Fixes the fullscreen handling.
