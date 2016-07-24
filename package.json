@@ -62,7 +62,7 @@
     "ionicons": "^2.0.1",
     "jquery": "^2.1.4",
     "jquery-form": "^3.50.0",
-    "jquery-ui": "^1.10.5",
+    "jquery-ui": "1.10.5",
     "jquery-ui-touch-punch": "^0.2.3",
     "json-loader": "^0.5.4",
     "l20n": "^3.5.1",

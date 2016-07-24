@@ -3,6 +3,7 @@
 ## 0.10.9
 
 * Fixes the fullscreen handling.
+* Fixes the jquery-ui version.
 
 ## 0.10.8
 
