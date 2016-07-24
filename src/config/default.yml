@@ -30,7 +30,7 @@ client:
 
     shareIframeWidth: 100
     shareIframeWidthUnit: '%'
-    shareIframeHeight: 400
+    shareIframeHeight: 500
     shareIframeHeightUnit: px
 
     newPoiMarkerShape: marker3

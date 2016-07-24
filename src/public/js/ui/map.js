@@ -118,12 +118,31 @@ export default class MapUi {
      * @author Guillaume AMAT
      * @static
      * @access public
-     * @param {string} layerModel - Model of the POI layer which we request its icon.
+     * @param {string} layerModel - Model of the polyline's POI layer.
      * @return {object} - The polyline options.
      */
     static buildLayerPolylineStyle (layerModel) {
         let style = _.extend(
             CONST.map.wayPolylineOptions,
+            { 'color': CONST.colors[ layerModel.get('color') ] }
+        );
+
+        return style;
+    }
+
+
+    /**
+     * Returns the layer polygon options.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {string} layerModel - Model of the polygon's POI layer.
+     * @return {object} - The polygon options.
+     */
+    static buildLayerPolygonStyle (layerModel) {
+        let style = _.extend(
+            CONST.map.wayPolygonOptions,
             { 'color': CONST.colors[ layerModel.get('color') ] }
         );
 
