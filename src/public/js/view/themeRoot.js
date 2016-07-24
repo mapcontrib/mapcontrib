@@ -1580,6 +1580,7 @@ export default Marionette.LayoutView.extend({
     _displayInfo: function (e) {
         const layer = e.target;
         const dataEditable = layer._layerModel.get('dataEditable');
+        const layerType = layer._layerModel.get('type');
         const isLogged = this._app.isLogged();
         const content = InfoDisplay.buildContent(
             layer._layerModel,
@@ -1595,6 +1596,10 @@ export default Marionette.LayoutView.extend({
         );
 
         if ( !content && !dataEditable ) {
+            return false;
+        }
+
+        if ( !content && layerType !== CONST.layerType.overpass ) {
             return false;
         }
 
