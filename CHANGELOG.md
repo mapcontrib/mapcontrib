@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.9
+
+* Fixes the fullscreen handling.
+* Fixes the jquery-ui version.
+* Sets the iframe height to 500 pixels.
+* Fixes the polygon styles.
+* Don't display empty modals/columns.
+
 ## 0.10.8
 
 * Fixes the zoomChanged bindings.

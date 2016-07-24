@@ -10,7 +10,6 @@ import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import MarkerCluster from 'leaflet.markercluster';
 import Omnivore from 'leaflet-omnivore';
-import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
 import ThemeTitleView from './themeTitle';
 import InfoDisplayModalView from './infoDisplayModal';
@@ -55,6 +54,7 @@ import InfoDisplay from '../core/infoDisplay';
 import OverPassHelper from '../helper/overPass';
 import GeoJsonHelper from '../helper/geoJson';
 import MarkedHelper from '../helper/marked';
+import FullscreenHelper from '../helper/fullscreen';
 
 import template from '../../templates/themeRoot.ejs';
 
@@ -335,19 +335,24 @@ export default Marionette.LayoutView.extend({
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
 
-        if ( !this._document.fullscreenEnabled) {
+        const fullscreenSupport = FullscreenHelper.isFullscreenAPISupported( this._document );
+
+        if ( !fullscreenSupport ) {
             this.ui.expandScreenButton.addClass('hide');
             this.ui.compressScreenButton.addClass('hide');
         }
 
-        $(this._window).on('fullscreenchange', () => {
-            if ( this._document.fullscreenElement ) {
+        FullscreenHelper.onFullscreenChange(window, () => {
+            const fullscreenElement = FullscreenHelper.getFullscreenElement(this._document);
+
+            if ( fullscreenElement ) {
                 this.onExpandScreen();
             }
             else {
                 this.onCompressScreen();
             }
         });
+
 
         this.ui.helpTextVersion.html(
             this._document.l10n.getSync(
@@ -733,7 +738,8 @@ export default Marionette.LayoutView.extend({
 
     _customizeDataAndDisplay: function (objects, markerCluster, layerModel, dataSource, hiddenLayer) {
         const icon = MapUi.buildLayerIcon( L, layerModel );
-        const style = MapUi.buildLayerPolylineStyle( layerModel );
+        const polygonStyle = MapUi.buildLayerPolygonStyle( layerModel );
+        const polylineStyle = MapUi.buildLayerPolylineStyle( layerModel );
 
         for (let i in objects) {
             let object = objects[i];
@@ -776,11 +782,16 @@ export default Marionette.LayoutView.extend({
 
             object.on('click', this._displayInfo, this);
 
-            if (object.feature.geometry.type === 'Point') {
-                object.setIcon( icon );
-            }
-            else {
-                object.setStyle( style );
+            switch (object.feature.geometry.type) {
+                case 'Point':
+                    object.setIcon( icon );
+                    break;
+                case 'LineString':
+                    object.setStyle( polylineStyle );
+                    break;
+                case 'Polygon':
+                    object.setStyle( polygonStyle );
+                    break;
             }
 
             markerCluster.addLayer(object);
@@ -827,19 +838,26 @@ export default Marionette.LayoutView.extend({
     },
 
     updateLayerStyles: function (layerModel) {
-        let markerCluster = this._markerClusters[ layerModel.cid ];
-        let layers = markerCluster.getLayers();
+        const markerCluster = this._markerClusters[ layerModel.cid ];
+        const layers = markerCluster.getLayers();
 
         for (let layer of layers) {
-            if (layer.feature.geometry.type === 'Point') {
-                layer.refreshIconOptions(
-                    MapUi.buildMarkerLayerIconOptions( layerModel )
-                );
-            }
-            else {
-                layer.setStyle(
-                    MapUi.buildLayerPolylineStyle( layerModel )
-                );
+            switch (layer.feature.geometry.type) {
+                case 'Point':
+                    layer.refreshIconOptions(
+                        MapUi.buildMarkerLayerIconOptions( layerModel )
+                    );
+                    break;
+                case 'LineString':
+                    layer.setStyle(
+                        MapUi.buildLayerPolylineStyle( layerModel )
+                    );
+                    break;
+                case 'Polygon':
+                    layer.setStyle(
+                        MapUi.buildLayerPolygonStyle( layerModel )
+                    );
+                    break;
             }
         }
 
@@ -1347,11 +1365,13 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickExpandScreen: function () {
-        this._document.documentElement.requestFullscreen();
+        FullscreenHelper.requestFullscreen(
+            this._document.documentElement
+        );
     },
 
     onClickCompressScreen: function () {
-        this._document.exitFullscreen();
+        FullscreenHelper.exitFullscreen( this._document );
     },
 
     onExpandScreen: function () {
@@ -1560,6 +1580,7 @@ export default Marionette.LayoutView.extend({
     _displayInfo: function (e) {
         const layer = e.target;
         const dataEditable = layer._layerModel.get('dataEditable');
+        const layerType = layer._layerModel.get('type');
         const isLogged = this._app.isLogged();
         const content = InfoDisplay.buildContent(
             layer._layerModel,
@@ -1575,6 +1596,10 @@ export default Marionette.LayoutView.extend({
         );
 
         if ( !content && !dataEditable ) {
+            return false;
+        }
+
+        if ( !content && layerType !== CONST.layerType.overpass ) {
             return false;
         }
 
