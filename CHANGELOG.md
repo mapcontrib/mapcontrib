@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.9
+
+* Fixes the fullscreen handling.
+
 ## 0.10.8
 
 * Fixes the zoomChanged bindings.

@@ -10,7 +10,6 @@ import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import MarkerCluster from 'leaflet.markercluster';
 import Omnivore from 'leaflet-omnivore';
-import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
 import ThemeTitleView from './themeTitle';
 import InfoDisplayModalView from './infoDisplayModal';
@@ -55,6 +54,7 @@ import InfoDisplay from '../core/infoDisplay';
 import OverPassHelper from '../helper/overPass';
 import GeoJsonHelper from '../helper/geoJson';
 import MarkedHelper from '../helper/marked';
+import FullscreenHelper from '../helper/fullscreen';
 
 import template from '../../templates/themeRoot.ejs';
 
@@ -335,19 +335,24 @@ export default Marionette.LayoutView.extend({
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
 
-        if ( !this._document.fullscreenEnabled) {
+        const fullscreenSupport = FullscreenHelper.isFullscreenAPISupported( this._document );
+
+        if ( !fullscreenSupport ) {
             this.ui.expandScreenButton.addClass('hide');
             this.ui.compressScreenButton.addClass('hide');
         }
 
-        $(this._window).on('fullscreenchange', () => {
-            if ( this._document.fullscreenElement ) {
+        FullscreenHelper.onFullscreenChange(window, () => {
+            const fullscreenElement = FullscreenHelper.getFullscreenElement(this._document);
+
+            if ( fullscreenElement ) {
                 this.onExpandScreen();
             }
             else {
                 this.onCompressScreen();
             }
         });
+
 
         this.ui.helpTextVersion.html(
             this._document.l10n.getSync(
@@ -1347,11 +1352,13 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickExpandScreen: function () {
-        this._document.documentElement.requestFullscreen();
+        FullscreenHelper.requestFullscreen(
+            this._document.documentElement
+        );
     },
 
     onClickCompressScreen: function () {
-        this._document.exitFullscreen();
+        FullscreenHelper.exitFullscreen( this._document );
     },
 
     onExpandScreen: function () {
