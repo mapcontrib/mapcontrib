@@ -269,6 +269,8 @@
 <uiFormNodeTags_value placeholder:"Valore">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
 <uiFormNodeTags_valueReadOnly "Valore in sola lettura">
+<uiFormNodeTags_nonOsmData "Do not send this tag to OSM"> /* FIXME */
+<uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap"> /* FIXME */
 
 
 /* Color selector UI */
@@ -322,4 +324,10 @@
 
 /* Temporary layers column */
 <tempLayerListColumn_title "Livelli temporanei">
-<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib.">
+<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib."> /* FIXME */
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Tipo di nodo">
+<editPoiPresetColumn_noThanks "No thanks"> /* FIXME */
+<editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?"> /* FIXME */

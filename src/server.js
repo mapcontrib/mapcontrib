@@ -42,8 +42,8 @@ if (!config.get('client.oauthSecret')) {
 
 
 
-let MongoStore = connectMongo(session);
-let app = express();
+const MongoStore = connectMongo(session);
+const app = express();
 
 
 
@@ -84,14 +84,29 @@ if (app.get('env') !== 'production') {
 
 
 
-let database = new Database();
+const database = new Database();
+let connectionTries = 0;
 
-database.connect((err, db) => {
+database.connect( databaseConnectCallback );
+
+function databaseConnectCallback (err, db) {
+    connectionTries++;
+
     if(err) {
-        throw err;
+        if (connectionTries > 10) {
+            logger.error('Connection to the database failed after 10 tries.');
+            return process.exit(1);
+        }
+        else {
+            logger.warn(err.message);
+            return setTimeout(
+                database.connect( databaseConnectCallback ),
+                1000
+            );
+        }
     }
 
-    let migrate = new Migrate(db, CONST);
+    const migrate = new Migrate(db, CONST);
 
     migrate.start()
     .then(() => {
@@ -99,8 +114,7 @@ database.connect((err, db) => {
         new Api(app, db, CONST, packageJson);
     })
     .catch(throwError);
-});
-
+}
 
 
 
@@ -109,7 +123,7 @@ app.get('/theme-s8c2d4', (req, res) => {
 });
 
 
-let port = app.get('port');
+const port = app.get('port');
 
 app.listen(port, () => {
     logger.info(`MapContrib ${packageJson.version} is up on the port ${port}`);

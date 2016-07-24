@@ -410,8 +410,8 @@ export default class OsmEdit{
                 }
             )
             .then(
-                version => {
-                    resolve(version);
+                response => {
+                    resolve(response);
                 },
                 err => {
                     reject(err);
@@ -638,6 +638,9 @@ export default class OsmEdit{
         }
 
         return new Promise((resolve, reject) => {
+            resolve('33000');
+        });
+        return new Promise((resolve, reject) => {
             this._auth.xhr({
                 'method': method,
                 'path': path,
@@ -648,13 +651,13 @@ export default class OsmEdit{
                 },
                 'content': xml,
             },
-            (err, version) => {
+            (err, response) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                resolve(version);
+                resolve(response);
             });
         });
     }

@@ -34,10 +34,11 @@ export default class InfoDisplay {
      * @access public
      * @param {object} layerModel - Element's layer.
      * @param {object} feature - Element's geoJson representation.
+     * @param {array} nonOsmTags - Non OSM tags related to the OSM element.
      * @param {boolean} feature - Is the user logged?
      * @returns {string}
      */
-    static buildContent (layerModel, feature, isLogged) {
+    static buildContent (layerModel, feature, nonOsmTags, isLogged) {
         const dataEditable = layerModel.get('dataEditable');
         let content = layerModel.get('popupContent');
         let data;
@@ -58,7 +59,26 @@ export default class InfoDisplay {
             }
         }
 
-        for (var k in data) {
+        content = content.replace(
+            new RegExp('{id}', 'g'),
+            feature.properties.id
+        );
+
+        content = content.replace(
+            new RegExp('{type}', 'g'),
+            feature.properties.type
+        );
+
+        for (const i in nonOsmTags) {
+            const tag = nonOsmTags[i];
+
+            content = content.replace(
+                new RegExp('{'+ tag.key +'}', 'g'),
+                tag.value
+            );
+        }
+
+        for (const k in data) {
             content = content.replace(
                 new RegExp('{'+ k +'}', 'g'),
                 data[k]

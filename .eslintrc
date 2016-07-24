@@ -1,0 +1,12 @@
+{
+    "parser": "babel-eslint",
+    "ecmaFeatures": {
+        "classes": true
+    },
+    "rules": {
+        "indent": [1],
+        "no-console": 0,
+        "object-curly-spacing": 0,
+        "no-spaced-func": 0
+    }
+}

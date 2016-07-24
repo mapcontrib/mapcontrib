@@ -36,14 +36,14 @@ export default Marionette.ItemView.extend({
     onRender: function () {
         document.l10n.localizeNode( this.el );
 
+        this.ui.nonOsmData.prop(
+            'checked',
+            this.model.get('nonOsmData')
+        );
+
         this.ui.keyReadOnly.prop(
             'checked',
             this.model.get('keyReadOnly')
-        );
-
-        this.ui.valueReadOnly.prop(
-            'disabled',
-            !this.model.get('keyReadOnly')
         );
 
         this.ui.valueReadOnly.prop(
@@ -51,10 +51,9 @@ export default Marionette.ItemView.extend({
             this.model.get('valueReadOnly')
         );
 
-        this.ui.nonOsmData.prop(
-            'checked',
-            this.model.get('nonOsmData')
-        );
+        this.onChangeValueReadOnly();
+        this.onChangeKeyReadOnly();
+        this.onChangeNonOsmData();
 
         this.renderTagInfo();
     },
@@ -88,6 +87,10 @@ export default Marionette.ItemView.extend({
             'disabled',
             !this.model.get('keyReadOnly')
         );
+
+        if ( !this.model.get('keyReadOnly') ) {
+            this.ui.valueReadOnly.prop('checked', false);
+        }
     },
 
     onChangeValueReadOnly: function (e) {
@@ -96,6 +99,19 @@ export default Marionette.ItemView.extend({
 
     onChangeNonOsmData: function (e) {
         this.model.set('nonOsmData', this.ui.nonOsmData.prop('checked'));
+
+        this.ui.keyReadOnly
+        .prop('checked', true)
+        .prop(
+            'disabled',
+            this.model.get('nonOsmData')
+        );
+        this.ui.valueReadOnly
+        .prop('checked', false)
+        .prop(
+            'disabled',
+            this.model.get('nonOsmData')
+        );
     },
 
     onClickRemoveBtn: function (e) {

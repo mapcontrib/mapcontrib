@@ -39,17 +39,6 @@ export default Marionette.CollectionView.extend({
     },
 
     getTags: function () {
-        let rawTags = this.collection.toJSON();
-        let tags = {};
-
-        for (let tag of rawTags) {
-            if (!tag.key || !tag.value) {
-                continue;
-            }
-
-            tags[tag.key] = tag.value;
-        }
-
-        return tags;
+        return this.collection.toJSON();
     },
 });

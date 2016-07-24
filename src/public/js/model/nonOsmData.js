@@ -1,8 +1,13 @@
 
 import Backbone from 'backbone';
+import CONST from '../const';
 
 
 export default Backbone.Model.extend({
+    idAttribute: '_id',
+
+    urlRoot: CONST.apiPath + 'nonOsmData',
+
     defaults: {
         'creationDate': new Date().toISOString(),
         'modificationDate': new Date().toISOString(),

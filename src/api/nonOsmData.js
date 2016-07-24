@@ -19,17 +19,9 @@ function setOptions (hash) {
 
 class Api {
     static post (req, res) {
-        if (!req.session.user) {
-            res.sendStatus(401);
-        }
-
-        if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
-            return res.sendStatus(400);
-        }
-
         const collection = options.database.collection('nonOsmData');
         const new_json = req.body;
-        const model = new ThemeModel(new_json);
+        const model = new NonOsmDataModel(new_json);
 
         if ( !model.isValid() ) {
             return res.sendStatus(400);
@@ -61,7 +53,7 @@ class Api {
             return true;
         }
 
-        let collection = options.database.collection('theme');
+        const collection = options.database.collection('nonOsmData');
 
         collection.find({
             '_id':  new ObjectID(req.params._id)
@@ -79,7 +71,7 @@ class Api {
                 return true;
             }
 
-            let result = results[0];
+            const result = results[0];
             result._id = result._id.toString();
 
             res.send(result);
@@ -88,22 +80,13 @@ class Api {
 
 
     static getAll (req, res) {
-        let collection = options.database.collection('theme');
-        let filters = {};
+        const collection = options.database.collection('nonOsmData');
+        const filters = {};
 
-        if (req.query.hasLayer) {
-            filters.layers = {
-                '$exists': true,
-                '$not': {
-                    '$size': 0
-                }
-            };
-        }
-
-        if ( req.query.fragment ) {
-            Api.findFromFragment(req.query.fragment)
-            .then((theme) => {
-                res.send(theme);
+        if ( req.query.themeFragment ) {
+            Api.findFromFragment(req.query.themeFragment)
+            .then((models) => {
+                res.send(models);
             })
             .catch((errorCode) => {
                 res.sendStatus(errorCode);
@@ -123,76 +106,12 @@ class Api {
                 return true;
             }
 
-            if (results.length > 0) {
-                results.forEach((result) => {
+            res.send(
+                results.map(result => {
                     result._id = result._id.toString();
-                });
-            }
-
-            if ( req.query.fragment ) {
-                if (results.length === 0) {
-                    res.sendStatus(404);
-
-                    return true;
-                }
-
-                res.send(results[0]);
-
-                return true;
-            }
-            else if ( req.query.q ) {
-                if (req.query.q.length < 3) {
-                    res.status(400).send('Query too short');
-                    return;
-                }
-
-                let searchFields = [];
-
-                for (let theme of results) {
-                    let layerfields = [];
-
-                    for (let layer of theme.layers) {
-                        layerfields.push([
-                            layer.name,
-                            layer.description,
-                            layer.overpassRequest
-                        ].join(' '));
-                    }
-
-                    searchFields.push({
-                        'name': theme.name,
-                        'description': theme.description,
-                        'fragment': theme.fragment,
-                        'layers': layerfields.join(' '),
-                    });
-                }
-
-                let searchResults = [];
-                let sifter = new Sifter(searchFields);
-                let sifterResults = sifter.search(
-                    req.query.q,
-                    {
-                        'fields': [
-                            'name',
-                            'description',
-                            'fragment',
-                            'layers',
-                        ],
-                        'limit': 30
-                    }
-                );
-
-                for (let result of sifterResults.items) {
-                    searchResults.push(
-                        results[ result.id ]
-                    );
-                }
-
-                res.send(searchResults);
-            }
-            else {
-                res.send(results);
-            }
+                    return result;
+                })
+            );
         });
     }
 
@@ -214,11 +133,12 @@ class Api {
                     return reject(500);
                 }
 
-                for (const result of results) {
-                    result._id = result._id.toString();
-                }
-
-                resolve(results);
+                resolve(
+                    results.map(result => {
+                        result._id = result._id.toString();
+                        return result;
+                    })
+                );
             });
         });
     }
@@ -231,17 +151,9 @@ class Api {
             return true;
         }
 
-        if ( !Api.isThemeOwner(req, res, req.params._id) ) {
-            res.sendStatus(401);
-
-            return true;
-        }
-
-        Backbone.Relational.store.reset();
-
-        let new_json = req.body,
-        collection = options.database.collection('theme'),
-        model = new ThemeModel(new_json);
+        const new_json = req.body;
+        const collection = options.database.collection('nonOsmData');
+        const model = new NonOsmDataModel(new_json);
 
         if ( !model.isValid() ) {
             res.sendStatus(400);
@@ -262,8 +174,6 @@ class Api {
 
                 return true;
             }
-
-            options.fileApi.cleanThemeFiles(model);
 
             res.send({});
         });

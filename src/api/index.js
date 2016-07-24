@@ -36,6 +36,11 @@ export default function Api(app, db, CONST, packageJson){
     app.put('/api/theme/:_id', isLoggedIn, themeApi.Api.put);
     // app.delete('/api/theme/:_id', isLoggedIn, themeApi.Api.delete);
 
+    app.get('/api/nonOsmData', nonOsmDataApi.Api.getAll);
+    app.get('/api/nonOsmData/:_id', nonOsmDataApi.Api.get);
+    app.post('/api/nonOsmData', isLoggedIn, nonOsmDataApi.Api.post);
+    app.put('/api/nonOsmData/:_id', isLoggedIn, nonOsmDataApi.Api.put);
+
     app.get('/', (req, res) => {
         let clientConfig = config.get('client');
         let templateVars = {
