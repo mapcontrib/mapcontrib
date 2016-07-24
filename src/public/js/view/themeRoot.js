@@ -56,7 +56,6 @@ import PresetModel from '../model/preset';
 
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
-import Cache from '../core/cache';
 import OsmData from '../core/osmData';
 import InfoDisplay from '../core/infoDisplay';
 import OverPassHelper from '../helper/overPass';
@@ -181,6 +180,7 @@ export default Marionette.LayoutView.extend({
         this._tempLayerCollection = new LayerCollection();
         this._presetCollection = this.model.get('presets');
         this._nonOsmData = this._app.getNonOsmData();
+        this._osmCache = this._app.getOsmCache();
 
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
@@ -205,6 +205,9 @@ export default Marionette.LayoutView.extend({
             },
             'nonOsmData': () => {
                 return this._nonOsmData;
+            },
+            'osmCache': () => {
+                return this._osmCache;
             },
             'theme:fragment': () => {
                 return this.model.get('fragment');
@@ -893,14 +896,19 @@ export default Marionette.LayoutView.extend({
             const id = GeoJsonHelper.findOsmId(object.feature);
             const type = GeoJsonHelper.findOsmType(object.feature);
             const version = GeoJsonHelper.findOsmVersion(object.feature);
+            const osmCacheModel = this._osmCache.findWhere({
+                'themeFragment': this.model.get('fragment'),
+                'osmId': id,
+                'osmType': type,
+            });
 
-            if (Cache.exists(type, id)) {
-                if (Cache.isNewerThanCache(type, id, version)) {
-                    Cache.remove(type, id);
+            if ( osmCacheModel ) {
+                if ( osmCacheModel.get('osmVersion') < version) {
+                    osmCacheModel.destroy();
                 }
                 else {
                     object.feature = osmtogeojson({
-                        'elements': [Cache.get(type, id, version)]
+                        'elements': [ osmCacheModel.get('osmOverPassElement') ]
                     }).features[0];
 
                     if (object.feature.geometry.type === 'Point') {

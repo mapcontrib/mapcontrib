@@ -635,6 +635,9 @@ export default class OsmEdit{
         }
 
         return new Promise((resolve, reject) => {
+            resolve(3333);
+        });
+        return new Promise((resolve, reject) => {
             this._auth.xhr({
                 'method': method,
                 'path': path,

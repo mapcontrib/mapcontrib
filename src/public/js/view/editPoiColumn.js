@@ -8,10 +8,10 @@ import OsmEditHelper from '../helper/osmEdit.js';
 import CONST from '../const';
 import template from '../../templates/editPoiColumn.ejs';
 import ContribNodeTagsListView from '../ui/form/contribNodeTags';
-import Cache from '../core/cache';
 import InfoDisplay from '../core/infoDisplay';
 import MovePoiContextual from './movePoiContextual';
 import NonOsmDataModel from '../model/nonOsmData';
+import OsmCacheModel from '../model/osmCache';
 
 
 
@@ -54,6 +54,7 @@ export default Marionette.LayoutView.extend({
 
         this._theme = this._radio.reqres.request('theme');
         this._nonOsmData = this._radio.reqres.request('nonOsmData');
+        this._osmCache = this._radio.reqres.request('osmCache');
 
 
         this._contributionSent = false;
@@ -121,7 +122,6 @@ export default Marionette.LayoutView.extend({
                 'themeFragment': this._theme.get('fragment'),
                 'osmId': this.options.osmId,
                 'osmType': this.options.osmType,
-                'userId': this._user.get('osmId'),
             });
             this._nonOsmData.add( this._nonOsmDataModel );
         }
@@ -129,6 +129,31 @@ export default Marionette.LayoutView.extend({
             promises.push(
                 new Promise((resolve, reject) => {
                     this._nonOsmDataModel.fetch({
+                        'success': model => resolve(model),
+                        'error': (model, response) => reject(response),
+                    });
+                })
+            );
+        }
+
+        this._osmCacheModel = this._osmCache.findWhere({
+            'themeFragment': this._theme.get('fragment'),
+            'osmId': this.options.osmId,
+            'osmType': this.options.osmType,
+        });
+
+        if ( !this._osmCacheModel ) {
+            this._osmCacheModel = new OsmCacheModel({
+                'themeFragment': this._theme.get('fragment'),
+                'osmId': this.options.osmId,
+                'osmType': this.options.osmType,
+            });
+            this._osmCache.add( this._osmCacheModel );
+        }
+        else {
+            promises.push(
+                new Promise((resolve, reject) => {
+                    this._osmCacheModel.fetch({
                         'success': model => resolve(model),
                         'error': (model, response) => reject(response),
                     });
@@ -149,13 +174,10 @@ export default Marionette.LayoutView.extend({
             const type = osmEdit.getType();
             const id = osmEdit.getId();
 
-            if (Cache.exists(type, id)) {
-                if (Cache.isNewerThanCache(type, id, version)) {
-                    Cache.remove(type, id);
-                }
-                else {
-                    osmEdit.setElement( Cache.getOsmElement(type, id) );
-                }
+            if ( this._osmCacheModel.get('osmVersion') > version ) {
+                osmEdit.setElement(
+                    this._osmCacheModel.get('osmElement')
+                );
             }
 
             this.renderTags( osmEdit.getTags() );
@@ -277,6 +299,7 @@ export default Marionette.LayoutView.extend({
 
         this._nonOsmDataModel.updateModificationDate();
         this._nonOsmDataModel.set('tags', nonOsmTags);
+        this._nonOsmDataModel.set('userId', this._user.get('osmId'));
         this._nonOsmDataModel.save();
 
         this._osmEdit.setChangesetCreatedBy(createdBy);
@@ -285,7 +308,6 @@ export default Marionette.LayoutView.extend({
         this._osmEdit.setTags( osmTags );
         this._osmEdit.setUid(this._user.get('osmId'));
         this._osmEdit.setDisplayName(this._user.get('displayName'));
-
 
         this.sendContributionToOSM();
     },
@@ -313,8 +335,12 @@ export default Marionette.LayoutView.extend({
                 overPassElement
             );
 
-            Cache.save(overPassElement);
-            Cache.saveOsmElement(this._osmEdit.getElement());
+            this._osmCacheModel.updateModificationDate();
+            this._osmCacheModel.set('userId', this._user.get('osmId'));
+            this._osmCacheModel.set('osmVersion', version);
+            this._osmCacheModel.set('osmOverPassElement', overPassElement);
+            this._osmCacheModel.set('osmElement', this._osmEdit.getElement());
+            this._osmCacheModel.save();
         })
         .catch((err) => {
             new ContributionErrorNotificationView({

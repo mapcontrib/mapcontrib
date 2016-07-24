@@ -85,25 +85,10 @@ if (app.get('env') !== 'production') {
 
 
 const database = new Database();
-let connectionTries = 0;
 
-database.connect( databaseConnectCallback );
-
-function databaseConnectCallback (err, db) {
-    connectionTries++;
-
+database.connect((err, db) => {
     if(err) {
-        if (connectionTries > 10) {
-            logger.error('Connection to the database failed after 10 tries.');
-            return process.exit(1);
-        }
-        else {
-            logger.warn(err.message);
-            return setTimeout(
-                database.connect( databaseConnectCallback ),
-                1000
-            );
-        }
+        throw err;
     }
 
     const migrate = new Migrate(db, CONST);
@@ -114,7 +99,8 @@ function databaseConnectCallback (err, db) {
         new Api(app, db, CONST, packageJson);
     })
     .catch(throwError);
-}
+});
+
 
 
 
