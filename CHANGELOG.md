@@ -5,6 +5,7 @@
 * Fixes the fullscreen handling.
 * Fixes the jquery-ui version.
 * Sets the iframe height to 500 pixels.
+* Fixes the polygon styles.
 
 ## 0.10.8
 

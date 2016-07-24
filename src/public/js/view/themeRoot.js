@@ -738,7 +738,8 @@ export default Marionette.LayoutView.extend({
 
     _customizeDataAndDisplay: function (objects, markerCluster, layerModel, dataSource, hiddenLayer) {
         const icon = MapUi.buildLayerIcon( L, layerModel );
-        const style = MapUi.buildLayerPolylineStyle( layerModel );
+        const polygonStyle = MapUi.buildLayerPolygonStyle( layerModel );
+        const polylineStyle = MapUi.buildLayerPolylineStyle( layerModel );
 
         for (let i in objects) {
             let object = objects[i];
@@ -781,11 +782,16 @@ export default Marionette.LayoutView.extend({
 
             object.on('click', this._displayInfo, this);
 
-            if (object.feature.geometry.type === 'Point') {
-                object.setIcon( icon );
-            }
-            else {
-                object.setStyle( style );
+            switch (object.feature.geometry.type) {
+                case 'Point':
+                    object.setIcon( icon );
+                    break;
+                case 'LineString':
+                    object.setStyle( polylineStyle );
+                    break;
+                case 'Polygon':
+                    object.setStyle( polygonStyle );
+                    break;
             }
 
             markerCluster.addLayer(object);
@@ -832,19 +838,26 @@ export default Marionette.LayoutView.extend({
     },
 
     updateLayerStyles: function (layerModel) {
-        let markerCluster = this._markerClusters[ layerModel.cid ];
-        let layers = markerCluster.getLayers();
+        const markerCluster = this._markerClusters[ layerModel.cid ];
+        const layers = markerCluster.getLayers();
 
         for (let layer of layers) {
-            if (layer.feature.geometry.type === 'Point') {
-                layer.refreshIconOptions(
-                    MapUi.buildMarkerLayerIconOptions( layerModel )
-                );
-            }
-            else {
-                layer.setStyle(
-                    MapUi.buildLayerPolylineStyle( layerModel )
-                );
+            switch (layer.feature.geometry.type) {
+                case 'Point':
+                    layer.refreshIconOptions(
+                        MapUi.buildMarkerLayerIconOptions( layerModel )
+                    );
+                    break;
+                case 'LineString':
+                    layer.setStyle(
+                        MapUi.buildLayerPolylineStyle( layerModel )
+                    );
+                    break;
+                case 'Polygon':
+                    layer.setStyle(
+                        MapUi.buildLayerPolygonStyle( layerModel )
+                    );
+                    break;
             }
         }
 
