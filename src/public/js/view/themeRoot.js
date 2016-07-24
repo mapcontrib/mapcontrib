@@ -192,6 +192,7 @@ export default Marionette.LayoutView.extend({
         this._osmData = new OsmData();
         this._markerClusters = {};
         this._overPassLayers = {};
+        this._markersWithoutLayers = {};
 
         this._radio = Wreqr.radio.channel('global');
 
@@ -500,6 +501,35 @@ export default Marionette.LayoutView.extend({
                 this.addLayer( layerModel, true );
             }
         }, this);
+
+
+        const newerOsmCacheModels = this._osmCache.where({'osmVersion': 0});
+        
+        for (const i in newerOsmCacheModels) {
+            const osmCacheModel = newerOsmCacheModels[i];
+            const osmElement = osmCacheModel.get('osmElement');
+            const id = osmCacheModel.get('osmId');
+            const type = osmCacheModel.get('osmType');
+            const longId = `${type}/${id}`;
+            const pos = new L.LatLng(
+                osmElement.attributes.lat,
+                osmElement.attributes.lon
+            );
+
+            const icon = MapUi.buildLayerIcon(
+                L,
+                new LayerModel({
+                    'markerShape': MAPCONTRIB.config.newPoiMarkerShape,
+                    'markerIconType': CONST.map.markerIconType.library,
+                    'markerIcon': MAPCONTRIB.config.newPoiMarkerIcon,
+                    'markerColor': MAPCONTRIB.config.newPoiMarkerColor
+                })
+            );
+
+            this._markersWithoutLayers[longId] = L.marker(pos, { icon });
+
+            this._map.addLayer( this._markersWithoutLayers[longId] );
+        }
 
 
         this.updateMinDataZoom();
@@ -895,6 +925,7 @@ export default Marionette.LayoutView.extend({
             let object = objects[i];
             const id = GeoJsonHelper.findOsmId(object.feature);
             const type = GeoJsonHelper.findOsmType(object.feature);
+            const longId = `${type}/${id}`;
             const version = GeoJsonHelper.findOsmVersion(object.feature);
             const osmCacheModel = this._osmCache.findWhere({
                 'themeFragment': this.model.get('fragment'),
@@ -902,13 +933,17 @@ export default Marionette.LayoutView.extend({
                 'osmType': type,
             });
 
+            if ( this._markersWithoutLayers[longId] ) {
+                this._map.removeLayer( this._markersWithoutLayers[longId] );
+            }
+
             if ( osmCacheModel ) {
                 if ( osmCacheModel.get('osmVersion') < version) {
                     osmCacheModel.destroy();
                 }
                 else {
                     object.feature = osmtogeojson({
-                        'elements': [ osmCacheModel.get('osmOverPassElement') ]
+                        'elements': [ osmCacheModel.get('overPassElement') ]
                     }).features[0];
 
                     if (object.feature.geometry.type === 'Point') {

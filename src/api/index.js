@@ -47,7 +47,7 @@ export default function Api(app, db, CONST, packageJson){
     app.get('/api/osmCache/:_id', osmCacheApi.Api.get);
     app.post('/api/osmCache', isLoggedIn, osmCacheApi.Api.post);
     app.put('/api/osmCache/:_id', isLoggedIn, osmCacheApi.Api.put);
-    app.delete('/api/osmCache/:_id', isLoggedIn, osmCacheApi.Api.delete);
+    app.delete('/api/osmCache/:_id', osmCacheApi.Api.delete);
 
     app.get('/', (req, res) => {
         let clientConfig = config.get('client');

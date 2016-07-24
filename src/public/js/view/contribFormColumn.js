@@ -8,6 +8,7 @@ import osmAuth from 'osm-auth';
 import OsmEditHelper from '../helper/osmEdit.js';
 import LayerModel from '../model/layer';
 import NonOsmDataModel from '../model/nonOsmData';
+import OsmCacheModel from '../model/osmCache';
 import CONST from '../const';
 import MapUi from '../ui/map';
 import L from 'leaflet';
@@ -41,9 +42,7 @@ export default Marionette.LayoutView.extend({
         this._map = this._radio.reqres.request('map');
         this._theme = this._radio.reqres.request('theme');
         this._nonOsmData = this._radio.reqres.request('nonOsmData');
-
-        this._nonOsmDataModel = new NonOsmDataModel();
-        this._nonOsmData.add( this._nonOsmDataModel );
+        this._osmCache = this._radio.reqres.request('osmCache');
 
         this._user = this.options.user;
         this._center = this.options.center;
@@ -148,6 +147,8 @@ export default Marionette.LayoutView.extend({
             }
         }
 
+
+        this._nonOsmDataModel = new NonOsmDataModel();
         this._nonOsmDataModel.updateModificationDate();
         this._nonOsmDataModel.set('osmType', 'node');
         this._nonOsmDataModel.set('userId', this.options.user.get('osmId'));
@@ -174,7 +175,22 @@ export default Marionette.LayoutView.extend({
             this._contributionSent = true;
 
             this._nonOsmDataModel.set('osmId', osmId);
+
+            this._osmCacheModel = new OsmCacheModel();
+            this._osmCacheModel.updateModificationDate();
+            this._osmCacheModel.set('osmId', osmId);
+            this._osmCacheModel.set('osmType', 'node');
+            this._osmCacheModel.set('osmVersion', 0);
+            this._osmCacheModel.set('osmElement', this._osmEdit.getElement());
+            this._osmCacheModel.set('overPassElement', this._osmEdit.getOverPassElement());
+            this._osmCacheModel.set('userId', this.options.user.get('osmId'));
+            this._osmCacheModel.set('themeFragment', this._theme.get('fragment'));
+
+            this._nonOsmData.add( this._nonOsmDataModel );
+            this._osmCache.add( this._osmCacheModel );
+
             this._nonOsmDataModel.save();
+            this._osmCacheModel.save();
 
             this.close();
         })

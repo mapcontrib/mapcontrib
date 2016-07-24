@@ -338,7 +338,7 @@ export default Marionette.LayoutView.extend({
             this._osmCacheModel.updateModificationDate();
             this._osmCacheModel.set('userId', this._user.get('osmId'));
             this._osmCacheModel.set('osmVersion', version);
-            this._osmCacheModel.set('osmOverPassElement', overPassElement);
+            this._osmCacheModel.set('overPassElement', overPassElement);
             this._osmCacheModel.set('osmElement', this._osmEdit.getElement());
             this._osmCacheModel.save();
         })

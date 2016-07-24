@@ -15,7 +15,7 @@ export default Backbone.Model.extend({
         'osmType': undefined,
         'osmVersion': 0,
         'osmElement': undefined,
-        'osmOverPassElement': undefined,
+        'overPassElement': undefined,
         'userId': undefined,
         'themeFragment': undefined,
     },
