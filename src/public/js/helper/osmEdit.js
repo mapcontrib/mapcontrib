@@ -628,18 +628,14 @@ export default class OsmEdit{
       * @return {promise}
       */
     _sendXml(changesetId) {
-        var data,
-        method = 'PUT',
-        path = `/api/0.6/${this._element.type}/create`,
-        xml = this._buildXml(changesetId);
+        const method = 'PUT';
+        const xml = this._buildXml(changesetId);
+        let path = `/api/0.6/${this._element.type}/create`;
 
         if (this._element.attributes.id) {
             path = `/api/0.6/${this._element.type}/${this._element.attributes.id}`;
         }
 
-        return new Promise((resolve, reject) => {
-            resolve('33000');
-        });
         return new Promise((resolve, reject) => {
             this._auth.xhr({
                 'method': method,
