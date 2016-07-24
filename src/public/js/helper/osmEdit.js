@@ -55,17 +55,15 @@ export default class OsmEdit{
      * @return {object}
      */
     getOverPassElement() {
-        let element = _.extend(
-            {
-                'type': this._element.type,
-                'tags': {}
-            },
-            this._element.attributes
-        );
+        const element = {
+            'type': this._element.type,
+            'tags': {},
+            ...this._element.attributes
+        };
 
-        for (let i in this._element.tags) {
-            let key = this._element.tags[i].k;
-            let value = this._element.tags[i].v;
+        for (const i in this._element.tags) {
+            const key = this._element.tags[i].k;
+            const value = this._element.tags[i].v;
             element.tags[ key ] = value;
         }
 
@@ -152,7 +150,7 @@ export default class OsmEdit{
     setTags(tags) {
         this._element.tags = [];
 
-        for (let key in tags) {
+        for (const key in tags) {
             if (tags.hasOwnProperty(key)) {
                 this._element.tags.push({
                     'k': key,
@@ -168,9 +166,9 @@ export default class OsmEdit{
      * @return {array}
      */
     getTags() {
-        let tags = {};
+        const tags = {};
 
-        for (let tag of this._element.tags) {
+        for (const tag of this._element.tags) {
             tags[ tag.k ] = tag.v;
         }
 
@@ -319,18 +317,18 @@ export default class OsmEdit{
                     return reject(errorThrown);
                 },
                 'success': (xml, jqXHR, textStatus) => {
-                    let parentElement = xml.getElementsByTagName(type)[0],
-                    tagElements = parentElement.getElementsByTagName('tag'),
-                    ndElements = parentElement.getElementsByTagName('nd'),
-                    memberElements = parentElement.getElementsByTagName('member');
+                    const parentElement = xml.getElementsByTagName(type)[0];
+                    const tagElements = parentElement.getElementsByTagName('tag');
+                    const ndElements = parentElement.getElementsByTagName('nd');
+                    const memberElements = parentElement.getElementsByTagName('member');
 
                     this._resetElement();
 
                     this.setType( parentElement.tagName );
 
                     for (let i = 0; i < parentElement.attributes.length; i++){
-                        let att = parentElement.attributes[i];
-                        let key = att.nodeName;
+                        const att = parentElement.attributes[i];
+                        const key = att.nodeName;
                         let value = att.nodeValue;
 
                         if ( this._intAttributes.indexOf(att.nodeName) > -1 ) {
@@ -345,7 +343,7 @@ export default class OsmEdit{
 
 
                     if (tagElements.length > 0) {
-                        for (let i in tagElements) {
+                        for (const i in tagElements) {
                             if (tagElements.hasOwnProperty(i)) {
                                 this._element.tags.push({
                                     'k': tagElements[i].getAttribute('k'),
@@ -356,7 +354,7 @@ export default class OsmEdit{
                     }
 
                     if (ndElements.length > 0) {
-                        for (let i in ndElements) {
+                        for (const i in ndElements) {
                             if (ndElements.hasOwnProperty(i)) {
                                 this._element.nds.push({
                                     'ref': ndElements[i].getAttribute('ref'),
@@ -366,10 +364,10 @@ export default class OsmEdit{
                     }
 
                     if (memberElements.length > 0) {
-                        for (let i in memberElements) {
+                        for (const i in memberElements) {
                             if (memberElements.hasOwnProperty(i)) {
                                 const role = memberElements[i].getAttribute('role');
-                                let data = {
+                                const data = {
                                     'type': memberElements[i].getAttribute('type'),
                                     'ref': memberElements[i].getAttribute('ref'),
                                 };
@@ -430,11 +428,11 @@ export default class OsmEdit{
      * @return {string} - The changeset XML.
      */
     _buildChangesetXml() {
-        var xml = new DOMImplementation().createDocument('', '', null),
-        osmElement = xml.createElement('osm'),
-        changesetElement = xml.createElement('changeset'),
-        createdByElement = xml.createElement('tag'),
-        commentElement = xml.createElement('tag');
+        const xml = new DOMImplementation().createDocument('', '', null);
+        const osmElement = xml.createElement('osm');
+        const changesetElement = xml.createElement('changeset');
+        const createdByElement = xml.createElement('tag');
+        const commentElement = xml.createElement('tag');
 
         createdByElement.setAttribute('k', 'created_by');
         createdByElement.setAttribute('v', this._changesetCreatedBy);
@@ -461,35 +459,35 @@ export default class OsmEdit{
      * @return {string} - The node XML.
      */
     _buildXml(changesetId) {
-        var xml = new DOMImplementation().createDocument('', '', null),
-        osmElement = xml.createElement('osm'),
-        parentElement = xml.createElement(this._element.type);
+        const xml = new DOMImplementation().createDocument('', '', null);
+        const osmElement = xml.createElement('osm');
+        const parentElement = xml.createElement(this._element.type);
 
         delete this._element.attributes.user;
 
         this._element.attributes.changeset = changesetId;
 
-        for (let key in this._element.attributes) {
+        for (const key in this._element.attributes) {
             parentElement.setAttribute(key, this._element.attributes[key]);
         }
 
-        for (let tag of this._element.tags) {
-            let tagElement = xml.createElement('tag');
+        for (const tag of this._element.tags) {
+            const tagElement = xml.createElement('tag');
 
             tagElement.setAttribute('k', tag.k);
             tagElement.setAttribute('v', tag.v);
             parentElement.appendChild(tagElement);
         }
 
-        for (let nd of this._element.nds) {
-            let ndElement = xml.createElement('nd');
+        for (const nd of this._element.nds) {
+            const ndElement = xml.createElement('nd');
 
             ndElement.setAttribute('ref', nd.ref);
             parentElement.appendChild(ndElement);
         }
 
-        for (let member of this._element.members) {
-            let memberElement = xml.createElement('member');
+        for (const member of this._element.members) {
+            const memberElement = xml.createElement('member');
 
             memberElement.setAttribute('type', member.type);
             memberElement.setAttribute('ref', member.ref);
@@ -517,7 +515,7 @@ export default class OsmEdit{
      * @return {promise}
      */
     _createChangeset() {
-        var changesetXml = this._buildChangesetXml(this._changesetCreatedBy, this._changesetComment);
+        const changesetXml = this._buildChangesetXml(this._changesetCreatedBy, this._changesetComment);
 
         return new Promise((resolve, reject) => {
             this._auth.xhr({
@@ -567,7 +565,7 @@ export default class OsmEdit{
                     return reject(err);
                 }
 
-                var isOpened = xml.getElementsByTagName('changeset')[0].getAttribute('open');
+                const isOpened = xml.getElementsByTagName('changeset')[0].getAttribute('open');
 
                 if (isOpened === 'false') {
                     return reject(err);
@@ -588,7 +586,7 @@ export default class OsmEdit{
      * @return {promise}
      */
     _getChangesetId() {
-        var changesetId = parseInt( sessionStorage.getItem('osmEdit-changesetId') );
+        const changesetId = parseInt( sessionStorage.getItem('osmEdit-changesetId') );
 
         if ( changesetId ) {
             return this._isChangesetStillOpen(changesetId)
@@ -673,20 +671,20 @@ export default class OsmEdit{
 
         overPassObject.type = this._element.type;
 
-        for (let key in this._element.attributes) {
+        for (const key in this._element.attributes) {
             overPassObject[key] = this._element.attributes[key];
         }
 
         overPassObject.tags = {};
 
-        for (let tag of this._element.tags) {
+        for (const tag of this._element.tags) {
             overPassObject.tags[tag.k] = tag.v;
         }
 
         if (this._element.type !== 'node') {
             overPassObject.nodes = [];
 
-            for (let nd of this._element.nds) {
+            for (const nd of this._element.nds) {
                 overPassObject.nodes.push(nd.ref);
             }
         }
@@ -694,8 +692,8 @@ export default class OsmEdit{
         if (this._element.type === 'relation') {
             overPassObject.members = [];
 
-            for (let member of this._element.members) {
-                let data = {
+            for (const member of this._element.members) {
+                const data = {
                     'type': member.type,
                     'ref': member.ref,
                 };
