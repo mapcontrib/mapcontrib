@@ -42,15 +42,19 @@ if (!config.get('client.oauthSecret')) {
 
 
 
-let MongoStore = connectMongo(session);
-let app = express();
+const MongoStore = connectMongo(session);
+const app = express();
 
 
 
 
 
 app.use(compression());
-app.use(helmet());
+app.use(
+    helmet({
+        frameguard: false
+    })
+);
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'views'));
@@ -80,14 +84,14 @@ if (app.get('env') !== 'production') {
 
 
 
-let database = new Database();
+const database = new Database();
 
 database.connect((err, db) => {
     if(err) {
         throw err;
     }
 
-    let migrate = new Migrate(db, CONST);
+    const migrate = new Migrate(db, CONST);
 
     migrate.start()
     .then(() => {
@@ -105,7 +109,7 @@ app.get('/theme-s8c2d4', (req, res) => {
 });
 
 
-let port = app.get('port');
+const port = app.get('port');
 
 app.listen(port, () => {
     logger.info(`MapContrib ${packageJson.version} is up on the port ${port}`);

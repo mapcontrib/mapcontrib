@@ -36,10 +36,14 @@ export default Marionette.ItemView.extend({
     },
 
     onRender: function () {
-        this.ui.description.html(
-            MarkedHelper.render( this.model.get('description') )
-        )
-        .removeClass('hide');
+        const description = this.model.get('description');
+
+        if ( description ) {
+            this.ui.description.html(
+                MarkedHelper.render( description )
+            )
+            .removeClass('hide');
+        }
     },
 
     onClickInnerLink: function (e) {

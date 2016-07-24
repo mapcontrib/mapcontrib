@@ -49,7 +49,7 @@ And this *is* **{amenity}** and {other}.`
                 }
             };
 
-            const result = InfoDisplay.buildContent(layerModel, feature, true);
+            const result = InfoDisplay.buildContent(layerModel, feature, [], true);
 
             assert.equal(result, expected);
         });
@@ -71,7 +71,7 @@ And this *is* {amenity} and **{other}**.`
                 }
             };
 
-            const result = InfoDisplay.buildContent(layerModel, feature, true);
+            const result = InfoDisplay.buildContent(layerModel, feature, [], true);
 
             assert.equal(result, expected);
         });
@@ -95,7 +95,7 @@ And this *is* {amenity} and **{other}**.`
                 }
             };
 
-            const result = InfoDisplay.buildContent(layerModel, feature, true);
+            const result = InfoDisplay.buildContent(layerModel, feature, [], true);
 
             assert.equal(result, expected);
         });
@@ -115,7 +115,7 @@ And this *is* {amenity} and **{other}**.`
                 }
             };
 
-            const result = InfoDisplay.buildContent(layerModel, feature, true);
+            const result = InfoDisplay.buildContent(layerModel, feature, [], true);
 
             assert.equal(result, expected);
         });

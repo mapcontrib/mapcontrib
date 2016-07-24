@@ -59,7 +59,7 @@ export default Marionette.ItemView.extend({
         this._oldModel = this.model.clone();
 
         this.listenTo(this.model, 'change', this.updateMarkerIcon);
-        this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom.bind(this));
+        this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom, this);
     },
 
     onRender: function () {
@@ -125,7 +125,7 @@ export default Marionette.ItemView.extend({
     },
 
     onDestroy: function () {
-        this._radio.vent.off('map:zoomChanged');
+        this._radio.vent.off('map:zoomChanged', this.onChangedMapZoom);
     },
 
     open: function () {
@@ -165,6 +165,7 @@ export default Marionette.ItemView.extend({
         updateMinZoom = false,
         updatePopups = false,
         updateVisibility = false,
+        updateRequest = false,
         color = this.model.get('markerColor');
 
         if (color === 'dark-gray') {
@@ -219,6 +220,10 @@ export default Marionette.ItemView.extend({
             updateVisibility = true;
         }
 
+        if ( this._oldModel.get('overpassRequest') !== this.model.get('overpassRequest') ) {
+            updateRequest = true;
+        }
+
         if ( this.options.isNew ) {
             this.options.theme.get('layers').add( this.model );
         }
@@ -252,6 +257,10 @@ export default Marionette.ItemView.extend({
                         }
 
                         this._radio.commands.execute('column:selectLayer:render');
+                    }
+
+                    if ( updateRequest ) {
+                        this._radio.commands.execute('layer:updateOverPassRequest', this.model);
                     }
                 }
 

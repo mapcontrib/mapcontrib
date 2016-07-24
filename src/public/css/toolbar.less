@@ -1,17 +1,20 @@
 
 .toolbar {
     position: fixed;
+    top: @titleHeight;
+    bottom: 0;
     width: @toolbarBtnSize;
-    z-index: @toolbarZIndex;
     transition: transform ease-out .2s;
 
     &.left {
         left: 0;
+        z-index: @leftToolbarZIndex;
         transform: translate(-100%, 0);
     }
 
     &.right {
         right: 0;
+        z-index: @rightToolbarZIndex;
         transform: translate(100%, 0);
     }
 
@@ -31,9 +34,6 @@
 
 
 #control_toolbar {
-    z-index: @toolbarControlZIndex;
-    top: @titleHeight;
-
     .btn,
     .zoom_level {
         color: @anthracite;
@@ -72,11 +72,8 @@
 
 
 #help_toolbar {
+    position: fixed;
     bottom: 0;
-
-    &.on_top {
-        z-index: @modalZIndex + 1;
-    }
 
     .help_btn {
         background: #fff;
@@ -86,7 +83,7 @@
 
 
 #user_toolbar {
-    top: @titleHeight;
+    margin-bottom: @toolbarButtonBottomMargin;
 
     .btn {
         color: #fff;
@@ -115,17 +112,44 @@
     .link_btn {
         background: @lightGreen;
     }
+}
 
+
+#contrib_toolbar {
+    margin-bottom: @toolbarButtonBottomMargin;
+
+    .btn {
+        color: #fff;
+    }
+
+    .temp_layer_btn,
     .contrib_btn {
         background: @red;
+    }
+
+    .temp_layer_btn {
+        position: relative;
+
+        .fa-stack {
+            position: absolute;
+            top: -3px;
+            right: -2px;
+            font-size: 18px;
+        }
+
+        .fa-circle {
+            color: #fff;
+            transform: scale(0.95);
+        }
+
+        .fa-clock-o {
+            color: @red;
+        }
     }
 }
 
 
 #edit_toolbar {
-    z-index: @toolbarZIndex;
-    top: @titleHeight + (@toolbarBtnSize * 3) + @toolbarButtonBottomMargin;
-
     .btn {
         color: #fff;
     }

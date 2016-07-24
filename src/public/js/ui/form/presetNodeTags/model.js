@@ -8,5 +8,6 @@ export default Backbone.Model.extend({
         'value': '',
         'keyReadOnly': true,
         'valueReadOnly': false,
+        'nonOsmData': false,
     },
 });

@@ -8,7 +8,6 @@ import MapUi from '../ui/map';
 import CONST from '../const';
 import template from '../../templates/movePoiContextual.ejs';
 import ContributionErrorNotificationView from './contributionErrorNotification';
-import Cache from '../core/cache';
 
 
 export default Marionette.ItemView.extend({

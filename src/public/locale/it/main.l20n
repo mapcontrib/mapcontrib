@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"Il mio account">
 <buttonLinkTooltip title:"Condividi">
 <buttonContribTooltip title:"Aggiungi dati mancanti">
+<buttonTempLayerTooltip title:"Aggiungere un livello temporaneo">
 <buttonEditSettingTooltip title:"Impostazioni generali">
 <buttonEditLayerTooltip title:"Livello">
 <buttonEditTileTooltip title:"Sfondi">
@@ -62,11 +63,15 @@
 <createATheme "Crea un tema">
 <searchATheme placeholder:"Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
+<invalidFile "File non valido">
 
 
 /* Home */
 <home_noResult "Nessun risultato">
-<home_charactersLeft "{{ $n }} caratteri mancanti">
+<home_charactersLeft[plural($n)] {
+  one: "1 carattere mancante",
+  many: "{{ $n }} caratteri mancanti"
+}>
 
 
 /* Help */
@@ -93,6 +98,7 @@
   one: "Per visualizzare i dati hai bisogno di fare almeno uno zoom",
   many: "Per visualizzare i dati hai bisogno di fare almeno {{ $n }} zoom."
 }>
+<selectLayerColumn_downloadData "Scarica i dati visibili">
 
 
 /* Tile column */
@@ -160,7 +166,7 @@
 <editLayerFormColumn_dataEditable "Permetti di modificare i dati">
 <editLayerFormColumn_layerZoomLevel "Zoom minimo">
 <editLayerFormColumn_currentMapZoom "La mappa fa attualmente uso del livello di zoom {{ $currentMapZoom }}">
-<editLayerFormColumn_layerOverpassRequest "Richiesta Overpass">
+<editLayerFormColumn_layerOverpassRequest "Richiesta OverPass">
 <editLayerFormColumn_marker "Marcatore">
 <editLayerFormColumn_layerPopupContent "Contenuto popup">
 <editLayerFormColumn_gpxFile "file GPX">
@@ -263,6 +269,8 @@
 <uiFormNodeTags_value placeholder:"Valore">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
 <uiFormNodeTags_valueReadOnly "Valore in sola lettura">
+<uiFormNodeTags_nonOsmData "Do not send this tag to OSM"> /* FIXME */
+<uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap"> /* FIXME */
 
 
 /* Color selector UI */
@@ -284,10 +292,12 @@
 
 /* Add layer menu column */
 <addLayerMenuColumn_title "Aggiungi un livello">
-<addLayerMenuColumn_overPass "Richiesta OverPass">
-<addLayerMenuColumn_gpx "file GPX">
-<addLayerMenuColumn_csv "file CSV">
-<addLayerMenuColumn_geoJson "file GeoJSON">
+<addLayerMenuColumn_remoteInformation "Informazioni a distanza">
+<addLayerMenuColumn_file "File">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
 
 
 /* Layer info column */
@@ -310,3 +320,14 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Dettagli">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Livelli temporanei">
+<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib."> /* FIXME */
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Tipo di nodo">
+<editPoiPresetColumn_noThanks "No thanks"> /* FIXME */
+<editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?"> /* FIXME */

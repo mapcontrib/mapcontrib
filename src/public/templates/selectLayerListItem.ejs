@@ -1,9 +1,6 @@
 <div class="checkbox">
     <input type="checkbox" id="poi_layer_visibility_<%- uniqid %>" class="visibility_checkbox" value="1">
     <label for="poi_layer_visibility_<%- uniqid %>">
-        <button class="btn btn-link info_layer_btn">
-            <i class="fa fa-info-circle fa-lg"></i>
-        </button>
         <div class="text-ellipsis">
             <%= name %>
         </div>
@@ -11,6 +8,11 @@
             <%= description %>
         </div>
         <div class="help-block zoom_tip"></div>
+        <div class="prepend-xs-tiny">
+            <button class="btn btn-sm btn-link info_layer_btn">
+                <i class="fa fa-info-circle"></i> En savoir plus
+            </button>
+        </div>
     </label>
     <%= marker %>
 </div>

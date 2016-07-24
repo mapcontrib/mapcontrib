@@ -10,7 +10,6 @@ import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import MarkerCluster from 'leaflet.markercluster';
 import Omnivore from 'leaflet-omnivore';
-import fullScreenPolyfill from 'fullscreen-api-polyfill';
 
 import ThemeTitleView from './themeTitle';
 import InfoDisplayModalView from './infoDisplayModal';
@@ -21,6 +20,12 @@ import SelectTileColumnView from './selectTileColumn';
 import UserColumnView from './userColumn';
 import VisitorColumnView from './visitorColumn';
 import LinkColumnView from './linkColumn';
+import TempLayerListColumnView from './tempLayerListColumn';
+import AddTempLayerMenuColumnView from './addTempLayerMenuColumn';
+import TempOverPassLayerFormColumnView from './tempOverPassLayerFormColumn';
+import TempGpxLayerFormColumnView from './tempGpxLayerFormColumn';
+import TempCsvLayerFormColumnView from './tempCsvLayerFormColumn';
+import TempGeoJsonLayerFormColumnView from './tempGeoJsonLayerFormColumn';
 import ContribColumnView from './contribColumn';
 import ContribFormColumnView from './contribFormColumn';
 import EditSettingColumnView from './editSettingColumn';
@@ -35,6 +40,7 @@ import EditTileColumnView from './editTileColumn';
 import EditPresetColumnView from './editPresetColumn';
 import EditPresetTagsColumnView from './editPresetTagsColumn';
 import EditPoiColumnView from './editPoiColumn';
+import EditPoiPresetColumnView from './editPoiPresetColumn';
 import ZoomNotificationView from './zoomNotification';
 import OverPassTimeoutNotificationView from './overPassTimeoutNotification';
 import OverPassErrorNotificationView from './overPassErrorNotification';
@@ -45,16 +51,17 @@ import NewPoiPlacementContextual from './newPoiPlacementContextual';
 
 
 import LayerModel from '../model/layer';
+import LayerCollection from '../collection/layer';
 import PresetModel from '../model/preset';
 
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
-import Cache from '../core/cache';
 import OsmData from '../core/osmData';
 import InfoDisplay from '../core/infoDisplay';
 import OverPassHelper from '../helper/overPass';
 import GeoJsonHelper from '../helper/geoJson';
 import MarkedHelper from '../helper/marked';
+import FullscreenHelper from '../helper/fullscreen';
 
 import template from '../../templates/themeRoot.ejs';
 
@@ -69,6 +76,8 @@ export default Marionette.LayoutView.extend({
         'map': '#main_map',
         'toolbarButtons': '.toolbar .toolbar_btn',
 
+
+        'leftToolbar': '#left_toolbar',
         'controlToolbar': '#control_toolbar',
         'zoomInButton': '#control_toolbar .zoom_in_btn',
         'zoomOutButton': '#control_toolbar .zoom_out_btn',
@@ -85,10 +94,12 @@ export default Marionette.LayoutView.extend({
         'controlLayerSpinner': '#control_toolbar .layer_btn .spinner',
         'controlTileButton': '#control_toolbar .tile_btn',
 
+        'rightToolbar': '#right_toolbar',
         'userToolbar': '#user_toolbar',
         'userButton': '#user_toolbar .user_btn',
         'linkButton': '#user_toolbar .link_btn',
-        'contribButton': '#user_toolbar .contrib_btn',
+        'tempLayerButton': '#contrib_toolbar .temp_layer_btn',
+        'contribButton': '#contrib_toolbar .contrib_btn',
 
         'helpToolbar': '#help_toolbar',
         'helpButton': '#help_toolbar .help_btn',
@@ -114,6 +125,9 @@ export default Marionette.LayoutView.extend({
         'userColumn': '#rg_user_column',
         'visitorColumn': '#rg_visitor_column',
         'linkColumn': '#rg_link_column',
+        'tempLayerListColumn': '#rg_temp_layer_column',
+        'addTempLayerMenuColumn': '#rg_add_temp_layer_menu_column',
+        'tempLayerFormColumn': '#rg_edit_temp_layer_column',
         'contribColumn': '#rg_contrib_column',
         'contribFormColumn': '#rg_contrib_form_column',
         'editSettingColumn': '#rg_edit_setting_column',
@@ -124,7 +138,6 @@ export default Marionette.LayoutView.extend({
         'editTileColumn': '#rg_edit_tile_column',
         'editPresetColumn': '#rg_edit_preset_column',
         'editPresetTagsColumn': '#rg_edit_preset_tags_column',
-        'editPoiColumn': '#rg_edit_poi_column',
 
         'zoomNotification': '#rg_zoom_notification',
     },
@@ -145,6 +158,7 @@ export default Marionette.LayoutView.extend({
 
         'click @ui.userButton': 'onClickUser',
         'click @ui.linkButton': 'onClickLink',
+        'click @ui.tempLayerButton': 'onClickTempLayer',
         'click @ui.contribButton': 'onClickContrib',
         'click @ui.editSettingButton': 'onClickEditSetting',
         'click @ui.editLayerButton': 'onClickEditLayer',
@@ -163,7 +177,10 @@ export default Marionette.LayoutView.extend({
         this.model = this._app.getTheme();
 
         this._layerCollection = this.model.get('layers');
+        this._tempLayerCollection = new LayerCollection();
         this._presetCollection = this.model.get('presets');
+        this._nonOsmData = this._app.getNonOsmData();
+        this._osmCache = this._app.getOsmCache();
 
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
@@ -175,6 +192,7 @@ export default Marionette.LayoutView.extend({
         this._osmData = new OsmData();
         this._markerClusters = {};
         this._overPassLayers = {};
+        this._markersWithoutLayers = {};
 
         this._radio = Wreqr.radio.channel('global');
 
@@ -182,6 +200,15 @@ export default Marionette.LayoutView.extend({
         this._radio.reqres.setHandlers({
             'user:isOwner': () => {
                 return this.model.isOwner( this._user );
+            },
+            'theme': () => {
+                return this.model;
+            },
+            'nonOsmData': () => {
+                return this._nonOsmData;
+            },
+            'osmCache': () => {
+                return this._osmCache;
             },
             'theme:fragment': () => {
                 return this.model.get('fragment');
@@ -200,6 +227,21 @@ export default Marionette.LayoutView.extend({
             'theme:save': () => {
                 this.model.updateModificationDate();
                 this.model.save();
+            },
+            'column:showAddTempLayerMenu': () => {
+                this.onCommandShowAddTempLayerMenu();
+            },
+            'column:tempOverPassLayer': (layerModel) => {
+                this.onCommandTempOverPassLayer( layerModel );
+            },
+            'column:tempGpxLayer': (layerModel) => {
+                this.onCommandTempGpxLayer( layerModel );
+            },
+            'column:tempCsvLayer': (layerModel) => {
+                this.onCommandTempCsvLayer( layerModel );
+            },
+            'column:tempGeoJsonLayer': (layerModel) => {
+                this.onCommandTempGeoJsonLayer( layerModel );
             },
             'column:showAddLayerMenu': () => {
                 this.onCommandShowAddLayerMenu();
@@ -222,6 +264,9 @@ export default Marionette.LayoutView.extend({
             'column:showContribForm': (options) => {
                 this.onCommandShowContribForm( options );
             },
+            'column:showEditPoi': (options) => {
+                this.onEditPoi( options );
+            },
             'column:showPresetTags': (presetModel) => {
                 this.onCommandShowPresetTags( presetModel );
             },
@@ -231,8 +276,14 @@ export default Marionette.LayoutView.extend({
             'map:setTileLayer': (tileId) => {
                 this.setTileLayer( tileId );
             },
+            'layer:updateOverPassRequest': (layerModel) => {
+                this.updateOverPassRequest( layerModel );
+            },
             'map:addLayer': (layerModel) => {
                 this.addLayer( layerModel );
+            },
+            'map:addTempLayer': (layerModel, fileContent) => {
+                this.addTempLayer( layerModel, fileContent );
             },
             'map:removeLayer': (layerModel) => {
                 this.removeLayer( layerModel );
@@ -267,8 +318,8 @@ export default Marionette.LayoutView.extend({
             'map:bindAllPopups': () => {
                 this.bindAllPopups();
             },
-            'saveOsmData': (osmElement) => {
-                this._osmData.save(osmElement);
+            'saveOsmData': (osmElement, layerModel) => {
+                this._osmData.save(osmElement, layerModel.cid);
             },
         });
 
@@ -307,6 +358,8 @@ export default Marionette.LayoutView.extend({
         this._userColumnView = new UserColumnView();
         this._visitorColumnView = new VisitorColumnView({ 'theme': this.model });
         this._linkColumnView = new LinkColumnView({ 'model': this.model });
+        this._tempLayerListColumnView = new TempLayerListColumnView({ 'collection': this._tempLayerCollection });
+        this._addTempLayerMenuColumnView = new AddTempLayerMenuColumnView();
         this._contribColumnView = new ContribColumnView({ 'theme': this.model });
         this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
         this._editLayerListColumnView = new EditLayerListColumnView({ 'model': this.model });
@@ -325,6 +378,8 @@ export default Marionette.LayoutView.extend({
         this.getRegion('userColumn').show( this._userColumnView );
         this.getRegion('visitorColumn').show( this._visitorColumnView );
         this.getRegion('linkColumn').show( this._linkColumnView );
+        this.getRegion('tempLayerListColumn').show( this._tempLayerListColumnView );
+        this.getRegion('addTempLayerMenuColumn').show( this._addTempLayerMenuColumnView );
         this.getRegion('contribColumn').show( this._contribColumnView );
         this.getRegion('editSettingColumn').show( this._editSettingColumnView );
         this.getRegion('editLayerListColumn').show( this._editLayerListColumnView );
@@ -335,19 +390,24 @@ export default Marionette.LayoutView.extend({
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
 
-        if ( !this._document.fullscreenEnabled) {
+        const fullscreenSupport = FullscreenHelper.isFullscreenAPISupported( this._document );
+
+        if ( !fullscreenSupport ) {
             this.ui.expandScreenButton.addClass('hide');
             this.ui.compressScreenButton.addClass('hide');
         }
 
-        $(this._window).on('fullscreenchange', () => {
-            if ( this._document.fullscreenElement ) {
+        FullscreenHelper.onFullscreenChange(window, () => {
+            const fullscreenElement = FullscreenHelper.getFullscreenElement(this._document);
+
+            if ( fullscreenElement ) {
                 this.onExpandScreen();
             }
             else {
                 this.onCompressScreen();
             }
         });
+
 
         this.ui.helpTextVersion.html(
             this._document.l10n.getSync(
@@ -358,11 +418,11 @@ export default Marionette.LayoutView.extend({
     },
 
     onShow: function () {
-        let center = this.model.get('center'),
-        autoCenter = this.model.get('autoCenter'),
-        zoomLevel = this.model.get('zoomLevel'),
-        hiddenLayers = [],
-        storageMapState = localStorage.getItem('mapState-'+ this.model.get('fragment'));
+        let center = this.model.get('center');
+        let autoCenter = this.model.get('autoCenter');
+        let zoomLevel = this.model.get('zoomLevel');
+        let hiddenLayers = [];
+        let storageMapState = localStorage.getItem('mapState-'+ this.model.get('fragment'));
 
         if ( storageMapState ) {
             storageMapState = JSON.parse( storageMapState );
@@ -443,9 +503,42 @@ export default Marionette.LayoutView.extend({
         }, this);
 
 
+        const newerOsmCacheModels = this._osmCache.where({'osmVersion': 0});
+        
+        for (const i in newerOsmCacheModels) {
+            const osmCacheModel = newerOsmCacheModels[i];
+            const osmElement = osmCacheModel.get('osmElement');
+            const id = osmCacheModel.get('osmId');
+            const type = osmCacheModel.get('osmType');
+            const longId = `${type}/${id}`;
+            const pos = new L.LatLng(
+                osmElement.attributes.lat,
+                osmElement.attributes.lon
+            );
+
+            const icon = MapUi.buildLayerIcon(
+                L,
+                new LayerModel({
+                    'markerShape': MAPCONTRIB.config.newPoiMarkerShape,
+                    'markerIconType': CONST.map.markerIconType.library,
+                    'markerIcon': MAPCONTRIB.config.newPoiMarkerIcon,
+                    'markerColor': MAPCONTRIB.config.newPoiMarkerColor
+                })
+            );
+
+            this._markersWithoutLayers[longId] = L.marker(pos, { icon });
+
+            this._map.addLayer( this._markersWithoutLayers[longId] );
+        }
+
+
         this.updateMinDataZoom();
 
         this._layerCollection.on('destroy', (model) => {
+            this.removeLayer(model);
+        }, this);
+
+        this._tempLayerCollection.on('destroy', (model) => {
             this.removeLayer(model);
         }, this);
 
@@ -458,9 +551,9 @@ export default Marionette.LayoutView.extend({
     },
 
     setTileLayer: function (id) {
-        var tile,
-        tileLayersGroup = L.layerGroup(),
-        tiles = this.model.get('tiles');
+        let tile;
+        let tiles = this.model.get('tiles');
+        const tileLayersGroup = L.layerGroup();
 
         if ( tiles.length === 0 ) {
             tiles = ['osm'];
@@ -505,6 +598,15 @@ export default Marionette.LayoutView.extend({
         this.updateMinDataZoom();
     },
 
+    updateOverPassRequest: function (layerModel) {
+        this._osmData.clearLayerData(layerModel.cid);
+
+        this._markerClusters[ layerModel.cid ].clearLayers();
+        this._overPassLayers[ layerModel.cid ].setQuery(
+            layerModel.get('overpassRequest')
+        );
+    },
+
     showLayerLoadingProgress: function (layerModel) {
         if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
             this._poiLoadingSpool[ layerModel.cid ] = 0;
@@ -535,6 +637,89 @@ export default Marionette.LayoutView.extend({
         }
     },
 
+    addTempLayer: function (layerModel, fileContent) {
+        switch (layerModel.get('type')) {
+            case CONST.layerType.overpass:
+                this.addOverPassLayer(layerModel);
+                break;
+            case CONST.layerType.gpx:
+                this.addTempGpxLayer(layerModel, fileContent);
+                break;
+            case CONST.layerType.csv:
+                this.addTempCsvLayer(layerModel, fileContent);
+                break;
+            case CONST.layerType.geojson:
+                this.addTempGeoJsonLayer(layerModel, fileContent);
+                break;
+        }
+    },
+
+    addTempGpxLayer: function (layerModel, fileContent) {
+        const markerCluster = this._buildMarkerCluster(layerModel);
+        const layer = Omnivore.gpx.parse(
+            fileContent
+        );
+
+        if ( !layer._leaflet_id ) {
+            new GpxErrorNotificationView({
+                'model': layerModel,
+                'error': document.l10n.getSync('invalidFile'),
+            }).open();
+        }
+        else {
+            this._customizeDataAndDisplay(
+                layer._layers,
+                markerCluster,
+                layerModel,
+                CONST.layerType.gpx
+            );
+        }
+    },
+
+    addTempCsvLayer: function (layerModel, fileContent) {
+        const markerCluster = this._buildMarkerCluster(layerModel);
+        const layer = Omnivore.csv.parse(
+            fileContent
+        );
+
+        if ( !layer._leaflet_id ) {
+            new CsvErrorNotificationView({
+                'model': layerModel,
+                'error': document.l10n.getSync('invalidFile'),
+            }).open();
+        }
+        else {
+            this._customizeDataAndDisplay(
+                layer._layers,
+                markerCluster,
+                layerModel,
+                CONST.layerType.csv
+            );
+        }
+    },
+
+    addTempGeoJsonLayer: function (layerModel, fileContent) {
+        const markerCluster = this._buildMarkerCluster(layerModel);
+        const layer = L.geoJson(
+            JSON.parse( fileContent )
+        );
+
+        if ( !layer._leaflet_id ) {
+            new GeoJsonErrorNotificationView({
+                'model': layerModel,
+                'error': document.l10n.getSync('invalidFile'),
+            }).open();
+        }
+        else {
+            this._customizeDataAndDisplay(
+                layer._layers,
+                markerCluster,
+                layerModel,
+                CONST.layerType.geojson
+            );
+        }
+    },
+
     addLayer: function (layerModel, hidden) {
         switch (layerModel.get('type')) {
             case CONST.layerType.overpass:
@@ -560,7 +745,7 @@ export default Marionette.LayoutView.extend({
             return this.addOverPassCacheLayer(layerModel, hiddenLayer);
         }
 
-        let markerCluster = this._buildMarkerCluster(layerModel);
+        const markerCluster = this._buildMarkerCluster(layerModel);
         this._markerClusters[ layerModel.cid ] = markerCluster;
         this._map.addLayer( markerCluster );
 
@@ -568,7 +753,7 @@ export default Marionette.LayoutView.extend({
             layerModel.get('overpassRequest') || ''
         );
 
-        let overPassLayer = new OverPassLayer({
+        const overPassLayer = new OverPassLayer({
             'debug': this._config.debug,
             'endPoint': this._config.overPassEndPoint,
             'minZoom': layerModel.get('minZoom'),
@@ -589,12 +774,12 @@ export default Marionette.LayoutView.extend({
                 for (let i in data.elements) {
                     let e = data.elements[i];
 
-                    if ( this._osmData.exists(e.type, e.id) ) {
+                    if ( this._osmData.exists(e.type, e.id, layerModel.cid) ) {
                         continue;
                     }
 
                     elements.push(e);
-                    this._osmData.save(e);
+                    this._osmData.save(e, layerModel.cid);
                 }
 
                 data.elements = elements;
@@ -633,11 +818,14 @@ export default Marionette.LayoutView.extend({
         });
 
         this._overPassLayers[ layerModel.cid ] = overPassLayer;
-        this._map.addLayer( overPassLayer );
+
+        if (!hiddenLayer) {
+            this._map.addLayer( overPassLayer );
+        }
     },
 
     addGpxLayer: function (layerModel, hiddenLayer) {
-        let omnivore = Omnivore.gpx(
+        Omnivore.gpx(
             layerModel.get('fileUri')
         )
         .on('error', function(error) {
@@ -647,7 +835,7 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            let markerCluster = this._buildMarkerCluster(layerModel);
+            const markerCluster = this._buildMarkerCluster(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
@@ -660,7 +848,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addCsvLayer: function (layerModel, hiddenLayer) {
-        let omnivore = Omnivore.csv(
+        Omnivore.csv(
             layerModel.get('fileUri')
         )
         .on('error', function(error) {
@@ -670,7 +858,7 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            let markerCluster = this._buildMarkerCluster(layerModel);
+            const markerCluster = this._buildMarkerCluster(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
@@ -683,7 +871,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addGeoJsonLayer: function (layerModel, hiddenLayer) {
-        let omnivore = Omnivore.geojson(
+        Omnivore.geojson(
             layerModel.get('fileUri')
         )
         .on('error', function(error) {
@@ -693,7 +881,7 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            let markerCluster = this._buildMarkerCluster(layerModel);
+            const markerCluster = this._buildMarkerCluster(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
@@ -706,7 +894,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addOverPassCacheLayer: function (layerModel, hiddenLayer) {
-        let omnivore = Omnivore.geojson(
+        Omnivore.geojson(
             layerModel.get('fileUri')
         )
         .on('error', function(error) {
@@ -716,7 +904,7 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            let markerCluster = this._buildMarkerCluster(layerModel);
+            const markerCluster = this._buildMarkerCluster(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
@@ -730,21 +918,32 @@ export default Marionette.LayoutView.extend({
 
     _customizeDataAndDisplay: function (objects, markerCluster, layerModel, dataSource, hiddenLayer) {
         const icon = MapUi.buildLayerIcon( L, layerModel );
-        const style = MapUi.buildLayerPolylineStyle( layerModel );
+        const polygonStyle = MapUi.buildLayerPolygonStyle( layerModel );
+        const polylineStyle = MapUi.buildLayerPolylineStyle( layerModel );
 
         for (let i in objects) {
             let object = objects[i];
             const id = GeoJsonHelper.findOsmId(object.feature);
             const type = GeoJsonHelper.findOsmType(object.feature);
+            const longId = `${type}/${id}`;
             const version = GeoJsonHelper.findOsmVersion(object.feature);
+            const osmCacheModel = this._osmCache.findWhere({
+                'themeFragment': this.model.get('fragment'),
+                'osmId': id,
+                'osmType': type,
+            });
 
-            if (Cache.exists(type, id)) {
-                if (Cache.isNewerThanCache(type, id, version)) {
-                    Cache.remove(type, id);
+            if ( this._markersWithoutLayers[longId] ) {
+                this._map.removeLayer( this._markersWithoutLayers[longId] );
+            }
+
+            if ( osmCacheModel ) {
+                if ( osmCacheModel.get('osmVersion') < version) {
+                    osmCacheModel.destroy();
                 }
                 else {
                     object.feature = osmtogeojson({
-                        'elements': [Cache.get(type, id, version)]
+                        'elements': [ osmCacheModel.get('overPassElement') ]
                     }).features[0];
 
                     if (object.feature.geometry.type === 'Point') {
@@ -773,11 +972,19 @@ export default Marionette.LayoutView.extend({
 
             object.on('click', this._displayInfo, this);
 
-            if (object.feature.geometry.type === 'Point') {
-                object.setIcon( icon );
-            }
-            else {
-                object.setStyle( style );
+            switch (object.feature.geometry.type) {
+                case 'Point':
+                case 'MultiPoint':
+                    object.setIcon( icon );
+                    break;
+                case 'LineString':
+                case 'MultiLineString':
+                    object.setStyle( polylineStyle );
+                    break;
+                case 'Polygon':
+                case 'MultiPolygon':
+                    object.setStyle( polygonStyle );
+                    break;
             }
 
             markerCluster.addLayer(object);
@@ -800,33 +1007,53 @@ export default Marionette.LayoutView.extend({
     },
 
     showLayer: function (layerModel) {
-        let markerCluster = this._markerClusters[ layerModel.cid ];
+        const markerCluster = this._markerClusters[ layerModel.cid ];
+        const overPassLayer = this._overPassLayers[ layerModel.cid ];
 
         this._map.addLayer( markerCluster );
+
+        if ( overPassLayer ) {
+            this._map.addLayer( overPassLayer );
+        }
 
         markerCluster.refreshClusters();
     },
 
     hideLayer: function (layerModel) {
-        this._map.removeLayer(
-            this._markerClusters[ layerModel.cid ]
-        );
+        const markerCluster = this._markerClusters[ layerModel.cid ];
+        const overPassLayer = this._overPassLayers[ layerModel.cid ];
+
+        this._map.removeLayer( markerCluster );
+
+        if ( overPassLayer ) {
+            this._map.removeLayer( overPassLayer );
+        }
     },
 
     updateLayerStyles: function (layerModel) {
-        let markerCluster = this._markerClusters[ layerModel.cid ];
-        let layers = markerCluster.getLayers();
+        const markerCluster = this._markerClusters[ layerModel.cid ];
+        const layers = markerCluster.getLayers();
 
         for (let layer of layers) {
-            if (layer.feature.geometry.type === 'Point') {
-                layer.refreshIconOptions(
-                    MapUi.buildMarkerLayerIconOptions( layerModel )
-                );
-            }
-            else {
-                layer.setStyle(
-                    MapUi.buildLayerPolylineStyle( layerModel )
-                );
+            switch (layer.toGeoJSON().geometry.type) {
+                case 'Point':
+                case 'MultiPoint':
+                    layer.refreshIconOptions(
+                        MapUi.buildMarkerLayerIconOptions( layerModel )
+                    );
+                    break;
+                case 'LineString':
+                case 'MultiLineString':
+                    layer.setStyle(
+                        MapUi.buildLayerPolylineStyle( layerModel )
+                    );
+                    break;
+                case 'Polygon':
+                case 'MultiPolygon':
+                    layer.setStyle(
+                        MapUi.buildLayerPolygonStyle( layerModel )
+                    );
+                    break;
             }
         }
 
@@ -911,9 +1138,15 @@ export default Marionette.LayoutView.extend({
     _buildLayerPopupContent: function (layer, layerModel, feature) {
         const isLogged = this._app.isLogged();
         const dataEditable = layerModel.get('dataEditable');
+        const nonOsmData = this._nonOsmData.findWhere({
+            'themeFragment': this.model.get('fragment'),
+            'osmId': feature.properties.id,
+            'osmType': feature.properties.type,
+        });
         const content = InfoDisplay.buildContent(
             layerModel,
             feature,
+            nonOsmData ? nonOsmData.get('tags') : [],
             isLogged
         );
         let data;
@@ -973,8 +1206,8 @@ export default Marionette.LayoutView.extend({
             'disableClusteringAtZoom': 18,
             'zoomToBoundsOnClick': true,
             'iconCreateFunction': cluster => {
-                let count = cluster.getChildCount();
-                let color = layerModel.get('markerColor');
+                const count = cluster.getChildCount();
+                const color = layerModel.get('markerColor');
 
                 return L.divIcon({
                     html: `<div class="marker-cluster ${color}">${count}</div>`
@@ -984,17 +1217,30 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickEditPoi: function (layer, osmType, osmId, layerModel, e) {
-        let view = new EditPoiColumnView({
-            'app': this._app,
-            'osmType': osmType,
-            'osmId': osmId,
-            'layerModel': layerModel,
-            'layer': layer,
-        });
+        if (this._presetCollection.models.length === 0) {
+            this.onEditPoi({
+                'app': this._app,
+                'theme': this.model,
+                'osmType': osmType,
+                'osmId': osmId,
+                'layerModel': layerModel,
+                'layer': layer,
+            });
+        }
+        else {
+            new EditPoiPresetColumnView({
+                'app': this._app,
+                'theme': this.model,
+                'osmType': osmType,
+                'osmId': osmId,
+                'layerModel': layerModel,
+                'layer': layer,
+            }).open();
+        }
+    },
 
-        this.getRegion('editPoiColumn').show( view );
-
-        view.open();
+    onEditPoi: function (options) {
+        new EditPoiColumnView(options).open();
     },
 
     renderUserButton: function () {
@@ -1047,6 +1293,118 @@ export default Marionette.LayoutView.extend({
         this.ui.editToolbar.addClass('hide');
     },
 
+    onCommandTempOverPassLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new TempOverPassLayerFormColumnView({
+                'model': layerModel,
+                'collection': this._tempLayerCollection,
+            });
+        }
+        else {
+            const layerModel = new LayerModel({
+                'type': CONST.layerType.overpass,
+                'markerColor': 'red',
+                'color': 'red',
+            });
+
+            view = new TempOverPassLayerFormColumnView({
+                'model': layerModel,
+                'collection': this._tempLayerCollection,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('tempLayerFormColumn').show( view );
+
+        view.open();
+    },
+
+    onCommandTempGpxLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new TempGpxLayerFormColumnView({
+                'model': layerModel,
+                'collection': this._tempLayerCollection,
+            });
+        }
+        else {
+            const layerModel = new LayerModel({
+                'type': CONST.layerType.gpx,
+                'markerColor': 'red',
+                'color': 'red',
+            });
+
+            view = new TempGpxLayerFormColumnView({
+                'model': layerModel,
+                'collection': this._tempLayerCollection,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('tempLayerFormColumn').show( view );
+
+        view.open();
+    },
+
+    onCommandTempCsvLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new TempCsvLayerFormColumnView({
+                'model': layerModel,
+                'collection': this._tempLayerCollection,
+            });
+        }
+        else {
+            const layerModel = new LayerModel({
+                'type': CONST.layerType.csv,
+                'markerColor': 'red',
+                'color': 'red',
+            });
+
+            view = new TempCsvLayerFormColumnView({
+                'model': layerModel,
+                'collection': this._tempLayerCollection,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('tempLayerFormColumn').show( view );
+
+        view.open();
+    },
+
+    onCommandTempGeoJsonLayer: function (layerModel) {
+        let view;
+
+        if ( layerModel ) {
+            view = new TempGeoJsonLayerFormColumnView({
+                'model': layerModel,
+                'collection': this._tempLayerCollection,
+            });
+        }
+        else {
+            const layerModel = new LayerModel({
+                'type': CONST.layerType.geojson,
+                'markerColor': 'red',
+                'color': 'red',
+            });
+
+            view = new TempGeoJsonLayerFormColumnView({
+                'model': layerModel,
+                'collection': this._tempLayerCollection,
+                'isNew': true,
+            });
+        }
+
+        this.getRegion('tempLayerFormColumn').show( view );
+
+        view.open();
+    },
+
     onCommandEditOverPassLayer: function (layerModel) {
         let view;
 
@@ -1057,7 +1415,7 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
+            const layerModel = new LayerModel({
                 'type': CONST.layerType.overpass
             });
 
@@ -1083,7 +1441,7 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
+            const layerModel = new LayerModel({
                 'type': CONST.layerType.gpx
             });
 
@@ -1109,7 +1467,7 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
+            const layerModel = new LayerModel({
                 'type': CONST.layerType.csv
             });
 
@@ -1135,7 +1493,7 @@ export default Marionette.LayoutView.extend({
             });
         }
         else {
-            let layerModel = new LayerModel({
+            const layerModel = new LayerModel({
                 'type': CONST.layerType.geojson
             });
 
@@ -1153,6 +1511,10 @@ export default Marionette.LayoutView.extend({
 
     onCommandShowAddLayerMenu: function () {
         this._addLayerMenuColumnView.open();
+    },
+
+    onCommandShowAddTempLayerMenu: function () {
+        this._addTempLayerMenuColumnView.open();
     },
 
     onCommandShowContribColumn: function (center, layer) {
@@ -1334,11 +1696,13 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickExpandScreen: function () {
-        this._document.documentElement.requestFullscreen();
+        FullscreenHelper.requestFullscreen(
+            this._document.documentElement
+        );
     },
 
     onClickCompressScreen: function () {
-        this._document.exitFullscreen();
+        FullscreenHelper.exitFullscreen( this._document );
     },
 
     onExpandScreen: function () {
@@ -1372,15 +1736,10 @@ export default Marionette.LayoutView.extend({
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
 
-        this.ui.helpToolbar.addClass('on_top');
         this.ui.help.addClass('open');
     },
 
     closeHelp: function () {
-        this.ui.help.one('transitionend', () => {
-            this.ui.helpToolbar.removeClass('on_top');
-        });
-
         this.ui.help.removeClass('open');
     },
 
@@ -1399,6 +1758,10 @@ export default Marionette.LayoutView.extend({
 
     onClickLink: function () {
         this._linkColumnView.open();
+    },
+
+    onClickTempLayer: function () {
+        this._tempLayerListColumnView.open();
     },
 
     onClickContrib: function (e) {
@@ -1457,27 +1820,15 @@ export default Marionette.LayoutView.extend({
         if ( !this.isLargeScreen() ) {
             this._geocodeWidgetView.close();
 
-            this._toolbarsState = {
-                'controlToolbar': this.ui.controlToolbar.hasClass('open'),
-                'userToolbar': this.ui.userToolbar.hasClass('open'),
-                'helpToolbar': this.ui.helpToolbar.hasClass('open'),
-                'editToolbar': this.ui.editToolbar.hasClass('open'),
-            };
-
             this._zoomNotificationView.disappear();
-            this.ui.controlToolbar.removeClass('open');
-            this.ui.userToolbar.removeClass('open');
-            this.ui.helpToolbar.removeClass('open');
-            this.ui.editToolbar.removeClass('open');
+            this.ui.leftToolbar.removeClass('open');
+            this.ui.rightToolbar.removeClass('open');
         }
     },
 
     onPopupClose: function (e) {
-        for (var toolbar in this._toolbarsState) {
-            if ( this._toolbarsState[toolbar] ) {
-                this.ui[toolbar].addClass('open');
-            }
-        }
+        this.ui.leftToolbar.addClass('open');
+        this.ui.rightToolbar.addClass('open');
 
         this._zoomNotificationView.appear();
     },
@@ -1517,12 +1868,16 @@ export default Marionette.LayoutView.extend({
     bindAllPopups: function () {
         const isLogged = this._app.isLogged();
 
-        for (let i in this._markerClusters) {
-            let markerCluster = this._markerClusters[i];
-            let layers = markerCluster.getLayers();
+        for (const i in this._markerClusters) {
+            const markerCluster = this._markerClusters[i];
+            const layers = markerCluster.getLayers();
 
-            for (let layer of layers) {
-                let content = this._buildLayerPopupContent(
+            for (const layer of layers) {
+                if ( !layer._layerModel ) {
+                    continue;
+                }
+
+                const content = this._buildLayerPopupContent(
                     layer,
                     layer._layerModel,
                     layer.feature
@@ -1547,10 +1902,17 @@ export default Marionette.LayoutView.extend({
     _displayInfo: function (e) {
         const layer = e.target;
         const dataEditable = layer._layerModel.get('dataEditable');
+        const layerType = layer._layerModel.get('type');
         const isLogged = this._app.isLogged();
+        const nonOsmData = this._nonOsmData.findWhere({
+            'themeFragment': this.model.get('fragment'),
+            'osmId': layer.feature.properties.id,
+            'osmType': layer.feature.properties.type,
+        });
         const content = InfoDisplay.buildContent(
             layer._layerModel,
             layer.feature,
+            nonOsmData ? nonOsmData.get('tags') : [],
             isLogged
         );
         const editAction = this.onClickEditPoi.bind(
@@ -1562,6 +1924,10 @@ export default Marionette.LayoutView.extend({
         );
 
         if ( !content && !dataEditable ) {
+            return false;
+        }
+
+        if ( !content && layerType !== CONST.layerType.overpass ) {
             return false;
         }
 

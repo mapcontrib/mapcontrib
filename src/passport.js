@@ -125,7 +125,7 @@ export default function Passport  (app, db, config) {
                 else {
                     collection.insertOne(userData, {'safe': true}, (err, results) => {
                         if (results) {
-                            result = results.ops[0];
+                            const result = results.ops[0];
                             result._id = result._id.toString();
 
                             req.session.user = result;

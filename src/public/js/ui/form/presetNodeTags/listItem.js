@@ -9,8 +9,9 @@ export default Marionette.ItemView.extend({
     ui: {
         'key': '.key',
         'value': '.value',
-        'keyReadOnly': '.keyReadOnly',
-        'valueReadOnly': '.valueReadOnly',
+        'keyReadOnly': '.key_read_only',
+        'valueReadOnly': '.value_read_only',
+        'nonOsmData': '.non_osm_data',
         'infoBtn': '.info_btn',
         'removeBtn': '.remove_btn',
     },
@@ -22,6 +23,7 @@ export default Marionette.ItemView.extend({
         'keyup @ui.value': 'updateValue',
         'change @ui.keyReadOnly': 'onChangeKeyReadOnly',
         'change @ui.valueReadOnly': 'onChangeValueReadOnly',
+        'change @ui.nonOsmData': 'onChangeNonOsmData',
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
@@ -34,21 +36,25 @@ export default Marionette.ItemView.extend({
     onRender: function () {
         document.l10n.localizeNode( this.el );
 
+        this.ui.nonOsmData.prop(
+            'checked',
+            this.model.get('nonOsmData')
+        );
+
         this.ui.keyReadOnly.prop(
             'checked',
             this.model.get('keyReadOnly')
         );
 
         this.ui.valueReadOnly.prop(
-            'disabled',
-            !this.model.get('keyReadOnly')
-        );
-
-        this.ui.valueReadOnly.prop(
             'checked',
             this.model.get('valueReadOnly')
         );
-        
+
+        this.onChangeValueReadOnly();
+        this.onChangeKeyReadOnly();
+        this.onChangeNonOsmData();
+
         this.renderTagInfo();
     },
 
@@ -81,10 +87,31 @@ export default Marionette.ItemView.extend({
             'disabled',
             !this.model.get('keyReadOnly')
         );
+
+        if ( !this.model.get('keyReadOnly') ) {
+            this.ui.valueReadOnly.prop('checked', false);
+        }
     },
 
     onChangeValueReadOnly: function (e) {
         this.model.set('valueReadOnly', this.ui.valueReadOnly.prop('checked'));
+    },
+
+    onChangeNonOsmData: function (e) {
+        this.model.set('nonOsmData', this.ui.nonOsmData.prop('checked'));
+
+        this.ui.keyReadOnly
+        .prop('checked', true)
+        .prop(
+            'disabled',
+            this.model.get('nonOsmData')
+        );
+        this.ui.valueReadOnly
+        .prop('checked', false)
+        .prop(
+            'disabled',
+            this.model.get('nonOsmData')
+        );
     },
 
     onClickRemoveBtn: function (e) {

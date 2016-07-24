@@ -15,7 +15,8 @@ export default Marionette.CollectionView.extend({
         if (tags.length === 0) {
             this.collection.add({
                 'keyReadOnly': false,
-                'valueReadOnly': false
+                'valueReadOnly': false,
+                'nonOsmData': false,
             });
         }
         else {
@@ -29,7 +30,8 @@ export default Marionette.CollectionView.extend({
         if ( !tag ) {
             tag = {
                 'keyReadOnly': false,
-                'valueReadOnly': false
+                'valueReadOnly': false,
+                'nonOsmData': false,
             };
         }
 
@@ -37,17 +39,6 @@ export default Marionette.CollectionView.extend({
     },
 
     getTags: function () {
-        let rawTags = this.collection.toJSON();
-        let tags = {};
-
-        for (let tag of rawTags) {
-            if (!tag.key || !tag.value) {
-                continue;
-            }
-
-            tags[tag.key] = tag.value;
-        }
-
-        return tags;
+        return this.collection.toJSON();
     },
 });

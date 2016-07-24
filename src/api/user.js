@@ -16,7 +16,7 @@ function setOptions (hash) {
 
 class Api {
     static post (req, res) {
-        let collection = options.database.collection('user'),
+        const collection = options.database.collection('user'),
         model = new UserModel(req.body);
 
         if ( !model.isValid() ) {
@@ -32,7 +32,7 @@ class Api {
                 return true;
             }
 
-            let result = results.ops[0];
+            const result = results.ops[0];
             result._id = result._id.toString();
 
             res.send(result);
@@ -62,7 +62,7 @@ class Api {
             return true;
         }
 
-        let collection = options.database.collection('user');
+        const collection = options.database.collection('user');
 
         collection.find({
             '_id': new ObjectID(_id)
@@ -80,7 +80,7 @@ class Api {
                 return true;
             }
 
-            let result = results[0];
+            const result = results[0];
             result._id = result._id.toString();
 
             callback(result);
@@ -89,7 +89,7 @@ class Api {
 
 
     static getAll (req, res) {
-        let collection = options.database.collection('user');
+        const collection = options.database.collection('user');
 
         collection.find()
         .toArray((err, results) => {
@@ -124,7 +124,7 @@ class Api {
         }
 
 
-        let new_json = req.body,
+        const new_json = req.body,
         collection = options.database.collection('user'),
         model = new UserModel(new_json);
 
@@ -168,7 +168,7 @@ class Api {
         }
 
 
-        let collection = options.database.collection('user');
+        const collection = options.database.collection('user');
 
         collection.remove({
             '_id': new ObjectID(req.params._id)

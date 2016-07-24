@@ -61,9 +61,10 @@ export default Marionette.LayoutView.extend({
         }
 
         const cache = this.model.get('cache');
+        const cacheUpdateSuccess = this.model.get('cacheUpdateSuccess');
         const cacheUpdateSuccessDate = this.model.get('cacheUpdateSuccessDate');
 
-        if ( cache && cacheUpdateSuccessDate ) {
+        if ( cache && cacheUpdateSuccess && cacheUpdateSuccessDate ) {
             this.ui.cacheSection.removeClass('hide');
 
             if ( cacheUpdateSuccessDate ) {

@@ -19,6 +19,11 @@ function setOptions (hash) {
 
 function addThemeInUserSession (session, theme) {
     theme._id = theme._id.toString();
+
+    if (!session.themes) {
+        session.themes = [];
+    }
+
     session.themes.push( theme._id );
     return true;
 }
@@ -43,8 +48,8 @@ class Api {
     static createTheme (session, userId) {
         Backbone.Relational.store.reset();
 
-        let collection = options.database.collection('theme'),
-        model = new ThemeModel({
+        const collection = options.database.collection('theme');
+        const model = new ThemeModel({
             'userId': userId,
             'owners': [ userId ]
         });
@@ -62,7 +67,7 @@ class Api {
                             return reject(500);
                         }
 
-                        let result = results.ops[0];
+                        const result = results.ops[0];
 
                         addThemeInUserSession(session, result);
 
@@ -74,14 +79,14 @@ class Api {
     }
 
     static getNewFragment () {
-        let collection = options.database.collection('theme'),
-        shasum = crypto.createHash('sha1');
+        const collection = options.database.collection('theme');
+        const shasum = crypto.createHash('sha1');
 
         shasum.update([
             new Date().getTime().toString()
         ].join('') );
 
-        let fragment = shasum.digest('hex').substr(0, 6);
+        const fragment = shasum.digest('hex').substr(0, 6);
 
         return new Promise((resolve, reject) => {
             collection.find({
@@ -110,7 +115,7 @@ class Api {
             return true;
         }
 
-        let collection = options.database.collection('theme');
+        const collection = options.database.collection('theme');
 
         collection.find({
             '_id':  new ObjectID(req.params._id)
@@ -128,7 +133,7 @@ class Api {
                 return true;
             }
 
-            let result = results[0];
+            const result = results[0];
             result._id = result._id.toString();
 
             res.send(result);
@@ -137,8 +142,8 @@ class Api {
 
 
     static getAll (req, res) {
-        let collection = options.database.collection('theme');
-        let filters = {};
+        const collection = options.database.collection('theme');
+        const filters = {};
 
         if (req.query.hasLayer) {
             filters.layers = {
@@ -178,29 +183,18 @@ class Api {
                 });
             }
 
-            if ( req.query.fragment ) {
-                if (results.length === 0) {
-                    res.sendStatus(404);
-
-                    return true;
-                }
-
-                res.send(results[0]);
-
-                return true;
-            }
-            else if ( req.query.q ) {
+            if ( req.query.q ) {
                 if (req.query.q.length < 3) {
                     res.status(400).send('Query too short');
                     return;
                 }
 
-                let searchFields = [];
+                const searchFields = [];
 
-                for (let theme of results) {
-                    let layerfields = [];
+                for (const theme of results) {
+                    const layerfields = [];
 
-                    for (let layer of theme.layers) {
+                    for (const layer of theme.layers) {
                         layerfields.push([
                             layer.name,
                             layer.description,
@@ -216,9 +210,9 @@ class Api {
                     });
                 }
 
-                let searchResults = [];
-                let sifter = new Sifter(searchFields);
-                let sifterResults = sifter.search(
+                const searchResults = [];
+                const sifter = new Sifter(searchFields);
+                const sifterResults = sifter.search(
                     req.query.q,
                     {
                         'fields': [
@@ -231,7 +225,7 @@ class Api {
                     }
                 );
 
-                for (let result of sifterResults.items) {
+                for (const result of sifterResults.items) {
                     searchResults.push(
                         results[ result.id ]
                     );
@@ -248,7 +242,7 @@ class Api {
 
     static findFromFragment (fragment) {
         return new Promise((resolve, reject) => {
-            let collection = options.database.collection('theme');
+            const collection = options.database.collection('theme');
 
             if ( !fragment || !options.CONST.pattern.fragment.test( fragment ) ) {
                 reject(400);
@@ -269,7 +263,7 @@ class Api {
                     return;
                 }
 
-                let result = results[0];
+                const result = results[0];
                 result._id = result._id.toString();
 
                 resolve(result);
@@ -280,7 +274,7 @@ class Api {
 
     static findFromOwnerId (ownerId) {
         return new Promise((resolve, reject) => {
-            let collection = options.database.collection('theme');
+            const collection = options.database.collection('theme');
 
             if ( !ownerId || !options.CONST.pattern.mongoId.test( ownerId ) ) {
                 reject(400);
@@ -311,13 +305,12 @@ class Api {
                     return;
                 }
 
-                if (results.length > 0) {
-                    results.forEach((result) => {
+                resolve(
+                    results.map(result => {
                         result._id = result._id.toString();
-                    });
-                }
-
-                resolve(results);
+                        return result;
+                    })
+                );
             });
         });
     }
@@ -338,7 +331,7 @@ class Api {
 
         Backbone.Relational.store.reset();
 
-        let new_json = req.body,
+        const new_json = req.body,
         collection = options.database.collection('theme'),
         model = new ThemeModel(new_json);
 
@@ -384,7 +377,7 @@ class Api {
         }
 
 
-        let collection = options.database.collection('theme');
+        const collection = options.database.collection('theme');
 
         collection.remove({
             '_id': new ObjectID(req.params._id)

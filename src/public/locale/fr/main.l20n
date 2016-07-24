@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"Mon compte">
 <buttonLinkTooltip title:"Partager">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
+<buttonTempLayerTooltip title:"Ajouter une couche temporaire">
 <buttonEditSettingTooltip title:"Configuration générale">
 <buttonEditLayerTooltip title:"Couches">
 <buttonEditTileTooltip title:"Fonds de carte">
@@ -62,11 +63,15 @@
 <createATheme "Créer un thème">
 <searchATheme placeholder:"Rechercher un thème (3 caractères min.)">
 <aboutMapContrib "À propos de MapContrib">
+<invalidFile "Fichier non valide">
 
 
 /* Home */
 <home_noResult "Aucun résultat">
-<home_charactersLeft "Saisissez encore {{ $n }} caractères">
+<home_charactersLeft[plural($n)] {
+  one: "Saisissez encore 1 caractère",
+  many: "Saisissez encore {{ $n }} caractères"
+}>
 
 
 /* Help */
@@ -93,6 +98,8 @@
   one: "Pour voir ces données, vous devez zoomer une fois.",
   many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
 }>
+<selectLayerColumn_downloadData "Télécharger les données visibles">
+
 
 
 /* Tile column */
@@ -160,7 +167,7 @@
 <editLayerFormColumn_visible "Visible par les utilisateurs">
 <editLayerFormColumn_layerZoomLevel "Zoom minimum">
 <editLayerFormColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
-<editLayerFormColumn_layerOverpassRequest "Requête Overpass">
+<editLayerFormColumn_layerOverpassRequest "Requête OverPass">
 <editLayerFormColumn_marker "Marqueur">
 <editLayerFormColumn_layerPopupContent "Contenu des bulles">
 <editLayerFormColumn_gpxFile "Fichier GPX">
@@ -263,6 +270,8 @@
 <uiFormNodeTags_value placeholder:"Valeur">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
+<uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag non envoyé à OpenStreetMap">
 
 
 /* Color selector UI */
@@ -283,10 +292,12 @@
 
 /* Add layer menu column */
 <addLayerMenuColumn_title "Ajouter une couche">
-<addLayerMenuColumn_overPass "Requête OverPass">
-<addLayerMenuColumn_gpx "Fichier GPX">
-<addLayerMenuColumn_csv "Fichier CSV">
-<addLayerMenuColumn_geoJson "Fichier GeoJSON">
+<addLayerMenuColumn_remoteInformation "Information distante">
+<addLayerMenuColumn_file "Fichier">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
 
 
 /* Layer info column */
@@ -309,3 +320,14 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Détails">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Couches temporaires">
+<tempLayerListColumn_description "Ces couches sont éphémères. Elles ne sont visibles que par vous et disparaissent après avoir fermé MapContrib.">
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Type de nœud">
+<editPoiPresetColumn_noThanks "Non merci">
+<editPoiPresetColumn_applyPreset "Voulez-vous automatiquement ajouter les tags d'un de ces types de nœuds ?">

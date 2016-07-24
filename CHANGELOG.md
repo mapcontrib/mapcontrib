@@ -1,8 +1,51 @@
 # Changelog
 
-## 0.11.0 (development version)
+## 0.10.10
 
-* And as always, multiple bufixes and enhancement.
+* Gives style to all the feature types.
+
+## 0.10.9
+
+* Fixes the fullscreen handling.
+* Fixes the jquery-ui version.
+* Sets the iframe height to 500 pixels.
+* Fixes the polygon styles.
+* Don't display empty modals/columns.
+
+## 0.10.8
+
+* Fixes the zoomChanged bindings.
+
+## 0.10.7
+
+* Fixes the theme titles display.
+
+## 0.10.6
+
+* Don't set the X-Frame-Options to permit the remote use of MapContrib.
+
+## 0.10.5
+
+* Updates the README's screenshot.
+* Fixes an error on geolocation in some cases.
+* Hides home placeholders when a search is in progress.
+* Decreases the number of search requests in the home page.
+
+## 0.10.4
+
+* Don't execute OverPass requests when the layer is hidden.
+
+## 0.10.3
+
+* Don't expose POI edition when the layer is not an OverPass one.
+
+## 0.10.2
+
+* Fixes a translation.
+
+## 0.10.1
+
+* Fixes the first time login.
 
 ## 0.10.0
 

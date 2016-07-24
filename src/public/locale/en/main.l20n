@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
+<buttonTempLayerTooltip title:"Add a temporary layer">
 <buttonEditSettingTooltip title:"Main settings">
 <buttonEditLayerTooltip title:"Layer">
 <buttonEditTileTooltip title:"Backgrounds">
@@ -62,11 +63,15 @@
 <createATheme "Create a theme">
 <searchATheme placeholder:"Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
+<invalidFile "Invalid file">
 
 
 /* Home */
 <home_noResult "No result">
-<home_charactersLeft "{{ $n }} characters left">
+<home_charactersLeft[plural($n)] {
+  one: "1 character left",
+  many: "{{ $n }} characters left"
+}>
 
 
 /* Help */
@@ -93,6 +98,7 @@
   one: "To see these data, you need to zoom once.",
   many: "To see these data, you need to zoom {{ $n }} times."
 }>
+<selectLayerColumn_downloadData "Download the visible data">
 
 
 /* Tile column */
@@ -160,7 +166,7 @@
 <editLayerFormColumn_dataEditable "Allow to edit data">
 <editLayerFormColumn_layerZoomLevel "Minimum zoom">
 <editLayerFormColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
-<editLayerFormColumn_layerOverpassRequest "Overpass request">
+<editLayerFormColumn_layerOverpassRequest "OverPass request">
 <editLayerFormColumn_marker "Marker">
 <editLayerFormColumn_layerPopupContent "Popup content">
 <editLayerFormColumn_gpxFile "GPX file">
@@ -202,7 +208,7 @@
 
 /* Edit presets column */
 <editPresetColumn_title "Nodes types">
-<editPresetColumn_addPreset "Ajouter un type de nœud">
+<editPresetColumn_addPreset "Add a node type">
 <editPresetColumn_clickButton "Click the button below">
 
 
@@ -263,6 +269,8 @@
 <uiFormNodeTags_value placeholder:"Value">
 <uiFormNodeTags_keyReadOnly "Read-only key">
 <uiFormNodeTags_valueReadOnly "Read-only value">
+<uiFormNodeTags_nonOsmData "Do not send this tag to OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap">
 
 
 /* Color selector UI */
@@ -284,10 +292,12 @@
 
 /* Add layer menu column */
 <addLayerMenuColumn_title "Add a layer">
-<addLayerMenuColumn_overPass "OverPass request">
-<addLayerMenuColumn_gpx "GPX file">
-<addLayerMenuColumn_csv "CSV file">
-<addLayerMenuColumn_geoJson "GeoJSON file">
+<addLayerMenuColumn_remoteInformation "Remote information">
+<addLayerMenuColumn_file "File">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
 
 
 /* Layer info column */
@@ -310,3 +320,14 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Details">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Temporary layers">
+<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib.">
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Nodes types">
+<editPoiPresetColumn_noThanks "No thanks">
+<editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?">
