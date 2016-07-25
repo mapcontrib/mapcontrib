@@ -23,9 +23,9 @@ export default Marionette.ItemView.extend({
     },
 
     initialize: function () {
-        this.listenTo(this.model.collection, 'sync', this._onCollectionUpdate);
-        this.listenTo(this.model.collection, 'reset', this._onCollectionUpdate);
-        this.listenTo(this.model.collection, 'update', this._onCollectionUpdate);
+        this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
+        this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
+        this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
     },
 
     templateHelpers: function () {
@@ -55,7 +55,7 @@ export default Marionette.ItemView.extend({
 
         this.renderTagInfo();
 
-        this._onCollectionUpdate();
+        this.onCollectionUpdate();
     },
 
     renderTagInfo: function () {
@@ -92,7 +92,7 @@ export default Marionette.ItemView.extend({
         this.ui.removeBtn.prop('disabled', 'disabled');
     },
 
-    _onCollectionUpdate: function () {
+    onCollectionUpdate: function () {
         const osmTags = this.model.collection.where({
             'nonOsmData': false
         });

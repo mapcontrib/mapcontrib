@@ -27,6 +27,13 @@ export default Marionette.ItemView.extend({
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
+    initialize: function () {
+        this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
+        this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
+        this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
+        this.listenTo(this.model.collection, 'change', this.onCollectionUpdate);
+    },
+
     templateHelpers: function () {
         return {
             'cid': this.model.cid
@@ -56,6 +63,8 @@ export default Marionette.ItemView.extend({
         this.onChangeNonOsmData();
 
         this.renderTagInfo();
+
+        this.onCollectionUpdate();
     },
 
     renderTagInfo: function () {
@@ -116,5 +125,31 @@ export default Marionette.ItemView.extend({
 
     onClickRemoveBtn: function (e) {
         this.model.destroy();
+    },
+
+    enableRemoveButton: function () {
+        this.ui.removeBtn.prop('disabled', '');
+    },
+
+    disableRemoveButton: function () {
+        this.ui.removeBtn.prop('disabled', 'disabled');
+    },
+
+    onCollectionUpdate: function () {
+        const osmTags = this.model.collection.where({
+            'nonOsmData': false
+        });
+
+        if (osmTags.length === 0) {
+            this.model.collection.add({});
+        }
+        else if (osmTags.length === 1) {
+            this.disableRemoveButton();
+        }
+        else {
+            if ( !this.model.get('nonOsmData') ) {
+                this.enableRemoveButton();
+            }
+        }
     },
 });
