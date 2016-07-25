@@ -1,31 +1,23 @@
 
-import { ObjectID } from 'mongodb';
 import config from 'config';
-import _ from 'underscore';
-import path from 'path';
-import fs from 'fs';
-import mkdirp from 'mkdirp';
-import osmtogeojson from 'osmtogeojson';
 import { XMLHttpRequest } from 'xmlhttprequest';
 import logger from '../lib/logger';
-import throwError from '../lib/throwError';
-import dummyPromiseCallback from '../lib/dummyPromiseCallback';
 import Database from '../database';
-import themeApi from '../api/theme';
-import fileApi from '../api/file';
 import SERVER_CONST from '../const';
 import PUBLIC_CONST from '../public/js/const';
 import OverPassHelper from '../public/js/helper/overPass';
+import OverPassCache from '../lib/overPassCache';
 
 
-const CONST = _.extend(SERVER_CONST, PUBLIC_CONST);
+const CONST = {...SERVER_CONST, ...PUBLIC_CONST};
 const database = new Database();
 
 
 database.connect((err, db) => {
     if (err) throw err;
 
-    let cron = new UpdateOverPassCache(db);
+    const cache = new OverPassCache(db);
+    const cron = new UpdateOverPassCache(db, cache);
 
     logger.info(`Update of the OverPass cache started`);
 
@@ -36,8 +28,16 @@ database.connect((err, db) => {
 
 
 export default class UpdateOverPassCache {
-    constructor (db) {
+    constructor (db, cache) {
         this._db = db;
+        this._cache = cache;
+
+        this._callbacks = [
+            this._nextIteration.bind(this),
+            this._retryIteration.bind(this),
+            this._setLayerStateSuccess.bind(this),
+            this._setLayerStateError.bind(this)
+        ];
     }
 
     start () {
@@ -47,7 +47,6 @@ export default class UpdateOverPassCache {
 
         this._themeCollection.find({
             'layers.type': CONST.layerType.overpass,
-
             'layers.cache': true,
         }).toArray((err, themes) => {
             if(err) {
@@ -60,8 +59,13 @@ export default class UpdateOverPassCache {
 
             this._iterate = this._iterateLayers(themes);
 
-            let iteration = this._iterate.next();
-            this._processIteration(iteration);
+            const iteration = this._iterate.next();
+
+            this._cache._processIteration(
+                iteration.value.theme,
+                iteration.value.layer,
+                ...this._callbacks
+            );
         });
     }
 
@@ -76,181 +80,34 @@ export default class UpdateOverPassCache {
 
     _nextIteration () {
         logger.debug('_nextIteration');
-        let iteration = this._iterate.next();
+        const iteration = this._iterate.next();
 
         if (iteration.done) {
             return this._end();
         }
 
-        setTimeout(this._processIteration.bind(this, iteration), 5 * 1000);
-    }
-
-    _retryIteration (iteration) {
-        logger.debug('_retryIteration');
-        setTimeout(this._processIteration.bind(this, iteration), 60 * 1000);
-    }
-
-    _processIteration (iteration) {
-        logger.debug('_processIteration');
-
-        let theme = iteration.value.theme;
-        let layer = iteration.value.layer;
-
-        if (layer.type !== CONST.layerType.overpass) {
-            return this._nextIteration();
-        }
-
-        if (layer.cache === false) {
-            return this._nextIteration();
-        }
-
-        logger.info('Next request');
-        logger.info('Theme fragment:', theme.fragment);
-        logger.info('Layer uniqid:', layer.uniqid);
-
-        const url = OverPassHelper.buildUrlForCache(
-            config.get('client.overPassEndPoint'),
-            layer.overpassRequest,
-            config.get('client.overPassCacheFileSize')
+        setTimeout(
+            this._cache._processIteration.bind(
+                this._cache,
+                iteration.value.theme,
+                iteration.value.layer,
+                ...this._callbacks
+            ),
+            5 * 1000
         );
-
-        this._retrieveData(url)
-        .then(data => {
-            this._saveCacheFile(
-                theme.fragment,
-                layer.uniqid,
-                data
-            )
-            .then( this._setLayerStateSuccess.bind(this, theme, layer) )
-            .then( this._nextIteration.bind(this) );
-        })
-        .catch(xhr => {
-            if (xhr.status === 429) {
-                logger.info('OverPass says: Too many requests... Retrying in a few seconds');
-                return this._retryIteration(iteration);
-            }
-
-            if (xhr.status === 400) {
-                logger.debug('OverPass says: Bad request');
-
-                return this._deleteCacheFile(
-                    theme.fragment,
-                    layer.uniqid
-                )
-                .then( this._setLayerStateError(theme, layer, CONST.overPassCacheError.badRequest) )
-                .then( this._nextIteration.bind(this) );
-            }
-
-            if (xhr.status !== 200) {
-                logger.debug('Unknown error, next!');
-
-                return this._deleteCacheFile(
-                    theme.fragment,
-                    layer.uniqid
-                )
-                .then( this._setLayerStateError(theme, layer, CONST.overPassCacheError.unknown) )
-                .then( this._nextIteration.bind(this) );
-            }
-
-            let error;
-            const overPassJson = JSON.parse(xhr.responseText);
-
-            if ( overPassJson.remark.indexOf('Query timed out') > -1 ) {
-                logger.debug('OverPass says: Timeout');
-                error = CONST.overPassCacheError.timeout;
-            }
-            else if ( overPassJson.remark.indexOf('Query run out of memory') > -1 ) {
-                logger.debug('OverPass says: Out of memory');
-                error = CONST.overPassCacheError.memory;
-            }
-
-            return this._deleteCacheFile(
-                theme.fragment,
-                layer.uniqid
-            )
-            .then( this._setLayerStateError(theme, layer, error) )
-            .then( this._nextIteration.bind(this) );
-        });
     }
 
-    _retrieveData (url) {
-        logger.debug('_retrieveData');
-
-        return new Promise((resolve, reject) => {
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', url, false);
-            xhr.send(null);
-
-            if (xhr.status === 200) {
-                const overPassJson = JSON.parse(xhr.responseText);
-
-                if (overPassJson.remark) {
-                    return reject(xhr);
-                }
-
-                return resolve(overPassJson);
-            }
-
-            return reject(xhr);
-        });
-    }
-
-    _buildDirectories (themeFragment, layerUuid) {
-        logger.debug('_buildDirectories');
-
-        const publicDirectory = path.resolve(__dirname, '..', 'public');
-        const publicCacheDirectory = `files/theme/${themeFragment}/overPassCache/`;
-        const cacheDirectory = path.resolve( publicDirectory, publicCacheDirectory );
-        const filePath = path.join( publicCacheDirectory, `${layerUuid}.geojson` );
-
-        if ( !fs.existsSync( cacheDirectory ) ) {
-            mkdirp.sync(cacheDirectory);
-        }
-
-        return {
-            publicDirectory,
-            publicCacheDirectory,
-            cacheDirectory,
-            filePath,
-        };
-    }
-
-    _saveCacheFile (themeFragment, layerUuid, overPassResult) {
-        logger.debug('_saveCacheFile');
-
-        return new Promise((resolve, reject) => {
-            const overPassGeoJson = osmtogeojson(overPassResult);
-            const {
-                publicDirectory,
-                filePath
-            } = this._buildDirectories(themeFragment, layerUuid);
-
-            fs.writeFile(
-                path.resolve( publicDirectory, filePath ),
-                JSON.stringify( overPassGeoJson ),
-                () => {
-                    resolve(`/${filePath}`);
-                }
-            );
-        });
-    }
-
-    _deleteCacheFile (themeFragment, layerUuid) {
-        logger.debug('_deleteCacheFile');
-
-        return new Promise((resolve, reject) => {
-            const {
-                publicDirectory,
-                filePath
-            } = this._buildDirectories(themeFragment, layerUuid);
-
-            fs.unlink(
-                path.resolve( publicDirectory, filePath ),
-                () => {
-                    resolve();
-                }
-            );
-        });
+    _retryIteration (theme, layer) {
+        logger.debug('_retryIteration');
+        setTimeout(
+            this._cache._processIteration.bind(
+                this._cache,
+                theme,
+                layer,
+                ...this._callbacks
+            ),
+            60 * 1000
+        );
     }
 
     _setLayerStateSuccess (theme, layer, filePath) {
