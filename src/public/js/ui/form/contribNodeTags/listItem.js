@@ -128,11 +128,11 @@ export default Marionette.ItemView.extend({
             'nonOsmData': false
         });
 
-        if (osmTags.length === 1) {
-            this.ui.removeBtn.prop('disabled', true);
-        }
-        else {
-            if ( !this.model.get('nonOsmData') ) {
+        if ( !this.model.get('nonOsmData') ) {
+            if (osmTags.length === 1) {
+                this.ui.removeBtn.prop('disabled', true);
+            }
+            else {
                 this.ui.removeBtn.prop('disabled', false);
             }
         }
