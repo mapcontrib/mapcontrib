@@ -12,6 +12,12 @@ export default Marionette.ItemView.extend({
         'keyReadOnly': '.key_read_only',
         'valueReadOnly': '.value_read_only',
         'nonOsmData': '.non_osm_data',
+        'textInput': '.text_input',
+        'fileInput': '.file_input',
+        'keyReadOnlyGroup': '.key_read_only_group',
+        'valueReadOnlyGroup': '.value_read_only_group',
+        'textInputGroup': '.text_input_group',
+        'fileInputGroup': '.file_input_group',
         'infoBtn': '.info_btn',
         'removeBtn': '.remove_btn',
     },
@@ -24,6 +30,8 @@ export default Marionette.ItemView.extend({
         'change @ui.keyReadOnly': 'onChangeKeyReadOnly',
         'change @ui.valueReadOnly': 'onChangeValueReadOnly',
         'change @ui.nonOsmData': 'onChangeNonOsmData',
+        'change @ui.textInput': 'onChangetypeInput',
+        'change @ui.fileInput': 'onChangetypeInput',
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
@@ -57,6 +65,13 @@ export default Marionette.ItemView.extend({
             'checked',
             this.model.get('valueReadOnly')
         );
+
+        if ( this.model.get('type') === 'text' ) {
+            this.ui.textInput.prop('checked', true);
+        }
+        else {
+            this.ui.fileInput.prop('checked', true);
+        }
 
         this.onChangeValueReadOnly();
         this.onChangeKeyReadOnly();
@@ -109,30 +124,50 @@ export default Marionette.ItemView.extend({
     onChangeNonOsmData: function (e) {
         this.model.set('nonOsmData', this.ui.nonOsmData.prop('checked'));
 
+        const nonOsmData = this.model.get('nonOsmData');
+
         this.ui.keyReadOnly
         .prop('checked', true)
         .prop(
             'disabled',
-            this.model.get('nonOsmData')
+            nonOsmData
         );
+
         this.ui.valueReadOnly
         .prop('checked', false)
         .prop(
             'disabled',
-            this.model.get('nonOsmData')
+            nonOsmData
         );
+
+        if (nonOsmData) {
+            this.ui.textInputGroup.removeClass('hide');
+            this.ui.fileInputGroup.removeClass('hide');
+            this.ui.keyReadOnlyGroup.addClass('hide');
+            this.ui.valueReadOnlyGroup.addClass('hide');
+        }
+        else {
+            this.ui.value.prop('disabled', false);
+            this.ui.textInputGroup.addClass('hide');
+            this.ui.fileInputGroup.addClass('hide');
+            this.ui.keyReadOnlyGroup.removeClass('hide');
+            this.ui.valueReadOnlyGroup.removeClass('hide');
+        }
+    },
+
+    onChangetypeInput: function (e) {
+        if ( this.ui.fileInput.prop('checked') ) {
+            this.model.set('type', 'file');
+            this.ui.value.val('').prop('disabled', true);
+        }
+        else {
+            this.model.set('type', 'text');
+            this.ui.value.prop('disabled', false);
+        }
     },
 
     onClickRemoveBtn: function (e) {
         this.model.destroy();
-    },
-
-    enableRemoveButton: function () {
-        this.ui.removeBtn.prop('disabled', '');
-    },
-
-    disableRemoveButton: function () {
-        this.ui.removeBtn.prop('disabled', 'disabled');
     },
 
     onCollectionUpdate: function () {
@@ -144,11 +179,11 @@ export default Marionette.ItemView.extend({
             this.model.collection.add({});
         }
         else if (osmTags.length === 1) {
-            this.disableRemoveButton();
+            this.ui.removeBtn.prop('disabled', true);
         }
         else {
             if ( !this.model.get('nonOsmData') ) {
-                this.enableRemoveButton();
+                this.ui.removeBtn.prop('disabled', false);
             }
         }
     },

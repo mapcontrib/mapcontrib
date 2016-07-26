@@ -46,7 +46,7 @@ export default Marionette.ItemView.extend({
         }
 
         if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
-            this.disableRemoveButton();
+            this.ui.removeBtn.prop('disabled', true);
         }
 
         if (this.model.get('nonOsmData')) {
@@ -84,25 +84,17 @@ export default Marionette.ItemView.extend({
         this.model.destroy();
     },
 
-    enableRemoveButton: function () {
-        this.ui.removeBtn.prop('disabled', '');
-    },
-
-    disableRemoveButton: function () {
-        this.ui.removeBtn.prop('disabled', 'disabled');
-    },
-
     onCollectionUpdate: function () {
         const osmTags = this.model.collection.where({
             'nonOsmData': false
         });
 
         if (osmTags.length === 1) {
-            this.disableRemoveButton();
+            this.ui.removeBtn.prop('disabled', true);
         }
         else {
             if ( !this.model.get('nonOsmData') ) {
-                this.enableRemoveButton();
+                this.ui.removeBtn.prop('disabled', false);
             }
         }
     },

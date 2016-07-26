@@ -272,6 +272,8 @@
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
 <uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag non envoyé à OpenStreetMap">
+<uiFormNodeTags_textInput "Champs texte">
+<uiFormNodeTags_fileInput "Champs fichier">
 
 
 /* Color selector UI */
