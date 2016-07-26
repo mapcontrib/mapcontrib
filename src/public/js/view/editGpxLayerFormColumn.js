@@ -33,7 +33,7 @@ export default Marionette.ItemView.extend({
         'formGroups': '.form-group',
         'fileFormGroup': '.form-group.layer_file',
 
-        'actualFile': '.actual_file',
+        'currentFile': '.current_file',
     },
 
     events: {
@@ -44,13 +44,11 @@ export default Marionette.ItemView.extend({
     templateHelpers: function () {
         const config = MAPCONTRIB.config;
         const maxFileSize = Math.round( config.uploadMaxShapeFileSize / 1024 );
-        const file = basename(this.model.get('fileUri') || '');
 
         return {
             'fragment': this.options.theme.get('fragment'),
             'apiPath': `${CONST.apiPath}file/shape`,
             'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
-            'file': file
         };
     },
 
@@ -72,7 +70,16 @@ export default Marionette.ItemView.extend({
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
 
         if ( this.model.get('fileUri') ) {
-            this.ui.actualFile.removeClass('hide');
+            const fileUri = this.model.get('fileUri');
+            const fileName = basename(fileUri || '');
+
+            this.ui.currentFile
+            .html(
+                document.l10n.getSync('currentFile', {
+                    file: `<a href="${fileUri}" target="_blank">${fileName}</a>`
+                })
+            )
+            .removeClass('hide');
         }
     },
 

@@ -111,6 +111,8 @@ textarea.font-monospace {
 
 input + .help-block,
 .input-group + .help-block,
+.input-group-btn + .help-block,
+.help-block + .help-block,
 textarea + .help-block,
 figure + figcaption {
     padding: 4px 6px;
@@ -119,9 +121,20 @@ figure + figcaption {
 
 input + .help-block,
 .input-group + .help-block,
+.input-group-btn + .help-block,
+.help-block + .help-block,
 textarea + .help-block {
     font-size: 12px;
 }
+
+.help-block + .help-block {
+    margin-top: -10px;
+}
+
+.help-block.hide + .help-block {
+    margin-top: 0;
+}
+
 
 .input-group-addon {
     border-radius: 0;

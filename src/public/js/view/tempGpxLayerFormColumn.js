@@ -32,20 +32,12 @@ export default Marionette.ItemView.extend({
         'formGroups': '.form-group',
         'fileFormGroup': '.form-group.layer_file',
 
-        'actualFile': '.actual_file',
+        'currentFile': '.current_file',
     },
 
     events: {
         'submit': 'onSubmit',
         'reset': 'onReset',
-    },
-
-    templateHelpers: function () {
-        const file = basename(this.model.get('fileUri') || '');
-
-        return {
-            'file': file
-        };
     },
 
     initialize: function () {
@@ -64,7 +56,16 @@ export default Marionette.ItemView.extend({
         );
 
         if ( this.model.get('fileUri') ) {
-            this.ui.actualFile.removeClass('hide');
+            const fileUri = this.model.get('fileUri');
+            const fileName = basename(fileUri || '');
+
+            this.ui.currentFile
+            .html(
+                document.l10n.getSync('currentFile', {
+                    file: `<a href="${fileUri}" target="_blank">${fileName}</a>`
+                })
+            )
+            .removeClass('hide');
         }
     },
 

@@ -64,6 +64,8 @@
 <searchATheme placeholder:"Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
 <invalidFile "File non valido">
+<currentFile "Current file: <a>{{ $file }}</a>"> /* FIXME */
+<file "File">
 
 
 /* Home */
@@ -271,6 +273,8 @@
 <uiFormNodeTags_valueReadOnly "Valore in sola lettura">
 <uiFormNodeTags_nonOsmData "Do not send this tag to OSM"> /* FIXME */
 <uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap"> /* FIXME */
+<uiFormNodeTags_textInput "Text input"> /* FIXME */
+<uiFormNodeTags_fileInput "File input"> /* FIXME */
 
 
 /* Color selector UI */

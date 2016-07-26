@@ -8,7 +8,11 @@ export default Marionette.ItemView.extend({
 
     ui: {
         'key': '.key',
-        'value': '.value',
+        'textInput': '.text_input',
+        'fileInput': '.file_input',
+        'textInputGroup': '.text_input_group',
+        'fileInputGroup': '.file_input_group',
+        'currentFile': '.current_file',
         'infoBtn': '.info_btn',
         'nonOsmWarning': '.non_osm_warning',
         'removeBtn': '.remove_btn',
@@ -16,9 +20,9 @@ export default Marionette.ItemView.extend({
 
     events: {
         'blur @ui.key': 'updateKey',
-        'blur @ui.value': 'updateValue',
+        'blur @ui.textInput': 'updateTextInput',
         'keyup @ui.key': 'updateKey',
-        'keyup @ui.value': 'updateValue',
+        'keyup @ui.textInput': 'updateTextInput',
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
@@ -29,8 +33,12 @@ export default Marionette.ItemView.extend({
     },
 
     templateHelpers: function () {
+        const config = MAPCONTRIB.config;
+        const maxFileSize = Math.round( config.uploadMaxShapeFileSize / 1024 );
+
         return {
-            'cid': this.model.cid
+            'cid': this.model.cid,
+            'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
         };
     },
 
@@ -42,7 +50,7 @@ export default Marionette.ItemView.extend({
         }
 
         if (this.model.get('valueReadOnly')) {
-            this.ui.value.prop('disabled', 'disabled');
+            this.ui.textInput.prop('disabled', 'disabled');
         }
 
         if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
@@ -53,9 +61,40 @@ export default Marionette.ItemView.extend({
             this.ui.nonOsmWarning.removeClass('hide');
         }
 
+        if (this.model.get('type') === 'text') {
+            this.ui.textInputGroup.removeClass('hide');
+            this.ui.fileInputGroup.addClass('hide');
+        }
+        else {
+            if ( this.model.get('value') ) {
+                const fileUri = this.model.get('value');
+                const fileName = basename(fileUri || '');
+
+                this.ui.currentFile
+                .html(
+                    document.l10n.getSync('currentFile', {
+                        file: `<a href="${fileUri}" target="_blank">${fileName}</a>`
+                    })
+                )
+                .removeClass('hide');
+            }
+
+            this.ui.textInputGroup.addClass('hide');
+            this.ui.fileInputGroup.removeClass('hide');
+        }
+
         this.renderTagInfo();
 
         this.onCollectionUpdate();
+    },
+
+    onShow: function () {
+        this.ui.fileInput.filestyle({
+            'icon': false,
+            'badge': false,
+            'placeholder': document.l10n.getSync('file'),
+            'buttonText': document.l10n.getSync('editLayerFormColumn_browse'),
+        });
     },
 
     renderTagInfo: function () {
@@ -73,10 +112,10 @@ export default Marionette.ItemView.extend({
         this.renderTagInfo();
     },
 
-    updateValue: function (e) {
+    updateTextInput: function (e) {
         this.model.set(
             'value',
-            this.ui.value.val().trim()
+            this.ui.textInput.val().trim()
         );
     },
 

@@ -15,7 +15,7 @@ export default Backbone.Model.extend({
         'osmType': undefined,
         'userId': undefined,
         'themeFragment': undefined,
-        'tags': [], // { key: string, value: string, type: text|img }
+        'tags': [], // { key: string, value: string, type: text|file }
     },
 
     updateModificationDate: function () {

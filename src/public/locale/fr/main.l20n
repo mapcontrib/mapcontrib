@@ -64,6 +64,8 @@
 <searchATheme placeholder:"Rechercher un thème (3 caractères min.)">
 <aboutMapContrib "À propos de MapContrib">
 <invalidFile "Fichier non valide">
+<currentFile "Fichier actuel : <a>{{ $file }}</a>">
+<file "Fichier">
 
 
 /* Home */

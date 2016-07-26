@@ -17,6 +17,7 @@ export default Marionette.CollectionView.extend({
                 'keyReadOnly': false,
                 'valueReadOnly': false,
                 'nonOsmData': false,
+                'type': 'text',
             });
         }
         else {
@@ -32,6 +33,7 @@ export default Marionette.CollectionView.extend({
                 'keyReadOnly': false,
                 'valueReadOnly': false,
                 'nonOsmData': false,
+                'type': 'text',
             };
         }
 
