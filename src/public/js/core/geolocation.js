@@ -171,7 +171,6 @@ export default class Geolocation {
      * @access private
      */
     _onLocationError(a, b, c) {
-        console.log(a, b, c);
         if (this._marker) {
             this._marker.setOpacity(0.5);
         }
