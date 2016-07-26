@@ -18,7 +18,7 @@ client:
     oauthConsumerKey:
     oauthSecret:
 
-    overPassEndPoint: http://overpass-api.de/api/
+    overPassEndPoint: https://overpass-api.de/api/
     overPassTimeout: 120000 # Milliseconds
     overPassCacheEnabled: true
     overPassCacheFileSize: 1048576
