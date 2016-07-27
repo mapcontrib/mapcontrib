@@ -124,11 +124,11 @@ export default Marionette.ItemView.extend({
                 'error': xhr => {
                     switch (xhr.status) {
                         case 413:
-                        this.ui.fileFormGroup.addClass('has-feedback has-error');
-                        break;
+                            this.ui.fileFormGroup.addClass('has-feedback has-error');
+                            break;
                         case 415:
-                        this.ui.fileFormGroup.addClass('has-feedback has-error');
-                        break;
+                            this.ui.fileFormGroup.addClass('has-feedback has-error');
+                            break;
                     }
                 },
                 'success': response => {
@@ -144,9 +144,9 @@ export default Marionette.ItemView.extend({
     },
 
     saveLayer: function () {
-        let updatePolylines = false,
-        updatePopups = false,
-        updateVisibility = false;
+        let updatePolylines = false;
+        let updatePopups = false;
+        let updateVisibility = false;
 
         this.model.set('minZoom', 0);
         this.model.set('name', this.ui.layerName.val());

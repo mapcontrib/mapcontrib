@@ -161,12 +161,12 @@ export default Marionette.ItemView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        let updateMarkers = false,
-        updateMinZoom = false,
-        updatePopups = false,
-        updateVisibility = false,
-        updateRequest = false,
-        color = this.model.get('markerColor');
+        let updateMarkers = false;
+        let updateMinZoom = false;
+        let updatePopups = false;
+        let updateVisibility = false;
+        let updateRequest = false;
+        const color = this.model.get('markerColor');
 
         if (color === 'dark-gray') {
             this.model.set('color', 'anthracite');

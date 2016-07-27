@@ -43,4 +43,18 @@ export default Marionette.CollectionView.extend({
     getTags: function () {
         return this.collection.toJSON();
     },
+
+    hasFileToUpload: function () {
+        let hasFileToUpload = false;
+
+        for (const i in this.children._views) {
+            const fileTag = this.children._views[i];
+
+            if ( fileTag.isFileTag() && fileTag.isNotEmpty() ) {
+                hasFileToUpload = true;
+            }
+        }
+
+        return hasFileToUpload;
+    },
 });

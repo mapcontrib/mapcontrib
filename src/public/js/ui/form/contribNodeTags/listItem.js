@@ -138,4 +138,20 @@ export default Marionette.ItemView.extend({
             }
         }
     },
+
+    isFileTag: function () {
+        if ( this.model.get('type') === 'file' ) {
+            return true;
+        }
+
+        return false;
+    },
+
+    isNotEmpty: function () {
+        if ( this.ui.fileInput.val() ) {
+            return true;
+        }
+
+        return false;
+    },
 });

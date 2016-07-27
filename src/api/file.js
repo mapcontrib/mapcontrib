@@ -89,13 +89,13 @@ class Api {
             const maxFileSize = config.get('client.uploadMaxShapeFileSize');
 
             if ( fileSize > maxFileSize) {
-                res.sendStatus(413);
+                return res.sendStatus(413);
             }
 
             const extension = file.extension.toLowerCase();
 
             if ( options.CONST.shapeFileExtensions.indexOf(extension) === -1 ) {
-                res.sendStatus(415);
+                return res.sendStatus(415);
             }
 
             promises.push(
@@ -116,23 +116,19 @@ class Api {
         const fragment = req.query.fragment;
         const promises = [];
 
+        console.log(req.files);
+
         for (const field in req.files) {
             const file = req.files[field];
             const fileSize = file.size / 1024;
             const maxFileSize = config.get('client.uploadMaxNonOsmDataFileSize');
 
             if ( fileSize > maxFileSize) {
-                res.sendStatus(413);
-            }
-
-            const extension = file.extension.toLowerCase();
-
-            if ( options.CONST.shapeFileExtensions.indexOf(extension) === -1 ) {
-                res.sendStatus(415);
+                return res.sendStatus(413);
             }
 
             promises.push(
-                uploadFile(req, res, req.files[field], `theme/${fragment}/shape`)
+                uploadFile(req, res, req.files[field], `theme/${fragment}/nonOsmData`)
             );
         }
 

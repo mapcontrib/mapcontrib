@@ -28,6 +28,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         'column': '#contrib_form_column',
+        'form': 'form',
         'content': '.content',
         'addBtn': '.add_btn',
     },
@@ -131,31 +132,29 @@ export default Marionette.LayoutView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        this.ui.formGroups.removeClass('has-feedback has-error');
+        // this.ui.formGroups.removeClass('has-feedback has-error');
 
-        const fileName = this.ui.fileInput.val();
+        const hasFilesToUpload = this._tagList.hasFileToUpload();
 
-        if ( fileName ) {
+        if ( hasFilesToUpload ) {
             this.ui.form.ajaxSubmit({
                 'error': xhr => {
                     switch (xhr.status) {
                         case 413:
-                        this.ui.fileFormGroup.addClass('has-feedback has-error');
-                        break;
-                        case 415:
-                        this.ui.fileFormGroup.addClass('has-feedback has-error');
-                        break;
+                            this.ui.fileFormGroup.addClass('has-feedback has-error');
+                            break;
                     }
                 },
                 'success': response => {
-                    const file = response[0];
-                    this.model.set('fileUri', file.layer_file);
-                    this.saveLayer();
+                    console.log('success !');
+                    // const file = response[0];
+                    // this.model.set('fileUri', file.layer_file);
+                    // this.saveLayer();
                 }
             });
         }
         else {
-            this.saveLayer();
+            // this.saveLayer();
         }
     },
 

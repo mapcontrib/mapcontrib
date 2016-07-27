@@ -130,11 +130,11 @@ export default Marionette.ItemView.extend({
                 'error': xhr => {
                     switch (xhr.status) {
                         case 413:
-                        this.ui.fileFormGroup.addClass('has-feedback has-error');
-                        break;
+                            this.ui.fileFormGroup.addClass('has-feedback has-error');
+                            break;
                         case 415:
-                        this.ui.fileFormGroup.addClass('has-feedback has-error');
-                        break;
+                            this.ui.fileFormGroup.addClass('has-feedback has-error');
+                            break;
                     }
                 },
                 'success': response => {
@@ -150,10 +150,10 @@ export default Marionette.ItemView.extend({
     },
 
     saveLayer: function () {
-        let updateMarkers = false,
-        updatePopups = false,
-        updateVisibility = false,
-        color = this.model.get('markerColor');
+        let updateMarkers = false;
+        let updatePopups = false;
+        let updateVisibility = false;
+        const color = this.model.get('markerColor');
 
         if (color === 'dark-gray') {
             this.model.set('color', 'anthracite');

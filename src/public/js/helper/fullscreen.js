@@ -18,16 +18,16 @@ export default class FullscreenHelper {
     static onFullscreenChange (window, callback) {
         let eventName;
 
-        if (document.fullscreenEnabled) {
+        if (window.document.fullscreenEnabled) {
             eventName = 'fullscreenchange';
         }
-        else if (document.mozFullScreenEnabled) {
+        else if (window.document.mozFullScreenEnabled) {
             eventName = 'mozfullscreenchange';
         }
-        else if (document.webkitFullscreenEnabled) {
+        else if (window.document.webkitFullscreenEnabled) {
             eventName = 'webkitfullscreenchange';
         }
-        else if (document.msFullscreenEnabled) {
+        else if (window.document.msFullscreenEnabled) {
             eventName = 'MSFullscreenChange';
         }
 
