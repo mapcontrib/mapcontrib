@@ -476,6 +476,9 @@ export default Marionette.LayoutView.extend({
         .on('locationfound', () => {
             this.onLocationFound();
         })
+        .on('locationtimeout', () => {
+            this.onLocationTimeout();
+        })
         .on('locationerror', () => {
             this.onLocationError();
         });
@@ -504,7 +507,7 @@ export default Marionette.LayoutView.extend({
 
 
         const newerOsmCacheModels = this._osmCache.where({'osmVersion': 0});
-        
+
         for (const i in newerOsmCacheModels) {
             const osmCacheModel = newerOsmCacheModels[i];
             const osmElement = osmCacheModel.get('osmElement');
@@ -1602,6 +1605,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onLocationFound: function () {
+        this.hideLocateProgress();
+    },
+
+    onLocationTimeout: function () {
         this.hideLocateProgress();
     },
 

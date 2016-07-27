@@ -39,6 +39,11 @@ export default class Geolocation {
             'setView': false,
             'enableHighAccuracy': true,
         });
+
+        this._locateTimeout = setTimeout(
+            this._onLocationTimeout.bind(this),
+            30 * 1000
+        );
     }
 
     /**
@@ -123,12 +128,25 @@ export default class Geolocation {
     }
 
     /**
+     * The manual timeout handler.
+     *
+     * @author Guillaume AMAT
+     * @access private
+     */
+    _onLocationTimeout() {
+        this.stopLocate();
+        this._map.fireEvent('locationtimeout');
+    }
+
+    /**
      * The locationfound event handler.
      *
      * @author Guillaume AMAT
      * @access private
      */
     _onLocationFound(e) {
+        clearTimeout( this._locateTimeout );
+
         if (!this._marker) {
             this._addMarker(
                 GeolocationPoint.getDefaultMarker()
