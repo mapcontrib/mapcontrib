@@ -106,7 +106,7 @@ export default Marionette.ItemView.extend({
 
         this.ui.formGroups.removeClass('has-feedback has-error');
 
-        let fileName = this.ui.layerFile.val();
+        const fileName = this.ui.layerFile.val();
 
         if ( !fileName && this.options.isNew ) {
             this.ui.fileFormGroup.addClass('has-feedback has-error');
@@ -132,7 +132,7 @@ export default Marionette.ItemView.extend({
                     }
                 },
                 'success': response => {
-                    let file = response[0];
+                    const file = response[0];
                     this.model.set('fileUri', file.layer_file);
                     this.saveLayer();
                 }

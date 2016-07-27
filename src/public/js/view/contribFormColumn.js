@@ -37,6 +37,13 @@ export default Marionette.LayoutView.extend({
         'submit': 'onSubmit',
     },
 
+    templateHelpers: function () {
+        return {
+            'fragment': this._theme.get('fragment'),
+            'apiPath': `${CONST.apiPath}file/nonOsmData`,
+        };
+    },
+
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
         this._map = this._radio.reqres.request('map');
@@ -124,6 +131,35 @@ export default Marionette.LayoutView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
+        this.ui.formGroups.removeClass('has-feedback has-error');
+
+        const fileName = this.ui.fileInput.val();
+
+        if ( fileName ) {
+            this.ui.form.ajaxSubmit({
+                'error': xhr => {
+                    switch (xhr.status) {
+                        case 413:
+                        this.ui.fileFormGroup.addClass('has-feedback has-error');
+                        break;
+                        case 415:
+                        this.ui.fileFormGroup.addClass('has-feedback has-error');
+                        break;
+                    }
+                },
+                'success': response => {
+                    const file = response[0];
+                    this.model.set('fileUri', file.layer_file);
+                    this.saveLayer();
+                }
+            });
+        }
+        else {
+            this.saveLayer();
+        }
+    },
+
+    saveLayer: function () {
         const createdBy = CONST.osm.changesetCreatedBy
         .replace('{version}', MAPCONTRIB.version);
         const tags = this._tagList.getTags();

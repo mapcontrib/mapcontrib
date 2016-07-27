@@ -45,6 +45,13 @@ export default Marionette.LayoutView.extend({
         'submit': 'onSubmit',
     },
 
+    templateHelpers: function () {
+        return {
+            'fragment': this._theme.get('fragment'),
+            'apiPath': `${CONST.apiPath}file/nonOsmData`,
+        };
+    },
+
     initialize: function () {
         this._app = this.options.app;
         this._user = this._app.getUser();
