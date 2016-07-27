@@ -6,6 +6,7 @@ import themeApi from './theme';
 import nonOsmDataApi from './nonOsmData';
 import osmCacheApi from './osmCache';
 import fileApi from './file';
+import overPassCacheApi from './overPassCache';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -23,6 +24,7 @@ export default function Api(app, db, CONST, packageJson){
     osmCacheApi.setOptions( options );
     fileApi.setOptions( options );
     fileApi.initDirectories( app );
+    overPassCacheApi.setOptions( options );
 
 
     app.get('/api/user/logout', userApi.Api.logout);
@@ -135,6 +137,8 @@ export default function Api(app, db, CONST, packageJson){
 
     app.post('/api/file/shape', fileApi.Api.postShapeFile);
     app.post('/api/file/nonOsmData', fileApi.Api.postNonOsmDataFile);
+
+    app.get('/api/overPassCache/generate/:uniqid', overPassCacheApi.Api.generate);
 }
 
 

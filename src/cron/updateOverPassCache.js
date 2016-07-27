@@ -45,10 +45,17 @@ export default class UpdateOverPassCache {
 
         this._themeCollection = this._db.collection('theme');
 
-        this._themeCollection.find({
+        const findOptions = {
             'layers.type': CONST.layerType.overpass,
             'layers.cache': true,
-        }).toArray((err, themes) => {
+        };
+
+        if ( process.argv.length === 3 ) {
+            findOptions['layers.uniqid'] = process.argv[2];
+        }
+
+        this._themeCollection.find( findOptions )
+        .toArray((err, themes) => {
             if(err) {
                 throw err;
             }
@@ -61,7 +68,7 @@ export default class UpdateOverPassCache {
 
             const iteration = this._iterate.next();
 
-            this._cache._processIteration(
+            this._cache.process(
                 iteration.value.theme,
                 iteration.value.layer,
                 ...this._callbacks
@@ -71,8 +78,17 @@ export default class UpdateOverPassCache {
 
     *_iterateLayers (themes) {
         logger.debug('_iterateLayers');
+
         for (let theme of themes) {
             for (let layer of theme.layers) {
+                if (layer.cache !== true) {
+                    continue;
+                }
+
+                if (layer.type !== CONST.layerType.overpass) {
+                    continue;
+                }
+
                 yield {theme, layer};
             }
         }
@@ -80,6 +96,7 @@ export default class UpdateOverPassCache {
 
     _nextIteration () {
         logger.debug('_nextIteration');
+
         const iteration = this._iterate.next();
 
         if (iteration.done) {
@@ -87,7 +104,7 @@ export default class UpdateOverPassCache {
         }
 
         setTimeout(
-            this._cache._processIteration.bind(
+            this._cache.process.bind(
                 this._cache,
                 iteration.value.theme,
                 iteration.value.layer,
@@ -99,8 +116,9 @@ export default class UpdateOverPassCache {
 
     _retryIteration (theme, layer) {
         logger.debug('_retryIteration');
+
         setTimeout(
-            this._cache._processIteration.bind(
+            this._cache.process.bind(
                 this._cache,
                 theme,
                 layer,
@@ -159,6 +177,7 @@ export default class UpdateOverPassCache {
 
     _end () {
         logger.info(`Update of the OverPass cache finished`);
+
         this._db.close();
     }
 }

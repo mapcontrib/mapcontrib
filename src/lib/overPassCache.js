@@ -20,8 +20,8 @@ export default class OverPassCache {
         this._db = db;
     }
 
-    _processIteration (theme, layer, nextCallback, retryCallback, setSuccess, setError) {
-        logger.debug('_processIteration');
+    process (theme, layer, nextCallback, retryCallback, setSuccess, setError) {
+        logger.debug('process');
 
         if (layer.type !== CONST.layerType.overpass) {
             return nextCallback();
