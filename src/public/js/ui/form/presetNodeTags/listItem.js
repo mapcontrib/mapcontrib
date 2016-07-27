@@ -1,5 +1,6 @@
 
 import Marionette from 'backbone.marionette';
+import CONST from '../../../const';
 import listItemTemplate from './listItem.ejs';
 
 
@@ -66,7 +67,7 @@ export default Marionette.ItemView.extend({
             this.model.get('valueReadOnly')
         );
 
-        if ( this.model.get('type') === 'text' ) {
+        if ( this.model.get('type') === CONST.tagType.text ) {
             this.ui.textInput.prop('checked', true);
         }
         else {
@@ -157,11 +158,11 @@ export default Marionette.ItemView.extend({
 
     onChangetypeInput: function (e) {
         if ( this.ui.fileInput.prop('checked') ) {
-            this.model.set('type', 'file');
+            this.model.set('type', CONST.tagType.file);
             this.ui.value.val('').prop('disabled', true);
         }
         else {
-            this.model.set('type', 'text');
+            this.model.set('type', CONST.tagType.text);
             this.ui.value.prop('disabled', false);
         }
     },
@@ -176,15 +177,19 @@ export default Marionette.ItemView.extend({
         });
 
         if (osmTags.length === 0) {
-            this.model.collection.add({});
+            return this.model.collection.add({});
         }
-        else if (osmTags.length === 1) {
+
+        if ( this.model.get('nonOsmData') ) {
+            this.ui.removeBtn.prop('disabled', false);
+            return;
+        }
+
+        if (osmTags.length === 1) {
             this.ui.removeBtn.prop('disabled', true);
         }
         else {
-            if ( !this.model.get('nonOsmData') ) {
-                this.ui.removeBtn.prop('disabled', false);
-            }
+            this.ui.removeBtn.prop('disabled', false);
         }
     },
 });

@@ -116,15 +116,13 @@ class Api {
         const fragment = req.query.fragment;
         const promises = [];
 
-        console.log(req.files);
-
         for (const field in req.files) {
             const file = req.files[field];
             const fileSize = file.size / 1024;
             const maxFileSize = config.get('client.uploadMaxNonOsmDataFileSize');
 
             if ( fileSize > maxFileSize) {
-                return res.sendStatus(413);
+                return res.status(413).send({'fileInput': field});
             }
 
             promises.push(

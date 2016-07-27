@@ -31,6 +31,7 @@ export default Marionette.LayoutView.extend({
         'form': 'form',
         'content': '.content',
         'addBtn': '.add_btn',
+        'footerButtons': '.sticky-footer button',
     },
 
     events: {
@@ -132,29 +133,29 @@ export default Marionette.LayoutView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        // this.ui.formGroups.removeClass('has-feedback has-error');
+        this.ui.footerButtons.prop('disabled', true);
+
+        this._tagList.hideErrorFeedbacks();
 
         const hasFilesToUpload = this._tagList.hasFileToUpload();
 
         if ( hasFilesToUpload ) {
             this.ui.form.ajaxSubmit({
-                'error': xhr => {
+                'error': (xhr) => {
                     switch (xhr.status) {
                         case 413:
-                            this.ui.fileFormGroup.addClass('has-feedback has-error');
+                            this._tagList.showErrorFeedback(xhr.responseJSON);
                             break;
                     }
                 },
                 'success': response => {
-                    console.log('success !');
-                    // const file = response[0];
-                    // this.model.set('fileUri', file.layer_file);
-                    // this.saveLayer();
+                    this._tagList.setFilesPathFromApiResponse(response);
+                    this.saveLayer();
                 }
             });
         }
         else {
-            // this.saveLayer();
+            this.saveLayer();
         }
     },
 
@@ -170,7 +171,7 @@ export default Marionette.LayoutView.extend({
                 nonOsmTags.push({
                     'key': tag.key,
                     'value': tag.value,
-                    'type': 'text',
+                    'type': tag.type,
                 });
             }
             else {
@@ -181,7 +182,6 @@ export default Marionette.LayoutView.extend({
                 osmTags[tag.key] = tag.value;
             }
         }
-
 
         this._nonOsmDataModel = new NonOsmDataModel();
         this._nonOsmDataModel.updateModificationDate();
@@ -207,6 +207,8 @@ export default Marionette.LayoutView.extend({
     sendContributionToOSM: function () {
         this._osmEdit.send()
         .then(osmId => {
+            this.ui.footerButtons.prop('disabled', false);
+
             this._contributionSent = true;
 
             this._nonOsmDataModel.set('osmId', osmId);
@@ -230,6 +232,8 @@ export default Marionette.LayoutView.extend({
             this.close();
         })
         .catch((err) => {
+            this.ui.footerButtons.prop('disabled', false);
+
             new ContributionErrorNotificationView({
                 'retryCallback': this.sendContributionToOSM.bind(this)
             }).open();

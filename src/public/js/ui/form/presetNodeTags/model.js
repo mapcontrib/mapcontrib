@@ -1,5 +1,6 @@
 
 import Backbone from 'backbone';
+import CONST from '../../../const';
 
 
 export default Backbone.Model.extend({
@@ -9,6 +10,6 @@ export default Backbone.Model.extend({
         'keyReadOnly': true,
         'valueReadOnly': false,
         'nonOsmData': false,
-        'type': 'text',
+        'type': CONST.tagType.text,
     },
 });

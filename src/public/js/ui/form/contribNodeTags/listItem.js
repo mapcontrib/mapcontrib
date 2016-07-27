@@ -1,7 +1,8 @@
 
 import Marionette from 'backbone.marionette';
+import CONST from '../../../const';
 import listItemTemplate from './listItem.ejs';
-import { formatBytes } from '../../../core/utils';
+import { formatBytes, basename } from '../../../core/utils';
 
 
 export default Marionette.ItemView.extend({
@@ -13,6 +14,7 @@ export default Marionette.ItemView.extend({
         'fileInput': '.file_input',
         'textInputGroup': '.text_input_group',
         'fileInputGroup': '.file_input_group',
+        'formGroups': '.form-group',
         'currentFile': '.current_file',
         'infoBtn': '.info_btn',
         'nonOsmWarning': '.non_osm_warning',
@@ -62,7 +64,7 @@ export default Marionette.ItemView.extend({
             this.ui.nonOsmWarning.removeClass('hide');
         }
 
-        if (this.model.get('type') === 'text') {
+        if (this.model.get('type') === CONST.tagType.text) {
             this.ui.textInputGroup.removeClass('hide');
             this.ui.fileInputGroup.addClass('hide');
         }
@@ -125,22 +127,24 @@ export default Marionette.ItemView.extend({
     },
 
     onCollectionUpdate: function () {
+        if ( this.model.get('nonOsmData') ) {
+            return;
+        }
+
         const osmTags = this.model.collection.where({
             'nonOsmData': false
         });
 
-        if ( !this.model.get('nonOsmData') ) {
-            if (osmTags.length === 1) {
-                this.ui.removeBtn.prop('disabled', true);
-            }
-            else {
-                this.ui.removeBtn.prop('disabled', false);
-            }
+        if (osmTags.length === 1) {
+            this.ui.removeBtn.prop('disabled', true);
+        }
+        else {
+            this.ui.removeBtn.prop('disabled', false);
         }
     },
 
     isFileTag: function () {
-        if ( this.model.get('type') === 'file' ) {
+        if ( this.model.get('type') === CONST.tagType.file ) {
             return true;
         }
 
@@ -153,5 +157,13 @@ export default Marionette.ItemView.extend({
         }
 
         return false;
+    },
+
+    showErrorFeedback: function () {
+        this.ui.formGroups.addClass('has-feedback has-error');
+    },
+
+    hideErrorFeedback: function () {
+        this.ui.formGroups.removeClass('has-feedback has-error');
     },
 });

@@ -32,6 +32,7 @@ export default Marionette.LayoutView.extend({
     ui: {
         'column': '#edit_poi_column',
         'content': '.content',
+        'form': 'form',
         'footer': '.sticky-footer',
         'footerButtons': '.sticky-footer button',
         'addBtn': '.add_btn',
@@ -207,6 +208,7 @@ export default Marionette.LayoutView.extend({
             this._tagList.addTag({
                 'key': tag.key,
                 'value': tag.value,
+                'type': tag.type,
                 'keyReadOnly': true,
                 'valueReadOnly': false,
                 'nonOsmData': true,
@@ -246,6 +248,7 @@ export default Marionette.LayoutView.extend({
                 this._tagList.addTag({
                     'key': popupTag,
                     'value': value,
+                    'type': CONST.tagType.text,
                     'keyReadOnly': false,
                     'valueReadOnly': false,
                     'nonOsmData': false,
@@ -261,6 +264,7 @@ export default Marionette.LayoutView.extend({
             this._tagList.addTag({
                 'key': key,
                 'value': tags[key],
+                'type': CONST.tagType.text,
                 'keyReadOnly': false,
                 'valueReadOnly': false,
                 'nonOsmData': false,
@@ -275,12 +279,33 @@ export default Marionette.LayoutView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        if ( !this._app.isLogged() ) {
-            return false;
-        }
-
         this.ui.footerButtons.prop('disabled', true);
 
+        this._tagList.hideErrorFeedbacks();
+
+        const hasFilesToUpload = this._tagList.hasFileToUpload();
+
+        if ( hasFilesToUpload ) {
+            this.ui.form.ajaxSubmit({
+                'error': (xhr) => {
+                    switch (xhr.status) {
+                        case 413:
+                            this._tagList.showErrorFeedback(xhr.responseJSON);
+                            break;
+                    }
+                },
+                'success': response => {
+                    this._tagList.setFilesPathFromApiResponse(response);
+                    this.saveLayer();
+                }
+            });
+        }
+        else {
+            this.saveLayer();
+        }
+    },
+
+    saveLayer: function () {
         const createdBy = CONST.osm.changesetCreatedBy
         .replace('{version}', MAPCONTRIB.version);
         const tags = this._tagList.getTags();
@@ -292,7 +317,7 @@ export default Marionette.LayoutView.extend({
                 nonOsmTags.push({
                     'key': tag.key,
                     'value': tag.value,
-                    'type': 'text',
+                    'type': tag.type,
                 });
             }
             else {
@@ -322,6 +347,8 @@ export default Marionette.LayoutView.extend({
     sendContributionToOSM: function () {
         this._osmEdit.send()
         .then(version => {
+            this.ui.footerButtons.prop('disabled', false);
+
             this._contributionSent = true;
 
             this._osmEdit.setVersion(version);
@@ -350,6 +377,8 @@ export default Marionette.LayoutView.extend({
             this._osmCacheModel.save();
         })
         .catch((err) => {
+            this.ui.footerButtons.prop('disabled', false);
+
             new ContributionErrorNotificationView({
                 'retryCallback': this.sendContributionToOSM.bind(this)
             }).open();

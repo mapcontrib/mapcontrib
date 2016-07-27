@@ -291,6 +291,11 @@ export default {
         'geojson': 'geojson',
     },
 
+    'tagType': {
+        'text': 'text',
+        'file': 'file',
+    },
+
     'geocoder': {
         'nominatim': 'nominatim',
         'photon': 'photon'
