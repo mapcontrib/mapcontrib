@@ -2,7 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
-import { basename, extensionname } from '../core/utils';
+import { basename, extensionname, formatBytes } from '../core/utils';
 import CONST from '../const';
 import template from '../../templates/editCsvLayerFormColumn.ejs';
 
@@ -44,7 +44,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         const config = MAPCONTRIB.config;
-        const maxFileSize = Math.round( config.uploadMaxShapeFileSize / 1024 );
+        const maxFileSize = formatBytes( config.uploadMaxShapeFileSize * 1024 );
 
         return {
             'marker': MapUi.buildLayerHtmlIcon( this.model ),

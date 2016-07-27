@@ -41,6 +41,12 @@ export default Marionette.ItemView.extend({
         'reset': 'onReset',
     },
 
+    templateHelpers: function () {
+        return {
+            'marker': MapUi.buildLayerHtmlIcon( this.model ),
+        };
+    },
+
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
 

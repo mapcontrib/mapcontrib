@@ -45,3 +45,4 @@ client:
         - nominatim
 
     uploadMaxShapeFileSize: 2048 # Kilo Bytes
+    uploadMaxNonOsmDataFileSize: 512 # Kilo Bytes

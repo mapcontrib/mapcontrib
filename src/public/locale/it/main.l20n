@@ -15,7 +15,7 @@
 
 
 <markdownAvailable "formato <a>Markdown</a> disponibile">
-<maxFileSize "La dimensione del file deve essere inferiore a {{ $maxFileSize }} MB">
+<maxFileSize "La dimensione del file deve essere inferiore a {{ $maxFileSize }}">
 
 
 <buttonDescriptionTooltip title:"Leggi la descrizione">

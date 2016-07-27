@@ -134,6 +134,7 @@ export default function Api(app, db, CONST, packageJson){
 
 
     app.post('/api/file/shape', fileApi.Api.postShapeFile);
+    app.post('/api/file/nonOsmData', fileApi.Api.postNonOsmDataFile);
 }
 
 

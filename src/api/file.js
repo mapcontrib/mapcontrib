@@ -111,6 +111,39 @@ class Api {
             res.sendStatus(500);
         });
     }
+
+    static postNonOsmDataFile (req, res) {
+        const fragment = req.query.fragment;
+        const promises = [];
+
+        for (const field in req.files) {
+            const file = req.files[field];
+            const fileSize = file.size / 1024;
+            const maxFileSize = config.get('client.uploadMaxNonOsmDataFileSize');
+
+            if ( fileSize > maxFileSize) {
+                res.sendStatus(413);
+            }
+
+            const extension = file.extension.toLowerCase();
+
+            if ( options.CONST.shapeFileExtensions.indexOf(extension) === -1 ) {
+                res.sendStatus(415);
+            }
+
+            promises.push(
+                uploadFile(req, res, req.files[field], `theme/${fragment}/shape`)
+            );
+        }
+
+        Promise.all(promises)
+        .then(results => {
+            res.send(results);
+        })
+        .catch(err => {
+            res.sendStatus(500);
+        });
+    }
 }
 
 

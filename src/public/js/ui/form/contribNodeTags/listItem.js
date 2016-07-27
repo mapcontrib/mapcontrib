@@ -1,6 +1,7 @@
 
 import Marionette from 'backbone.marionette';
 import listItemTemplate from './listItem.ejs';
+import { formatBytes } from '../../../core/utils';
 
 
 export default Marionette.ItemView.extend({
@@ -34,7 +35,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         const config = MAPCONTRIB.config;
-        const maxFileSize = Math.round( config.uploadMaxShapeFileSize / 1024 );
+        const maxFileSize = formatBytes( config.uploadMaxNonOsmDataFileSize * 1024 );
 
         return {
             'cid': this.model.cid,
