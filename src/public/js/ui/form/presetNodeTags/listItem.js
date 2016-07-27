@@ -127,27 +127,27 @@ export default Marionette.ItemView.extend({
 
         const nonOsmData = this.model.get('nonOsmData');
 
-        this.ui.keyReadOnly
-        .prop('checked', true)
-        .prop(
-            'disabled',
-            nonOsmData
-        );
-
-        this.ui.valueReadOnly
-        .prop('checked', false)
-        .prop(
-            'disabled',
-            nonOsmData
-        );
-
         if (nonOsmData) {
+            this.ui.keyReadOnly
+            .prop('checked', true)
+            .prop('disabled', true);
+
+            this.ui.valueReadOnly
+            .prop('checked', false)
+            .prop('disabled', true);
+
             this.ui.textInputGroup.removeClass('hide');
             this.ui.fileInputGroup.removeClass('hide');
             this.ui.keyReadOnlyGroup.addClass('hide');
             this.ui.valueReadOnlyGroup.addClass('hide');
         }
         else {
+            this.ui.keyReadOnly
+            .prop('disabled', false);
+
+            this.ui.valueReadOnly
+            .prop('disabled', false);
+
             this.ui.value.prop('disabled', false);
             this.ui.textInputGroup.addClass('hide');
             this.ui.fileInputGroup.addClass('hide');
