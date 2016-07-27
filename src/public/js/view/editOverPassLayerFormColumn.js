@@ -166,6 +166,7 @@ export default Marionette.ItemView.extend({
         let updatePopups = false;
         let updateVisibility = false;
         let updateRequest = false;
+        let updateCache = false;
         const color = this.model.get('markerColor');
 
         if (color === 'dark-gray') {
@@ -220,8 +221,20 @@ export default Marionette.ItemView.extend({
             updateVisibility = true;
         }
 
-        if ( this._oldModel.get('overpassRequest') !== this.model.get('overpassRequest') ) {
-            updateRequest = true;
+        if ( !this._oldModel.get('cache') ) {
+            if ( this._oldModel.get('overpassRequest') !== this.model.get('overpassRequest') ) {
+                updateRequest = true;
+            }
+        }
+
+        if ( this.model.get('cache') ) {
+            if ( !this._oldModel.get('cache') ) {
+                updateCache = true;
+            }
+
+            if ( this._oldModel.get('overpassRequest') !== this.model.get('overpassRequest') ) {
+                updateCache = true;
+            }
         }
 
         if ( this.options.isNew ) {
@@ -261,6 +274,13 @@ export default Marionette.ItemView.extend({
 
                     if ( updateRequest ) {
                         this._radio.commands.execute('layer:updateOverPassRequest', this.model);
+                    }
+
+                    if ( updateCache ) {
+                        const layerUuid = this.model.get('uniqid');
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', `${CONST.apiPath}overPassCache/generate/${layerUuid}`, true);
+                        xhr.send();
                     }
                 }
 
