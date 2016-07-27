@@ -43,8 +43,8 @@ export default Marionette.ItemView.extend({
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
 
-        var fragment = this._radio.reqres.request('theme:fragment'),
-        storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
+        const fragment = this._radio.reqres.request('theme:fragment');
+        const storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
 
 
         this._fragment = fragment;
@@ -74,7 +74,7 @@ export default Marionette.ItemView.extend({
         const currentZoom = this._radio.reqres.request('map:currentZoom');
         const n = (this.model.get('minZoom') - currentZoom) || 0;
 
-        if ( n > 0 ) {
+        if ( n > 0 && !this.model.get('cache') && !this.model.get('fileUri') ) {
             this.ui.zoomTip
             .html( document.l10n.getSync('selectLayerColumn_needToZoom', {'n': n}) )
             .removeClass('hide');
