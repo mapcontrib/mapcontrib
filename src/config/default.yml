@@ -15,6 +15,7 @@ mongodb:
 dataDirectory: public/files
 
 client:
+    oauthEndPoint: http://api.openstreetmap.org
     oauthConsumerKey:
     oauthSecret:
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.11
+
+* Adds the OAuth endpoint in the configuration.
+
 ## 0.10.10
 
 * Gives style to all the feature types.
