@@ -57,6 +57,7 @@ export default Marionette.LayoutView.extend({
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
+                'url': MAPCONTRIB.config.oauthEndPoint,
                 'oauth_consumer_key': MAPCONTRIB.config.oauthConsumerKey,
                 'oauth_secret': MAPCONTRIB.config.oauthSecret,
                 'oauth_token': this._user.get('token'),
