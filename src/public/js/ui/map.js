@@ -13,7 +13,7 @@ export default class MapUi {
      */
     static showContributionCross () {
         document.body.classList.add('contribution_cross_visible');
-        document.querySelector('.leaflet-marker-pane').style.opacity = 0.7;
+        document.querySelector('.leaflet-marker-pane').classList.add('in_contribution');
     }
 
     /**
@@ -25,7 +25,7 @@ export default class MapUi {
      */
     static hideContributionCross () {
         document.body.classList.remove('contribution_cross_visible');
-        document.querySelector('.leaflet-marker-pane').style.opacity = 1;
+        document.querySelector('.leaflet-marker-pane').classList.remove('in_contribution');
     }
 
     /**
