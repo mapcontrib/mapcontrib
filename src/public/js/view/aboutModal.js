@@ -33,11 +33,6 @@ export default Marionette.LayoutView.extend({
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onBeforeOpen: function () {
-        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
-        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
-    },
-
     open: function () {
         this.triggerMethod('open');
         return this;

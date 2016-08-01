@@ -1,14 +1,16 @@
 <section id="about_modal" class="pop_modal">
     <div class="pop colored white">
-        <button type="button" class="btn btn-link btn-lg close_btn">
-            <i class="fa fa-close"></i>
-        </button>
+        <header>
+            <button type="button" class="btn btn-link btn-lg close_btn">
+                <i class="fa fa-close"></i>
+            </button>
+        </header>
 
 
         <div class="container-fluid content">
             <div class="row">
-                <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-                    <h2 class="prepend-xs-2 append-xs-2" data-l10n-id="aboutTitle"></h2>
+                <div class="col-xs-12">
+                    <h2 class="append-xs-2" data-l10n-id="aboutTitle"></h2>
 
                     <p data-l10n-id="aboutText1"></p>
                     <p data-l10n-id="aboutText2"><a href="https://www.openstreetmap.org"></a></p>
@@ -31,7 +33,7 @@
 
                     <hr>
 
-                    <p><%= aboutTextVersion %></p>
+                    <p class="text-center"><%= aboutTextVersion %></p>
                 </div>
             </div>
         </div>
