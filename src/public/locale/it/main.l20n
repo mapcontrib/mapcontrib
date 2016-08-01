@@ -43,6 +43,7 @@
 
 
 <goBackToHome "Ritorno alla home">
+<about "About {{ mapcontrib }}"> /* FIXME */
 <myThemes "I miei temi">
 <preferences "Preferenze">
 <login "Log in">
@@ -76,13 +77,13 @@
 }>
 
 
-/* Help */
-<helpTitle "Aiuto">
-<helpText1 "MapContrib è <a>software libero</a>. È in grado di creare temi cartografici">
-<helpText2 "Questi temi sono basati sulle mappe di <a>OpenStreetMap</a> su cui è possibile aggiungere alcuni marcatori/punti di interesse.">
-<helpText3 "Nell´utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
-<helpText4 "Kudos ad alcuni progetti ispiratori:">
-<helpTextVersion "La versione di questa istanza MapContrib è la {{ $version }}.">
+/* About */
+<aboutTitle "About"> /* FIXME */
+<aboutText1 "MapContrib è <a>software libero</a>. È in grado di creare temi cartografici">
+<aboutText2 "Questi temi sono basati sulle mappe di <a>OpenStreetMap</a> su cui è possibile aggiungere alcuni marcatori/punti di interesse.">
+<aboutText3 "Nell´utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
+<aboutText4 "Kudos ad alcuni progetti ispiratori:">
+<aboutTextVersion "La versione di questa istanza MapContrib è la {{ $version }}.">
 
 
 /* Login modal */
