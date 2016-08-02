@@ -101,18 +101,11 @@ export default Marionette.LayoutView.extend({
         'tempLayerButton': '#contrib_toolbar .temp_layer_btn',
         'contribButton': '#contrib_toolbar .contrib_btn',
 
-        'helpToolbar': '#help_toolbar',
-        'helpButton': '#help_toolbar .help_btn',
-        'help': '#help',
-        'helpCloseButton': '#help .close_btn',
-
         'editToolbar': '#edit_toolbar',
         'editSettingButton': '#edit_toolbar .setting_btn',
         'editLayerButton': '#edit_toolbar .layer_btn',
         'editTileButton': '#edit_toolbar .tile_btn',
         'editPresetButton': '#edit_toolbar .preset_btn',
-
-        'helpTextVersion': '#helpTextVersion',
     },
 
     regions: {
@@ -152,9 +145,6 @@ export default Marionette.LayoutView.extend({
         'click @ui.compressScreenButton': 'onClickCompressScreen',
         'click @ui.controlLayerButton': 'onClickSelectLayer',
         'click @ui.controlTileButton': 'onClickSelectTile',
-
-        'click @ui.helpButton': 'onClickHelp',
-        'click @ui.helpCloseButton': 'onClickHelpClose',
 
         'click @ui.userButton': 'onClickUser',
         'click @ui.linkButton': 'onClickLink',
@@ -407,14 +397,6 @@ export default Marionette.LayoutView.extend({
                 this.onCompressScreen();
             }
         });
-
-
-        this.ui.helpTextVersion.html(
-            this._document.l10n.getSync(
-                'helpTextVersion',
-                { 'version': this._version }
-            )
-        );
     },
 
     onShow: function () {
@@ -1728,30 +1710,6 @@ export default Marionette.LayoutView.extend({
 
     onClickSelectTile: function () {
         this._selectTileColumnView.open();
-    },
-
-    onClickHelp: function () {
-        if ( this.ui.help.hasClass('open') ) {
-            this.closeHelp();
-        }
-        else {
-            this.openHelp();
-        }
-    },
-
-    openHelp: function () {
-        this._radio.vent.trigger('column:closeAll');
-        this._radio.vent.trigger('widget:closeAll');
-
-        this.ui.help.addClass('open');
-    },
-
-    closeHelp: function () {
-        this.ui.help.removeClass('open');
-    },
-
-    onClickHelpClose: function () {
-        this.closeHelp();
     },
 
     onClickUser: function () {

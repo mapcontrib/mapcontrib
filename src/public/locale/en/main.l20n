@@ -43,6 +43,7 @@
 
 
 <goBackToHome "Revenir à l'accueil">
+<about "About {{ mapcontrib }}">
 <myThemes "My themes">
 <preferences "Preferences">
 <login "Log in">
@@ -76,13 +77,13 @@
 }>
 
 
-/* Help */
-<helpTitle "Help">
-<helpText1 "MapContrib is a <a>free software</a>. It can create cartographic themes.">
-<helpText2 "Those themes are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
-<helpText3 "When using MapContrib, you accept to put your contributions <a>under the «&nbsp;ODbL&nbsp;» licence</a>, which grant to use and share those datas by quoting «&nbsp;the OSM contributors&nbsp;»</a>.">
-<helpText4 "Kudos to several inspiring projects:">
-<helpTextVersion "That MapContrib instance is using the {{ $version }} version.">
+/* About */
+<aboutTitle "About">
+<aboutText1 "MapContrib is a <a>free software</a>. It can create cartographic themes.">
+<aboutText2 "Those themes are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
+<aboutText3 "When using MapContrib, you accept to put your contributions <a>under the «&nbsp;ODbL&nbsp;» licence</a>, which grant to use and share those datas by quoting «&nbsp;the OSM contributors&nbsp;»</a>.">
+<aboutText4 "Kudos to several inspiring projects:">
+<aboutTextVersion "That MapContrib instance is using the {{ $version }} version.">
 
 
 /* Login modal */

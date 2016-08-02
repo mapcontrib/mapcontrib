@@ -121,6 +121,8 @@ export default Marionette.Application.extend({
 
         this._router = new Router(this);
 
+        this._radio.reqres.setHandler('router', () => this._router);
+
         Backbone.history.start();
     },
 });
