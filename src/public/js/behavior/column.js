@@ -9,6 +9,8 @@ export default Marionette.Behavior.extend({
     defaults: {
         'destroyOnClose': false,
         'appendToBody': false,
+        'routeOnClose': '',
+        'triggerRouteOnClose': false,
     },
 
     ui: {
@@ -68,11 +70,19 @@ export default Marionette.Behavior.extend({
     },
 
     onClose: function () {
-        var mapElement = this._radio.reqres.request('map')._container;
+        const mapElement = this._radio.reqres.request('map');
+        const router = this._radio.reqres.request('router');
+
+        router.navigate(
+            this.options.routeOnClose,
+            this.options.triggerRouteOnClose
+        );
 
         this._isOpened = false;
 
-        $(mapElement).focus();
+        if (mapElement) {
+            $(mapElement._container).focus();
+        }
 
         if (this.view.onBeforeClose) {
             this.view.onBeforeClose();

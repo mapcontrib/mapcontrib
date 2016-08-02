@@ -18,10 +18,24 @@ export default Backbone.Router.extend({
     initialize: function (app) {
         this._app = app;
         this._radio = Wreqr.radio.channel('global');
+        this._previousRoute = '';
 
         this._app.getRegion('root').show(
             new ThemeRootView({'app': this._app})
         );
+
+        if (window.addEventListener) {
+            window.addEventListener('popstate', () => this._setPreviousRoute, false);
+        }
+        else {
+            window.attachEvent('onpopstate', () => this._setPreviousRoute);
+        }
+    },
+
+    _setPreviousRoute: function () {
+        const url = window.location.href;
+        const route = url.substring( url.indexOf('#') + 1 );
+        this._previousRoute = route;
     },
 
     routeLogout: function (){
@@ -41,6 +55,9 @@ export default Backbone.Router.extend({
     routeAbout: function (){
         const version = this._app.getVersion();
 
-        new AboutView({ version }).open();
+        new AboutView({
+            'previousRoute': this._previousRoute,
+            version,
+        }).open();
     },
 });

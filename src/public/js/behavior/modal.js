@@ -6,9 +6,14 @@ import Marionette from 'backbone.marionette';
 
 
 export default Marionette.Behavior.extend({
+    defaults: {
+        'appendToBody': false,
+        'routeOnClose': '',
+        'triggerRouteOnClose': false,
+    },
+
     ui: {
         'closeBtn': '.close_btn',
-        'appendToBody': false,
     },
 
     events: {
@@ -52,10 +57,12 @@ export default Marionette.Behavior.extend({
     },
 
     onClose: function () {
-        var map = this._radio.reqres.request('map');
+        const mapElement = this._radio.reqres.request('map');
 
-        if (map) {
-            $(map._container).focus();
+        this.navigateOnClose();
+
+        if (mapElement) {
+            $(mapElement._container).focus();
         }
 
         if (this.view.onBeforeClose) {
@@ -94,4 +101,13 @@ export default Marionette.Behavior.extend({
                 break;
         }
     },
+
+    navigateOnClose: function () {
+        const router = this._radio.reqres.request('router');
+
+        router.navigate(
+            this.options.routeOnClose,
+            this.options.triggerRouteOnClose
+        );
+    }
 });
