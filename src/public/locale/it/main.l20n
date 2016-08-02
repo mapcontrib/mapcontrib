@@ -125,8 +125,8 @@
 
 /* Link column */
 <linkColumn_title "Condividi">
-<linkColumn_linkLabel "Condividi il seguente link:">
-<linkColumn_integrateCode "Oppure integra questo codice sul tuo sito web:">
+<linkColumn_linkTitle "Direct link"> /* FIXME */
+<linkColumn_integrationTitle "Integrated in your website"> /* FIXME */
 <linkColumn_seeBigger "Vedilo più grande">
 <linkColumn_width "Larghezza">
 <linkColumn_height "Altezza">

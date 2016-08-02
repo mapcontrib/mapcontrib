@@ -126,8 +126,8 @@
 
 /* Link column */
 <linkColumn_title "Partager">
-<linkColumn_linkLabel "Communiquez le lien ci-dessous&nbsp;:">
-<linkColumn_integrateCode "Ou intégrez le code suivant à votre site internet&nbsp;:">
+<linkColumn_linkTitle "Lien direct">
+<linkColumn_integrationTitle "Intégré dans votre site">
 <linkColumn_seeBigger "Voir en plus grand">
 <linkColumn_width "Largeur">
 <linkColumn_height "Hauteur">

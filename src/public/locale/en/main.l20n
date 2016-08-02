@@ -125,8 +125,8 @@
 
 /* Link column */
 <linkColumn_title "Share">
-<linkColumn_linkLabel "Share the link below:">
-<linkColumn_integrateCode "Or integrate the following code in your website:">
+<linkColumn_linkTitle "Direct link">
+<linkColumn_integrationTitle "Integrated in your website">
 <linkColumn_seeBigger "See it bigger">
 <linkColumn_width "Width">
 <linkColumn_height "Height">

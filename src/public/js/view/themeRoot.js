@@ -263,6 +263,9 @@ export default Marionette.LayoutView.extend({
             'modal:showEditPoiMarker': (layerModel) => {
                 this.onCommandShowEditPoiMarker( layerModel );
             },
+            'map:position': (zoom, lat, lng) => {
+                this.setMapPosition( zoom, lat, lng );
+            },
             'map:setTileLayer': (tileId) => {
                 this.setTileLayer( tileId );
             },
@@ -533,6 +536,10 @@ export default Marionette.LayoutView.extend({
         if ( autoCenter ) {
             this.onClickLocate();
         }
+    },
+
+    setMapPosition: function (zoom, lat, lng) {
+        this._map.setView([lat, lng], zoom);
     },
 
     setTileLayer: function (id) {

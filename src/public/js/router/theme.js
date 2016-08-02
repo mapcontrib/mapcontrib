@@ -9,10 +9,10 @@ import AboutView from '../view/aboutModal';
 
 export default Backbone.Router.extend({
     routes: {
-        'oups': 'routeDefault',
-
+        'position/:zoom/:lat/:lng': 'routeMapPosition',
         'about': 'routeAbout',
         'logout': 'routeLogout',
+        'oups': 'routeOups',
     },
 
     initialize: function (app) {
@@ -38,6 +38,9 @@ export default Backbone.Router.extend({
         this._previousRoute = route;
     },
 
+    routeOups: function (){
+    },
+
     routeLogout: function (){
         $.ajax({
             type: 'GET',
@@ -59,5 +62,10 @@ export default Backbone.Router.extend({
             'previousRoute': this._previousRoute,
             version,
         }).open();
+    },
+
+    routeMapPosition: function (zoom, lat, lng){
+        const version = this._radio.commands.execute('map:position', zoom, lat, lng);
+        this.navigate('');
     },
 });
