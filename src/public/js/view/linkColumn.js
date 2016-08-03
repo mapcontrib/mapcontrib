@@ -18,7 +18,10 @@ export default Marionette.LayoutView.extend({
     ui: {
         'column': '#link_column',
         'autoSelects': '.auto_select',
-        'iframeCode': '#iframe_code',
+        'linkUrl': '.link_url',
+        'linkPosition': '#link_include_position',
+        'iframeCode': '.iframe_code',
+        'iframePosition': '#iframe_include_position',
         'iframeWidth': '#iframe_width',
         'iframeHeight': '#iframe_height',
         'iframeWidthUnit': '#iframe_width_unit',
@@ -28,7 +31,9 @@ export default Marionette.LayoutView.extend({
     },
 
     events: {
+        'click @ui.linkPosition': 'renderLinkUrl',
         'click @ui.autoSelects': 'onClickAutoSelects',
+        'click @ui.iframePosition': 'renderIframeCode',
         'keyup @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
         'change @ui.iframeWidth, @ui.iframeHeight': 'renderIframeCode',
         'click @ui.iframeWidthUnitDropdown a': 'onClickWidthUnit',
@@ -40,9 +45,7 @@ export default Marionette.LayoutView.extend({
     },
 
     templateHelpers: function () {
-
         return {
-            'url': this.getUrl(),
             'iframeWidth': MAPCONTRIB.config.shareIframeWidth,
             'iframeWidthUnit': MAPCONTRIB.config.shareIframeWidthUnit,
             'iframeHeight': MAPCONTRIB.config.shareIframeHeight,
@@ -52,6 +55,8 @@ export default Marionette.LayoutView.extend({
 
     initialize: function () {
         this._radio = Wreqr.radio.channel('global');
+        this._radio.vent.on('map:zoomChanged map:centerChanged', this.renderLinkUrl, this);
+        this._radio.vent.on('map:zoomChanged map:centerChanged', this.renderIframeCode, this);
     },
 
     onBeforeOpen: function () {
@@ -70,12 +75,17 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender: function () {
+        this.renderLinkUrl();
         this.renderIframeCode();
     },
 
+    renderLinkUrl: function () {
+        this.ui.linkUrl.val( this.getLinkUrl() );
+    },
+
     renderIframeCode: function () {
-        var html = this.templateIframe({
-            'url': this.getUrl(),
+        const html = this.templateIframe({
+            'url': this.getIframeUrl(),
             'iframeWidth': this.ui.iframeWidth.val(),
             'iframeHeight': this.ui.iframeHeight.val(),
             'iframeWidthUnit': (this.ui.iframeWidthUnit.html() == 'px') ? '' : this.ui.iframeWidthUnit.html(),
@@ -111,5 +121,32 @@ export default Marionette.LayoutView.extend({
         '//'+
         window.location.host +
         this.model.buildPath();
+    },
+
+    getUrlWithPosition: function () {
+        const map = this._radio.reqres.request('map');
+        const zoom = map.getZoom();
+        const {lat, lng} = map.getCenter();
+        const url = this.getUrl();
+
+        return `${url}#position/${zoom}/${lat}/${lng}`;
+    },
+
+    getLinkUrl: function () {
+        if (this.ui.linkPosition.prop('checked')) {
+            return this.getUrlWithPosition();
+        }
+        else {
+            return this.getUrl();
+        }
+    },
+
+    getIframeUrl: function () {
+        if (this.ui.iframePosition.prop('checked')) {
+            return this.getUrlWithPosition();
+        }
+        else {
+            return this.getUrl();
+        }
     },
 });

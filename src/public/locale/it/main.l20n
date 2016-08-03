@@ -126,7 +126,9 @@
 /* Link column */
 <linkColumn_title "Condividi">
 <linkColumn_linkTitle "Direct link"> /* FIXME */
+<linkColumn_linkIncludePosition "Include the current position"> /* FIXME */
 <linkColumn_integrationTitle "Integrated in your website"> /* FIXME */
+<linkColumn_iframeIncludePosition "Include the current position"> /* FIXME */
 <linkColumn_seeBigger "Vedilo più grande">
 <linkColumn_width "Larghezza">
 <linkColumn_height "Altezza">

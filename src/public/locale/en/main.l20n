@@ -126,7 +126,9 @@
 /* Link column */
 <linkColumn_title "Share">
 <linkColumn_linkTitle "Direct link">
+<linkColumn_linkIncludePosition "Include the current position">
 <linkColumn_integrationTitle "Integrated in your website">
+<linkColumn_iframeIncludePosition "Include the current position">
 <linkColumn_seeBigger "See it bigger">
 <linkColumn_width "Width">
 <linkColumn_height "Height">

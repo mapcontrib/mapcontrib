@@ -127,7 +127,9 @@
 /* Link column */
 <linkColumn_title "Partager">
 <linkColumn_linkTitle "Lien direct">
+<linkColumn_linkIncludePosition "Inclure la position actuelle">
 <linkColumn_integrationTitle "Intégré dans votre site">
+<linkColumn_iframeIncludePosition "Inclure la position actuelle">
 <linkColumn_seeBigger "Voir en plus grand">
 <linkColumn_width "Largeur">
 <linkColumn_height "Hauteur">

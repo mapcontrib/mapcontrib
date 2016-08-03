@@ -449,6 +449,7 @@ export default Marionette.LayoutView.extend({
         })
         .on('moveend', (e) => {
             this.onMoveEnd();
+            this._radio.vent.trigger('map:centerChanged');
         })
         .on('zoomend', (e) => {
             this.onZoomEnd(e);
