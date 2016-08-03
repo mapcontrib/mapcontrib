@@ -171,8 +171,14 @@
 <editLayerFormColumn_dataEditable "Allow to edit data">
 <editLayerFormColumn_layerZoomLevel "Minimum zoom">
 <editLayerFormColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
+<editLayerFormColumn_overPassPopoverTitle "Bounding box">
+<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` is replaced by the current bounding box.">
 <editLayerFormColumn_layerOverpassRequest "OverPass request">
 <editLayerFormColumn_marker "Marker">
+<editLayerFormColumn_infoDisplayPopoverTitle "Value of tags">
+<editLayerFormColumn_infoDisplayPopoverContent "To display the value of each elements' tags, insert its name between brackets.
+
+Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <editLayerFormColumn_layerPopupContent "Popup content">
 <editLayerFormColumn_gpxFile "GPX file">
 <editLayerFormColumn_csvFile "CSV file">

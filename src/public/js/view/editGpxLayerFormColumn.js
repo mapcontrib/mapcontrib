@@ -6,6 +6,7 @@ import { basename, extensionname, formatBytes } from '../core/utils';
 import CONST from '../const';
 import ColorSelectorView from '../ui/form/colorSelector';
 import template from '../../templates/editGpxLayerFormColumn.ejs';
+import MarkedHelper from '../helper/marked';
 
 
 export default Marionette.ItemView.extend({
@@ -25,6 +26,7 @@ export default Marionette.ItemView.extend({
         'layerName': '#layer_name',
         'layerDescription': '#layer_description',
         'layerVisible': '#layer_visible',
+        'infoDisplayInfo': '.info_info_display_btn',
         'layerPopupContent': '#layer_popup_content',
         'layerFile': '#layer_file',
 
@@ -84,6 +86,17 @@ export default Marionette.ItemView.extend({
     },
 
     onShow: function () {
+        this.ui.infoDisplayInfo.popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'html': true,
+            'title': document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
+            ),
+        });
+
         this.ui.layerFile.filestyle({
             'icon': false,
             'badge': false,

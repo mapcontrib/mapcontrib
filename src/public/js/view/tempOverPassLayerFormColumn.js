@@ -6,6 +6,7 @@ import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
 import template from '../../templates/tempOverPassLayerFormColumn.ejs';
 import CONST from '../const';
+import MarkedHelper from '../helper/marked';
 
 
 export default Marionette.ItemView.extend({
@@ -24,8 +25,10 @@ export default Marionette.ItemView.extend({
         'layerName': '#layer_name',
         'layerDescription': '#layer_description',
         'layerMinZoom': '#layer_min_zoom',
+        'overPassInfo': '.info_overpass_btn',
         'layerOverpassRequest': '#layer_overpass_request',
         'layerPopupContent': '#layer_popup_content',
+        'infoDisplayInfo': '.info_info_display_btn',
 
         'markerWrapper': '.marker-wrapper',
         'editMarkerButton': '.edit_marker_btn',
@@ -55,6 +58,30 @@ export default Marionette.ItemView.extend({
 
     onRender: function () {
         this.onChangedMapZoom();
+    },
+
+    onShow: function () {
+        this.ui.infoDisplayInfo.popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'html': true,
+            'title': document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
+            ),
+        });
+
+        this.ui.overPassInfo.popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'html': true,
+            'title': document.l10n.getSync('editLayerFormColumn_overPassPopoverTitle'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_overPassPopoverContent')
+            ),
+        });
     },
 
     onDestroy: function () {

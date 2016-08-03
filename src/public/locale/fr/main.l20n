@@ -104,7 +104,6 @@
 <selectLayerColumn_downloadData "Télécharger les données visibles">
 
 
-
 /* Tile column */
 <selectTileColumn_title "Fonds de cartes">
 
@@ -172,8 +171,14 @@
 <editLayerFormColumn_visible "Visible par les utilisateurs">
 <editLayerFormColumn_layerZoomLevel "Zoom minimum">
 <editLayerFormColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
+<editLayerFormColumn_overPassPopoverTitle "Bounding box">
+<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` est remplacé par la bounding box courante.">
 <editLayerFormColumn_layerOverpassRequest "Requête OverPass">
 <editLayerFormColumn_marker "Marqueur">
+<editLayerFormColumn_infoDisplayPopoverTitle "Valeur des tags">
+<editLayerFormColumn_infoDisplayPopoverContent "Pour afficher la valeur de tags de chaque éléments, insérez son nom entre crochets.
+
+Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <editLayerFormColumn_layerPopupContent "Contenu des bulles">
 <editLayerFormColumn_gpxFile "Fichier GPX">
 <editLayerFormColumn_csvFile "Fichier CSV">
