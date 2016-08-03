@@ -57,12 +57,26 @@ export default Marionette.Application.extend({
 
         this._isLogged = false;
         this._window = window;
-        this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
         this._config = MAPCONTRIB.config;
         this._version = MAPCONTRIB.version;
-        this._theme = new ThemeModel(JSON.parse(unescape( MAPCONTRIB.theme )));
-        this._nonOsmData = new NonOsmDataCollection(JSON.parse(unescape( MAPCONTRIB.nonOsmData )));
-        this._osmCache = new OsmCacheCollection(JSON.parse(unescape( MAPCONTRIB.osmCache )));
+        this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
+
+        if (MAPCONTRIB.user) {
+            this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
+        }
+
+        if (MAPCONTRIB.theme) {
+            this._theme = new ThemeModel(JSON.parse(unescape( MAPCONTRIB.theme )));
+        }
+
+        if (MAPCONTRIB.nonOsmData) {
+            this._nonOsmData = new NonOsmDataCollection(JSON.parse(unescape( MAPCONTRIB.nonOsmData )));
+        }
+
+        if (MAPCONTRIB.osmCache) {
+            this._osmCache = new OsmCacheCollection(JSON.parse(unescape( MAPCONTRIB.osmCache )));
+        }
+
         this._radio = Wreqr.radio.channel('global');
 
 
