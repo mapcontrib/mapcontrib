@@ -125,7 +125,9 @@ export default Marionette.LayoutView.extend({
         this.collection = new ThemeCollection();
 
         if (MAPCONTRIB.highlightList) {
-            this.collection.add(MAPCONTRIB.highlightList);
+            this.collection.add(
+                JSON.parse(unescape( MAPCONTRIB.highlightList ))
+            );
         }
 
         this.render();

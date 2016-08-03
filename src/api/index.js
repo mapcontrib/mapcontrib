@@ -78,7 +78,7 @@ export default function Api(app, db, CONST, packageJson){
                     highlightList.push(themeObject);
                 }
 
-                templateVars.highlightList = JSON.stringify( highlightList );
+                templateVars.highlightList = escape(JSON.stringify( highlightList ));
 
                 res.render('home', templateVars);
             })
