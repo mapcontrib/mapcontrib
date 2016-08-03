@@ -48,6 +48,7 @@ export default Backbone.RelationalModel.extend({
         'owners': [],
         'geocoder': undefined,
         'infoDisplay': CONST.infoDisplay.popup,
+        'analyticScript': '',
     },
 
     initialize: function() {

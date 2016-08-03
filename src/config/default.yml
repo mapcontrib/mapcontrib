@@ -14,6 +14,11 @@ mongodb:
 
 dataDirectory: public/files
 
+analyticScript: >
+    <!-- Put your analytics javascript code here! -->
+
+
+
 client:
     oauthEndPoint: http://api.openstreetmap.org
     oauthConsumerKey:

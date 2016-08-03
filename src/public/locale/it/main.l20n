@@ -153,6 +153,11 @@
 <editSettingColumn_popup "Popup">
 <editSettingColumn_modal "Finestra modale">
 <editSettingColumn_column "Colonna">
+<editSettingColumn_themeAnalytics "Analytics"> /* FIXME */
+<editSettingColumn_infoAnalyticsPopoverTitle "Integration"> /* FIXME */
+<editSettingColumn_infoAnalyticsPopoverContent "Analytics tools provide a javascript code to insert in the concerned website.
+
+Put it right here!"> /* FIXME */
 
 
 /* Edit layer column */

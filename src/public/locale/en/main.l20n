@@ -153,6 +153,11 @@
 <editSettingColumn_popup "Popup">
 <editSettingColumn_modal "Modale window">
 <editSettingColumn_column "Column">
+<editSettingColumn_themeAnalytics "Analytics">
+<editSettingColumn_infoAnalyticsPopoverTitle "Integration">
+<editSettingColumn_infoAnalyticsPopoverContent "Analytics tools provide a javascript code to insert in the concerned website.
+
+Put it right here!">
 
 
 /* Edit layer column */

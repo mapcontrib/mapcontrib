@@ -11,4 +11,5 @@
 * Adds some hints in layers configuration columns.
 * Removes the bottom left *help* button and places its former content in the *About* menu item (in the user column).
 * Makes present POI less opaque when contributing.
+* It is now possible for theme creator to configure an analytics javascript code to follow their theme visits. Instance's administrator can provide a code too, in order to follow the entire MapContrib instance visits.
 * And as always, multiple bufixes and enhancement.

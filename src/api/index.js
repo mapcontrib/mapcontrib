@@ -54,10 +54,11 @@ export default function Api(app, db, CONST, packageJson){
     app.get('/', (req, res) => {
         let clientConfig = config.get('client');
         let templateVars = {
-            'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
+            'user': req.session.user ? escape(JSON.stringify(req.session.user)) : '{}',
             'config': JSON.stringify( clientConfig ),
             'highlightList': '[]',
             'version': packageJson.version,
+            'analyticScript': config.get('analyticScript'),
         };
 
         if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
@@ -90,9 +91,10 @@ export default function Api(app, db, CONST, packageJson){
 
     app.get('/t/:fragment-*', (req, res) => {
         const templateVars = {
-            'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
+            'user': req.session.user ? escape(JSON.stringify(req.session.user)) : '{}',
             'config': JSON.stringify( config.get('client') ),
             'version': packageJson.version,
+            'analyticScript': config.get('analyticScript'),
         };
 
         const promises = [
@@ -103,9 +105,10 @@ export default function Api(app, db, CONST, packageJson){
 
         Promise.all( promises )
         .then(data => {
-            templateVars.theme = JSON.stringify( data[0] );
-            templateVars.nonOsmData = JSON.stringify( data[1] );
-            templateVars.osmCache = JSON.stringify( data[2] );
+            templateVars.theme = escape(JSON.stringify( data[0] ));
+            templateVars.themeAnalyticScript = data[0].analyticScript;
+            templateVars.nonOsmData = escape(JSON.stringify( data[1] ));
+            templateVars.osmCache = escape(JSON.stringify( data[2] ));
 
             res.render('theme', templateVars);
         })
