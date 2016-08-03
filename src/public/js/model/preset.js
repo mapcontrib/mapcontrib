@@ -14,7 +14,7 @@ export default Backbone.RelationalModel.extend({
         'name': undefined,
         'description': undefined,
         'order': undefined,
-        'tags': [], // [{'key': '', 'value': '', 'readOnly': true}, [...]]
+        'tags': [], // [{'key': '', 'value': '', 'readOnly': true, 'nonOsmData': false, type: text|file}, [...]]
     },
 
     initialize: function () {

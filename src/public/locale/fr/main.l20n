@@ -15,7 +15,7 @@
 
 
 <markdownAvailable "Format <a>Markdown</a> disponible">
-<maxFileSize "Le poids ne doit pas dépasser {{ $maxFileSize }} Mo">
+<maxFileSize "Le poids ne doit pas dépasser {{ $maxFileSize }}">
 
 
 <buttonDescriptionTooltip title:"Lire la description">
@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"Mon compte">
 <buttonLinkTooltip title:"Partager">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
+<buttonTempLayerTooltip title:"Ajouter une couche temporaire">
 <buttonEditSettingTooltip title:"Configuration générale">
 <buttonEditLayerTooltip title:"Couches">
 <buttonEditTileTooltip title:"Fonds de carte">
@@ -42,6 +43,7 @@
 
 
 <goBackToHome "Revenir à l'accueil">
+<about "À propos de {{ mapcontrib }}">
 <myThemes "Mes thèmes">
 <preferences "Préférences">
 <login "Se connecter">
@@ -62,6 +64,9 @@
 <createATheme "Créer un thème">
 <searchATheme placeholder:"Rechercher un thème (3 caractères min.)">
 <aboutMapContrib "À propos de MapContrib">
+<invalidFile "Fichier non valide">
+<currentFile "Fichier actuel : <a>{{ $file }}</a>">
+<file "Fichier">
 
 
 /* Home */
@@ -71,13 +76,14 @@
   many: "Saisissez encore {{ $n }} caractères"
 }>
 
-/* Help */
-<helpTitle "Aide">
-<helpText1 "MapContrib est développé avec le soutien du Département de la Gironde, dans le cadre d'un appel à projets «&nbsp;Déchets et Numériques&nbsp;».">
-<helpText2 "MapContrib vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
-<helpText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbL&nbsp;»</a>, permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
-<helpText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
-<helpTextVersion "Cette instance de MapContrib utilise la version {{ $version }}.">
+
+/* About */
+<aboutTitle "À propos">
+<aboutText1 "MapContrib est développé avec le soutien du Département de la Gironde, dans le cadre d'un appel à projets «&nbsp;Déchets et Numériques&nbsp;».">
+<aboutText2 "MapContrib vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
+<aboutText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbL&nbsp;»</a>, permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
+<aboutText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
+<aboutTextVersion "Cette instance de MapContrib utilise la version {{ $version }}.">
 
 
 /* Login modal */
@@ -95,6 +101,7 @@
   one: "Pour voir ces données, vous devez zoomer une fois.",
   many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
 }>
+<selectLayerColumn_downloadData "Télécharger les données visibles">
 
 
 /* Tile column */
@@ -118,8 +125,10 @@
 
 /* Link column */
 <linkColumn_title "Partager">
-<linkColumn_linkLabel "Communiquez le lien ci-dessous&nbsp;:">
-<linkColumn_integrateCode "Ou intégrez le code suivant à votre site internet&nbsp;:">
+<linkColumn_linkTitle "Lien direct">
+<linkColumn_linkIncludePosition "Inclure la position actuelle">
+<linkColumn_integrationTitle "Intégré dans votre site">
+<linkColumn_iframeIncludePosition "Inclure la position actuelle">
 <linkColumn_seeBigger "Voir en plus grand">
 <linkColumn_width "Largeur">
 <linkColumn_height "Hauteur">
@@ -144,6 +153,11 @@
 <editSettingColumn_popup "Infobulle">
 <editSettingColumn_modal "Fenêtre modale">
 <editSettingColumn_column "Colonne">
+<editSettingColumn_themeAnalytics "Statistiques">
+<editSettingColumn_infoAnalyticsPopoverTitle "Intégration">
+<editSettingColumn_infoAnalyticsPopoverContent "Les outils de suivi statistique fournissent un code javascript à insérer dans les pages du site internet concerné.
+
+Insérez-le juste ici !">
 
 
 /* Edit layer column */
@@ -162,8 +176,14 @@
 <editLayerFormColumn_visible "Visible par les utilisateurs">
 <editLayerFormColumn_layerZoomLevel "Zoom minimum">
 <editLayerFormColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
-<editLayerFormColumn_layerOverpassRequest "Requête Overpass">
+<editLayerFormColumn_overPassPopoverTitle "Bounding box">
+<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` est remplacé par la bounding box courante.">
+<editLayerFormColumn_layerOverpassRequest "Requête OverPass">
 <editLayerFormColumn_marker "Marqueur">
+<editLayerFormColumn_infoDisplayPopoverTitle "Valeur des tags">
+<editLayerFormColumn_infoDisplayPopoverContent "Pour afficher la valeur de tags de chaque éléments, insérez son nom entre crochets.
+
+Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <editLayerFormColumn_layerPopupContent "Contenu des bulles">
 <editLayerFormColumn_gpxFile "Fichier GPX">
 <editLayerFormColumn_csvFile "Fichier CSV">
@@ -265,6 +285,10 @@
 <uiFormNodeTags_value placeholder:"Valeur">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
+<uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag non envoyé à OpenStreetMap">
+<uiFormNodeTags_textInput "Champs texte">
+<uiFormNodeTags_fileInput "Champs fichier">
 
 
 /* Color selector UI */
@@ -285,10 +309,12 @@
 
 /* Add layer menu column */
 <addLayerMenuColumn_title "Ajouter une couche">
-<addLayerMenuColumn_overPass "Requête OverPass">
-<addLayerMenuColumn_gpx "Fichier GPX">
-<addLayerMenuColumn_csv "Fichier CSV">
-<addLayerMenuColumn_geoJson "Fichier GeoJSON">
+<addLayerMenuColumn_remoteInformation "Information distante">
+<addLayerMenuColumn_file "Fichier">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
 
 
 /* Layer info column */
@@ -311,3 +337,14 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Détails">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Couches temporaires">
+<tempLayerListColumn_description "Ces couches sont éphémères. Elles ne sont visibles que par vous et disparaissent après avoir fermé MapContrib.">
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Type de nœud">
+<editPoiPresetColumn_noThanks "Non merci">
+<editPoiPresetColumn_applyPreset "Voulez-vous automatiquement ajouter les tags d'un de ces types de nœuds ?">

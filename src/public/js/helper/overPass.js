@@ -25,7 +25,7 @@ export default class OverPassHelper {
      * @param {number} size - The max result size in byte.
      */
     static buildRequestForCache (request, size) {
-        let finalRequest = OverPassHelper.buildRequestForTheme(request).replace('({{bbox}})', '');
+        const finalRequest = OverPassHelper.buildRequestForTheme(request).replace('({{bbox}})', '');
 
         return `[out:json][timeout:180][maxsize:${size}];${finalRequest}`;
     }
@@ -37,8 +37,11 @@ export default class OverPassHelper {
      * @param {string} request - An OverPass request to prepare for web.
      */
     static buildRequestForTheme (request) {
-        const requestSplit = request.split(';');
         let overPassRequest = '';
+        const requestSplit = request
+        .trim()
+        .replace(/\[(out|timeout):\w+\]/g, '')
+        .split(';');
 
         for (let row of requestSplit) {
             row = row.trim();
@@ -47,7 +50,7 @@ export default class OverPassHelper {
                 continue;
             }
 
-            let split = row.split(' ');
+            const split = row.split(' ');
 
             if (
                 split[0] !== 'out' ||

@@ -14,12 +14,17 @@ mongodb:
 
 dataDirectory: public/files
 
+analyticScript: >
+    <!-- Put your analytics javascript code here! -->
+
+
+
 client:
     oauthEndPoint: http://api.openstreetmap.org
     oauthConsumerKey:
     oauthSecret:
 
-    overPassEndPoint: http://overpass-api.de/api/
+    overPassEndPoint: https://overpass-api.de/api/
     overPassTimeout: 120000 # Milliseconds
     overPassCacheEnabled: true
     overPassCacheFileSize: 1048576
@@ -46,3 +51,4 @@ client:
         - nominatim
 
     uploadMaxShapeFileSize: 2048 # Kilo Bytes
+    uploadMaxNonOsmDataFileSize: 512 # Kilo Bytes

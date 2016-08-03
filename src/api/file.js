@@ -52,10 +52,10 @@ function cleanThemeFiles (themeModel) {
         `files/theme/${fragment}/shape/`
     );
     const re = new RegExp(`^/files\/theme\/${fragment}\/shape/`);
-    let themeFiles = [];
+    const themeFiles = [];
 
-    for (let i in layers) {
-        let fileUri = layers[i].get('fileUri');
+    for (const i in layers) {
+        const fileUri = layers[i].get('fileUri');
 
         if ( fileUri && re.test(fileUri) ) {
             themeFiles.push(
@@ -65,9 +65,9 @@ function cleanThemeFiles (themeModel) {
     }
 
     fs.readdir(shapeDirectory, function(err, fileList) {
-        for (let i in fileList) {
-            let file = fileList[i];
-            let filePath = path.resolve(shapeDirectory, file);
+        for (const i in fileList) {
+            const file = fileList[i];
+            const filePath = path.resolve(shapeDirectory, file);
 
             if ( themeFiles.indexOf(file) === -1 ) {
                 fs.unlink(filePath);
@@ -81,25 +81,52 @@ function cleanThemeFiles (themeModel) {
 class Api {
     static postShapeFile (req, res) {
         const fragment = req.query.fragment;
-        let promises = [];
+        const promises = [];
 
-        for (let field in req.files) {
-            let file = req.files[field];
+        for (const field in req.files) {
+            const file = req.files[field];
             const fileSize = file.size / 1024;
             const maxFileSize = config.get('client.uploadMaxShapeFileSize');
 
             if ( fileSize > maxFileSize) {
-                res.sendStatus(413);
+                return res.sendStatus(413);
             }
 
-            let extension = file.extension.toLowerCase();
+            const extension = file.extension.toLowerCase();
 
             if ( options.CONST.shapeFileExtensions.indexOf(extension) === -1 ) {
-                res.sendStatus(415);
+                return res.sendStatus(415);
             }
 
             promises.push(
                 uploadFile(req, res, req.files[field], `theme/${fragment}/shape`)
+            );
+        }
+
+        Promise.all(promises)
+        .then(results => {
+            res.send(results);
+        })
+        .catch(err => {
+            res.sendStatus(500);
+        });
+    }
+
+    static postNonOsmDataFile (req, res) {
+        const fragment = req.query.fragment;
+        const promises = [];
+
+        for (const field in req.files) {
+            const file = req.files[field];
+            const fileSize = file.size / 1024;
+            const maxFileSize = config.get('client.uploadMaxNonOsmDataFileSize');
+
+            if ( fileSize > maxFileSize) {
+                return res.status(413).send({'fileInput': field});
+            }
+
+            promises.push(
+                uploadFile(req, res, req.files[field], `theme/${fragment}/nonOsmData`)
             );
         }
 
@@ -120,7 +147,7 @@ function uploadFile(req, res, file, directory) {
 
     let i = 2;
     let publicPath = `/files/${directory}/${file.originalname}`;
-    let fullDirectory = `${config.get('dataDirectory')}/${directory}`;
+    const fullDirectory = `${config.get('dataDirectory')}/${directory}`;
     let fullPath = `${fullDirectory}/${file.originalname}`;
 
     if ( !fs.existsSync( fullDirectory ) ) {
@@ -128,11 +155,11 @@ function uploadFile(req, res, file, directory) {
     }
 
     while (fs.existsSync(fullPath) === true) {
-        let baseName = path.basename(
+        const baseName = path.basename(
             file.originalname,
             `.${file.extension}`
         );
-        let fileName = `${baseName}_${i}.${file.extension}`;
+        const fileName = `${baseName}_${i}.${file.extension}`;
 
         publicPath = `/files/${directory}/${fileName}`;
         fullPath = `${fullDirectory}/${fileName}`;
@@ -148,7 +175,7 @@ function uploadFile(req, res, file, directory) {
                     return reject(err);
                 }
 
-                let result = {};
+                const result = {};
                 result[ file.fieldname ] = publicPath;
                 resolve(result);
             }

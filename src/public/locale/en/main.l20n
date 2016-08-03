@@ -15,7 +15,7 @@
 
 
 <markdownAvailable "<a>Markdown</a> format available">
-<maxFileSize "The file size has to be lower than {{ $maxFileSize }} MB">
+<maxFileSize "The file size has to be lower than {{ $maxFileSize }}">
 
 
 <buttonDescriptionTooltip title:"Read the description">
@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
+<buttonTempLayerTooltip title:"Add a temporary layer">
 <buttonEditSettingTooltip title:"Main settings">
 <buttonEditLayerTooltip title:"Layer">
 <buttonEditTileTooltip title:"Backgrounds">
@@ -42,6 +43,7 @@
 
 
 <goBackToHome "Revenir à l'accueil">
+<about "About {{ mapcontrib }}">
 <myThemes "My themes">
 <preferences "Preferences">
 <login "Log in">
@@ -62,6 +64,9 @@
 <createATheme "Create a theme">
 <searchATheme placeholder:"Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
+<invalidFile "Invalid file">
+<currentFile "Current file: <a>{{ $file }}</a>">
+<file "File">
 
 
 /* Home */
@@ -72,13 +77,13 @@
 }>
 
 
-/* Help */
-<helpTitle "Help">
-<helpText1 "MapContrib is a <a>free software</a>. It can create cartographic themes.">
-<helpText2 "Those themes are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
-<helpText3 "When using MapContrib, you accept to put your contributions <a>under the «&nbsp;ODbL&nbsp;» licence</a>, which grant to use and share those datas by quoting «&nbsp;the OSM contributors&nbsp;»</a>.">
-<helpText4 "Kudos to several inspiring projects:">
-<helpTextVersion "That MapContrib instance is using the {{ $version }} version.">
+/* About */
+<aboutTitle "About">
+<aboutText1 "MapContrib is a <a>free software</a>. It can create cartographic themes.">
+<aboutText2 "Those themes are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
+<aboutText3 "When using MapContrib, you accept to put your contributions <a>under the «&nbsp;ODbL&nbsp;» licence</a>, which grant to use and share those datas by quoting «&nbsp;the OSM contributors&nbsp;»</a>.">
+<aboutText4 "Kudos to several inspiring projects:">
+<aboutTextVersion "That MapContrib instance is using the {{ $version }} version.">
 
 
 /* Login modal */
@@ -96,6 +101,7 @@
   one: "To see these data, you need to zoom once.",
   many: "To see these data, you need to zoom {{ $n }} times."
 }>
+<selectLayerColumn_downloadData "Download the visible data">
 
 
 /* Tile column */
@@ -119,8 +125,10 @@
 
 /* Link column */
 <linkColumn_title "Share">
-<linkColumn_linkLabel "Share the link below:">
-<linkColumn_integrateCode "Or integrate the following code in your website:">
+<linkColumn_linkTitle "Direct link">
+<linkColumn_linkIncludePosition "Include the current position">
+<linkColumn_integrationTitle "Integrated in your website">
+<linkColumn_iframeIncludePosition "Include the current position">
 <linkColumn_seeBigger "See it bigger">
 <linkColumn_width "Width">
 <linkColumn_height "Height">
@@ -145,6 +153,11 @@
 <editSettingColumn_popup "Popup">
 <editSettingColumn_modal "Modale window">
 <editSettingColumn_column "Column">
+<editSettingColumn_themeAnalytics "Analytics">
+<editSettingColumn_infoAnalyticsPopoverTitle "Integration">
+<editSettingColumn_infoAnalyticsPopoverContent "Analytics tools provide a javascript code to insert in the concerned website.
+
+Put it right here!">
 
 
 /* Edit layer column */
@@ -163,8 +176,14 @@
 <editLayerFormColumn_dataEditable "Allow to edit data">
 <editLayerFormColumn_layerZoomLevel "Minimum zoom">
 <editLayerFormColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
-<editLayerFormColumn_layerOverpassRequest "Overpass request">
+<editLayerFormColumn_overPassPopoverTitle "Bounding box">
+<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` is replaced by the current bounding box.">
+<editLayerFormColumn_layerOverpassRequest "OverPass request">
 <editLayerFormColumn_marker "Marker">
+<editLayerFormColumn_infoDisplayPopoverTitle "Value of tags">
+<editLayerFormColumn_infoDisplayPopoverContent "To display the value of each elements' tags, insert its name between brackets.
+
+Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <editLayerFormColumn_layerPopupContent "Popup content">
 <editLayerFormColumn_gpxFile "GPX file">
 <editLayerFormColumn_csvFile "CSV file">
@@ -205,7 +224,7 @@
 
 /* Edit presets column */
 <editPresetColumn_title "Nodes types">
-<editPresetColumn_addPreset "Ajouter un type de nœud">
+<editPresetColumn_addPreset "Add a node type">
 <editPresetColumn_clickButton "Click the button below">
 
 
@@ -266,7 +285,10 @@
 <uiFormNodeTags_value placeholder:"Value">
 <uiFormNodeTags_keyReadOnly "Read-only key">
 <uiFormNodeTags_valueReadOnly "Read-only value">
-
+<uiFormNodeTags_nonOsmData "Do not send this tag to OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap">
+<uiFormNodeTags_textInput "Text input">
+<uiFormNodeTags_fileInput "File input">
 
 /* Color selector UI */
 <uiColorSelector_label "Color">
@@ -287,10 +309,12 @@
 
 /* Add layer menu column */
 <addLayerMenuColumn_title "Add a layer">
-<addLayerMenuColumn_overPass "OverPass request">
-<addLayerMenuColumn_gpx "GPX file">
-<addLayerMenuColumn_csv "CSV file">
-<addLayerMenuColumn_geoJson "GeoJSON file">
+<addLayerMenuColumn_remoteInformation "Remote information">
+<addLayerMenuColumn_file "File">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
 
 
 /* Layer info column */
@@ -313,3 +337,14 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Details">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Temporary layers">
+<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib.">
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Nodes types">
+<editPoiPresetColumn_noThanks "No thanks">
+<editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?">

@@ -57,6 +57,13 @@ textarea.font-monospace {
     margin-top: 0;
 }
 
+.radio + .radio,
+.radio + .checkbox,
+.checkbox + .radio,
+.checkbox + .checkbox {
+    margin-top: -5px;
+}
+
 .form-control-feedback {
     display: none;
 }
@@ -104,6 +111,8 @@ textarea.font-monospace {
 
 input + .help-block,
 .input-group + .help-block,
+.input-group-btn + .help-block,
+.help-block + .help-block,
 textarea + .help-block,
 figure + figcaption {
     padding: 4px 6px;
@@ -112,8 +121,20 @@ figure + figcaption {
 
 input + .help-block,
 .input-group + .help-block,
+.input-group-btn + .help-block,
+.help-block + .help-block,
 textarea + .help-block {
     font-size: 12px;
+}
+
+.form-group {
+    .help-block + .help-block {
+        margin-top: -10px;
+    }
+
+    .help-block.hide + .help-block {
+        margin-top: 0;
+    }
 }
 
 .input-group-addon {

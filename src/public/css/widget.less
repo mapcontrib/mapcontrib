@@ -62,6 +62,11 @@
     margin-bottom: -20px;
 }
 
+.info_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
 
 
@@ -192,6 +197,20 @@
         .pop {
             transform: translate(-50%, -50%);
         }
+    }
+
+    header {
+        .close_btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}
+
+@media screen and (min-width: 700px) {
+    .pop_modal .pop {
+        min-width: 700px;
     }
 }
 
@@ -475,18 +494,27 @@ pre,
         border-color: @darkGray;
     }
 
-    input + .help-block,
-    .input-group + .help-block,
-    textarea + .help-block,
-    figure + figcaption,
-    .merge_feedback .remote_value {
-        background: @gray;
+    .form-group {
+        input + .help-block,
+        .input-group + .help-block,
+        .input-group-btn + .help-block,
+        .help-block + .help-block,
+        textarea + .help-block,
+        figure + figcaption,
+        .merge_feedback .remote_value {
+            background: @gray;
+        }
     }
 
     .input-group-addon {
         background: @gray;
         border-color: @gray;
     }
+
+    .rg_tag_list .bootstrap-filestyle .btn {
+        border-color: transparent;
+    }
+
 
     .has-success .control-label {
         color: @green;
@@ -864,17 +892,25 @@ pre,
         color: #fff;
     }
 
-    input + .help-block,
-    .input-group + .help-block,
-    textarea + .help-block,
-    figure + figcaption,
-    .merge_feedback .remote_value {
-        background: rgba(255, 255, 255, .15);
+    .form-group {
+        input + .help-block,
+        .input-group + .help-block,
+        .input-group-btn + .help-block,
+        .help-block + .help-block,
+        textarea + .help-block,
+        figure + figcaption,
+        .merge_feedback .remote_value {
+            background: rgba(255, 255, 255, .15);
+        }
     }
 
     .input-group-addon {
         background: @gray;
         border-color: @gray;
+    }
+
+    .rg_tag_list .bootstrap-filestyle .btn {
+        border-color: transparent;
     }
 
     .table-bordered,

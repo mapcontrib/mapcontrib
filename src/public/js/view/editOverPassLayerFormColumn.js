@@ -6,6 +6,7 @@ import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
 import template from '../../templates/editOverPassLayerFormColumn.ejs';
 import CONST from '../const';
+import MarkedHelper from '../helper/marked';
 
 
 export default Marionette.ItemView.extend({
@@ -26,14 +27,17 @@ export default Marionette.ItemView.extend({
         'layerDataEditable': '#layer_data_editable',
         'layerVisible': '#layer_visible',
         'layerMinZoom': '#layer_min_zoom',
+        'overPassInfo': '.info_overpass_btn',
         'layerOverpassRequest': '#layer_overpass_request',
         'layerPopupContent': '#layer_popup_content',
+        'infoDisplayInfo': '.info_info_display_btn',
         'layerCache': '#layer_cache',
 
         'markerWrapper': '.marker-wrapper',
         'editMarkerButton': '.edit_marker_btn',
         'currentMapZoom': '.current_map_zoom',
         'cacheSection': '.cache_section',
+        'cacheInfo': '.info_cache_btn',
         'cacheDate': '.cache_date',
         'cacheErrorTimeout': '.cache_error_timeout',
         'cacheErrorMemory': '.cache_error_memory',
@@ -115,12 +119,37 @@ export default Marionette.ItemView.extend({
     },
 
     onShow: function () {
-        $('.info_cache_btn').popover({
+        this.ui.infoDisplayInfo.popover({
             'container': 'body',
             'placement': 'left',
             'trigger': 'focus',
+            'html': true,
+            'title': document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
+            ),
+        });
+
+        this.ui.overPassInfo.popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'html': true,
+            'title': document.l10n.getSync('editLayerFormColumn_overPassPopoverTitle'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_overPassPopoverContent')
+            ),
+        });
+
+        this.ui.cacheInfo.popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'html': true,
             'title': document.l10n.getSync('editLayerFormColumn_cachePopoverTitle'),
-            'content': document.l10n.getSync('editLayerFormColumn_cachePopoverContent'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_cachePopoverContent')
+            ),
         });
     },
 
@@ -161,11 +190,13 @@ export default Marionette.ItemView.extend({
     onSubmit: function (e) {
         e.preventDefault();
 
-        let updateMarkers = false,
-        updateMinZoom = false,
-        updatePopups = false,
-        updateVisibility = false,
-        color = this.model.get('markerColor');
+        let updateMarkers = false;
+        let updateMinZoom = false;
+        let updatePopups = false;
+        let updateVisibility = false;
+        let updateRequest = false;
+        let updateCache = false;
+        const color = this.model.get('markerColor');
 
         if (color === 'dark-gray') {
             this.model.set('color', 'anthracite');
@@ -219,6 +250,22 @@ export default Marionette.ItemView.extend({
             updateVisibility = true;
         }
 
+        if ( !this._oldModel.get('cache') ) {
+            if ( this._oldModel.get('overpassRequest') !== this.model.get('overpassRequest') ) {
+                updateRequest = true;
+            }
+        }
+
+        if ( this.model.get('cache') ) {
+            if ( !this._oldModel.get('cache') ) {
+                updateCache = true;
+            }
+
+            if ( this._oldModel.get('overpassRequest') !== this.model.get('overpassRequest') ) {
+                updateCache = true;
+            }
+        }
+
         if ( this.options.isNew ) {
             this.options.theme.get('layers').add( this.model );
         }
@@ -252,6 +299,17 @@ export default Marionette.ItemView.extend({
                         }
 
                         this._radio.commands.execute('column:selectLayer:render');
+                    }
+
+                    if ( updateRequest ) {
+                        this._radio.commands.execute('layer:updateOverPassRequest', this.model);
+                    }
+
+                    if ( updateCache ) {
+                        const layerUuid = this.model.get('uniqid');
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', `${CONST.apiPath}overPassCache/generate/${layerUuid}`, true);
+                        xhr.send();
                     }
                 }
 

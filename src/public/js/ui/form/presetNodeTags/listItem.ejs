@@ -12,11 +12,23 @@
         </div>
     </div>
     <div class="checkbox">
-        <input type="checkbox" id="keyReadOnly_<%- cid %>" class="keyReadOnly" value="1">
-        <label for="keyReadOnly_<%- cid %>" data-l10n-id="uiFormNodeTags_keyReadOnly">Clef en lecture seule</label>
+        <input type="checkbox" id="nonOsmData_<%- cid %>" class="non_osm_data" value="1">
+        <label for="nonOsmData_<%- cid %>" data-l10n-id="uiFormNodeTags_nonOsmData"></label>
     </div>
-    <div class="checkbox">
-        <input type="checkbox" id="valueReadOnly_<%- cid %>" class="valueReadOnly" value="1">
-        <label for="valueReadOnly_<%- cid %>" data-l10n-id="uiFormNodeTags_valueReadOnly">Valeur en lecture seule</label>
+    <div class="checkbox key_read_only_group">
+        <input type="checkbox" id="keyReadOnly_<%- cid %>" class="key_read_only" value="1">
+        <label for="keyReadOnly_<%- cid %>" data-l10n-id="uiFormNodeTags_keyReadOnly"></label>
+    </div>
+    <div class="checkbox value_read_only_group">
+        <input type="checkbox" id="valueReadOnly_<%- cid %>" class="value_read_only" value="1">
+        <label for="valueReadOnly_<%- cid %>" data-l10n-id="uiFormNodeTags_valueReadOnly"></label>
+    </div>
+    <div class="radio text_input_group hide">
+        <input type="radio" id="textInput_<%- cid %>" class="text_input" name="input_type_<%- cid %>" value="1">
+        <label for="textInput_<%- cid %>" data-l10n-id="uiFormNodeTags_textInput"></label>
+    </div>
+    <div class="radio file_input_group hide">
+        <input type="radio" id="fileInput_<%- cid %>" class="file_input" name="input_type_<%- cid %>" value="1">
+        <label for="fileInput_<%- cid %>" data-l10n-id="uiFormNodeTags_fileInput"></label>
     </div>
 </div>

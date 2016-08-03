@@ -1,5 +1,6 @@
 
 import Marionette from 'backbone.marionette';
+import CONST from '../../../const';
 import ContribNodeTagsCollection from './collection';
 import ContribNodeTagsListItemView from './listItem';
 
@@ -15,7 +16,9 @@ export default Marionette.CollectionView.extend({
         if (tags.length === 0) {
             this.collection.add({
                 'keyReadOnly': false,
-                'valueReadOnly': false
+                'valueReadOnly': false,
+                'nonOsmData': false,
+                'type': CONST.tagType.text,
             });
         }
         else {
@@ -29,7 +32,9 @@ export default Marionette.CollectionView.extend({
         if ( !tag ) {
             tag = {
                 'keyReadOnly': false,
-                'valueReadOnly': false
+                'valueReadOnly': false,
+                'nonOsmData': false,
+                'type': CONST.tagType.text,
             };
         }
 
@@ -37,17 +42,55 @@ export default Marionette.CollectionView.extend({
     },
 
     getTags: function () {
-        let rawTags = this.collection.toJSON();
-        let tags = {};
+        return this.collection.toJSON();
+    },
 
-        for (let tag of rawTags) {
-            if (!tag.key || !tag.value) {
-                continue;
+    hasFileToUpload: function () {
+        let hasFileToUpload = false;
+
+        for (const i in this.children._views) {
+            const fileTag = this.children._views[i];
+
+            if ( fileTag.isFileTag() && fileTag.isNotEmpty() ) {
+                hasFileToUpload = true;
             }
-
-            tags[tag.key] = tag.value;
         }
 
-        return tags;
+        return hasFileToUpload;
+    },
+
+    showErrorFeedback: function (response) {
+        for (const i in this.children._views) {
+            const view = this.children._views[i];
+            const modelId = response.fileInput.replace('fileInput_', '');
+
+            if (view.model.cid === modelId) {
+                view.showErrorFeedback();
+            }
+        }
+    },
+
+    hideErrorFeedbacks: function () {
+        for (const i in this.children._views) {
+            const view = this.children._views[i];
+
+            view.hideErrorFeedback();
+        }
+    },
+
+    setFilesPathFromApiResponse: function (apiResponse) {
+        for (const file of apiResponse) {
+            const key = Object.keys(file)[0];
+            const modelId = key.replace('fileInput_', '');
+            const path = file[key];
+
+            for (const i in this.children._views) {
+                const view = this.children._views[i];
+
+                if (view.model.cid === modelId) {
+                    view.model.set('value', path);
+                }
+            }
+        }
     },
 });

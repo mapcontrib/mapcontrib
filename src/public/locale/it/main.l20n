@@ -15,7 +15,7 @@
 
 
 <markdownAvailable "formato <a>Markdown</a> disponibile">
-<maxFileSize "La dimensione del file deve essere inferiore a {{ $maxFileSize }} MB">
+<maxFileSize "La dimensione del file deve essere inferiore a {{ $maxFileSize }}">
 
 
 <buttonDescriptionTooltip title:"Leggi la descrizione">
@@ -32,6 +32,7 @@
 <buttonUserTooltip title:"Il mio account">
 <buttonLinkTooltip title:"Condividi">
 <buttonContribTooltip title:"Aggiungi dati mancanti">
+<buttonTempLayerTooltip title:"Aggiungere un livello temporaneo">
 <buttonEditSettingTooltip title:"Impostazioni generali">
 <buttonEditLayerTooltip title:"Livello">
 <buttonEditTileTooltip title:"Sfondi">
@@ -42,6 +43,7 @@
 
 
 <goBackToHome "Ritorno alla home">
+<about "About {{ mapcontrib }}"> /* FIXME */
 <myThemes "I miei temi">
 <preferences "Preferenze">
 <login "Log in">
@@ -62,6 +64,9 @@
 <createATheme "Crea un tema">
 <searchATheme placeholder:"Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
+<invalidFile "File non valido">
+<currentFile "Current file: <a>{{ $file }}</a>"> /* FIXME */
+<file "File">
 
 
 /* Home */
@@ -72,13 +77,13 @@
 }>
 
 
-/* Help */
-<helpTitle "Aiuto">
-<helpText1 "MapContrib è <a>software libero</a>. È in grado di creare temi cartografici">
-<helpText2 "Questi temi sono basati sulle mappe di <a>OpenStreetMap</a> su cui è possibile aggiungere alcuni marcatori/punti di interesse.">
-<helpText3 "Nell´utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
-<helpText4 "Kudos ad alcuni progetti ispiratori:">
-<helpTextVersion "La versione di questa istanza MapContrib è la {{ $version }}.">
+/* About */
+<aboutTitle "About"> /* FIXME */
+<aboutText1 "MapContrib è <a>software libero</a>. È in grado di creare temi cartografici">
+<aboutText2 "Questi temi sono basati sulle mappe di <a>OpenStreetMap</a> su cui è possibile aggiungere alcuni marcatori/punti di interesse.">
+<aboutText3 "Nell´utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
+<aboutText4 "Kudos ad alcuni progetti ispiratori:">
+<aboutTextVersion "La versione di questa istanza MapContrib è la {{ $version }}.">
 
 
 /* Login modal */
@@ -96,6 +101,7 @@
   one: "Per visualizzare i dati hai bisogno di fare almeno uno zoom",
   many: "Per visualizzare i dati hai bisogno di fare almeno {{ $n }} zoom."
 }>
+<selectLayerColumn_downloadData "Scarica i dati visibili">
 
 
 /* Tile column */
@@ -119,8 +125,10 @@
 
 /* Link column */
 <linkColumn_title "Condividi">
-<linkColumn_linkLabel "Condividi il seguente link:">
-<linkColumn_integrateCode "Oppure integra questo codice sul tuo sito web:">
+<linkColumn_linkTitle "Direct link"> /* FIXME */
+<linkColumn_linkIncludePosition "Include the current position"> /* FIXME */
+<linkColumn_integrationTitle "Integrated in your website"> /* FIXME */
+<linkColumn_iframeIncludePosition "Include the current position"> /* FIXME */
 <linkColumn_seeBigger "Vedilo più grande">
 <linkColumn_width "Larghezza">
 <linkColumn_height "Altezza">
@@ -145,6 +153,11 @@
 <editSettingColumn_popup "Popup">
 <editSettingColumn_modal "Finestra modale">
 <editSettingColumn_column "Colonna">
+<editSettingColumn_themeAnalytics "Analytics"> /* FIXME */
+<editSettingColumn_infoAnalyticsPopoverTitle "Integration"> /* FIXME */
+<editSettingColumn_infoAnalyticsPopoverContent "Analytics tools provide a javascript code to insert in the concerned website.
+
+Put it right here!"> /* FIXME */
 
 
 /* Edit layer column */
@@ -163,8 +176,14 @@
 <editLayerFormColumn_dataEditable "Permetti di modificare i dati">
 <editLayerFormColumn_layerZoomLevel "Zoom minimo">
 <editLayerFormColumn_currentMapZoom "La mappa fa attualmente uso del livello di zoom {{ $currentMapZoom }}">
-<editLayerFormColumn_layerOverpassRequest "Richiesta Overpass">
+<editLayerFormColumn_overPassPopoverTitle "Bounding box"> /* FIXME */
+<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` is replaced by the current bounding box."> /* FIXME */
+<editLayerFormColumn_layerOverpassRequest "Richiesta OverPass">
 <editLayerFormColumn_marker "Marcatore">
+<editLayerFormColumn_infoDisplayPopoverTitle "Value of tags"> /* FIXME */
+<editLayerFormColumn_infoDisplayPopoverContent "To display the value of each elements' tags, insert its name between brackets.
+
+Example : `\{foo\}` will be replaced by the value of the *foo* element's tag."> /* FIXME */
 <editLayerFormColumn_layerPopupContent "Contenuto popup">
 <editLayerFormColumn_gpxFile "file GPX">
 <editLayerFormColumn_csvFile "file CSV">
@@ -266,6 +285,10 @@
 <uiFormNodeTags_value placeholder:"Valore">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
 <uiFormNodeTags_valueReadOnly "Valore in sola lettura">
+<uiFormNodeTags_nonOsmData "Do not send this tag to OSM"> /* FIXME */
+<uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap"> /* FIXME */
+<uiFormNodeTags_textInput "Text input"> /* FIXME */
+<uiFormNodeTags_fileInput "File input"> /* FIXME */
 
 
 /* Color selector UI */
@@ -287,10 +310,12 @@
 
 /* Add layer menu column */
 <addLayerMenuColumn_title "Aggiungi un livello">
-<addLayerMenuColumn_overPass "Richiesta OverPass">
-<addLayerMenuColumn_gpx "file GPX">
-<addLayerMenuColumn_csv "file CSV">
-<addLayerMenuColumn_geoJson "file GeoJSON">
+<addLayerMenuColumn_remoteInformation "Informazioni a distanza">
+<addLayerMenuColumn_file "File">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
 
 
 /* Layer info column */
@@ -313,3 +338,14 @@
 
 /* Info display column */
 <infoDisplayColumn_title "Dettagli">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Livelli temporanei">
+<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib."> /* FIXME */
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Tipo di nodo">
+<editPoiPresetColumn_noThanks "No thanks"> /* FIXME */
+<editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?"> /* FIXME */

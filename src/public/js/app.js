@@ -18,8 +18,8 @@ import leafletCss from 'leaflet/dist/leaflet.css';
 
 import UserModel from './model/user';
 import ThemeModel from './model/theme';
-import LayerCollection from './collection/layer';
-import PresetCollection from './collection/preset';
+import NonOsmDataCollection from './collection/nonOsmData';
+import OsmCacheCollection from './collection/osmCache';
 import L20nBehavior from './behavior/l20n';
 import ColumnBehavior from './behavior/column';
 import ModalBehavior from './behavior/modal';
@@ -57,10 +57,26 @@ export default Marionette.Application.extend({
 
         this._isLogged = false;
         this._window = window;
-        this._user = new UserModel( MAPCONTRIB.user );
         this._config = MAPCONTRIB.config;
         this._version = MAPCONTRIB.version;
-        this._theme = new ThemeModel( MAPCONTRIB.theme );
+        this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
+
+        if (MAPCONTRIB.user) {
+            this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
+        }
+
+        if (MAPCONTRIB.theme) {
+            this._theme = new ThemeModel(JSON.parse(unescape( MAPCONTRIB.theme )));
+        }
+
+        if (MAPCONTRIB.nonOsmData) {
+            this._nonOsmData = new NonOsmDataCollection(JSON.parse(unescape( MAPCONTRIB.nonOsmData )));
+        }
+
+        if (MAPCONTRIB.osmCache) {
+            this._osmCache = new OsmCacheCollection(JSON.parse(unescape( MAPCONTRIB.osmCache )));
+        }
+
         this._radio = Wreqr.radio.channel('global');
 
 
@@ -100,6 +116,14 @@ export default Marionette.Application.extend({
         return this._theme;
     },
 
+    getNonOsmData: function () {
+        return this._nonOsmData;
+    },
+
+    getOsmCache: function () {
+        return this._osmCache;
+    },
+
     isLogged: function () {
         return this._isLogged;
     },
@@ -110,6 +134,8 @@ export default Marionette.Application.extend({
         }
 
         this._router = new Router(this);
+
+        this._radio.reqres.setHandler('router', () => this._router);
 
         Backbone.history.start();
     },

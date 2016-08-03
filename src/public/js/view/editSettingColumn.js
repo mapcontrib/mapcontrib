@@ -3,6 +3,7 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from '../../templates/editSettingColumn.ejs';
 import CONST from '../const';
+import MarkedHelper from '../helper/marked';
 
 
 export default Marionette.ItemView.extend({
@@ -30,6 +31,8 @@ export default Marionette.ItemView.extend({
         'themeInfoDisplayPopup': '#theme_info_display_popup',
         'themeInfoDisplayModal': '#theme_info_display_modal',
         'themeInfoDisplayColumn': '#theme_info_display_column',
+        'infoAnalytics': '.info_analytics_btn',
+        'themeAnalyticScript': '#theme_analytic_script',
     },
 
     events: {
@@ -59,18 +62,18 @@ export default Marionette.ItemView.extend({
         if ( config.availableGeocoders.length > 1 ) {
             this.ui.geocoderSection.removeClass('hide');
 
-            let modelGeocoder = this.model.get('geocoder');
+            const modelGeocoder = this.model.get('geocoder');
 
             if ( config.availableGeocoders.indexOf(modelGeocoder) > -1 ) {
-                let geocoder = modelGeocoder.ucfirst();
+                const geocoder = modelGeocoder.ucfirst();
                 this.ui[`themeGeocoder${geocoder}`].prop('checked', 'true');
             }
             else {
-                let defaultGeocoder = config.defaultGeocoder.ucfirst();
+                const defaultGeocoder = config.defaultGeocoder.ucfirst();
                 this.ui[`themeGeocoder${defaultGeocoder}`].prop('checked', 'true');
             }
 
-            for (let geocoder in CONST.geocoder) {
+            for (const geocoder in CONST.geocoder) {
                 if ( config.availableGeocoders.indexOf(geocoder) > -1 ) {
                     this.ui[`${geocoder}Section`].removeClass('hide');
                 }
@@ -94,6 +97,19 @@ export default Marionette.ItemView.extend({
         }
     },
 
+    onShow: function () {
+        this.ui.infoAnalytics.popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'html': true,
+            'title': document.l10n.getSync('editSettingColumn_infoAnalyticsPopoverTitle'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editSettingColumn_infoAnalyticsPopoverContent')
+            ),
+        });
+    },
+
     onBeforeOpen: function () {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
@@ -114,14 +130,16 @@ export default Marionette.ItemView.extend({
 
         const config = MAPCONTRIB.config;
 
-        var map = this._radio.reqres.request('map'),
-        mapCenter = map.getCenter(),
-        mapZoomLevel = map.getZoom(),
-        themeName = this.ui.themeName.val(),
-        themeDescription = this.ui.themeDescription.val();
+        const map = this._radio.reqres.request('map');
+        const mapCenter = map.getCenter();
+        const mapZoomLevel = map.getZoom();
+        const themeName = this.ui.themeName.val();
+        const themeDescription = this.ui.themeDescription.val();
+        const themeAnalyticScript = this.ui.themeAnalyticScript.val();
 
         this.model.set('name', themeName);
         this.model.set('description', themeDescription);
+        this.model.set('analyticScript', themeAnalyticScript);
         this.model.updateModificationDate();
 
         history.pushState({}, themeName, this.model.buildPath());

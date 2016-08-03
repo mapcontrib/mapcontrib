@@ -3,7 +3,10 @@ import Backbone from 'backbone';
 import config from 'config';
 import userApi from './user';
 import themeApi from './theme';
+import nonOsmDataApi from './nonOsmData';
+import osmCacheApi from './osmCache';
 import fileApi from './file';
+import overPassCacheApi from './overPassCache';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -17,8 +20,11 @@ export default function Api(app, db, CONST, packageJson){
 
     userApi.setOptions( options );
     themeApi.setOptions( options );
+    nonOsmDataApi.setOptions( options );
+    osmCacheApi.setOptions( options );
     fileApi.setOptions( options );
     fileApi.initDirectories( app );
+    overPassCacheApi.setOptions( options );
 
 
     app.get('/api/user/logout', userApi.Api.logout);
@@ -34,13 +40,25 @@ export default function Api(app, db, CONST, packageJson){
     app.put('/api/theme/:_id', isLoggedIn, themeApi.Api.put);
     // app.delete('/api/theme/:_id', isLoggedIn, themeApi.Api.delete);
 
+    app.get('/api/nonOsmData', nonOsmDataApi.Api.getAll);
+    app.get('/api/nonOsmData/:_id', nonOsmDataApi.Api.get);
+    app.post('/api/nonOsmData', isLoggedIn, nonOsmDataApi.Api.post);
+    app.put('/api/nonOsmData/:_id', isLoggedIn, nonOsmDataApi.Api.put);
+
+    app.get('/api/osmCache', osmCacheApi.Api.getAll);
+    app.get('/api/osmCache/:_id', osmCacheApi.Api.get);
+    app.post('/api/osmCache', isLoggedIn, osmCacheApi.Api.post);
+    app.put('/api/osmCache/:_id', isLoggedIn, osmCacheApi.Api.put);
+    app.delete('/api/osmCache/:_id', osmCacheApi.Api.delete);
+
     app.get('/', (req, res) => {
         let clientConfig = config.get('client');
         let templateVars = {
-            'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
+            'user': req.session.user ? escape(JSON.stringify(req.session.user)) : '{}',
             'config': JSON.stringify( clientConfig ),
             'highlightList': '[]',
             'version': packageJson.version,
+            'analyticScript': config.get('analyticScript'),
         };
 
         if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
@@ -60,7 +78,7 @@ export default function Api(app, db, CONST, packageJson){
                     highlightList.push(themeObject);
                 }
 
-                templateVars.highlightList = JSON.stringify( highlightList );
+                templateVars.highlightList = escape(JSON.stringify( highlightList ));
 
                 res.render('home', templateVars);
             })
@@ -72,15 +90,25 @@ export default function Api(app, db, CONST, packageJson){
     });
 
     app.get('/t/:fragment-*', (req, res) => {
-        let templateVars = {
-            'user': req.session.user ? JSON.stringify(req.session.user) : '{}',
+        const templateVars = {
+            'user': req.session.user ? escape(JSON.stringify(req.session.user)) : '{}',
             'config': JSON.stringify( config.get('client') ),
             'version': packageJson.version,
+            'analyticScript': config.get('analyticScript'),
         };
 
-        themeApi.Api.findFromFragment(req.params.fragment)
-        .then(( themeObject ) => {
-            templateVars.theme = JSON.stringify( themeObject );
+        const promises = [
+            themeApi.Api.findFromFragment(req.params.fragment),
+            nonOsmDataApi.Api.findFromFragment(req.params.fragment),
+            osmCacheApi.Api.findFromFragment(req.params.fragment),
+        ];
+
+        Promise.all( promises )
+        .then(data => {
+            templateVars.theme = escape(JSON.stringify( data[0] ));
+            templateVars.themeAnalyticScript = data[0].analyticScript;
+            templateVars.nonOsmData = escape(JSON.stringify( data[1] ));
+            templateVars.osmCache = escape(JSON.stringify( data[2] ));
 
             res.render('theme', templateVars);
         })
@@ -99,8 +127,8 @@ export default function Api(app, db, CONST, packageJson){
         .then(theme => {
             Backbone.Relational.store.reset();
 
-            let collection = options.database.collection('theme'),
-            model = new ThemeModel(theme);
+            const collection = options.database.collection('theme');
+            const model = new ThemeModel(theme);
 
             res.redirect(
                 model.buildPath()
@@ -111,6 +139,9 @@ export default function Api(app, db, CONST, packageJson){
 
 
     app.post('/api/file/shape', fileApi.Api.postShapeFile);
+    app.post('/api/file/nonOsmData', fileApi.Api.postNonOsmDataFile);
+
+    app.get('/api/overPassCache/generate/:uniqid', overPassCacheApi.Api.generate);
 }
 
 

@@ -67,14 +67,20 @@
 <script type="text/javascript">
 
     var MAPCONTRIB = {
-        'user': <%- user %>,
+        'user': '<%- user %>',
         'config': <%- config %>,
         'version': '<%- version %>',
-        'theme': <%- theme %>,
+        'theme': '<%- theme %>',
+        'nonOsmData': '<%- nonOsmData %>',
+        'osmCache': '<%- osmCache %>',
     };
 
 </script>
 <script type="text/javascript" charset="utf-8" src="/js/theme.bundle.js"></script>
+
+<%- analyticScript %>
+
+<%- themeAnalyticScript %>
 
 </body>
 </html>

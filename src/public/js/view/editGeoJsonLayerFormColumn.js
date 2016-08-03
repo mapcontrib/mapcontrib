@@ -2,9 +2,10 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from '../ui/map';
-import { basename, extensionname } from '../core/utils';
+import { basename, extensionname, formatBytes } from '../core/utils';
 import CONST from '../const';
 import template from '../../templates/editGeoJsonLayerFormColumn.ejs';
+import MarkedHelper from '../helper/marked';
 
 
 export default Marionette.ItemView.extend({
@@ -24,6 +25,7 @@ export default Marionette.ItemView.extend({
         'layerName': '#layer_name',
         'layerDescription': '#layer_description',
         'layerVisible': '#layer_visible',
+        'infoDisplayInfo': '.info_info_display_btn',
         'layerPopupContent': '#layer_popup_content',
         'layerFile': '#layer_file',
 
@@ -33,7 +35,7 @@ export default Marionette.ItemView.extend({
         'formGroups': '.form-group',
         'fileFormGroup': '.form-group.layer_file',
 
-        'actualFile': '.actual_file',
+        'currentFile': '.current_file',
     },
 
     events: {
@@ -44,15 +46,13 @@ export default Marionette.ItemView.extend({
 
     templateHelpers: function () {
         const config = MAPCONTRIB.config;
-        const maxFileSize = Math.round( config.uploadMaxShapeFileSize / 1024 );
-        const file = basename(this.model.get('fileUri') || '');
+        const maxFileSize = formatBytes( config.uploadMaxShapeFileSize * 1024 );
 
         return {
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
             'fragment': this.options.theme.get('fragment'),
             'apiPath': `${CONST.apiPath}file/shape`,
             'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
-            'file': file
         };
     },
 
@@ -68,11 +68,31 @@ export default Marionette.ItemView.extend({
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
 
         if ( this.model.get('fileUri') ) {
-            this.ui.actualFile.removeClass('hide');
+            const fileUri = this.model.get('fileUri');
+            const fileName = basename(fileUri || '');
+
+            this.ui.currentFile
+            .html(
+                document.l10n.getSync('currentFile', {
+                    file: `<a href="${fileUri}" target="_blank">${fileName}</a>`
+                })
+            )
+            .removeClass('hide');
         }
     },
 
     onShow: function () {
+        this.ui.infoDisplayInfo.popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'html': true,
+            'title': document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
+            ),
+        });
+
         this.ui.layerFile.filestyle({
             'icon': false,
             'badge': false,
@@ -105,7 +125,7 @@ export default Marionette.ItemView.extend({
 
         this.ui.formGroups.removeClass('has-feedback has-error');
 
-        let fileName = this.ui.layerFile.val();
+        const fileName = this.ui.layerFile.val();
 
         if ( !fileName && this.options.isNew ) {
             this.ui.fileFormGroup.addClass('has-feedback has-error');
@@ -123,15 +143,15 @@ export default Marionette.ItemView.extend({
                 'error': xhr => {
                     switch (xhr.status) {
                         case 413:
-                        this.ui.fileFormGroup.addClass('has-feedback has-error');
-                        break;
+                            this.ui.fileFormGroup.addClass('has-feedback has-error');
+                            break;
                         case 415:
-                        this.ui.fileFormGroup.addClass('has-feedback has-error');
-                        break;
+                            this.ui.fileFormGroup.addClass('has-feedback has-error');
+                            break;
                     }
                 },
                 'success': response => {
-                    let file = response[0];
+                    const file = response[0];
                     this.model.set('fileUri', file.layer_file);
                     this.saveLayer();
                 }
@@ -143,10 +163,10 @@ export default Marionette.ItemView.extend({
     },
 
     saveLayer: function () {
-        let updateMarkers = false,
-        updatePopups = false,
-        updateVisibility = false,
-        color = this.model.get('markerColor');
+        let updateMarkers = false;
+        let updatePopups = false;
+        let updateVisibility = false;
+        const color = this.model.get('markerColor');
 
         if (color === 'dark-gray') {
             this.model.set('color', 'anthracite');

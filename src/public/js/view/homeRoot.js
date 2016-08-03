@@ -66,7 +66,6 @@ export default Marionette.LayoutView.extend({
         const charactersCount = this.ui.searchInput.val().length;
 
         if ( this._lastSearchedString === searchString ) {
-            console.log(this._lastSearchedString, searchString);
             return true;
         }
 
@@ -124,9 +123,11 @@ export default Marionette.LayoutView.extend({
 
     resetThemeCollection: function () {
         this.collection = new ThemeCollection();
-
+        
         if (MAPCONTRIB.highlightList) {
-            this.collection.add(MAPCONTRIB.highlightList);
+            this.collection.add(
+                JSON.parse(unescape( MAPCONTRIB.highlightList ))
+            );
         }
 
         this.render();
