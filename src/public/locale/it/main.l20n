@@ -7,7 +7,7 @@
 
 
 <mapcontrib "MapContrib">
-<slogan "Contributo tematico a <a>OpenStreetMap</a>">
+<slogan "Contribuisci ad un tema di <a>OpenStreetMap</a>">
 
 
 <pageTitle "{{ mapcontrib }}">
@@ -342,10 +342,10 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag."> 
 
 /* Temporary layers column */
 <tempLayerListColumn_title "Livelli temporanei">
-<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib."> /* FIXME */
+<tempLayerListColumn_description "Questi livelli sono effimeri. Appaiono semplicemente a te e spariranno appena chiuderai MapContrib."> 
 
 
 /* Edit POI preset column */
 <editPoiPresetColumn_title "Tipo di nodo">
-<editPoiPresetColumn_noThanks "No thanks"> /* FIXME */
-<editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?"> /* FIXME */
+<editPoiPresetColumn_noThanks "No grazie"> 
+<editPoiPresetColumn_applyPreset "Vuoi aggiungere automatica i tag ad un tipo di nodo?">
