@@ -43,7 +43,7 @@
 
 
 <goBackToHome "Ritorno alla home">
-<about "About {{ mapcontrib }}"> /* FIXME */
+<about "Info {{ mapcontrib }}"> 
 <myThemes "I miei temi">
 <preferences "Preferenze">
 <login "Log in">
@@ -65,7 +65,7 @@
 <searchATheme placeholder:"Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
 <invalidFile "File non valido">
-<currentFile "Current file: <a>{{ $file }}</a>"> /* FIXME */
+<currentFile "FIle attuale: <a>{{ $file }}</a>"> 
 <file "File">
 
 
@@ -78,7 +78,7 @@
 
 
 /* About */
-<aboutTitle "About"> /* FIXME */
+<aboutTitle "Info"> 
 <aboutText1 "MapContrib è <a>software libero</a>. È in grado di creare temi cartografici">
 <aboutText2 "Questi temi sono basati sulle mappe di <a>OpenStreetMap</a> su cui è possibile aggiungere alcuni marcatori/punti di interesse.">
 <aboutText3 "Nell´utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
@@ -125,11 +125,11 @@
 
 /* Link column */
 <linkColumn_title "Condividi">
-<linkColumn_linkTitle "Direct link"> /* FIXME */
-<linkColumn_linkIncludePosition "Include the current position"> /* FIXME */
-<linkColumn_integrationTitle "Integrated in your website"> /* FIXME */
-<linkColumn_iframeIncludePosition "Include the current position"> /* FIXME */
-<linkColumn_seeBigger "Vedilo più grande">
+<linkColumn_linkTitle "Link diretto"> 
+<linkColumn_linkIncludePosition "Includi anche la posizione attuale"> 
+<linkColumn_integrationTitle "Integra nel tuo sito"> 
+<linkColumn_iframeIncludePosition "Include la posizione attuale"> 
+<linkColumn_seeBigger "Vedi più grande">
 <linkColumn_width "Larghezza">
 <linkColumn_height "Altezza">
 <linkColumn_percentage "Percentuale">
@@ -153,11 +153,11 @@
 <editSettingColumn_popup "Popup">
 <editSettingColumn_modal "Finestra modale">
 <editSettingColumn_column "Colonna">
-<editSettingColumn_themeAnalytics "Analytics"> /* FIXME */
-<editSettingColumn_infoAnalyticsPopoverTitle "Integration"> /* FIXME */
-<editSettingColumn_infoAnalyticsPopoverContent "Analytics tools provide a javascript code to insert in the concerned website.
+<editSettingColumn_themeAnalytics "Analisi"> 
+<editSettingColumn_infoAnalyticsPopoverTitle "Integrazione"> 
+<editSettingColumn_infoAnalyticsPopoverContent "Gli strumenti di analisi forniscono un codice javascript da inserire nel sito in questione.
 
-Put it right here!"> /* FIXME */
+Inseriscilo proprio qui!"> /
 
 
 /* Edit layer column */
@@ -176,14 +176,14 @@ Put it right here!"> /* FIXME */
 <editLayerFormColumn_dataEditable "Permetti di modificare i dati">
 <editLayerFormColumn_layerZoomLevel "Zoom minimo">
 <editLayerFormColumn_currentMapZoom "La mappa fa attualmente uso del livello di zoom {{ $currentMapZoom }}">
-<editLayerFormColumn_overPassPopoverTitle "Bounding box"> /* FIXME */
-<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` is replaced by the current bounding box."> /* FIXME */
+<editLayerFormColumn_overPassPopoverTitle "Area di selezione"> 
+<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` ha sostituito l'area di selezione attuale">
 <editLayerFormColumn_layerOverpassRequest "Richiesta OverPass">
 <editLayerFormColumn_marker "Marcatore">
-<editLayerFormColumn_infoDisplayPopoverTitle "Value of tags"> /* FIXME */
-<editLayerFormColumn_infoDisplayPopoverContent "To display the value of each elements' tags, insert its name between brackets.
+<editLayerFormColumn_infoDisplayPopoverTitle "Valore dei tag"> /
+<editLayerFormColumn_infoDisplayPopoverContent "Per visualizzare il valore di ogni elemento dei tag, inserire il nome fra parentesi graffe.
 
-Example : `\{foo\}` will be replaced by the value of the *foo* element's tag."> /* FIXME */
+Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*."> /
 <editLayerFormColumn_layerPopupContent "Contenuto popup">
 <editLayerFormColumn_gpxFile "file GPX">
 <editLayerFormColumn_csvFile "file CSV">
@@ -285,10 +285,10 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag."> 
 <uiFormNodeTags_value placeholder:"Valore">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
 <uiFormNodeTags_valueReadOnly "Valore in sola lettura">
-<uiFormNodeTags_nonOsmData "Do not send this tag to OSM"> /* FIXME */
-<uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap"> /* FIXME */
-<uiFormNodeTags_textInput "Text input"> /* FIXME */
-<uiFormNodeTags_fileInput "File input"> /* FIXME */
+<uiFormNodeTags_nonOsmData "Non inviare questo tag a OSM"> 
+<uiFormNodeTags_nonOsmContributionWarning "Tag non inviato a OpenStreetMap"> 
+<uiFormNodeTags_textInput "Testo di input"> 
+<uiFormNodeTags_fileInput "File di input"> 
 
 
 /* Color selector UI */
@@ -343,7 +343,6 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag."> 
 /* Temporary layers column */
 <tempLayerListColumn_title "Livelli temporanei">
 <tempLayerListColumn_description "Questi livelli sono effimeri. Appaiono semplicemente a te e spariranno appena chiuderai MapContrib."> 
-
 
 /* Edit POI preset column */
 <editPoiPresetColumn_title "Tipo di nodo">
