@@ -81,6 +81,7 @@ MapContrib is what it is because of some crazy people and free and open source p
 * Yohan Boniface ([uMap](https://bitbucket.org/yohanboniface/umap), [Leaflet-Storage](https://github.com/yohanboniface/Leaflet.Storage))
 * Noémie Lehuby ([OpenBeerMap](https://github.com/OpenBeerMap/OpenBeerMap.github.io))
 * Adrien Pavie ([OpenLevelUp](http://openlevelup.net), [YoHours](http://projets.pavie.info/yohours))
+* Maurizio Napolitano ([Github profile](https://github.com/napo))
 * Les Libres Géographes
 * OpenStreetMap ([OSM](http://osm.org))
 * Leaflet ([Website](http://leafletjs.com))
