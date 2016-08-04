@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.12.1
+
+* Fixes the missing italian translations.
+* Updates the README screenshot.
+
 ## 0.12.0
 
 * Adds a button to download all the visible data from the current bounding box.
