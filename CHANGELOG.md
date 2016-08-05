@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.2
+
+* Updates the Leaflet-OverPass-Layer plugin to the 2.1.1 version.
+* When applying a preset on an existing POI, the original POI's values were missing.
+* Fixes the POI edition form.
+
 ## 0.12.1
 
 * Fixes the missing italian translations.

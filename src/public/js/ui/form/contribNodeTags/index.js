@@ -30,15 +30,23 @@ export default Marionette.CollectionView.extend({
 
     addTag: function (tag) {
         if ( !tag ) {
-            tag = {
+            return this.collection.add({
                 'keyReadOnly': false,
                 'valueReadOnly': false,
                 'nonOsmData': false,
                 'type': CONST.tagType.text,
-            };
+            });
         }
 
-        this.collection.add( tag );
+        if (tag.key) {
+            const currentTag = this.collection.findWhere({ key: tag.key });
+
+            if (currentTag) {
+                return currentTag.set(tag);
+            }
+        }
+
+        this.collection.add(tag);
     },
 
     getTags: function () {
