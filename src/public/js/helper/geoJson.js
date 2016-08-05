@@ -1,4 +1,7 @@
 
+import osmtogeojson from 'osmtogeojson';
+
+
 export default class GeoJsonHelper {
     /**
      * @author Guillaume AMAT
@@ -59,5 +62,18 @@ export default class GeoJsonHelper {
         }
 
         return object.properties.meta.version;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {object} osmElement.
+     * @returns {object}
+     */
+    static buildFeatureFromOsmElement (osmElement) {
+        return osmtogeojson({
+            'elements': [ osmElement ]
+        }).features[0];
     }
 }
