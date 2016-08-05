@@ -258,10 +258,6 @@ export default Marionette.LayoutView.extend({
         }
 
         for (const key in tags) {
-            if ( keysAdded.indexOf(key) > -1 ) {
-                continue;
-            }
-
             this._tagList.addTag({
                 'key': key,
                 'value': tags[key],
