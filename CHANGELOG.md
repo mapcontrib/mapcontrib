@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.3
+
+* Fixes the POI's info display update after edition.
+
 ## 0.12.2
 
 * Updates the Leaflet-OverPass-Layer plugin to the 2.1.1 version.
