@@ -935,9 +935,9 @@ export default Marionette.LayoutView.extend({
                     osmCacheModel.destroy();
                 }
                 else {
-                    object.feature = osmtogeojson({
-                        'elements': [ osmCacheModel.get('overPassElement') ]
-                    }).features[0];
+                    object.feature = GeoJsonHelper.buildFeatureFromOsmElement(
+                        osmCacheModel.get('overPassElement')
+                    );
 
                     if (object.feature.geometry.type === 'Point') {
                         object.setLatLng(
@@ -1109,6 +1109,8 @@ export default Marionette.LayoutView.extend({
 
         for (let layer of layers) {
             if ( layer.feature.id === osmId ) {
+                layer.feature = GeoJsonHelper.buildFeatureFromOsmElement(overPassElement);
+
                 if (layer._popup) {
                     layer._popup.setContent(
                         this._buildLayerPopupContent(
