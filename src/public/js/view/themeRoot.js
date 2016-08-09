@@ -56,7 +56,7 @@ import PresetModel from '../model/preset';
 
 import MapUi from '../ui/map';
 import Geolocation from '../core/geolocation';
-import OsmData from '../core/osmData';
+import OverPassData from '../core/overPassData';
 import InfoDisplay from '../core/infoDisplay';
 import OverPassHelper from '../helper/overPass';
 import GeoJsonHelper from '../helper/geoJson';
@@ -179,7 +179,7 @@ export default Marionette.LayoutView.extend({
         this._minDataZoom = 0;
         this._poiLoadingSpool = [];
 
-        this._osmData = new OsmData();
+        this._overPassData = new OverPassData();
         this._markerClusters = {};
         this._overPassLayers = {};
         this._markersWithoutLayers = {};
@@ -199,6 +199,9 @@ export default Marionette.LayoutView.extend({
             },
             'osmCache': () => {
                 return this._osmCache;
+            },
+            'overPassData': () => {
+                return this._overPassData;
             },
             'theme:fragment': () => {
                 return this.model.get('fragment');
@@ -311,8 +314,8 @@ export default Marionette.LayoutView.extend({
             'map:bindAllPopups': () => {
                 this.bindAllPopups();
             },
-            'saveOsmData': (osmElement, layerModel) => {
-                this._osmData.save(osmElement, layerModel.cid);
+            'saveOverPassData': (overPassElement, layerModel) => {
+                this._overPassData.save(overPassElement, layerModel.cid);
             },
         });
 
@@ -592,7 +595,7 @@ export default Marionette.LayoutView.extend({
     },
 
     updateOverPassRequest: function (layerModel) {
-        this._osmData.clearLayerData(layerModel.cid);
+        this._overPassData.clearLayerData(layerModel.cid);
 
         this._markerClusters[ layerModel.cid ].clearLayers();
         this._overPassLayers[ layerModel.cid ].setQuery(
@@ -767,12 +770,12 @@ export default Marionette.LayoutView.extend({
                 for (let i in data.elements) {
                     let e = data.elements[i];
 
-                    if ( this._osmData.exists(e.type, e.id, layerModel.cid) ) {
+                    if ( this._overPassData.exists(e.type, e.id, layerModel.cid) ) {
                         continue;
                     }
 
                     elements.push(e);
-                    this._osmData.save(e, layerModel.cid);
+                    this._overPassData.save(e, layerModel.cid);
                 }
 
                 data.elements = elements;
@@ -918,7 +921,7 @@ export default Marionette.LayoutView.extend({
             let object = objects[i];
             const id = GeoJsonHelper.findOsmId(object.feature);
             const type = GeoJsonHelper.findOsmType(object.feature);
-            const longId = `${type}/${id}`;
+            const longId = this._overPassData.buildOsmIdFromTypeAndId(type, id);
             const version = GeoJsonHelper.findOsmVersion(object.feature);
             const osmCacheModel = this._osmCache.findWhere({
                 'themeFragment': this.model.get('fragment'),
@@ -935,22 +938,18 @@ export default Marionette.LayoutView.extend({
                     osmCacheModel.destroy();
                 }
                 else {
-                    object.feature = GeoJsonHelper.buildFeatureFromOsmElement(
+                    object.feature = GeoJsonHelper.hydrateFeatureFromOverPassElement(
+                        object.feature,
                         osmCacheModel.get('overPassElement')
                     );
 
-                    if (!object.feature) {
-                        osmCacheModel.destroy();
-                    }
-                    else {
-                        if (object.feature.geometry.type === 'Point') {
-                            object.setLatLng(
-                                L.latLng([
-                                    object.feature.geometry.coordinates[1],
-                                    object.feature.geometry.coordinates[0]
-                                ])
-                            );
-                        }
+                    if (object.feature.geometry.type === 'Point') {
+                        object.setLatLng(
+                            L.latLng([
+                                object.feature.geometry.coordinates[1],
+                                object.feature.geometry.coordinates[0]
+                            ])
+                        );
                     }
                 }
             }
@@ -1098,7 +1097,7 @@ export default Marionette.LayoutView.extend({
     },
 
     updateLayerMinZoom: function (layerModel) {
-        let overpassLayer = this._overPassLayers[ layerModel.cid ];
+        const overpassLayer = this._overPassLayers[ layerModel.cid ];
 
         if (overpassLayer.object) {
             overpassLayer.object.options.minZoom = layerModel.get('minZoom');
@@ -1108,13 +1107,16 @@ export default Marionette.LayoutView.extend({
     },
 
     updatePoiPopup: function (layerModel, overPassElement) {
-        let markerCluster = this._markerClusters[ layerModel.cid ];
-        let layers = markerCluster.getLayers();
-        let osmId = `${overPassElement.type}/${overPassElement.id}`;
+        const markerCluster = this._markerClusters[ layerModel.cid ];
+        const layers = markerCluster.getLayers();
+        const osmId = `${overPassElement.type}/${overPassElement.id}`;
 
-        for (let layer of layers) {
+        for (const layer of layers) {
             if ( layer.feature.id === osmId ) {
-                layer.feature = GeoJsonHelper.buildFeatureFromOsmElement(overPassElement);
+                layer.feature = GeoJsonHelper.hydrateFeatureFromOverPassElement(
+                    layer.feature,
+                    overPassElement
+                );
 
                 if (layer._popup) {
                     layer._popup.setContent(

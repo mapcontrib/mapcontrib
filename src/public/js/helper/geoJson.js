@@ -68,12 +68,35 @@ export default class GeoJsonHelper {
      * @author Guillaume AMAT
      * @static
      * @access public
-     * @param {object} osmElement.
+     * @param {object} feature.
+     * @param {object} overPassElement.
      * @returns {object}
      */
-    static buildFeatureFromOsmElement (osmElement) {
-        return osmtogeojson({
-            'elements': [ osmElement ]
-        }).features[0];
+    static hydrateFeatureFromOverPassElement (feature, overPassElement) {
+        const hydratedFeature = { ...feature };
+
+        if (feature.properties.type === 'node') {
+            hydratedFeature.geometry.coordinates = [
+                overPassElement.lat,
+                overPassElement.lon
+            ];
+        }
+
+        if (overPassElement.tags) {
+            if (!hydratedFeature.properties) {
+                hydratedFeature.properties = {};
+            }
+
+            if (!hydratedFeature.properties.tags) {
+                hydratedFeature.properties.tags = {};
+            }
+
+            hydratedFeature.properties.tags = {
+                ...hydratedFeature.properties.tags,
+                ...overPassElement.tags
+            };
+        }
+
+        return hydratedFeature;
     }
 }

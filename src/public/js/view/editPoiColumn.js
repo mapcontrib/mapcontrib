@@ -355,7 +355,7 @@ export default Marionette.LayoutView.extend({
             const overPassElement = this._osmEdit.getOverPassElement();
 
             this._radio.commands.execute(
-                'saveOsmData',
+                'saveOverPassData',
                 overPassElement,
                 this._layerModel
             );

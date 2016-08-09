@@ -2,11 +2,11 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import OsmData from '../../src/public/js/core/osmData';
+import OverPassData from '../../src/public/js/core/overPassData';
 
 
 
-describe('OsmData', () => {
+describe('OverPassData', () => {
     describe('exists', () => {
         it('Should tell if an element exists', () => {
             const osmNode = {
@@ -19,28 +19,28 @@ describe('OsmData', () => {
                 'id': '1234'
             };
 
-            let osmData = new OsmData();
+            const overPassData = new OverPassData();
 
-            let nodeExists = osmData.exists(osmNode.type, osmNode.id);
+            let nodeExists = overPassData.exists(osmNode.type, osmNode.id);
             assert.strictEqual(nodeExists, false);
 
-            let wayExists = osmData.exists(osmWay.type, osmWay.id);
+            let wayExists = overPassData.exists(osmWay.type, osmWay.id);
             assert.strictEqual(wayExists, false);
 
-            osmData.save(osmNode);
+            overPassData.save(osmNode);
 
-            nodeExists = osmData.exists(osmNode.type, osmNode.id);
+            nodeExists = overPassData.exists(osmNode.type, osmNode.id);
             assert.strictEqual(nodeExists, true);
 
-            wayExists = osmData.exists(osmWay.type, osmWay.id);
+            wayExists = overPassData.exists(osmWay.type, osmWay.id);
             assert.strictEqual(wayExists, false);
 
-            osmData.save(osmWay);
+            overPassData.save(osmWay);
 
-            nodeExists = osmData.exists(osmNode.type, osmNode.id);
+            nodeExists = overPassData.exists(osmNode.type, osmNode.id);
             assert.strictEqual(nodeExists, true);
 
-            wayExists = osmData.exists(osmWay.type, osmWay.id);
+            wayExists = overPassData.exists(osmWay.type, osmWay.id);
             assert.strictEqual(wayExists, true);
 
         });
@@ -58,21 +58,21 @@ describe('OsmData', () => {
                 'id': '1234'
             };
 
-            let osmData = new OsmData();
-            osmData.save(osmNode);
+            const overPassData = new OverPassData();
+            overPassData.save(osmNode);
 
-            let node = osmData.get(osmNode.type, osmNode.id);
+            let node = overPassData.get(osmNode.type, osmNode.id);
             assert.deepEqual(node, osmNode);
 
-            let way = osmData.get(osmWay.type, osmWay.id);
+            let way = overPassData.get(osmWay.type, osmWay.id);
             assert.strictEqual(way, undefined);
 
-            osmData.save(osmWay);
+            overPassData.save(osmWay);
 
-            node = osmData.get(osmNode.type, osmNode.id);
+            node = overPassData.get(osmNode.type, osmNode.id);
             assert.deepEqual(node, osmNode);
 
-            way = osmData.get(osmWay.type, osmWay.id);
+            way = overPassData.get(osmWay.type, osmWay.id);
             assert.deepEqual(way, osmWay);
         });
     });
