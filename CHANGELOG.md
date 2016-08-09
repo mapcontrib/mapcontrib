@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.4
+
+* Fixes the handling of ways/relations contribution cache.
+
 ## 0.12.3
 
 * Fixes the POI's info display update after edition.

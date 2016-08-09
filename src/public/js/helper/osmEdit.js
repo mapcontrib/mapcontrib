@@ -25,7 +25,7 @@ export default class OsmEdit{
             'type': undefined,
             'attributes': {},
             'tags': [],
-            'nds': [],
+            'nodes': [],
             'members': [],
         };
     }
@@ -46,7 +46,7 @@ export default class OsmEdit{
      * @return {object}
      */
     getElement() {
-        return this._element;
+        return this._buildCleanedElement(this._element);
     }
 
     /**
@@ -57,6 +57,8 @@ export default class OsmEdit{
     getOverPassElement() {
         const element = {
             'type': this._element.type,
+            'nodes': this._element.nodes,
+            'members': this._element.members,
             'tags': {},
             ...this._element.attributes
         };
@@ -67,7 +69,7 @@ export default class OsmEdit{
             element.tags[ key ] = value;
         }
 
-        return element;
+        return this._buildCleanedElement(element);
     }
 
     /**
@@ -104,6 +106,42 @@ export default class OsmEdit{
      */
     getChangesetComment() {
         return this._changesetComment;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @param {array} nodes - List of nodes' id.
+     */
+    setNodes(nodes) {
+        this._element.nodes = nodes;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {array}
+     */
+    getNodes() {
+        return this._element.nodes;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @param {array} members - List of members objects.
+     */
+    setMembers(members) {
+        this._element.members = members;
+    }
+
+    /**
+     * @author Guillaume AMAT
+     * @access public
+     * @return {array}
+     */
+    getMembers() {
+        return this._element.members;
     }
 
     /**
@@ -356,9 +394,9 @@ export default class OsmEdit{
                     if (ndElements.length > 0) {
                         for (const i in ndElements) {
                             if (ndElements.hasOwnProperty(i)) {
-                                this._element.nds.push({
-                                    'ref': ndElements[i].getAttribute('ref'),
-                                });
+                                this._element.nodes.push(
+                                    ndElements[i].getAttribute('ref'),
+                                );
                             }
                         }
                     }
@@ -479,24 +517,28 @@ export default class OsmEdit{
             parentElement.appendChild(tagElement);
         }
 
-        for (const nd of this._element.nds) {
-            const ndElement = xml.createElement('nd');
+        if (this._element.nodes) {
+            for (const nodeId of this._element.nodes) {
+                const ndElement = xml.createElement('nd');
 
-            ndElement.setAttribute('ref', nd.ref);
-            parentElement.appendChild(ndElement);
+                ndElement.setAttribute('ref', nodeId);
+                parentElement.appendChild(ndElement);
+            }
         }
 
-        for (const member of this._element.members) {
-            const memberElement = xml.createElement('member');
+        if (this._element.members) {
+            for (const member of this._element.members) {
+                const memberElement = xml.createElement('member');
 
-            memberElement.setAttribute('type', member.type);
-            memberElement.setAttribute('ref', member.ref);
+                memberElement.setAttribute('type', member.type);
+                memberElement.setAttribute('ref', member.ref);
 
-            if (member.role) {
-                memberElement.setAttribute('role', member.role);
+                if (member.role) {
+                    memberElement.setAttribute('role', member.role);
+                }
+
+                parentElement.appendChild(memberElement);
             }
-
-            parentElement.appendChild(memberElement);
         }
 
         osmElement.appendChild(parentElement);
@@ -681,31 +723,37 @@ export default class OsmEdit{
             overPassObject.tags[tag.k] = tag.v;
         }
 
-        if (this._element.type !== 'node') {
-            overPassObject.nodes = [];
-
-            for (const nd of this._element.nds) {
-                overPassObject.nodes.push(nd.ref);
-            }
+        if (this._element.type === 'way') {
+            overPassObject.nodes = [...this._element.nodes];
         }
 
         if (this._element.type === 'relation') {
-            overPassObject.members = [];
-
-            for (const member of this._element.members) {
-                const data = {
-                    'type': member.type,
-                    'ref': member.ref,
-                };
-
-                if (member.role) {
-                    data.role = member.role;
-                }
-
-                overPassObject.members.push(data);
-            }
+            overPassObject.members = [...this._element.members];
         }
 
         return overPassObject;
+    }
+
+
+    /**
+     * Removes the nodes and/or members attributes from the element when needed.
+     *
+     * @author Guillaume AMAT
+     * @access private
+     * @param {object} element - An OverPass or OSM element.
+     * @return {object}
+     */
+    _buildCleanedElement(element) {
+        const cleanedElement = {...element};
+
+        if (element.type !== 'relation') {
+            delete cleanedElement.members;
+        }
+
+        if (element.type !== 'way') {
+            delete cleanedElement.nodes;
+        }
+
+        return cleanedElement;
     }
 }
