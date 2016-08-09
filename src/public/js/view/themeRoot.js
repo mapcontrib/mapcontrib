@@ -939,18 +939,23 @@ export default Marionette.LayoutView.extend({
                         osmCacheModel.get('overPassElement')
                     );
 
-                    if (object.feature.geometry.type === 'Point') {
-                        object.setLatLng(
-                            L.latLng([
-                                object.feature.geometry.coordinates[1],
-                                object.feature.geometry.coordinates[0]
-                            ])
-                        );
+                    if (!object.feature) {
+                        osmCacheModel.destroy();
+                    }
+                    else {
+                        if (object.feature.geometry.type === 'Point') {
+                            object.setLatLng(
+                                L.latLng([
+                                    object.feature.geometry.coordinates[1],
+                                    object.feature.geometry.coordinates[0]
+                                ])
+                            );
+                        }
                     }
                 }
             }
 
-            let popupContent = this._buildLayerPopupContent(
+            const popupContent = this._buildLayerPopupContent(
                 object,
                 layerModel,
                 object.feature
