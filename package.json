@@ -105,6 +105,7 @@
     "inquirer": "^1.1.0",
     "jquery": "^2.1.4",
     "js-yaml": "^3.6.1",
+    "leaflet.heat": "^0.2.0",
     "method-override": "^2.1.2",
     "mongodb": "^2.1.14",
     "morgan": "^1.2.2",
