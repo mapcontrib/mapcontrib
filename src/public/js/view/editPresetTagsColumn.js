@@ -29,27 +29,27 @@ export default Marionette.LayoutView.extend({
         'submit': 'onSubmit',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    setModel: function (model) {
+    setModel(model) {
         this.model = model;
 
         this.render();
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onRender: function () {
+    onRender() {
         this._tagList = new PresetNodeTagsListView();
 
         this._tagList.setTags( this.model.get('tags') );
@@ -57,7 +57,7 @@ export default Marionette.LayoutView.extend({
         this.ui.tagList.append( this._tagList.el );
     },
 
-    onClickAddBtn: function () {
+    onClickAddBtn() {
         this._tagList.addTag();
 
         let scrollHeight = this.ui.column.height() +
@@ -65,7 +65,7 @@ export default Marionette.LayoutView.extend({
         this.ui.content[0].scrollTo(0, scrollHeight);
     },
 
-    onSubmit: function (e) {
+    onSubmit(e) {
         e.preventDefault();
 
         this.model.set('name', this.ui.nameInput.val());
@@ -79,11 +79,9 @@ export default Marionette.LayoutView.extend({
         this.model.updateModificationDate();
         this.options.theme.updateModificationDate();
         this.options.theme.save({}, {
-            'success': function () {
-                this.close();
-            }.bind(this),
+            success: () => this.close(),
 
-            'error': function () {
+            error: () => {
                 // FIXME
                 console.error('nok');
             },

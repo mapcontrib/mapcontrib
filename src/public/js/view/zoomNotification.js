@@ -18,25 +18,25 @@ export default Marionette.LayoutView.extend({
         'content': '.content',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    disappear: function () {
+    disappear() {
         this.ui.notification.addClass('disappear');
     },
 
-    appear: function () {
+    appear() {
         this.ui.notification.removeClass('disappear');
     },
 });

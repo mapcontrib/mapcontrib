@@ -27,29 +27,29 @@ export default Marionette.LayoutView.extend({
         'keydown @ui.query': 'onKeyDownQuery',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this.on('open', this.onOpen);
     },
 
-    open: function () {
+    open() {
         this._setGeocoder();
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    toggle: function () {
+    toggle() {
         this._setGeocoder();
         this.triggerMethod('toggle');
     },
 
-    onAfterOpen: function () {
+    onAfterOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
 
         this.ui.widget.one('transitionend', () => {
@@ -57,7 +57,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    onKeyUpQuery: function (e) {
+    onKeyUpQuery(e) {
         if ( this._queryInterval ) {
             clearInterval(this._queryInterval);
         }
@@ -73,7 +73,7 @@ export default Marionette.LayoutView.extend({
         }, 350);
     },
 
-    onKeyDownQuery: function (e) {
+    onKeyDownQuery(e) {
         if ( [9, 13, 38, 40].indexOf(e.keyCode) > -1 ) {
             e.preventDefault();
         }
@@ -98,7 +98,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    geocode: function (query) {
+    geocode(query) {
         var elements = [];
 
         this._lastQuery = query;
@@ -138,13 +138,13 @@ export default Marionette.LayoutView.extend({
 
     },
 
-    onGeocodeResultClick: function (result) {
+    onGeocodeResultClick(result) {
         this._radio.commands.execute('map:fitBounds', result.bbox);
 
         this.close();
     },
 
-    _buildGeocodeResultName: function (result) {
+    _buildGeocodeResultName(result) {
         let details = [];
 
         switch ( this.model.get('geocoder') ) {
@@ -176,7 +176,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    activeNextResult: function () {
+    activeNextResult() {
         var current = this.ui.resultList.find('.active');
 
         if ( !current.length ) {
@@ -193,7 +193,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    activePreviousResult: function () {
+    activePreviousResult() {
         var current = this.ui.resultList.find('.active');
 
         if ( !current.length ) {
@@ -210,7 +210,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    visitResult: function () {
+    visitResult() {
         var current = this.ui.resultList.find('.active');
 
         if ( !current.length ) {
@@ -225,7 +225,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    _setGeocoder: function () {
+    _setGeocoder() {
         switch ( this.model.get('geocoder') ) {
             case CONST.geocoder.nominatim:
                 this._geocoder = leafletControlGeocoder.nominatim();

@@ -28,36 +28,36 @@ export default Marionette.ItemView.extend({
         'click @ui.nextBtn': 'onClickNext',
     },
 
-    initialize: function (options) {
+    initialize(options) {
         this._radio = Wreqr.radio.channel('global');
         this._map = this._radio.reqres.request('map');
 
         return this.render();
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onOpen: function () {
+    onOpen() {
         MapUi.showContributionCross();
     },
 
-    onBeforeClose: function () {
+    onBeforeClose() {
         MapUi.hideContributionCross();
     },
 
-    onClickCancel: function () {
+    onClickCancel() {
         this.close();
     },
 
-    onClickNext: function () {
+    onClickNext() {
         const center = this._map.getCenter();
 
         if ( this.collection.models.length === 0 ) {

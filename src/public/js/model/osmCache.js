@@ -8,19 +8,21 @@ export default Backbone.Model.extend({
 
     urlRoot: CONST.apiPath + 'osmCache',
 
-    defaults: {
-        'creationDate': new Date().toISOString(),
-        'modificationDate': new Date().toISOString(),
-        'osmId': undefined,
-        'osmType': undefined,
-        'osmVersion': 0,
-        'osmElement': undefined,
-        'overPassElement': undefined,
-        'userId': undefined,
-        'themeFragment': undefined,
+    defaults() {
+        return {
+            'creationDate': new Date().toISOString(),
+            'modificationDate': new Date().toISOString(),
+            'osmId': undefined,
+            'osmType': undefined,
+            'osmVersion': 0,
+            'osmElement': undefined,
+            'overPassElement': undefined,
+            'userId': undefined,
+            'themeFragment': undefined,
+        };
     },
 
-    updateModificationDate: function () {
+    updateModificationDate() {
         this.set('modificationDate', new Date().toISOString());
     },
 });

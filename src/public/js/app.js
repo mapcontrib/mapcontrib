@@ -34,7 +34,7 @@ export default Marionette.Application.extend({
         'root': '#rg_root',
     },
 
-    initialize: function(window) {
+    initialize(window) {
         window.document.l10n.addEventListener('error', (err) => {
             console.error(`L20n: ${err}`);
         });
@@ -92,43 +92,43 @@ export default Marionette.Application.extend({
         });
     },
 
-    getWindow: function () {
+    getWindow() {
         return this._window;
     },
 
-    getDocument: function () {
+    getDocument() {
         return this._window.document;
     },
 
-    getUser: function () {
+    getUser() {
         return this._user;
     },
 
-    getConfig: function () {
+    getConfig() {
         return this._config;
     },
 
-    getVersion: function () {
+    getVersion() {
         return this._version;
     },
 
-    getTheme: function () {
+    getTheme() {
         return this._theme;
     },
 
-    getNonOsmData: function () {
+    getNonOsmData() {
         return this._nonOsmData;
     },
 
-    getOsmCache: function () {
+    getOsmCache() {
         return this._osmCache;
     },
 
-    isLogged: function () {
+    isLogged() {
         return this._isLogged;
     },
 
-    onStart: function (Router) {
+    onStart(Router) {
         if ( this._user.get('_id') ) {
             this._radio.vent.trigger('session:logged');
         }

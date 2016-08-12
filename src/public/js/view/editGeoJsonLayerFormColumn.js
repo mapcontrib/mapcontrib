@@ -44,7 +44,7 @@ export default Marionette.ItemView.extend({
         'reset': 'onReset',
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         const config = MAPCONTRIB.config;
         const maxFileSize = formatBytes( config.uploadMaxShapeFileSize * 1024 );
 
@@ -56,7 +56,7 @@ export default Marionette.ItemView.extend({
         };
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
@@ -64,7 +64,7 @@ export default Marionette.ItemView.extend({
         this.listenTo(this.model, 'change', this.updateMarkerIcon);
     },
 
-    onRender: function () {
+    onRender() {
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
 
         if ( this.model.get('fileUri') ) {
@@ -81,7 +81,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onShow: function () {
+    onShow() {
         this.ui.infoDisplayInfo.popover({
             'container': 'body',
             'placement': 'left',
@@ -100,27 +100,27 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    updateMarkerIcon: function () {
+    updateMarkerIcon() {
         var html = MapUi.buildLayerHtmlIcon( this.model );
 
         this.ui.markerWrapper.html( html );
     },
 
-    onClickEditMarker: function () {
+    onClickEditMarker() {
         this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
     },
 
-    onSubmit: function (e) {
+    onSubmit(e) {
         e.preventDefault();
 
         this.ui.formGroups.removeClass('has-feedback has-error');
@@ -162,7 +162,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    saveLayer: function () {
+    saveLayer() {
         let updateMarkers = false;
         let updatePopups = false;
         let updateVisibility = false;
@@ -216,7 +216,7 @@ export default Marionette.ItemView.extend({
         this.model.updateModificationDate();
         this.options.theme.updateModificationDate();
         this.options.theme.save({}, {
-            'success': () => {
+            success: () => {
                 if ( this.options.isNew ) {
                     this._radio.commands.execute('map:addLayer', this.model);
                 }
@@ -243,14 +243,14 @@ export default Marionette.ItemView.extend({
 
                 this.close();
             },
-            'error': () => {
+            error: () => {
                 // FIXME
                 console.error('nok');
             },
         });
     },
 
-    onReset: function () {
+    onReset() {
         this.model.set( this._oldModel.toJSON() );
 
         this.ui.column.one('transitionend', this.render);

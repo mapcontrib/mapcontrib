@@ -43,13 +43,13 @@ export default Marionette.ItemView.extend({
         'reset': 'onReset',
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
@@ -57,7 +57,7 @@ export default Marionette.ItemView.extend({
         this.listenTo(this.model, 'change', this.updateMarkerIcon);
     },
 
-    onRender: function () {
+    onRender() {
         if ( this.model.get('fileUri') ) {
             const fileUri = this.model.get('fileUri');
             const fileName = basename(fileUri || '');
@@ -72,7 +72,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onShow: function () {
+    onShow() {
         this.ui.infoDisplayInfo.popover({
             'container': 'body',
             'placement': 'left',
@@ -91,27 +91,27 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    updateMarkerIcon: function () {
+    updateMarkerIcon() {
         var html = MapUi.buildLayerHtmlIcon( this.model );
 
         this.ui.markerWrapper.html( html );
     },
 
-    onClickEditMarker: function () {
+    onClickEditMarker() {
         this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
     },
 
-    onSubmit: function (e) {
+    onSubmit(e) {
         e.preventDefault();
 
         this.ui.formGroups.removeClass('has-feedback has-error');
@@ -197,7 +197,7 @@ export default Marionette.ItemView.extend({
         this.close();
     },
 
-    onReset: function () {
+    onReset() {
         this.model.set( this._oldModel.toJSON() );
 
         this.ui.column.one('transitionend', this.render);

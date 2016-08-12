@@ -8,17 +8,19 @@ export default Backbone.Model.extend({
 
     urlRoot: CONST.apiPath + 'nonOsmData',
 
-    defaults: {
-        'creationDate': new Date().toISOString(),
-        'modificationDate': new Date().toISOString(),
-        'osmId': undefined,
-        'osmType': undefined,
-        'userId': undefined,
-        'themeFragment': undefined,
-        'tags': [], // { key: string, value: string, type: text|file }
+    defaults() {
+        return {
+            'creationDate': new Date().toISOString(),
+            'modificationDate': new Date().toISOString(),
+            'osmId': undefined,
+            'osmType': undefined,
+            'userId': undefined,
+            'themeFragment': undefined,
+            'tags': [], // { key: string, value: string, type: text|file }
+        };
     },
 
-    updateModificationDate: function () {
+    updateModificationDate() {
         this.set('modificationDate', new Date().toISOString());
     },
 });

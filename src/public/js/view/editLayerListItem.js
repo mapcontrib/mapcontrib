@@ -30,21 +30,21 @@ export default Marionette.ItemView.extend({
         'click @ui.remove_btn': 'onClickRemove',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'icon': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
-    onRender: function () {
+    onRender() {
         this.el.id = 'poi-layer-'+ this.model.cid;
     },
 
-    onClick: function () {
+    onClick() {
         switch (this.model.get('type')) {
             case CONST.layerType.overpass:
                 this._radio.commands.execute( 'column:editOverPassLayer', this.model );
@@ -64,7 +64,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onClickRemove: function (e) {
+    onClickRemove(e) {
         e.stopPropagation();
 
         this.model.destroy();

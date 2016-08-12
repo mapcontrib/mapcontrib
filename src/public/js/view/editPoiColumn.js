@@ -46,14 +46,14 @@ export default Marionette.LayoutView.extend({
         'submit': 'onSubmit',
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'fragment': this._theme.get('fragment'),
             'apiPath': `${CONST.apiPath}file/nonOsmData`,
         };
     },
 
-    initialize: function () {
+    initialize() {
         this._app = this.options.app;
         this._user = this._app.getUser();
         this._radio = Wreqr.radio.channel('global');
@@ -85,17 +85,17 @@ export default Marionette.LayoutView.extend({
         this._osmEdit.setId( this.options.osmId );
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    onBeforeClose: function () {
+    onBeforeClose() {
         if ( this._osmEdit.getType() === 'node' && this._oldLatLng ) {
             if (!this._contributionSent) {
                 this._layer.setLatLng( this._oldLatLng );
@@ -103,12 +103,12 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onRender: function () {
+    onRender() {
         if ( !this._layerModel.get('dataEditable') ) {
             return this;
         }
@@ -196,7 +196,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    renderTags: function (tags) {
+    renderTags(tags) {
         this._tagList = new ContribNodeTagsListView();
 
         let value;
@@ -273,7 +273,7 @@ export default Marionette.LayoutView.extend({
         this.getRegion('tagList').show( this._tagList );
     },
 
-    onSubmit: function (e) {
+    onSubmit(e) {
         e.preventDefault();
 
         this.ui.footerButtons.prop('disabled', true);
@@ -302,7 +302,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    saveLayer: function () {
+    saveLayer() {
         const createdBy = CONST.osm.changesetCreatedBy
         .replace('{version}', MAPCONTRIB.version);
         const tags = this._tagList.getTags();
@@ -341,7 +341,7 @@ export default Marionette.LayoutView.extend({
         this.sendContributionToOSM();
     },
 
-    sendContributionToOSM: function () {
+    sendContributionToOSM() {
         this._osmEdit.send()
         .then(version => {
             this.ui.footerButtons.prop('disabled', false);
@@ -382,7 +382,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    onClickAddBtn: function () {
+    onClickAddBtn() {
         this._tagList.addTag();
 
         let scrollHeight = this.ui.column.height() +
@@ -390,7 +390,7 @@ export default Marionette.LayoutView.extend({
         this.ui.content[0].scrollTo(0, scrollHeight);
     },
 
-    setNewPosition: function (lat, lng) {
+    setNewPosition(lat, lng) {
         this._osmEdit.setLatitude(lat);
         this._osmEdit.setLongitude(lng);
 
@@ -399,7 +399,7 @@ export default Marionette.LayoutView.extend({
         );
     },
 
-    onClickMove: function (e) {
+    onClickMove(e) {
         e.preventDefault();
 
         new MovePoiContextual({

@@ -20,23 +20,23 @@ export default Marionette.ItemView.extend({
         'content': '.content',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         return this.render();
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onRender: function () {
+    onRender() {
         this.ui.content.html(
 
             document.l10n.getSync('overpassTimeoutNotification_content', { 'name': this.model.get('name') })

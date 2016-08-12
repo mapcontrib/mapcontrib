@@ -40,7 +40,7 @@ export default Marionette.ItemView.extend({
         'click': 'onClick',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         const fragment = this._radio.reqres.request('theme:fragment');
@@ -59,18 +59,18 @@ export default Marionette.ItemView.extend({
         this._radio.vent.on('map:zoomChanged', this.render, this);
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'description': MarkedHelper.render( this.model.get('description') || '' ),
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
-    onDestroy: function () {
+    onDestroy() {
         this._radio.vent.off('map:zoomChanged', this.render);
     },
 
-    onRender: function () {
+    onRender() {
         const currentZoom = this._radio.reqres.request('map:currentZoom');
         const n = (this.model.get('minZoom') - currentZoom) || 0;
 
@@ -88,7 +88,7 @@ export default Marionette.ItemView.extend({
         this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
     },
 
-    onClick: function (e) {
+    onClick(e) {
         e.stopPropagation();
 
         var newState,
@@ -115,15 +115,15 @@ export default Marionette.ItemView.extend({
         localStorage.setItem( key, JSON.stringify( newState ) );
     },
 
-    onClickLabel: function (e) {
+    onClickLabel(e) {
         e.preventDefault();
     },
 
-    onClickLink: function (e) {
+    onClickLink(e) {
         e.stopPropagation();
     },
 
-    onClickInfo: function (e) {
+    onClickInfo(e) {
         e.preventDefault();
         e.stopPropagation();
 

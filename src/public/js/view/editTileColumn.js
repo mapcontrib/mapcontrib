@@ -26,28 +26,28 @@ export default Marionette.LayoutView.extend({
         'reset': 'onReset',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onRender: function () {
+    onRender() {
         var tile,
         tiles = this.model.get('tiles'),
         html = '',
@@ -90,7 +90,7 @@ export default Marionette.LayoutView.extend({
         this.bindUIElements();
     },
 
-    onSubmit: function (e) {
+    onSubmit(e) {
         e.preventDefault();
 
         var tiles = [];
@@ -109,21 +109,21 @@ export default Marionette.LayoutView.extend({
         this.model.updateModificationDate();
 
         this.model.save({}, {
-            'success': () => {
+            success: () => {
                 this._oldModel = this.model.clone();
 
                 this._radio.commands.execute('map:setTileLayer', tiles[0]);
 
                 this.close();
             },
-            'error': () => {
+            error: () => {
                 // FIXME
                 console.error('nok');
             },
         });
     },
 
-    onReset: function () {
+    onReset() {
         this.model.set( this._oldModel.toJSON() );
 
         this.ui.column.one('transitionend', this.render);

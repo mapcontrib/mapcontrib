@@ -158,7 +158,7 @@ export default Marionette.LayoutView.extend({
         'keydown': 'onKeyDown',
     },
 
-    initialize: function (options) {
+    initialize(options) {
         this._app = options.app;
         this._user = this._app.getUser();
         this._config = this._app.getConfig();
@@ -328,7 +328,7 @@ export default Marionette.LayoutView.extend({
 
     },
 
-    onRender: function () {
+    onRender() {
         this.renderUserButton();
 
         if ( this._app.isLogged() ) {
@@ -405,7 +405,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    onShow: function () {
+    onShow() {
         let center = this.model.get('center');
         let autoCenter = this.model.get('autoCenter');
         let zoomLevel = this.model.get('zoomLevel');
@@ -542,11 +542,11 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    setMapPosition: function (zoom, lat, lng) {
+    setMapPosition(zoom, lat, lng) {
         this._map.setView([lat, lng], zoom);
     },
 
-    setTileLayer: function (id) {
+    setTileLayer(id) {
         let tile;
         let tiles = this.model.get('tiles');
         const tileLayersGroup = L.layerGroup();
@@ -594,7 +594,7 @@ export default Marionette.LayoutView.extend({
         this.updateMinDataZoom();
     },
 
-    updateOverPassRequest: function (layerModel) {
+    updateOverPassRequest(layerModel) {
         this._overPassData.clearLayerData(layerModel.cid);
 
         this._markerClusters[ layerModel.cid ].clearLayers();
@@ -603,7 +603,7 @@ export default Marionette.LayoutView.extend({
         );
     },
 
-    showLayerLoadingProgress: function (layerModel) {
+    showLayerLoadingProgress(layerModel) {
         if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
             this._poiLoadingSpool[ layerModel.cid ] = 0;
         }
@@ -614,7 +614,7 @@ export default Marionette.LayoutView.extend({
         this.ui.controlLayerSpinner.removeClass('hide');
     },
 
-    hideLayerLoadingProgress: function (layerModel) {
+    hideLayerLoadingProgress(layerModel) {
         if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
             return;
         }
@@ -633,7 +633,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addTempLayer: function (layerModel, fileContent) {
+    addTempLayer(layerModel, fileContent) {
         switch (layerModel.get('type')) {
             case CONST.layerType.overpass:
                 this.addOverPassLayer(layerModel);
@@ -650,7 +650,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addTempGpxLayer: function (layerModel, fileContent) {
+    addTempGpxLayer(layerModel, fileContent) {
         const markerCluster = this._buildMarkerCluster(layerModel);
         const layer = Omnivore.gpx.parse(
             fileContent
@@ -672,7 +672,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addTempCsvLayer: function (layerModel, fileContent) {
+    addTempCsvLayer(layerModel, fileContent) {
         const markerCluster = this._buildMarkerCluster(layerModel);
         const layer = Omnivore.csv.parse(
             fileContent
@@ -694,7 +694,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addTempGeoJsonLayer: function (layerModel, fileContent) {
+    addTempGeoJsonLayer(layerModel, fileContent) {
         const markerCluster = this._buildMarkerCluster(layerModel);
         const layer = L.geoJson(
             JSON.parse( fileContent )
@@ -716,7 +716,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addLayer: function (layerModel, hidden) {
+    addLayer(layerModel, hidden) {
         switch (layerModel.get('type')) {
             case CONST.layerType.overpass:
                 this.addOverPassLayer(layerModel, hidden);
@@ -733,7 +733,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addOverPassLayer: function (layerModel, hiddenLayer) {
+    addOverPassLayer(layerModel, hiddenLayer) {
         const cache = layerModel.get('cache');
         const cacheFilePath = layerModel.get('fileUri');
 
@@ -799,13 +799,13 @@ export default Marionette.LayoutView.extend({
                 );
             },
 
-            onTimeout: function (xhr) {
+            onTimeout(xhr) {
                 new OverPassTimeoutNotificationView({
                     'model': layerModel
                 }).open();
             },
 
-            onError: function (xhr) {
+            onError(xhr) {
                 new OverPassErrorNotificationView({
                     'model': layerModel,
                     'error': xhr.statusText,
@@ -820,7 +820,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addGpxLayer: function (layerModel, hiddenLayer) {
+    addGpxLayer(layerModel, hiddenLayer) {
         Omnivore.gpx(
             layerModel.get('fileUri')
         )
@@ -843,7 +843,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    addCsvLayer: function (layerModel, hiddenLayer) {
+    addCsvLayer(layerModel, hiddenLayer) {
         Omnivore.csv(
             layerModel.get('fileUri')
         )
@@ -866,7 +866,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    addGeoJsonLayer: function (layerModel, hiddenLayer) {
+    addGeoJsonLayer(layerModel, hiddenLayer) {
         Omnivore.geojson(
             layerModel.get('fileUri')
         )
@@ -889,7 +889,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    addOverPassCacheLayer: function (layerModel, hiddenLayer) {
+    addOverPassCacheLayer(layerModel, hiddenLayer) {
         Omnivore.geojson(
             layerModel.get('fileUri')
         )
@@ -912,7 +912,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    _customizeDataAndDisplay: function (objects, markerCluster, layerModel, dataSource, hiddenLayer) {
+    _customizeDataAndDisplay(objects, markerCluster, layerModel, dataSource, hiddenLayer) {
         const icon = MapUi.buildLayerIcon( L, layerModel );
         const polygonStyle = MapUi.buildLayerPolygonStyle( layerModel );
         const polylineStyle = MapUi.buildLayerPolylineStyle( layerModel );
@@ -994,7 +994,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    removeLayer: function (layerModel) {
+    removeLayer(layerModel) {
         this.hideLayer( layerModel );
         delete this._markerClusters[ layerModel.cid ];
 
@@ -1003,7 +1003,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    showLayer: function (layerModel) {
+    showLayer(layerModel) {
         const markerCluster = this._markerClusters[ layerModel.cid ];
         const overPassLayer = this._overPassLayers[ layerModel.cid ];
 
@@ -1016,7 +1016,7 @@ export default Marionette.LayoutView.extend({
         markerCluster.refreshClusters();
     },
 
-    hideLayer: function (layerModel) {
+    hideLayer(layerModel) {
         const markerCluster = this._markerClusters[ layerModel.cid ];
         const overPassLayer = this._overPassLayers[ layerModel.cid ];
 
@@ -1027,7 +1027,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    updateLayerStyles: function (layerModel) {
+    updateLayerStyles(layerModel) {
         const markerCluster = this._markerClusters[ layerModel.cid ];
         const layers = markerCluster.getLayers();
 
@@ -1057,7 +1057,7 @@ export default Marionette.LayoutView.extend({
         markerCluster.refreshClusters();
     },
 
-    updateLayerPopups: function (layerModel) {
+    updateLayerPopups(layerModel) {
         if (this.model.get('infoDisplay') !== CONST.infoDisplay.popup) {
             return false;
         }
@@ -1090,13 +1090,13 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    updateAllLayerPopups: function () {
+    updateAllLayerPopups() {
         for (let layer of this._layerCollection.models) {
             this.updateLayerPopups(layer);
         }
     },
 
-    updateLayerMinZoom: function (layerModel) {
+    updateLayerMinZoom(layerModel) {
         const overpassLayer = this._overPassLayers[ layerModel.cid ];
 
         if (overpassLayer.object) {
@@ -1106,7 +1106,7 @@ export default Marionette.LayoutView.extend({
         this.updateMinDataZoom();
     },
 
-    updatePoiPopup: function (layerModel, overPassElement) {
+    updatePoiPopup(layerModel, overPassElement) {
         const markerCluster = this._markerClusters[ layerModel.cid ];
         const layers = markerCluster.getLayers();
         const osmId = `${overPassElement.type}/${overPassElement.id}`;
@@ -1137,7 +1137,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    _buildLayerPopupContent: function (layer, layerModel, feature) {
+    _buildLayerPopupContent(layer, layerModel, feature) {
         const isLogged = this._app.isLogged();
         const dataEditable = layerModel.get('dataEditable');
         const nonOsmData = this._nonOsmData.findWhere({
@@ -1199,7 +1199,7 @@ export default Marionette.LayoutView.extend({
         return globalWrapper;
     },
 
-    _buildMarkerCluster: function (layerModel) {
+    _buildMarkerCluster(layerModel) {
         return L.markerClusterGroup({
             'polygonOptions': CONST.map.markerCLusterPolygonOptions,
             'animate': false,
@@ -1218,7 +1218,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    onClickEditPoi: function (layer, osmType, osmId, layerModel, e) {
+    onClickEditPoi(layer, osmType, osmId, layerModel, e) {
         if (this._presetCollection.models.length === 0) {
             this.onEditPoi({
                 'app': this._app,
@@ -1241,11 +1241,11 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onEditPoi: function (options) {
+    onEditPoi(options) {
         new EditPoiColumnView(options).open();
     },
 
-    renderUserButton: function () {
+    renderUserButton() {
         if ( !this._app.isLogged() ) {
             this.ui.userButton
             .removeClass('avatar')
@@ -1279,23 +1279,23 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    showContribButton: function () {
+    showContribButton() {
         this.ui.contribButton.removeClass('hide');
     },
 
-    hideContribButton: function () {
+    hideContribButton() {
         this.ui.contribButton.addClass('hide');
     },
 
-    showEditTools: function () {
+    showEditTools() {
         this.ui.editToolbar.removeClass('hide');
     },
 
-    hideEditTools: function () {
+    hideEditTools() {
         this.ui.editToolbar.addClass('hide');
     },
 
-    onCommandTempOverPassLayer: function (layerModel) {
+    onCommandTempOverPassLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1323,7 +1323,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandTempGpxLayer: function (layerModel) {
+    onCommandTempGpxLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1351,7 +1351,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandTempCsvLayer: function (layerModel) {
+    onCommandTempCsvLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1379,7 +1379,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandTempGeoJsonLayer: function (layerModel) {
+    onCommandTempGeoJsonLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1407,7 +1407,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandEditOverPassLayer: function (layerModel) {
+    onCommandEditOverPassLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1433,7 +1433,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandEditGpxLayer: function (layerModel) {
+    onCommandEditGpxLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1459,7 +1459,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandEditCsvLayer: function (layerModel) {
+    onCommandEditCsvLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1485,7 +1485,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandEditGeoJsonLayer: function (layerModel) {
+    onCommandEditGeoJsonLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1511,28 +1511,28 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandShowAddLayerMenu: function () {
+    onCommandShowAddLayerMenu() {
         this._addLayerMenuColumnView.open();
     },
 
-    onCommandShowAddTempLayerMenu: function () {
+    onCommandShowAddTempLayerMenu() {
         this._addTempLayerMenuColumnView.open();
     },
 
-    onCommandShowContribColumn: function (center, layer) {
+    onCommandShowContribColumn(center, layer) {
         this.showContribColumn(center, layer);
     },
 
-    showContribColumn: function (options) {
+    showContribColumn(options) {
         this._contribColumnView.setCenter(options.center);
         this._contribColumnView.open();
     },
 
-    onCommandShowContribForm: function (options) {
+    onCommandShowContribForm(options) {
         this.showContribForm(options);
     },
 
-    showContribForm: function (options) {
+    showContribForm(options) {
         if (!options) {
             options = {'user': this._user};
         }
@@ -1547,7 +1547,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandShowPresetTags: function (presetModel) {
+    onCommandShowPresetTags(presetModel) {
         var view;
 
         if ( presetModel ) {
@@ -1573,7 +1573,7 @@ export default Marionette.LayoutView.extend({
 
 
 
-    onCommandShowEditPoiMarker: function (layerModel) {
+    onCommandShowEditPoiMarker(layerModel) {
         var view = new EditLayerMarkerModalView({
             'model': layerModel
         });
@@ -1581,51 +1581,51 @@ export default Marionette.LayoutView.extend({
         this.getRegion('editLayerMarkerModal').show( view );
     },
 
-    onClickZoomIn: function () {
+    onClickZoomIn() {
         this._map.zoomIn();
     },
 
-    onClickZoomOut: function () {
+    onClickZoomOut() {
         this._map.zoomOut();
     },
 
-    onClickGeocode: function () {
+    onClickGeocode() {
         this._geocodeWidgetView.toggle();
     },
 
-    onClickLocate: function () {
+    onClickLocate() {
         this.showLocateProgress();
         this._geolocation.locate();
     },
 
-    onClickLocateWait: function () {
+    onClickLocateWait() {
         this.hideLocateProgress();
         this._geolocation.stopLocate();
     },
 
-    onLocationFound: function () {
+    onLocationFound() {
         this.hideLocateProgress();
     },
 
-    onLocationTimeout: function () {
+    onLocationTimeout() {
         this.hideLocateProgress();
     },
 
-    onLocationError: function () {
+    onLocationError() {
         this.hideLocateProgress();
     },
 
-    showLocateProgress: function () {
+    showLocateProgress() {
         this.ui.locateButton.addClass('hide');
         this.ui.locateWaitButton.removeClass('hide');
     },
 
-    hideLocateProgress: function () {
+    hideLocateProgress() {
         this.ui.locateWaitButton.addClass('hide');
         this.ui.locateButton.removeClass('hide');
     },
 
-    updateSessionMapState: function () {
+    updateSessionMapState() {
         var key = 'mapState-'+ this.model.get('fragment'),
         oldState = JSON.parse( localStorage.getItem( key ) ) || {},
         newState = _.extend( oldState, {
@@ -1636,12 +1636,12 @@ export default Marionette.LayoutView.extend({
         localStorage.setItem( key, JSON.stringify( newState ) );
     },
 
-    onMoveEnd: function (e) {
+    onMoveEnd(e) {
         this._map.stopLocate();
         this.updateSessionMapState();
     },
 
-    onZoomEnd: function (e) {
+    onZoomEnd(e) {
         this.ui.toolbarZoomLevel.text(
             this._map.getZoom()
         );
@@ -1649,7 +1649,7 @@ export default Marionette.LayoutView.extend({
         this.updateSessionMapState();
     },
 
-    onZoomLevelsChange: function (e) {
+    onZoomLevelsChange(e) {
         this.ui.toolbarZoomLevel.text(
             this._map.getZoom()
         );
@@ -1657,7 +1657,7 @@ export default Marionette.LayoutView.extend({
         this.updateSessionMapState();
     },
 
-    updateMinDataZoom: function () {
+    updateMinDataZoom() {
         if (this._layerCollection.models.length === 0) {
             this._minDataZoom = 0;
         }
@@ -1684,7 +1684,7 @@ export default Marionette.LayoutView.extend({
         this.checkZoomNotification();
     },
 
-    checkZoomNotification: function () {
+    checkZoomNotification() {
         if (this._map.getZoom() < this._minDataZoom ) {
             this.ui.zoomInButton.addClass('glow');
 
@@ -1701,35 +1701,35 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onClickExpandScreen: function () {
+    onClickExpandScreen() {
         FullscreenHelper.requestFullscreen(
             this._document.documentElement
         );
     },
 
-    onClickCompressScreen: function () {
+    onClickCompressScreen() {
         FullscreenHelper.exitFullscreen( this._document );
     },
 
-    onExpandScreen: function () {
+    onExpandScreen() {
         this.ui.expandScreenButton.addClass('hide');
         this.ui.compressScreenButton.removeClass('hide');
     },
 
-    onCompressScreen: function () {
+    onCompressScreen() {
         this.ui.compressScreenButton.addClass('hide');
         this.ui.expandScreenButton.removeClass('hide');
     },
 
-    onClickSelectLayer: function () {
+    onClickSelectLayer() {
         this._selectLayerColumnView.open();
     },
 
-    onClickSelectTile: function () {
+    onClickSelectTile() {
         this._selectTileColumnView.open();
     },
 
-    onClickUser: function () {
+    onClickUser() {
         if ( this._app.isLogged() ) {
             this._userColumnView.open();
         }
@@ -1738,46 +1738,46 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onClickLink: function () {
+    onClickLink() {
         this._linkColumnView.open();
     },
 
-    onClickTempLayer: function () {
+    onClickTempLayer() {
         this._tempLayerListColumnView.open();
     },
 
-    onClickContrib: function (e) {
+    onClickContrib(e) {
         const newPoiPlacementContextual = new NewPoiPlacementContextual({
             'collection': this._presetCollection,
             'user': this._user,
         }).open();
     },
 
-    onClickEditSetting: function () {
+    onClickEditSetting() {
         this._editSettingColumnView.open();
     },
 
-    onClickEditLayer: function () {
+    onClickEditLayer() {
         this._editLayerListColumnView.open();
     },
 
-    onClickEditTile: function () {
+    onClickEditTile() {
         this._editTileColumnView.open();
     },
 
-    onClickEditPreset: function () {
+    onClickEditPreset() {
         this._editPresetColumnView.open();
     },
 
-    setPosition: function (latLng, zoomLevel) {
+    setPosition(latLng, zoomLevel) {
         this._map.setView( latLng, zoomLevel, { 'animate': true } );
     },
 
-    fitBounds: function (latLngBounds) {
+    fitBounds(latLngBounds) {
         this._map.fitBounds( latLngBounds, { 'animate': true } );
     },
 
-    onKeyDown: function (e) {
+    onKeyDown(e) {
         switch ( e.keyCode ) {
             case 70:
 
@@ -1790,7 +1790,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    isLargeScreen: function () {
+    isLargeScreen() {
         if ( $(this._window).width() >= this._config.largeScreenMinWidth && $(this._window).height() >= this._config.largeScreenMinHeight ) {
             return true;
         }
@@ -1798,7 +1798,7 @@ export default Marionette.LayoutView.extend({
         return false;
     },
 
-    onPopupOpen: function (e) {
+    onPopupOpen(e) {
         if ( !this.isLargeScreen() ) {
             this._geocodeWidgetView.close();
 
@@ -1808,14 +1808,14 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onPopupClose: function (e) {
+    onPopupClose(e) {
         this.ui.leftToolbar.addClass('open');
         this.ui.rightToolbar.addClass('open');
 
         this._zoomNotificationView.appear();
     },
 
-    _bindPopupTo: function (layer, popupContent) {
+    _bindPopupTo(layer, popupContent) {
         if ( popupContent ) {
             let popupOptions;
 
@@ -1847,7 +1847,7 @@ export default Marionette.LayoutView.extend({
         return false;
     },
 
-    bindAllPopups: function () {
+    bindAllPopups() {
         const isLogged = this._app.isLogged();
 
         for (const i in this._markerClusters) {
@@ -1870,7 +1870,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    unbindAllPopups: function () {
+    unbindAllPopups() {
         for (let i in this._markerClusters) {
             let markerCluster = this._markerClusters[i];
             let layers = markerCluster.getLayers();
@@ -1881,7 +1881,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    _displayInfo: function (e) {
+    _displayInfo(e) {
         const layer = e.target;
         const dataEditable = layer._layerModel.get('dataEditable');
         const layerType = layer._layerModel.get('type');

@@ -28,19 +28,19 @@ export default Marionette.ItemView.extend({
         'click @ui.remove_btn': 'onClickRemove',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onRender: function () {
+    onRender() {
         this.el.id = 'preset-'+ this.model.cid;
     },
 
-    onClick: function () {
+    onClick() {
         this._radio.commands.execute( 'column:showPresetTags', this.model );
     },
 
-    onClickRemove: function (e) {
+    onClickRemove(e) {
         e.stopPropagation();
 
         this.model.destroy();

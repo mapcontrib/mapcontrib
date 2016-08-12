@@ -41,13 +41,13 @@ export default Marionette.ItemView.extend({
         'reset': 'onReset',
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
@@ -56,11 +56,11 @@ export default Marionette.ItemView.extend({
         this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom, this);
     },
 
-    onRender: function () {
+    onRender() {
         this.onChangedMapZoom();
     },
 
-    onShow: function () {
+    onShow() {
         this.ui.infoDisplayInfo.popover({
             'container': 'body',
             'placement': 'left',
@@ -84,21 +84,21 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    onDestroy: function () {
+    onDestroy() {
         this._radio.vent.off('map:zoomChanged', this.onChangedMapZoom);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onChangedMapZoom: function () {
+    onChangedMapZoom() {
         var currentMapZoom = this._radio.reqres.request('map:currentZoom');
 
         this.ui.currentMapZoom.html(
@@ -108,17 +108,17 @@ export default Marionette.ItemView.extend({
         );
     },
 
-    updateMarkerIcon: function () {
+    updateMarkerIcon() {
         var html = MapUi.buildLayerHtmlIcon( this.model );
 
         this.ui.markerWrapper.html( html );
     },
 
-    onClickEditMarker: function () {
+    onClickEditMarker() {
         this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
     },
 
-    onSubmit: function (e) {
+    onSubmit(e) {
         e.preventDefault();
 
         let updateMarkers = false;
@@ -197,7 +197,7 @@ export default Marionette.ItemView.extend({
         this.close();
     },
 
-    onReset: function () {
+    onReset() {
         this.model.set( this._oldModel.toJSON() );
 
         this.ui.column.one('transitionend', this.render);

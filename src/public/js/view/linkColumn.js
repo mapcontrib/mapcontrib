@@ -44,7 +44,7 @@ export default Marionette.LayoutView.extend({
         'change': 'render'
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'iframeWidth': MAPCONTRIB.config.shareIframeWidth,
             'iframeWidthUnit': MAPCONTRIB.config.shareIframeWidthUnit,
@@ -53,37 +53,37 @@ export default Marionette.LayoutView.extend({
         };
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
         this._radio.vent.on('map:zoomChanged map:centerChanged', this.renderLinkUrl, this);
         this._radio.vent.on('map:zoomChanged map:centerChanged', this.renderIframeCode, this);
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onRender: function () {
+    onRender() {
         this.renderLinkUrl();
         this.renderIframeCode();
     },
 
-    renderLinkUrl: function () {
+    renderLinkUrl() {
         this.ui.linkUrl.val( this.getLinkUrl() );
     },
 
-    renderIframeCode: function () {
+    renderIframeCode() {
         const html = this.templateIframe({
             'url': this.getIframeUrl(),
             'iframeWidth': this.ui.iframeWidth.val(),
@@ -96,11 +96,11 @@ export default Marionette.LayoutView.extend({
         this.ui.iframeCode.html( html );
     },
 
-    onClickAutoSelects: function (e) {
+    onClickAutoSelects(e) {
         e.target.select();
     },
 
-    onClickWidthUnit: function (e) {
+    onClickWidthUnit(e) {
         e.preventDefault();
 
         this.ui.iframeWidthUnit.html( $(e.target).data('unit') );
@@ -108,7 +108,7 @@ export default Marionette.LayoutView.extend({
         this.renderIframeCode();
     },
 
-    onClickHeightUnit: function (e) {
+    onClickHeightUnit(e) {
         e.preventDefault();
 
         this.ui.iframeHeightUnit.html( $(e.target).data('unit') );
@@ -116,14 +116,14 @@ export default Marionette.LayoutView.extend({
         this.renderIframeCode();
     },
 
-    getUrl: function () {
+    getUrl() {
         return window.location.protocol +
         '//'+
         window.location.host +
         this.model.buildPath();
     },
 
-    getUrlWithPosition: function () {
+    getUrlWithPosition() {
         const map = this._radio.reqres.request('map');
         const zoom = map.getZoom();
         const {lat, lng} = map.getCenter();
@@ -132,7 +132,7 @@ export default Marionette.LayoutView.extend({
         return `${url}#position/${zoom}/${lat}/${lng}`;
     },
 
-    getLinkUrl: function () {
+    getLinkUrl() {
         if (this.ui.linkPosition.prop('checked')) {
             return this.getUrlWithPosition();
         }
@@ -141,7 +141,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    getIframeUrl: function () {
+    getIframeUrl() {
         if (this.ui.iframePosition.prop('checked')) {
             return this.getUrlWithPosition();
         }

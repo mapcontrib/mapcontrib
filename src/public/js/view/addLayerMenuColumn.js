@@ -27,44 +27,44 @@ export default Marionette.LayoutView.extend({
         'click @ui.geoJsonItem': 'onClickGeoJson',
     },
 
-    initialize: function (options) {
+    initialize(options) {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onClickOverPass: function (e) {
+    onClickOverPass(e) {
         e.preventDefault();
         this.close();
         this._radio.commands.execute('column:editOverPassLayer');
     },
 
-    onClickGpx: function (e) {
+    onClickGpx(e) {
         e.preventDefault();
         this.close();
         this._radio.commands.execute('column:editGpxLayer');
     },
 
-    onClickCsv: function (e) {
+    onClickCsv(e) {
         e.preventDefault();
         this.close();
         this._radio.commands.execute('column:editCsvLayer');
     },
 
-    onClickGeoJson: function (e) {
+    onClickGeoJson(e) {
         e.preventDefault();
         this.close();
         this._radio.commands.execute('column:editGeoJsonLayer');

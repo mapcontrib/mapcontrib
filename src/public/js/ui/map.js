@@ -148,4 +148,23 @@ export default class MapUi {
 
         return style;
     }
+
+
+    /**
+     * Builds a heat layer.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {string} layerModel - Model of the polygon's POI layer.
+     * @return {object} - The polygon options.
+     */
+    static buildHeatLayerFromGeoJson (layerModel) {
+        let style = _.extend(
+            CONST.map.wayPolygonOptions,
+            { 'color': CONST.colors[ layerModel.get('color') ] }
+        );
+
+        return style;
+    }
 }

@@ -15,7 +15,7 @@ export default Backbone.Router.extend({
         'oups': 'routeOups',
     },
 
-    initialize: function (app) {
+    initialize(app) {
         this._app = app;
         this._radio = Wreqr.radio.channel('global');
         this._previousRoute = '';
@@ -32,16 +32,16 @@ export default Backbone.Router.extend({
         }
     },
 
-    _setPreviousRoute: function () {
+    _setPreviousRoute() {
         const url = window.location.href;
         const route = url.substring( url.indexOf('#') + 1 );
         this._previousRoute = route;
     },
 
-    routeOups: function (){
+    routeOups(){
     },
 
-    routeLogout: function (){
+    routeLogout(){
         $.ajax({
             type: 'GET',
             url: CONST.apiPath +'user/logout',
@@ -55,7 +55,7 @@ export default Backbone.Router.extend({
         });
     },
 
-    routeAbout: function (){
+    routeAbout(){
         const version = this._app.getVersion();
 
         new AboutView({
@@ -64,7 +64,7 @@ export default Backbone.Router.extend({
         }).open();
     },
 
-    routeMapPosition: function (zoom, lat, lng){
+    routeMapPosition(zoom, lat, lng){
         const version = this._radio.commands.execute('map:position', zoom, lat, lng);
         this.navigate('');
     },

@@ -7,23 +7,25 @@ import { uuid } from '../core/utils';
 
 
 export default Backbone.RelationalModel.extend({
-    defaults: {
-        'creationDate': new Date().toISOString(),
-        'modificationDate': new Date().toISOString(),
-        'uniqid': undefined,
-        'name': undefined,
-        'description': undefined,
-        'order': undefined,
-        'tags': [], // [{'key': '', 'value': '', 'readOnly': true, 'nonOsmData': false, type: text|file}, [...]]
+    defaults() {
+        return {
+            'creationDate': new Date().toISOString(),
+            'modificationDate': new Date().toISOString(),
+            'uniqid': undefined,
+            'name': undefined,
+            'description': undefined,
+            'order': undefined,
+            'tags': [], // [{'key': '', 'value': '', 'readOnly': true, 'nonOsmData': false, type: text|file}, [...]]
+        };
     },
 
-    initialize: function () {
+    initialize() {
         if (!this.get('uniqid')) {
             this.set('uniqid', uuid());
         }
     },
 
-    updateModificationDate: function () {
+    updateModificationDate() {
         this.set('modificationDate', new Date().toISOString());
     },
 });

@@ -7,7 +7,7 @@ import template from '../../templates/aboutModal.ejs';
 export default Marionette.LayoutView.extend({
     template: template,
 
-    behaviors: function () {
+    behaviors() {
         return {
             'l20n': {},
             'modal': {
@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
         'modal': '#about_modal',
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         const aboutTextVersion = document.l10n.getSync(
             'aboutTextVersion',
             { 'version': this.options.version }
@@ -32,16 +32,16 @@ export default Marionette.LayoutView.extend({
         };
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },

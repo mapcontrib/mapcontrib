@@ -44,13 +44,13 @@ export default Marionette.ItemView.extend({
         'reset': 'onReset',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
     },
 
-    onRender: function () {
+    onRender() {
         const config = MAPCONTRIB.config;
 
         this.ui.colorButtons
@@ -97,7 +97,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onShow: function () {
+    onShow() {
         this.ui.infoAnalytics.popover({
             'container': 'body',
             'placement': 'left',
@@ -110,22 +110,22 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onSubmit: function (e) {
+    onSubmit(e) {
         e.preventDefault();
 
         const config = MAPCONTRIB.config;
@@ -176,7 +176,7 @@ export default Marionette.ItemView.extend({
 
 
         this.model.save({}, {
-            'success': () => {
+            success: () => {
                 if (this.model.get('infoDisplay') !== this._oldModel.get('infoDisplay')) {
                     if (this.model.get('infoDisplay') === CONST.infoDisplay.popup) {
                         this._radio.commands.execute('map:bindAllPopups');
@@ -190,14 +190,14 @@ export default Marionette.ItemView.extend({
 
                 this.close();
             },
-            'error': () => {
+            error: () => {
                 // FIXME
                 console.error('nok');
             },
         });
     },
 
-    onReset: function () {
+    onReset() {
         this.model.set('color', this._oldModel.get('color'));
         this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
 
@@ -206,15 +206,15 @@ export default Marionette.ItemView.extend({
         this.close();
     },
 
-    onOverColorButtons: function (e) {
+    onOverColorButtons(e) {
         this._radio.commands.execute('ui:setTitleColor', e.target.dataset.color);
     },
 
-    onLeaveColorButtons: function (e) {
+    onLeaveColorButtons(e) {
         this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
     },
 
-    onClickColorButtons: function (e) {
+    onClickColorButtons(e) {
         $('i', this.ui.colorButtons).removeClass('fa-check');
 
         e.target.querySelector('i').classList.add('fa-check');

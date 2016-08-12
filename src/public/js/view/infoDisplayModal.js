@@ -25,11 +25,11 @@ export default Marionette.LayoutView.extend({
         'click @ui.editBtn': 'close',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onRender: function () {
+    onRender() {
         const layerModel = this.options.layerModel;
 
         this.ui.content.append( this.options.content );
@@ -44,17 +44,17 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
