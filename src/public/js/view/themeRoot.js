@@ -934,7 +934,7 @@ export default Marionette.LayoutView.extend({
             }
 
             if ( osmCacheModel ) {
-                if ( osmCacheModel.get('osmVersion') < version) {
+                if ( osmCacheModel.get('osmVersion') <= version) {
                     osmCacheModel.destroy();
                 }
                 else {
@@ -946,8 +946,8 @@ export default Marionette.LayoutView.extend({
                     if (object.feature.geometry.type === 'Point') {
                         object.setLatLng(
                             L.latLng([
-                                object.feature.geometry.coordinates[1],
-                                object.feature.geometry.coordinates[0]
+                                object.feature.geometry.coordinates[0],
+                                object.feature.geometry.coordinates[1]
                             ])
                         );
                     }
