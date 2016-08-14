@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.6
+
+* Fixes the marker customisation on Webkit/Blink based browsers.
+
 ## 0.12.5
 
 * Fixes the display of cached contributions.
