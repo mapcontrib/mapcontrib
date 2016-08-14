@@ -93,17 +93,17 @@ export default Marionette.ItemView.extend({
     onClickColorButtons: function (e) {
         $('i', this.ui.colorButtons).removeClass('fa-check');
 
-        e.target.querySelector('i').classList.add('fa-check');
+        e.currentTarget.querySelector('i').classList.add('fa-check');
 
-        this.model.set('markerColor', e.target.dataset.color);
+        this.model.set('markerColor', e.currentTarget.dataset.color);
     },
 
     onClickShapeButtons: function (e) {
         this.ui.shapeButtons.removeClass('active');
 
-        e.target.classList.add('active');
+        e.currentTarget.classList.add('active');
 
-        this.model.set('markerShape', e.target.dataset.shape);
+        this.model.set('markerShape', e.currentTarget.dataset.shape);
     },
 
     onChangeIconName: function (e) {
@@ -111,7 +111,7 @@ export default Marionette.ItemView.extend({
     },
 
     onChangeIconUrl: function (e) {
-        this.model.set('markerIconUrl', e.target.value);
+        this.model.set('markerIconUrl', e.currentTarget.value);
     },
 
     updateIconPreview: function () {

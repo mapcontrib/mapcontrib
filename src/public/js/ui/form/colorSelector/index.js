@@ -41,8 +41,8 @@ export default Marionette.LayoutView.extend({
     _onClickColorButtons: function (e) {
         $('i', this.ui.colorButtons).removeClass('fa-check');
 
-        e.target.querySelector('i').classList.add('fa-check');
+        e.currentTarget.querySelector('i').classList.add('fa-check');
 
-        this._color = e.target.dataset.color;
+        this._color = e.currentTarget.dataset.color;
     },
 });
