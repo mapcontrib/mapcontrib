@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.5
+
+* Fixes the display of cached contributions.
+
 ## 0.12.4
 
 * Fixes the handling of ways/relations contribution cache.
