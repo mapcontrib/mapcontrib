@@ -2,6 +2,7 @@
 
 ## 0.12.7
 
+* Deletes the cached contributions older than a day ago.
 * Casts attributes to integer when needed in the contribution cache.
 
 ## 0.12.6

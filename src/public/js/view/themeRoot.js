@@ -10,6 +10,8 @@ import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import MarkerCluster from 'leaflet.markercluster';
 import Omnivore from 'leaflet-omnivore';
+import moment from 'moment-timezone';
+
 
 import ThemeTitleView from './themeTitle';
 import InfoDisplayModalView from './infoDisplayModal';
@@ -507,6 +509,15 @@ export default Marionette.LayoutView.extend({
                 osmElement.attributes.lat,
                 osmElement.attributes.lon
             );
+
+            const oneDayAgo = moment.utc().subtract(1, 'days');
+            const modificationDate = moment.utc(
+                osmCacheModel.get('modificationDate')
+            );
+            if (modificationDate.isBefore(oneDayAgo)) {
+                osmCacheModel.destroy();
+                continue;
+            }
 
             const icon = MapUi.buildLayerIcon(
                 L,
