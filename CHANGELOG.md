@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.12.7
+
+* Deletes the cached contributions older than a day ago.
+* Casts attributes to integer when needed in the contribution cache.
+
+## 0.12.6
+
+* Fixes the marker customisation on Webkit/Blink based browsers.
+
 ## 0.12.5
 
 * Fixes the display of cached contributions.

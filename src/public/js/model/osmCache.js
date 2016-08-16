@@ -22,7 +22,21 @@ export default Backbone.Model.extend({
         };
     },
 
+    initialize() {
+        this.on('change:osmId', this.setInt.bind(this, 'osmId'));
+        this.on('change:osmVersion', this.setInt.bind(this, 'osmVersion'));
+        this.on('change:userId', this.setInt.bind(this, 'userId'));
+
+        this.set('osmId', parseInt(this.get('osmId')));
+        this.set('osmVersion', parseInt(this.get('osmVersion')));
+        this.set('userId', parseInt(this.get('userId')));
+    },
+
     updateModificationDate() {
         this.set('modificationDate', new Date().toISOString());
+    },
+
+    setInt(attributeName, model, value) {
+        this.set(attributeName, parseInt(value));
     },
 });
