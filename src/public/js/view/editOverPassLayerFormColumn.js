@@ -250,7 +250,7 @@ export default Marionette.ItemView.extend({
             updateVisibility = true;
         }
 
-        if ( !this._oldModel.get('cache') ) {
+        if ( !this.model.get('cache') ) {
             if ( this._oldModel.get('overpassRequest') !== this.model.get('overpassRequest') ) {
                 updateRequest = true;
             }
