@@ -60,17 +60,13 @@ export default class MapUi {
             iconHtml = CONST.map.shape.html;
         }
         else {
-            let markerShape = layerModel.get('markerShape');
+            const markerShape = layerModel.get('markerShape');
             iconColor = layerModel.get('markerColor');
             className = CONST.map.markers[markerShape].className;
             iconHtml = MapUi.buildMarkerLayerIconOptions(layerModel).html;
         }
 
-        let html = `<div class="${className} ${iconColor}">`;
-        html += iconHtml;
-        html += `</div>`;
-
-        return html;
+        return `<div class="${className} ${iconColor}">${iconHtml}</div>`;
     }
 
 
@@ -84,27 +80,26 @@ export default class MapUi {
      * @return {object} - The icon options.
      */
     static buildMarkerLayerIconOptions (layerModel) {
-        let markerShape = layerModel.get('markerShape'),
-        markerIcon = layerModel.get('markerIcon'),
-        markerIconType = layerModel.get('markerIconType'),
-        markerIconUrl = layerModel.get('markerIconUrl'),
-        markerColor = layerModel.get('markerColor'),
-        iconOptions = _.extend({}, CONST.map.markers[ markerShape ]);
+        const markerShape = layerModel.get('markerShape');
+        const markerIcon = layerModel.get('markerIcon');
+        const markerIconType = layerModel.get('markerIconType');
+        const markerIconUrl = layerModel.get('markerIconUrl');
+        const markerColor = layerModel.get('markerColor');
+        const iconOptions = { ...CONST.map.markers[ markerShape ] };
 
-        iconOptions.className += ' '+ markerColor;
+        iconOptions.className += ` ${markerColor}`;
 
         switch (markerIconType) {
             case CONST.map.markerIconType.external:
-
                 if ( markerIconUrl ) {
-                    iconOptions.html += '<img src="'+ markerIconUrl +'" class="external-icon">';
+                    iconOptions.html += `<img src="${markerIconUrl}" class="external-icon">`;
                 }
                 break;
 
             default:
             case CONST.map.markerIconType.library:
                 if ( markerIcon ) {
-                    iconOptions.html += '<i class="fa fa-'+ markerIcon +' fa-fw"></i>';
+                    iconOptions.html += `<i class="fa fa-${markerIcon} fa-fw"></i>`;
                 }
         }
 
@@ -122,12 +117,10 @@ export default class MapUi {
      * @return {object} - The polyline options.
      */
     static buildLayerPolylineStyle (layerModel) {
-        let style = _.extend(
-            CONST.map.wayPolylineOptions,
-            { 'color': CONST.colors[ layerModel.get('color') ] }
-        );
-
-        return style;
+        return {
+            ...CONST.map.wayPolylineOptions,
+            ...{ color: CONST.colors[ layerModel.get('color') ] }
+        };
     }
 
 
@@ -141,30 +134,9 @@ export default class MapUi {
      * @return {object} - The polygon options.
      */
     static buildLayerPolygonStyle (layerModel) {
-        let style = _.extend(
-            CONST.map.wayPolygonOptions,
-            { 'color': CONST.colors[ layerModel.get('color') ] }
-        );
-
-        return style;
-    }
-
-
-    /**
-     * Builds a heat layer.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} layerModel - Model of the polygon's POI layer.
-     * @return {object} - The polygon options.
-     */
-    static buildHeatLayerFromGeoJson (layerModel) {
-        let style = _.extend(
-            CONST.map.wayPolygonOptions,
-            { 'color': CONST.colors[ layerModel.get('color') ] }
-        );
-
-        return style;
+        return {
+            ...CONST.map.wayPolygonOptions,
+            ...{ color: CONST.colors[ layerModel.get('color') ] }
+        };
     }
 }
