@@ -9,6 +9,7 @@ import L from 'leaflet';
 import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import MarkerCluster from 'leaflet.markercluster';
+import HeatLayer from 'leaflet.heat';
 import Omnivore from 'leaflet-omnivore';
 import moment from 'moment-timezone';
 
@@ -292,8 +293,8 @@ export default Marionette.LayoutView.extend({
             'map:hideLayer': (layerModel) => {
                 this.hideLayer( layerModel );
             },
-            'map:updateLayerStyles': (layerModel) => {
-                this.updateLayerStyles( layerModel );
+            'map:updateMarkerStyle': (layerModel) => {
+                this.updateMarkerStyle( layerModel );
             },
             'map:updateLayerPopups': (layerModel) => {
                 this.updateLayerPopups( layerModel );
@@ -662,7 +663,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addTempGpxLayer(layerModel, fileContent) {
-        const markerCluster = this._buildMarkerCluster(layerModel);
+        const rootLayer = this._buildRootLayer(layerModel);
         const layer = Omnivore.gpx.parse(
             fileContent
         );
@@ -676,7 +677,7 @@ export default Marionette.LayoutView.extend({
         else {
             this._customizeDataAndDisplay(
                 layer._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.gpx
             );
@@ -684,7 +685,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addTempCsvLayer(layerModel, fileContent) {
-        const markerCluster = this._buildMarkerCluster(layerModel);
+        const rootLayer = this._buildRootLayer(layerModel);
         const layer = Omnivore.csv.parse(
             fileContent
         );
@@ -698,7 +699,7 @@ export default Marionette.LayoutView.extend({
         else {
             this._customizeDataAndDisplay(
                 layer._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.csv
             );
@@ -706,7 +707,7 @@ export default Marionette.LayoutView.extend({
     },
 
     addTempGeoJsonLayer(layerModel, fileContent) {
-        const markerCluster = this._buildMarkerCluster(layerModel);
+        const rootLayer = this._buildRootLayer(layerModel);
         const layer = L.geoJson(
             JSON.parse( fileContent )
         );
@@ -720,7 +721,7 @@ export default Marionette.LayoutView.extend({
         else {
             this._customizeDataAndDisplay(
                 layer._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.geojson
             );
@@ -752,9 +753,9 @@ export default Marionette.LayoutView.extend({
             return this.addOverPassCacheLayer(layerModel, hiddenLayer);
         }
 
-        const markerCluster = this._buildMarkerCluster(layerModel);
-        this._markerClusters[ layerModel.cid ] = markerCluster;
-        this._map.addLayer( markerCluster );
+        const rootLayer = this._buildRootLayer(layerModel);
+        this._markerClusters[ layerModel.cid ] = rootLayer;
+        this._map.addLayer( rootLayer );
 
         const overPassRequest = OverPassHelper.buildRequestForTheme(
             layerModel.get('overpassRequest') || ''
@@ -803,7 +804,7 @@ export default Marionette.LayoutView.extend({
 
                 this._customizeDataAndDisplay(
                     objects,
-                    markerCluster,
+                    rootLayer,
                     layerModel,
                     CONST.layerType.overpass,
                     hiddenLayer
@@ -842,11 +843,11 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            const markerCluster = this._buildMarkerCluster(layerModel);
+            const rootLayer = this._buildRootLayer(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.gpx,
                 hiddenLayer
@@ -865,11 +866,11 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            const markerCluster = this._buildMarkerCluster(layerModel);
+            const rootLayer = this._buildRootLayer(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.csv,
                 hiddenLayer
@@ -888,11 +889,11 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            const markerCluster = this._buildMarkerCluster(layerModel);
+            const rootLayer = this._buildRootLayer(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.geojson,
                 hiddenLayer
@@ -911,11 +912,11 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            const markerCluster = this._buildMarkerCluster(layerModel);
+            const rootLayer = this._buildRootLayer(layerModel);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.geojson,
                 hiddenLayer
@@ -1024,7 +1025,7 @@ export default Marionette.LayoutView.extend({
             this._map.addLayer( overPassLayer );
         }
 
-        markerCluster.refreshClusters();
+        this._refreshTopLayer(layerModel);
     },
 
     hideLayer(layerModel) {
@@ -1038,7 +1039,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    updateLayerStyles(layerModel) {
+    updateMarkerStyle(layerModel) {
         const markerCluster = this._markerClusters[ layerModel.cid ];
         const layers = markerCluster.getLayers();
 
@@ -1065,7 +1066,7 @@ export default Marionette.LayoutView.extend({
             }
         }
 
-        markerCluster.refreshClusters();
+        this._refreshTopLayer(layerModel);
     },
 
     updateLayerPopups(layerModel) {
@@ -1210,23 +1211,22 @@ export default Marionette.LayoutView.extend({
         return globalWrapper;
     },
 
-    _buildMarkerCluster(layerModel) {
-        return L.markerClusterGroup({
-            'polygonOptions': CONST.map.markerCLusterPolygonOptions,
-            'animate': false,
-            'animateAddingMarkers': false,
-            'spiderfyOnMaxZoom': false,
-            'disableClusteringAtZoom': 18,
-            'zoomToBoundsOnClick': true,
-            'iconCreateFunction': cluster => {
-                const count = cluster.getChildCount();
-                const color = layerModel.get('markerColor');
+    _buildRootLayer(layerModel) {
+        switch (layerModel.get('rootLayerType')) {
+            case CONST.rootLayerType.markerCluster:
+                return MapUi.buildMarkerClusterLayer(layerModel);
 
-                return L.divIcon({
-                    html: `<div class="marker-cluster ${color}">${count}</div>`
-                });
-            }
-        });
+            case CONST.rootLayerType.heat:
+                return MapUi.buildHeatLayer(layerModel);
+        }
+    },
+
+    _refreshTopLayer(layerModel) {
+        const markerCluster = this._markerClusters[ layerModel.cid ];
+
+        if (markerCluster.refreshClusters) {
+            markerCluster.refreshClusters();
+        }
     },
 
     onClickEditPoi(layer, osmType, osmId, layerModel, e) {

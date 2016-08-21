@@ -1,6 +1,7 @@
 
 import _ from 'underscore';
 import CONST from '../const';
+import Wreqr from 'backbone.wreqr';
 
 
 export default class MapUi {
@@ -147,7 +148,7 @@ export default class MapUi {
      * @author Guillaume AMAT
      * @static
      * @access public
-     * @param {string} layerModel - The layer model.
+     * @param {string} layerModel.
      * @return {object} - The marker cluster layer.
      */
     static buildMarkerClusterLayer (layerModel) {
@@ -176,7 +177,7 @@ export default class MapUi {
      * @author Guillaume AMAT
      * @static
      * @access public
-     * @param {string} layerModel - The layer model.
+     * @param {string} layerModel.
      * @return {object} - The heat layer.
      */
     static buildHeatLayer (layerModel) {
@@ -200,5 +201,114 @@ export default class MapUi {
         };
 
         return heatLayer;
+    }
+
+
+    /**
+     * Checks if the layer's display has to be updated.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {object} layerModel.
+     * @param {object} olderLayerModel.
+     * @param {boolean} isNew.
+     */
+    static updateLayerDisplayFromOlderModel (layerModel, oldLayerModel, isNew) {
+        const radio = Wreqr.radio.channel('global');
+
+        if ( isNew ) {
+            radio.commands.execute('map:addLayer', layerModel);
+        }
+        else {
+            MapUi.updateLayerStyleFromOlderModel(layerModel, oldLayerModel);
+
+            if ( oldLayerModel.get('visible') !== layerModel.get('visible') ) {
+                if ( layerModel.get('visible') ) {
+                    radio.commands.execute('map:addLayer', layerModel);
+                }
+                else {
+                    radio.commands.execute('map:removeLayer', layerModel);
+                }
+
+                radio.commands.execute('column:selectLayer:render');
+            }
+        }
+    }
+
+
+    /**
+     * Checks if the layer's display has to be updated.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {object} layerModel.
+     * @param {object} olderLayerModel.
+     */
+    static updateLayerStyleFromOlderModel (layerModel, oldLayerModel) {
+        const radio = Wreqr.radio.channel('global');
+        let updateRepresentation = false;
+        let updateMarkers = false;
+        let updatePolylines = false;
+        let updateHeat = false;
+        let updatePopups = false;
+        let updateMinZoom = false;
+
+        if ( oldLayerModel.get('rootLayerType') !== layerModel.get('rootLayerType') ) {
+            updateRepresentation = true;
+        }
+
+        if (
+            oldLayerModel.get('heatMinOpacity') !== layerModel.get('heatMinOpacity') ||
+            oldLayerModel.get('heatMaxZoom') !== layerModel.get('heatMaxZoom') ||
+            oldLayerModel.get('heatMax') !== layerModel.get('heatMax') ||
+            oldLayerModel.get('heatBlur') !== layerModel.get('heatBlur') ||
+            oldLayerModel.get('heatRadius') !== layerModel.get('heatRadius')
+        ) {
+            updateHeat = true;
+        }
+
+        if (
+            oldLayerModel.get('markerIconType') !== layerModel.get('markerIconType') ||
+            oldLayerModel.get('markerIconUrl') !== layerModel.get('markerIconUrl') ||
+            oldLayerModel.get('markerColor') !== layerModel.get('markerColor') ||
+            oldLayerModel.get('markerIcon') !== layerModel.get('markerIcon') ||
+            oldLayerModel.get('markerShape') !== layerModel.get('markerShape')
+        ) {
+            updateMarkers = true;
+        }
+
+        if ( oldLayerModel.get('color') !== layerModel.get('color') ) {
+            updatePolylines = true;
+        }
+
+        if ( oldLayerModel.get('popupContent') !== layerModel.get('popupContent') ) {
+            updatePopups = true;
+        }
+
+        if ( oldLayerModel.get('minZoom') !== layerModel.get('minZoom') ) {
+            updateMinZoom = true;
+        }
+
+
+
+
+
+        if ( updateMarkers || updatePolylines ) {
+            radio.commands.execute('map:updateMarkerStyle', layerModel);
+        }
+
+        if ( updateHeat ) {
+            radio.commands.execute('map:updateHeatStyle', layerModel);
+        }
+
+        if ( updatePopups ) {
+            radio.commands.execute('map:updateLayerPopups', layerModel);
+        }
+
+        if ( updateMinZoom ) {
+            radio.commands.execute('map:updateLayerMinZoom', layerModel);
+        }
     }
 }

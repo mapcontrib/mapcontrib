@@ -22,6 +22,7 @@ export default Marionette.ItemView.extend({
     ui: {
         'column': '#edit_temp_layer_column',
         'form': 'form',
+        'submitButton': '.submit_btn',
 
         'layerName': '#layer_name',
         'layerDescription': '#layer_description',
@@ -106,8 +107,18 @@ export default Marionette.ItemView.extend({
         return this;
     },
 
+    enableSubmitButton() {
+        this.ui.submitButton.prop('disabled', false);
+    },
+
+    disableSubmitButton() {
+        this.ui.submitButton.prop('disabled', true);
+    },
+
     onSubmit(e) {
         e.preventDefault();
+
+        this.disableSubmitButton();
 
         this.ui.formGroups.removeClass('has-feedback has-error');
 
@@ -115,6 +126,7 @@ export default Marionette.ItemView.extend({
 
         if ( !fileName && this.options.isNew ) {
             this.ui.fileFormGroup.addClass('has-feedback has-error');
+            this.enableSubmitButton();
             return false;
         }
         else if ( fileName ) {
@@ -122,13 +134,10 @@ export default Marionette.ItemView.extend({
 
             if (extension !== 'gpx') {
                 this.ui.fileFormGroup.addClass('has-feedback has-error');
+                this.enableSubmitButton();
                 return false;
             }
         }
-
-
-        let updatePolylines = false;
-        let updatePopups = false;
 
         this.model.set('minZoom', 0);
         this.model.set('name', this.ui.layerName.val());
@@ -136,25 +145,14 @@ export default Marionette.ItemView.extend({
         this.model.set('color', this._colorSelector.getSelectedColor());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
 
-        if ( this._oldModel.get('color') !== this.model.get('color') ) {
-            updatePolylines = true;
-        }
-
-        if ( this._oldModel.get('popupContent') !== this.model.get('popupContent') ) {
-            updatePopups = true;
-        }
-
         if ( this.options.isNew ) {
             this.collection.add( this.model );
         }
         else {
-            if ( updatePolylines ) {
-                this._radio.commands.execute('map:updateLayerStyles', this.model);
-            }
-
-            if ( updatePopups ) {
-                this._radio.commands.execute('map:updateLayerPopups', this.model);
-            }
+            MapUi.updateLayerStyleFromOlderModel(
+                this.model,
+                this._oldModel
+            );
         }
 
         if ( fileName ) {

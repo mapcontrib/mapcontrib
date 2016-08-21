@@ -170,10 +170,27 @@ Put it right here!">
 <editLayerFormColumn_title "Layer edit">
 <editLayerFormColumn_layerName "Name">
 <editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_representationType "Representation">
+<editLayerFormColumn_clusterRepresentation "Groupable points">
+<editLayerFormColumn_heatRepresentation "Heat map">
 <editLayerFormColumn_visibility "Visibility">
 <editLayerFormColumn_visibilityAndEdition "Visibility and edition">
 <editLayerFormColumn_visible "Visible by users">
 <editLayerFormColumn_dataEditable "Allow to edit data">
+<editLayerFormColumn_heatOptions "Heat map">
+<editLayerFormColumn_heatMapPopoverTitle "Informations">
+<editLayerFormColumn_heatMapPopoverContent "#### Maximum zoom
+
+Zoom level where the points reach maximum intensity.
+
+#### Radius
+
+Radius of each point of the layer.">
+<editLayerFormColumn_heatMinOpacity "Minimum opacity">
+<editLayerFormColumn_heatMaxZoom "Maximum zoom">
+<editLayerFormColumn_heatMax "Maximum intensity">
+<editLayerFormColumn_heatBlur "Amount of blur">
+<editLayerFormColumn_heatRadius "Radius">
 <editLayerFormColumn_layerZoomLevel "Minimum zoom">
 <editLayerFormColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
 <editLayerFormColumn_overPassPopoverTitle "Bounding box">

@@ -170,10 +170,27 @@ Insérez-le juste ici !">
 <editLayerFormColumn_title "Édition de la couche">
 <editLayerFormColumn_layerName "Nom">
 <editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_representationType "Représentation">
+<editLayerFormColumn_clusterRepresentation "Points groupables">
+<editLayerFormColumn_heatRepresentation "Carte thermique">
 <editLayerFormColumn_visibility "Visibilité">
 <editLayerFormColumn_visibilityAndEdition "Visibilité et édition">
 <editLayerFormColumn_dataEditable "Permettre l'édition des données">
 <editLayerFormColumn_visible "Visible par les utilisateurs">
+<editLayerFormColumn_heatOptions "Carte thermique">
+<editLayerFormColumn_heatMapPopoverTitle "Informations">
+<editLayerFormColumn_heatMapPopoverContent "#### Zoom maximum
+
+Niveau de zoom à partir duquel les points atteignent leur intensité maximum.
+
+#### Rayon
+
+Rayon de chacuns des points de la couche.">
+<editLayerFormColumn_heatMinOpacity "Opacité minimum">
+<editLayerFormColumn_heatMaxZoom "Zoom maximum">
+<editLayerFormColumn_heatMax "Intensité maximum">
+<editLayerFormColumn_heatBlur "Quantité de flou">
+<editLayerFormColumn_heatRadius "Rayon">
 <editLayerFormColumn_layerZoomLevel "Zoom minimum">
 <editLayerFormColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
 <editLayerFormColumn_overPassPopoverTitle "Bounding box">

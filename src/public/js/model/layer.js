@@ -23,11 +23,17 @@ export default Backbone.RelationalModel.extend({
             'order': undefined,
 
             // Point based layer specific
+            'rootLayerType': CONST.rootLayerType.markerCluster,
             'markerShape': 'marker1',
             'markerColor': 'orange',
             'markerIconType': CONST.map.markerIconType.library,
             'markerIcon': undefined,
             'markerIconUrl': undefined,
+            'heatMinOpacity': 0.05,
+            'heatMaxZoom': 18,
+            'heatMax': 1.0,
+            'heatBlur': 15,
+            'heatRadius': 25,
 
             // Shape files based layer specific
             'color': 'turquoise',

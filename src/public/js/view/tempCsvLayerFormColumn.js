@@ -21,13 +21,25 @@ export default Marionette.ItemView.extend({
     ui: {
         'column': '#edit_temp_layer_column',
         'form': 'form',
+        'submitButton': '.submit_btn',
 
         'layerName': '#layer_name',
         'layerDescription': '#layer_description',
+        'layerCluster': '#layer_cluster',
+        'layerHeat': '#layer_heat',
         'infoDisplayInfo': '.info_info_display_btn',
         'layerPopupContent': '#layer_popup_content',
         'layerFile': '#layer_file',
 
+        'heatOptions': '.heat-options',
+        'heatMapInfo': '.info_heat_map_btn',
+        'heatMinOpacity': '#layer_heat_min_opacity',
+        'heatMaxZoom': '#layer_heat_max_zoom',
+        'heatMax': '#layer_heat_max',
+        'heatBlur': '#layer_heat_blur',
+        'heatRadius': '#layer_heat_radius',
+
+        'markerOptions': '.marker-options',
         'markerWrapper': '.marker-wrapper',
         'editMarkerButton': '.edit_marker_btn',
 
@@ -38,6 +50,8 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
+        'change @ui.layerCluster': 'onChangeLayerRepresentation',
+        'change @ui.layerHeat': 'onChangeLayerRepresentation',
         'click @ui.editMarkerButton': 'onClickEditMarker',
         'submit': 'onSubmit',
         'reset': 'onReset',
@@ -70,9 +84,29 @@ export default Marionette.ItemView.extend({
             )
             .removeClass('hide');
         }
+
+        if ( this.model.get('rootLayerType') === CONST.rootLayerType.heat ) {
+            this.ui.layerHeat.prop('checked', true);
+            this.hideMarkerOptions();
+            this.showHeatOptions();
+        }
+        else {
+            this.ui.layerCluster.prop('checked', true);
+        }
     },
 
     onShow() {
+        this.ui.heatMapInfo.popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'html': true,
+            'title': document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_heatMapPopoverContent')
+            ),
+        });
+
         this.ui.infoDisplayInfo.popover({
             'container': 'body',
             'placement': 'left',
@@ -101,8 +135,35 @@ export default Marionette.ItemView.extend({
         return this;
     },
 
+    onChangeLayerRepresentation() {
+        if ( this.ui.layerCluster.prop('checked') ) {
+            this.hideHeatOptions();
+            this.showMarkerOptions();
+        }
+        else {
+            this.hideMarkerOptions();
+            this.showHeatOptions();
+        }
+    },
+
+    showHeatOptions() {
+        this.ui.heatOptions.removeClass('hide');
+    },
+
+    hideHeatOptions() {
+        this.ui.heatOptions.addClass('hide');
+    },
+
+    showMarkerOptions() {
+        this.ui.markerOptions.removeClass('hide');
+    },
+
+    hideMarkerOptions() {
+        this.ui.markerOptions.addClass('hide');
+    },
+
     updateMarkerIcon() {
-        var html = MapUi.buildLayerHtmlIcon( this.model );
+        const html = MapUi.buildLayerHtmlIcon( this.model );
 
         this.ui.markerWrapper.html( html );
     },
@@ -111,8 +172,18 @@ export default Marionette.ItemView.extend({
         this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
     },
 
+    enableSubmitButton() {
+        this.ui.submitButton.prop('disabled', false);
+    },
+
+    disableSubmitButton() {
+        this.ui.submitButton.prop('disabled', true);
+    },
+
     onSubmit(e) {
         e.preventDefault();
+
+        this.disableSubmitButton();
 
         this.ui.formGroups.removeClass('has-feedback has-error');
 
@@ -120,6 +191,7 @@ export default Marionette.ItemView.extend({
 
         if ( !fileName && this.options.isNew ) {
             this.ui.fileFormGroup.addClass('has-feedback has-error');
+            this.enableSubmitButton();
             return false;
         }
         else if ( fileName ) {
@@ -127,56 +199,36 @@ export default Marionette.ItemView.extend({
 
             if (extension !== 'csv') {
                 this.ui.fileFormGroup.addClass('has-feedback has-error');
+                this.enableSubmitButton();
                 return false;
             }
         }
-
-
-        let updateMarkers = false;
-        let updatePopups = false;
 
         this.model.set('minZoom', 0);
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
+        this.model.set('heatMinOpacity', parseFloat(this.ui.heatMinOpacity.val()));
+        this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val()));
+        this.model.set('heatMax', parseFloat(this.ui.heatMax.val()));
+        this.model.set('heatBlur', parseInt(this.ui.heatBlur.val()));
+        this.model.set('heatRadius', parseInt(this.ui.heatRadius.val()));
 
-        if ( this._oldModel.get('markerIconType') !== this.model.get('markerIconType') ) {
-            updateMarkers = true;
+        if ( this.ui.layerCluster.prop('checked') ) {
+            this.model.set('rootLayerType', CONST.rootLayerType.cluster);
         }
-
-        if ( this._oldModel.get('markerIconUrl') !== this.model.get('markerIconUrl') ) {
-            updateMarkers = true;
+        else {
+            this.model.set('rootLayerType', CONST.rootLayerType.heat);
         }
-
-        if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
-            updateMarkers = true;
-        }
-
-        if ( this._oldModel.get('markerIcon') !== this.model.get('markerIcon') ) {
-            updateMarkers = true;
-        }
-
-        if ( this._oldModel.get('markerShape') !== this.model.get('markerShape') ) {
-            updateMarkers = true;
-        }
-
-        if ( this._oldModel.get('popupContent') !== this.model.get('popupContent') ) {
-            updatePopups = true;
-        }
-
-
 
         if ( this.options.isNew ) {
             this.collection.add( this.model );
         }
         else {
-            if ( updateMarkers ) {
-                this._radio.commands.execute('map:updateLayerStyles', this.model);
-            }
-
-            if ( updatePopups ) {
-                this._radio.commands.execute('map:updateLayerPopups', this.model);
-            }
+            MapUi.updateLayerStyleFromOlderModel(
+                this.model,
+                this._oldModel
+            );
         }
 
         if ( fileName ) {
