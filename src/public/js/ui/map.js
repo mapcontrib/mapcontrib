@@ -139,4 +139,66 @@ export default class MapUi {
             ...{ color: CONST.colors[ layerModel.get('color') ] }
         };
     }
+
+
+    /**
+     * Returns a marker cluster built for a layer model.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {string} layerModel - The layer model.
+     * @return {object} - The marker cluster layer.
+     */
+    static buildMarkerClusterLayer (layerModel) {
+        return L.markerClusterGroup({
+            'polygonOptions': CONST.map.markerCLusterPolygonOptions,
+            'animate': false,
+            'animateAddingMarkers': false,
+            'spiderfyOnMaxZoom': false,
+            'disableClusteringAtZoom': 18,
+            'zoomToBoundsOnClick': true,
+            'iconCreateFunction': cluster => {
+                const count = cluster.getChildCount();
+                const color = layerModel.get('markerColor');
+
+                return L.divIcon({
+                    html: `<div class="marker-cluster ${color}">${count}</div>`
+                });
+            }
+        });
+    }
+
+
+    /**
+     * Returns a heat layer built for a layer model.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {string} layerModel - The layer model.
+     * @return {object} - The heat layer.
+     */
+    static buildHeatLayer (layerModel) {
+        const heatLayer = L.heatLayer([], {
+            minOpacity: layerModel.get('heatMinOpacity'),
+            maxZoom: layerModel.get('heatMaxZoom'),
+            max: layerModel.get('heatMax'),
+            blur: layerModel.get('heatBlur'),
+            radius: layerModel.get('heatRadius'),
+        });
+
+        heatLayer.addLayer = (layer) => {
+            if (layer.feature.geometry.type === 'Point') {
+                heatLayer.addLatLng(
+                    L.latLng(
+                        layer.feature.geometry.coordinates[1],
+                        layer.feature.geometry.coordinates[0]
+                    )
+                );
+            }
+        };
+
+        return heatLayer;
+    }
 }
