@@ -296,6 +296,9 @@ export default Marionette.LayoutView.extend({
             'map:updateMarkerStyle': (layerModel) => {
                 this.updateMarkerStyle( layerModel );
             },
+            'map:updateHeatStyle': (layerModel) => {
+                this.updateHeatStyle( layerModel );
+            },
             'map:updateLayerPopups': (layerModel) => {
                 this.updateLayerPopups( layerModel );
             },
@@ -1066,6 +1069,16 @@ export default Marionette.LayoutView.extend({
         this._refreshTopLayer(layerModel);
     },
 
+    updateHeatStyle(layerModel) {
+        const rootLayer = this._getRootLayer(layerModel);
+
+        rootLayer.setOptions(
+            MapUi.buildHeatLayerOptions(layerModel)
+        );
+
+        this._refreshTopLayer(layerModel);
+    },
+
     updateLayerPopups(layerModel) {
         if (this.model.get('infoDisplay') !== CONST.infoDisplay.popup) {
             return false;
@@ -1219,8 +1232,12 @@ export default Marionette.LayoutView.extend({
     _refreshTopLayer(layerModel) {
         const rootLayer = this._getRootLayer(layerModel);
 
-        if (rootLayer.refreshClusters) {
-            rootLayer.refreshClusters();
+        switch (layerModel.get('rootLayerType')) {
+            case CONST.rootLayerType.markerCluster:
+                return rootLayer.refreshClusters();
+
+            case CONST.rootLayerType.heat:
+                return rootLayer.redraw();
         }
     },
 

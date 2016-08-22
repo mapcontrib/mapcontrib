@@ -181,13 +181,7 @@ export default class MapUi {
      * @return {object} - The heat layer.
      */
     static buildHeatLayer (layerModel) {
-        const heatLayer = L.heatLayer([], {
-            minOpacity: layerModel.get('heatMinOpacity'),
-            maxZoom: layerModel.get('heatMaxZoom'),
-            max: layerModel.get('heatMax'),
-            blur: layerModel.get('heatBlur'),
-            radius: layerModel.get('heatRadius'),
-        });
+        const heatLayer = L.heatLayer([], MapUi.buildHeatLayerOptions(layerModel));
 
         heatLayer.addLayer = (layer) => {
             if (layer.feature.geometry.type === 'Point') {
@@ -201,6 +195,28 @@ export default class MapUi {
         };
 
         return heatLayer;
+    }
+
+
+    /**
+     * Returns the heat layer options.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {string} layerModel.
+     * @return {object} - The heat layer.
+     */
+    static buildHeatLayerOptions (layerModel) {
+        const options = {
+            minOpacity: layerModel.get('heatMinOpacity'),
+            maxZoom: layerModel.get('heatMaxZoom'),
+            max: layerModel.get('heatMax'),
+            blur: layerModel.get('heatBlur'),
+            radius: layerModel.get('heatRadius'),
+        };
+
+        return options;
     }
 
 
@@ -290,8 +306,6 @@ export default class MapUi {
         if ( oldLayerModel.get('minZoom') !== layerModel.get('minZoom') ) {
             updateMinZoom = true;
         }
-
-
 
 
 
