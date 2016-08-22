@@ -183,7 +183,7 @@ export default Marionette.LayoutView.extend({
         this._poiLoadingSpool = [];
 
         this._overPassData = new OverPassData();
-        this._markerClusters = {};
+        this._rootLayers = {};
         this._overPassLayers = {};
         this._markersWithoutLayers = {};
 
@@ -215,7 +215,7 @@ export default Marionette.LayoutView.extend({
                 }
             },
             'map:markerCluster': (layerModel) => {
-                return this._markerClusters[ layerModel.cid ];
+                return this._getRootLayer(layerModel);
             },
         });
 
@@ -609,8 +609,8 @@ export default Marionette.LayoutView.extend({
     updateOverPassRequest(layerModel) {
         this._overPassData.clearLayerData(layerModel.cid);
 
-        this._markerClusters[ layerModel.cid ].clearLayers();
-        this._overPassLayers[ layerModel.cid ].setQuery(
+        this._getRootLayer(layerModel).clearLayers();
+        this._getOverPassLayer(layerModel).setQuery(
             layerModel.get('overpassRequest')
         );
     },
@@ -754,7 +754,7 @@ export default Marionette.LayoutView.extend({
         }
 
         const rootLayer = this._buildRootLayer(layerModel);
-        this._markerClusters[ layerModel.cid ] = rootLayer;
+        this._setRootLayer(layerModel, rootLayer);
         this._map.addLayer( rootLayer );
 
         const overPassRequest = OverPassHelper.buildRequestForTheme(
@@ -825,7 +825,7 @@ export default Marionette.LayoutView.extend({
             },
         });
 
-        this._overPassLayers[ layerModel.cid ] = overPassLayer;
+        this._setOverPassLayer(layerModel, overPassLayer);
 
         if (!hiddenLayer) {
             this._map.addLayer( overPassLayer );
@@ -924,7 +924,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    _customizeDataAndDisplay(objects, markerCluster, layerModel, dataSource, hiddenLayer) {
+    _customizeDataAndDisplay(objects, rootLayer, layerModel, dataSource, hiddenLayer) {
         const icon = MapUi.buildLayerIcon( L, layerModel );
         const polygonStyle = MapUi.buildLayerPolygonStyle( layerModel );
         const polylineStyle = MapUi.buildLayerPolylineStyle( layerModel );
@@ -996,10 +996,10 @@ export default Marionette.LayoutView.extend({
                     break;
             }
 
-            markerCluster.addLayer(object);
+            rootLayer.addLayer(object);
         }
 
-        this._markerClusters[ layerModel.cid ] = markerCluster;
+        this._setRootLayer(layerModel, rootLayer);
 
         if ( !hiddenLayer ) {
             this.showLayer( layerModel );
@@ -1008,18 +1008,15 @@ export default Marionette.LayoutView.extend({
 
     removeLayer(layerModel) {
         this.hideLayer( layerModel );
-        delete this._markerClusters[ layerModel.cid ];
-
-        if ( this._overPassLayers[ layerModel.cid ] ) {
-            delete this._overPassLayers[ layerModel.cid ];
-        }
+        this._removeRootLayer(layerModel);
+        this._removeOverPassLayer(layerModel);
     },
 
     showLayer(layerModel) {
-        const markerCluster = this._markerClusters[ layerModel.cid ];
-        const overPassLayer = this._overPassLayers[ layerModel.cid ];
+        const rootLayer = this._getRootLayer(layerModel);
+        const overPassLayer = this._getOverPassLayer(layerModel);
 
-        this._map.addLayer( markerCluster );
+        this._map.addLayer( rootLayer );
 
         if ( overPassLayer ) {
             this._map.addLayer( overPassLayer );
@@ -1029,10 +1026,10 @@ export default Marionette.LayoutView.extend({
     },
 
     hideLayer(layerModel) {
-        const markerCluster = this._markerClusters[ layerModel.cid ];
-        const overPassLayer = this._overPassLayers[ layerModel.cid ];
+        const rootLayer = this._getRootLayer(layerModel);
+        const overPassLayer = this._getOverPassLayer(layerModel);
 
-        this._map.removeLayer( markerCluster );
+        this._map.removeLayer( rootLayer );
 
         if ( overPassLayer ) {
             this._map.removeLayer( overPassLayer );
@@ -1040,8 +1037,8 @@ export default Marionette.LayoutView.extend({
     },
 
     updateMarkerStyle(layerModel) {
-        const markerCluster = this._markerClusters[ layerModel.cid ];
-        const layers = markerCluster.getLayers();
+        const rootLayer = this._getRootLayer(layerModel);
+        const layers = rootLayer.getLayers();
 
         for (let layer of layers) {
             switch (layer.toGeoJSON().geometry.type) {
@@ -1074,8 +1071,7 @@ export default Marionette.LayoutView.extend({
             return false;
         }
 
-        let markerCluster = this._markerClusters[ layerModel.cid ];
-        let layers = markerCluster.getLayers();
+        const layers = this._getRootLayer(layerModel).getLayers();
 
         for (let layer of layers) {
             let popupContent = this._buildLayerPopupContent(
@@ -1109,7 +1105,7 @@ export default Marionette.LayoutView.extend({
     },
 
     updateLayerMinZoom(layerModel) {
-        const overpassLayer = this._overPassLayers[ layerModel.cid ];
+        const overpassLayer = this._getOverPassLayer(layerModel);
 
         if (overpassLayer.object) {
             overpassLayer.object.options.minZoom = layerModel.get('minZoom');
@@ -1119,8 +1115,7 @@ export default Marionette.LayoutView.extend({
     },
 
     updatePoiPopup(layerModel, overPassElement) {
-        const markerCluster = this._markerClusters[ layerModel.cid ];
-        const layers = markerCluster.getLayers();
+        const layers = this._getRootLayer(layerModel).getLayers();
         const osmId = `${overPassElement.type}/${overPassElement.id}`;
 
         for (const layer of layers) {
@@ -1222,10 +1217,10 @@ export default Marionette.LayoutView.extend({
     },
 
     _refreshTopLayer(layerModel) {
-        const markerCluster = this._markerClusters[ layerModel.cid ];
+        const rootLayer = this._getRootLayer(layerModel);
 
-        if (markerCluster.refreshClusters) {
-            markerCluster.refreshClusters();
+        if (rootLayer.refreshClusters) {
+            rootLayer.refreshClusters();
         }
     },
 
@@ -1861,9 +1856,9 @@ export default Marionette.LayoutView.extend({
     bindAllPopups() {
         const isLogged = this._app.isLogged();
 
-        for (const i in this._markerClusters) {
-            const markerCluster = this._markerClusters[i];
-            const layers = markerCluster.getLayers();
+        for (const i in this._rootLayers) {
+            const rootLayer = this._rootLayers[i];
+            const layers = rootLayer.getLayers();
 
             for (const layer of layers) {
                 if ( !layer._layerModel ) {
@@ -1882,11 +1877,11 @@ export default Marionette.LayoutView.extend({
     },
 
     unbindAllPopups() {
-        for (let i in this._markerClusters) {
-            let markerCluster = this._markerClusters[i];
-            let layers = markerCluster.getLayers();
+        for (const i in this._rootLayers) {
+            const rootLayer = this._rootLayers[i];
+            const layers = rootLayer.getLayers();
 
-            for (let layer of layers) {
+            for (const layer of layers) {
                 layer.closePopup().unbindPopup();
             }
         }
@@ -1946,6 +1941,34 @@ export default Marionette.LayoutView.extend({
                     isLogged,
                 }).open();
                 break;
+        }
+    },
+
+    _setRootLayer(layerModel, rootLayer) {
+        this._rootLayers[ layerModel.cid ] = rootLayer;
+    },
+
+    _getRootLayer(layerModel) {
+        return this._rootLayers[ layerModel.cid ];
+    },
+
+    _removeRootLayer(layerModel) {
+        if ( this._rootLayers[ layerModel.cid ] ) {
+            delete this._rootLayers[ layerModel.cid ];
+        }
+    },
+
+    _setOverPassLayer(layerModel, overPassLayer) {
+        this._overPassLayers[ layerModel.cid ] = overPassLayer;
+    },
+
+    _getOverPassLayer(layerModel) {
+        return this._overPassLayers[ layerModel.cid ];
+    },
+
+    _removeOverPassLayer(layerModel) {
+        if ( this._overPassLayers[ layerModel.cid ] ) {
+            delete this._overPassLayers[ layerModel.cid ];
         }
     },
 });
