@@ -215,7 +215,7 @@ export default Marionette.ItemView.extend({
         this.model.set('heatRadius', parseInt(this.ui.heatRadius.val()));
 
         if ( this.ui.layerCluster.prop('checked') ) {
-            this.model.set('rootLayerType', CONST.rootLayerType.cluster);
+            this.model.set('rootLayerType', CONST.rootLayerType.markerCluster);
         }
         else {
             this.model.set('rootLayerType', CONST.rootLayerType.heat);
