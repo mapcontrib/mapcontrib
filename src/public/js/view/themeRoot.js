@@ -1275,8 +1275,8 @@ export default Marionette.LayoutView.extend({
             .html('<i class="icon ion-happy-outline"></i>');
         }
         else {
-            let avatar = this._user.get('avatar'),
-            letters = this._user.get('displayName')
+            const avatar = this._user.get('avatar');
+            let letters = this._user.get('displayName')
             .toUpperCase()
             .split(' ')
             .splice(0, 3)
@@ -1649,12 +1649,15 @@ export default Marionette.LayoutView.extend({
     },
 
     updateSessionMapState() {
-        var key = 'mapState-'+ this.model.get('fragment'),
-        oldState = JSON.parse( localStorage.getItem( key ) ) || {},
-        newState = _.extend( oldState, {
-            'center': this._map.getCenter(),
-            'zoomLevel': this._map.getZoom(),
-        } );
+        const key = 'mapState-'+ this.model.get('fragment');
+        const oldState = JSON.parse( localStorage.getItem( key ) ) || {};
+        const newState = {
+            ...oldState,
+            ...{
+                'center': this._map.getCenter(),
+                'zoomLevel': this._map.getZoom(),
+            }
+        };
 
         localStorage.setItem( key, JSON.stringify( newState ) );
     },

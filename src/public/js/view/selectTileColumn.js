@@ -89,11 +89,15 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickTiles(e) {
-        var newState,
-        key = 'mapState-'+ this._fragment,
-        oldState = JSON.parse( localStorage.getItem( key ) );
+        let newState;
+        const key = `mapState-${this._fragment}`;
+        const oldState = JSON.parse( localStorage.getItem( key ) );
 
-        newState = _.extend( oldState, { 'selectedTile': e.target.value } );
+        newState = {
+            ...oldState,
+            ...{ 'selectedTile': e.target.value }
+        };
+        
         localStorage.setItem( key, JSON.stringify( newState ) );
 
         this._radio.commands.execute('map:setTileLayer', e.target.value);

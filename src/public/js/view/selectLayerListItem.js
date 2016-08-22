@@ -91,10 +91,10 @@ export default Marionette.ItemView.extend({
     onClick(e) {
         e.stopPropagation();
 
-        var newState,
-        key = 'mapState-'+ this._fragment,
-        oldState = JSON.parse( localStorage.getItem( key ) ) || {},
-        hiddenLayers = oldState.hiddenLayers || [];
+        let newState;
+        const key = `mapState-${this._fragment}`;
+        const oldState = JSON.parse( localStorage.getItem( key ) ) || {};
+        let hiddenLayers = oldState.hiddenLayers || [];
 
         this._layerIsVisible = this._layerIsVisible ? false : true;
 
@@ -111,7 +111,11 @@ export default Marionette.ItemView.extend({
             hiddenLayers = _.union( hiddenLayers, [this.model.get('uniqid')] );
         }
 
-        newState = _.extend( oldState, { 'hiddenLayers': hiddenLayers } );
+        newState = {
+            ...oldState,
+            ...{ 'hiddenLayers': hiddenLayers }
+        };
+
         localStorage.setItem( key, JSON.stringify( newState ) );
     },
 
