@@ -309,16 +309,21 @@ export default class MapUi {
 
 
 
-        if ( updateMarkers || updatePolylines ) {
-            radio.commands.execute('map:updateMarkerStyle', layerModel);
+        if ( updateRepresentation ) {
+            radio.commands.execute('map:updateRepresentation', layerModel);
         }
+        else {
+            if ( updateMarkers || updatePolylines ) {
+                radio.commands.execute('map:updateMarkerStyle', layerModel);
+            }
 
-        if ( updateHeat ) {
-            radio.commands.execute('map:updateHeatStyle', layerModel);
-        }
+            if ( updateHeat ) {
+                radio.commands.execute('map:updateHeatStyle', layerModel);
+            }
 
-        if ( updatePopups ) {
-            radio.commands.execute('map:updateLayerPopups', layerModel);
+            if ( updatePopups ) {
+                radio.commands.execute('map:updateLayerPopups', layerModel);
+            }
         }
 
         if ( updateMinZoom ) {

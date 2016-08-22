@@ -293,6 +293,9 @@ export default Marionette.LayoutView.extend({
             'map:hideLayer': (layerModel) => {
                 this.hideLayer( layerModel );
             },
+            'map:updateRepresentation': (layerModel) => {
+                this.updateRepresentation( layerModel );
+            },
             'map:updateMarkerStyle': (layerModel) => {
                 this.updateMarkerStyle( layerModel );
             },
@@ -778,12 +781,11 @@ export default Marionette.LayoutView.extend({
                 this.hideLayerLoadingProgress( layerModel );
             },
             'onSuccess': (data) => {
-                let i = 1;
-                let objects = {};
-                let elements = [];
+                const objects = {};
+                const elements = [];
 
-                for (let i in data.elements) {
-                    let e = data.elements[i];
+                for (const i in data.elements) {
+                    const e = data.elements[i];
 
                     if ( this._overPassData.exists(e.type, e.id, layerModel.cid) ) {
                         continue;
@@ -794,6 +796,8 @@ export default Marionette.LayoutView.extend({
                 }
 
                 data.elements = elements;
+
+                let i = 1;
 
                 L.geoJson(
                     osmtogeojson(data),
@@ -1039,11 +1043,19 @@ export default Marionette.LayoutView.extend({
         }
     },
 
+    updateRepresentation(layerModel) {
+        const rootLayer = this._getRootLayer(layerModel);
+
+        // Do stuff
+
+        this._refreshTopLayer(layerModel);
+    },
+
     updateMarkerStyle(layerModel) {
         const rootLayer = this._getRootLayer(layerModel);
         const layers = rootLayer.getLayers();
 
-        for (let layer of layers) {
+        for (const layer of layers) {
             switch (layer.toGeoJSON().geometry.type) {
                 case 'Point':
                 case 'MultiPoint':
