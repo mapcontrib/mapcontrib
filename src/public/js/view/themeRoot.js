@@ -998,11 +998,12 @@ export default Marionette.LayoutView.extend({
                     object.feature
                 );
 
+                object.off('click');
+                
                 if ( this.model.get('infoDisplay') === CONST.infoDisplay.popup ) {
                     this._bindPopupTo(object, popupContent);
                 }
 
-                object.off('click');
                 object.on('click', this._displayInfo, this);
 
                 switch (object.feature.geometry.type) {
@@ -1905,12 +1906,10 @@ export default Marionette.LayoutView.extend({
                 };
             }
 
-            let popup = L.popup( popupOptions ).setContent( popupContent );
+            const popup = L.popup( popupOptions ).setContent( popupContent );
             layer._popup = popup;
             layer.bindPopup( popup );
         }
-
-        return false;
     },
 
     bindAllPopups() {
