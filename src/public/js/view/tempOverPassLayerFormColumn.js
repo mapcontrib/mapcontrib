@@ -224,16 +224,16 @@ export default Marionette.ItemView.extend({
             updateRequest = true;
         }
 
-        MapUi.updateLayerStyleFromOlderModel(
-            this.model,
-            this._oldModel
-        );
-
         if ( this.options.isNew ) {
             this.collection.add( this.model );
             this._radio.commands.execute('map:addTempLayer', this.model);
         }
         else {
+            MapUi.updateLayerStyleFromOlderModel(
+                this.model,
+                this._oldModel
+            );
+
             if ( updateRequest ) {
                 this._radio.commands.execute('layer:updateOverPassRequest', this.model);
             }
