@@ -1008,16 +1008,16 @@ export default Marionette.LayoutView.extend({
                 switch (object.feature.geometry.type) {
                     case 'Point':
                     case 'MultiPoint':
-                    object.setIcon( icon );
-                    break;
+                        object.setIcon( icon );
+                        break;
                     case 'LineString':
                     case 'MultiLineString':
-                    object.setStyle( polylineStyle );
-                    break;
+                        object.setStyle( polylineStyle );
+                        break;
                     case 'Polygon':
                     case 'MultiPolygon':
-                    object.setStyle( polygonStyle );
-                    break;
+                        object.setStyle( polygonStyle );
+                        break;
                 }
             }
 
