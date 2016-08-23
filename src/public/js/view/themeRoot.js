@@ -819,7 +819,7 @@ export default Marionette.LayoutView.extend({
 
                 this._customizeDataAndDisplay(
                     objects,
-                    rootLayer,
+                    this._getRootLayer(layerModel),
                     layerModel,
                     CONST.layerType.overpass,
                     hiddenLayer
@@ -999,7 +999,7 @@ export default Marionette.LayoutView.extend({
                 );
 
                 object.off('click');
-                
+
                 if ( this.model.get('infoDisplay') === CONST.infoDisplay.popup ) {
                     this._bindPopupTo(object, popupContent);
                 }
