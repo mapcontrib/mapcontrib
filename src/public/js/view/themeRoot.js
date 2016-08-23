@@ -681,6 +681,8 @@ export default Marionette.LayoutView.extend({
             }).open();
         }
         else {
+            layerModel.addObjects(layer._layers);
+
             this._customizeDataAndDisplay(
                 layer._layers,
                 rootLayer,
@@ -703,6 +705,8 @@ export default Marionette.LayoutView.extend({
             }).open();
         }
         else {
+            layerModel.addObjects(layer._layers);
+
             this._customizeDataAndDisplay(
                 layer._layers,
                 rootLayer,
@@ -725,6 +729,8 @@ export default Marionette.LayoutView.extend({
             }).open();
         }
         else {
+            layerModel.addObjects(layer._layers);
+
             this._customizeDataAndDisplay(
                 layer._layers,
                 rootLayer,
@@ -809,6 +815,8 @@ export default Marionette.LayoutView.extend({
                     }
                 );
 
+                layerModel.addObjects(objects);
+
                 this._customizeDataAndDisplay(
                     objects,
                     rootLayer,
@@ -852,6 +860,8 @@ export default Marionette.LayoutView.extend({
         .on('ready', layer => {
             const rootLayer = this._buildRootLayer(layerModel);
 
+            layerModel.addObjects(layer.target._layers);
+
             this._customizeDataAndDisplay(
                 layer.target._layers,
                 rootLayer,
@@ -874,6 +884,8 @@ export default Marionette.LayoutView.extend({
         })
         .on('ready', layer => {
             const rootLayer = this._buildRootLayer(layerModel);
+
+            layerModel.addObjects(layer.target._layers);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
@@ -898,6 +910,8 @@ export default Marionette.LayoutView.extend({
         .on('ready', layer => {
             const rootLayer = this._buildRootLayer(layerModel);
 
+            layerModel.addObjects(layer.target._layers);
+
             this._customizeDataAndDisplay(
                 layer.target._layers,
                 rootLayer,
@@ -920,6 +934,8 @@ export default Marionette.LayoutView.extend({
         })
         .on('ready', layer => {
             const rootLayer = this._buildRootLayer(layerModel);
+
+            layerModel.addObjects(layer.target._layers);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
