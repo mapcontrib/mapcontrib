@@ -21,33 +21,47 @@ export default Marionette.ItemView.extend({
 
     ui: {
         'column': '#edit_temp_layer_column',
+        'submitButton': '.submit_btn',
 
         'layerName': '#layer_name',
         'layerDescription': '#layer_description',
+        'layerCluster': '#layer_cluster',
+        'layerHeat': '#layer_heat',
         'layerMinZoom': '#layer_min_zoom',
         'overPassInfo': '.info_overpass_btn',
         'layerOverpassRequest': '#layer_overpass_request',
         'layerPopupContent': '#layer_popup_content',
         'infoDisplayInfo': '.info_info_display_btn',
 
+        'heatOptions': '.heat-options',
+        'heatMapInfo': '.info_heat_map_btn',
+        'heatMinOpacity': '#layer_heat_min_opacity',
+        'heatMaxZoom': '#layer_heat_max_zoom',
+        'heatMax': '#layer_heat_max',
+        'heatBlur': '#layer_heat_blur',
+        'heatRadius': '#layer_heat_radius',
+
+        'markerOptions': '.marker-options',
         'markerWrapper': '.marker-wrapper',
         'editMarkerButton': '.edit_marker_btn',
         'currentMapZoom': '.current_map_zoom',
     },
 
     events: {
+        'change @ui.layerCluster': 'onChangeLayerRepresentation',
+        'change @ui.layerHeat': 'onChangeLayerRepresentation',
         'click @ui.editMarkerButton': 'onClickEditMarker',
         'submit': 'onSubmit',
         'reset': 'onReset',
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'marker': MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
@@ -56,11 +70,31 @@ export default Marionette.ItemView.extend({
         this._radio.vent.on('map:zoomChanged', this.onChangedMapZoom, this);
     },
 
-    onRender: function () {
+    onRender() {
         this.onChangedMapZoom();
+
+        if ( this.model.get('rootLayerType') === CONST.rootLayerType.heat ) {
+            this.ui.layerHeat.prop('checked', true);
+            this.hideMarkerOptions();
+            this.showHeatOptions();
+        }
+        else {
+            this.ui.layerCluster.prop('checked', true);
+        }
     },
 
-    onShow: function () {
+    onShow() {
+        this.ui.heatMapInfo.popover({
+            'container': 'body',
+            'placement': 'left',
+            'trigger': 'focus',
+            'html': true,
+            'title': document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
+            'content': MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_heatMapPopoverContent')
+            ),
+        });
+
         this.ui.infoDisplayInfo.popover({
             'container': 'body',
             'placement': 'left',
@@ -84,22 +118,22 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    onDestroy: function () {
+    onDestroy() {
         this._radio.vent.off('map:zoomChanged', this.onChangedMapZoom);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onChangedMapZoom: function () {
-        var currentMapZoom = this._radio.reqres.request('map:currentZoom');
+    onChangedMapZoom() {
+        const currentMapZoom = this._radio.reqres.request('map:currentZoom');
 
         this.ui.currentMapZoom.html(
             document.l10n.getSync(
@@ -108,22 +142,56 @@ export default Marionette.ItemView.extend({
         );
     },
 
-    updateMarkerIcon: function () {
-        var html = MapUi.buildLayerHtmlIcon( this.model );
+    onChangeLayerRepresentation() {
+        if ( this.ui.layerCluster.prop('checked') ) {
+            this.hideHeatOptions();
+            this.showMarkerOptions();
+        }
+        else {
+            this.hideMarkerOptions();
+            this.showHeatOptions();
+        }
+    },
+
+    showHeatOptions() {
+        this.ui.heatOptions.removeClass('hide');
+    },
+
+    hideHeatOptions() {
+        this.ui.heatOptions.addClass('hide');
+    },
+
+    showMarkerOptions() {
+        this.ui.markerOptions.removeClass('hide');
+    },
+
+    hideMarkerOptions() {
+        this.ui.markerOptions.addClass('hide');
+    },
+
+    updateMarkerIcon() {
+        const html = MapUi.buildLayerHtmlIcon( this.model );
 
         this.ui.markerWrapper.html( html );
     },
 
-    onClickEditMarker: function () {
+    onClickEditMarker() {
         this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
     },
 
-    onSubmit: function (e) {
+    enableSubmitButton() {
+        this.ui.submitButton.prop('disabled', false);
+    },
+
+    disableSubmitButton() {
+        this.ui.submitButton.prop('disabled', true);
+    },
+
+    onSubmit(e) {
         e.preventDefault();
 
-        let updateMarkers = false;
-        let updateMinZoom = false;
-        let updatePopups = false;
+        this.disableSubmitButton();
+
         let updateRequest = false;
         const color = this.model.get('markerColor');
 
@@ -139,33 +207,17 @@ export default Marionette.ItemView.extend({
         this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
         this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
+        this.model.set('heatMinOpacity', parseFloat(this.ui.heatMinOpacity.val()));
+        this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val()));
+        this.model.set('heatMax', parseFloat(this.ui.heatMax.val()));
+        this.model.set('heatBlur', parseInt(this.ui.heatBlur.val()));
+        this.model.set('heatRadius', parseInt(this.ui.heatRadius.val()));
 
-        if ( this._oldModel.get('minZoom') !== this.model.get('minZoom') ) {
-            updateMinZoom = true;
+        if ( this.ui.layerCluster.prop('checked') ) {
+            this.model.set('rootLayerType', CONST.rootLayerType.markerCluster);
         }
-
-        if ( this._oldModel.get('markerIconType') !== this.model.get('markerIconType') ) {
-            updateMarkers = true;
-        }
-
-        if ( this._oldModel.get('markerIconUrl') !== this.model.get('markerIconUrl') ) {
-            updateMarkers = true;
-        }
-
-        if ( this._oldModel.get('markerColor') !== this.model.get('markerColor') ) {
-            updateMarkers = true;
-        }
-
-        if ( this._oldModel.get('markerIcon') !== this.model.get('markerIcon') ) {
-            updateMarkers = true;
-        }
-
-        if ( this._oldModel.get('markerShape') !== this.model.get('markerShape') ) {
-            updateMarkers = true;
-        }
-
-        if ( this._oldModel.get('popupContent') !== this.model.get('popupContent') ) {
-            updatePopups = true;
+        else {
+            this.model.set('rootLayerType', CONST.rootLayerType.heat);
         }
 
         if ( this._oldModel.get('overpassRequest') !== this.model.get('overpassRequest') ) {
@@ -177,17 +229,10 @@ export default Marionette.ItemView.extend({
             this._radio.commands.execute('map:addTempLayer', this.model);
         }
         else {
-            if ( updateMinZoom ) {
-                this._radio.commands.execute('map:updateLayerMinZoom', this.model);
-            }
-
-            if ( updateMarkers ) {
-                this._radio.commands.execute('map:updateLayerStyles', this.model);
-            }
-
-            if ( updatePopups ) {
-                this._radio.commands.execute('map:updateLayerPopups', this.model);
-            }
+            MapUi.updateLayerStyleFromOlderModel(
+                this.model,
+                this._oldModel
+            );
 
             if ( updateRequest ) {
                 this._radio.commands.execute('layer:updateOverPassRequest', this.model);
@@ -197,7 +242,7 @@ export default Marionette.ItemView.extend({
         this.close();
     },
 
-    onReset: function () {
+    onReset() {
         this.model.set( this._oldModel.toJSON() );
 
         this.ui.column.one('transitionend', this.render);

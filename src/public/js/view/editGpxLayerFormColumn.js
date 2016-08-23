@@ -22,6 +22,7 @@ export default Marionette.ItemView.extend({
     ui: {
         'column': '#edit_poi_layer_column',
         'form': 'form',
+        'submitButton': '.submit_btn',
 
         'layerName': '#layer_name',
         'layerDescription': '#layer_description',
@@ -43,7 +44,7 @@ export default Marionette.ItemView.extend({
         'reset': 'onReset',
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         const config = MAPCONTRIB.config;
         const maxFileSize = formatBytes( config.uploadMaxShapeFileSize * 1024 );
 
@@ -54,7 +55,7 @@ export default Marionette.ItemView.extend({
         };
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
@@ -64,7 +65,7 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    onRender: function () {
+    onRender() {
         this.ui.colorSelector.append(
             this._colorSelector.el
         );
@@ -85,7 +86,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onShow: function () {
+    onShow() {
         this.ui.infoDisplayInfo.popover({
             'container': 'body',
             'placement': 'left',
@@ -104,18 +105,28 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onSubmit: function (e) {
+    enableSubmitButton() {
+        this.ui.submitButton.prop('disabled', false);
+    },
+
+    disableSubmitButton() {
+        this.ui.submitButton.prop('disabled', true);
+    },
+
+    onSubmit(e) {
         e.preventDefault();
+
+        this.disableSubmitButton();
 
         this.ui.formGroups.removeClass('has-feedback has-error');
 
@@ -123,13 +134,15 @@ export default Marionette.ItemView.extend({
 
         if ( !fileName && this.options.isNew ) {
             this.ui.fileFormGroup.addClass('has-feedback has-error');
+            this.enableSubmitButton();
             return false;
         }
         else if ( fileName ) {
-            let extension = extensionname(fileName).toLowerCase();
+            const extension = extensionname(fileName).toLowerCase();
 
             if (extension !== 'gpx') {
                 this.ui.fileFormGroup.addClass('has-feedback has-error');
+                this.enableSubmitButton();
                 return false;
             }
 
@@ -143,6 +156,7 @@ export default Marionette.ItemView.extend({
                             this.ui.fileFormGroup.addClass('has-feedback has-error');
                             break;
                     }
+                    this.enableSubmitButton();
                 },
                 'success': response => {
                     const file = response[0];
@@ -156,11 +170,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    saveLayer: function () {
-        let updatePolylines = false;
-        let updatePopups = false;
-        let updateVisibility = false;
-
+    saveLayer() {
         this.model.set('minZoom', 0);
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
@@ -168,60 +178,32 @@ export default Marionette.ItemView.extend({
         this.model.set('visible', this.ui.layerVisible.prop('checked'));
         this.model.set('popupContent', this.ui.layerPopupContent.val());
 
-        if ( this._oldModel.get('color') !== this.model.get('color') ) {
-            updatePolylines = true;
-        }
-
-        if ( this._oldModel.get('popupContent') !== this.model.get('popupContent') ) {
-            updatePopups = true;
-        }
-
-        if ( this._oldModel.get('visible') !== this.model.get('visible') ) {
-            updateVisibility = true;
-        }
-
         if ( this.options.isNew ) {
             this.options.theme.get('layers').add( this.model );
         }
 
         this.model.updateModificationDate();
         this.options.theme.updateModificationDate();
+
         this.options.theme.save({}, {
-            'success': () => {
-                if ( this.options.isNew ) {
-                    this._radio.commands.execute('map:addLayer', this.model);
-                }
-                else {
-                    if ( updatePolylines ) {
-                        this._radio.commands.execute('map:updateLayerStyles', this.model);
-                    }
-
-                    if ( updatePopups ) {
-                        this._radio.commands.execute('map:updateLayerPopups', this.model);
-                    }
-
-                    if ( updateVisibility ) {
-                        if ( this.model.get('visible') ) {
-                            this._radio.commands.execute('map:addLayer', this.model);
-                        }
-                        else {
-                            this._radio.commands.execute('map:removeLayer', this.model);
-                        }
-
-                        this._radio.commands.execute('column:selectLayer:render');
-                    }
-                }
+            success: () => {
+                MapUi.updateLayerDisplayFromOlderModel(
+                    this.model,
+                    this._oldModel,
+                    this.options.isNew
+                );
 
                 this.close();
             },
-            'error': () => {
+            error: () => {
                 // FIXME
                 console.error('nok');
+                this.enableSubmitButton();
             },
         });
     },
 
-    onReset: function () {
+    onReset() {
         this.model.set( this._oldModel.toJSON() );
 
         this.ui.column.one('transitionend', this.render);

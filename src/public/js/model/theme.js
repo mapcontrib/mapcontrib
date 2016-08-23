@@ -31,27 +31,29 @@ export default Backbone.RelationalModel.extend({
         },
     ],
 
-    defaults: {
-        'creationDate': new Date().toISOString(),
-        'modificationDate': new Date().toISOString(),
-        'userId': undefined,
-        'name': 'MapContrib',
-        'description': '',
-        'color': 'blue',
-        'tiles': ['osmFr'],
-        'zoomLevel': 3,
-        'autoCenter': false,
-        'center': {
-            'lat': 33.57,
-            'lng': 1.58,
-        },
-        'owners': [],
-        'geocoder': undefined,
-        'infoDisplay': CONST.infoDisplay.popup,
-        'analyticScript': '',
+    defaults() {
+        return {
+            'creationDate': new Date().toISOString(),
+            'modificationDate': new Date().toISOString(),
+            'userId': undefined,
+            'name': 'MapContrib',
+            'description': '',
+            'color': 'blue',
+            'tiles': ['osmFr'],
+            'zoomLevel': 3,
+            'autoCenter': false,
+            'center': {
+                'lat': 33.57,
+                'lng': 1.58,
+            },
+            'owners': [],
+            'geocoder': undefined,
+            'infoDisplay': CONST.infoDisplay.popup,
+            'analyticScript': '',
+        };
     },
 
-    initialize: function() {
+    initialize() {
         if (!this.get('geocoder')) {
             if (typeof window !== 'undefined' && typeof MAPCONTRIB !== 'undefined') {
                 this.set(
@@ -62,7 +64,7 @@ export default Backbone.RelationalModel.extend({
         }
     },
 
-    updateModificationDate: function () {
+    updateModificationDate() {
         this.set('modificationDate', new Date().toISOString());
     },
 
@@ -74,7 +76,7 @@ export default Backbone.RelationalModel.extend({
      * @param {object} userModel - A user model
      * @return boolean
      */
-    isOwner: function (userModel) {
+    isOwner(userModel) {
         let userId = userModel.get('_id');
 
         if ( !userId ) {
@@ -103,7 +105,7 @@ export default Backbone.RelationalModel.extend({
      * @access public
      * @return string
      */
-    buildWebLinkName: function () {
+    buildWebLinkName() {
         let name = this.get('name') || '';
 
         name = Diacritics.clean(name);
@@ -122,7 +124,7 @@ export default Backbone.RelationalModel.extend({
      * @access public
      * @return string
      */
-    buildPath: function () {
+    buildPath() {
         return '/t/' +
         this.get('fragment') +
         '-' +

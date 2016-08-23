@@ -22,31 +22,31 @@ export default Marionette.LayoutView.extend({
         'column': '#contrib_column',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.render();
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    setCenter: function ( center ) {
+    setCenter( center ) {
         this._center = center;
     },
 
-    onRender: function () {
+    onRender() {
         var presetNavItems = [],
         presetsNav = new NavPillsStackedListView(),
         freeAdditionNav = new NavPillsStackedListView(),

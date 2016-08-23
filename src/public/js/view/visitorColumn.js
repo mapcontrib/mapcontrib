@@ -22,26 +22,26 @@ export default Marionette.LayoutView.extend({
         'click @ui.loginItem': 'onClickLogin',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onClickLogin: function () {
+    onClickLogin() {
         // FIXME To have a real fail callback
         let authSuccessCallback = this.options.theme.buildPath();
         let authFailCallback = this.options.theme.buildPath();

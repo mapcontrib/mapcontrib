@@ -9,6 +9,7 @@ import L from 'leaflet';
 import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import MarkerCluster from 'leaflet.markercluster';
+import HeatLayer from 'leaflet.heat';
 import Omnivore from 'leaflet-omnivore';
 import moment from 'moment-timezone';
 
@@ -160,7 +161,7 @@ export default Marionette.LayoutView.extend({
         'keydown': 'onKeyDown',
     },
 
-    initialize: function (options) {
+    initialize(options) {
         this._app = options.app;
         this._user = this._app.getUser();
         this._config = this._app.getConfig();
@@ -182,7 +183,7 @@ export default Marionette.LayoutView.extend({
         this._poiLoadingSpool = [];
 
         this._overPassData = new OverPassData();
-        this._markerClusters = {};
+        this._rootLayers = {};
         this._overPassLayers = {};
         this._markersWithoutLayers = {};
 
@@ -214,7 +215,7 @@ export default Marionette.LayoutView.extend({
                 }
             },
             'map:markerCluster': (layerModel) => {
-                return this._markerClusters[ layerModel.cid ];
+                return this._getRootLayer(layerModel);
             },
         });
 
@@ -292,8 +293,14 @@ export default Marionette.LayoutView.extend({
             'map:hideLayer': (layerModel) => {
                 this.hideLayer( layerModel );
             },
-            'map:updateLayerStyles': (layerModel) => {
-                this.updateLayerStyles( layerModel );
+            'map:updateRepresentation': (layerModel) => {
+                this.updateRepresentation( layerModel );
+            },
+            'map:updateMarkerStyle': (layerModel) => {
+                this.updateMarkerStyle( layerModel );
+            },
+            'map:updateHeatStyle': (layerModel) => {
+                this.updateHeatStyle( layerModel );
             },
             'map:updateLayerPopups': (layerModel) => {
                 this.updateLayerPopups( layerModel );
@@ -330,7 +337,7 @@ export default Marionette.LayoutView.extend({
 
     },
 
-    onRender: function () {
+    onRender() {
         this.renderUserButton();
 
         if ( this._app.isLogged() ) {
@@ -407,7 +414,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    onShow: function () {
+    onShow() {
         let center = this.model.get('center');
         let autoCenter = this.model.get('autoCenter');
         let zoomLevel = this.model.get('zoomLevel');
@@ -553,11 +560,11 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    setMapPosition: function (zoom, lat, lng) {
+    setMapPosition(zoom, lat, lng) {
         this._map.setView([lat, lng], zoom);
     },
 
-    setTileLayer: function (id) {
+    setTileLayer(id) {
         let tile;
         let tiles = this.model.get('tiles');
         const tileLayersGroup = L.layerGroup();
@@ -605,16 +612,16 @@ export default Marionette.LayoutView.extend({
         this.updateMinDataZoom();
     },
 
-    updateOverPassRequest: function (layerModel) {
+    updateOverPassRequest(layerModel) {
         this._overPassData.clearLayerData(layerModel.cid);
 
-        this._markerClusters[ layerModel.cid ].clearLayers();
-        this._overPassLayers[ layerModel.cid ].setQuery(
+        this._getRootLayer(layerModel).clearLayers();
+        this._getOverPassLayer(layerModel).setQuery(
             layerModel.get('overpassRequest')
         );
     },
 
-    showLayerLoadingProgress: function (layerModel) {
+    showLayerLoadingProgress(layerModel) {
         if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
             this._poiLoadingSpool[ layerModel.cid ] = 0;
         }
@@ -625,7 +632,7 @@ export default Marionette.LayoutView.extend({
         this.ui.controlLayerSpinner.removeClass('hide');
     },
 
-    hideLayerLoadingProgress: function (layerModel) {
+    hideLayerLoadingProgress(layerModel) {
         if ( !this._poiLoadingSpool[ layerModel.cid ] ) {
             return;
         }
@@ -644,7 +651,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addTempLayer: function (layerModel, fileContent) {
+    addTempLayer(layerModel, fileContent) {
         switch (layerModel.get('type')) {
             case CONST.layerType.overpass:
                 this.addOverPassLayer(layerModel);
@@ -661,8 +668,8 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addTempGpxLayer: function (layerModel, fileContent) {
-        const markerCluster = this._buildMarkerCluster(layerModel);
+    addTempGpxLayer(layerModel, fileContent) {
+        const rootLayer = this._buildRootLayer(layerModel);
         const layer = Omnivore.gpx.parse(
             fileContent
         );
@@ -674,17 +681,19 @@ export default Marionette.LayoutView.extend({
             }).open();
         }
         else {
+            layerModel.addObjects(layer._layers);
+
             this._customizeDataAndDisplay(
                 layer._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.gpx
             );
         }
     },
 
-    addTempCsvLayer: function (layerModel, fileContent) {
-        const markerCluster = this._buildMarkerCluster(layerModel);
+    addTempCsvLayer(layerModel, fileContent) {
+        const rootLayer = this._buildRootLayer(layerModel);
         const layer = Omnivore.csv.parse(
             fileContent
         );
@@ -696,17 +705,19 @@ export default Marionette.LayoutView.extend({
             }).open();
         }
         else {
+            layerModel.addObjects(layer._layers);
+
             this._customizeDataAndDisplay(
                 layer._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.csv
             );
         }
     },
 
-    addTempGeoJsonLayer: function (layerModel, fileContent) {
-        const markerCluster = this._buildMarkerCluster(layerModel);
+    addTempGeoJsonLayer(layerModel, fileContent) {
+        const rootLayer = this._buildRootLayer(layerModel);
         const layer = L.geoJson(
             JSON.parse( fileContent )
         );
@@ -718,16 +729,18 @@ export default Marionette.LayoutView.extend({
             }).open();
         }
         else {
+            layerModel.addObjects(layer._layers);
+
             this._customizeDataAndDisplay(
                 layer._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.geojson
             );
         }
     },
 
-    addLayer: function (layerModel, hidden) {
+    addLayer(layerModel, hidden) {
         switch (layerModel.get('type')) {
             case CONST.layerType.overpass:
                 this.addOverPassLayer(layerModel, hidden);
@@ -744,7 +757,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    addOverPassLayer: function (layerModel, hiddenLayer) {
+    addOverPassLayer(layerModel, hiddenLayer) {
         const cache = layerModel.get('cache');
         const cacheFilePath = layerModel.get('fileUri');
 
@@ -752,9 +765,9 @@ export default Marionette.LayoutView.extend({
             return this.addOverPassCacheLayer(layerModel, hiddenLayer);
         }
 
-        const markerCluster = this._buildMarkerCluster(layerModel);
-        this._markerClusters[ layerModel.cid ] = markerCluster;
-        this._map.addLayer( markerCluster );
+        const rootLayer = this._buildRootLayer(layerModel);
+        this._setRootLayer(layerModel, rootLayer);
+        this._map.addLayer( rootLayer );
 
         const overPassRequest = OverPassHelper.buildRequestForTheme(
             layerModel.get('overpassRequest') || ''
@@ -774,12 +787,11 @@ export default Marionette.LayoutView.extend({
                 this.hideLayerLoadingProgress( layerModel );
             },
             'onSuccess': (data) => {
-                let i = 1;
-                let objects = {};
-                let elements = [];
+                const objects = {};
+                const elements = [];
 
-                for (let i in data.elements) {
-                    let e = data.elements[i];
+                for (const i in data.elements) {
+                    const e = data.elements[i];
 
                     if ( this._overPassData.exists(e.type, e.id, layerModel.cid) ) {
                         continue;
@@ -791,6 +803,8 @@ export default Marionette.LayoutView.extend({
 
                 data.elements = elements;
 
+                let i = 1;
+
                 L.geoJson(
                     osmtogeojson(data),
                     {
@@ -801,22 +815,24 @@ export default Marionette.LayoutView.extend({
                     }
                 );
 
+                layerModel.addObjects(objects);
+
                 this._customizeDataAndDisplay(
                     objects,
-                    markerCluster,
+                    this._getRootLayer(layerModel),
                     layerModel,
                     CONST.layerType.overpass,
                     hiddenLayer
                 );
             },
 
-            onTimeout: function (xhr) {
+            onTimeout(xhr) {
                 new OverPassTimeoutNotificationView({
                     'model': layerModel
                 }).open();
             },
 
-            onError: function (xhr) {
+            onError(xhr) {
                 new OverPassErrorNotificationView({
                     'model': layerModel,
                     'error': xhr.statusText,
@@ -824,14 +840,14 @@ export default Marionette.LayoutView.extend({
             },
         });
 
-        this._overPassLayers[ layerModel.cid ] = overPassLayer;
+        this._setOverPassLayer(layerModel, overPassLayer);
 
         if (!hiddenLayer) {
             this._map.addLayer( overPassLayer );
         }
     },
 
-    addGpxLayer: function (layerModel, hiddenLayer) {
+    addGpxLayer(layerModel, hiddenLayer) {
         Omnivore.gpx(
             layerModel.get('fileUri')
         )
@@ -842,11 +858,13 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            const markerCluster = this._buildMarkerCluster(layerModel);
+            const rootLayer = this._buildRootLayer(layerModel);
+
+            layerModel.addObjects(layer.target._layers);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.gpx,
                 hiddenLayer
@@ -854,7 +872,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    addCsvLayer: function (layerModel, hiddenLayer) {
+    addCsvLayer(layerModel, hiddenLayer) {
         Omnivore.csv(
             layerModel.get('fileUri')
         )
@@ -865,11 +883,13 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            const markerCluster = this._buildMarkerCluster(layerModel);
+            const rootLayer = this._buildRootLayer(layerModel);
+
+            layerModel.addObjects(layer.target._layers);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.csv,
                 hiddenLayer
@@ -877,7 +897,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    addGeoJsonLayer: function (layerModel, hiddenLayer) {
+    addGeoJsonLayer(layerModel, hiddenLayer) {
         Omnivore.geojson(
             layerModel.get('fileUri')
         )
@@ -888,11 +908,13 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            const markerCluster = this._buildMarkerCluster(layerModel);
+            const rootLayer = this._buildRootLayer(layerModel);
+
+            layerModel.addObjects(layer.target._layers);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.geojson,
                 hiddenLayer
@@ -900,7 +922,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    addOverPassCacheLayer: function (layerModel, hiddenLayer) {
+    addOverPassCacheLayer(layerModel, hiddenLayer) {
         Omnivore.geojson(
             layerModel.get('fileUri')
         )
@@ -911,11 +933,13 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            const markerCluster = this._buildMarkerCluster(layerModel);
+            const rootLayer = this._buildRootLayer(layerModel);
+
+            layerModel.addObjects(layer.target._layers);
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
-                markerCluster,
+                rootLayer,
                 layerModel,
                 CONST.layerType.geojson,
                 hiddenLayer
@@ -923,13 +947,13 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    _customizeDataAndDisplay: function (objects, markerCluster, layerModel, dataSource, hiddenLayer) {
+    _customizeDataAndDisplay(objects, rootLayer, layerModel, dataSource, hiddenLayer) {
         const icon = MapUi.buildLayerIcon( L, layerModel );
         const polygonStyle = MapUi.buildLayerPolygonStyle( layerModel );
         const polylineStyle = MapUi.buildLayerPolylineStyle( layerModel );
 
-        for (let i in objects) {
-            let object = objects[i];
+        for (const i in objects) {
+            const object = objects[i];
             const id = GeoJsonHelper.findOsmId(object.feature);
             const type = GeoJsonHelper.findOsmType(object.feature);
             const longId = this._overPassData.buildOsmIdFromTypeAndId(type, id);
@@ -965,84 +989,102 @@ export default Marionette.LayoutView.extend({
                 }
             }
 
-            const popupContent = this._buildLayerPopupContent(
-                object,
-                layerModel,
-                object.feature
-            );
-
-
             object._layerModel = layerModel;
 
-            if ( this.model.get('infoDisplay') === CONST.infoDisplay.popup ) {
-                this._bindPopupTo(object, popupContent);
+            if (layerModel.get('rootLayerType') !== CONST.rootLayerType.heat) {
+                const popupContent = this._buildLayerPopupContent(
+                    object,
+                    layerModel,
+                    object.feature
+                );
+
+                object.off('click');
+
+                if ( this.model.get('infoDisplay') === CONST.infoDisplay.popup ) {
+                    this._bindPopupTo(object, popupContent);
+                }
+
+                object.on('click', this._displayInfo, this);
+
+                switch (object.feature.geometry.type) {
+                    case 'Point':
+                    case 'MultiPoint':
+                        object.setIcon( icon );
+                        break;
+                    case 'LineString':
+                    case 'MultiLineString':
+                        object.setStyle( polylineStyle );
+                        break;
+                    case 'Polygon':
+                    case 'MultiPolygon':
+                        object.setStyle( polygonStyle );
+                        break;
+                }
             }
 
-            object.on('click', this._displayInfo, this);
-
-            switch (object.feature.geometry.type) {
-                case 'Point':
-                case 'MultiPoint':
-                    object.setIcon( icon );
-                    break;
-                case 'LineString':
-                case 'MultiLineString':
-                    object.setStyle( polylineStyle );
-                    break;
-                case 'Polygon':
-                case 'MultiPolygon':
-                    object.setStyle( polygonStyle );
-                    break;
-            }
-
-            markerCluster.addLayer(object);
+            rootLayer.addLayer(object);
         }
 
-        this._markerClusters[ layerModel.cid ] = markerCluster;
+        this._setRootLayer(layerModel, rootLayer);
 
         if ( !hiddenLayer ) {
             this.showLayer( layerModel );
         }
     },
 
-    removeLayer: function (layerModel) {
+    removeLayer(layerModel) {
         this.hideLayer( layerModel );
-        delete this._markerClusters[ layerModel.cid ];
-
-        if ( this._overPassLayers[ layerModel.cid ] ) {
-            delete this._overPassLayers[ layerModel.cid ];
-        }
+        this._removeRootLayer(layerModel);
+        this._removeOverPassLayer(layerModel);
     },
 
-    showLayer: function (layerModel) {
-        const markerCluster = this._markerClusters[ layerModel.cid ];
-        const overPassLayer = this._overPassLayers[ layerModel.cid ];
+    showLayer(layerModel) {
+        const rootLayer = this._getRootLayer(layerModel);
+        const overPassLayer = this._getOverPassLayer(layerModel);
 
-        this._map.addLayer( markerCluster );
+        this._map.addLayer( rootLayer );
 
         if ( overPassLayer ) {
             this._map.addLayer( overPassLayer );
         }
 
-        markerCluster.refreshClusters();
+        this._refreshTopLayer(layerModel);
     },
 
-    hideLayer: function (layerModel) {
-        const markerCluster = this._markerClusters[ layerModel.cid ];
-        const overPassLayer = this._overPassLayers[ layerModel.cid ];
+    hideLayer(layerModel) {
+        const rootLayer = this._getRootLayer(layerModel);
+        const overPassLayer = this._getOverPassLayer(layerModel);
 
-        this._map.removeLayer( markerCluster );
+        this._map.removeLayer( rootLayer );
 
         if ( overPassLayer ) {
             this._map.removeLayer( overPassLayer );
         }
     },
 
-    updateLayerStyles: function (layerModel) {
-        const markerCluster = this._markerClusters[ layerModel.cid ];
-        const layers = markerCluster.getLayers();
+    updateRepresentation(layerModel) {
+        const hiddenLayer = false;
+        let rootLayer = this._getRootLayer(layerModel);
 
-        for (let layer of layers) {
+        this._map.removeLayer(rootLayer);
+        this._removeRootLayer(layerModel);
+
+        rootLayer = this._buildRootLayer(layerModel);
+
+        this._customizeDataAndDisplay(
+            layerModel.getObjects(),
+            rootLayer,
+            layerModel,
+            layerModel.get('type'),
+            hiddenLayer
+        );
+    },
+
+    updateMarkerStyle(layerModel) {
+        const rootLayer = this._getRootLayer(layerModel);
+        const layers = rootLayer.getLayers();
+
+        for (const layer of layers) {
             switch (layer.toGeoJSON().geometry.type) {
                 case 'Point':
                 case 'MultiPoint':
@@ -1065,16 +1107,25 @@ export default Marionette.LayoutView.extend({
             }
         }
 
-        markerCluster.refreshClusters();
+        this._refreshTopLayer(layerModel);
     },
 
-    updateLayerPopups: function (layerModel) {
+    updateHeatStyle(layerModel) {
+        const rootLayer = this._getRootLayer(layerModel);
+
+        rootLayer.setOptions(
+            MapUi.buildHeatLayerOptions(layerModel)
+        );
+
+        this._refreshTopLayer(layerModel);
+    },
+
+    updateLayerPopups(layerModel) {
         if (this.model.get('infoDisplay') !== CONST.infoDisplay.popup) {
             return false;
         }
 
-        let markerCluster = this._markerClusters[ layerModel.cid ];
-        let layers = markerCluster.getLayers();
+        const layers = this._getRootLayer(layerModel).getLayers();
 
         for (let layer of layers) {
             let popupContent = this._buildLayerPopupContent(
@@ -1101,14 +1152,14 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    updateAllLayerPopups: function () {
+    updateAllLayerPopups() {
         for (let layer of this._layerCollection.models) {
             this.updateLayerPopups(layer);
         }
     },
 
-    updateLayerMinZoom: function (layerModel) {
-        const overpassLayer = this._overPassLayers[ layerModel.cid ];
+    updateLayerMinZoom(layerModel) {
+        const overpassLayer = this._getOverPassLayer(layerModel);
 
         if (overpassLayer.object) {
             overpassLayer.object.options.minZoom = layerModel.get('minZoom');
@@ -1117,9 +1168,8 @@ export default Marionette.LayoutView.extend({
         this.updateMinDataZoom();
     },
 
-    updatePoiPopup: function (layerModel, overPassElement) {
-        const markerCluster = this._markerClusters[ layerModel.cid ];
-        const layers = markerCluster.getLayers();
+    updatePoiPopup(layerModel, overPassElement) {
+        const layers = this._getRootLayer(layerModel).getLayers();
         const osmId = `${overPassElement.type}/${overPassElement.id}`;
 
         for (const layer of layers) {
@@ -1148,7 +1198,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    _buildLayerPopupContent: function (layer, layerModel, feature) {
+    _buildLayerPopupContent(layer, layerModel, feature) {
         const isLogged = this._app.isLogged();
         const dataEditable = layerModel.get('dataEditable');
         const nonOsmData = this._nonOsmData.findWhere({
@@ -1210,26 +1260,29 @@ export default Marionette.LayoutView.extend({
         return globalWrapper;
     },
 
-    _buildMarkerCluster: function (layerModel) {
-        return L.markerClusterGroup({
-            'polygonOptions': CONST.map.markerCLusterPolygonOptions,
-            'animate': false,
-            'animateAddingMarkers': false,
-            'spiderfyOnMaxZoom': false,
-            'disableClusteringAtZoom': 18,
-            'zoomToBoundsOnClick': true,
-            'iconCreateFunction': cluster => {
-                const count = cluster.getChildCount();
-                const color = layerModel.get('markerColor');
+    _buildRootLayer(layerModel) {
+        switch (layerModel.get('rootLayerType')) {
+            case CONST.rootLayerType.markerCluster:
+                return MapUi.buildMarkerClusterLayer(layerModel);
 
-                return L.divIcon({
-                    html: `<div class="marker-cluster ${color}">${count}</div>`
-                });
-            }
-        });
+            case CONST.rootLayerType.heat:
+                return MapUi.buildHeatLayer(layerModel);
+        }
     },
 
-    onClickEditPoi: function (layer, osmType, osmId, layerModel, e) {
+    _refreshTopLayer(layerModel) {
+        const rootLayer = this._getRootLayer(layerModel);
+
+        switch (layerModel.get('rootLayerType')) {
+            case CONST.rootLayerType.markerCluster:
+                return rootLayer.refreshClusters();
+
+            case CONST.rootLayerType.heat:
+                return rootLayer.redraw();
+        }
+    },
+
+    onClickEditPoi(layer, osmType, osmId, layerModel, e) {
         if (this._presetCollection.models.length === 0) {
             this.onEditPoi({
                 'app': this._app,
@@ -1252,19 +1305,19 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onEditPoi: function (options) {
+    onEditPoi(options) {
         new EditPoiColumnView(options).open();
     },
 
-    renderUserButton: function () {
+    renderUserButton() {
         if ( !this._app.isLogged() ) {
             this.ui.userButton
             .removeClass('avatar')
             .html('<i class="icon ion-happy-outline"></i>');
         }
         else {
-            let avatar = this._user.get('avatar'),
-            letters = this._user.get('displayName')
+            const avatar = this._user.get('avatar');
+            let letters = this._user.get('displayName')
             .toUpperCase()
             .split(' ')
             .splice(0, 3)
@@ -1290,23 +1343,23 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    showContribButton: function () {
+    showContribButton() {
         this.ui.contribButton.removeClass('hide');
     },
 
-    hideContribButton: function () {
+    hideContribButton() {
         this.ui.contribButton.addClass('hide');
     },
 
-    showEditTools: function () {
+    showEditTools() {
         this.ui.editToolbar.removeClass('hide');
     },
 
-    hideEditTools: function () {
+    hideEditTools() {
         this.ui.editToolbar.addClass('hide');
     },
 
-    onCommandTempOverPassLayer: function (layerModel) {
+    onCommandTempOverPassLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1334,7 +1387,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandTempGpxLayer: function (layerModel) {
+    onCommandTempGpxLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1362,7 +1415,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandTempCsvLayer: function (layerModel) {
+    onCommandTempCsvLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1390,7 +1443,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandTempGeoJsonLayer: function (layerModel) {
+    onCommandTempGeoJsonLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1418,7 +1471,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandEditOverPassLayer: function (layerModel) {
+    onCommandEditOverPassLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1444,7 +1497,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandEditGpxLayer: function (layerModel) {
+    onCommandEditGpxLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1470,7 +1523,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandEditCsvLayer: function (layerModel) {
+    onCommandEditCsvLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1496,7 +1549,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandEditGeoJsonLayer: function (layerModel) {
+    onCommandEditGeoJsonLayer(layerModel) {
         let view;
 
         if ( layerModel ) {
@@ -1522,28 +1575,28 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandShowAddLayerMenu: function () {
+    onCommandShowAddLayerMenu() {
         this._addLayerMenuColumnView.open();
     },
 
-    onCommandShowAddTempLayerMenu: function () {
+    onCommandShowAddTempLayerMenu() {
         this._addTempLayerMenuColumnView.open();
     },
 
-    onCommandShowContribColumn: function (center, layer) {
+    onCommandShowContribColumn(center, layer) {
         this.showContribColumn(center, layer);
     },
 
-    showContribColumn: function (options) {
+    showContribColumn(options) {
         this._contribColumnView.setCenter(options.center);
         this._contribColumnView.open();
     },
 
-    onCommandShowContribForm: function (options) {
+    onCommandShowContribForm(options) {
         this.showContribForm(options);
     },
 
-    showContribForm: function (options) {
+    showContribForm(options) {
         if (!options) {
             options = {'user': this._user};
         }
@@ -1558,7 +1611,7 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandShowPresetTags: function (presetModel) {
+    onCommandShowPresetTags(presetModel) {
         var view;
 
         if ( presetModel ) {
@@ -1584,7 +1637,7 @@ export default Marionette.LayoutView.extend({
 
 
 
-    onCommandShowEditPoiMarker: function (layerModel) {
+    onCommandShowEditPoiMarker(layerModel) {
         var view = new EditLayerMarkerModalView({
             'model': layerModel
         });
@@ -1592,67 +1645,70 @@ export default Marionette.LayoutView.extend({
         this.getRegion('editLayerMarkerModal').show( view );
     },
 
-    onClickZoomIn: function () {
+    onClickZoomIn() {
         this._map.zoomIn();
     },
 
-    onClickZoomOut: function () {
+    onClickZoomOut() {
         this._map.zoomOut();
     },
 
-    onClickGeocode: function () {
+    onClickGeocode() {
         this._geocodeWidgetView.toggle();
     },
 
-    onClickLocate: function () {
+    onClickLocate() {
         this.showLocateProgress();
         this._geolocation.locate();
     },
 
-    onClickLocateWait: function () {
+    onClickLocateWait() {
         this.hideLocateProgress();
         this._geolocation.stopLocate();
     },
 
-    onLocationFound: function () {
+    onLocationFound() {
         this.hideLocateProgress();
     },
 
-    onLocationTimeout: function () {
+    onLocationTimeout() {
         this.hideLocateProgress();
     },
 
-    onLocationError: function () {
+    onLocationError() {
         this.hideLocateProgress();
     },
 
-    showLocateProgress: function () {
+    showLocateProgress() {
         this.ui.locateButton.addClass('hide');
         this.ui.locateWaitButton.removeClass('hide');
     },
 
-    hideLocateProgress: function () {
+    hideLocateProgress() {
         this.ui.locateWaitButton.addClass('hide');
         this.ui.locateButton.removeClass('hide');
     },
 
-    updateSessionMapState: function () {
-        var key = 'mapState-'+ this.model.get('fragment'),
-        oldState = JSON.parse( localStorage.getItem( key ) ) || {},
-        newState = _.extend( oldState, {
-            'center': this._map.getCenter(),
-            'zoomLevel': this._map.getZoom(),
-        } );
+    updateSessionMapState() {
+        const key = 'mapState-'+ this.model.get('fragment');
+        const oldState = JSON.parse( localStorage.getItem( key ) ) || {};
+        const newState = {
+            ...oldState,
+            ...{
+                'center': this._map.getCenter(),
+                'zoomLevel': this._map.getZoom(),
+            }
+        };
 
         localStorage.setItem( key, JSON.stringify( newState ) );
     },
 
-    onMoveEnd: function (e) {
+    onMoveEnd(e) {
         this._map.stopLocate();
         this.updateSessionMapState();
     },
 
-    onZoomEnd: function (e) {
+    onZoomEnd(e) {
         this.ui.toolbarZoomLevel.text(
             this._map.getZoom()
         );
@@ -1660,7 +1716,7 @@ export default Marionette.LayoutView.extend({
         this.updateSessionMapState();
     },
 
-    onZoomLevelsChange: function (e) {
+    onZoomLevelsChange(e) {
         this.ui.toolbarZoomLevel.text(
             this._map.getZoom()
         );
@@ -1668,7 +1724,7 @@ export default Marionette.LayoutView.extend({
         this.updateSessionMapState();
     },
 
-    updateMinDataZoom: function () {
+    updateMinDataZoom() {
         if (this._layerCollection.models.length === 0) {
             this._minDataZoom = 0;
         }
@@ -1695,7 +1751,7 @@ export default Marionette.LayoutView.extend({
         this.checkZoomNotification();
     },
 
-    checkZoomNotification: function () {
+    checkZoomNotification() {
         if (this._map.getZoom() < this._minDataZoom ) {
             this.ui.zoomInButton.addClass('glow');
 
@@ -1712,35 +1768,35 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onClickExpandScreen: function () {
+    onClickExpandScreen() {
         FullscreenHelper.requestFullscreen(
             this._document.documentElement
         );
     },
 
-    onClickCompressScreen: function () {
+    onClickCompressScreen() {
         FullscreenHelper.exitFullscreen( this._document );
     },
 
-    onExpandScreen: function () {
+    onExpandScreen() {
         this.ui.expandScreenButton.addClass('hide');
         this.ui.compressScreenButton.removeClass('hide');
     },
 
-    onCompressScreen: function () {
+    onCompressScreen() {
         this.ui.compressScreenButton.addClass('hide');
         this.ui.expandScreenButton.removeClass('hide');
     },
 
-    onClickSelectLayer: function () {
+    onClickSelectLayer() {
         this._selectLayerColumnView.open();
     },
 
-    onClickSelectTile: function () {
+    onClickSelectTile() {
         this._selectTileColumnView.open();
     },
 
-    onClickUser: function () {
+    onClickUser() {
         if ( this._app.isLogged() ) {
             this._userColumnView.open();
         }
@@ -1749,46 +1805,46 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onClickLink: function () {
+    onClickLink() {
         this._linkColumnView.open();
     },
 
-    onClickTempLayer: function () {
+    onClickTempLayer() {
         this._tempLayerListColumnView.open();
     },
 
-    onClickContrib: function (e) {
+    onClickContrib(e) {
         const newPoiPlacementContextual = new NewPoiPlacementContextual({
             'collection': this._presetCollection,
             'user': this._user,
         }).open();
     },
 
-    onClickEditSetting: function () {
+    onClickEditSetting() {
         this._editSettingColumnView.open();
     },
 
-    onClickEditLayer: function () {
+    onClickEditLayer() {
         this._editLayerListColumnView.open();
     },
 
-    onClickEditTile: function () {
+    onClickEditTile() {
         this._editTileColumnView.open();
     },
 
-    onClickEditPreset: function () {
+    onClickEditPreset() {
         this._editPresetColumnView.open();
     },
 
-    setPosition: function (latLng, zoomLevel) {
+    setPosition(latLng, zoomLevel) {
         this._map.setView( latLng, zoomLevel, { 'animate': true } );
     },
 
-    fitBounds: function (latLngBounds) {
+    fitBounds(latLngBounds) {
         this._map.fitBounds( latLngBounds, { 'animate': true } );
     },
 
-    onKeyDown: function (e) {
+    onKeyDown(e) {
         switch ( e.keyCode ) {
             case 70:
 
@@ -1801,7 +1857,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    isLargeScreen: function () {
+    isLargeScreen() {
         if ( $(this._window).width() >= this._config.largeScreenMinWidth && $(this._window).height() >= this._config.largeScreenMinHeight ) {
             return true;
         }
@@ -1809,7 +1865,7 @@ export default Marionette.LayoutView.extend({
         return false;
     },
 
-    onPopupOpen: function (e) {
+    onPopupOpen(e) {
         if ( !this.isLargeScreen() ) {
             this._geocodeWidgetView.close();
 
@@ -1819,14 +1875,14 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onPopupClose: function (e) {
+    onPopupClose(e) {
         this.ui.leftToolbar.addClass('open');
         this.ui.rightToolbar.addClass('open');
 
         this._zoomNotificationView.appear();
     },
 
-    _bindPopupTo: function (layer, popupContent) {
+    _bindPopupTo(layer, popupContent) {
         if ( popupContent ) {
             let popupOptions;
 
@@ -1850,20 +1906,19 @@ export default Marionette.LayoutView.extend({
                 };
             }
 
-            let popup = L.popup( popupOptions ).setContent( popupContent );
+            const popup = L.popup( popupOptions ).setContent( popupContent );
             layer._popup = popup;
             layer.bindPopup( popup );
         }
-
-        return false;
     },
 
-    bindAllPopups: function () {
+    bindAllPopups() {
         const isLogged = this._app.isLogged();
+        const rootLayers = this._getRootLayers();
 
-        for (const i in this._markerClusters) {
-            const markerCluster = this._markerClusters[i];
-            const layers = markerCluster.getLayers();
+        for (const i in rootLayers) {
+            const rootLayer = rootLayers[i];
+            const layers = rootLayer.getLayers();
 
             for (const layer of layers) {
                 if ( !layer._layerModel ) {
@@ -1881,18 +1936,20 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    unbindAllPopups: function () {
-        for (let i in this._markerClusters) {
-            let markerCluster = this._markerClusters[i];
-            let layers = markerCluster.getLayers();
+    unbindAllPopups() {
+        const rootLayers = this._getRootLayers();
 
-            for (let layer of layers) {
+        for (const i in rootLayers) {
+            const rootLayer = rootLayers[i];
+            const layers = rootLayer.getLayers();
+
+            for (const layer of layers) {
                 layer.closePopup().unbindPopup();
             }
         }
     },
 
-    _displayInfo: function (e) {
+    _displayInfo(e) {
         const layer = e.target;
         const dataEditable = layer._layerModel.get('dataEditable');
         const layerType = layer._layerModel.get('type');
@@ -1946,6 +2003,38 @@ export default Marionette.LayoutView.extend({
                     isLogged,
                 }).open();
                 break;
+        }
+    },
+
+    _setRootLayer(layerModel, rootLayer) {
+        this._rootLayers[ layerModel.cid ] = rootLayer;
+    },
+
+    _getRootLayer(layerModel) {
+        return this._rootLayers[ layerModel.cid ];
+    },
+
+    _getRootLayers() {
+        return this._rootLayers;
+    },
+
+    _removeRootLayer(layerModel) {
+        if ( this._rootLayers[ layerModel.cid ] ) {
+            delete this._rootLayers[ layerModel.cid ];
+        }
+    },
+
+    _setOverPassLayer(layerModel, overPassLayer) {
+        this._overPassLayers[ layerModel.cid ] = overPassLayer;
+    },
+
+    _getOverPassLayer(layerModel) {
+        return this._overPassLayers[ layerModel.cid ];
+    },
+
+    _removeOverPassLayer(layerModel) {
+        if ( this._overPassLayers[ layerModel.cid ] ) {
+            delete this._overPassLayers[ layerModel.cid ];
         }
     },
 });

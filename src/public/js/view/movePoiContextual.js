@@ -30,7 +30,7 @@ export default Marionette.ItemView.extend({
         'click @ui.validateBtn': 'onClickValidate',
     },
 
-    initialize: function (options) {
+    initialize(options) {
         const config = MAPCONTRIB.config;
 
         this._radio = Wreqr.radio.channel('global');
@@ -42,17 +42,17 @@ export default Marionette.ItemView.extend({
         return this.render();
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onOpen: function () {
+    onOpen() {
         this._marker.closePopup();
         MapUi.showContributionCross();
 
@@ -62,16 +62,16 @@ export default Marionette.ItemView.extend({
         );
     },
 
-    onBeforeClose: function () {
+    onBeforeClose() {
         MapUi.hideContributionCross();
     },
 
-    onClickCancel: function () {
+    onClickCancel() {
         this.close();
         this._editPoiColumnView.open();
     },
 
-    onClickValidate: function () {
+    onClickValidate() {
         MapUi.hideContributionCross();
 
         let mapCenter = this._map.getCenter();

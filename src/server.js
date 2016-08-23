@@ -29,7 +29,7 @@ import Api from './api';
 import Passport from './passport';
 
 
-const CONST = _.extend(SERVER_CONST, PUBLIC_CONST);
+const CONST = {...SERVER_CONST, ...PUBLIC_CONST};
 
 
 if (!config.get('client.oauthConsumerKey')) {

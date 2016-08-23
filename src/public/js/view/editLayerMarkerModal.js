@@ -43,13 +43,13 @@ export default Marionette.ItemView.extend({
         'reset': 'onReset',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
     },
 
-    onRender: function () {
+    onRender() {
         this.ui.colorButtons
         .filter( '.'+ this.model.get('markerColor') )
         .find('i')
@@ -74,23 +74,23 @@ export default Marionette.ItemView.extend({
         this.updateIconPreview();
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
     },
 
-    onReset: function () {
+    onReset() {
         this.model.set( this._oldModel.toJSON() );
 
         this.close();
     },
 
-    onSubmit: function (e) {
+    onSubmit(e) {
         e.preventDefault();
 
         this.close();
     },
 
-    onClickColorButtons: function (e) {
+    onClickColorButtons(e) {
         $('i', this.ui.colorButtons).removeClass('fa-check');
 
         e.currentTarget.querySelector('i').classList.add('fa-check');
@@ -98,7 +98,7 @@ export default Marionette.ItemView.extend({
         this.model.set('markerColor', e.currentTarget.dataset.color);
     },
 
-    onClickShapeButtons: function (e) {
+    onClickShapeButtons(e) {
         this.ui.shapeButtons.removeClass('active');
 
         e.currentTarget.classList.add('active');
@@ -106,15 +106,15 @@ export default Marionette.ItemView.extend({
         this.model.set('markerShape', e.currentTarget.dataset.shape);
     },
 
-    onChangeIconName: function (e) {
+    onChangeIconName(e) {
         this.updateIconPreview();
     },
 
-    onChangeIconUrl: function (e) {
+    onChangeIconUrl(e) {
         this.model.set('markerIconUrl', e.currentTarget.value);
     },
 
-    updateIconPreview: function () {
+    updateIconPreview() {
         var iconName = this.ui.iconNameInput.val();
 
         this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
@@ -122,14 +122,14 @@ export default Marionette.ItemView.extend({
         this.model.set('markerIcon', iconName);
     },
 
-    onClickIconTypeLibraryTab: function (e) {
+    onClickIconTypeLibraryTab(e) {
         this.ui.iconTypeExternalForm.addClass('hide');
         this.ui.iconTypeLibraryForm.removeClass('hide');
 
         this.model.set('markerIconType', CONST.map.markerIconType.library);
     },
 
-    onClickIconTypeExternalTab: function (e) {
+    onClickIconTypeExternalTab(e) {
         this.ui.iconTypeLibraryForm.addClass('hide');
         this.ui.iconTypeExternalForm.removeClass('hide');
 

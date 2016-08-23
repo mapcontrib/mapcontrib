@@ -43,7 +43,7 @@
 
 
 <goBackToHome "Ritorno alla home">
-<about "Info {{ mapcontrib }}"> 
+<about "Info {{ mapcontrib }}">
 <myThemes "I miei temi">
 <preferences "Preferenze">
 <login "Log in">
@@ -65,7 +65,7 @@
 <searchATheme placeholder:"Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
 <invalidFile "File non valido">
-<currentFile "FIle attuale: <a>{{ $file }}</a>"> 
+<currentFile "FIle attuale: <a>{{ $file }}</a>">
 <file "File">
 
 
@@ -78,7 +78,7 @@
 
 
 /* About */
-<aboutTitle "Info"> 
+<aboutTitle "Info">
 <aboutText1 "MapContrib è <a>software libero</a>. È in grado di creare temi cartografici">
 <aboutText2 "Questi temi sono basati sulle mappe di <a>OpenStreetMap</a> su cui è possibile aggiungere alcuni marcatori/punti di interesse.">
 <aboutText3 "Nell´utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
@@ -125,10 +125,10 @@
 
 /* Link column */
 <linkColumn_title "Condividi">
-<linkColumn_linkTitle "Link diretto"> 
-<linkColumn_linkIncludePosition "Includi anche la posizione attuale"> 
-<linkColumn_integrationTitle "Integra nel tuo sito"> 
-<linkColumn_iframeIncludePosition "Include la posizione attuale"> 
+<linkColumn_linkTitle "Link diretto">
+<linkColumn_linkIncludePosition "Includi anche la posizione attuale">
+<linkColumn_integrationTitle "Integra nel tuo sito">
+<linkColumn_iframeIncludePosition "Include la posizione attuale">
 <linkColumn_seeBigger "Vedi più grande">
 <linkColumn_width "Larghezza">
 <linkColumn_height "Altezza">
@@ -153,8 +153,8 @@
 <editSettingColumn_popup "Popup">
 <editSettingColumn_modal "Finestra modale">
 <editSettingColumn_column "Colonna">
-<editSettingColumn_themeAnalytics "Analisi"> 
-<editSettingColumn_infoAnalyticsPopoverTitle "Integrazione"> 
+<editSettingColumn_themeAnalytics "Analisi">
+<editSettingColumn_infoAnalyticsPopoverTitle "Integrazione">
 <editSettingColumn_infoAnalyticsPopoverContent "Gli strumenti di analisi forniscono un codice javascript da inserire nel sito in questione.
 
 Inseriscilo proprio qui!"> /
@@ -170,13 +170,30 @@ Inseriscilo proprio qui!"> /
 <editLayerFormColumn_title "Modifica livello">
 <editLayerFormColumn_layerName "Nome">
 <editLayerFormColumn_layerDescription "Descrizione">
+<editLayerFormColumn_representationType "Representation"> /* FIXME */
+<editLayerFormColumn_clusterRepresentation "Groupable points"> /* FIXME */
+<editLayerFormColumn_heatRepresentation "Heat map"> /* FIXME */
 <editLayerFormColumn_visibility "Visibilità">
 <editLayerFormColumn_visibilityAndEdition "Visibilità e modifica">
 <editLayerFormColumn_visible "Visibile agli utenti">
 <editLayerFormColumn_dataEditable "Permetti di modificare i dati">
+<editLayerFormColumn_heatOptions "Heat map"> /* FIXME */
+<editLayerFormColumn_heatMapPopoverTitle "Informations"> /* FIXME */
+<editLayerFormColumn_heatMapPopoverContent "#### Maximum zoom
+
+Zoom level where the points reach maximum intensity.
+
+#### Radius
+
+Radius of each point of the layer."> /* FIXME */
+<editLayerFormColumn_heatMinOpacity "Minimum opacity"> /* FIXME */
+<editLayerFormColumn_heatMaxZoom "Maximum zoom"> /* FIXME */
+<editLayerFormColumn_heatMax "Maximum intensity"> /* FIXME */
+<editLayerFormColumn_heatBlur "Amount of blur"> /* FIXME */
+<editLayerFormColumn_heatRadius "Radius"> /* FIXME */
 <editLayerFormColumn_layerZoomLevel "Zoom minimo">
 <editLayerFormColumn_currentMapZoom "La mappa fa attualmente uso del livello di zoom {{ $currentMapZoom }}">
-<editLayerFormColumn_overPassPopoverTitle "Area di selezione"> 
+<editLayerFormColumn_overPassPopoverTitle "Area di selezione">
 <editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` ha sostituito l'area di selezione attuale">
 <editLayerFormColumn_layerOverpassRequest "Richiesta OverPass">
 <editLayerFormColumn_marker "Marcatore">
@@ -285,10 +302,10 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <uiFormNodeTags_value placeholder:"Valore">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
 <uiFormNodeTags_valueReadOnly "Valore in sola lettura">
-<uiFormNodeTags_nonOsmData "Non inviare questo tag a OSM"> 
-<uiFormNodeTags_nonOsmContributionWarning "Tag non inviato a OpenStreetMap"> 
-<uiFormNodeTags_textInput "Testo di input"> 
-<uiFormNodeTags_fileInput "File di input"> 
+<uiFormNodeTags_nonOsmData "Non inviare questo tag a OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag non inviato a OpenStreetMap">
+<uiFormNodeTags_textInput "Testo di input">
+<uiFormNodeTags_fileInput "File di input">
 
 
 /* Color selector UI */
@@ -342,9 +359,9 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* Temporary layers column */
 <tempLayerListColumn_title "Livelli temporanei">
-<tempLayerListColumn_description "Questi livelli sono effimeri. Appaiono semplicemente a te e spariranno appena chiuderai MapContrib."> 
+<tempLayerListColumn_description "Questi livelli sono effimeri. Appaiono semplicemente a te e spariranno appena chiuderai MapContrib.">
 
 /* Edit POI preset column */
 <editPoiPresetColumn_title "Tipo di nodo">
-<editPoiPresetColumn_noThanks "No grazie"> 
+<editPoiPresetColumn_noThanks "No grazie">
 <editPoiPresetColumn_applyPreset "Vuoi aggiungere automatica i tag ad un tipo di nodo?">

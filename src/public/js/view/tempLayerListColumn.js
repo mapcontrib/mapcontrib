@@ -27,11 +27,11 @@ export default Marionette.LayoutView.extend({
         'click @ui.addButton': 'onClickAdd',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onRender: function () {
+    onRender() {
         const tempLayerListView = new TempLayerListView({
             'collection': this.collection,
         });
@@ -39,22 +39,22 @@ export default Marionette.LayoutView.extend({
         this.getRegion('layerList').show( tempLayerListView );
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onClickAdd: function () {
+    onClickAdd() {
         this._radio.commands.execute('column:showAddTempLayerMenu');
     },
 });

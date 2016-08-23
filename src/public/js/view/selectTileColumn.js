@@ -26,7 +26,7 @@ export default Marionette.LayoutView.extend({
         'click @ui.tiles': 'onClickTiles',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         var fragment = this._radio.reqres.request('theme:fragment'),
@@ -42,7 +42,7 @@ export default Marionette.LayoutView.extend({
         this.listenTo(this.model, 'change:tiles', this.onChangeModelTiles);
     },
 
-    onRender: function () {
+    onRender() {
         var tile, checked,
         tiles = this.model.get('tiles'),
         html = '';
@@ -88,32 +88,36 @@ export default Marionette.LayoutView.extend({
         this.bindUIElements();
     },
 
-    onClickTiles: function (e) {
-        var newState,
-        key = 'mapState-'+ this._fragment,
-        oldState = JSON.parse( localStorage.getItem( key ) );
+    onClickTiles(e) {
+        let newState;
+        const key = `mapState-${this._fragment}`;
+        const oldState = JSON.parse( localStorage.getItem( key ) );
 
-        newState = _.extend( oldState, { 'selectedTile': e.target.value } );
+        newState = {
+            ...oldState,
+            ...{ 'selectedTile': e.target.value }
+        };
+        
         localStorage.setItem( key, JSON.stringify( newState ) );
 
         this._radio.commands.execute('map:setTileLayer', e.target.value);
     },
 
-    onChangeModelTiles: function () {
+    onChangeModelTiles() {
         this.render();
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },

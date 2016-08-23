@@ -25,7 +25,7 @@ export default Marionette.LayoutView.extend({
         'click @ui.descriptionButton': 'onClickDescription',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._currentTitleColor = this.model.get('color');
@@ -36,13 +36,13 @@ export default Marionette.LayoutView.extend({
         this._radio.commands.setHandler('ui:setTitleColor', this.commandSetTitleColor, this);
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'description': MarkedHelper.render( this.model.get('description') ),
         };
     },
 
-    onRender: function () {
+    onRender() {
         this.setTitle();
 
         if ( this.model.get('description') ) {
@@ -50,7 +50,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onShow: function () {
+    onShow() {
         this.ui.descriptionButton.tooltip({
             'container': 'body',
             'delay': {
@@ -65,7 +65,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    setTitle: function () {
+    setTitle() {
         let themeName = this.model.get('name');
         let appName = document.l10n.getSync('mapcontrib');
 
@@ -83,7 +83,7 @@ export default Marionette.LayoutView.extend({
         this.ui.title.html(themeName);
     },
 
-    commandSetTitleColor: function (color) {
+    commandSetTitleColor(color) {
         if ( this._currentTitleColor === color ) {
             return;
         }
@@ -95,7 +95,7 @@ export default Marionette.LayoutView.extend({
         this._currentTitleColor = color;
     },
 
-    setDescription: function () {
+    setDescription() {
         var description = MarkedHelper.render( this.model.get('description') );
 
         if ( description ) {
@@ -108,7 +108,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onClickDescription: function () {
+    onClickDescription() {
         this._radio.vent.trigger('column:closeAll');
         this._radio.vent.trigger('widget:closeAll');
 

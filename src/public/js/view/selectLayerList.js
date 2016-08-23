@@ -9,7 +9,7 @@ export default Marionette.CollectionView.extend({
 
     className: 'list-group',
 
-    addChild: function(child, ChildView, index){
+    addChild(child, ChildView, index){
         if ( child.isVisible() ) {
             Marionette.CollectionView.prototype.addChild.apply(this, arguments);
         }

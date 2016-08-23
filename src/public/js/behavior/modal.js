@@ -6,10 +6,12 @@ import Marionette from 'backbone.marionette';
 
 
 export default Marionette.Behavior.extend({
-    defaults: {
-        'appendToBody': false,
-        'routeOnClose': '',
-        'triggerRouteOnClose': false,
+    defaults() {
+        return {
+            'appendToBody': false,
+            'routeOnClose': '',
+            'triggerRouteOnClose': false,
+        };
     },
 
     ui: {
@@ -22,19 +24,19 @@ export default Marionette.Behavior.extend({
         'keyup': 'onKeyUp',
     },
 
-    initialize: function (options) {
+    initialize(options) {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onRender: function () {
+    onRender() {
         this.ui.modal.attr('tabindex', 0);
     },
 
-    onShow: function () {
+    onShow() {
         this.onOpen();
     },
 
-    onOpen: function () {
+    onOpen() {
         if ( this.options.appendToBody && !this.view.isRendered ) {
             this.view.render();
             document.body.appendChild( this.el );
@@ -56,7 +58,7 @@ export default Marionette.Behavior.extend({
         }, 100);
     },
 
-    onClose: function () {
+    onClose() {
         const mapElement = this._radio.reqres.request('map');
 
         this.navigateOnClose();
@@ -81,7 +83,7 @@ export default Marionette.Behavior.extend({
         });
     },
 
-    onClickModal: function (e) {
+    onClickModal(e) {
         if (e.target !== this.ui.modal[0]) {
             return;
         }
@@ -89,11 +91,11 @@ export default Marionette.Behavior.extend({
         this.onClose();
     },
 
-    onClickClose: function () {
+    onClickClose() {
         this.onClose();
     },
 
-    onKeyUp: function (e) {
+    onKeyUp(e) {
         switch ( e.keyCode ) {
             case 27:
 
@@ -102,7 +104,7 @@ export default Marionette.Behavior.extend({
         }
     },
 
-    navigateOnClose: function () {
+    navigateOnClose() {
         const router = this._radio.reqres.request('router');
 
         router.navigate(

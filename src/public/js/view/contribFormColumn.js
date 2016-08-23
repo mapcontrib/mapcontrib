@@ -39,14 +39,14 @@ export default Marionette.LayoutView.extend({
         'submit': 'onSubmit',
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'fragment': this._theme.get('fragment'),
             'apiPath': `${CONST.apiPath}file/nonOsmData`,
         };
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
         this._map = this._radio.reqres.request('map');
         this._theme = this._radio.reqres.request('theme');
@@ -67,7 +67,7 @@ export default Marionette.LayoutView.extend({
         );
     },
 
-    _buildNewMarker: function (latLng) {
+    _buildNewMarker(latLng) {
         const pos = new L.LatLng(
             latLng.lat,
             latLng.lng
@@ -86,28 +86,28 @@ export default Marionette.LayoutView.extend({
         return L.marker(pos, { icon });
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    onBeforeClose: function () {
+    onBeforeClose() {
         if (!this._contributionSent) {
             this._map.removeLayer( this._layer );
         }
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onRender: function () {
+    onRender() {
         this._layer = this._buildNewMarker( this._center );
         this._map.addLayer( this._layer );
 
@@ -123,7 +123,7 @@ export default Marionette.LayoutView.extend({
         this.getRegion('tagList').show( this._tagList );
     },
 
-    onClickAddBtn: function () {
+    onClickAddBtn() {
         this._tagList.addTag();
 
         const scrollHeight = this.ui.column.height() +
@@ -131,7 +131,7 @@ export default Marionette.LayoutView.extend({
         this.ui.content[0].scrollTo(0, scrollHeight);
     },
 
-    onSubmit: function (e) {
+    onSubmit(e) {
         e.preventDefault();
 
         this.ui.footerButtons.prop('disabled', true);
@@ -160,7 +160,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    saveLayer: function () {
+    saveLayer() {
         const createdBy = CONST.osm.changesetCreatedBy
         .replace('{version}', MAPCONTRIB.version);
         const tags = this._tagList.getTags();
@@ -205,7 +205,7 @@ export default Marionette.LayoutView.extend({
         this.sendContributionToOSM();
     },
 
-    sendContributionToOSM: function () {
+    sendContributionToOSM() {
         this._osmEdit.send()
         .then(osmId => {
             this.ui.footerButtons.prop('disabled', false);

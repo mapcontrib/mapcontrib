@@ -12,12 +12,12 @@ export default Backbone.Router.extend({
         'logout': 'routeLogout',
     },
 
-    initialize: function (app) {
+    initialize(app) {
         this._app = app;
         this._radio = Wreqr.radio.channel('global');
     },
 
-    routeDefault: function (){
+    routeDefault(){
         this._app.getRegion('root').show(
             new HomeRootView({'app': this._app})
         );

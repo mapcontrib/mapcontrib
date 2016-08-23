@@ -6,8 +6,10 @@ import Marionette from 'backbone.marionette';
 
 
 export default Marionette.Behavior.extend({
-    defaults: {
-        'destroyOnClose': false,
+    defaults() {
+        return {
+            'destroyOnClose': false,
+        };
     },
 
     ui: {
@@ -19,7 +21,7 @@ export default Marionette.Behavior.extend({
         'keyup': 'onKeyUp',
     },
 
-    initialize: function (options) {
+    initialize(options) {
         this._radio = Wreqr.radio.channel('global');
 
         this.listenTo(this._radio.vent, 'notification:closeAll', this.onCloseAll);
@@ -27,16 +29,16 @@ export default Marionette.Behavior.extend({
         this._isOpened = false;
     },
 
-    onRender: function () {
+    onRender() {
         document.body.appendChild( this.el );
         this.ui.notification.attr('tabindex', 0);
     },
 
-    onDestroy: function () {
+    onDestroy() {
         this.stopListening(this._radio.vent, 'notification:closeAll');
     },
 
-    onToggle: function () {
+    onToggle() {
         if ( this._isOpened ) {
             this.onClose();
         }
@@ -45,7 +47,7 @@ export default Marionette.Behavior.extend({
         }
     },
 
-    onOpen: function () {
+    onOpen() {
         this._isOpened = true;
 
         if (this.view.onBeforeOpen) {
@@ -61,7 +63,7 @@ export default Marionette.Behavior.extend({
         });
     },
 
-    onClose: function () {
+    onClose() {
         var mapElement = this._radio.reqres.request('map')._container;
 
         this._isOpened = false;
@@ -86,7 +88,7 @@ export default Marionette.Behavior.extend({
         });
     },
 
-    onCloseAll: function (excludedViews) {
+    onCloseAll(excludedViews) {
         if ( !excludedViews ) {
             return this.onClose();
         }
@@ -96,11 +98,11 @@ export default Marionette.Behavior.extend({
         }
     },
 
-    onClickClose: function () {
+    onClickClose() {
         this.onClose();
     },
 
-    onKeyUp: function (e) {
+    onKeyUp(e) {
         switch ( e.keyCode ) {
             case 27:
 

@@ -26,23 +26,23 @@ export default Marionette.LayoutView.extend({
         'click @ui.retryButton': 'onClickRetry',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         return this.render();
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onClickRetry: function () {
+    onClickRetry() {
         this.options.retryCallback();
 
         this.close();

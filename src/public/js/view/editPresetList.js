@@ -14,18 +14,18 @@ export default Marionette.CollectionView.extend({
 
     className: 'list-group reorderable removeable',
 
-    onRender: function () {
+    onRender() {
         this.$el.sortable({
             'axis': 'y',
             'items': 'a',
             'handle': '.reorder_icon',
-            'update': () => {
+            update: () => {
                 this.onDnD();
             }
         });
     },
 
-    onDnD: function (event, ui) {
+    onDnD(event, ui) {
         var i = 0,
         sorted_id_list = this.$el.sortable('toArray');
 

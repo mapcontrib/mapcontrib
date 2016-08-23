@@ -9,7 +9,7 @@ import SERVER_CONST from './const';
 import PUBLIC_CONST from './public/js/const';
 import Database from './database';
 
-const CONST = _.extend(SERVER_CONST, PUBLIC_CONST);
+const CONST = {...SERVER_CONST, ...PUBLIC_CONST};
 
 
 

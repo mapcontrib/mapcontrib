@@ -10,7 +10,7 @@ export default new winston.Logger({
             'humanReadableUnhandledException': true,
             'json': false,
             'colorize': true,
-            'timestamp': () => {
+            timestamp: () => {
                 return new Date().toISOString();
             },
         })

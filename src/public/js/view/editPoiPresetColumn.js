@@ -24,30 +24,30 @@ export default Marionette.LayoutView.extend({
         'column': '#edit_poi_preset_column',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    setCenter: function ( center ) {
+    setCenter( center ) {
         this._center = center;
     },
 
-    onRender: function () {
+    onRender() {
         const presetNavItems = [];
         const presetsNav = new NavPillsStackedListView();
         const noThanksNav = new NavPillsStackedListView();

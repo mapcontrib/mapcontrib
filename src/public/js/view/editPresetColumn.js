@@ -28,11 +28,11 @@ export default Marionette.LayoutView.extend({
         'click @ui.addButton': 'onClickAdd',
     },
 
-    initialize: function () {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
-    onRender: function () {
+    onRender() {
         var presets = this.model.get('presets'),
         editPresetListView = new EditPresetListView({
             'collection': presets,
@@ -42,22 +42,22 @@ export default Marionette.LayoutView.extend({
         this.getRegion('presetList').show( editPresetListView );
     },
 
-    onBeforeOpen: function () {
+    onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
-    open: function () {
+    open() {
         this.triggerMethod('open');
         return this;
     },
 
-    close: function () {
+    close() {
         this.triggerMethod('close');
         return this;
     },
 
-    onClickAdd: function () {
+    onClickAdd() {
         this.close();
         this._radio.commands.execute('column:showPresetTags');
     },

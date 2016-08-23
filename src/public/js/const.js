@@ -291,6 +291,11 @@ export default {
         'geojson': 'geojson',
     },
 
+    'rootLayerType': {
+        'markerCluster': 'markerCluster',
+        'heat': 'heat',
+    },
+
     'tagType': {
         'text': 'text',
         'file': 'file',
