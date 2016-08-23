@@ -7,7 +7,7 @@ import throwError from './lib/throwError';
 import dummyPromiseCallback from './lib/dummyPromiseCallback';
 import SERVER_CONST from './const';
 import PUBLIC_CONST from './public/js/const';
-import Database from './database';
+import Database from './lib/database';
 
 const CONST = {...SERVER_CONST, ...PUBLIC_CONST};
 

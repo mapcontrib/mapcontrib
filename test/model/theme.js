@@ -2,8 +2,8 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import ThemeModel from '../../src/public/js/model/theme';
-import UserModel from '../../src/public/js/model/user';
+import ThemeModel from '../../public/js/model/theme';
+import UserModel from '../../public/js/model/user';
 
 
 

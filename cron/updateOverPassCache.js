@@ -2,7 +2,7 @@
 import config from 'config';
 import { XMLHttpRequest } from 'xmlhttprequest';
 import logger from '../lib/logger';
-import Database from '../database';
+import Database from '../lib/database';
 import SERVER_CONST from '../const';
 import PUBLIC_CONST from '../public/js/const';
 import OverPassHelper from '../public/js/helper/overPass';

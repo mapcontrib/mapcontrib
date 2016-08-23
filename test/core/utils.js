@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import * as utils from '../../src/public/js/core/utils';
+import * as utils from '../../public/js/core/utils';
 
 
 

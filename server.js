@@ -19,18 +19,17 @@ import connectMongo from 'connect-mongo';
 
 import SERVER_CONST from './const';
 import PUBLIC_CONST from './public/js/const';
-import packageJson from '../package.json';
+import packageJson from './package.json';
 import config from 'config';
 import logger from './lib/logger';
 import throwError from './lib/throwError';
-import Database from './database';
-import Migrate from './migrate';
+import Database from './lib/database';
+import Migrate from './lib/migrate';
 import Api from './api';
-import Passport from './passport';
+import Passport from './lib/passport';
 
 
 const CONST = {...SERVER_CONST, ...PUBLIC_CONST};
-
 
 if (!config.get('client.oauthConsumerKey')) {
     throw 'Error: client.oauthConsumerKey is not configured';

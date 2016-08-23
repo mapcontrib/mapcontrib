@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import GeoUtils from '../../src/public/js/core/geoUtils';
+import GeoUtils from '../../public/js/core/geoUtils';
 
 
 

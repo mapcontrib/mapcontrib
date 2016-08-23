@@ -21,14 +21,14 @@
     "npm": "^3.8.6"
   },
   "scripts": {
-    "init": "cd src; babel-node init.js",
-    "start": "cd src; babel-node server.js",
-    "debug": "cd src; babel-node debug server.js",
-    "startFromDocker": "cd src; babel-node server.js",
+    "init": "babel-node init.js",
+    "start": "babel-node server.js",
+    "debug": "babel-node debug server.js",
+    "startFromDocker": "babel-node server.js",
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
     "test": "mocha --recursive --inline-diffs --compilers js:babel-core/register",
-    "updateOverPassCache": "cd src; babel-node cron/updateOverPassCache.js"
+    "updateOverPassCache": "babel-node cron/updateOverPassCache.js"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",

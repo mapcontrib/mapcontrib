@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import assert from 'assert';
 import { DOMParser } from 'xmldom';
 
-import OsmEditHelper from '../../src/public/js/helper/osmEdit';
+import OsmEditHelper from '../../public/js/helper/osmEdit';
 
 
 

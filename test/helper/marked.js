@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import MarkedHelper from '../../src/public/js/helper/marked';
+import MarkedHelper from '../../public/js/helper/marked';
 
 
 

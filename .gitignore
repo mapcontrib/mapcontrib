@@ -1,7 +1,7 @@
 node_modules
-src/upload
-src/public/assets
-src/public/files
+upload
+public/assets
+public/files
 *bundle.*
 npm-debug.log
 volumes
