@@ -952,8 +952,8 @@ export default Marionette.LayoutView.extend({
         const polygonStyle = MapUi.buildLayerPolygonStyle( layerModel );
         const polylineStyle = MapUi.buildLayerPolylineStyle( layerModel );
 
-        for (let i in objects) {
-            let object = objects[i];
+        for (const i in objects) {
+            const object = objects[i];
             const id = GeoJsonHelper.findOsmId(object.feature);
             const type = GeoJsonHelper.findOsmType(object.feature);
             const longId = this._overPassData.buildOsmIdFromTypeAndId(type, id);
@@ -989,34 +989,36 @@ export default Marionette.LayoutView.extend({
                 }
             }
 
-            const popupContent = this._buildLayerPopupContent(
-                object,
-                layerModel,
-                object.feature
-            );
-
-
             object._layerModel = layerModel;
 
-            if ( this.model.get('infoDisplay') === CONST.infoDisplay.popup ) {
-                this._bindPopupTo(object, popupContent);
-            }
+            if (layerModel.get('rootLayerType') !== CONST.rootLayerType.heat) {
+                const popupContent = this._buildLayerPopupContent(
+                    object,
+                    layerModel,
+                    object.feature
+                );
 
-            object.on('click', this._displayInfo, this);
+                if ( this.model.get('infoDisplay') === CONST.infoDisplay.popup ) {
+                    this._bindPopupTo(object, popupContent);
+                }
 
-            switch (object.feature.geometry.type) {
-                case 'Point':
-                case 'MultiPoint':
+                object.off('click');
+                object.on('click', this._displayInfo, this);
+
+                switch (object.feature.geometry.type) {
+                    case 'Point':
+                    case 'MultiPoint':
                     object.setIcon( icon );
                     break;
-                case 'LineString':
-                case 'MultiLineString':
+                    case 'LineString':
+                    case 'MultiLineString':
                     object.setStyle( polylineStyle );
                     break;
-                case 'Polygon':
-                case 'MultiPolygon':
+                    case 'Polygon':
+                    case 'MultiPolygon':
                     object.setStyle( polygonStyle );
                     break;
+                }
             }
 
             rootLayer.addLayer(object);
@@ -1060,11 +1062,21 @@ export default Marionette.LayoutView.extend({
     },
 
     updateRepresentation(layerModel) {
-        const rootLayer = this._getRootLayer(layerModel);
+        const hiddenLayer = false;
+        let rootLayer = this._getRootLayer(layerModel);
 
-        // Do stuff
+        this._map.removeLayer(rootLayer);
+        this._removeRootLayer(layerModel);
 
-        this._refreshTopLayer(layerModel);
+        rootLayer = this._buildRootLayer(layerModel);
+
+        this._customizeDataAndDisplay(
+            layerModel.getObjects(),
+            rootLayer,
+            layerModel,
+            layerModel.get('type'),
+            hiddenLayer
+        );
     },
 
     updateMarkerStyle(layerModel) {
@@ -1903,9 +1915,10 @@ export default Marionette.LayoutView.extend({
 
     bindAllPopups() {
         const isLogged = this._app.isLogged();
+        const rootLayers = this._getRootLayers();
 
-        for (const i in this._rootLayers) {
-            const rootLayer = this._rootLayers[i];
+        for (const i in rootLayers) {
+            const rootLayer = rootLayers[i];
             const layers = rootLayer.getLayers();
 
             for (const layer of layers) {
@@ -1925,8 +1938,10 @@ export default Marionette.LayoutView.extend({
     },
 
     unbindAllPopups() {
-        for (const i in this._rootLayers) {
-            const rootLayer = this._rootLayers[i];
+        const rootLayers = this._getRootLayers();
+
+        for (const i in rootLayers) {
+            const rootLayer = rootLayers[i];
             const layers = rootLayer.getLayers();
 
             for (const layer of layers) {
@@ -1998,6 +2013,10 @@ export default Marionette.LayoutView.extend({
 
     _getRootLayer(layerModel) {
         return this._rootLayers[ layerModel.cid ];
+    },
+
+    _getRootLayers() {
+        return this._rootLayers;
     },
 
     _removeRootLayer(layerModel) {

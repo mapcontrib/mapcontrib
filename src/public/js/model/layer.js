@@ -50,7 +50,7 @@ export default Backbone.RelationalModel.extend({
     },
 
     // GeoJSON objects displayed on the map
-    _geoJsonObjects: [],
+    _geoJsonObjects: {},
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
@@ -85,12 +85,16 @@ export default Backbone.RelationalModel.extend({
      * Merges the objects with the current displayed GeoJSON objects.
      *
      * @author Guillaume AMAT
-     * @param {array} objects - GeoJSON objects
+     * @param {object} objects - GeoJSON objects
      */
     addObjects(objects) {
-        this._geoJsonObjects = [
+        this._geoJsonObjects = {
             ...this._geoJsonObjects,
             ...objects
-        ];
-    }
+        };
+    },
+
+    getObjects() {
+        return this._geoJsonObjects;
+    },
 });
