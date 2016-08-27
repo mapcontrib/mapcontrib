@@ -28,13 +28,16 @@
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
     "test": "mocha --recursive --inline-diffs --compilers js:babel-core/register",
-    "updateOverPassCache": "babel-node cron/updateOverPassCache.js"
+    "updateOverPassCache": "babel-node cron/updateOverPassCache.js",
+    "importIdPresets": "babel-node scripts/importIdPresets.js"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
-    "eslint": "^3.1.1"
+    "eslint": "^3.1.1",
+    "id-presets-builder": "^1.1.0"
   },
   "dependencies": {
+    "argp": "^1.0.4",
     "awesome-bootstrap-checkbox": "^0.3.7",
     "babel-cli": "^6.9.0",
     "babel-core": "^6.7.2",
