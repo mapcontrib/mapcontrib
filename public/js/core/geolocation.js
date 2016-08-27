@@ -9,7 +9,7 @@ export default class Geolocation {
      * @access public
      * @param {object} map - A Leaflet map.
      */
-    initialize(map) {
+    constructor(map) {
         this._isDragged = false;
         this._isLocateInProgress = false;
         this._hasHeadingMarker = false;
