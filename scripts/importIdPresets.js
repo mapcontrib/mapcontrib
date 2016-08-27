@@ -1,3 +1,7 @@
+/**
+ * Usage: npm run importIdPresets -- --dir DIR
+ */
+
 import presetsBuilder from 'id-presets-builder';
 import argp from 'argp';
 
