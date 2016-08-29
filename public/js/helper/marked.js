@@ -7,6 +7,7 @@ let renderer = new marked.Renderer();
 renderer.link = (href, title, text) => {
     let attributesList = [
         `href="${href}"`,
+        `rel="noopener noreferrer"`,
         `target="_blank"`
     ];
 
