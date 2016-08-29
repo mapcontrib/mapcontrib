@@ -76,7 +76,7 @@ export default Marionette.ItemView.extend({
                 this.ui.currentFile
                 .html(
                     document.l10n.getSync('currentFile', {
-                        file: `<a href="${fileUri}" target="_blank">${fileName}</a>`
+                        file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`
                     })
                 )
                 .removeClass('hide');

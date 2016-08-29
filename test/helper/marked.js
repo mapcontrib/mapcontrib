@@ -16,7 +16,7 @@ describe('MarkedHelper', () => {
         });
 
         it('Should return a link with target _blank', () => {
-            const expected = '<p>This is a <a href="http://mapcontrib.xyz" target="_blank">link</a>.</p>\n';
+            const expected = '<p>This is a <a href="http://mapcontrib.xyz" rel="noopener noreferrer" target="_blank">link</a>.</p>\n';
             const result = MarkedHelper.render('This is a [link](http://mapcontrib.xyz).');
 
             assert.strictEqual(expected, result);
