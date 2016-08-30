@@ -47,12 +47,12 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        var presetNavItems = [],
-        presetsNav = new NavPillsStackedListView(),
-        freeAdditionNav = new NavPillsStackedListView(),
-        presetModels = this.options.theme.get('presets').models;
+        const presetNavItems = [];
+        const presetsNav = new NavPillsStackedListView();
+        const freeAdditionNav = new NavPillsStackedListView();
+        const presetModels = this.options.theme.get('presets').models;
 
-        for (var key in presetModels) {
+        for (const key in presetModels) {
             if (presetModels.hasOwnProperty(key)) {
                 presetNavItems.push({
                     'label': presetModels[key].get('name'),
