@@ -15,6 +15,7 @@ const argv = argp.createParser({ once: true })
     .on('end', function (argv) {
         if ( !argv.dir ) {
             this.printUsage(1);
+            process.exit(1);
         }
     })
     .on('error', function (error) {
