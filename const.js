@@ -23,5 +23,6 @@ export default {
     ],
 
     'iDPresetsDirectoryPath': path.join(__dirname, 'data/iD-presets'),
+    'iDPresetsPath': path.join(__dirname, 'data/iD-presets/presets.json'),
     'iDLocalesDirectoryPath': path.join(__dirname, 'data/iD-presets/locales'),
 };

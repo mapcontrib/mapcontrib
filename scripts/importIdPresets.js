@@ -61,7 +61,7 @@ logger.info('Generation of presets');
 presetsBuilder.generatePresets(iDPresetsDirectoryPath, (err, data) => {
     if (err) throw err;
 
-    const finalPresetsPath = path.join(CONST.iDPresetsDirectoryPath, 'presets.json');
+    const finalPresetsPath = path.join(CONST.iDPresetsPath);
     const newData = {
         defaults: data.defaults,
         presets:  data.presets,
