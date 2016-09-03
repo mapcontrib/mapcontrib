@@ -7,6 +7,7 @@ import nonOsmDataApi from './nonOsmData';
 import osmCacheApi from './osmCache';
 import fileApi from './file';
 import overPassCacheApi from './overPassCache';
+import iDPresetsApi from './iDPresets';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -25,6 +26,7 @@ export default function Api(app, db, CONST, packageJson){
     fileApi.setOptions( options );
     fileApi.initDirectories( app );
     overPassCacheApi.setOptions( options );
+    iDPresetsApi.setOptions( options );
 
 
     app.get('/api/user/logout', userApi.Api.logout);
@@ -50,6 +52,9 @@ export default function Api(app, db, CONST, packageJson){
     app.post('/api/osmCache', isLoggedIn, osmCacheApi.Api.post);
     app.put('/api/osmCache/:_id', isLoggedIn, osmCacheApi.Api.put);
     app.delete('/api/osmCache/:_id', osmCacheApi.Api.delete);
+
+    app.get('/api/iDPresets/defaults', iDPresetsApi.Api.getDefaults);
+
 
     app.get('/', (req, res) => {
         let clientConfig = config.get('client');
@@ -101,6 +106,7 @@ export default function Api(app, db, CONST, packageJson){
             themeApi.Api.findFromFragment(req.params.fragment),
             nonOsmDataApi.Api.findFromFragment(req.params.fragment),
             osmCacheApi.Api.findFromFragment(req.params.fragment),
+            iDPresetsApi.Api.buildDefaults(),
         ];
 
         Promise.all( promises )
@@ -109,6 +115,7 @@ export default function Api(app, db, CONST, packageJson){
             templateVars.themeAnalyticScript = data[0].analyticScript;
             templateVars.nonOsmData = escape(JSON.stringify( data[1] ));
             templateVars.osmCache = escape(JSON.stringify( data[2] ));
+            templateVars.defaultiDPresets = escape(JSON.stringify( data[3] ));
 
             res.render('theme', templateVars);
         })
