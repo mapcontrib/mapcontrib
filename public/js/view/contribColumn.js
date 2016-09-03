@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import NavPillsStackedListView from '../ui/form/navPillsStacked';
+import NavPillsStackedListView from '../ui/navPillsStacked';
 import template from '../../templates/contribColumn.ejs';
 
 

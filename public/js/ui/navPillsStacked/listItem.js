@@ -1,6 +1,6 @@
 
 import Marionette from 'backbone.marionette';
-import MarkedHelper from '../../../helper/marked';
+import MarkedHelper from '../../helper/marked';
 import listItemTemplate from './listItem.ejs';
 
 
