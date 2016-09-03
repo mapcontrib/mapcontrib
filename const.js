@@ -1,3 +1,5 @@
+import path from 'path';
+
 
 export default {
     'pattern': {
@@ -19,4 +21,7 @@ export default {
         'png',
         'svg',
     ],
+
+    'iDPresetsDirectoryPath': path.join(__dirname, 'data/iD-presets'),
+    'iDLocalesDirectoryPath': path.join(__dirname, 'data/iD-presets/locales'),
 };

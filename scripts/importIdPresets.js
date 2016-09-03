@@ -8,6 +8,7 @@ import mkdirp from 'mkdirp';
 import presetsBuilder from 'id-presets-builder';
 import argp from 'argp';
 import logger from '../lib/logger';
+import CONST from '../const';
 
 
 const argv = argp.createParser({ once: true })
@@ -38,21 +39,19 @@ const argv = argp.createParser({ once: true })
 const iDDirectoryPath = path.resolve(argv.dir);
 const iDPresetsDirectoryPath = path.join(iDDirectoryPath, 'data/presets');
 const iDLocalesDirectoryPath = path.join(iDDirectoryPath, 'dist/locales');
-const finalPresetsDirectoryPath = path.join(__dirname, '../data/iD-presets');
-const finalLocalesDirectoryPath = path.join(finalPresetsDirectoryPath, 'locales');
 
 logger.debug('final directories creation');
-mkdirp.sync(finalPresetsDirectoryPath);
-mkdirp.sync(finalLocalesDirectoryPath);
+mkdirp.sync(CONST.iDPresetsDirectoryPath);
+mkdirp.sync(CONST.iDLocalesDirectoryPath);
 
 
 logger.debug('old locale files purge');
-fs.readdir(finalLocalesDirectoryPath, (err, localeFiles) => {
+fs.readdir(CONST.iDLocalesDirectoryPath, (err, localeFiles) => {
     if (err) throw err;
 
     for (const localeFile of localeFiles) {
         fs.unlinkSync(
-            path.join(finalLocalesDirectoryPath, localeFile)
+            path.join(CONST.iDLocalesDirectoryPath, localeFile)
         );
     }
 });
@@ -62,7 +61,7 @@ logger.info('Generation of presets');
 presetsBuilder.generatePresets(iDPresetsDirectoryPath, (err, data) => {
     if (err) throw err;
 
-    const finalPresetsPath = path.join(finalPresetsDirectoryPath, 'presets.json');
+    const finalPresetsPath = path.join(CONST.iDPresetsDirectoryPath, 'presets.json');
     const newData = {
         defaults: data.defaults,
         presets:  data.presets,
@@ -80,7 +79,7 @@ fs.readdir(iDLocalesDirectoryPath, (err, iDLocaleFiles) => {
 
     for (const iDLocaleFile of iDLocaleFiles) {
         const iDLocaleFilePath = path.join(iDLocalesDirectoryPath, iDLocaleFile);
-        const finalLocaleFilePath = path.join(finalLocalesDirectoryPath, iDLocaleFile);
+        const finalLocaleFilePath = path.join(CONST.iDLocalesDirectoryPath, iDLocaleFile);
 
         fs.readFile(iDLocaleFilePath, 'utf-8', (err, data) => {
             if (err) throw err;
