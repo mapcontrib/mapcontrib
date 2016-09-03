@@ -38,7 +38,7 @@ const argv = argp.createParser({ once: true })
 const iDDirectoryPath = path.resolve(argv.dir);
 const iDPresetsDirectoryPath = path.join(iDDirectoryPath, 'data/presets');
 const iDLocalesDirectoryPath = path.join(iDDirectoryPath, 'dist/locales');
-const finalPresetsDirectoryPath = path.join(__dirname, '../public/data/iD-presets');
+const finalPresetsDirectoryPath = path.join(__dirname, '../data/iD-presets');
 const finalLocalesDirectoryPath = path.join(finalPresetsDirectoryPath, 'locales');
 
 logger.debug('final directories creation');
