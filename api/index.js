@@ -1,4 +1,5 @@
 
+import fs from 'fs';
 import Backbone from 'backbone';
 import config from 'config';
 import userApi from './user';
@@ -7,7 +8,6 @@ import nonOsmDataApi from './nonOsmData';
 import osmCacheApi from './osmCache';
 import fileApi from './file';
 import overPassCacheApi from './overPassCache';
-import iDPresetsApi from './iDPresets';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -26,7 +26,6 @@ export default function Api(app, db, CONST, packageJson){
     fileApi.setOptions( options );
     fileApi.initDirectories( app );
     overPassCacheApi.setOptions( options );
-    iDPresetsApi.setOptions( options );
 
 
     app.get('/api/user/logout', userApi.Api.logout);
@@ -53,7 +52,6 @@ export default function Api(app, db, CONST, packageJson){
     app.put('/api/osmCache/:_id', isLoggedIn, osmCacheApi.Api.put);
     app.delete('/api/osmCache/:_id', osmCacheApi.Api.delete);
 
-    app.get('/api/iDPresets/defaults', iDPresetsApi.Api.getDefaults);
 
 
     app.get('/', (req, res) => {
@@ -106,7 +104,7 @@ export default function Api(app, db, CONST, packageJson){
             themeApi.Api.findFromFragment(req.params.fragment),
             nonOsmDataApi.Api.findFromFragment(req.params.fragment),
             osmCacheApi.Api.findFromFragment(req.params.fragment),
-            iDPresetsApi.Api.buildDefaults(),
+            getiDPresets(CONST),
         ];
 
         Promise.all( promises )
@@ -115,7 +113,7 @@ export default function Api(app, db, CONST, packageJson){
             templateVars.themeAnalyticScript = data[0].analyticScript;
             templateVars.nonOsmData = escape(JSON.stringify( data[1] ));
             templateVars.osmCache = escape(JSON.stringify( data[2] ));
-            templateVars.defaultiDPresets = escape(JSON.stringify( data[3] ));
+            templateVars.iDPresets = escape(JSON.stringify( data[3] ));
 
             res.render('theme', templateVars);
         })
@@ -165,4 +163,17 @@ function isLoggedIn (req, res, next) {
 
 function onPromiseError(res, errorCode) {
     res.sendStatus(errorCode);
+}
+
+
+function getiDPresets (CONST) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(CONST.iDPresetsPath, 'utf-8', (err, data) => {
+            if (err) {
+                return reject(err);
+            }
+
+            resolve(JSON.parse(data));
+        });
+    });
 }

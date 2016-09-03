@@ -60,6 +60,7 @@ export default Marionette.Application.extend({
         this._config = MAPCONTRIB.config;
         this._version = MAPCONTRIB.version;
         this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
+        this._iDPresets = JSON.parse(unescape( MAPCONTRIB.iDPresets ));
 
         if (MAPCONTRIB.user) {
             this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
@@ -122,6 +123,10 @@ export default Marionette.Application.extend({
 
     getOsmCache() {
         return this._osmCache;
+    },
+
+    getIDPresets() {
+        return this._iDPresets;
     },
 
     isLogged() {
