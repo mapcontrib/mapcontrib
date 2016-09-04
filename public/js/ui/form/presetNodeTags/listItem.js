@@ -19,7 +19,7 @@ export default Marionette.ItemView.extend({
         'valueReadOnlyGroup': '.value_read_only_group',
         'textInputGroup': '.text_input_group',
         'fileInputGroup': '.file_input_group',
-        'infoBtn': '.info_btn',
+        'tagInfoBtn': '.tag_info_btn',
         'removeBtn': '.remove_btn',
     },
 
@@ -87,7 +87,7 @@ export default Marionette.ItemView.extend({
         const key = this.ui.key.val().trim();
         const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
 
-        this.ui.infoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
+        this.ui.tagInfoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
     },
 
     updateKey: function (e) {
