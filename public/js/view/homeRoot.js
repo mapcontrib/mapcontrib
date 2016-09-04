@@ -4,6 +4,7 @@ import LoginModalView from './loginModal';
 import ThemeModel from '../model/theme';
 import ThemeCollection from '../collection/theme';
 import ThemeThumbList from '../ui/themeThumbList';
+import SearchInput from '../ui/form/searchInput';
 import template from '../../templates/homeRoot.ejs';
 
 export default Marionette.LayoutView.extend({
@@ -15,9 +16,6 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         'createThemeButton': '.create_theme_btn',
-        'searchInput': '#q',
-        'searchIcon': 'input.search + label .icon',
-        'searchSpinner': 'input.search + label .spinner',
         'searchResults': '#rg_search_results',
         'noResultPlaceholder': '.no_result',
         'charactersLeftPlaceholder': '.characters_left',
@@ -25,31 +23,40 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
+        'searchInput': '.rg_search_input',
         'searchResults': '#rg_search_results',
     },
 
     events: {
         'click @ui.createThemeButton': 'onClickCreateTheme',
-        'keyup @ui.searchInput': 'onKeyUpSearchInput',
     },
 
     initialize(options) {
         this._app = options.app;
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
-        this._searchTimeout = null;
 
         this.resetThemeCollection();
     },
 
     onRender() {
+        const searchInput = new SearchInput({
+            placeholder: document.l10n.getSync('searchATheme'),
+            onSearch: this.fetchSearchedThemes.bind(this)
+        });
+
+        this.getRegion('searchInput').show( searchInput );
+
+        searchInput.on('empty', this.resetThemeCollection, this);
+        searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
+        searchInput.on('search', this.fetchSearchedThemes, this);
+        searchInput.setFocus();
+
         this.getRegion('searchResults').show(
             new ThemeThumbList({
                 'collection': this.collection
             })
         );
-
-        this.ui.searchInput.focus();
     },
 
     onClickCreateTheme(e) {
@@ -61,53 +68,28 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onKeyUpSearchInput(e) {
-        const searchString = this.ui.searchInput.val();
-        const charactersCount = this.ui.searchInput.val().length;
-
-        if ( this._lastSearchedString === searchString ) {
-            return true;
-        }
-
-        this._lastSearchedString = searchString;
-
-        clearTimeout(this._searchTimeout);
-
-        if (charactersCount === 0) {
-            this.hideSpinner();
-            this.resetThemeCollection();
-        }
-        else if (charactersCount > 0 && charactersCount < 3) {
-            this.hideSpinner();
-            this.showCharactersLeftPlaceholder();
-        }
-        else {
-            this.showSpinner();
-            this.hidePlaceholders();
-
-            this._searchTimeout = setTimeout(
-                this.fetchSearchedThemes.bind(this, searchString),
-                300
-            );
-        }
-    },
-
     fetchSearchedThemes(searchString) {
-        this.collection.fetch({
-            'reset': true,
-            'merge': false,
-            'data': {
-                'q': searchString,
-                'hasLayer': true
-            },
-            'success': this.onThemesFetchSuccess.bind(this),
-            'error': this.onThemesFetchError.bind(this),
+        return new Promise((resolve, reject) => {
+            this.collection.fetch({
+                'reset': true,
+                'merge': false,
+                'data': {
+                    'q': searchString,
+                    'hasLayer': true
+                },
+                'success': (collection, response, options) => {
+                    this.onThemesFetchSuccess(collection, response, options);
+                    resolve();
+                },
+                'error': (collection, response, options) => {
+                    this.onThemesFetchError(collection, response, options);
+                    reject();
+                },
+            });
         });
     },
 
     onThemesFetchSuccess(collection, response, options) {
-        this.hideSpinner();
-
         if (collection.models.length === 0) {
             this.showNoResultPlaceholder();
         }
@@ -117,13 +99,12 @@ export default Marionette.LayoutView.extend({
     },
 
     onThemesFetchError(collection, response, options) {
-        this.hideSpinner();
         this.showNoResultPlaceholder();
     },
 
     resetThemeCollection() {
         this.collection = new ThemeCollection();
-        
+
         if (MAPCONTRIB.highlightList) {
             this.collection.add(
                 JSON.parse(unescape( MAPCONTRIB.highlightList ))
@@ -141,8 +122,8 @@ export default Marionette.LayoutView.extend({
         }).open();
     },
 
-    showCharactersLeftPlaceholder() {
-        const charactersLeft = 3 - this.ui.searchInput.val().length;
+    showCharactersLeftPlaceholder(searchString) {
+        const charactersLeft = 3 - searchString.length;
 
         this.ui.charactersLeftPlaceholderText.html(
             document.l10n.getSync(
@@ -168,18 +149,8 @@ export default Marionette.LayoutView.extend({
         this.ui.searchResults.removeClass('hide');
     },
 
-    showSpinner() {
-        this.ui.searchIcon.addClass('hide');
-        this.ui.searchSpinner.removeClass('hide');
-    },
-
     hidePlaceholders() {
         this.ui.charactersLeftPlaceholder.addClass('hide');
         this.ui.noResultPlaceholder.addClass('hide');
-    },
-
-    hideSpinner() {
-        this.ui.searchSpinner.addClass('hide');
-        this.ui.searchIcon.removeClass('hide');
     },
 });

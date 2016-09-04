@@ -60,7 +60,6 @@ export default Marionette.Application.extend({
         this._config = MAPCONTRIB.config;
         this._version = MAPCONTRIB.version;
         this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
-        this._iDPresets = JSON.parse(unescape( MAPCONTRIB.iDPresets ));
 
         if (MAPCONTRIB.user) {
             this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
@@ -76,6 +75,10 @@ export default Marionette.Application.extend({
 
         if (MAPCONTRIB.osmCache) {
             this._osmCache = new OsmCacheCollection(JSON.parse(unescape( MAPCONTRIB.osmCache )));
+        }
+
+        if (MAPCONTRIB.iDPresets) {
+            this._iDPresets = new OsmCacheCollection(JSON.parse(unescape( MAPCONTRIB.iDPresets )));
         }
 
         this._radio = Wreqr.radio.channel('global');

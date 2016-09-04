@@ -62,7 +62,7 @@
 <editThatElement "Edit that element">
 <loadingData title:"Some data are being loaded">
 <createATheme "Create a theme">
-<searchATheme placeholder:"Search a theme (3 characters min.)">
+<searchATheme "Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
 <invalidFile "Invalid file">
 <currentFile "Current file: <a>{{ $file }}</a>">
