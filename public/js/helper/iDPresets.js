@@ -102,7 +102,7 @@ export default class IDPresetsHelper {
         const results = this._sifter.search(searchString, {
             fields: [ 'rawName', 'name', 'terms' ],
             sort: [{ field: 'name', direction: 'asc' }],
-            limit: 10
+            limit: 20
         });
 
         for (const result of results.items) {
