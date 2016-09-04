@@ -16,6 +16,7 @@ import 'bootstrap-more/bootstrap-more.css';
 import 'bootstrap-more/bootstrap-more.js';
 import 'leaflet/dist/leaflet.css';
 
+import CONST from './const';
 import UserModel from './model/user';
 import ThemeModel from './model/theme';
 import NonOsmDataCollection from './collection/nonOsmData';
@@ -26,6 +27,7 @@ import ModalBehavior from './behavior/modal';
 import NotificationBehavior from './behavior/notification';
 import ContextualBehavior from './behavior/contextual';
 import WidgetBehavior from './behavior/widget';
+import IDPresetsHelper from './helper/iDPresets';
 
 
 
@@ -78,7 +80,13 @@ export default Marionette.Application.extend({
         }
 
         if (MAPCONTRIB.iDPresets) {
-            this._iDPresets = new OsmCacheCollection(JSON.parse(unescape( MAPCONTRIB.iDPresets )));
+            this._iDPresetsHelper = new IDPresetsHelper(JSON.parse(unescape( MAPCONTRIB.iDPresets )));
+
+            $.get({
+                url: `${CONST.apiPath}iDPresets/locale`,
+                data: { locales: document.l10n.supportedLocales },
+                success: this.onReceiveIDPresetsLocale.bind(this),
+            });
         }
 
         this._radio = Wreqr.radio.channel('global');
@@ -128,8 +136,8 @@ export default Marionette.Application.extend({
         return this._osmCache;
     },
 
-    getIDPresets() {
-        return this._iDPresets;
+    getIDPresetsHelper() {
+        return this._iDPresetsHelper;
     },
 
     isLogged() {
@@ -146,5 +154,13 @@ export default Marionette.Application.extend({
         this._radio.reqres.setHandler('router', () => this._router);
 
         Backbone.history.start();
+    },
+
+    onReceiveIDPresetsLocale(response) {
+        this._iDPresetsHelper.setLocale(
+            JSON.parse(response)
+        );
+
+        this._radio.vent.trigger('iDPresets:loaded');
     },
 });

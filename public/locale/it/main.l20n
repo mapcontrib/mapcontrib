@@ -119,6 +119,7 @@
 /* Contribution column */
 <contribColumn_title "Aggiungi un nodo">
 <contribColumn_description "Scegli il tipo di nodo">
+<contribColumn_searchAPreset "Search a type of node"> /* FIXME */
 <contribColumn_freeAddition "Aggiunta libera di tag">
 <contribColumn_addTag "Aggiungi un tag">
 

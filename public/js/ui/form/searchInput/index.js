@@ -5,6 +5,7 @@ import './style.less';
 
 export default Marionette.LayoutView.extend({
     template: template,
+    className: 'ui-input-search-wrapper',
 
     ui: {
         'input': 'input',
@@ -31,6 +32,14 @@ export default Marionette.LayoutView.extend({
             },
             ...options
         }
+
+        this.on('search:success', this.hideSpinner);
+        this.on('search:error', this.hideSpinner);
+    },
+
+    onDestroy() {
+        this.off('search:success');
+        this.off('search:error');
     },
 
     onRender() {
@@ -63,19 +72,12 @@ export default Marionette.LayoutView.extend({
         }
         else {
             this.showSpinner();
-            this.trigger('search', searchString);
 
             this._timeout = setTimeout(
-                this.search.bind(this, searchString),
+                this.trigger.bind(this, 'search', searchString),
                 300
             );
         }
-    },
-
-    search(searchString) {
-        this.options.onSearch(searchString)
-            .then(this.hideSpinner.bind(this))
-            .catch(this.hideSpinner.bind(this));
     },
 
     showSpinner() {

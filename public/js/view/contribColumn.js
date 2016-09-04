@@ -2,6 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import NavPillsStackedListView from '../ui/navPillsStacked';
+import SearchInput from '../ui/form/searchInput';
 import template from '../../templates/contribColumn.ejs';
 
 
@@ -14,6 +15,7 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
+        'searchInput': '.rg_search_input',
         'presetsNav': '.rg_presets_nav',
         'freeAdditionNav': '.rg_free_addition_nav',
     },
@@ -47,6 +49,17 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
+        const searchInput = new SearchInput({
+            placeholder: document.l10n.getSync('contribColumn_searchAPreset'),
+        });
+
+        this.getRegion('searchInput').show( searchInput );
+
+        // searchInput.on('empty', this.resetThemeCollection, this);
+        // searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
+        // searchInput.on('search', this.fetchSearchedThemes, this);
+        searchInput.setFocus();
+
         const presetNavItems = [];
         const presetsNav = new NavPillsStackedListView();
         const freeAdditionNav = new NavPillsStackedListView();
@@ -67,6 +80,22 @@ export default Marionette.LayoutView.extend({
                     )
                 });
             }
+        }
+
+        const defaultIDPresets = this.options.iDPresetsHelper.getDefaultPoints();
+
+        for (const iDPreset of defaultIDPresets) {
+            presetNavItems.push({
+                'label': iDPreset.name,
+                // 'callback': this._radio.commands.execute.bind(
+                //     this._radio.commands,
+                //     'column:showContribForm',
+                //     {
+                //         'presetModel': presetModels[key],
+                //         'center': this._center,
+                //     }
+                // )
+            });
         }
 
         presetsNav.setItems(presetNavItems);

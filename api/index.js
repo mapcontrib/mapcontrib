@@ -2,6 +2,7 @@
 import fs from 'fs';
 import Backbone from 'backbone';
 import config from 'config';
+import CONST from '../const';
 import userApi from './user';
 import themeApi from './theme';
 import nonOsmDataApi from './nonOsmData';
@@ -147,6 +148,27 @@ export default function Api(app, db, CONST, packageJson){
     app.post('/api/file/nonOsmData', fileApi.Api.postNonOsmDataFile);
 
     app.get('/api/overPassCache/generate/:uniqid', overPassCacheApi.Api.generate);
+
+    app.get('/api/iDPresets/locale', (req, res) => {
+        if (!req.query.locales || req.query.locales.length < 1) {
+            return res.sendStatus(400);
+        }
+
+        for (const locale of req.query.locales) {
+            const localeFile = `${CONST.iDLocalesDirectoryPath}/${locale}.json`;
+
+            try {
+                fs.statSync(localeFile);
+                return res.send(
+                    fs.readFileSync(localeFile, 'utf-8')
+                );
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        res.sendStatus(404);
+    });
 }
 
 

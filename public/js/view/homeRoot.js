@@ -40,17 +40,16 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        const searchInput = new SearchInput({
-            placeholder: document.l10n.getSync('searchATheme'),
-            onSearch: this.fetchSearchedThemes.bind(this)
+        this._searchInput = new SearchInput({
+            placeholder: document.l10n.getSync('searchATheme')
         });
 
-        this.getRegion('searchInput').show( searchInput );
+        this.getRegion('searchInput').show( this._searchInput );
 
-        searchInput.on('empty', this.resetThemeCollection, this);
-        searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
-        searchInput.on('search', this.fetchSearchedThemes, this);
-        searchInput.setFocus();
+        this._searchInput.on('empty', this.resetThemeCollection, this);
+        this._searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
+        this._searchInput.on('search', this.fetchSearchedThemes, this);
+        this._searchInput.setFocus();
 
         this.getRegion('searchResults').show(
             new ThemeThumbList({
@@ -69,23 +68,21 @@ export default Marionette.LayoutView.extend({
     },
 
     fetchSearchedThemes(searchString) {
-        return new Promise((resolve, reject) => {
-            this.collection.fetch({
-                'reset': true,
-                'merge': false,
-                'data': {
-                    'q': searchString,
-                    'hasLayer': true
-                },
-                'success': (collection, response, options) => {
-                    this.onThemesFetchSuccess(collection, response, options);
-                    resolve();
-                },
-                'error': (collection, response, options) => {
-                    this.onThemesFetchError(collection, response, options);
-                    reject();
-                },
-            });
+        this.collection.fetch({
+            'reset': true,
+            'merge': false,
+            'data': {
+                'q': searchString,
+                'hasLayer': true
+            },
+            'success': (collection, response, options) => {
+                this.onThemesFetchSuccess(collection, response, options);
+                this._searchInput.trigger('search:success');
+            },
+            'error': (collection, response, options) => {
+                this.onThemesFetchError(collection, response, options);
+                this._searchInput.trigger('search:error');
+            },
         });
     },
 
