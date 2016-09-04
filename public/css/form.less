@@ -136,6 +136,11 @@ textarea + .help-block {
     }
 }
 
+/* To avoid a flip between the input and its group on focus... */
+.input-group .form-control:focus {
+    z-index: 2;
+}
+
 .input-group-addon {
     border-radius: 0;
 }
