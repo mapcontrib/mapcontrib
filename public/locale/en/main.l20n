@@ -67,10 +67,10 @@
 <invalidFile "Invalid file">
 <currentFile "Current file: <a>{{ $file }}</a>">
 <file "File">
+<noResult "No result">
 
 
 /* Home */
-<home_noResult "No result">
 <home_charactersLeft[plural($n)] {
   one: "1 character left",
   many: "{{ $n }} characters left"

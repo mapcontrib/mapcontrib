@@ -23,14 +23,15 @@ export default Marionette.LayoutView.extend({
         };
     },
 
-    initialize(options) {
+    initialize() {
         this._timeout = null;
 
-        this.options = {
+        this._options = {
             ...{
+                charactersMin: 3,
                 placeholder: '',
             },
-            ...options
+            ...this.options
         }
 
         this.on('search:success', this.hideSpinner);
@@ -66,7 +67,7 @@ export default Marionette.LayoutView.extend({
             this.hideSpinner();
             this.trigger('empty');
         }
-        else if (charactersCount > 0 && charactersCount < 3) {
+        else if (charactersCount > 0 && charactersCount < this._options.charactersMin) {
             this.hideSpinner();
             this.trigger('notEnoughCharacters', searchString);
         }

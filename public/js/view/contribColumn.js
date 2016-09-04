@@ -22,6 +22,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         'column': '#contrib_column',
+        'noResult': '.no_result',
     },
 
     initialize() {
@@ -49,21 +50,20 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        const searchInput = new SearchInput({
+        this._searchInput = new SearchInput({
+            charactersMin: 1,
             placeholder: document.l10n.getSync('contribColumn_searchAPreset'),
         });
 
-        this.getRegion('searchInput').show( searchInput );
+        this.getRegion('searchInput').show( this._searchInput );
 
-        // searchInput.on('empty', this.resetThemeCollection, this);
-        // searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
-        // searchInput.on('search', this.fetchSearchedThemes, this);
-        searchInput.setFocus();
+        this._searchInput.on('search', this._filterPresets, this);
+        this._searchInput.setFocus();
 
         const presetNavItems = [];
-        const presetsNav = new NavPillsStackedListView();
-        const freeAdditionNav = new NavPillsStackedListView();
         const presetModels = this.options.theme.get('presets').models;
+        const freeAdditionNav = new NavPillsStackedListView();
+        this._presetsNav = new NavPillsStackedListView();
 
         for (const key in presetModels) {
             if (presetModels.hasOwnProperty(key)) {
@@ -98,7 +98,12 @@ export default Marionette.LayoutView.extend({
             });
         }
 
-        presetsNav.setItems(presetNavItems);
+        this._presetsNav.setItems(presetNavItems);
+        this._searchInput.on(
+            'empty',
+            this._presetsNav.setItems.bind(this._presetsNav, presetNavItems),
+            this
+        );
 
         freeAdditionNav.setItems([{
             'label': document.l10n.getSync('contribColumn_freeAddition'),
@@ -111,7 +116,29 @@ export default Marionette.LayoutView.extend({
             )
         }]);
 
-        this.getRegion('presetsNav').show( presetsNav );
+        this.getRegion('presetsNav').show( this._presetsNav );
         this.getRegion('freeAdditionNav').show( freeAdditionNav );
+    },
+
+    _filterPresets(searchString) {
+        this._searchInput.trigger('search:success');
+
+        const items = this.options.iDPresetsHelper.buildNavItemsFromSearchString(searchString);
+        this._presetsNav.setItems(items);
+
+        if (items.length === 0) {
+            this._showNoResult();
+        }
+        else {
+            this._hideNoResult();
+        }
+    },
+
+    _hideNoResult() {
+        this.ui.noResult.addClass('hide');
+    },
+
+    _showNoResult() {
+        this.ui.noResult.removeClass('hide');
     },
 });
