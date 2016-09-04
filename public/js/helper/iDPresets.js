@@ -26,6 +26,10 @@ export default class IDPresetsHelper {
                     continue;
                 }
 
+                if (preset.searchable === false) {
+                    continue;
+                }
+
                 const localizedPreset = this._getLocalizedPreset(name);
 
                 if (!localizedPreset.terms) {
