@@ -69,6 +69,7 @@ export default Marionette.LayoutView.extend({
         }
 
         if (this.model.get('nonOsmData')) {
+            this._valueField.disableRemoveBtn();
             this.ui.nonOsmWarning.removeClass('hide');
         }
 
@@ -76,6 +77,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onCollectionUpdate() {
+        if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
+            return;
+        }
+
         if ( this.model.get('nonOsmData') ) {
             return;
         }
