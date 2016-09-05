@@ -36,20 +36,20 @@ export default Marionette.ItemView.extend({
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
-    initialize: function () {
+    initialize() {
         this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'change', this.onCollectionUpdate);
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         return {
             'cid': this.model.cid
         };
     },
 
-    onRender: function () {
+    onRender() {
         document.l10n.localizeNode( this.el );
 
         this.ui.nonOsmData.prop(
@@ -83,14 +83,14 @@ export default Marionette.ItemView.extend({
         this.onCollectionUpdate();
     },
 
-    renderTagInfo: function () {
+    renderTagInfo() {
         const key = this.ui.key.val().trim();
         const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
 
         this.ui.tagInfoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
     },
 
-    updateKey: function (e) {
+    updateKey(e) {
         const key = this.ui.key.val().trim();
 
         this.model.set( 'key', key );
@@ -98,14 +98,14 @@ export default Marionette.ItemView.extend({
         this.renderTagInfo();
     },
 
-    updateValue: function (e) {
+    updateValue(e) {
         this.model.set(
             'value',
             this.ui.value.val().trim()
         );
     },
 
-    onChangeKeyReadOnly: function (e) {
+    onChangeKeyReadOnly(e) {
         this.model.set('keyReadOnly', this.ui.keyReadOnly.prop('checked'));
 
         this.ui.valueReadOnly.prop(
@@ -118,11 +118,11 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onChangeValueReadOnly: function (e) {
+    onChangeValueReadOnly(e) {
         this.model.set('valueReadOnly', this.ui.valueReadOnly.prop('checked'));
     },
 
-    onChangeNonOsmData: function (e) {
+    onChangeNonOsmData(e) {
         this.model.set('nonOsmData', this.ui.nonOsmData.prop('checked'));
 
         const nonOsmData = this.model.get('nonOsmData');
@@ -156,7 +156,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onChangetypeInput: function (e) {
+    onChangetypeInput(e) {
         if ( this.ui.fileInput.prop('checked') ) {
             this.model.set('type', CONST.tagType.file);
             this.ui.value.val('').prop('disabled', true);
@@ -167,11 +167,11 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onClickRemoveBtn: function (e) {
+    onClickRemoveBtn(e) {
         this.model.destroy();
     },
 
-    onCollectionUpdate: function () {
+    onCollectionUpdate() {
         const osmTags = this.model.collection.where({
             'nonOsmData': false
         });

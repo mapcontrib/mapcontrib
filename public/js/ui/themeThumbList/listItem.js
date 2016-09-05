@@ -14,7 +14,7 @@ export default Marionette.ItemView.extend({
         'layersContainer': '.ui-theme-thumb-layers',
     },
 
-    templateHelpers: function () {
+    templateHelpers() {
         const zoomLevel = this.model.get('zoomLevel');
         const mapCenter = this.model.get('center');
         const pos = GeoUtils.zoomLatLngToXY(
@@ -35,7 +35,7 @@ export default Marionette.ItemView.extend({
         };
     },
 
-    onRender: function () {
+    onRender() {
         let layers = this.model.get('layers');
 
         if (layers) {

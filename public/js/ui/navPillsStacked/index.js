@@ -12,7 +12,7 @@ export default Marionette.CompositeView.extend({
 
     childViewContainer: 'ul',
 
-    setItems: function (items) {
+    setItems(items) {
         this.collection = new NavPillsStackedCollection( items );
 
         this.render();

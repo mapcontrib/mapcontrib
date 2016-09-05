@@ -809,7 +809,7 @@ export default Marionette.LayoutView.extend({
                 L.geoJson(
                     osmtogeojson(data),
                     {
-                        onEachFeature: function (feature, layer) {
+                        onEachFeature(feature, layer) {
                             objects[i] = layer;
                             i++;
                         }

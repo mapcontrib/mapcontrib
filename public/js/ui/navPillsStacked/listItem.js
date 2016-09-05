@@ -23,7 +23,7 @@ export default Marionette.ItemView.extend({
         'click @ui.link': 'onClick'
     },
 
-    onClick: function (e) {
+    onClick(e) {
         if ( this.ui.link.attr('href') === '#' ) {
             e.preventDefault();
         }
@@ -35,7 +35,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onRender: function () {
+    onRender() {
         const description = this.model.get('description');
 
         if ( description ) {
@@ -46,7 +46,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onClickInnerLink: function (e) {
+    onClickInnerLink(e) {
         e.stopPropagation();
     },
 });

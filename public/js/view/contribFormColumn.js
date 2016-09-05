@@ -204,7 +204,9 @@ export default Marionette.LayoutView.extend({
         this._osmEdit.setUid(this.options.user.get('osmId'));
         this._osmEdit.setDisplayName(this.options.user.get('displayName'));
 
-        this.sendContributionToOSM();
+        console.log(this._osmEdit.getOverPassElement());
+        // this.sendContributionToOSM();
+        this.ui.footerButtons.prop('disabled', false); // A VIRER
     },
 
     sendContributionToOSM() {
