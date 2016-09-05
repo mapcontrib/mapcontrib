@@ -366,7 +366,11 @@ export default Marionette.LayoutView.extend({
         this._linkColumnView = new LinkColumnView({ 'model': this.model });
         this._tempLayerListColumnView = new TempLayerListColumnView({ 'collection': this._tempLayerCollection });
         this._addTempLayerMenuColumnView = new AddTempLayerMenuColumnView();
-        this._contribColumnView = new ContribColumnView({ 'theme': this.model, 'iDPresetsHelper': this._iDPresetsHelper });
+        this._contribColumnView = new ContribColumnView({
+            theme: this.model,
+            iDPresetsHelper: this._iDPresetsHelper,
+            config: this._config,
+        });
         this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
         this._editLayerListColumnView = new EditLayerListColumnView({ 'model': this.model });
         this._addLayerMenuColumnView = new AddLayerMenuColumnView({ 'model': this.model });

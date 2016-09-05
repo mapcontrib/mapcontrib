@@ -23,6 +23,7 @@ export default Marionette.LayoutView.extend({
     ui: {
         'column': '#contrib_column',
         'noResult': '.no_result',
+        'footer': '.sticky-footer',
     },
 
     initialize() {
@@ -114,19 +115,23 @@ export default Marionette.LayoutView.extend({
             this
         );
 
-
-        const freeAdditionNav = new NavPillsStackedListView();
-        freeAdditionNav.setItems([{
-            'label': document.l10n.getSync('contribColumn_freeAddition'),
-            'callback': this._radio.commands.execute.bind(
-                this._radio.commands,
-                'column:showContribForm',
-                {
-                    'center': this._center,
-                }
-            )
-        }]);
-        this.getRegion('freeAdditionNav').show( freeAdditionNav );
+        if (this.options.config.freeTagsContributionEnabled) {
+            const freeAdditionNav = new NavPillsStackedListView();
+            freeAdditionNav.setItems([{
+                'label': document.l10n.getSync('contribColumn_freeAddition'),
+                'callback': this._radio.commands.execute.bind(
+                    this._radio.commands,
+                    'column:showContribForm',
+                    {
+                        'center': this._center,
+                    }
+                )
+            }]);
+            this.getRegion('freeAdditionNav').show( freeAdditionNav );
+        }
+        else {
+            this.ui.footer.hide();
+        }
     },
 
     _filterPresets(searchString) {
