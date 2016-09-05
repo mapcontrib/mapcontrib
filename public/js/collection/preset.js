@@ -1,6 +1,7 @@
 
 import _ from 'underscore';
 import Backbone from 'backbone';
+import Sifter from 'sifter';
 import CONST from '../const';
 import PresetModel from '../model/preset';
 
@@ -14,6 +15,7 @@ export default Backbone.Collection.extend({
         this.options = options;
 
         this.on('add', this.onAdd);
+        this.on('update', this._prepareSifter);
     },
 
     onAdd(model) {
@@ -28,4 +30,27 @@ export default Backbone.Collection.extend({
 
         model.set('order', max_order + 1);
     },
+
+    _prepareSifter() {
+        this._sifterPresets = this.models.map(preset => {
+            return {
+                preset,
+                name: preset.get('name'),
+                description: preset.get('description'),
+            };
+        });
+
+        this._sifter = new Sifter( this._sifterPresets );
+    },
+
+    buildPresetsFromSearchString(searchString) {
+        const navItems = [];
+        const results = this._sifter.search(searchString, {
+            fields: [ 'name', 'description' ],
+            sort: [{ field: 'name', direction: 'asc' }],
+            limit: 20
+        });
+
+        return results.items.map(result => this._sifterPresets[result.id].preset);
+    }
 });

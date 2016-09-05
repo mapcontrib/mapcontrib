@@ -27,6 +27,8 @@ export default Marionette.LayoutView.extend({
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
+        this._presets = this.options.theme.get('presets');
+        this._iDPresetsHelper = this.options.iDPresetsHelper;
     },
 
     onBeforeOpen() {
@@ -49,44 +51,27 @@ export default Marionette.LayoutView.extend({
         this._center = center;
     },
 
-    onRender() {
-        this._searchInput = new SearchInput({
-            charactersMin: 1,
-            placeholder: document.l10n.getSync('contribColumn_searchAPreset'),
+    _buildNavItemsFromPresetModels(presetModels) {
+        return presetModels.map(presetModel => {
+            return {
+                'label': presetModel.get('name'),
+                'description': presetModel.get('description'),
+                'callback': this._radio.commands.execute.bind(
+                    this._radio.commands,
+                    'column:showContribForm',
+                    {
+                        'presetModel': presetModel,
+                        'center': this._center,
+                        'iDPresetsHelper': this._iDPresetsHelper,
+                    }
+                )
+            };
         });
+    },
 
-        this.getRegion('searchInput').show( this._searchInput );
-
-        this._searchInput.on('search', this._filterPresets, this);
-        this._searchInput.setFocus();
-
-        const presetNavItems = [];
-        const presetModels = this.options.theme.get('presets').models;
-        const freeAdditionNav = new NavPillsStackedListView();
-        this._presetsNav = new NavPillsStackedListView();
-
-        for (const key in presetModels) {
-            if (presetModels.hasOwnProperty(key)) {
-                presetNavItems.push({
-                    'label': presetModels[key].get('name'),
-                    'description': presetModels[key].get('description'),
-                    'callback': this._radio.commands.execute.bind(
-                        this._radio.commands,
-                        'column:showContribForm',
-                        {
-                            'presetModel': presetModels[key],
-                            'center': this._center,
-                            'iDPresetsHelper': this.options.iDPresetsHelper,
-                        }
-                    )
-                });
-            }
-        }
-
-        const defaultIDPresets = this.options.iDPresetsHelper.getDefaultPoints();
-
-        for (const iDPreset of defaultIDPresets) {
-            presetNavItems.push({
+    _buildNavItemsFromIDPresets(defaultIDPresets) {
+        return defaultIDPresets.map(iDPreset => {
+            return {
                 'label': iDPreset.name,
                 // 'callback': this._radio.commands.execute.bind(
                 //     this._radio.commands,
@@ -94,19 +79,43 @@ export default Marionette.LayoutView.extend({
                 //     {
                 //         'presetModel': presetModels[key],
                 //         'center': this._center,
-                //         'iDPresetsHelper': this.options.iDPresetsHelper,
+                //         'iDPresetsHelper': this._iDPresetsHelper,
                 //     }
                 // )
-            });
-        }
+            };
+        });
+    },
 
+    onRender() {
+        const presetModels = this._presets.models;
+        const defaultIDPresets = this._iDPresetsHelper.getDefaultPoints();
+        const presetNavItems = [
+            ...this._buildNavItemsFromPresetModels(presetModels),
+            ...this._buildNavItemsFromIDPresets(defaultIDPresets)
+        ];
+
+
+        this._presetsNav = new NavPillsStackedListView();
         this._presetsNav.setItems(presetNavItems);
+        this.getRegion('presetsNav').show( this._presetsNav );
+
+
+        this._searchInput = new SearchInput({
+            charactersMin: 1,
+            placeholder: document.l10n.getSync('contribColumn_searchAPreset'),
+        });
+
+        this.getRegion('searchInput').show( this._searchInput );
+        this._searchInput.setFocus();
+        this._searchInput.on('search', this._filterPresets, this);
         this._searchInput.on(
             'empty',
             this._presetsNav.setItems.bind(this._presetsNav, presetNavItems),
             this
         );
 
+
+        const freeAdditionNav = new NavPillsStackedListView();
         freeAdditionNav.setItems([{
             'label': document.l10n.getSync('contribColumn_freeAddition'),
             'callback': this._radio.commands.execute.bind(
@@ -117,36 +126,22 @@ export default Marionette.LayoutView.extend({
                 }
             )
         }]);
-
-        this.getRegion('presetsNav').show( this._presetsNav );
         this.getRegion('freeAdditionNav').show( freeAdditionNav );
     },
 
     _filterPresets(searchString) {
         this._searchInput.trigger('search:success');
 
-        const navItems = [];
-        const presets = this.options.iDPresetsHelper.buildPresetsFromSearchString(searchString);
+        const iDPresets = this._iDPresetsHelper.buildPresetsFromSearchString(searchString);
+        const presetModels = this._presets.buildPresetsFromSearchString(searchString);
+        const presetNavItems = [
+            ...this._buildNavItemsFromPresetModels(presetModels),
+            ...this._buildNavItemsFromIDPresets(iDPresets)
+        ];
 
-        for (const preset of presets) {
-            navItems.push({
-                'label': preset.name,
-                // 'description': presetModels[key].get('description'),
-                // 'callback': this._radio.commands.execute.bind(
-                //     this._radio.commands,
-                //     'column:showContribForm',
-                //     {
-                //         'presetModel': presetModels[key],
-                //         'center': this._center,
-                //         'iDPresetsHelper': this.options.iDPresetsHelper,
-                //     }
-                // )
-            });
-        }
+        this._presetsNav.setItems(presetNavItems);
 
-        this._presetsNav.setItems(navItems);
-
-        if (presets.length === 0) {
+        if (presetNavItems.length === 0) {
             this._showNoResult();
         }
         else {
