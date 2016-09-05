@@ -76,6 +76,7 @@ export default Marionette.LayoutView.extend({
                         {
                             'presetModel': presetModels[key],
                             'center': this._center,
+                            'iDPresetsHelper': this.options.iDPresetsHelper,
                         }
                     )
                 });
@@ -93,6 +94,7 @@ export default Marionette.LayoutView.extend({
                 //     {
                 //         'presetModel': presetModels[key],
                 //         'center': this._center,
+                //         'iDPresetsHelper': this.options.iDPresetsHelper,
                 //     }
                 // )
             });
@@ -123,10 +125,28 @@ export default Marionette.LayoutView.extend({
     _filterPresets(searchString) {
         this._searchInput.trigger('search:success');
 
-        const items = this.options.iDPresetsHelper.buildNavItemsFromSearchString(searchString);
-        this._presetsNav.setItems(items);
+        const navItems = [];
+        const presets = this.options.iDPresetsHelper.buildPresetsFromSearchString(searchString);
 
-        if (items.length === 0) {
+        for (const preset of presets) {
+            navItems.push({
+                'label': preset.name,
+                // 'description': presetModels[key].get('description'),
+                // 'callback': this._radio.commands.execute.bind(
+                //     this._radio.commands,
+                //     'column:showContribForm',
+                //     {
+                //         'presetModel': presetModels[key],
+                //         'center': this._center,
+                //         'iDPresetsHelper': this.options.iDPresetsHelper,
+                //     }
+                // )
+            });
+        }
+
+        this._presetsNav.setItems(navItems);
+
+        if (presets.length === 0) {
             this._showNoResult();
         }
         else {

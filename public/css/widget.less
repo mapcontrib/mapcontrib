@@ -82,6 +82,27 @@
 }
 
 
+input[disabled],
+select[disabled],
+textarea[disabled],
+.form-control[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+    background-color: @darkGray;
+    font-style: italic;
+}
+
+.bootstrap-filestyle input[disabled] {
+    background-color: #fff;
+    font-style: normal;
+}
+
+
+
+
 
 .info_btn {
     background: none;
@@ -532,6 +553,7 @@ pre,
         .help-block + .help-block,
         textarea + .help-block,
         figure + figcaption,
+        .form-group-help-block,
         .merge_feedback .remote_value {
             background: @gray;
         }
@@ -936,6 +958,7 @@ pre,
         .help-block + .help-block,
         textarea + .help-block,
         figure + figcaption,
+        .form-group-help-block,
         .merge_feedback .remote_value {
             background: rgba(255, 255, 255, .15);
         }

@@ -299,7 +299,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 
 
 /* Node tag field UI */
-<uiFormNodeTags_key placeholder:"Key">
+<uiFormNodeTags_key "Key">
 <uiFormNodeTags_value placeholder:"Value">
 <uiFormNodeTags_keyReadOnly "Read-only key">
 <uiFormNodeTags_valueReadOnly "Read-only value">

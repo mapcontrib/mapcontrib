@@ -112,6 +112,8 @@
     "style-loader": "^0.13.0",
     "svg-loader": "0.0.2",
     "transform-loader": "^0.2.3",
+    "typeahead.js": "^0.11.1",
+    "typeahead.js-bootstrap-css": "^1.2.1",
     "underscore": "^1.8.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",

@@ -5,6 +5,9 @@ import Sifter from 'sifter';
 export default class IDPresetsHelper {
     constructor(presets, locales) {
         this._presets = presets;
+        this._proposedFieldsForTypeahead = [
+            'text', 'number'
+        ];
 
         this._prepareSifter();
     }
@@ -83,6 +86,41 @@ export default class IDPresetsHelper {
         return false;
     }
 
+    _getLocalizedField(name) {
+        if (this._presets.fields[name]) {
+            const field = {...this._presets.fields[name]};
+
+            if (this._locale && this._locale.fields[name]) {
+                const localizedStrings = {...this._locale.fields[name]};
+
+                if (localizedStrings.label) {
+                    field.label = localizedStrings.label;
+                }
+
+                // if (localizedStrings.options) {
+                //     if (!field.options) {
+                //         field.options = [];
+                //     }
+                //
+                //     const options = localizedStrings.options
+                //     .split(',')
+                //     .map(term => {
+                //         return term.trim();
+                //     });
+                //
+                //     field.options = [
+                //         ...field.options,
+                //         ...options
+                //     ];
+                // }
+            }
+
+            return field;
+        }
+
+        return false;
+    }
+
     getDefaultPoints() {
         const defaultPresets = [];
 
@@ -97,7 +135,26 @@ export default class IDPresetsHelper {
         return defaultPresets;
     }
 
-    buildNavItemsFromSearchString(searchString) {
+    getFields() {
+        const fields = [];
+
+        for (const name in this._presets.fields) {
+            const field = this._getLocalizedField(name);
+
+            if (field) {
+                fields.push(field);
+            }
+        }
+
+        return fields;
+    }
+
+    buildFieldsForTypeahead() {
+        return this.getFields()
+        .filter(field => this._proposedFieldsForTypeahead.indexOf(field.type) > -1);
+    }
+
+    buildPresetsFromSearchString(searchString) {
         const navItems = [];
         const results = this._sifter.search(searchString, {
             fields: [ 'rawName', 'name', 'terms' ],
@@ -105,23 +162,8 @@ export default class IDPresetsHelper {
             limit: 20
         });
 
-        for (const result of results.items) {
-            const preset = this._sifterPresets[result.id].preset;
-
-            navItems.push({
-                'label': preset.name,
-                // 'description': presetModels[key].get('description'),
-                // 'callback': this._radio.commands.execute.bind(
-                //     this._radio.commands,
-                //     'column:showContribForm',
-                //     {
-                //         'presetModel': presetModels[key],
-                //         'center': this._center,
-                //     }
-                // )
-            });
-        }
-
-        return navItems;
+        return results.items.map(result => {
+            return this._sifterPresets[result.id].preset;
+        });
     }
 }

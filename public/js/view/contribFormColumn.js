@@ -111,7 +111,9 @@ export default Marionette.LayoutView.extend({
         this._layer = this._buildNewMarker( this._center );
         this._map.addLayer( this._layer );
 
-        this._tagList = new ContribNodeTagsListView();
+        this._tagList = new ContribNodeTagsListView({
+            iDPresetsHelper: this.options.iDPresetsHelper
+        });
 
         if (this.options.presetModel) {
             this._tagList.setTags(this.options.presetModel.get('tags'));

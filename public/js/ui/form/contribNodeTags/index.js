@@ -8,11 +8,17 @@ import ContribNodeTagsListItemView from './listItem';
 export default Marionette.CollectionView.extend({
     childView: ContribNodeTagsListItemView,
 
-    initialize: function () {
+    childViewOptions(model, index) {
+        return {
+            iDPresetsHelper: this.options.iDPresetsHelper
+        };
+    },
+
+    initialize() {
         this.collection = new ContribNodeTagsCollection();
     },
 
-    setTags: function (tags) {
+    setTags(tags) {
         if (tags.length === 0) {
             this.collection.add({
                 'keyReadOnly': false,
@@ -28,7 +34,7 @@ export default Marionette.CollectionView.extend({
         this.render();
     },
 
-    addTag: function (tag) {
+    addTag(tag) {
         if ( !tag ) {
             return this.collection.add({
                 'keyReadOnly': false,
@@ -49,17 +55,17 @@ export default Marionette.CollectionView.extend({
         this.collection.add(tag);
     },
 
-    getTags: function () {
+    getTags() {
         return this.collection.toJSON();
     },
 
-    hasFileToUpload: function () {
+    hasFileToUpload() {
         let hasFileToUpload = false;
 
         for (const i in this.children._views) {
             const fileTag = this.children._views[i];
 
-            if ( fileTag.isFileTag() && fileTag.isNotEmpty() ) {
+            if ( fileTag.isFileTag() && fileTag.valueIsNotEmpty() ) {
                 hasFileToUpload = true;
             }
         }
@@ -67,7 +73,7 @@ export default Marionette.CollectionView.extend({
         return hasFileToUpload;
     },
 
-    showErrorFeedback: function (response) {
+    showErrorFeedback(response) {
         for (const i in this.children._views) {
             const view = this.children._views[i];
             const modelId = response.fileInput.replace('fileInput_', '');
@@ -78,7 +84,7 @@ export default Marionette.CollectionView.extend({
         }
     },
 
-    hideErrorFeedbacks: function () {
+    hideErrorFeedbacks() {
         for (const i in this.children._views) {
             const view = this.children._views[i];
 
@@ -86,7 +92,7 @@ export default Marionette.CollectionView.extend({
         }
     },
 
-    setFilesPathFromApiResponse: function (apiResponse) {
+    setFilesPathFromApiResponse(apiResponse) {
         for (const file of apiResponse) {
             const key = Object.keys(file)[0];
             const modelId = key.replace('fileInput_', '');

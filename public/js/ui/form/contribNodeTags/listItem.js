@@ -3,130 +3,79 @@ import Marionette from 'backbone.marionette';
 import CONST from '../../../const';
 import listItemTemplate from './listItem.ejs';
 import { formatBytes, basename } from '../../../core/utils';
+import KeyField from '../fields/key';
+import TextField from '../fields/text';
+import NumberField from '../fields/number';
+import FileField from '../fields/file';
 
 
-export default Marionette.ItemView.extend({
+export default Marionette.LayoutView.extend({
     template: listItemTemplate,
 
     ui: {
-        'key': '.key',
-        'textInput': '.text_input',
-        'fileInput': '.file_input',
-        'textInputGroup': '.text_input_group',
-        'fileInputGroup': '.file_input_group',
         'formGroups': '.form-group',
-        'currentFile': '.current_file',
-        'tagInfoBtn': '.tag_info_btn',
         'nonOsmWarning': '.non_osm_warning',
-        'removeBtn': '.remove_btn',
     },
 
-    events: {
-        'blur @ui.key': 'updateKey',
-        'blur @ui.textInput': 'updateTextInput',
-        'keyup @ui.key': 'updateKey',
-        'keyup @ui.textInput': 'updateTextInput',
-        'click @ui.removeBtn': 'onClickRemoveBtn',
+    regions: {
+        'key': '.rg_key',
+        'value': '.rg_value',
     },
 
-    initialize: function () {
+    initialize() {
         this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
     },
 
-    templateHelpers: function () {
-        const config = MAPCONTRIB.config;
-        const maxFileSize = formatBytes( config.uploadMaxNonOsmDataFileSize * 1024 );
-
-        return {
-            'cid': this.model.cid,
-            'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
-        };
-    },
-
-    onRender: function () {
+    onRender() {
         document.l10n.localizeNode( this.el );
 
+        const fieldOptions = {
+            model: this.model,
+            iDPresetsHelper: this.options.iDPresetsHelper,
+        };
+
+        this._keyField = new KeyField( fieldOptions );
+        this.getRegion('key').show( this._keyField );
+
+        switch (this.model.get('type')) {
+            case 'text':
+                this._valueField = new TextField( fieldOptions );
+                break;
+            case 'number':
+                this._valueField = new NumberField( fieldOptions );
+                break;
+            case 'file':
+                this._valueField = new FileField( fieldOptions );
+                break;
+            default:
+                this._valueField = new TextField( fieldOptions );
+        }
+
+        this.getRegion('value').show( this._valueField );
+
+
         if (this.model.get('keyReadOnly')) {
-            this.ui.key.prop('disabled', 'disabled');
+            this._keyField.disable();
         }
 
         if (this.model.get('valueReadOnly')) {
-            this.ui.textInput.prop('disabled', 'disabled');
+            this._valueField.disable();
         }
 
         if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
-            this.ui.removeBtn.prop('disabled', true);
+            this._valueField.disableRemoveBtn();
         }
 
         if (this.model.get('nonOsmData')) {
             this.ui.nonOsmWarning.removeClass('hide');
         }
 
-        if (this.model.get('type') === CONST.tagType.text) {
-            this.ui.textInputGroup.removeClass('hide');
-            this.ui.fileInputGroup.addClass('hide');
-        }
-        else {
-            if ( this.model.get('value') ) {
-                const fileUri = this.model.get('value');
-                const fileName = basename(fileUri || '');
-
-                this.ui.currentFile
-                .html(
-                    document.l10n.getSync('currentFile', {
-                        file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`
-                    })
-                )
-                .removeClass('hide');
-            }
-
-            this.ui.textInputGroup.addClass('hide');
-            this.ui.fileInputGroup.removeClass('hide');
-        }
-
-        this.renderTagInfo();
-
         this.onCollectionUpdate();
     },
 
-    onShow: function () {
-        this.ui.fileInput.filestyle({
-            'icon': false,
-            'badge': false,
-            'placeholder': document.l10n.getSync('file'),
-            'buttonText': document.l10n.getSync('editLayerFormColumn_browse'),
-        });
-    },
-
-    renderTagInfo: function () {
-        const key = this.ui.key.val().trim();
-        const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
-
-        this.ui.tagInfoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
-    },
-
-    updateKey: function (e) {
-        const key = this.ui.key.val().trim();
-
-        this.model.set( 'key', key );
-
-        this.renderTagInfo();
-    },
-
-    updateTextInput: function (e) {
-        this.model.set(
-            'value',
-            this.ui.textInput.val().trim()
-        );
-    },
-
-    onClickRemoveBtn: function (e) {
-        this.model.destroy();
-    },
-
-    onCollectionUpdate: function () {
+    onCollectionUpdate() {
         if ( this.model.get('nonOsmData') ) {
             return;
         }
@@ -136,14 +85,14 @@ export default Marionette.ItemView.extend({
         });
 
         if (osmTags.length === 1) {
-            this.ui.removeBtn.prop('disabled', true);
+            this._valueField.disableRemoveBtn();
         }
         else {
-            this.ui.removeBtn.prop('disabled', false);
+            this._valueField.enableRemoveBtn();
         }
     },
 
-    isFileTag: function () {
+    isFileTag() {
         if ( this.model.get('type') === CONST.tagType.file ) {
             return true;
         }
@@ -151,19 +100,15 @@ export default Marionette.ItemView.extend({
         return false;
     },
 
-    isNotEmpty: function () {
-        if ( this.ui.fileInput.val() ) {
-            return true;
-        }
-
-        return false;
+    valueIsNotEmpty() {
+        return this._valueField.isNotEmpty();
     },
 
-    showErrorFeedback: function () {
+    showErrorFeedback() {
         this.ui.formGroups.addClass('has-feedback has-error');
     },
 
-    hideErrorFeedback: function () {
+    hideErrorFeedback() {
         this.ui.formGroups.removeClass('has-feedback has-error');
     },
 });
