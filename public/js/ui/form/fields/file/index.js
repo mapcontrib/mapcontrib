@@ -90,4 +90,7 @@ export default Marionette.ItemView.extend({
     disableRemoveBtn() {
         this.ui.removeBtn.prop('disabled', true);
     },
+
+    setFocus() {
+    },
 });

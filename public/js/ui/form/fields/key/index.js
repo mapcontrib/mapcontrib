@@ -94,4 +94,10 @@ export default Marionette.ItemView.extend({
     disable() {
         this.ui.key.prop('disabled', true);
     },
+
+    setFocus() {
+        if (this.ui.key.focus) {
+            this.ui.key.focus();
+        }
+    },
 });

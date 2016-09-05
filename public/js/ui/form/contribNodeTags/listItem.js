@@ -31,13 +31,36 @@ export default Marionette.LayoutView.extend({
     onRender() {
         document.l10n.localizeNode( this.el );
 
+        this._keyField = new KeyField({
+            model: this.model,
+            iDPresetsHelper: this.options.iDPresetsHelper,
+        });
+
+        this._keyField.on('change', this._renderValueField, this);
+        this.getRegion('key').show( this._keyField );
+
+        if (this.model.get('keyReadOnly')) {
+            this._keyField.disable();
+        }
+
+        this._renderValueField();
+
+        if (this.model.get('nonOsmData')) {
+            this.ui.nonOsmWarning.removeClass('hide');
+        }
+
+        this.onCollectionUpdate();
+
+        setTimeout(() => {
+            this._keyField.setFocus();
+        }, 0);
+    },
+
+    _renderValueField() {
         const fieldOptions = {
             model: this.model,
             iDPresetsHelper: this.options.iDPresetsHelper,
         };
-
-        this._keyField = new KeyField( fieldOptions );
-        this.getRegion('key').show( this._keyField );
 
         switch (this.model.get('type')) {
             case 'text':
@@ -55,13 +78,11 @@ export default Marionette.LayoutView.extend({
 
         this.getRegion('value').show( this._valueField );
 
-
-        if (this.model.get('keyReadOnly')) {
-            this._keyField.disable();
-        }
-
         if (this.model.get('valueReadOnly')) {
             this._valueField.disable();
+        }
+        else {
+            this._valueField.setFocus();
         }
 
         if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
@@ -70,10 +91,7 @@ export default Marionette.LayoutView.extend({
 
         if (this.model.get('nonOsmData')) {
             this._valueField.disableRemoveBtn();
-            this.ui.nonOsmWarning.removeClass('hide');
         }
-
-        this.onCollectionUpdate();
     },
 
     onCollectionUpdate() {
