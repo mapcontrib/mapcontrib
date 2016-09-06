@@ -37,6 +37,7 @@
 <buttonEditLayerTooltip title:"Couches">
 <buttonEditTileTooltip title:"Fonds de carte">
 <buttonEditPresetTooltip title:"Types de nœuds">
+<buttonEditTagTooltip title:"Tags">
 <buttonHelpTooltip title:"Aide">
 
 

@@ -37,6 +37,7 @@
 <buttonEditLayerTooltip title:"Livello">
 <buttonEditTileTooltip title:"Sfondi">
 <buttonEditPresetTooltip title:"Tipo di Nodi">
+<buttonEditTagTooltip title:"Tags">
 <buttonHelpTooltip title:"Aiuto">
 
 

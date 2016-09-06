@@ -37,6 +37,7 @@
 <buttonEditLayerTooltip title:"Layer">
 <buttonEditTileTooltip title:"Backgrounds">
 <buttonEditPresetTooltip title:"Nodes types">
+<buttonEditTagTooltip title:"Tags">
 <buttonHelpTooltip title:"Help">
 
 
