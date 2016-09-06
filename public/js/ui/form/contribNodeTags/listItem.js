@@ -45,26 +45,7 @@ export default Marionette.LayoutView.extend({
     onRender() {
         document.l10n.localizeNode( this.el );
 
-        if (this._displayRawTag) {
-            this._keyField = new RawKeyField({
-                model: this.model,
-                iDPresetsHelper: this.options.iDPresetsHelper,
-            });
-        }
-        else {
-            this._keyField = new KeyField({
-                model: this.model,
-                iDPresetsHelper: this.options.iDPresetsHelper,
-            });
-        }
-
-        this._keyField.on('change', this._renderValueField, this);
-        this.getRegion('key').show( this._keyField );
-
-        if (this.model.get('keyReadOnly')) {
-            this._keyField.disable();
-        }
-
+        this._renderKeyField();
         this._renderValueField();
 
         if (this.model.get('nonOsmData')) {
@@ -74,6 +55,27 @@ export default Marionette.LayoutView.extend({
         this.ui.displayRawTag.prop('checked', this._displayRawTag);
 
         this.onCollectionUpdate();
+    },
+
+    _renderKeyField() {
+        const fieldOptions = {
+            model: this.model,
+            iDPresetsHelper: this.options.iDPresetsHelper,
+        };
+
+        if (this._displayRawTag) {
+            this._keyField = new RawKeyField( fieldOptions );
+        }
+        else {
+            this._keyField = new KeyField( fieldOptions );
+        }
+
+        this._keyField.on('change', this._renderValueField, this);
+        this.getRegion('key').show( this._keyField );
+
+        if (this.model.get('keyReadOnly')) {
+            this._keyField.disable();
+        }
     },
 
     _renderValueField() {
@@ -162,6 +164,7 @@ export default Marionette.LayoutView.extend({
 
     onChangeDisplayRawTag(e) {
         this._displayRawTag = this.ui.displayRawTag.prop('checked');
-        this.render();
+        this._renderKeyField();
+        this._renderValueField();
     },
 });
