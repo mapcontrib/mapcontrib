@@ -4,6 +4,7 @@ import CONST from '../../../const';
 import listItemTemplate from './listItem.ejs';
 import { formatBytes, basename } from '../../../core/utils';
 import KeyField from '../fields/key';
+import RawKeyField from '../fields/rawKey';
 import TextField from '../fields/text';
 import NumberField from '../fields/number';
 import FileField from '../fields/file';
@@ -15,6 +16,7 @@ export default Marionette.LayoutView.extend({
     ui: {
         'formGroups': '.form-group',
         'nonOsmWarning': '.non_osm_warning',
+        'displayRawTag': '.display_raw_tag',
     },
 
     regions: {
@@ -22,19 +24,39 @@ export default Marionette.LayoutView.extend({
         'value': '.rg_value',
     },
 
+    events: {
+        'change @ui.displayRawTag': 'onChangeDisplayRawTag',
+    },
+
     initialize() {
+        this._displayRawTag = false;
+
         this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
     },
 
+    templateHelpers() {
+        return {
+            cid: this.model.cid,
+        };
+    },
+
     onRender() {
         document.l10n.localizeNode( this.el );
 
-        this._keyField = new KeyField({
-            model: this.model,
-            iDPresetsHelper: this.options.iDPresetsHelper,
-        });
+        if (this._displayRawTag) {
+            this._keyField = new RawKeyField({
+                model: this.model,
+                iDPresetsHelper: this.options.iDPresetsHelper,
+            });
+        }
+        else {
+            this._keyField = new KeyField({
+                model: this.model,
+                iDPresetsHelper: this.options.iDPresetsHelper,
+            });
+        }
 
         this._keyField.on('change', this._renderValueField, this);
         this.getRegion('key').show( this._keyField );
@@ -49,6 +71,8 @@ export default Marionette.LayoutView.extend({
             this.ui.nonOsmWarning.removeClass('hide');
         }
 
+        this.ui.displayRawTag.prop('checked', this._displayRawTag);
+
         this.onCollectionUpdate();
 
         setTimeout(() => {
@@ -62,18 +86,23 @@ export default Marionette.LayoutView.extend({
             iDPresetsHelper: this.options.iDPresetsHelper,
         };
 
-        switch (this.model.get('type')) {
-            case 'text':
-                this._valueField = new TextField( fieldOptions );
-                break;
-            case 'number':
-                this._valueField = new NumberField( fieldOptions );
-                break;
-            case 'file':
-                this._valueField = new FileField( fieldOptions );
-                break;
-            default:
-                this._valueField = new TextField( fieldOptions );
+        if (this._displayRawTag) {
+            this._valueField = new TextField( fieldOptions );
+        }
+        else {
+            switch (this.model.get('type')) {
+                case 'text':
+                    this._valueField = new TextField( fieldOptions );
+                    break;
+                case 'number':
+                    this._valueField = new NumberField( fieldOptions );
+                    break;
+                case 'file':
+                    this._valueField = new FileField( fieldOptions );
+                    break;
+                default:
+                    this._valueField = new TextField( fieldOptions );
+            }
         }
 
         this.getRegion('value').show( this._valueField );
@@ -133,5 +162,10 @@ export default Marionette.LayoutView.extend({
 
     hideErrorFeedback() {
         this.ui.formGroups.removeClass('has-feedback has-error');
+    },
+
+    onChangeDisplayRawTag(e) {
+        this._displayRawTag = this.ui.displayRawTag.prop('checked');
+        this.render();
     },
 });

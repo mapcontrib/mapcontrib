@@ -307,6 +307,7 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <uiFormNodeTags_nonOsmContributionWarning "Tag non inviato a OpenStreetMap">
 <uiFormNodeTags_textInput "Testo di input">
 <uiFormNodeTags_fileInput "File di input">
+<uiFormNodeTags_displayRawTag "Display the raw OSM tag"> /* FIXME */
 
 
 /* Color selector UI */

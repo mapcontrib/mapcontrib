@@ -14,7 +14,11 @@ export default Marionette.ItemView.extend({
     },
 
     templateHelpers() {
+        const key = this.model.get('key');
+        const label = this.options.iDPresetsHelper.getLocalizedFieldLabel(key) || key;
+
         return {
+            label,
             placeholder: document.l10n.getSync('uiFormNodeTags_key'),
         };
     },

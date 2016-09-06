@@ -51,6 +51,20 @@ export default class IDPresetsHelper {
         this._sifter = new Sifter(this._sifterPresets);
     }
 
+    getLocalizedFieldLabel(key) {
+        for (const fieldName in this._presets.fields) {
+            if (this._presets.fields.hasOwnProperty(fieldName)) {
+                const field = this._presets.fields[fieldName];
+
+                if (field.key === key) {
+                    return this._getLocalizedField(fieldName).label;
+                }
+            }
+        }
+
+        return false;
+    }
+
     _getLocalizedPreset(name) {
         if (this._presets.presets[name]) {
             const preset = {...this._presets.presets[name]};
