@@ -74,10 +74,6 @@ export default Marionette.LayoutView.extend({
         this.ui.displayRawTag.prop('checked', this._displayRawTag);
 
         this.onCollectionUpdate();
-
-        setTimeout(() => {
-            this._keyField.setFocus();
-        }, 0);
     },
 
     _renderValueField() {
