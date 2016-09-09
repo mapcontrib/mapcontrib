@@ -2,8 +2,8 @@
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/linkColumn.ejs';
-import templateIframe from '../../templates/linkColumnIframe.ejs';
+import template from 'templates/linkColumn.ejs';
+import templateIframe from 'templates/linkColumnIframe.ejs';
 
 
 export default Marionette.LayoutView.extend({

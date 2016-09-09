@@ -1,10 +1,10 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import PresetModel from '../model/preset';
+import PresetModel from 'model/preset';
 import EditPresetListView from './editPresetList';
 import EditPresetTagsColumnView from './editPresetTagsColumn';
-import template from '../../templates/editPresetColumn.ejs';
+import template from 'templates/editPresetColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({

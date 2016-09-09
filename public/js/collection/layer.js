@@ -2,7 +2,7 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
-import CONST from '../const';
+import CONST from 'const';
 import LayerModel from '../model/layer';
 
 

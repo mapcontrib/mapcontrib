@@ -2,9 +2,9 @@
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import CONST from '../const';
-import MarkedHelper from '../helper/marked';
-import template from '../../templates/themeTitle.ejs';
+import CONST from 'const';
+import MarkedHelper from 'helper/marked';
+import template from 'templates/themeTitle.ejs';
 
 
 export default Marionette.LayoutView.extend({

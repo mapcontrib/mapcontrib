@@ -2,8 +2,8 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import SelectLayerListView from './selectLayerList';
-import template from '../../templates/selectLayerColumn.ejs';
-import LeafletHelper from '../helper/leaflet';
+import template from 'templates/selectLayerColumn.ejs';
+import LeafletHelper from 'helper/leaflet';
 
 
 export default Marionette.LayoutView.extend({

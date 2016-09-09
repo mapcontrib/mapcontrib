@@ -1,6 +1,6 @@
 
 import Marionette from 'backbone.marionette';
-import template from '../../templates/editPresetListEmpty.ejs';
+import template from 'templates/editPresetListEmpty.ejs';
 
 
 export default Marionette.ItemView.extend({

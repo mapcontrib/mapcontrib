@@ -2,10 +2,10 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import L from 'leaflet';
-import OsmEditHelper from '../helper/osmEdit.js';
-import MapUi from '../ui/map';
-import CONST from '../const';
-import template from '../../templates/movePoiContextual.ejs';
+import OsmEditHelper from 'helper/osmEdit.js';
+import MapUi from 'ui/map';
+import CONST from 'const';
+import template from 'templates/movePoiContextual.ejs';
 import ContributionErrorNotificationView from './contributionErrorNotification';
 
 

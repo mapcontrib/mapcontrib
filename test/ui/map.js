@@ -2,9 +2,9 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import CONST from '../../public/js/const';
-import MapUi from '../../public/js/ui/map';
-import LayerModel from '../../public/js/model/layer';
+import CONST from 'const';
+import MapUi from 'ui/map';
+import LayerModel from 'model/layer';
 
 
 

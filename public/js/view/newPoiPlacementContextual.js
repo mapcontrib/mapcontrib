@@ -2,8 +2,8 @@
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/newPoiPlacementContextual.ejs';
-import MapUi from '../ui/map';
+import template from 'templates/newPoiPlacementContextual.ejs';
+import MapUi from 'ui/map';
 
 
 export default Marionette.ItemView.extend({

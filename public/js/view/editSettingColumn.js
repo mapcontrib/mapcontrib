@@ -1,9 +1,9 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/editSettingColumn.ejs';
-import CONST from '../const';
-import MarkedHelper from '../helper/marked';
+import template from 'templates/editSettingColumn.ejs';
+import CONST from 'const';
+import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({

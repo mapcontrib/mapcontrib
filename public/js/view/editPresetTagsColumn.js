@@ -1,9 +1,9 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import PresetModel from '../model/preset';
-import PresetNodeTagsListView from '../ui/form/presetNodeTags';
-import template from '../../templates/editPresetTagsColumn.ejs';
+import PresetModel from 'model/preset';
+import PresetNodeTagsListView from 'ui/form/presetNodeTags';
+import template from 'templates/editPresetTagsColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({

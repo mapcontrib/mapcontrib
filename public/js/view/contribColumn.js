@@ -1,9 +1,9 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import NavPillsStackedListView from '../ui/navPillsStacked';
-import SearchInput from '../ui/form/searchInput';
-import template from '../../templates/contribColumn.ejs';
+import NavPillsStackedListView from 'ui/navPillsStacked';
+import SearchInput from 'ui/form/searchInput';
+import template from 'templates/contribColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({

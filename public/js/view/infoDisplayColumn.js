@@ -1,8 +1,8 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/infoDisplayColumn.ejs';
-import CONST from '../const';
+import template from 'templates/infoDisplayColumn.ejs';
+import CONST from 'const';
 
 export default Marionette.LayoutView.extend({
     template: template,

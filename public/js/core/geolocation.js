@@ -1,6 +1,6 @@
 
 import L from 'leaflet';
-import GeolocationPoint from '../ui/geolocationPoint';
+import GeolocationPoint from 'ui/geolocationPoint';
 
 
 export default class Geolocation {

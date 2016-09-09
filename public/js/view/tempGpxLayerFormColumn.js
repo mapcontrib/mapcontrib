@@ -1,12 +1,12 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import MapUi from '../ui/map';
-import { basename, extensionname } from '../core/utils';
-import CONST from '../const';
-import ColorSelectorView from '../ui/form/colorSelector';
-import template from '../../templates/tempGpxLayerFormColumn.ejs';
-import MarkedHelper from '../helper/marked';
+import MapUi from 'ui/map';
+import { basename, extensionname } from 'core/utils';
+import CONST from 'const';
+import ColorSelectorView from 'ui/form/colorSelector';
+import template from 'templates/tempGpxLayerFormColumn.ejs';
+import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({

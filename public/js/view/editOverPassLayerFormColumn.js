@@ -1,12 +1,12 @@
 
 import moment from 'moment-timezone';
-import Locale from '../core/locale';
+import Locale from 'core/locale';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import MapUi from '../ui/map';
-import template from '../../templates/editOverPassLayerFormColumn.ejs';
-import CONST from '../const';
-import MarkedHelper from '../helper/marked';
+import MapUi from 'ui/map';
+import template from 'templates/editOverPassLayerFormColumn.ejs';
+import CONST from 'const';
+import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({

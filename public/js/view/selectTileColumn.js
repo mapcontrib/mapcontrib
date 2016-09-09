@@ -2,9 +2,9 @@
 import _ from 'underscore';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import CONST from '../const';
-import template from '../../templates/selectTileColumn.ejs';
-import templateListItem from '../../templates/selectTileListItem.ejs';
+import CONST from 'const';
+import template from 'templates/selectTileColumn.ejs';
+import templateListItem from 'templates/selectTileListItem.ejs';
 
 
 export default Marionette.LayoutView.extend({

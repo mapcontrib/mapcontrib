@@ -3,7 +3,7 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import BackboneRelational from 'backbone-relational';
 import Diacritics from 'diacritic';
-import CONST from '../const';
+import CONST from 'const';
 
 import LayerCollection from '../collection/layer';
 import PresetCollection from '../collection/preset';

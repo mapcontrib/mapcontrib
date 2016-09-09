@@ -4,14 +4,14 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import osmAuth from 'osm-auth';
 import ContributionErrorNotificationView from './contributionErrorNotification';
-import OsmEditHelper from '../helper/osmEdit.js';
-import CONST from '../const';
-import template from '../../templates/editPoiColumn.ejs';
-import ContribNodeTagsListView from '../ui/form/contribNodeTags';
-import InfoDisplay from '../core/infoDisplay';
+import OsmEditHelper from 'helper/osmEdit.js';
+import CONST from 'const';
+import template from 'templates/editPoiColumn.ejs';
+import ContribNodeTagsListView from 'ui/form/contribNodeTags';
+import InfoDisplay from 'core/infoDisplay';
 import MovePoiContextual from './movePoiContextual';
-import NonOsmDataModel from '../model/nonOsmData';
-import OsmCacheModel from '../model/osmCache';
+import NonOsmDataModel from 'model/nonOsmData';
+import OsmCacheModel from 'model/osmCache';
 
 
 

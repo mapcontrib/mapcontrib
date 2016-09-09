@@ -1,8 +1,8 @@
 
 import Marionette from 'backbone.marionette';
-import CONST from '../../../const';
+import CONST from 'const';
 import listItemTemplate from './listItem.ejs';
-import { formatBytes, basename } from '../../../core/utils';
+import { formatBytes, basename } from 'core/utils';
 import KeyField from '../fields/key';
 import RawKeyField from '../fields/rawKey';
 import TextField from '../fields/text';

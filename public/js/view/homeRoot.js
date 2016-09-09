@@ -1,11 +1,11 @@
 
 import Marionette from 'backbone.marionette';
 import LoginModalView from './loginModal';
-import ThemeModel from '../model/theme';
-import ThemeCollection from '../collection/theme';
-import ThemeThumbList from '../ui/themeThumbList';
-import SearchInput from '../ui/form/searchInput';
-import template from '../../templates/homeRoot.ejs';
+import ThemeModel from 'model/theme';
+import ThemeCollection from 'collection/theme';
+import ThemeThumbList from 'ui/themeThumbList';
+import SearchInput from 'ui/form/searchInput';
+import template from 'templates/homeRoot.ejs';
 
 export default Marionette.LayoutView.extend({
     template: template,

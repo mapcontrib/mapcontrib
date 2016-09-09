@@ -1,7 +1,7 @@
 
 import Marionette from 'backbone.marionette';
 import MapUi from '../map';
-import GeoUtils from '../../core/geoUtils';
+import GeoUtils from 'core/geoUtils';
 import listItemTemplate from './listItem.ejs';
 
 

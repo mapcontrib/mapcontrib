@@ -2,7 +2,7 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import BackboneRelational from 'backbone-relational';
-import CONST from '../const';
+import CONST from 'const';
 import { uuid } from '../core/utils';
 
 

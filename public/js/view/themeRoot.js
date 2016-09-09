@@ -4,7 +4,7 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import CONST from '../const';
+import CONST from 'const';
 import L from 'leaflet';
 import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
@@ -53,20 +53,20 @@ import GpxErrorNotificationView from './gpxErrorNotification';
 import NewPoiPlacementContextual from './newPoiPlacementContextual';
 
 
-import LayerModel from '../model/layer';
-import LayerCollection from '../collection/layer';
-import PresetModel from '../model/preset';
+import LayerModel from 'model/layer';
+import LayerCollection from 'collection/layer';
+import PresetModel from 'model/preset';
 
-import MapUi from '../ui/map';
-import Geolocation from '../core/geolocation';
-import OverPassData from '../core/overPassData';
-import InfoDisplay from '../core/infoDisplay';
-import OverPassHelper from '../helper/overPass';
-import GeoJsonHelper from '../helper/geoJson';
-import MarkedHelper from '../helper/marked';
-import FullscreenHelper from '../helper/fullscreen';
+import MapUi from 'ui/map';
+import Geolocation from 'core/geolocation';
+import OverPassData from 'core/overPassData';
+import InfoDisplay from 'core/infoDisplay';
+import OverPassHelper from 'helper/overPass';
+import GeoJsonHelper from 'helper/geoJson';
+import MarkedHelper from 'helper/marked';
+import FullscreenHelper from 'helper/fullscreen';
 
-import template from '../../templates/themeRoot.ejs';
+import template from 'templates/themeRoot.ejs';
 
 export default Marionette.LayoutView.extend({
     template: template,

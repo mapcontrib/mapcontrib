@@ -1,7 +1,7 @@
 
 import _ from 'underscore';
 import Backbone from 'backbone';
-import CONST from '../const';
+import CONST from 'const';
 
 
 export default Backbone.Model.extend({

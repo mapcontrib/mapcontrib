@@ -16,7 +16,7 @@ import 'bootstrap-more/bootstrap-more.css';
 import 'bootstrap-more/bootstrap-more.js';
 import 'leaflet/dist/leaflet.css';
 
-import CONST from './const';
+import CONST from 'const';
 import UserModel from './model/user';
 import ThemeModel from './model/theme';
 import NonOsmDataCollection from './collection/nonOsmData';
@@ -27,7 +27,7 @@ import ModalBehavior from './behavior/modal';
 import NotificationBehavior from './behavior/notification';
 import ContextualBehavior from './behavior/contextual';
 import WidgetBehavior from './behavior/widget';
-import IDPresetsHelper from './helper/iDPresets';
+import IDPresetsHelper from 'helper/iDPresets';
 
 
 

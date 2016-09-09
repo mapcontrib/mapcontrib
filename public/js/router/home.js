@@ -1,7 +1,7 @@
 
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
-import HomeRootView from '../view/homeRoot';
+import HomeRootView from 'view/homeRoot';
 
 
 export default Backbone.Router.extend({

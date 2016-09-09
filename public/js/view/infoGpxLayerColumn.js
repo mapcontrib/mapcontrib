@@ -1,9 +1,9 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import MarkedHelper from '../helper/marked';
-import template from '../../templates/infoGpxLayerColumn.ejs';
-import LeafletHelper from '../helper/leaflet';
+import MarkedHelper from 'helper/marked';
+import template from 'templates/infoGpxLayerColumn.ejs';
+import LeafletHelper from 'helper/leaflet';
 
 
 export default Marionette.LayoutView.extend({

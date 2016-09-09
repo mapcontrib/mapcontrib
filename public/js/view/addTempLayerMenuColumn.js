@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/addTempLayerMenuColumn.ejs';
+import template from 'templates/addTempLayerMenuColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({

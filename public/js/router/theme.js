@@ -1,10 +1,10 @@
 
 import $ from 'jquery';
 import Backbone from 'backbone';
-import CONST from '../const';
+import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
-import ThemeRootView from '../view/themeRoot';
-import AboutView from '../view/aboutModal';
+import ThemeRootView from 'view/themeRoot';
+import AboutView from 'view/aboutModal';
 
 
 export default Backbone.Router.extend({

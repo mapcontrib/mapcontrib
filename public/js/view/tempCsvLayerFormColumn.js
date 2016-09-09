@@ -1,11 +1,11 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import MapUi from '../ui/map';
-import { basename, extensionname } from '../core/utils';
-import CONST from '../const';
-import template from '../../templates/tempCsvLayerFormColumn.ejs';
-import MarkedHelper from '../helper/marked';
+import MapUi from 'ui/map';
+import { basename, extensionname } from 'core/utils';
+import CONST from 'const';
+import template from 'templates/tempCsvLayerFormColumn.ejs';
+import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({

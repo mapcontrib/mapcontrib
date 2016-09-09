@@ -2,7 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import EditLayerListView from './editLayerList';
-import template from '../../templates/editLayerListColumn.ejs';
+import template from 'templates/editLayerListColumn.ejs';
 
 
 

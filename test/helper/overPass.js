@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import OverPassHelper from '../../public/js/helper/overPass';
+import OverPassHelper from 'helper/overPass';
 
 
 

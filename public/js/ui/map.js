@@ -1,6 +1,6 @@
 
 import _ from 'underscore';
-import CONST from '../const';
+import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
 
 

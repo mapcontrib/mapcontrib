@@ -1,8 +1,8 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import NavPillsStackedListView from '../ui/navPillsStacked';
-import template from '../../templates/editPoiPresetColumn.ejs';
+import NavPillsStackedListView from 'ui/navPillsStacked';
+import template from 'templates/editPoiPresetColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({

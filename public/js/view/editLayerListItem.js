@@ -1,9 +1,9 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import MapUi from '../ui/map';
-import CONST from '../const';
-import template from '../../templates/editLayerListItem.ejs';
+import MapUi from 'ui/map';
+import CONST from 'const';
+import template from 'templates/editLayerListItem.ejs';
 
 
 export default Marionette.ItemView.extend({

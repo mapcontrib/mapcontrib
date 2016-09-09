@@ -2,9 +2,9 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import CONST from '../../public/js/const';
-import InfoDisplay from '../../public/js/core/infoDisplay';
-import LayerModel from '../../public/js/model/layer';
+import CONST from 'const';
+import InfoDisplay from 'core/infoDisplay';
+import LayerModel from 'model/layer';
 
 
 

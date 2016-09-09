@@ -2,7 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import TempLayerListView from './tempLayerList';
-import template from '../../templates/tempLayerListColumn.ejs';
+import template from 'templates/tempLayerListColumn.ejs';
 
 
 

@@ -1,6 +1,6 @@
 
-import MarkedHelper from '../helper/marked';
-import CONST from '../const';
+import MarkedHelper from 'helper/marked';
+import CONST from 'const';
 
 export default class InfoDisplay {
     /**

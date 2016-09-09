@@ -19,10 +19,10 @@ if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
             minimize: true,
             mangle: true,
             output: {
-              comments: false
+                comments: false
             },
             compress: {
-              warnings: false
+                warnings: false
             }
         })
     );
@@ -41,6 +41,19 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'public', 'js'),
         filename: '[name].bundle.js'
+    },
+    resolve: {
+        alias: {
+            collection: path.resolve(__dirname, 'public', 'js', 'collection'),
+            const: path.resolve(__dirname, 'public', 'js', 'const'),
+            core: path.resolve(__dirname, 'public', 'js', 'core'),
+            helper: path.resolve(__dirname, 'public', 'js', 'helper'),
+            model: path.resolve(__dirname, 'public', 'js', 'model'),
+            router: path.resolve(__dirname, 'public', 'js', 'router'),
+            view: path.resolve(__dirname, 'public', 'js', 'view'),
+            ui: path.resolve(__dirname, 'public', 'js', 'ui'),
+            templates: path.resolve(__dirname, 'public', 'templates'),
+        },
     },
     module: {
         loaders: [

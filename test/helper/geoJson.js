@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import GeoJsonHelper from '../../public/js/helper/geoJson';
+import GeoJsonHelper from 'helper/geoJson';
 
 
 

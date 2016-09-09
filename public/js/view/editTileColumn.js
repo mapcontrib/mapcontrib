@@ -1,9 +1,9 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import CONST from '../const';
-import template from '../../templates/editTileColumn.ejs';
-import templateListItem from '../../templates/tileListItem.ejs';
+import CONST from 'const';
+import template from 'templates/editTileColumn.ejs';
+import templateListItem from 'templates/tileListItem.ejs';
 
 
 export default Marionette.LayoutView.extend({

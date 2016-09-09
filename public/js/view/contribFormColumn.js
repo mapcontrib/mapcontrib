@@ -1,16 +1,16 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import ContribNodeTagsListView from '../ui/form/contribNodeTags';
+import ContribNodeTagsListView from 'ui/form/contribNodeTags';
 import ContributionErrorNotificationView from './contributionErrorNotification';
-import template from '../../templates/contribFormColumn.ejs';
+import template from 'templates/contribFormColumn.ejs';
 import osmAuth from 'osm-auth';
-import OsmEditHelper from '../helper/osmEdit.js';
-import LayerModel from '../model/layer';
-import NonOsmDataModel from '../model/nonOsmData';
-import OsmCacheModel from '../model/osmCache';
-import CONST from '../const';
-import MapUi from '../ui/map';
+import OsmEditHelper from 'helper/osmEdit.js';
+import LayerModel from 'model/layer';
+import NonOsmDataModel from 'model/nonOsmData';
+import OsmCacheModel from 'model/osmCache';
+import CONST from 'const';
+import MapUi from 'ui/map';
 import L from 'leaflet';
 
 

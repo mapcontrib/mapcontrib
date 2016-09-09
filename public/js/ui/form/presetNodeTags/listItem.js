@@ -1,6 +1,6 @@
 
 import Marionette from 'backbone.marionette';
-import CONST from '../../../const';
+import CONST from 'const';
 import listItemTemplate from './listItem.ejs';
 
 

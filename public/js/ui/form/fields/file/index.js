@@ -1,8 +1,8 @@
 
 import Marionette from 'backbone.marionette';
 import template from './template.ejs';
-import CONST from '../../../../const';
-import { formatBytes, basename } from '../../../../core/utils';
+import CONST from 'const';
+import { formatBytes, basename } from 'core/utils';
 
 
 export default Marionette.ItemView.extend({
