@@ -7,10 +7,10 @@
         <h2 data-l10n-id="editPoiColumn_title"></h2>
     </header>
 
-    <div class="container-fluid content">
-        <div class="row">
-            <div class="col-xs-12">
-                <form action="<%- apiPath %>?fragment=<%- fragment %>" method="post" enctype="multipart/form-data">
+    <form action="<%- apiPath %>?fragment=<%- fragment %>" method="post" enctype="multipart/form-data">
+        <div class="container-fluid content">
+            <div class="row prepend-sticky-footer">
+                <div class="col-xs-12">
                     <section class="form-group move_section hide">
                         <button type="button" data-l10n-id="editPoiColumn_movePoi" class="btn btn-primary btn-block move_btn"></button>
                         <hr>
@@ -18,12 +18,14 @@
                     <div class="rg_tag_list">
                         <p data-l10n-id="editPoiColumn_emptyState"></p>
                     </div>
-                    <div class="sticky-footer hide">
-                        <button type="button" class="btn btn-default add_btn" data-l10n-id="contribColumn_addTag"></button>
-                        <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>
-                    </div>
-                </form>
+                </div>
+            </div>
+            <div class="row sticky-footer">
+                <div class="col-xs-12">
+                    <button type="button" class="btn btn-default add_btn" data-l10n-id="contribColumn_addTag"></button>
+                    <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </section>

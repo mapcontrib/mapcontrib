@@ -49,12 +49,18 @@
 
 .sticky-header,
 .sticky-footer {
-    position: sticky;
+    position: absolute;
     z-index: 10;
 }
 
 .sticky-header {
-    top: 0;
+    top: 20px;
+    left: 0;
+    right: 0;
+}
+
+.bordered-header,
+.sticky-header {
     padding: 0 0 20px 0;
     margin: 0 0 20px 0;
     border-bottom-style: solid;
@@ -62,24 +68,54 @@
 }
 
 .sticky-footer {
+    left: 0;
+    right: 0;
     bottom: 0;
+}
+
+.bordered-footer,
+.sticky-footer {
     padding: 20px 0;
     margin: 20px 0 0 0;
     border-top-style: solid;
     border-top-width: 1px;
 }
 
+.prepend-sticky-header,
+.prepend-sticky-footer {
+    position: absolute;
+    overflow-y: auto;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.prepend-sticky-footer {
+    top: 0;
+    bottom: 75px;
+}
+
+.prepend-sticky-header {
+    top: 75px;
+    bottom: 0;
+}
+
+.prepend-sticky-footer.prepend-sticky-header {
+    top: 75px;
+    bottom: 75px;
+}
+
 .pop {
-    .sticky-header {
-        top: -20px;
+    .bordered-header {
         margin-top: -20px;
     }
 
-    .sticky-footer {
-        bottom: -20px;
+    .bordered-footer {
         margin-bottom: -20px;
     }
 }
+
+
 
 
 input[disabled],
@@ -534,15 +570,15 @@ pre,
         }
     }
 
+    .bordered-header,
     .sticky-header {
         background: #fff;
-        box-shadow: 0 0 4px 12px #fff;
         border-bottom-color: @darkGray;
     }
 
+    .bordered-footer,
     .sticky-footer {
         background: #fff;
-        box-shadow: 0 0 4px 12px #fff;
         border-top-color: @darkGray;
     }
 
@@ -585,12 +621,6 @@ pre,
         color: @red;
     }
 
-
-    &.column {
-        header {
-            box-shadow: 0 0 4px 12px #fff;
-        }
-    }
 
 
     /* .modal is reserved by Bootstrap */
@@ -824,16 +854,16 @@ pre,
         }
     }
 
+    .bordered-header,
     .sticky-header {
         border-bottom-color: rgba(255, 255, 255, .4);
         background: @color3;
-        box-shadow: 0 0 4px 12px @color3;
     }
 
+    .bordered-footer,
     .sticky-footer {
         border-top-color: rgba(255, 255, 255, .4);
         background: @color3;
-        box-shadow: 0 0 4px 12px @color3;
     }
 
     hr {
@@ -981,12 +1011,6 @@ pre,
     .table-bordered th,
     .table-bordered td, {
         border-color: #fff;
-    }
-
-    &.column {
-        header {
-            box-shadow: 0 0 4px 12px @color3;
-        }
     }
 
 

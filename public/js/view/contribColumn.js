@@ -17,13 +17,18 @@ export default Marionette.LayoutView.extend({
     regions: {
         'searchInput': '.rg_search_input',
         'presetsNav': '.rg_presets_nav',
-        'freeAdditionNav': '.rg_free_addition_nav',
     },
 
     ui: {
         'column': '#contrib_column',
+        'prependStickyFooter': '.prepend-sticky-footer',
         'noResult': '.no_result',
         'footer': '.sticky-footer',
+        'freeAdditionBtn': '.free_addition_btn',
+    },
+
+    events: {
+        'click @ui.freeAdditionBtn': 'onClickFreeAddition',
     },
 
     initialize() {
@@ -115,22 +120,8 @@ export default Marionette.LayoutView.extend({
             this
         );
 
-        if (this.options.config.freeTagsContributionEnabled) {
-            const freeAdditionNav = new NavPillsStackedListView();
-            freeAdditionNav.setItems([{
-                'label': document.l10n.getSync('contribColumn_freeAddition'),
-                'callback': this._radio.commands.execute.bind(
-                    this._radio.commands,
-                    'column:showContribForm',
-                    {
-                        'center': this._center,
-                    }
-                )
-            }]);
-            this.getRegion('freeAdditionNav').show( freeAdditionNav );
-        }
-        else {
-            this.ui.footer.hide();
+        if ( !this.options.config.freeTagsContributionEnabled ) {
+            this._hideFooter();
         }
     },
 
@@ -160,5 +151,19 @@ export default Marionette.LayoutView.extend({
 
     _showNoResult() {
         this.ui.noResult.removeClass('hide');
+    },
+
+    _hideFooter() {
+        this.ui.footer.addClass('hide');
+        this.ui.prependStickyFooter.removeClass('prepend-sticky-footer');
+    },
+
+    onClickFreeAddition() {
+        this._radio.commands.execute(
+            'column:showContribForm',
+            {
+                'center': this._center,
+            }
+        )
     },
 });

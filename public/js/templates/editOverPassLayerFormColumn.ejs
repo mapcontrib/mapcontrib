@@ -7,10 +7,10 @@
         <h2 data-l10n-id="editLayerFormColumn_title"></h2>
     </header>
 
-    <div class="container-fluid content">
-        <div class="row">
-            <div class="col-xs-12">
-                <form>
+    <form>
+        <div class="container-fluid content">
+            <div class="row prepend-sticky-footer">
+                <div class="col-xs-12">
                     <div class="form-group append-xs-2">
                         <label for="layer_name" class="control-label" data-l10n-id="editLayerFormColumn_layerName"></label>
                         <input type="text" spellcheck="true" class="form-control" id="layer_name" value="<%- name %>">
@@ -144,13 +144,15 @@
                             <i class="fa fa-exclamation-triangle"></i>
                         </p>
                     </div>
+                </div>
+            </div>
 
-                    <div class="form-group sticky-footer">
-                        <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>
-                        <button type="submit" class="btn btn-primary pull-right submit_btn" data-l10n-id="save"></button>
-                    </div>
-                </form>
+            <div class="row sticky-footer">
+                <div class="col-xs-12">
+                    <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>
+                    <button type="submit" class="btn btn-primary pull-right submit_btn" data-l10n-id="save"></button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </section>

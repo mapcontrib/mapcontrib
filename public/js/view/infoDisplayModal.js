@@ -18,7 +18,7 @@ export default Marionette.LayoutView.extend({
         'modal': '.info_display_modal',
         'content': '.info_content',
         'editBtn': '.edit_btn',
-        'footer': '.sticky-footer',
+        'footer': '.bordered-footer',
     },
 
     events: {

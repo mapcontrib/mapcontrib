@@ -268,8 +268,6 @@ export default Marionette.LayoutView.extend({
             });
         }
 
-        this.ui.footer.removeClass('hide');
-
         this.getRegion('tagList').show( this._tagList );
     },
 

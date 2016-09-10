@@ -8,16 +8,20 @@
     </header>
 
     <div class="container-fluid content">
-        <div class="row">
+        <div class="row sticky-header">
             <div class="col-xs-12">
-                <div class="sticky-header">
-                    <div class="rg_search_input"></div>
-                </div>
+                <div class="rg_search_input"></div>
+            </div>
+        </div>
+        <div class="row prepend-sticky-header prepend-sticky-footer">
+            <div class="col-xs-12">
                 <p class="no_result hide" data-l10n-id="noResult"></p>
                 <div class="rg_presets_nav append-xs-1"></div>
-                <div class="sticky-footer">
-                    <div class="rg_free_addition_nav"></div>
-                </div>
+            </div>
+        </div>
+        <div class="row sticky-footer">
+            <div class="col-xs-12">
+                <button type="button" class="btn btn-default btn-block free_addition_btn" data-l10n-id="contribColumn_freeAddition"></button>
             </div>
         </div>
     </div>
