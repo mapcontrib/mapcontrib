@@ -4,10 +4,15 @@ import Backbone from 'backbone';
 import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
 
+import PresetModel from 'model/preset';
+import TagModel from 'model/tag';
+
 import ThemeRootView from 'view/themeRoot';
 
 import AboutModal from 'view/modal/about';
 
+import AdminPresetColumn from 'view/admin/preset/presetColumn';
+import AdminPresetEditColumn from 'view/admin/preset/presetEditColumn';
 import AdminTagColumn from 'view/admin/tag/tagColumn';
 import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
 
@@ -16,9 +21,13 @@ export default Backbone.Router.extend({
     routes: {
         'position/:zoom/:lat/:lng': 'routeMapPosition',
 
+        'admin/preset': 'routeAdminPreset',
+        'admin/preset/new': 'routeAdminPresetNew',
+        'admin/preset/:uuid': 'routeAdminPresetEdit',
+
         'admin/tag': 'routeAdminTag',
         'admin/tag/new': 'routeAdminTagNew',
-        'admin/tag/edit/:uuid': 'routeAdminTagEdit',
+        'admin/tag/:uuid': 'routeAdminTagEdit',
 
         'about': 'routeAbout',
         'logout': 'routeLogout',
@@ -35,12 +44,7 @@ export default Backbone.Router.extend({
             new ThemeRootView({'app': this._app})
         );
 
-        if (window.addEventListener) {
-            window.addEventListener('popstate', () => this._setPreviousRoute, false);
-        }
-        else {
-            window.attachEvent('onpopstate', () => this._setPreviousRoute);
-        }
+        this.on('route', this._setPreviousRoute);
     },
 
     _setPreviousRoute() {
@@ -80,10 +84,42 @@ export default Backbone.Router.extend({
         this.navigate('');
     },
 
+
+    routeAdminPreset() {
+        new AdminPresetColumn({
+            router: this,
+            model: this._theme,
+        }).open();
+    },
+
+    routeAdminPresetNew() {
+        new AdminPresetEditColumn({
+            router: this,
+            theme: this._theme,
+            model: new PresetModel(),
+            isNew: true,
+        }).open();
+    },
+
+    routeAdminPresetEdit(uuid) {
+        const model = this._theme.get('presets').findWhere({ uniqid: uuid });
+
+        if (model) {
+            new AdminPresetEditColumn({
+                router: this,
+                theme: this._theme,
+                model,
+            }).open();
+        }
+        else {
+            this.navigate('');
+        }
+    },
+
+
     routeAdminTag() {
         new AdminTagColumn({
             router: this,
-            previousRoute: this._previousRoute,
             model: this._theme,
         }).open();
     },
@@ -91,15 +127,24 @@ export default Backbone.Router.extend({
     routeAdminTagNew() {
         new AdminTagEditColumn({
             router: this,
-            previousRoute: this._previousRoute,
+            theme: this._theme,
+            model: new TagModel(),
+            isNew: true,
         }).open();
     },
 
     routeAdminTagEdit(uuid) {
-        new AdminTagEditColumn({
-            router: this,
-            previousRoute: this._previousRoute,
-            uuid: uuid,
-        }).open();
+        const model = this._theme.get('tags').findWhere({ uniqid: uuid });
+
+        if (model) {
+            new AdminTagEditColumn({
+                router: this,
+                theme: this._theme,
+                model,
+            }).open();
+        }
+        else {
+            this.navigate('');
+        }
     },
 });

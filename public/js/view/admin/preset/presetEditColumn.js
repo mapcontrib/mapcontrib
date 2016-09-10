@@ -1,17 +1,22 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import PresetModel from 'model/preset';
 import PresetNodeTagsListView from 'ui/form/presetNodeTags';
-import template from 'templates/editPresetTagsColumn.ejs';
+import template from 'templates/admin/preset/presetEditColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
     template: template,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            'l20n': {},
+            'column': {
+                'appendToBody': true,
+                'destroyOnClose': true,
+                'routeOnClose': this.options.previousRoute,
+            },
+        };
     },
 
     ui: {

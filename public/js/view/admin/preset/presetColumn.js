@@ -1,18 +1,22 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import PresetModel from 'model/preset';
 import ListGroup from 'ui/listGroup';
-import EditPresetTagsColumnView from './editPresetTagsColumn';
-import template from 'templates/editPresetColumn.ejs';
+import template from 'templates/admin/preset/presetColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
     template: template,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            'l20n': {},
+            'column': {
+                'appendToBody': true,
+                'destroyOnClose': true,
+                'routeOnClose': this.options.previousRoute,
+            },
+        };
     },
 
     regions: {
@@ -20,12 +24,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#edit_preset_column',
-        'addButton': '.add_btn',
-    },
-
-    events: {
-        'click @ui.addButton': 'onClickAdd',
+        'column': '.column',
     },
 
     initialize() {
@@ -62,11 +61,6 @@ export default Marionette.LayoutView.extend({
         return this;
     },
 
-    onClickAdd() {
-        this.close();
-        this._radio.commands.execute('column:showPresetTags');
-    },
-
     onReorder() {
         this.model.updateModificationDate();
         this.model.save();
@@ -77,6 +71,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onSelect(model) {
-        this._radio.commands.execute( 'column:showPresetTags', model );
+        const uuid = model.get('uniqid');
+        this.options.router.navigate(`admin/preset/${uuid}`, true);
     },
 });

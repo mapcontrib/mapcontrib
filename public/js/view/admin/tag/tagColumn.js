@@ -25,11 +25,6 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         'column': '.column',
-        'addButton': '.add_btn',
-    },
-
-    events: {
-        'click @ui.addButton': 'onClickAdd',
     },
 
     initialize() {
@@ -60,10 +55,5 @@ export default Marionette.LayoutView.extend({
     close() {
         this.triggerMethod('close');
         return this;
-    },
-
-    onClickAdd() {
-        this.close();
-        this.options.router.navigate('admin/tag/new', true);
     },
 });

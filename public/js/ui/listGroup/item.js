@@ -46,7 +46,10 @@ export default Marionette.ItemView.extend({
         this.el.id = 'item-'+ this.model.cid;
     },
 
-    onClick() {
+    onClick(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
         this.trigger('select', this.model);
     },
 

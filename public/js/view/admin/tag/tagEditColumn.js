@@ -48,11 +48,6 @@ export default Marionette.LayoutView.extend({
         // this.getRegion('presetList').show( editPresetListView );
     },
 
-    onBeforeOpen() {
-        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
-        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
-    },
-
     open() {
         this.triggerMethod('open');
         return this;

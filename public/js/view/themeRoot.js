@@ -40,8 +40,6 @@ import EditCsvLayerFormColumnView from './editCsvLayerFormColumn';
 import EditGeoJsonLayerFormColumnView from './editGeoJsonLayerFormColumn';
 import EditLayerMarkerModalView from './editLayerMarkerModal';
 import EditTileColumnView from './editTileColumn';
-import EditPresetColumnView from './editPresetColumn';
-import EditPresetTagsColumnView from './editPresetTagsColumn';
 import EditPoiColumnView from './editPoiColumn';
 import EditPoiPresetColumnView from './editPoiPresetColumn';
 import ZoomNotificationView from './zoomNotification';
@@ -55,7 +53,6 @@ import NewPoiPlacementContextual from './newPoiPlacementContextual';
 
 import LayerModel from 'model/layer';
 import LayerCollection from 'collection/layer';
-import PresetModel from 'model/preset';
 
 import MapUi from 'ui/map';
 import Geolocation from 'core/geolocation';
@@ -108,7 +105,6 @@ export default Marionette.LayoutView.extend({
         'editSettingButton': '#edit_toolbar .setting_btn',
         'editLayerButton': '#edit_toolbar .layer_btn',
         'editTileButton': '#edit_toolbar .tile_btn',
-        'editPresetButton': '#edit_toolbar .preset_btn',
     },
 
     regions: {
@@ -132,8 +128,6 @@ export default Marionette.LayoutView.extend({
         'editLayerFormColumn': '#rg_edit_poi_layer_column',
         'editLayerMarkerModal': '#rg_edit_poi_marker_modal',
         'editTileColumn': '#rg_edit_tile_column',
-        'editPresetColumn': '#rg_edit_preset_column',
-        'editPresetTagsColumn': '#rg_edit_preset_tags_column',
 
         'zoomNotification': '#rg_zoom_notification',
     },
@@ -156,7 +150,6 @@ export default Marionette.LayoutView.extend({
         'click @ui.editSettingButton': 'onClickEditSetting',
         'click @ui.editLayerButton': 'onClickEditLayer',
         'click @ui.editTileButton': 'onClickEditTile',
-        'click @ui.editPresetButton': 'onClickEditPreset',
 
         'keydown': 'onKeyDown',
     },
@@ -263,9 +256,6 @@ export default Marionette.LayoutView.extend({
             },
             'column:showEditPoi': (options) => {
                 this.onEditPoi( options );
-            },
-            'column:showPresetTags': (presetModel) => {
-                this.onCommandShowPresetTags( presetModel );
             },
             'modal:showEditPoiMarker': (layerModel) => {
                 this.onCommandShowEditPoiMarker( layerModel );
@@ -375,7 +365,6 @@ export default Marionette.LayoutView.extend({
         this._editLayerListColumnView = new EditLayerListColumnView({ 'model': this.model });
         this._addLayerMenuColumnView = new AddLayerMenuColumnView({ 'model': this.model });
         this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
-        this._editPresetColumnView = new EditPresetColumnView({ 'model': this.model });
 
         this._zoomNotificationView = new ZoomNotificationView();
 
@@ -395,7 +384,6 @@ export default Marionette.LayoutView.extend({
         this.getRegion('editLayerListColumn').show( this._editLayerListColumnView );
         this.getRegion('addLayerMenuColumn').show( this._addLayerMenuColumnView );
         this.getRegion('editTileColumn').show( this._editTileColumnView );
-        this.getRegion('editPresetColumn').show( this._editPresetColumnView );
 
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
@@ -1616,31 +1604,6 @@ export default Marionette.LayoutView.extend({
         view.open();
     },
 
-    onCommandShowPresetTags(presetModel) {
-        var view;
-
-        if ( presetModel ) {
-            view = new EditPresetTagsColumnView({
-                'model': presetModel,
-                'theme': this.model,
-            });
-        }
-        else {
-            let presetModel = new PresetModel();
-
-            view = new EditPresetTagsColumnView({
-                'model': presetModel,
-                'theme': this.model,
-                'isNew': true,
-            });
-        }
-
-        this.getRegion('editPresetTagsColumn').show( view );
-
-        view.open();
-    },
-
-
 
     onCommandShowEditPoiMarker(layerModel) {
         var view = new EditLayerMarkerModalView({
@@ -1835,10 +1798,6 @@ export default Marionette.LayoutView.extend({
 
     onClickEditTile() {
         this._editTileColumnView.open();
-    },
-
-    onClickEditPreset() {
-        this._editPresetColumnView.open();
     },
 
     setPosition(latLng, zoomLevel) {
