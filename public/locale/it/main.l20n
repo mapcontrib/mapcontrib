@@ -164,7 +164,6 @@ Inseriscilo proprio qui!"> /
 
 /* Edit layer column */
 <editLayerListColumn_title "Livelli">
-<editLayerListColumn_clickButton "Clic sul seguente bottone">
 <editLayerListColumn_addLayer "Aggiungi un livello">
 
 
@@ -244,7 +243,6 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 /* Edit presets column */
 <editPresetColumn_title "Tipo di nodi">
 <editPresetColumn_addPreset "Aggiungere un tipo di nodo">
-<editPresetColumn_clickButton "Clic sul seguente bottone">
 
 
 /* Edit presets tags column */
@@ -315,6 +313,10 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <uiColorSelector_label "Colore">
 
 
+/* List group UI */
+<uiListGroup_placeholder "Clic sul seguente bottone">
+
+
 /* Contribution form column */
 <contribFormColumn_placeOnMap "Posiziona sulla mappa">
 
@@ -368,3 +370,8 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <editPoiPresetColumn_title "Tipo di nodo">
 <editPoiPresetColumn_noThanks "No grazie">
 <editPoiPresetColumn_applyPreset "Vuoi aggiungere automatica i tag ad un tipo di nodo?">
+
+
+/* Admin tag column */
+<adminTagColumn_title "Tags">
+<adminTagColumn_addTag "Aggiungi un tag">

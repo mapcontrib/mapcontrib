@@ -50,9 +50,9 @@ module.exports = {
             helper: path.resolve(__dirname, 'public', 'js', 'helper'),
             model: path.resolve(__dirname, 'public', 'js', 'model'),
             router: path.resolve(__dirname, 'public', 'js', 'router'),
+            templates: path.resolve(__dirname, 'public', 'js', 'templates'),
             view: path.resolve(__dirname, 'public', 'js', 'view'),
             ui: path.resolve(__dirname, 'public', 'js', 'ui'),
-            templates: path.resolve(__dirname, 'public', 'templates'),
         },
     },
     module: {

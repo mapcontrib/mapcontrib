@@ -1,14 +1,16 @@
 
-import _ from 'underscore';
 import Backbone from 'backbone';
-import BackboneRelational from 'backbone-relational';
+import 'backbone-relational';
 import Diacritics from 'diacritic';
 import CONST from 'const';
 
 import LayerCollection from '../collection/layer';
 import PresetCollection from '../collection/preset';
+import TagCollection from '../collection/tag';
+
 import Layer from './layer';
 import Preset from './preset';
+import Tag from './tag';
 
 
 export default Backbone.RelationalModel.extend({
@@ -28,6 +30,12 @@ export default Backbone.RelationalModel.extend({
             'key': 'presets',
             'relatedModel': Preset,
             'collectionType': PresetCollection,
+        },
+        {
+            'type': Backbone.HasMany,
+            'key': 'tags',
+            'relatedModel': Tag,
+            'collectionType': TagCollection,
         },
     ],
 
@@ -125,9 +133,14 @@ export default Backbone.RelationalModel.extend({
      * @return string
      */
     buildPath() {
-        return '/t/' +
-        this.get('fragment') +
-        '-' +
-        this.buildWebLinkName();
+        const basePath = `/t/${this.get('fragment')}`;
+        const webName = this.buildWebLinkName();
+
+        if (webName) {
+            return `${basePath}-${webName}`;
+        }
+        else {
+            return basePath;
+        }
     }
 });

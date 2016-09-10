@@ -93,7 +93,8 @@ export default function Api(app, db, CONST, packageJson){
         }
     });
 
-    app.get('/t/:fragment-*', (req, res) => {
+    app.get(/\/t\/(\w+)(-.*)?/, (req, res) => {
+        const fragment = req.params['0'];
         const templateVars = {
             'user': req.session.user ? escape(JSON.stringify(req.session.user)) : '{}',
             'config': JSON.stringify( config.get('client') ),
@@ -102,9 +103,9 @@ export default function Api(app, db, CONST, packageJson){
         };
 
         const promises = [
-            themeApi.Api.findFromFragment(req.params.fragment),
-            nonOsmDataApi.Api.findFromFragment(req.params.fragment),
-            osmCacheApi.Api.findFromFragment(req.params.fragment),
+            themeApi.Api.findFromFragment(fragment),
+            nonOsmDataApi.Api.findFromFragment(fragment),
+            osmCacheApi.Api.findFromFragment(fragment),
             getiDPresets(CONST),
         ];
 

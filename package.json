@@ -31,6 +31,7 @@
     "updateOverPassCache": "babel-node cron/updateOverPassCache.js",
     "importIdPresets": "babel-node scripts/importIdPresets.js"
   },
+  "moduleRoots": [ "public/js" ],
   "devDependencies": {
     "babel-eslint": "^6.1.2",
     "babel-plugin-webpack-alias": "^2.1.1",

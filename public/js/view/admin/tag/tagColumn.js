@@ -1,18 +1,22 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import PresetModel from 'model/preset';
 import ListGroup from 'ui/listGroup';
-import EditPresetTagsColumnView from './editPresetTagsColumn';
-import template from 'templates/editPresetColumn.ejs';
+import template from 'templates/admin/tag/tagColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
     template: template,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            'l20n': {},
+            'column': {
+                'appendToBody': true,
+                'destroyOnClose': true,
+                'routeOnClose': this.options.previousRoute,
+            },
+        };
     },
 
     regions: {
@@ -20,7 +24,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#edit_preset_column',
+        'column': '.column',
         'addButton': '.add_btn',
     },
 
@@ -34,15 +38,11 @@ export default Marionette.LayoutView.extend({
 
     onRender() {
         const listGroup = new ListGroup({
-            collection: this.model.get('presets'),
+            collection: this.model.get('tags'),
             reorderable: true,
             removeable: true,
             placeholder: document.l10n.getSync('uiListGroup_placeholder'),
         });
-
-        this.listenTo(listGroup, 'reorder', this.onReorder);
-        this.listenTo(listGroup, 'item:remove', this.onRemove);
-        this.listenTo(listGroup, 'item:select', this.onSelect);
 
         this.getRegion('list').show( listGroup );
     },
@@ -64,19 +64,6 @@ export default Marionette.LayoutView.extend({
 
     onClickAdd() {
         this.close();
-        this._radio.commands.execute('column:showPresetTags');
-    },
-
-    onReorder() {
-        this.model.updateModificationDate();
-        this.model.save();
-    },
-
-    onRemove() {
-        this.model.save();
-    },
-
-    onSelect(model) {
-        this._radio.commands.execute( 'column:showPresetTags', model );
+        this.options.router.navigate('admin/tag/new', true);
     },
 });

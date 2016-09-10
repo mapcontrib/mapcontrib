@@ -1,5 +1,4 @@
 
-import _ from 'underscore';
 import Backbone from 'backbone';
 import 'backbone-relational';
 import { uuid } from '../core/utils';

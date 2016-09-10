@@ -164,7 +164,6 @@ Put it right here!">
 
 /* Edit layer column */
 <editLayerListColumn_title "Layers">
-<editLayerListColumn_clickButton "Click the button below">
 <editLayerListColumn_addLayer "Add a layer">
 
 
@@ -244,7 +243,6 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 /* Edit presets column */
 <editPresetColumn_title "Nodes types">
 <editPresetColumn_addPreset "Add a node type">
-<editPresetColumn_clickButton "Click the button below">
 
 
 /* Edit presets tags column */
@@ -314,6 +312,10 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <uiColorSelector_label "Color">
 
 
+/* List group UI */
+<uiListGroup_placeholder "Click the button below">
+
+
 /* Contribution form column */
 <contribFormColumn_placeOnMap "Place on the map">
 
@@ -368,3 +370,8 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <editPoiPresetColumn_title "Nodes types">
 <editPoiPresetColumn_noThanks "No thanks">
 <editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?">
+
+
+/* Admin tag column */
+<adminTagColumn_title "Tags">
+<adminTagColumn_addTag "Add a tag">

@@ -2,7 +2,6 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import Sifter from 'sifter';
-import CONST from 'const';
 import PresetModel from '../model/preset';
 
 

@@ -164,7 +164,6 @@ Insérez-le juste ici !">
 
 /* Edit layer column */
 <editLayerListColumn_title "Couches">
-<editLayerListColumn_clickButton "Cliquez sur le bouton ci-dessous">
 <editLayerListColumn_addLayer "Ajouter une couche">
 
 
@@ -244,7 +243,6 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 /* Edit presets column */
 <editPresetColumn_title "Types de nœuds">
 <editPresetColumn_addPreset "Ajouter un type de nœud">
-<editPresetColumn_clickButton "Cliquez sur le bouton ci-dessous">
 
 
 /* Edit presets tags column */
@@ -315,6 +313,10 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <uiColorSelector_label "Couleur">
 
 
+/* List group UI */
+<uiListGroup_placeholder "Cliquez sur le bouton ci-dessous">
+
+
 /* Contribution form column */
 <contribFormColumn_placeOnMap "Placer sur la carte">
 
@@ -368,3 +370,8 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <editPoiPresetColumn_title "Type de nœud">
 <editPoiPresetColumn_noThanks "Non merci">
 <editPoiPresetColumn_applyPreset "Voulez-vous automatiquement ajouter les tags d'un de ces types de nœuds ?">
+
+
+/* Admin tag column */
+<adminTagColumn_title "Tags">
+<adminTagColumn_addTag "Ajouter un tag">
