@@ -15,7 +15,7 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
-        'layerList': '.rg_layer_list',
+        'layerList': '.rg_list',
     },
 
     ui: {
