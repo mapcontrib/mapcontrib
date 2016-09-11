@@ -2,21 +2,27 @@
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/linkColumn.ejs';
-import templateIframe from 'templates/linkColumnIframe.ejs';
+import template from 'templates/link/linkColumn.ejs';
+import templateIframe from 'templates/link/iframe.ejs';
 
 
 export default Marionette.LayoutView.extend({
     template: template,
     templateIframe: templateIframe,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            'l20n': {},
+            'column': {
+                'appendToBody': true,
+                'destroyOnClose': true,
+                'routeOnClose': this.options.previousRoute,
+            },
+        };
     },
 
     ui: {
-        'column': '#link_column',
+        'column': '.column',
         'autoSelects': '.auto_select',
         'linkUrl': '.link_url',
         'linkPosition': '#link_include_position',

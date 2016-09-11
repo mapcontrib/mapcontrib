@@ -22,7 +22,6 @@ import SelectLayerColumnView from './selectLayerColumn';
 import SelectTileColumnView from './selectTileColumn';
 import UserColumnView from './userColumn';
 import VisitorColumnView from './visitorColumn';
-import LinkColumnView from './linkColumn';
 import TempLayerListColumnView from './tempLayerListColumn';
 import AddTempLayerMenuColumnView from './addTempLayerMenuColumn';
 import TempOverPassLayerFormColumnView from './tempOverPassLayerFormColumn';
@@ -95,7 +94,6 @@ export default Marionette.LayoutView.extend({
         'rightToolbar': '#right_toolbar',
         'userToolbar': '#user_toolbar',
         'userButton': '#user_toolbar .user_btn',
-        'linkButton': '#user_toolbar .link_btn',
         'tempLayerButton': '#contrib_toolbar .temp_layer_btn',
         'contribButton': '#contrib_toolbar .contrib_btn',
 
@@ -112,7 +110,6 @@ export default Marionette.LayoutView.extend({
         'selectTileColumn': '#rg_select_tile_column',
         'userColumn': '#rg_user_column',
         'visitorColumn': '#rg_visitor_column',
-        'linkColumn': '#rg_link_column',
         'tempLayerListColumn': '#rg_temp_layer_column',
         'addTempLayerMenuColumn': '#rg_add_temp_layer_menu_column',
         'tempLayerFormColumn': '#rg_edit_temp_layer_column',
@@ -138,7 +135,6 @@ export default Marionette.LayoutView.extend({
         'click @ui.controlTileButton': 'onClickSelectTile',
 
         'click @ui.userButton': 'onClickUser',
-        'click @ui.linkButton': 'onClickLink',
         'click @ui.tempLayerButton': 'onClickTempLayer',
         'click @ui.contribButton': 'onClickContrib',
         'click @ui.editLayerButton': 'onClickEditLayer',
@@ -345,7 +341,6 @@ export default Marionette.LayoutView.extend({
         this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
         this._userColumnView = new UserColumnView();
         this._visitorColumnView = new VisitorColumnView({ 'theme': this.model });
-        this._linkColumnView = new LinkColumnView({ 'model': this.model });
         this._tempLayerListColumnView = new TempLayerListColumnView({ 'collection': this._tempLayerCollection });
         this._addTempLayerMenuColumnView = new AddTempLayerMenuColumnView();
         this._contribColumnView = new ContribColumnView({
@@ -366,7 +361,6 @@ export default Marionette.LayoutView.extend({
         this.getRegion('selectTileColumn').show( this._selectTileColumnView );
         this.getRegion('userColumn').show( this._userColumnView );
         this.getRegion('visitorColumn').show( this._visitorColumnView );
-        this.getRegion('linkColumn').show( this._linkColumnView );
         this.getRegion('tempLayerListColumn').show( this._tempLayerListColumnView );
         this.getRegion('addTempLayerMenuColumn').show( this._addTempLayerMenuColumnView );
         this.getRegion('contribColumn').show( this._contribColumnView );
@@ -1759,10 +1753,6 @@ export default Marionette.LayoutView.extend({
         else {
             this._visitorColumnView.open();
         }
-    },
-
-    onClickLink() {
-        this._linkColumnView.open();
     },
 
     onClickTempLayer() {

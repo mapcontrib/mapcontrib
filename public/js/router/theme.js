@@ -11,6 +11,8 @@ import ThemeRootView from 'view/themeRoot';
 
 import AboutModal from 'view/modal/about';
 
+import LinkColumn from 'view/linkColumn';
+
 import AdminSettingColumn from 'view/admin/settingColumn';
 import AdminTileColumn from 'view/admin/tileColumn';
 import AdminPresetColumn from 'view/admin/preset/presetColumn';
@@ -22,6 +24,8 @@ import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
 export default Backbone.Router.extend({
     routes: {
         'position/:zoom/:lat/:lng': 'routeMapPosition',
+
+        'link': 'routeLink',
 
         'admin/setting': 'routeAdminSetting',
         'admin/tile': 'routeAdminTile',
@@ -87,6 +91,13 @@ export default Backbone.Router.extend({
     routeMapPosition(zoom, lat, lng){
         const version = this._radio.commands.execute('map:position', zoom, lat, lng);
         this.navigate('');
+    },
+
+    routeLink() {
+        new LinkColumn({
+            router: this,
+            model: this._theme,
+        }).open();
     },
 
 
