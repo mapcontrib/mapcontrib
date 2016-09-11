@@ -11,6 +11,7 @@ import ThemeRootView from 'view/themeRoot';
 
 import AboutModal from 'view/modal/about';
 
+import SelectLayerColumn from 'view/select/layer/layerColumn';
 import SelectTileColumn from 'view/select/tileColumn';
 
 import UserColumn from 'view/userColumn';
@@ -29,6 +30,7 @@ export default Backbone.Router.extend({
     routes: {
         'position/:zoom/:lat/:lng': 'routeMapPosition',
 
+        'select/layer': 'routeSelectLayer',
         'select/tile': 'routeSelectTile',
 
         'user': 'routeUser',
@@ -89,6 +91,14 @@ export default Backbone.Router.extend({
     routeMapPosition(zoom, lat, lng){
         const version = this._radio.commands.execute('map:position', zoom, lat, lng);
         this.navigate('');
+    },
+
+    routeSelectLayer() {
+        new SelectLayerColumn({
+            router: this,
+            model: this._theme,
+            collection: this._theme.get('layers'),
+        }).open();
     },
 
     routeSelectTile() {

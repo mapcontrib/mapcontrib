@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import SelectLayerListItemView from './selectLayerListItem';
+import SelectLayerListItemView from './item';
 
 
 export default Marionette.CollectionView.extend({

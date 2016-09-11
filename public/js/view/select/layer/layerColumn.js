@@ -1,17 +1,23 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import SelectLayerListView from './selectLayerList';
-import template from 'templates/selectLayerColumn.ejs';
+import SelectLayerListView from './list';
+import template from 'templates/select/layer/layerColumn.ejs';
 import LeafletHelper from 'helper/leaflet';
 
 
 export default Marionette.LayoutView.extend({
     template: template,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            'l20n': {},
+            'column': {
+                'appendToBody': true,
+                'destroyOnClose': true,
+                'routeOnClose': this.options.previousRoute,
+            },
+        };
     },
 
     regions: {
@@ -19,7 +25,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#select_poi_column',
+        'column': '.column',
         'downloadBtn': '.download_btn',
     },
 

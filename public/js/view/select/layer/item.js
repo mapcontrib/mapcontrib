@@ -4,12 +4,12 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MarkedHelper from 'helper/marked';
 import MapUi from 'ui/map';
-import template from 'templates/selectLayerListItem.ejs';
+import template from 'templates/select/layer/item.ejs';
 import CONST from 'const';
-import InfoOverPassLayerColumnView from './infoOverPassLayerColumn';
-import InfoGpxLayerColumnView from './infoGpxLayerColumn';
-import InfoCsvLayerColumnView from './infoCsvLayerColumn';
-import InfoGeoJsonLayerColumnView from './infoGeoJsonLayerColumn';
+import InfoOverPassLayerColumnView from 'view/infoOverPassLayerColumn';
+import InfoGpxLayerColumnView from 'view/infoGpxLayerColumn';
+import InfoCsvLayerColumnView from 'view/infoCsvLayerColumn';
+import InfoGeoJsonLayerColumnView from 'view/infoGeoJsonLayerColumn';
 
 
 export default Marionette.ItemView.extend({
