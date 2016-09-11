@@ -19,7 +19,6 @@ import InfoDisplayModalView from './infoDisplayModal';
 import InfoDisplayColumnView from './infoDisplayColumn';
 import GeocodeWidgetView from './geocodeWidget';
 import SelectLayerColumnView from './selectLayerColumn';
-import SelectTileColumnView from './selectTileColumn';
 import TempLayerListColumnView from './tempLayerListColumn';
 import AddTempLayerMenuColumnView from './addTempLayerMenuColumn';
 import TempOverPassLayerFormColumnView from './tempOverPassLayerFormColumn';
@@ -87,7 +86,6 @@ export default Marionette.LayoutView.extend({
         'controlLayerButton': '#control_toolbar .layer_btn',
         'controlLayerIcon': '#control_toolbar .layer_btn i',
         'controlLayerSpinner': '#control_toolbar .layer_btn .spinner',
-        'controlTileButton': '#control_toolbar .tile_btn',
 
         'rightToolbar': '#right_toolbar',
         'userToolbar': '#user_toolbar',
@@ -105,8 +103,6 @@ export default Marionette.LayoutView.extend({
         'geocodeWidget': '#rg_geocode_widget',
 
         'selectLayerColumn': '#rg_select_layer_column',
-        'selectTileColumn': '#rg_select_tile_column',
-        'visitorColumn': '#rg_visitor_column',
         'tempLayerListColumn': '#rg_temp_layer_column',
         'addTempLayerMenuColumn': '#rg_add_temp_layer_menu_column',
         'tempLayerFormColumn': '#rg_edit_temp_layer_column',
@@ -129,7 +125,6 @@ export default Marionette.LayoutView.extend({
         'click @ui.expandScreenButton': 'onClickExpandScreen',
         'click @ui.compressScreenButton': 'onClickCompressScreen',
         'click @ui.controlLayerButton': 'onClickSelectLayer',
-        'click @ui.controlTileButton': 'onClickSelectTile',
 
         'click @ui.tempLayerButton': 'onClickTempLayer',
         'click @ui.contribButton': 'onClickContrib',
@@ -334,7 +329,6 @@ export default Marionette.LayoutView.extend({
             'spinner': this.ui.geocodeSpinner,
         });
         this._selectLayerColumnView = new SelectLayerColumnView({ 'collection': this._layerCollection });
-        this._selectTileColumnView = new SelectTileColumnView({ 'model': this.model });
         this._tempLayerListColumnView = new TempLayerListColumnView({ 'collection': this._tempLayerCollection });
         this._addTempLayerMenuColumnView = new AddTempLayerMenuColumnView();
         this._contribColumnView = new ContribColumnView({
@@ -352,7 +346,6 @@ export default Marionette.LayoutView.extend({
 
         this.getRegion('geocodeWidget').show( this._geocodeWidgetView );
         this.getRegion('selectLayerColumn').show( this._selectLayerColumnView );
-        this.getRegion('selectTileColumn').show( this._selectTileColumnView );
         this.getRegion('tempLayerListColumn').show( this._tempLayerListColumnView );
         this.getRegion('addTempLayerMenuColumn').show( this._addTempLayerMenuColumnView );
         this.getRegion('contribColumn').show( this._contribColumnView );
@@ -1732,10 +1725,6 @@ export default Marionette.LayoutView.extend({
 
     onClickSelectLayer() {
         this._selectLayerColumnView.open();
-    },
-
-    onClickSelectTile() {
-        this._selectTileColumnView.open();
     },
 
     onClickTempLayer() {

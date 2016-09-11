@@ -11,6 +11,8 @@ import ThemeRootView from 'view/themeRoot';
 
 import AboutModal from 'view/modal/about';
 
+import SelectTileColumn from 'view/select/tileColumn';
+
 import UserColumn from 'view/userColumn';
 import VisitorColumn from 'view/visitorColumn';
 import LinkColumn from 'view/linkColumn';
@@ -26,6 +28,8 @@ import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
 export default Backbone.Router.extend({
     routes: {
         'position/:zoom/:lat/:lng': 'routeMapPosition',
+
+        'select/tile': 'routeSelectTile',
 
         'user': 'routeUser',
         'link': 'routeLink',
@@ -82,18 +86,16 @@ export default Backbone.Router.extend({
         });
     },
 
-    routeAbout() {
-        const version = this._app.getVersion();
-
-        new AboutModal({
-            previousRoute: this._previousRoute,
-            version,
-        }).open();
-    },
-
     routeMapPosition(zoom, lat, lng){
         const version = this._radio.commands.execute('map:position', zoom, lat, lng);
         this.navigate('');
+    },
+
+    routeSelectTile() {
+        new SelectTileColumn({
+            router: this,
+            model: this._theme,
+        }).open();
     },
 
     routeUser() {
@@ -109,6 +111,15 @@ export default Backbone.Router.extend({
                 model: this._theme,
             }).open();
         }
+    },
+
+    routeAbout() {
+        const version = this._app.getVersion();
+
+        new AboutModal({
+            previousRoute: this._previousRoute,
+            version,
+        }).open();
     },
 
     routeLink() {

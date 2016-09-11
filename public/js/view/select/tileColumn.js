@@ -3,21 +3,27 @@ import _ from 'underscore';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from 'const';
-import template from 'templates/selectTileColumn.ejs';
-import templateListItem from 'templates/selectTileListItem.ejs';
+import template from 'templates/select/tile/tileColumn.ejs';
+import templateListItem from 'templates/select/tile/item.ejs';
 
 
 export default Marionette.LayoutView.extend({
     template: template,
     templateListItem: templateListItem,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            'l20n': {},
+            'column': {
+                'appendToBody': true,
+                'destroyOnClose': true,
+                'routeOnClose': this.options.previousRoute,
+            },
+        };
     },
 
     ui: {
-        'column': '#select_tile_column',
+        'column': '.column',
         'tileList': '.tile_list',
         'tiles': '.tile_list input',
     },
@@ -29,11 +35,8 @@ export default Marionette.LayoutView.extend({
     initialize() {
         this._radio = Wreqr.radio.channel('global');
 
-        var fragment = this._radio.reqres.request('theme:fragment'),
-        storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) ) || {};
-
-
-        this._fragment = fragment;
+        this._fragment = this._radio.reqres.request('theme:fragment');
+        const storage = JSON.parse( localStorage.getItem(`mapState-${this._fragment}`) ) || {};
 
         if ( storage.selectedTile ) {
             this._selectedInStorage = storage.selectedTile;
@@ -43,9 +46,9 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        var tile, checked,
-        tiles = this.model.get('tiles'),
-        html = '';
+        let tile, checked;
+        let html = '';
+        const tiles = this.model.get('tiles');
 
         tiles.forEach((id) => {
             tile = CONST.map.tiles[id];
@@ -97,7 +100,7 @@ export default Marionette.LayoutView.extend({
             ...oldState,
             ...{ 'selectedTile': e.target.value }
         };
-        
+
         localStorage.setItem( key, JSON.stringify( newState ) );
 
         this._radio.commands.execute('map:setTileLayer', e.target.value);
