@@ -38,7 +38,6 @@ import EditGpxLayerFormColumnView from './editGpxLayerFormColumn';
 import EditCsvLayerFormColumnView from './editCsvLayerFormColumn';
 import EditGeoJsonLayerFormColumnView from './editGeoJsonLayerFormColumn';
 import EditLayerMarkerModalView from './editLayerMarkerModal';
-import EditTileColumnView from './editTileColumn';
 import EditPoiColumnView from './editPoiColumn';
 import EditPoiPresetColumnView from './editPoiPresetColumn';
 import ZoomNotificationView from './zoomNotification';
@@ -102,7 +101,6 @@ export default Marionette.LayoutView.extend({
 
         'editToolbar': '#edit_toolbar',
         'editLayerButton': '#edit_toolbar .layer_btn',
-        'editTileButton': '#edit_toolbar .tile_btn',
     },
 
     regions: {
@@ -124,7 +122,6 @@ export default Marionette.LayoutView.extend({
         'addLayerMenuColumn': '#rg_add_layer_menu_column',
         'editLayerFormColumn': '#rg_edit_poi_layer_column',
         'editLayerMarkerModal': '#rg_edit_poi_marker_modal',
-        'editTileColumn': '#rg_edit_tile_column',
 
         'zoomNotification': '#rg_zoom_notification',
     },
@@ -145,7 +142,6 @@ export default Marionette.LayoutView.extend({
         'click @ui.tempLayerButton': 'onClickTempLayer',
         'click @ui.contribButton': 'onClickContrib',
         'click @ui.editLayerButton': 'onClickEditLayer',
-        'click @ui.editTileButton': 'onClickEditTile',
 
         'keydown': 'onKeyDown',
     },
@@ -359,7 +355,6 @@ export default Marionette.LayoutView.extend({
         });
         this._editLayerListColumnView = new EditLayerListColumnView({ 'model': this.model });
         this._addLayerMenuColumnView = new AddLayerMenuColumnView({ 'model': this.model });
-        this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
 
         this._zoomNotificationView = new ZoomNotificationView();
 
@@ -377,7 +372,6 @@ export default Marionette.LayoutView.extend({
         this.getRegion('contribColumn').show( this._contribColumnView );
         this.getRegion('editLayerListColumn').show( this._editLayerListColumnView );
         this.getRegion('addLayerMenuColumn').show( this._addLayerMenuColumnView );
-        this.getRegion('editTileColumn').show( this._editTileColumnView );
 
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
@@ -1784,10 +1778,6 @@ export default Marionette.LayoutView.extend({
 
     onClickEditLayer() {
         this._editLayerListColumnView.open();
-    },
-
-    onClickEditTile() {
-        this._editTileColumnView.open();
     },
 
     setPosition(latLng, zoomLevel) {

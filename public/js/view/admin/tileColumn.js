@@ -2,21 +2,27 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from 'const';
-import template from 'templates/editTileColumn.ejs';
-import templateListItem from 'templates/tileListItem.ejs';
+import template from 'templates/admin/tile/tileColumn.ejs';
+import templateListItem from 'templates/admin/tile/listItem.ejs';
 
 
 export default Marionette.LayoutView.extend({
     template: template,
     templateListItem: templateListItem,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            'l20n': {},
+            'column': {
+                'appendToBody': true,
+                'destroyOnClose': true,
+                'routeOnClose': this.options.previousRoute,
+            },
+        };
     },
 
     ui: {
-        'column': '#edit_tile_column',
+        'column': '.column',
         'tileList': '.tile_list',
         'tiles': '.tile_list input',
     },
@@ -48,10 +54,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        var tile,
-        tiles = this.model.get('tiles'),
-        html = '',
-        maxZoom = '';
+        let tile;
+        let html = '';
+        let maxZoom = '';
+        const tiles = this.model.get('tiles');
 
         for (var id in CONST.map.tiles) {
             tile = CONST.map.tiles[id];
