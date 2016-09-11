@@ -11,6 +11,8 @@ import ThemeRootView from 'view/themeRoot';
 
 import AboutModal from 'view/modal/about';
 
+import UserColumn from 'view/userColumn';
+import VisitorColumn from 'view/visitorColumn';
 import LinkColumn from 'view/linkColumn';
 
 import AdminSettingColumn from 'view/admin/settingColumn';
@@ -25,6 +27,7 @@ export default Backbone.Router.extend({
     routes: {
         'position/:zoom/:lat/:lng': 'routeMapPosition',
 
+        'user': 'routeUser',
         'link': 'routeLink',
 
         'admin/setting': 'routeAdminSetting',
@@ -91,6 +94,21 @@ export default Backbone.Router.extend({
     routeMapPosition(zoom, lat, lng){
         const version = this._radio.commands.execute('map:position', zoom, lat, lng);
         this.navigate('');
+    },
+
+    routeUser() {
+        if ( this._app.isLogged() ) {
+            new UserColumn({
+                router: this,
+                model: this._theme,
+            }).open();
+        }
+        else {
+            new VisitorColumn({
+                router: this,
+                model: this._theme,
+            }).open();
+        }
     },
 
     routeLink() {

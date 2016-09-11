@@ -7,13 +7,19 @@ import template from 'templates/userColumn.ejs';
 export default Marionette.LayoutView.extend({
     template: template,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            'l20n': {},
+            'column': {
+                'appendToBody': true,
+                'destroyOnClose': true,
+                'routeOnClose': this.options.previousRoute,
+            },
+        };
     },
 
     ui: {
-        'column': '#user_column',
+        'column': '.column',
         'logoutItem': '.logout_item',
     },
 
