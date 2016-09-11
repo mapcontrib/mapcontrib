@@ -18,7 +18,7 @@ export default Marionette.LayoutView.extend({
     ui: {
         'column': '.info_display_column',
         'content': '.info_content',
-        'prependStickyFooter': '.prepend-sticky-footer',
+        'prependStickyFooter': '.before-sticky-footer',
         'footer': '.sticky-footer',
         'editBtn': '.edit_btn',
     },
@@ -41,7 +41,7 @@ export default Marionette.LayoutView.extend({
             this.ui.footer.removeClass('hide');
         }
         else {
-            this.ui.prependStickyFooter.removeClass('prepend-sticky-footer');
+            this.ui.prependStickyFooter.removeClass('before-sticky-footer');
         }
     },
 

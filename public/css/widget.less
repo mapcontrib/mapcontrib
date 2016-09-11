@@ -81,8 +81,8 @@
     border-top-width: 1px;
 }
 
-.prepend-sticky-header,
-.prepend-sticky-footer {
+.after-sticky-header,
+.before-sticky-footer {
     position: absolute;
     overflow-y: auto;
     width: 100%;
@@ -90,17 +90,17 @@
     padding-bottom: 20px;
 }
 
-.prepend-sticky-footer {
+.before-sticky-footer {
     top: 0;
     bottom: 75px;
 }
 
-.prepend-sticky-header {
+.after-sticky-header {
     top: 75px;
     bottom: 0;
 }
 
-.prepend-sticky-footer.prepend-sticky-header {
+.before-sticky-footer.after-sticky-header {
     top: 75px;
     bottom: 75px;
 }
