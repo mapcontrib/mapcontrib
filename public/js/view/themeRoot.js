@@ -31,7 +31,6 @@ import TempCsvLayerFormColumnView from './tempCsvLayerFormColumn';
 import TempGeoJsonLayerFormColumnView from './tempGeoJsonLayerFormColumn';
 import ContribColumnView from './contribColumn';
 import ContribFormColumnView from './contribFormColumn';
-import EditSettingColumnView from './editSettingColumn';
 import EditLayerListColumnView from './editLayerListColumn';
 import AddLayerMenuColumnView from './addLayerMenuColumn';
 import EditOverPassLayerFormColumnView from './editOverPassLayerFormColumn';
@@ -102,7 +101,6 @@ export default Marionette.LayoutView.extend({
         'contribButton': '#contrib_toolbar .contrib_btn',
 
         'editToolbar': '#edit_toolbar',
-        'editSettingButton': '#edit_toolbar .setting_btn',
         'editLayerButton': '#edit_toolbar .layer_btn',
         'editTileButton': '#edit_toolbar .tile_btn',
     },
@@ -122,7 +120,6 @@ export default Marionette.LayoutView.extend({
         'tempLayerFormColumn': '#rg_edit_temp_layer_column',
         'contribColumn': '#rg_contrib_column',
         'contribFormColumn': '#rg_contrib_form_column',
-        'editSettingColumn': '#rg_edit_setting_column',
         'editLayerListColumn': '#rg_edit_layer_column',
         'addLayerMenuColumn': '#rg_add_layer_menu_column',
         'editLayerFormColumn': '#rg_edit_poi_layer_column',
@@ -147,7 +144,6 @@ export default Marionette.LayoutView.extend({
         'click @ui.linkButton': 'onClickLink',
         'click @ui.tempLayerButton': 'onClickTempLayer',
         'click @ui.contribButton': 'onClickContrib',
-        'click @ui.editSettingButton': 'onClickEditSetting',
         'click @ui.editLayerButton': 'onClickEditLayer',
         'click @ui.editTileButton': 'onClickEditTile',
 
@@ -361,7 +357,6 @@ export default Marionette.LayoutView.extend({
             iDPresetsHelper: this._iDPresetsHelper,
             config: this._config,
         });
-        this._editSettingColumnView = new EditSettingColumnView({ 'model': this.model });
         this._editLayerListColumnView = new EditLayerListColumnView({ 'model': this.model });
         this._addLayerMenuColumnView = new AddLayerMenuColumnView({ 'model': this.model });
         this._editTileColumnView = new EditTileColumnView({ 'model': this.model });
@@ -380,7 +375,6 @@ export default Marionette.LayoutView.extend({
         this.getRegion('tempLayerListColumn').show( this._tempLayerListColumnView );
         this.getRegion('addTempLayerMenuColumn').show( this._addTempLayerMenuColumnView );
         this.getRegion('contribColumn').show( this._contribColumnView );
-        this.getRegion('editSettingColumn').show( this._editSettingColumnView );
         this.getRegion('editLayerListColumn').show( this._editLayerListColumnView );
         this.getRegion('addLayerMenuColumn').show( this._addLayerMenuColumnView );
         this.getRegion('editTileColumn').show( this._editTileColumnView );
@@ -1786,10 +1780,6 @@ export default Marionette.LayoutView.extend({
             'collection': this._presetCollection,
             'user': this._user,
         }).open();
-    },
-
-    onClickEditSetting() {
-        this._editSettingColumnView.open();
     },
 
     onClickEditLayer() {

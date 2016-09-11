@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/editSettingColumn.ejs';
+import template from 'templates/admin/settingColumn.ejs';
 import CONST from 'const';
 import MarkedHelper from 'helper/marked';
 
@@ -9,13 +9,19 @@ import MarkedHelper from 'helper/marked';
 export default Marionette.ItemView.extend({
     template: template,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            'l20n': {},
+            'column': {
+                'appendToBody': true,
+                'destroyOnClose': true,
+                'routeOnClose': this.options.previousRoute,
+            },
+        };
     },
 
     ui: {
-        'column': '#edit_setting_column',
+        'column': '.column',
 
         'themeName': '#theme_name',
         'themeDescription': '#theme_description',

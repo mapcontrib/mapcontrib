@@ -11,6 +11,7 @@ import ThemeRootView from 'view/themeRoot';
 
 import AboutModal from 'view/modal/about';
 
+import AdminSettingColumn from 'view/admin/settingColumn';
 import AdminPresetColumn from 'view/admin/preset/presetColumn';
 import AdminPresetEditColumn from 'view/admin/preset/presetEditColumn';
 import AdminTagColumn from 'view/admin/tag/tagColumn';
@@ -20,6 +21,8 @@ import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
 export default Backbone.Router.extend({
     routes: {
         'position/:zoom/:lat/:lng': 'routeMapPosition',
+
+        'admin/setting': 'routeAdminSetting',
 
         'admin/preset': 'routeAdminPreset',
         'admin/preset/new': 'routeAdminPresetNew',
@@ -84,6 +87,13 @@ export default Backbone.Router.extend({
         this.navigate('');
     },
 
+
+    routeAdminSetting() {
+        new AdminSettingColumn({
+            router: this,
+            model: this._theme,
+        }).open();
+    },
 
     routeAdminPreset() {
         new AdminPresetColumn({
