@@ -12,7 +12,7 @@ export default Backbone.RelationalModel.extend({
         return {
             'creationDate': new Date().toISOString(),
             'modificationDate': new Date().toISOString(),
-            'uniqid': undefined,
+            'uuid': undefined,
             'type': CONST.layerType.overpass,
             'name': undefined,
             'description': undefined,
@@ -55,8 +55,8 @@ export default Backbone.RelationalModel.extend({
     initialize() {
         this._radio = Wreqr.radio.channel('global');
 
-        if (!this.get('uniqid')) {
-            this.set('uniqid', uuid());
+        if (!this.get('uuid')) {
+            this.set('uuid', uuid());
         }
     },
 

@@ -449,7 +449,7 @@ export default Marionette.LayoutView.extend({
 
 
         _.each(this._layerCollection.getVisibleLayers(), (layerModel) => {
-            if ( hiddenLayers.indexOf(layerModel.get('uniqid')) === -1 ) {
+            if ( hiddenLayers.indexOf(layerModel.get('uuid')) === -1 ) {
                 this.addLayer( layerModel );
             }
             else {

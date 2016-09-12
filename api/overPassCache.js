@@ -16,7 +16,7 @@ function setOptions (hash) {
 
 class Api {
     static generate (req, res) {
-        if ( !options.CONST.pattern.uuid.test( req.params.uniqid ) ) {
+        if ( !options.CONST.pattern.uuid.test( req.params.uuid ) ) {
             res.sendStatus(400);
 
             return true;
@@ -25,7 +25,7 @@ class Api {
         const collection = options.database.collection('theme');
 
         collection.find({
-            'layers.uniqid': req.params.uniqid
+            'layers.uuid': req.params.uuid
         })
         .toArray((err, results) => {
             if(err) {
@@ -45,10 +45,10 @@ class Api {
             for (const i in theme.layers) {
                 const layer = theme.layers[i];
 
-                if ( layer.uniqid === req.params.uniqid ) {
+                if ( layer.uuid === req.params.uuid ) {
                     res.send('ok');
 
-                    return spawn('npm', ['run', 'updateOverPassCache', layer.uniqid]);
+                    return spawn('npm', ['run', 'updateOverPassCache', layer.uuid]);
                 }
             }
 

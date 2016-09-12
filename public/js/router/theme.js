@@ -171,7 +171,7 @@ export default Backbone.Router.extend({
     },
 
     routeAdminPresetEdit(uuid) {
-        const model = this._theme.get('presets').findWhere({ uniqid: uuid });
+        const model = this._theme.get('presets').findWhere({ uuid: uuid });
 
         if (model) {
             new AdminPresetEditColumn({
@@ -203,7 +203,7 @@ export default Backbone.Router.extend({
     },
 
     routeAdminTagEdit(uuid) {
-        const model = this._theme.get('tags').findWhere({ uniqid: uuid });
+        const model = this._theme.get('tags').findWhere({ uuid: uuid });
 
         if (model) {
             new AdminTagEditColumn({

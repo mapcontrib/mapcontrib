@@ -10,7 +10,7 @@ export default Backbone.RelationalModel.extend({
         return {
             'creationDate': new Date().toISOString(),
             'modificationDate': new Date().toISOString(),
-            'uniqid': undefined,
+            'uuid': undefined,
             'name': undefined,
             'description': undefined,
             'order': undefined,
@@ -28,8 +28,8 @@ export default Backbone.RelationalModel.extend({
     },
 
     initialize() {
-        if (!this.get('uniqid')) {
-            this.set('uniqid', uuid());
+        if (!this.get('uuid')) {
+            this.set('uuid', uuid());
         }
     },
 

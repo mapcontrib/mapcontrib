@@ -51,7 +51,7 @@ export default class UpdateOverPassCache {
         };
 
         if ( process.argv.length === 3 ) {
-            findOptions['layers.uniqid'] = process.argv[2];
+            findOptions['layers.uuid'] = process.argv[2];
         }
 
         this._themeCollection.find( findOptions )
@@ -134,7 +134,7 @@ export default class UpdateOverPassCache {
         return new Promise((resolve, reject) => {
             this._themeCollection.updateOne({
                     '_id': theme._id,
-                    'layers.uniqid': layer.uniqid
+                    'layers.uuid': layer.uuid
                 },
                 {
                     '$set': {
@@ -158,7 +158,7 @@ export default class UpdateOverPassCache {
         return new Promise((resolve, reject) => {
             this._themeCollection.updateOne({
                     '_id': theme._id,
-                    'layers.uniqid': layer.uniqid
+                    'layers.uuid': layer.uuid
                 },
                 {
                     '$set': {

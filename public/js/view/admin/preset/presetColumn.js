@@ -71,7 +71,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onSelect(model) {
-        const uuid = model.get('uniqid');
+        const uuid = model.get('uuid');
         this.options.router.navigate(`admin/preset/${uuid}`, true);
     },
 });

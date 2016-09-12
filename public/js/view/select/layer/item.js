@@ -49,7 +49,7 @@ export default Marionette.ItemView.extend({
 
         this._fragment = fragment;
 
-        if ( storage && storage.hiddenLayers && storage.hiddenLayers.indexOf(this.model.get('uniqid')) > -1 ) {
+        if ( storage && storage.hiddenLayers && storage.hiddenLayers.indexOf(this.model.get('uuid')) > -1 ) {
             this._layerIsVisible = false;
         }
         else {
@@ -103,12 +103,12 @@ export default Marionette.ItemView.extend({
         if ( this._layerIsVisible ) {
             this._radio.commands.execute( 'map:showLayer', this.model );
 
-            hiddenLayers = _.without( hiddenLayers, this.model.get('uniqid') );
+            hiddenLayers = _.without( hiddenLayers, this.model.get('uuid') );
         }
         else {
             this._radio.commands.execute( 'map:hideLayer', this.model );
 
-            hiddenLayers = _.union( hiddenLayers, [this.model.get('uniqid')] );
+            hiddenLayers = _.union( hiddenLayers, [this.model.get('uuid')] );
         }
 
         newState = {

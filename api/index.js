@@ -148,7 +148,7 @@ export default function Api(app, db, CONST, packageJson){
     app.post('/api/file/shape', fileApi.Api.postShapeFile);
     app.post('/api/file/nonOsmData', fileApi.Api.postNonOsmDataFile);
 
-    app.get('/api/overPassCache/generate/:uniqid', overPassCacheApi.Api.generate);
+    app.get('/api/overPassCache/generate/:uuid', overPassCacheApi.Api.generate);
 
     app.get('/api/iDPresets/locale', (req, res) => {
         if (!req.query.locales || req.query.locales.length < 1) {
