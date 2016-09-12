@@ -323,10 +323,9 @@ pre,
 
 
 
-.lightStyle() {
-    background: #fff;
+.lightStyle(@color1, @color2, @color3, @color4, @color5) {
+    background: @color3;
     color: @anthracite;
-
 
     .close_btn {
         color: @lightAnthracite;
@@ -1044,6 +1043,14 @@ pre,
 .contextual,
 .pop,
 .fullpage {
+    &.brown {
+        .darkStyle(@lightBrown, @brown, darken(@brown, 5%), @darkBrown, darken(@darkBrown, 4%));
+    }
+
+    &.yellow {
+        .lightStyle(lighten(@lightYellow, 5%), @lightYellow, @yellow, darken(@yellow, 5%), @darkYellow);
+    }
+
     &.orange {
         .darkStyle(@lightOrange, @orange, darken(@orange, 5%), @darkOrange, darken(@darkOrange, 4%));
     }
@@ -1069,10 +1076,18 @@ pre,
     }
 
     &.white {
-        .lightStyle();
+        .lightStyle(#fff, #fff, #fff, #fff, #fff);
+    }
+
+    &.gray {
+        .lightStyle(lighten(@lightGray, 5%), @lightGray, @gray, darken(@gray, 5%), @darkGray);
     }
 
     &.anthracite {
         .darkStyle(@lightAnthracite, @anthracite, darken(@anthracite, 5%), @darkAnthracite, darken(@darkAnthracite, 5%));
+    }
+
+    &.black {
+        .darkStyle(@lightAnthracite, @anthracite, @darkAnthracite, darken(@darkAnthracite, 5%), @black);
     }
 }

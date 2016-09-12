@@ -203,13 +203,21 @@ export default Marionette.ItemView.extend({
         });
     },
 
+    onBeforeClose() {
+        this._reset();
+    },
+
     onReset() {
-        this.model.set('color', this._oldModel.get('color'));
-        this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
+        this._reset();
 
         this.ui.column.one('transitionend', this.render);
 
         this.close();
+    },
+
+    _reset() {
+        this.model.set('color', this._oldModel.get('color'));
+        this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
     },
 
     onOverColorButtons(e) {
