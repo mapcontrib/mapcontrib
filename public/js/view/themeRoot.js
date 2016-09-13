@@ -593,9 +593,9 @@ export default Marionette.LayoutView.extend({
 
         this._poiLoadingSpool[ layerModel.cid ] -= 1;
 
-        var countRequests = 0;
+        let countRequests = 0;
 
-        for (var cid in this._poiLoadingSpool) {
+        for (const cid in this._poiLoadingSpool) {
             countRequests += this._poiLoadingSpool[cid];
         }
 
@@ -1567,11 +1567,11 @@ export default Marionette.LayoutView.extend({
 
 
     onCommandShowEditPoiMarker(layerModel) {
-        var view = new EditLayerMarkerModalView({
-            'model': layerModel
-        });
-
-        this.getRegion('editLayerMarkerModal').show( view );
+        this.getRegion('editLayerMarkerModal').show(
+            new EditLayerMarkerModalView({
+                'model': layerModel
+            })
+        );
     },
 
     onClickZoomIn() {

@@ -59,7 +59,7 @@ export default Marionette.LayoutView.extend({
         let maxZoom = '';
         const tiles = this.model.get('tiles');
 
-        for (var id in CONST.map.tiles) {
+        for (const id in CONST.map.tiles) {
             tile = CONST.map.tiles[id];
 
             if (!tile) {
@@ -99,7 +99,7 @@ export default Marionette.LayoutView.extend({
     onSubmit(e) {
         e.preventDefault();
 
-        var tiles = [];
+        let tiles = [];
 
         this.ui.tiles.each(function (i, tileInput) {
             if ( tileInput.checked ) {

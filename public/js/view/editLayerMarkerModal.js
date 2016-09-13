@@ -115,9 +115,9 @@ export default Marionette.ItemView.extend({
     },
 
     updateIconPreview() {
-        var iconName = this.ui.iconNameInput.val();
+        const iconName = this.ui.iconNameInput.val();
 
-        this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
+        this.ui.iconPreview.attr('class', `icon-preview fa fa-${iconName}`);
 
         this.model.set('markerIcon', iconName);
     },
