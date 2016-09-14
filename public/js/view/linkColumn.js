@@ -7,22 +7,22 @@ import templateIframe from 'templates/link/iframe.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
     templateIframe: templateIframe,
 
     behaviors() {
         return {
-            'l20n': {},
-            'column': {
-                'appendToBody': true,
-                'destroyOnClose': true,
-                'routeOnClose': this.options.previousRoute,
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
             },
         };
     },
 
     ui: {
-        'column': '.column',
+        column: '.column',
         'autoSelects': '.auto_select',
         'linkUrl': '.link_url',
         'linkPosition': '#link_include_position',

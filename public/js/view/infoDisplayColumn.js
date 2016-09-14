@@ -5,18 +5,18 @@ import template from 'templates/infoDisplayColumn.ejs';
 import CONST from 'const';
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {
-            'destroyOnClose': true,
-            'appendToBody': true,
+        l20n: {},
+        column: {
+            destroyOnClose: true,
+            appendToBody: true,
         },
     },
 
     ui: {
-        'column': '.info_display_column',
+        column: '.info_display_column',
         'content': '.info_content',
         'prependStickyFooter': '.before-sticky-footer',
         'footer': '.sticky-footer',

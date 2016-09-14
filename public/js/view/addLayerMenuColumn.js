@@ -5,15 +5,15 @@ import template from 'templates/addLayerMenuColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {},
+        l20n: {},
+        column: {},
     },
 
     ui: {
-        'column': '#add_layer_menu_column',
+        column: '#add_layer_menu_column',
         'overPassItem': '.overpass_item',
         'gpxItem': '.gpx_item',
         'csvItem': '.csv_item',

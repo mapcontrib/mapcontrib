@@ -4,7 +4,7 @@ import template from './template.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     className: 'form-group',
 

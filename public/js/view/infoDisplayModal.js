@@ -5,12 +5,12 @@ import template from 'templates/infoDisplayModal.ejs';
 import CONST from 'const';
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
         'modal': {
-            'appendToBody': true,
+            appendToBody: true,
         },
     },
 

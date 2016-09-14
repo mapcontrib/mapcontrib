@@ -7,15 +7,15 @@ import LeafletHelper from 'helper/leaflet';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors() {
         return {
-            'l20n': {},
-            'column': {
-                'appendToBody': true,
-                'destroyOnClose': true,
-                'routeOnClose': this.options.previousRoute,
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
             },
         };
     },
@@ -25,7 +25,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '.column',
+        column: '.column',
         'downloadBtn': '.download_btn',
     },
 

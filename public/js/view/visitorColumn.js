@@ -6,21 +6,21 @@ import LoginModalView from './loginModal';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors() {
         return {
-            'l20n': {},
-            'column': {
-                'appendToBody': true,
-                'destroyOnClose': true,
-                'routeOnClose': this.options.previousRoute,
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
             },
         };
     },
 
     ui: {
-        'column': '.column',
+        column: '.column',
         'loginItem': '.login_item',
     },
 

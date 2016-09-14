@@ -48,7 +48,7 @@ export default Marionette.Application.extend({
         Marionette.Behaviors.behaviorsLookup = () => {
             return {
                 'l20n': L20nBehavior,
-                'column': ColumnBehavior,
+                column: ColumnBehavior,
                 'modal': ModalBehavior,
                 'notification': NotificationBehavior,
                 'contextual': ContextualBehavior,

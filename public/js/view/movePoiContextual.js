@@ -10,12 +10,12 @@ import ContributionErrorNotificationView from './contributionErrorNotification';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
         'contextual': {
-            'destroyOnClose': true,
+            destroyOnClose: true,
         },
     },
 

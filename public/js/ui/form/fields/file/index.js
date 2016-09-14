@@ -6,7 +6,7 @@ import { formatBytes, basename } from 'core/utils';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     ui: {
         'input': '.filestyle',

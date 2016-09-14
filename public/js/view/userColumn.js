@@ -5,21 +5,21 @@ import template from 'templates/userColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors() {
         return {
-            'l20n': {},
-            'column': {
-                'appendToBody': true,
-                'destroyOnClose': true,
-                'routeOnClose': this.options.previousRoute,
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
             },
         };
     },
 
     ui: {
-        'column': '.column',
+        column: '.column',
         'logoutItem': '.logout_item',
     },
 

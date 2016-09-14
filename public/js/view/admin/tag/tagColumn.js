@@ -6,25 +6,25 @@ import template from 'templates/admin/tag/tagColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors() {
         return {
-            'l20n': {},
-            'column': {
-                'appendToBody': true,
-                'destroyOnClose': true,
-                'routeOnClose': this.options.previousRoute,
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
             },
         };
     },
 
     regions: {
-        'list': '.rg_list',
+        list: '.rg_list',
     },
 
     ui: {
-        'column': '.column',
+        column: '.column',
     },
 
     initialize() {

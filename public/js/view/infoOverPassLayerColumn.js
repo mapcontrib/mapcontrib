@@ -9,12 +9,12 @@ import LeafletHelper from 'helper/leaflet';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {
-            'appendToBody': true,
+        l20n: {},
+        column: {
+            appendToBody: true,
         },
     },
 
@@ -23,7 +23,7 @@ export default Marionette.LayoutView.extend({
         'downloadBtn': '.download_btn',
         'cacheSection': '.cache_section',
         'cacheDate': '.cache_date',
-        'column': '#info_overpass_layer_column',
+        column: '#info_overpass_layer_column',
     },
 
     events: {

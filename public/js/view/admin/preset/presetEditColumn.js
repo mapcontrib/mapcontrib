@@ -6,21 +6,21 @@ import template from 'templates/admin/preset/presetEditColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors() {
         return {
-            'l20n': {},
-            'column': {
-                'appendToBody': true,
-                'destroyOnClose': true,
-                'routeOnClose': this.options.previousRoute,
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
             },
         };
     },
 
     ui: {
-        'column': '#edit_preset_tags_column',
+        column: '#edit_preset_tags_column',
         'content': '.content',
         'nameInput': '#preset_name',
         'descriptionInput': '#preset_description',

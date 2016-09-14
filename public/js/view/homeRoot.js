@@ -8,10 +8,10 @@ import SearchInput from 'ui/form/searchInput';
 import template from 'templates/homeRoot.ejs';
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
     },
 
     ui: {

@@ -7,22 +7,22 @@ import templateListItem from 'templates/admin/tile/listItem.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
     templateListItem: templateListItem,
 
     behaviors() {
         return {
-            'l20n': {},
-            'column': {
-                'appendToBody': true,
-                'destroyOnClose': true,
-                'routeOnClose': this.options.previousRoute,
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
             },
         };
     },
 
     ui: {
-        'column': '.column',
+        column: '.column',
         'tileList': '.tile_list',
         'tiles': '.tile_list input',
     },

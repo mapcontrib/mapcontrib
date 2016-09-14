@@ -8,17 +8,17 @@ import template from 'templates/themeTitle.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
     },
 
     ui: {
-        'titleWrapper': '#title',
-        'title': '#title .title_head',
-        'description': '#title .description',
-        'descriptionButton': '#title .description_btn',
+        titleWrapper: '#title',
+        title: '#title .title_head',
+        description: '#title .description',
+        descriptionButton: '#title .description_btn',
     },
 
     events: {
@@ -38,7 +38,7 @@ export default Marionette.LayoutView.extend({
 
     templateHelpers() {
         return {
-            'description': MarkedHelper.render( this.model.get('description') ),
+            description: MarkedHelper.render( this.model.get('description') ),
         };
     },
 
@@ -52,31 +52,31 @@ export default Marionette.LayoutView.extend({
 
     onShow() {
         this.ui.descriptionButton.tooltip({
-            'container': 'body',
-            'delay': {
-                'show': CONST.tooltip.showDelay,
-                'hide': CONST.tooltip.hideDelay
-            }
+            container: 'body',
+            delay: {
+                show: CONST.tooltip.showDelay,
+                hide: CONST.tooltip.hideDelay,
+            },
         })
-        .on('click', function () {
-            $(this)
+        .on('click', (e) => {
+            $(e.currentTarget)
             .blur()
             .tooltip('hide');
         });
     },
 
     setTitle() {
-        let themeName = this.model.get('name');
-        let appName = document.l10n.getSync('mapcontrib');
+        const themeName = this.model.get('name');
+        const appName = document.l10n.getSync('mapcontrib');
 
         if (themeName === appName) {
             document.title = appName;
         }
         else {
             document.title = document.l10n.getSync('pageTitleWithMapName', {
-                'map': {
-                    'name': themeName
-                }
+                map: {
+                    name: themeName,
+                },
             });
         }
 

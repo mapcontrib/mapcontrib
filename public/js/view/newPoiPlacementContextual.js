@@ -7,13 +7,13 @@ import MapUi from 'ui/map';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
         'contextual': {
-            'destroyOnClose': true,
-            'appendToBody': true,
+            destroyOnClose: true,
+            appendToBody: true,
         },
     },
 

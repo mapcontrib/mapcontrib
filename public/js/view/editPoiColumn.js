@@ -16,12 +16,12 @@ import OsmCacheModel from 'model/osmCache';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {
-            'appendToBody': true,
+        l20n: {},
+        column: {
+            appendToBody: true,
         },
     },
 
@@ -30,7 +30,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#edit_poi_column',
+        column: '#edit_poi_column',
         'content': '.content',
         'form': 'form',
         'footer': '.sticky-footer',

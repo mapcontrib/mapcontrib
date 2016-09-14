@@ -5,12 +5,12 @@ import template from 'templates/csvErrorNotification.ejs';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
         'notification': {
-            'destroyOnClose': true,
+            destroyOnClose: true,
         },
     },
 

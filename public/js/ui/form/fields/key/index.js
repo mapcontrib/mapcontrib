@@ -6,7 +6,7 @@ import 'typeahead.js-bootstrap-css/typeaheadjs.css';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     ui: {
         'key': '.key',

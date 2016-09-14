@@ -8,11 +8,11 @@ import CONST from 'const';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
     templateResultItem: templateResultItem,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
         'widget': {},
     },
 

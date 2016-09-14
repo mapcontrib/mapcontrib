@@ -15,11 +15,11 @@ import L from 'leaflet';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {},
+        l20n: {},
+        column: {},
     },
 
     regions: {
@@ -27,7 +27,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#contrib_form_column',
+        column: '#contrib_form_column',
         'form': 'form',
         'content': '.content',
         'addBtn': '.add_btn',

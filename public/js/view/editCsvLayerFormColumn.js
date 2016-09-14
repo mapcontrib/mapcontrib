@@ -9,17 +9,17 @@ import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {
-            'destroyOnClose': true,
+        l20n: {},
+        column: {
+            destroyOnClose: true,
         },
     },
 
     ui: {
-        'column': '#edit_poi_layer_column',
+        column: '#edit_poi_layer_column',
         'form': 'form',
         'submitButton': '.submit_btn',
 

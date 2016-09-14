@@ -7,11 +7,11 @@ import template from 'templates/contribColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {},
+        l20n: {},
+        column: {},
     },
 
     regions: {
@@ -20,7 +20,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#contrib_column',
+        column: '#contrib_column',
         'prependStickyFooter': '.before-sticky-footer',
         'noResult': '.no_result',
         'footer': '.sticky-footer',

@@ -4,7 +4,7 @@ import template from './empty.ejs';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     templateHelpers() {
         return {

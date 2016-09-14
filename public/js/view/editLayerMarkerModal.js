@@ -7,10 +7,10 @@ import template from 'templates/editLayerMarkerModal.ejs';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
         'modal': {},
     },
 

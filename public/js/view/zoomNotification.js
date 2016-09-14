@@ -5,10 +5,10 @@ import template from 'templates/zoomNotification.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
         'notification': {},
     },
 

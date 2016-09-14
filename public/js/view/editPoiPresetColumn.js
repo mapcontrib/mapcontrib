@@ -6,12 +6,12 @@ import template from 'templates/editPoiPresetColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {
-            'appendToBody': true,
+        l20n: {},
+        column: {
+            appendToBody: true,
         },
     },
 
@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'column': '#edit_poi_preset_column',
+        column: '#edit_poi_preset_column',
     },
 
     initialize() {

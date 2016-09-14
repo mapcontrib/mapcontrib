@@ -8,19 +8,19 @@ import MapUi from 'ui/map';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {},
+        l20n: {},
+        column: {},
     },
 
     regions: {
-        'list': '.rg_list',
+        list: '.rg_list',
     },
 
     ui: {
-        'column': '#temp_layer_column',
+        column: '#temp_layer_column',
         'addButton': '.add_btn',
     },
 

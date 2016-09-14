@@ -5,12 +5,12 @@ import template from 'templates/contributionErrorNotification.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
+        l20n: {},
         'notification': {
-            'destroyOnClose': true,
+            destroyOnClose: true,
         },
     },
 

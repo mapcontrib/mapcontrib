@@ -4,7 +4,7 @@ import template from './template.ejs';
 import './style.less';
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
     className: 'ui-input-search-wrapper',
 
     ui: {

@@ -13,7 +13,7 @@ import InfoGeoJsonLayerColumnView from 'view/infoGeoJsonLayerColumn';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     tagName: 'a',
 

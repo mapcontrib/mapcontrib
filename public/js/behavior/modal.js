@@ -9,7 +9,7 @@ export default Marionette.Behavior.extend({
     defaults() {
         return {
             'appendToBody': false,
-            'routeOnClose': '',
+            routeOnClose: '',
             'triggerRouteOnClose': false,
         };
     },

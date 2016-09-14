@@ -5,14 +5,14 @@ import template from 'templates/modal/about.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors() {
         return {
-            'l20n': {},
+            l20n: {},
             'modal': {
-                'appendToBody': true,
-                'routeOnClose': this.options.previousRoute,
+                appendToBody: true,
+                routeOnClose: this.options.previousRoute,
             },
         };
     },
