@@ -15,16 +15,16 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
-        'searchInput': '.rg_search_input',
-        'presetsNav': '.rg_presets_nav',
+        searchInput: '.rg_search_input',
+        presetsNav: '.rg_presets_nav',
     },
 
     ui: {
         column: '#contrib_column',
-        'prependStickyFooter': '.before-sticky-footer',
-        'noResult': '.no_result',
-        'footer': '.sticky-footer',
-        'freeAdditionBtn': '.free_addition_btn',
+        prependStickyFooter: '.before-sticky-footer',
+        noResult: '.no_result',
+        footer: '.sticky-footer',
+        freeAdditionBtn: '.free_addition_btn',
     },
 
     events: {
@@ -58,38 +58,34 @@ export default Marionette.LayoutView.extend({
     },
 
     _buildNavItemsFromPresetModels(presetModels) {
-        return presetModels.map(presetModel => {
-            return {
-                'label': presetModel.get('name'),
-                'description': presetModel.get('description'),
-                'callback': this._radio.commands.execute.bind(
-                    this._radio.commands,
-                    'column:showContribForm',
-                    {
-                        'presetModel': presetModel,
-                        'center': this._center,
-                        'iDPresetsHelper': this._iDPresetsHelper,
-                    }
-                )
-            };
-        });
+        return presetModels.map(presetModel => ({
+            label: presetModel.get('name'),
+            description: presetModel.get('description'),
+            callback: this._radio.commands.execute.bind(
+                this._radio.commands,
+                'column:showContribForm',
+                {
+                    presetModel,
+                    center: this._center,
+                    iDPresetsHelper: this._iDPresetsHelper,
+                }
+            ),
+        }));
     },
 
     _buildNavItemsFromIDPresets(defaultIDPresets) {
-        return defaultIDPresets.map(iDPreset => {
-            return {
-                'label': iDPreset.name,
-                // 'callback': this._radio.commands.execute.bind(
+        return defaultIDPresets.map(iDPreset => ({
+                label: iDPreset.name,
+                // callback: this._radio.commands.execute.bind(
                 //     this._radio.commands,
                 //     'column:showContribForm',
                 //     {
-                //         'presetModel': presetModels[key],
-                //         'center': this._center,
-                //         'iDPresetsHelper': this._iDPresetsHelper,
+                //         presetModel: presetModels[key],
+                //         center: this._center,
+                //         iDPresetsHelper: this._iDPresetsHelper,
                 //     }
                 // )
-            };
-        });
+        }));
     },
 
     onRender() {
@@ -97,7 +93,7 @@ export default Marionette.LayoutView.extend({
         const defaultIDPresets = this._iDPresetsHelper.getDefaultPoints();
         const presetNavItems = [
             ...this._buildNavItemsFromPresetModels(presetModels),
-            ...this._buildNavItemsFromIDPresets(defaultIDPresets)
+            ...this._buildNavItemsFromIDPresets(defaultIDPresets),
         ];
 
 
@@ -132,7 +128,7 @@ export default Marionette.LayoutView.extend({
         const presetModels = this._presets.buildPresetsFromSearchString(searchString);
         const presetNavItems = [
             ...this._buildNavItemsFromPresetModels(presetModels),
-            ...this._buildNavItemsFromIDPresets(iDPresets)
+            ...this._buildNavItemsFromIDPresets(iDPresets),
         ];
 
         this._presetsNav.setItems(presetNavItems);
@@ -162,8 +158,8 @@ export default Marionette.LayoutView.extend({
         this._radio.commands.execute(
             'column:showContribForm',
             {
-                'center': this._center,
+                center: this._center,
             }
-        )
+        );
     },
 });

@@ -69,6 +69,15 @@
 <currentFile "Fichier actuel : <a>{{ $file }}</a>">
 <file "Fichier">
 <noResult "Aucun résultat">
+<tagKey "Clef">
+<tagType "Type">
+<tagTypeText "Texte">
+<tagTypeNumber "Nombre">
+<tagTypeEmail "E-mail">
+<tagTypeTel "Numéro de téléphone">
+<tagTypeUrl "Adresse web">
+<tagTypeTextarea "Grand texte">
+<tagLocales "Traductions">
 
 
 /* Home */

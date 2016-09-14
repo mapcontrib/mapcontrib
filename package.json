@@ -116,6 +116,7 @@
     "osmtogeojson": "^2.2.11",
     "passport": "^0.2.1",
     "passport-openstreetmap": "^0.1.2",
+    "progressbar.js": "^1.0.1",
     "raw-loader": "^0.5.1",
     "serve-static": "^1.9.2",
     "sifter": "^0.5.1",

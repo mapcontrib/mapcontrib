@@ -3,9 +3,11 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/admin/tag/tagEditColumn.ejs';
 import CONST from 'const';
+import TagType from 'ui/form/tagType';
+import SearchList from 'ui/form/searchList';
 
 
-export default Marionette.ItemView.extend({
+export default Marionette.LayoutView.extend({
     template,
 
     behaviors() {
@@ -21,32 +23,16 @@ export default Marionette.ItemView.extend({
 
     ui: {
         column: '.column',
-
-        themeName: '#theme_name',
-        themeDescription: '#theme_description',
-        colorButtons: '.color-buttons .btn',
-        themePositionKeepOld: '#theme_position_keep_old',
-        themePositionSetNew: '#theme_position_set_new',
-        themePositionAutoCenter: '#theme_position_auto_center',
-        geocoderSection: '.geocoder',
-        photonSection: '.photon',
-        nominatimSection: '.nominatim',
-        themeGeocoderPhoton: '#theme_geocoder_photon',
-        themeGeocoderNominatim: '#theme_geocoder_nominatim',
-        themeInfoDisplayPopup: '#theme_info_display_popup',
-        themeInfoDisplayModal: '#theme_info_display_modal',
-        themeInfoDisplayColumn: '#theme_info_display_column',
-        infoAnalytics: '.info_analytics_btn',
-        themeAnalyticScript: '#theme_analytic_script',
     },
 
     events: {
-        'mouseover @ui.colorButtons': 'onOverColorButtons',
-        'mouseleave @ui.colorButtons': 'onLeaveColorButtons',
-        'click @ui.colorButtons': 'onClickColorButtons',
-
         submit: 'onSubmit',
         reset: 'onReset',
+    },
+
+    regions: {
+        type: '.rg_type',
+        locales: '.rg_locales',
     },
 
     initialize() {
@@ -56,7 +42,36 @@ export default Marionette.ItemView.extend({
     },
 
     onRender() {
+        this.getRegion('type').show(
+            new TagType({
+                id: 'tag_type',
+                value: this.model.get('type'),
+            })
+        );
 
+        const searchLocales = new SearchList({
+            items: [
+                {
+                    label: 'Français',
+                    progress: 100,
+                    href: '#',
+                    callback: undefined,
+                },
+                {
+                    label: 'Anglais',
+                    progress: 65,
+                    href: '#',
+                    callback: undefined,
+                },
+                {
+                    label: 'Italien',
+                    progress: 0,
+                    href: '#',
+                    callback: undefined,
+                },
+            ],
+        });
+        this.getRegion('locales').show(searchLocales);
     },
 
     onBeforeOpen() {
@@ -134,20 +149,7 @@ export default Marionette.ItemView.extend({
         });
     },
 
-    onBeforeClose() {
-        this._reset();
-    },
-
     onReset() {
-        this._reset();
-
-        this.ui.column.one('transitionend', this.render);
-
         this.close();
-    },
-
-    _reset() {
-        this.model.set('color', this._oldModel.get('color'));
-        this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
     },
 });

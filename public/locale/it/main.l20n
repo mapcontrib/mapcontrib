@@ -69,6 +69,15 @@
 <currentFile "FIle attuale: <a>{{ $file }}</a>">
 <file "File">
 <noResult "Nessun risultato">
+<tagKey "Chiave">
+<tagType "Tipo">
+<tagTypeText "Text"> /* FIXME */
+<tagTypeNumber "Number"> /* FIXME */
+<tagTypeEmail "Email"> /* FIXME */
+<tagTypeTel "Phone number"> /* FIXME */
+<tagTypeUrl "Web address"> /* FIXME */
+<tagTypeTextarea "Big text"> /* FIXME */
+<tagLocales "Translations"> /* FIXME */
 
 
 /* Home */

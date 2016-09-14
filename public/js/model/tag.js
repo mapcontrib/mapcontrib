@@ -11,6 +11,7 @@ export default Backbone.RelationalModel.extend({
             modificationDate: new Date().toISOString(),
             uuid: undefined,
             key: undefined,
+            type: 'text',
             value: undefined,
             order: undefined,
             locales: {/*
