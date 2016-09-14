@@ -572,7 +572,7 @@ export default class OsmEdit{
             },
             (err, changesetId) => {
                 if (err) {
-                    console.error('ERROR on put changeset: ' + err.response);
+                    console.error(`ERROR on put changeset: ${err.response}`);
                     return reject(err);
                 }
 
@@ -595,7 +595,7 @@ export default class OsmEdit{
         return new Promise((resolve, reject) => {
             this._auth.xhr({
                 'method': 'GET',
-                'path': '/api/0.6/changeset/'+ changesetId.toString(),
+                'path': `/api/0.6/changeset/${changesetId.toString()}`,
                 'options': {
                     'header': {
                         'Content-Type': 'text/xml'

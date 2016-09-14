@@ -5,7 +5,7 @@ const path = require('path');
 
 const extractCSS = new ExtractTextPlugin('../css/[name].bundle.css');
 
-var plugins = [
+const plugins = [
     extractCSS
 ];
 

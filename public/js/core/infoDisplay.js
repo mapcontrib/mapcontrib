@@ -73,14 +73,14 @@ export default class InfoDisplay {
             const tag = nonOsmTags[i];
 
             content = content.replace(
-                new RegExp('{'+ tag.key +'}', 'g'),
+                new RegExp(`{${tag.key}}`, 'g'),
                 tag.value
             );
         }
 
         for (const k in data) {
             content = content.replace(
-                new RegExp('{'+ k +'}', 'g'),
+                new RegExp(`{${k}}`, 'g'),
                 data[k]
             );
         }

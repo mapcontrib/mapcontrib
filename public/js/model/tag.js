@@ -10,20 +10,9 @@ export default Backbone.RelationalModel.extend({
             creationDate: new Date().toISOString(),
             modificationDate: new Date().toISOString(),
             uuid: undefined,
-            name: undefined,
-            description: undefined,
+            key: undefined,
+            value: undefined,
             order: undefined,
-            iDPreset: undefined,
-            tags: [
-            /*{
-                key: '',
-                value: '',
-                keyReadOnly: false,
-                valueReadOnly: false,
-                nonOsmData: false,
-                type: 'text'|'file'
-            }*/
-            ],
         };
     },
 

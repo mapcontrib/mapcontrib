@@ -96,7 +96,7 @@ export default Marionette.LayoutView.extend({
     },
 
     setDescription() {
-        var description = MarkedHelper.render( this.model.get('description') );
+        const description = MarkedHelper.render( this.model.get('description') );
 
         if ( description ) {
             this.ui.description.html( description );

@@ -62,7 +62,7 @@ export default Marionette.LayoutView.extend({
             clearInterval(this._queryInterval);
         }
 
-        var query = this.ui.query.val();
+        const query = this.ui.query.val();
 
         if ( this._lastQuery && this._lastQuery === query ) {
             return false;
@@ -99,7 +99,7 @@ export default Marionette.LayoutView.extend({
     },
 
     geocode(query) {
-        var elements = [];
+        const elements = [];
 
         this._lastQuery = query;
 
@@ -177,7 +177,7 @@ export default Marionette.LayoutView.extend({
     },
 
     activeNextResult() {
-        var current = this.ui.resultList.find('.active');
+        const current = this.ui.resultList.find('.active');
 
         if ( !current.length ) {
             this.ui.resultList
@@ -194,7 +194,7 @@ export default Marionette.LayoutView.extend({
     },
 
     activePreviousResult() {
-        var current = this.ui.resultList.find('.active');
+        const current = this.ui.resultList.find('.active');
 
         if ( !current.length ) {
             this.ui.resultList
@@ -211,7 +211,7 @@ export default Marionette.LayoutView.extend({
     },
 
     visitResult() {
-        var current = this.ui.resultList.find('.active');
+        const current = this.ui.resultList.find('.active');
 
         if ( !current.length ) {
             this.ui.resultList

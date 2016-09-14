@@ -57,6 +57,7 @@ export default Marionette.ItemView.extend({
     },
 
     onRender() {
+        // eslint-disable-next-line no-undef
         const config = MAPCONTRIB.config;
 
         this.ui.colorButtons
@@ -101,9 +102,7 @@ export default Marionette.ItemView.extend({
                 this.ui.themeInfoDisplayColumn.prop('checked', true);
                 break;
         }
-    },
 
-    onShow() {
         this.ui.infoAnalytics.popover({
             'container': 'body',
             'placement': 'left',
