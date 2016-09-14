@@ -7,38 +7,38 @@ import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     behaviors() {
         return {
-            'l20n': {},
-            'column': {
-                'appendToBody': true,
-                'destroyOnClose': true,
-                'routeOnClose': this.options.previousRoute,
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
             },
         };
     },
 
     ui: {
-        'column': '.column',
+        column: '.column',
 
-        'themeName': '#theme_name',
-        'themeDescription': '#theme_description',
-        'colorButtons': '.color-buttons .btn',
-        'themePositionKeepOld': '#theme_position_keep_old',
-        'themePositionSetNew': '#theme_position_set_new',
-        'themePositionAutoCenter': '#theme_position_auto_center',
-        'geocoderSection': '.geocoder',
-        'photonSection': '.photon',
-        'nominatimSection': '.nominatim',
-        'themeGeocoderPhoton': '#theme_geocoder_photon',
-        'themeGeocoderNominatim': '#theme_geocoder_nominatim',
-        'themeInfoDisplayPopup': '#theme_info_display_popup',
-        'themeInfoDisplayModal': '#theme_info_display_modal',
-        'themeInfoDisplayColumn': '#theme_info_display_column',
-        'infoAnalytics': '.info_analytics_btn',
-        'themeAnalyticScript': '#theme_analytic_script',
+        themeName: '#theme_name',
+        themeDescription: '#theme_description',
+        colorButtons: '.color-buttons .btn',
+        themePositionKeepOld: '#theme_position_keep_old',
+        themePositionSetNew: '#theme_position_set_new',
+        themePositionAutoCenter: '#theme_position_auto_center',
+        geocoderSection: '.geocoder',
+        photonSection: '.photon',
+        nominatimSection: '.nominatim',
+        themeGeocoderPhoton: '#theme_geocoder_photon',
+        themeGeocoderNominatim: '#theme_geocoder_nominatim',
+        themeInfoDisplayPopup: '#theme_info_display_popup',
+        themeInfoDisplayModal: '#theme_info_display_modal',
+        themeInfoDisplayColumn: '#theme_info_display_column',
+        infoAnalytics: '.info_analytics_btn',
+        themeAnalyticScript: '#theme_analytic_script',
     },
 
     events: {
@@ -46,8 +46,8 @@ export default Marionette.ItemView.extend({
         'mouseleave @ui.colorButtons': 'onLeaveColorButtons',
         'click @ui.colorButtons': 'onClickColorButtons',
 
-        'submit': 'onSubmit',
-        'reset': 'onReset',
+        submit: 'onSubmit',
+        reset: 'onReset',
     },
 
     initialize() {
@@ -58,9 +58,10 @@ export default Marionette.ItemView.extend({
 
     onRender() {
         const config = MAPCONTRIB.config;
+        const color = this.model.get('color');
 
         this.ui.colorButtons
-        .filter( '.'+ this.model.get('color') )
+        .filter(`.${color}`)
         .find('i')
         .addClass('fa-check');
 
@@ -91,24 +92,27 @@ export default Marionette.ItemView.extend({
         }
 
         switch ( this.model.get('infoDisplay') ) {
-            case CONST.infoDisplay.popup:
-                this.ui.themeInfoDisplayPopup.prop('checked', true);
-                break;
             case CONST.infoDisplay.modal:
                 this.ui.themeInfoDisplayModal.prop('checked', true);
                 break;
             case CONST.infoDisplay.column:
                 this.ui.themeInfoDisplayColumn.prop('checked', true);
                 break;
+            case CONST.infoDisplay.popup:
+                this.ui.themeInfoDisplayPopup.prop('checked', true);
+                break;
+            default:
+                this.ui.themeInfoDisplayPopup.prop('checked', true);
+                break;
         }
 
         this.ui.infoAnalytics.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editSettingColumn_infoAnalyticsPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editSettingColumn_infoAnalyticsPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editSettingColumn_infoAnalyticsPopoverContent')
             ),
         });
@@ -146,7 +150,7 @@ export default Marionette.ItemView.extend({
         this.model.set('analyticScript', themeAnalyticScript);
         this.model.updateModificationDate();
 
-        history.pushState({}, themeName, this.model.buildPath());
+        window.history.pushState({}, themeName, this.model.buildPath());
 
         this.model.set('autoCenter', false);
 
@@ -170,10 +174,13 @@ export default Marionette.ItemView.extend({
         }
 
         if (config.availableGeocoders.length > 1) {
-            for (let geocoder in CONST.geocoder) {
-                let ucFirstGeocoder = geocoder.ucfirst();
-                if ( this.ui[`themeGeocoder${ucFirstGeocoder}`].prop('checked') === true ) {
-                    this.model.set('geocoder', geocoder);
+            for (const geocoder in CONST.geocoder) {
+                if ({}.hasOwnProperty.call(CONST.geocoder, geocoder)) {
+                    const ucFirstGeocoder = geocoder.ucfirst();
+
+                    if ( this.ui[`themeGeocoder${ucFirstGeocoder}`].prop('checked') === true ) {
+                        this.model.set('geocoder', geocoder);
+                    }
                 }
             }
         }
@@ -222,7 +229,7 @@ export default Marionette.ItemView.extend({
         this._radio.commands.execute('ui:setTitleColor', e.target.dataset.color);
     },
 
-    onLeaveColorButtons(e) {
+    onLeaveColorButtons() {
         this._radio.commands.execute('ui:setTitleColor', this.model.get('color'));
     },
 

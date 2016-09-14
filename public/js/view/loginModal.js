@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
     templateHelpers() {
         return {
             'successRedirect': this.options.authSuccessCallback,
-            'failRedirect': this.options.authFailCallback,
+            'failureRedirect': this.options.authFailCallback,
         };
     },
 

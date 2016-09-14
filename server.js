@@ -81,12 +81,12 @@ if (app.get('env') !== 'production') {
 }
 
 
-
-
 const database = new Database();
+const passport = new Passport();
+const api = new Api();
 
 database.connect((err, db) => {
-    if(err) {
+    if (err) {
         throw err;
     }
 
@@ -94,13 +94,11 @@ database.connect((err, db) => {
 
     migrate.start()
     .then(() => {
-        new Passport(app, db, config);
-        new Api(app, db, CONST, packageJson);
+        passport.init(app, db, config);
+        api.init(app, db, CONST, packageJson);
     })
     .catch(throwError);
 });
-
-
 
 
 app.get('/theme-s8c2d4', (req, res) => {

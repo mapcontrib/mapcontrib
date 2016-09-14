@@ -89,7 +89,7 @@ export default Marionette.ItemView.extend({
         this.model.set('analyticScript', themeAnalyticScript);
         this.model.updateModificationDate();
 
-        history.pushState({}, themeName, this.model.buildPath());
+        window.history.pushState({}, themeName, this.model.buildPath());
 
         this.model.set('autoCenter', false);
 
@@ -111,16 +111,6 @@ export default Marionette.ItemView.extend({
         else if ( this.ui.themeInfoDisplayColumn.prop('checked') === true ) {
             this.model.set('infoDisplay', CONST.infoDisplay.column);
         }
-
-        if (config.availableGeocoders.length > 1) {
-            for (let geocoder in CONST.geocoder) {
-                let ucFirstGeocoder = geocoder.ucfirst();
-                if ( this.ui[`themeGeocoder${ucFirstGeocoder}`].prop('checked') === true ) {
-                    this.model.set('geocoder', geocoder);
-                }
-            }
-        }
-
 
         this.model.save({}, {
             success: () => {
