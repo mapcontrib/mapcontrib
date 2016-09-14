@@ -13,12 +13,19 @@ export default Backbone.RelationalModel.extend({
             key: undefined,
             value: undefined,
             order: undefined,
+            locales: {/*
+                fr: {
+                    label: '',
+                    placeholder: '',
+                    options: {},
+                }
+            */},
         };
     },
 
     initialize() {
-        if (!this.get('uuid')) {
-            this.set('uuid', uuid());
+        if (!this.get('uniqid')) {
+            this.set('uniqid', uuid());
         }
     },
 
