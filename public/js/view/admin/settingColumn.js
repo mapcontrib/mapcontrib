@@ -57,7 +57,6 @@ export default Marionette.ItemView.extend({
     },
 
     onRender() {
-        // eslint-disable-next-line no-undef
         const config = MAPCONTRIB.config;
 
         this.ui.colorButtons
