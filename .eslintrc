@@ -29,9 +29,5 @@
         "brace-style": [2, "stroustrup"],
         "no-param-reassign": 0,
         "import/imports-first": 0,
-        # "comma-dangle": 0,
-        # "no-alert": "off",
-        # "max-len": [1, 120],
-        # "object-curly-spacing": 0
     }
 }
