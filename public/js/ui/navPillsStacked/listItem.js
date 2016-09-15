@@ -2,6 +2,7 @@
 import Marionette from 'backbone.marionette';
 import ProgressBar from 'progressbar.js';
 import MarkedHelper from 'helper/marked';
+import CONST from 'const';
 import listItemTemplate from './listItem.ejs';
 
 
@@ -17,7 +18,7 @@ export default Marionette.ItemView.extend({
     ui: {
         link: '.top_link',
         description: '.description',
-        progress: '.progression',
+        progression: '.progression',
     },
 
     events: {
@@ -35,26 +36,34 @@ export default Marionette.ItemView.extend({
             .removeClass('hide');
         }
 
-        const progress = this.model.get('progress') / 100 || 0.05;
+        const bar = new ProgressBar.Circle(this.ui.progression[0], {
+            easing: 'easeInOut',
+            duration: 1400,
+            trailWidth: 14,
+            strokeWidth: 14,
+            trailColor: 'rgba(255, 255, 255, 0.2)',
+            color: '#eee',
+            from: { color: '#F8DC00', a: 1 },
+            to: { color: '#8AE234', a: 1 },
+            step: (state, circle) => {
+                circle.path.setAttribute('stroke', state.color);
+            },
+        });
 
-        if (progress) {
-            const bar = new ProgressBar.Circle(this.ui.progress[0], {
-                easing: 'easeInOut',
-                duration: 1400,
-                trailWidth: 8,
-                strokeWidth: 8,
-                trailColor: 'rgba(255, 255, 255, 0.15)',
-                color: '#eee',
-                from: { color: '#eee' },
-                to: { color: '#fff' },
-                step: (state, circle) => {
-                    circle.path.setAttribute('stroke', state.color);
-                },
-            });
+        const progression = this.model.get('progression');
 
-            this.ui.progress.removeClass('hide');
-            bar.set(progress);
-        }
+        this.ui.progression
+        .attr('title', `${progression} %`)
+        .tooltip({
+            container: 'body',
+            delay: {
+                show: CONST.tooltip.showDelay,
+                hide: CONST.tooltip.hideDelay,
+            },
+        })
+        .removeClass('hide');
+
+        bar.set(progression / 100 || 0);
     },
 
     onClick(e) {

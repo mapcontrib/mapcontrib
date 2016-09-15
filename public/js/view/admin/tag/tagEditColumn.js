@@ -53,19 +53,19 @@ export default Marionette.LayoutView.extend({
             items: [
                 {
                     label: 'Français',
-                    progress: 100,
+                    progression: 100,
                     href: '#',
                     callback: undefined,
                 },
                 {
                     label: 'Anglais',
-                    progress: 65,
+                    progression: 65,
                     href: '#',
                     callback: undefined,
                 },
                 {
                     label: 'Italien',
-                    progress: 0,
+                    progression: 0,
                     href: '#',
                     callback: undefined,
                 },
