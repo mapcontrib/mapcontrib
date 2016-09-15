@@ -42,9 +42,9 @@ export default Marionette.LayoutView.extend({
             placeholder: document.l10n.getSync('uiListGroup_placeholder'),
         });
 
-        this.listenTo(listGroup, 'reorder', this.onReorder);
-        this.listenTo(listGroup, 'item:remove', this.onRemove);
-        this.listenTo(listGroup, 'item:select', this.onSelect);
+        this.listenTo(listGroup, 'reorder', this._onReorder);
+        this.listenTo(listGroup, 'item:remove', this._onRemove);
+        this.listenTo(listGroup, 'item:select', this._onSelect);
 
         this.getRegion('list').show( listGroup );
     },
@@ -68,16 +68,17 @@ export default Marionette.LayoutView.extend({
         this._radio.commands.execute('column:showAddLayerMenu');
     },
 
-    onReorder() {
+    _onReorder() {
         this.model.updateModificationDate();
         this.model.save();
     },
 
-    onRemove() {
+    _onRemove(model) {
+        model.destroy();
         this.model.save();
     },
 
-    onSelect(model) {
+    _onSelect(model) {
         switch (model.get('type')) {
             case CONST.layerType.overpass:
                 return this._radio.commands.execute( 'column:editOverPassLayer', model );

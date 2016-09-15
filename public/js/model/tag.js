@@ -25,8 +25,8 @@ export default Backbone.RelationalModel.extend({
     },
 
     initialize() {
-        if (!this.get('uniqid')) {
-            this.set('uniqid', uuid());
+        if (!this.get('uuid')) {
+            this.set('uuid', uuid());
         }
     },
 

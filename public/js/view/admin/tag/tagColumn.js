@@ -40,6 +40,10 @@ export default Marionette.LayoutView.extend({
             placeholder: document.l10n.getSync('uiListGroup_placeholder'),
         });
 
+        this.listenTo(listGroup, 'reorder', this._onReorder);
+        this.listenTo(listGroup, 'item:remove', this._onRemove);
+        this.listenTo(listGroup, 'item:select', this._onSelect);
+
         this.getRegion('list').show( listGroup );
     },
 
@@ -56,5 +60,20 @@ export default Marionette.LayoutView.extend({
     close() {
         this.triggerMethod('close');
         return this;
+    },
+
+    _onReorder() {
+        this.model.updateModificationDate();
+        this.model.save();
+    },
+
+    _onRemove(model) {
+        model.destroy();
+        this.model.save();
+    },
+
+    _onSelect(model) {
+        const uuid = model.get('uuid');
+        this.options.router.navigate(`admin/tag/${uuid}`, true);
     },
 });

@@ -34,6 +34,7 @@ export default Marionette.CollectionView.extend({
 
     childEvents: {
         select: 'onSelectItem',
+        remove: 'onRemoveItem',
     },
 
     initialize(options) {
@@ -41,8 +42,6 @@ export default Marionette.CollectionView.extend({
             ...this.defaultOptions,
             ...options,
         };
-
-        this.listenTo(this.collection, 'remove', this.onRemoveItem);
     },
 
     className() {
@@ -89,11 +88,11 @@ export default Marionette.CollectionView.extend({
         this.trigger('reorder');
     },
 
-    onRemoveItem(model) {
+    onRemoveItem(child, model) {
         this.trigger('item:remove', model);
     },
 
-    onSelectItem(e, model) {
+    onSelectItem(child, model) {
         this.trigger('item:select', model);
     },
 });

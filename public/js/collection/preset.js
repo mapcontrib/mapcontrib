@@ -22,34 +22,29 @@ export default Backbone.Collection.extend({
             return;
         }
 
-        const max_order_model = _.max( this.models, function (model) {
-            return model.get('order') || 0;
-        });
-        const max_order = (max_order_model.get('order') || 0);
+        const maxOrderModel = _.max( this.models, m => m.get('order') || 0);
+        const maxOrder = (maxOrderModel.get('order') || 0);
 
-        model.set('order', max_order + 1);
+        model.set('order', maxOrder + 1);
     },
 
     _prepareSifter() {
-        this._sifterPresets = this.models.map(preset => {
-            return {
-                preset,
-                name: preset.get('name'),
-                description: preset.get('description'),
-            };
-        });
+        this._sifterPresets = this.models.map(preset => ({
+            preset,
+            name: preset.get('name'),
+            description: preset.get('description'),
+        }));
 
         this._sifter = new Sifter( this._sifterPresets );
     },
 
     buildPresetsFromSearchString(searchString) {
-        const navItems = [];
         const results = this._sifter.search(searchString, {
             fields: [ 'name', 'description' ],
             sort: [{ field: 'name', direction: 'asc' }],
-            limit: 20
+            limit: 20,
         });
 
         return results.items.map(result => this._sifterPresets[result.id].preset);
-    }
+    },
 });

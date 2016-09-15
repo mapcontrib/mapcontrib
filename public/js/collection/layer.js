@@ -2,7 +2,6 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
-import CONST from 'const';
 import LayerModel from '../model/layer';
 
 
@@ -11,7 +10,7 @@ export default Backbone.Collection.extend({
 
     comparator: 'order',
 
-    initialize(models, options) {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this.on('add', this.onAdd);
@@ -22,12 +21,10 @@ export default Backbone.Collection.extend({
             return;
         }
 
-        const max_order_model = _.max( this.models, function (model) {
-            return model.get('order') || 0;
-        });
-        const max_order = (max_order_model.get('order') || 0);
+        const maxOrderModel = _.max( this.models, m => m.get('order') || 0);
+        const maxOrder = (maxOrderModel.get('order') || 0);
 
-        model.set('order', max_order + 1);
+        model.set('order', maxOrder + 1);
     },
 
 
@@ -43,8 +40,7 @@ export default Backbone.Collection.extend({
         if ( isOwner ) {
             return this.models;
         }
-        else {
-            return this.where({ 'visible': true });
-        }
+
+        return this.where({ visible: true });
     },
 });

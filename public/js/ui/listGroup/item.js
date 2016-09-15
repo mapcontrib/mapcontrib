@@ -57,6 +57,6 @@ export default Marionette.ItemView.extend({
     onClickRemove(e) {
         e.stopPropagation();
 
-        this.model.destroy();
+        this.trigger('remove', this.model);
     },
 });
