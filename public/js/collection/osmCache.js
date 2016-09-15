@@ -5,7 +5,7 @@ import CONST from 'const';
 
 
 export default Backbone.Collection.extend({
-    url: CONST.apiPath + 'osmCache',
+    url: `${CONST.apiPath}/osmCache`,
 
     model: OsmCacheModel,
 });

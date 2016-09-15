@@ -21,12 +21,12 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
-        'layerList': '.rg_list',
+        layerList: '.rg_list',
     },
 
     ui: {
         column: '.column',
-        'downloadBtn': '.download_btn',
+        downloadBtn: '.download_btn',
     },
 
     events: {
@@ -41,7 +41,7 @@ export default Marionette.LayoutView.extend({
 
     onRender() {
         this.getRegion('layerList').show(
-            new SelectLayerListView({ 'collection': this.collection })
+            new SelectLayerListView({ collection: this.collection })
         );
     },
 
@@ -60,7 +60,7 @@ export default Marionette.LayoutView.extend({
         return this;
     },
 
-    onClickDownload(e) {
+    onClickDownload() {
         const map = this._radio.reqres.request('map');
         const theme = this._radio.reqres.request('theme');
         const themeName = theme.get('name') || document.l10n.getSync('mapcontrib');

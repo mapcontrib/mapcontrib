@@ -1,5 +1,4 @@
 
-import _ from 'underscore';
 import Backbone from 'backbone';
 import 'backbone-relational';
 import Wreqr from 'backbone.wreqr';
@@ -10,42 +9,42 @@ import { uuid } from '../core/utils';
 export default Backbone.RelationalModel.extend({
     defaults() {
         return {
-            'creationDate': new Date().toISOString(),
-            'modificationDate': new Date().toISOString(),
-            'uuid': undefined,
-            'type': CONST.layerType.overpass,
-            'name': undefined,
-            'description': undefined,
-            'visible': true,
-            'dataEditable': true,
-            'minZoom': 14,
-            'popupContent': undefined,
-            'order': undefined,
+            creationDate: new Date().toISOString(),
+            modificationDate: new Date().toISOString(),
+            uuid: undefined,
+            type: CONST.layerType.overpass,
+            name: undefined,
+            description: undefined,
+            visible: true,
+            dataEditable: true,
+            minZoom: 14,
+            popupContent: undefined,
+            order: undefined,
 
             // Point based layer specific
-            'rootLayerType': CONST.rootLayerType.markerCluster,
-            'markerShape': 'marker1',
-            'markerColor': 'orange',
-            'markerIconType': CONST.map.markerIconType.library,
-            'markerIcon': undefined,
-            'markerIconUrl': undefined,
-            'heatMinOpacity': 0.05,
-            'heatMaxZoom': 18,
-            'heatMax': 1.0,
-            'heatBlur': 15,
-            'heatRadius': 25,
+            rootLayerType: CONST.rootLayerType.markerCluster,
+            markerShape: 'marker1',
+            markerColor: 'orange',
+            markerIconType: CONST.map.markerIconType.library,
+            markerIcon: undefined,
+            markerIconUrl: undefined,
+            heatMinOpacity: 0.05,
+            heatMaxZoom: 18,
+            heatMax: 1.0,
+            heatBlur: 15,
+            heatRadius: 25,
 
             // Shape files based layer specific
-            'color': 'turquoise',
-            'fileUri': undefined,
+            color: 'turquoise',
+            fileUri: undefined,
 
             // Overpass type specific
-            'overpassRequest': undefined,
-            'cache': false,
-            'cacheUpdateSuccess': undefined,
-            'cacheUpdateSuccessDate': undefined,
-            'cacheUpdateDate': undefined,
-            'cacheUpdateError': undefined,
+            overpassRequest: undefined,
+            cache: false,
+            cacheUpdateSuccess: undefined,
+            cacheUpdateSuccessDate: undefined,
+            cacheUpdateDate: undefined,
+            cacheUpdateError: undefined,
         };
     },
 
@@ -76,9 +75,8 @@ export default Backbone.RelationalModel.extend({
         if ( isOwner ) {
             return true;
         }
-        else {
-            return this.get('visible');
-        }
+
+        return this.get('visible');
     },
 
     /**
@@ -90,7 +88,7 @@ export default Backbone.RelationalModel.extend({
     addObjects(objects) {
         this._geoJsonObjects = {
             ...this._geoJsonObjects,
-            ...objects
+            ...objects,
         };
     },
 

@@ -11,26 +11,27 @@ export default Marionette.ItemView.extend({
     className: 'list-group-item',
 
     attributes: {
-        'href': '#',
+        href: '#',
     },
 
     modelEvents: {
-        'change': 'render'
+        change: 'render',
     },
 
     ui: {
-        'reorderIcon': '.reorder_icon',
-        'removeBtn': '.remove_btn',
+        reorderIcon: '.reorder_icon',
+        removeBtn: '.remove_btn',
     },
 
     events: {
-        'click': 'onClick',
+        click: 'onClick',
         'click @ui.removeBtn': 'onClickRemove',
     },
 
     templateHelpers() {
         return {
-            'icon': this.options.getIcon(this.model),
+            icon: this.options.getIcon(this.model),
+            label: this.model.get(this.options.labelAttribute),
         };
     },
 
@@ -43,7 +44,7 @@ export default Marionette.ItemView.extend({
             this.ui.removeBtn.hide();
         }
 
-        this.el.id = 'item-'+ this.model.cid;
+        this.el.id = `item-${this.model.cid}`;
     },
 
     onClick(e) {

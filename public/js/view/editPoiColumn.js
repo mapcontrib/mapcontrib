@@ -1,5 +1,5 @@
 
-import $ from 'jquery';
+import L from 'leaflet';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import osmAuth from 'osm-auth';
@@ -14,7 +14,6 @@ import NonOsmDataModel from 'model/nonOsmData';
 import OsmCacheModel from 'model/osmCache';
 
 
-
 export default Marionette.LayoutView.extend({
     template,
 
@@ -26,30 +25,30 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
-        'tagList': '.rg_tag_list',
+        tagList: '.rg_tag_list',
     },
 
     ui: {
         column: '#edit_poi_column',
-        'content': '.content',
-        'form': 'form',
-        'footer': '.sticky-footer',
-        'footerButtons': '.sticky-footer button',
-        'addBtn': '.add_btn',
-        'moveBtn': '.move_btn',
-        'moveSection': '.move_section',
+        content: '.content',
+        form: 'form',
+        footer: '.sticky-footer',
+        footerButtons: '.sticky-footer button',
+        addBtn: '.add_btn',
+        moveBtn: '.move_btn',
+        moveSection: '.move_section',
     },
 
     events: {
         'click @ui.addBtn': 'onClickAddBtn',
         'click @ui.moveBtn': 'onClickMove',
-        'submit': 'onSubmit',
+        submit: 'onSubmit',
     },
 
     templateHelpers() {
         return {
-            'fragment': this._theme.get('fragment'),
-            'apiPath': `${CONST.apiPath}file/nonOsmData`,
+            fragment: this._theme.get('fragment'),
+            apiPath: `${CONST.apiPath}/file/nonOsmData`,
         };
     },
 
@@ -73,16 +72,18 @@ export default Marionette.LayoutView.extend({
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
-                'url': MAPCONTRIB.config.oauthEndPoint,
-                'oauth_consumer_key': MAPCONTRIB.config.oauthConsumerKey,
-                'oauth_secret': MAPCONTRIB.config.oauthSecret,
-                'oauth_token': this._user.get('token'),
-                'oauth_token_secret': this._user.get('tokenSecret'),
+                url: MAPCONTRIB.config.oauthEndPoint,
+                oauth_consumer_key: MAPCONTRIB.config.oauthConsumerKey,
+                oauth_secret: MAPCONTRIB.config.oauthSecret,
+                oauth_token: this._user.get('token'),
+                oauth_token_secret: this._user.get('tokenSecret'),
             })
         );
 
         this._osmEdit.setType( this.options.osmType );
         this._osmEdit.setId( this.options.osmId );
+
+        return true;
     },
 
     onBeforeOpen() {
@@ -121,16 +122,16 @@ export default Marionette.LayoutView.extend({
 
 
         this._nonOsmDataModel = this._nonOsmData.findWhere({
-            'themeFragment': this._theme.get('fragment'),
-            'osmId': this.options.osmId,
-            'osmType': this.options.osmType,
+            themeFragment: this._theme.get('fragment'),
+            osmId: this.options.osmId,
+            osmType: this.options.osmType,
         });
 
         if ( !this._nonOsmDataModel ) {
             this._nonOsmDataModel = new NonOsmDataModel({
-                'themeFragment': this._theme.get('fragment'),
-                'osmId': this.options.osmId,
-                'osmType': this.options.osmType,
+                themeFragment: this._theme.get('fragment'),
+                osmId: this.options.osmId,
+                osmType: this.options.osmType,
             });
             this._nonOsmData.add( this._nonOsmDataModel );
         }
@@ -138,24 +139,24 @@ export default Marionette.LayoutView.extend({
             promises.push(
                 new Promise((resolve, reject) => {
                     this._nonOsmDataModel.fetch({
-                        'success': model => resolve(model),
-                        'error': (model, response) => reject(response),
+                        success: model => resolve(model),
+                        error: (model, response) => reject(response),
                     });
                 })
             );
         }
 
         this._osmCacheModel = this._osmCache.findWhere({
-            'themeFragment': this._theme.get('fragment'),
-            'osmId': this.options.osmId,
-            'osmType': this.options.osmType,
+            themeFragment: this._theme.get('fragment'),
+            osmId: this.options.osmId,
+            osmType: this.options.osmType,
         });
 
         if ( !this._osmCacheModel ) {
             this._osmCacheModel = new OsmCacheModel({
-                'themeFragment': this._theme.get('fragment'),
-                'osmId': this.options.osmId,
-                'osmType': this.options.osmType,
+                themeFragment: this._theme.get('fragment'),
+                osmId: this.options.osmId,
+                osmType: this.options.osmType,
             });
             this._osmCache.add( this._osmCacheModel );
         }
@@ -163,15 +164,15 @@ export default Marionette.LayoutView.extend({
             promises.push(
                 new Promise((resolve, reject) => {
                     this._osmCacheModel.fetch({
-                        'success': model => resolve(model),
-                        'error': (model, response) => reject(response),
+                        success: model => resolve(model),
+                        error: (model, response) => reject(response),
                     });
                 })
             );
         }
 
         Promise.all(promises)
-        .then(results => {
+        .then((results) => {
             const osmEdit = results[0];
 
             if ( this._osmEdit.getType() === 'node' ) {
@@ -180,8 +181,6 @@ export default Marionette.LayoutView.extend({
             }
 
             const version = osmEdit.getVersion();
-            const type = osmEdit.getType();
-            const id = osmEdit.getId();
 
             if ( this._osmCacheModel.get('osmVersion') > version ) {
                 osmEdit.setElement(
@@ -191,9 +190,11 @@ export default Marionette.LayoutView.extend({
 
             this.renderTags( osmEdit.getTags() );
         })
-        .catch(err => {
+        .catch((err) => {
             console.error('FIXME', err);
         });
+
+        return true;
     },
 
     renderTags(tags) {
@@ -207,12 +208,12 @@ export default Marionette.LayoutView.extend({
         for (const tag of this._nonOsmDataModel.get('tags')) {
             keysAdded.push(tag.key);
             this._tagList.addTag({
-                'key': tag.key,
-                'value': tag.value,
-                'type': tag.type,
-                'keyReadOnly': true,
-                'valueReadOnly': false,
-                'nonOsmData': true,
+                key: tag.key,
+                value: tag.value,
+                type: tag.type,
+                keyReadOnly: true,
+                valueReadOnly: false,
+                nonOsmData: true,
             });
         }
 
@@ -247,25 +248,27 @@ export default Marionette.LayoutView.extend({
                 keysAdded.push(popupTag);
 
                 this._tagList.addTag({
-                    'key': popupTag,
-                    'value': value,
-                    'type': CONST.tagType.text,
-                    'keyReadOnly': false,
-                    'valueReadOnly': false,
-                    'nonOsmData': false,
+                    key: popupTag,
+                    value,
+                    type: CONST.tagType.text,
+                    keyReadOnly: false,
+                    valueReadOnly: false,
+                    nonOsmData: false,
                 });
             }
         }
 
         for (const key in tags) {
-            this._tagList.addTag({
-                'key': key,
-                'value': tags[key],
-                'type': CONST.tagType.text,
-                'keyReadOnly': false,
-                'valueReadOnly': false,
-                'nonOsmData': false,
-            });
+            if ({}.hasOwnProperty.call(tags, key)) {
+                this._tagList.addTag({
+                    key,
+                    value: tags[key],
+                    type: CONST.tagType.text,
+                    keyReadOnly: false,
+                    valueReadOnly: false,
+                    nonOsmData: false,
+                });
+            }
         }
 
         this.getRegion('tagList').show( this._tagList );
@@ -282,17 +285,19 @@ export default Marionette.LayoutView.extend({
 
         if ( hasFilesToUpload ) {
             this.ui.form.ajaxSubmit({
-                'error': (xhr) => {
+                error: (xhr) => {
                     switch (xhr.status) {
                         case 413:
                             this._tagList.showErrorFeedback(xhr.responseJSON);
                             break;
+                        default:
+                            this._tagList.showErrorFeedback(xhr.responseJSON);
                     }
                 },
-                'success': response => {
+                success: (response) => {
                     this._tagList.setFilesPathFromApiResponse(response);
                     this.saveLayer();
-                }
+                },
             });
         }
         else {
@@ -310,9 +315,9 @@ export default Marionette.LayoutView.extend({
         for (const tag of tags) {
             if (tag.nonOsmData) {
                 nonOsmTags.push({
-                    'key': tag.key,
-                    'value': tag.value,
-                    'type': tag.type,
+                    key: tag.key,
+                    value: tag.value,
+                    type: tag.type,
                 });
             }
             else {
@@ -341,7 +346,7 @@ export default Marionette.LayoutView.extend({
 
     sendContributionToOSM() {
         this._osmEdit.send()
-        .then(version => {
+        .then((version) => {
             this.ui.footerButtons.prop('disabled', false);
 
             this._contributionSent = true;
@@ -372,10 +377,12 @@ export default Marionette.LayoutView.extend({
             this._osmCacheModel.save();
         })
         .catch((err) => {
+            console.error(err);
+
             this.ui.footerButtons.prop('disabled', false);
 
             new ContributionErrorNotificationView({
-                'retryCallback': this.sendContributionToOSM.bind(this)
+                retryCallback: this.sendContributionToOSM.bind(this),
             }).open();
         });
     },
@@ -383,7 +390,7 @@ export default Marionette.LayoutView.extend({
     onClickAddBtn() {
         this._tagList.addTag();
 
-        let scrollHeight = this.ui.column.height() +
+        const scrollHeight = this.ui.column.height() +
         this._tagList.el.scrollHeight;
         this.ui.content[0].scrollTo(0, scrollHeight);
     },
@@ -401,8 +408,8 @@ export default Marionette.LayoutView.extend({
         e.preventDefault();
 
         new MovePoiContextual({
-            'marker': this._layer,
-            'editPoiColumnView': this,
+            marker: this._layer,
+            editPoiColumnView: this,
         }).open();
 
         this.close(true);

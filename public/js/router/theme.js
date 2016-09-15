@@ -33,8 +33,8 @@ export default Backbone.Router.extend({
         'select/layer': 'routeSelectLayer',
         'select/tile': 'routeSelectTile',
 
-        'user': 'routeUser',
-        'link': 'routeLink',
+        user: 'routeUser',
+        link: 'routeLink',
 
         'admin/setting': 'routeAdminSetting',
         'admin/tile': 'routeAdminTile',
@@ -47,9 +47,9 @@ export default Backbone.Router.extend({
         'admin/tag/new': 'routeAdminTagNew',
         'admin/tag/:uuid': 'routeAdminTagEdit',
 
-        'about': 'routeAbout',
-        'logout': 'routeLogout',
-        'oups': 'routeOups',
+        about: 'routeAbout',
+        logout: 'routeLogout',
+        oups: 'routeOups',
     },
 
     initialize(app) {
@@ -59,7 +59,7 @@ export default Backbone.Router.extend({
         this._previousRoute = '';
 
         this._app.getRegion('root').show(
-            new ThemeRootView({'app': this._app})
+            new ThemeRootView({ app: this._app })
         );
 
         this.on('route', this._setPreviousRoute);
@@ -77,19 +77,19 @@ export default Backbone.Router.extend({
     routeLogout() {
         $.ajax({
             type: 'GET',
-            url: CONST.apiPath +'user/logout',
+            url: `${CONST.apiPath}/user/logout`,
             dataType: 'json',
             context: this,
             complete: () => {
                 this.navigate('');
 
                 this._radio.vent.trigger('session:unlogged');
-            }
+            },
         });
     },
 
-    routeMapPosition(zoom, lat, lng){
-        const version = this._radio.commands.execute('map:position', zoom, lat, lng);
+    routeMapPosition(zoom, lat, lng) {
+        this._radio.commands.execute('map:position', zoom, lat, lng);
         this.navigate('');
     },
 
@@ -171,7 +171,7 @@ export default Backbone.Router.extend({
     },
 
     routeAdminPresetEdit(uuid) {
-        const model = this._theme.get('presets').findWhere({ uuid: uuid });
+        const model = this._theme.get('presets').findWhere({ uuid });
 
         if (model) {
             new AdminPresetEditColumn({
@@ -203,7 +203,7 @@ export default Backbone.Router.extend({
     },
 
     routeAdminTagEdit(uuid) {
-        const model = this._theme.get('tags').findWhere({ uuid: uuid });
+        const model = this._theme.get('tags').findWhere({ uuid });
 
         if (model) {
             new AdminTagEditColumn({

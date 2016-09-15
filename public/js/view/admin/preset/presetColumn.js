@@ -34,6 +34,7 @@ export default Marionette.LayoutView.extend({
     onRender() {
         const listGroup = new ListGroup({
             collection: this.model.get('presets'),
+            labelAttribute: 'name',
             reorderable: true,
             removeable: true,
             placeholder: document.l10n.getSync('uiListGroup_placeholder'),

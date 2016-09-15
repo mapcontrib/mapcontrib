@@ -16,6 +16,7 @@
         "MAPCONTRIB": true,
         "$": true,
         "localStorage": true,
+        "XMLHttpRequest": true,
     },
     "rules": {
         "indent": [0, 4],
@@ -27,6 +28,7 @@
         "no-restricted-syntax": [0, "FunctionExpression", "WithStatement"],
         "brace-style": [2, "stroustrup"],
         "no-param-reassign": 0,
+        "import/imports-first": 0,
         # "comma-dangle": 0,
         # "no-alert": "off",
         # "max-len": [1, 120],

@@ -5,11 +5,14 @@ let marker3 = '';
 let shape = '';
 
 if (typeof window !== 'undefined') {
+    /* eslint-disable global-require */
     marker1 = require('../img/markers/1.svg');
     marker2 = require('../img/markers/2.svg');
     marker3 = require('../img/markers/3.svg');
     shape = require('../img/shape.svg');
+    /* eslint-enable */
 }
+
 
 const colors = {
     white: '#fff',
@@ -57,16 +60,15 @@ const colors = {
 };
 
 
-
 export default {
-    apiPath: '/api/',
+    colors,
+
+    apiPath: '/api',
 
     osm: {
-        changesetCreatedBy: `MapContrib {version}`,
-        changesetComment: 'Test from MapContrib (developpement in progress)'
+        changesetCreatedBy: 'MapContrib {version}',
+        changesetComment: 'Test from MapContrib (developpement in progress)',
     },
-
-    colors: colors,
 
     tooltip: {
         showDelay: 500, // ms
@@ -91,7 +93,7 @@ export default {
         wayPolylineOptions: {
             color: colors.orange,
             weight: 8,
-            opacity: 0.8
+            opacity: 0.8,
         },
 
         markerCLusterPolygonOptions: {
@@ -104,23 +106,23 @@ export default {
 
         markers: {
             marker1: {
-                iconSize:     [36, 42],
-                iconAnchor:   [18, 40],
-                popupAnchor:  [0, -36],
+                iconSize: [36, 42],
+                iconAnchor: [18, 40],
+                popupAnchor: [0, -36],
                 className: 'marker marker-1',
                 html: marker1,
             },
             marker2: {
-                iconSize:     [36, 42],
-                iconAnchor:   [18, 40],
-                popupAnchor:  [0, -36],
+                iconSize: [36, 42],
+                iconAnchor: [18, 40],
+                popupAnchor: [0, -36],
                 className: 'marker marker-2',
                 html: marker2,
             },
             marker3: {
-                iconSize:     [36, 42],
-                iconAnchor:   [18, 40],
-                popupAnchor:  [0, -36],
+                iconSize: [36, 42],
+                iconAnchor: [18, 40],
+                popupAnchor: [0, -36],
                 className: 'marker marker-3',
                 html: marker3,
             },
@@ -260,7 +262,7 @@ export default {
                 attribution: 'Données &copy; <a href="http://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a> et <a href="https://openstreetmap.fr/bano" rel="noopener noreferrer" target="_blank">BANO</a>',
                 urlTemplate: [
                     'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
-                    'https://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png'
+                    'https://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png',
                 ],
                 minZoom: 0,
                 maxZoom: 19,
@@ -278,7 +280,7 @@ export default {
                 urlTemplate: ['http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png'],
                 minZoom: 0,
                 maxZoom: 18,
-            }
+            },
         },
     },
 
@@ -302,7 +304,7 @@ export default {
 
     geocoder: {
         nominatim: 'nominatim',
-        photon: 'photon'
+        photon: 'photon',
     },
 
     infoDisplay: {
@@ -316,5 +318,5 @@ export default {
         memory: 'memory',
         badRequest: 'badRequest',
         unknown: 'unknown',
-    }
+    },
 };

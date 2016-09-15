@@ -21,19 +21,13 @@ import UserModel from './model/user';
 import ThemeModel from './model/theme';
 import NonOsmDataCollection from './collection/nonOsmData';
 import OsmCacheCollection from './collection/osmCache';
-import L20nBehavior from './behavior/l20n';
-import ColumnBehavior from './behavior/column';
-import ModalBehavior from './behavior/modal';
-import NotificationBehavior from './behavior/notification';
-import ContextualBehavior from './behavior/contextual';
-import WidgetBehavior from './behavior/widget';
+import Behaviors from './behavior';
 import IDPresetsHelper from 'helper/iDPresets';
-
 
 
 export default Marionette.Application.extend({
     regions: {
-        'root': '#rg_root',
+        root: '#rg_root',
     },
 
     initialize(window) {
@@ -45,45 +39,47 @@ export default Marionette.Application.extend({
             console.warn(`L20n: ${err}`);
         });
 
-        Marionette.Behaviors.behaviorsLookup = () => {
-            return {
-                'l20n': L20nBehavior,
-                column: ColumnBehavior,
-                'modal': ModalBehavior,
-                'notification': NotificationBehavior,
-                'contextual': ContextualBehavior,
-                'widget': WidgetBehavior,
-            };
-        };
-
+        Marionette.Behaviors.behaviorsLookup = Behaviors;
 
         this._isLogged = false;
         this._window = window;
         this._config = MAPCONTRIB.config;
         this._version = MAPCONTRIB.version;
-        this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
+        this._user = new UserModel(
+            JSON.parse(unescape( MAPCONTRIB.user ))
+        );
 
         if (MAPCONTRIB.user) {
-            this._user = new UserModel(JSON.parse(unescape( MAPCONTRIB.user )));
+            this._user = new UserModel(
+                JSON.parse(unescape( MAPCONTRIB.user ))
+            );
         }
 
         if (MAPCONTRIB.theme) {
-            this._theme = new ThemeModel(JSON.parse(unescape( MAPCONTRIB.theme )));
+            this._theme = new ThemeModel(
+                JSON.parse(unescape( MAPCONTRIB.theme ))
+            );
         }
 
         if (MAPCONTRIB.nonOsmData) {
-            this._nonOsmData = new NonOsmDataCollection(JSON.parse(unescape( MAPCONTRIB.nonOsmData )));
+            this._nonOsmData = new NonOsmDataCollection(
+                JSON.parse(unescape( MAPCONTRIB.nonOsmData ))
+            );
         }
 
         if (MAPCONTRIB.osmCache) {
-            this._osmCache = new OsmCacheCollection(JSON.parse(unescape( MAPCONTRIB.osmCache )));
+            this._osmCache = new OsmCacheCollection(
+                JSON.parse(unescape( MAPCONTRIB.osmCache ))
+            );
         }
 
         if (MAPCONTRIB.iDPresets) {
-            this._iDPresetsHelper = new IDPresetsHelper(JSON.parse(unescape( MAPCONTRIB.iDPresets )));
+            this._iDPresetsHelper = new IDPresetsHelper(
+                JSON.parse(unescape( MAPCONTRIB.iDPresets ))
+            );
 
             $.get({
-                url: `${CONST.apiPath}iDPresets/locale`,
+                url: `${CONST.apiPath}/iDPresets/locale`,
                 data: { locales: document.l10n.supportedLocales },
                 success: this.onReceiveIDPresetsLocale.bind(this),
             });

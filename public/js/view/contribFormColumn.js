@@ -23,26 +23,26 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
-        'tagList': '.rg_tag_list',
+        tagList: '.rg_tag_list',
     },
 
     ui: {
         column: '#contrib_form_column',
-        'form': 'form',
-        'content': '.content',
-        'addBtn': '.add_btn',
-        'footerButtons': '.sticky-footer button',
+        form: 'form',
+        content: '.content',
+        addBtn: '.add_btn',
+        footerButtons: '.sticky-footer button',
     },
 
     events: {
         'click @ui.addBtn': 'onClickAddBtn',
-        'submit': 'onSubmit',
+        submit: 'onSubmit',
     },
 
     templateHelpers() {
         return {
-            'fragment': this._theme.get('fragment'),
-            'apiPath': `${CONST.apiPath}file/nonOsmData`,
+            fragment: this._theme.get('fragment'),
+            apiPath: `${CONST.apiPath}/file/nonOsmData`,
         };
     },
 
@@ -58,11 +58,11 @@ export default Marionette.LayoutView.extend({
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
-                'url': MAPCONTRIB.config.oauthEndPoint,
-                'oauth_consumer_key': MAPCONTRIB.config.oauthConsumerKey,
-                'oauth_secret': MAPCONTRIB.config.oauthSecret,
-                'oauth_token': this._user.get('token'),
-                'oauth_token_secret': this._user.get('tokenSecret'),
+                url: MAPCONTRIB.config.oauthEndPoint,
+                oauth_consumer_key: MAPCONTRIB.config.oauthConsumerKey,
+                oauth_secret: MAPCONTRIB.config.oauthSecret,
+                oauth_token: this._user.get('token'),
+                oauth_token_secret: this._user.get('tokenSecret'),
             })
         );
     },
@@ -76,10 +76,10 @@ export default Marionette.LayoutView.extend({
         const icon = MapUi.buildLayerIcon(
             L,
             new LayerModel({
-                'markerShape': MAPCONTRIB.config.newPoiMarkerShape,
-                'markerIconType': CONST.map.markerIconType.library,
-                'markerIcon': MAPCONTRIB.config.newPoiMarkerIcon,
-                'markerColor': MAPCONTRIB.config.newPoiMarkerColor
+                markerShape: MAPCONTRIB.config.newPoiMarkerShape,
+                markerIconType: CONST.map.markerIconType.library,
+                markerIcon: MAPCONTRIB.config.newPoiMarkerIcon,
+                markerColor: MAPCONTRIB.config.newPoiMarkerColor,
             })
         );
 
@@ -112,7 +112,7 @@ export default Marionette.LayoutView.extend({
         this._map.addLayer( this._layer );
 
         this._tagList = new ContribNodeTagsListView({
-            iDPresetsHelper: this.options.iDPresetsHelper
+            iDPresetsHelper: this.options.iDPresetsHelper,
         });
 
         if (this.options.presetModel) {
@@ -144,17 +144,19 @@ export default Marionette.LayoutView.extend({
 
         if ( hasFilesToUpload ) {
             this.ui.form.ajaxSubmit({
-                'error': (xhr) => {
+                error: (xhr) => {
                     switch (xhr.status) {
                         case 413:
                             this._tagList.showErrorFeedback(xhr.responseJSON);
                             break;
+                        default:
+                            this._tagList.showErrorFeedback(xhr.responseJSON);
                     }
                 },
-                'success': response => {
+                success: (response) => {
                     this._tagList.setFilesPathFromApiResponse(response);
                     this.saveLayer();
-                }
+                },
             });
         }
         else {
@@ -172,9 +174,9 @@ export default Marionette.LayoutView.extend({
         for (const tag of tags) {
             if (tag.nonOsmData) {
                 nonOsmTags.push({
-                    'key': tag.key,
-                    'value': tag.value,
-                    'type': tag.type,
+                    key: tag.key,
+                    value: tag.value,
+                    type: tag.type,
                 });
             }
             else {
@@ -209,7 +211,7 @@ export default Marionette.LayoutView.extend({
 
     sendContributionToOSM() {
         this._osmEdit.send()
-        .then(osmId => {
+        .then((osmId) => {
             this.ui.footerButtons.prop('disabled', false);
 
             this._contributionSent = true;
@@ -235,10 +237,12 @@ export default Marionette.LayoutView.extend({
             this.close();
         })
         .catch((err) => {
+            console.error(err);
+
             this.ui.footerButtons.prop('disabled', false);
 
             new ContributionErrorNotificationView({
-                'retryCallback': this.sendContributionToOSM.bind(this)
+                retryCallback: this.sendContributionToOSM.bind(this),
             }).open();
         });
     },

@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '#temp_layer_column',
-        'addButton': '.add_btn',
+        addButton: '.add_btn',
     },
 
     events: {
@@ -35,6 +35,7 @@ export default Marionette.LayoutView.extend({
     onRender() {
         const listGroup = new ListGroup({
             collection: this.collection,
+            labelAttribute: 'name',
             reorderable: true,
             removeable: true,
             getIcon: model => MapUi.buildLayerHtmlIcon(model),
@@ -68,20 +69,17 @@ export default Marionette.LayoutView.extend({
     onSelect(model) {
         switch (model.get('type')) {
             case CONST.layerType.overpass:
-                this._radio.commands.execute( 'column:tempOverPassLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:tempOverPassLayer', model );
             case CONST.layerType.gpx:
-                this._radio.commands.execute( 'column:tempGpxLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:tempGpxLayer', model );
             case CONST.layerType.csv:
-                this._radio.commands.execute( 'column:tempCsvLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:tempCsvLayer', model );
             case CONST.layerType.geojson:
-                this._radio.commands.execute( 'column:tempGeoJsonLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:tempGeoJsonLayer', model );
             case CONST.layerType.osmose:
-                this._radio.commands.execute( 'column:tempOsmoseLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:tempOsmoseLayer', model );
+            default:
+                return false;
         }
     },
 });

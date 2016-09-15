@@ -1,7 +1,7 @@
 
 import Marionette from 'backbone.marionette';
-import jquery_ui_sortable from 'jquery-ui/sortable';
-import jquery_ui_touch_punch from 'jquery-ui-touch-punch';
+import 'jquery-ui/sortable';
+import 'jquery-ui-touch-punch';
 import EmptyView from './empty';
 import ItemView from './item';
 
@@ -23,8 +23,9 @@ export default Marionette.CollectionView.extend({
         };
     },
 
-    childViewOptions(model, index) {
+    childViewOptions() {
         return {
+            labelAttribute: this.options.labelAttribute,
             reorderable: this.options.reorderable,
             removeable: this.options.removeable,
             getIcon: model => this.options.getIcon(model),
@@ -38,7 +39,7 @@ export default Marionette.CollectionView.extend({
     initialize(options) {
         this.options = {
             ...this.defaultOptions,
-            ...options
+            ...options,
         };
 
         this.listenTo(this.collection, 'remove', this.onRemoveItem);
@@ -64,23 +65,23 @@ export default Marionette.CollectionView.extend({
                 axis: 'y',
                 items: 'a',
                 handle: '.reorder_icon',
-                update: () => this.onDnD()
+                update: () => this.onDnD(),
             });
         }
     },
 
-    onDnD(event) {
+    onDnD() {
         let i = 0;
-        const sorted_id_list = this.$el.sortable('toArray');
+        const sortedIdList = this.$el.sortable('toArray');
 
-        for (const id of sorted_id_list) {
+        for (const id of sortedIdList) {
             const model = this.collection.filter(
                 item => item.cid === id.replace('item-', '')
             )[0];
 
             model.set({ order: i });
 
-            i++;
+            i += 1;
         }
 
         this.collection.sort();
@@ -94,5 +95,5 @@ export default Marionette.CollectionView.extend({
 
     onSelectItem(e, model) {
         this.trigger('item:select', model);
-    }
+    },
 });

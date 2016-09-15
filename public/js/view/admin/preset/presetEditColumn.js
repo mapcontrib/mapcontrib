@@ -21,17 +21,17 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '#edit_preset_tags_column',
-        'content': '.content',
-        'nameInput': '#preset_name',
-        'descriptionInput': '#preset_description',
-        'tagList': '.rg_tag_list',
-        'addBtn': '.add_btn',
+        content: '.content',
+        nameInput: '#preset_name',
+        descriptionInput: '#preset_description',
+        tagList: '.rg_tag_list',
+        addBtn: '.add_btn',
     },
 
     events: {
         'click @ui.addBtn': 'onClickAddBtn',
 
-        'submit': 'onSubmit',
+        submit: 'onSubmit',
     },
 
     initialize() {
@@ -65,7 +65,7 @@ export default Marionette.LayoutView.extend({
     onClickAddBtn() {
         this._tagList.addTag();
 
-        let scrollHeight = this.ui.column.height() +
+        const scrollHeight = this.ui.column.height() +
         this._tagList.el.scrollHeight;
         this.ui.content[0].scrollTo(0, scrollHeight);
     },

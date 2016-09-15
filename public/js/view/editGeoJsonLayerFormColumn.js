@@ -20,42 +20,42 @@ export default Marionette.ItemView.extend({
 
     ui: {
         column: '#edit_poi_layer_column',
-        'form': 'form',
-        'submitButton': '.submit_btn',
+        form: 'form',
+        submitButton: '.submit_btn',
 
-        'layerName': '#layer_name',
-        'layerDescription': '#layer_description',
-        'layerCluster': '#layer_cluster',
-        'layerHeat': '#layer_heat',
-        'layerVisible': '#layer_visible',
-        'infoDisplayInfo': '.info_info_display_btn',
-        'layerPopupContent': '#layer_popup_content',
-        'layerFile': '#layer_file',
+        layerName: '#layer_name',
+        layerDescription: '#layer_description',
+        layerCluster: '#layer_cluster',
+        layerHeat: '#layer_heat',
+        layerVisible: '#layer_visible',
+        infoDisplayInfo: '.info_info_display_btn',
+        layerPopupContent: '#layer_popup_content',
+        layerFile: '#layer_file',
 
-        'heatOptions': '.heat-options',
-        'heatMapInfo': '.info_heat_map_btn',
-        'heatMinOpacity': '#layer_heat_min_opacity',
-        'heatMaxZoom': '#layer_heat_max_zoom',
-        'heatMax': '#layer_heat_max',
-        'heatBlur': '#layer_heat_blur',
-        'heatRadius': '#layer_heat_radius',
+        heatOptions: '.heat-options',
+        heatMapInfo: '.info_heat_map_btn',
+        heatMinOpacity: '#layer_heat_min_opacity',
+        heatMaxZoom: '#layer_heat_max_zoom',
+        heatMax: '#layer_heat_max',
+        heatBlur: '#layer_heat_blur',
+        heatRadius: '#layer_heat_radius',
 
-        'markerOptions': '.marker-options',
-        'markerWrapper': '.marker-wrapper',
-        'editMarkerButton': '.edit_marker_btn',
+        markerOptions: '.marker-options',
+        markerWrapper: '.marker-wrapper',
+        editMarkerButton: '.edit_marker_btn',
 
-        'formGroups': '.form-group',
-        'fileFormGroup': '.form-group.layer_file',
+        formGroups: '.form-group',
+        fileFormGroup: '.form-group.layer_file',
 
-        'currentFile': '.current_file',
+        currentFile: '.current_file',
     },
 
     events: {
         'change @ui.layerCluster': 'onChangeLayerRepresentation',
         'change @ui.layerHeat': 'onChangeLayerRepresentation',
         'click @ui.editMarkerButton': 'onClickEditMarker',
-        'submit': 'onSubmit',
-        'reset': 'onReset',
+        submit: 'onSubmit',
+        reset: 'onReset',
     },
 
     templateHelpers() {
@@ -63,10 +63,10 @@ export default Marionette.ItemView.extend({
         const maxFileSize = formatBytes( config.uploadMaxShapeFileSize * 1024 );
 
         return {
-            'marker': MapUi.buildLayerHtmlIcon( this.model ),
-            'fragment': this.options.theme.get('fragment'),
-            'apiPath': `${CONST.apiPath}file/shape`,
-            'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
+            marker: MapUi.buildLayerHtmlIcon( this.model ),
+            fragment: this.options.theme.get('fragment'),
+            apiPath: `${CONST.apiPath}/file/shape`,
+            maxFileSize: document.l10n.getSync('maxFileSize', { maxFileSize }),
         };
     },
 
@@ -88,7 +88,7 @@ export default Marionette.ItemView.extend({
             this.ui.currentFile
             .html(
                 document.l10n.getSync('currentFile', {
-                    file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`
+                    file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`,
                 })
             )
             .removeClass('hide');
@@ -106,31 +106,31 @@ export default Marionette.ItemView.extend({
 
     onShow() {
         this.ui.heatMapInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_heatMapPopoverContent')
             ),
         });
 
         this.ui.infoDisplayInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
             ),
         });
 
         this.ui.layerFile.filestyle({
-            'icon': false,
-            'badge': false,
-            'buttonText': document.l10n.getSync('editLayerFormColumn_browse'),
+            icon: false,
+            badge: false,
+            buttonText: document.l10n.getSync('editLayerFormColumn_browse'),
         });
     },
 
@@ -213,7 +213,7 @@ export default Marionette.ItemView.extend({
             }
 
             this.ui.form.ajaxSubmit({
-                'error': xhr => {
+                error: (xhr) => {
                     switch (xhr.status) {
                         case 413:
                             this.ui.fileFormGroup.addClass('has-feedback has-error');
@@ -221,19 +221,23 @@ export default Marionette.ItemView.extend({
                         case 415:
                             this.ui.fileFormGroup.addClass('has-feedback has-error');
                             break;
+                        default:
+                            this.ui.formGroups.addClass('has-feedback has-error');
                     }
                     this.enableSubmitButton();
                 },
-                'success': response => {
+                success: (response) => {
                     const file = response[0];
                     this.model.set('fileUri', file.layer_file);
                     this.saveLayer();
-                }
+                },
             });
         }
         else {
             this.saveLayer();
         }
+
+        return true;
     },
 
     saveLayer() {
@@ -252,10 +256,10 @@ export default Marionette.ItemView.extend({
         this.model.set('visible', this.ui.layerVisible.prop('checked'));
         this.model.set('popupContent', this.ui.layerPopupContent.val());
         this.model.set('heatMinOpacity', parseFloat(this.ui.heatMinOpacity.val()));
-        this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val()));
+        this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val(), 10));
         this.model.set('heatMax', parseFloat(this.ui.heatMax.val()));
-        this.model.set('heatBlur', parseInt(this.ui.heatBlur.val()));
-        this.model.set('heatRadius', parseInt(this.ui.heatRadius.val()));
+        this.model.set('heatBlur', parseInt(this.ui.heatBlur.val(), 10));
+        this.model.set('heatRadius', parseInt(this.ui.heatRadius.val(), 10));
 
         if ( this.ui.layerCluster.prop('checked') ) {
             this.model.set('rootLayerType', CONST.rootLayerType.markerCluster);

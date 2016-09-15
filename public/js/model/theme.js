@@ -16,48 +16,48 @@ import Tag from './tag';
 export default Backbone.RelationalModel.extend({
     idAttribute: '_id',
 
-    urlRoot: CONST.apiPath + 'theme',
+    urlRoot: `${CONST.apiPath}/theme`,
 
     relations: [
         {
-            'type': Backbone.HasMany,
-            'key': 'layers',
-            'relatedModel': Layer,
-            'collectionType': LayerCollection,
+            type: Backbone.HasMany,
+            key: 'layers',
+            relatedModel: Layer,
+            collectionType: LayerCollection,
         },
         {
-            'type': Backbone.HasMany,
-            'key': 'presets',
-            'relatedModel': Preset,
-            'collectionType': PresetCollection,
+            type: Backbone.HasMany,
+            key: 'presets',
+            relatedModel: Preset,
+            collectionType: PresetCollection,
         },
         {
-            'type': Backbone.HasMany,
-            'key': 'tags',
-            'relatedModel': Tag,
-            'collectionType': TagCollection,
+            type: Backbone.HasMany,
+            key: 'tags',
+            relatedModel: Tag,
+            collectionType: TagCollection,
         },
     ],
 
     defaults() {
         return {
-            'creationDate': new Date().toISOString(),
-            'modificationDate': new Date().toISOString(),
-            'userId': undefined,
-            'name': 'MapContrib',
-            'description': '',
-            'color': 'blue',
-            'tiles': ['osmFr'],
-            'zoomLevel': 3,
-            'autoCenter': false,
-            'center': {
-                'lat': 33.57,
-                'lng': 1.58,
+            creationDate: new Date().toISOString(),
+            modificationDate: new Date().toISOString(),
+            userId: undefined,
+            name: 'MapContrib',
+            description: '',
+            color: 'blue',
+            tiles: ['osmFr'],
+            zoomLevel: 3,
+            autoCenter: false,
+            center: {
+                lat: 33.57,
+                lng: 1.58,
             },
-            'owners': [],
-            'geocoder': undefined,
-            'infoDisplay': CONST.infoDisplay.popup,
-            'analyticScript': '',
+            owners: [],
+            geocoder: undefined,
+            infoDisplay: CONST.infoDisplay.popup,
+            analyticScript: '',
         };
     },
 
@@ -66,7 +66,7 @@ export default Backbone.RelationalModel.extend({
             if (typeof window !== 'undefined' && typeof MAPCONTRIB !== 'undefined') {
                 this.set(
                     'geocoder',
-                    CONST.geocoder[ MAPCONTRIB.config.defaultGeocoder ]
+                    CONST.geocoder[MAPCONTRIB.config.defaultGeocoder]
                 );
             }
         }
@@ -85,7 +85,7 @@ export default Backbone.RelationalModel.extend({
      * @return boolean
      */
     isOwner(userModel) {
-        let userId = userModel.get('_id');
+        const userId = userModel.get('_id');
 
         if ( !userId ) {
             return false;
@@ -120,7 +120,7 @@ export default Backbone.RelationalModel.extend({
         name = name.replace(/-/g, '_');
         name = name.replace(/ /g, '_');
         name = name.replace(/_{2,}/g, '_');
-        name = name.replace(/[^a-zA-Z0-9\_]/g, '');
+        name = name.replace(/[^a-zA-Z0-9_]/g, '');
 
         return name;
     },
@@ -139,8 +139,7 @@ export default Backbone.RelationalModel.extend({
         if (webName) {
             return `${basePath}-${webName}`;
         }
-        else {
-            return basePath;
-        }
-    }
+
+        return basePath;
+    },
 });

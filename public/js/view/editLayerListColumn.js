@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '#edit_layer_column',
-        'addButton': '.add_btn',
+        addButton: '.add_btn',
     },
 
     events: {
@@ -35,6 +35,7 @@ export default Marionette.LayoutView.extend({
     onRender() {
         const listGroup = new ListGroup({
             collection: this.model.get('layers'),
+            labelAttribute: 'name',
             reorderable: true,
             removeable: true,
             getIcon: model => MapUi.buildLayerHtmlIcon(model),
@@ -79,20 +80,17 @@ export default Marionette.LayoutView.extend({
     onSelect(model) {
         switch (model.get('type')) {
             case CONST.layerType.overpass:
-                this._radio.commands.execute( 'column:editOverPassLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:editOverPassLayer', model );
             case CONST.layerType.gpx:
-                this._radio.commands.execute( 'column:editGpxLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:editGpxLayer', model );
             case CONST.layerType.csv:
-                this._radio.commands.execute( 'column:editCsvLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:editCsvLayer', model );
             case CONST.layerType.geojson:
-                this._radio.commands.execute( 'column:editGeoJsonLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:editGeoJsonLayer', model );
             case CONST.layerType.osmose:
-                this._radio.commands.execute( 'column:editOsmoseLayer', model );
-                break;
+                return this._radio.commands.execute( 'column:editOsmoseLayer', model );
+            default:
+                return false;
         }
     },
 });

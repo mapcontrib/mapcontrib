@@ -23,6 +23,8 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        tagKey: '#tag_key',
+        tagType: '#tag_type',
     },
 
     events: {
@@ -92,56 +94,25 @@ export default Marionette.LayoutView.extend({
     onSubmit(e) {
         e.preventDefault();
 
-        const map = this._radio.reqres.request('map');
-        const mapCenter = map.getCenter();
-        const mapZoomLevel = map.getZoom();
-        const themeName = this.ui.themeName.val();
-        const themeDescription = this.ui.themeDescription.val();
-        const themeAnalyticScript = this.ui.themeAnalyticScript.val();
+        const tagKey = this.ui.tagKey.val().trim();
+        const tagType = this.ui.tagType.val();
 
-        this.model.set('name', themeName);
-        this.model.set('description', themeDescription);
-        this.model.set('analyticScript', themeAnalyticScript);
+        this.model.set('key', tagKey);
+        this.model.set('type', tagType);
+
+        if (this.options.isNew) {
+            this.options.theme.get('tags').add( this.model );
+        }
+
         this.model.updateModificationDate();
-
-        window.history.pushState({}, themeName, this.model.buildPath());
-
-        this.model.set('autoCenter', false);
-
-        if ( this.ui.themePositionSetNew.prop('checked') === true ) {
-            this.model.set('center', mapCenter);
-            this.model.set('zoomLevel', mapZoomLevel);
-        }
-
-        if ( this.ui.themePositionAutoCenter.prop('checked') === true ) {
-            this.model.set('autoCenter', true);
-        }
-
-        if ( this.ui.themeInfoDisplayPopup.prop('checked') === true ) {
-            this.model.set('infoDisplay', CONST.infoDisplay.popup);
-        }
-        else if ( this.ui.themeInfoDisplayModal.prop('checked') === true ) {
-            this.model.set('infoDisplay', CONST.infoDisplay.modal);
-        }
-        else if ( this.ui.themeInfoDisplayColumn.prop('checked') === true ) {
-            this.model.set('infoDisplay', CONST.infoDisplay.column);
-        }
-
-        this.model.save({}, {
+        this.options.theme.updateModificationDate();
+        this.options.theme.save({}, {
             success: () => {
-                if (this.model.get('infoDisplay') !== this._oldModel.get('infoDisplay')) {
-                    if (this.model.get('infoDisplay') === CONST.infoDisplay.popup) {
-                        this._radio.commands.execute('map:bindAllPopups');
-                    }
-                    else {
-                        this._radio.commands.execute('map:unbindAllPopups');
-                    }
-                }
-
                 this._oldModel = this.model.clone();
 
                 this.close();
             },
+
             error: () => {
                 // FIXME
                 console.error('nok');
