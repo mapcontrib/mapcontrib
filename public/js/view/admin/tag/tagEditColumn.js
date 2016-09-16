@@ -15,7 +15,8 @@ export default Marionette.LayoutView.extend({
             column: {
                 appendToBody: true,
                 destroyOnClose: true,
-                routeOnClose: this.options.previousRoute,
+                routeOnClose: this.options.routeOnClose,
+                triggerRouteOnClose: this.options.triggerRouteOnClose,
             },
         };
     },

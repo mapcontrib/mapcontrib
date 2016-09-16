@@ -198,6 +198,8 @@ export default Backbone.Router.extend({
             router: this,
             theme: this._theme,
             model: new TagModel(),
+            routeOnClose: 'admin/tag',
+            triggerRouteOnClose: true,
             isNew: true,
         }).open();
     },
