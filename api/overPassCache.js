@@ -48,7 +48,7 @@ class Api {
                 if ( layer.uuid === req.params.uuid ) {
                     res.send('ok');
 
-                    return spawn('npm', ['run', 'updateOverPassCache', layer.uuid]);
+                    return spawn('npm', ['run', 'update-overpass-cache', layer.uuid]);
                 }
             }
 

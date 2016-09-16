@@ -17,7 +17,7 @@ database.connect((err, db) => {
     if (err) throw err;
 
     const cache = new OverPassCache(db);
-    const cron = new UpdateOverPassCache(db, cache);
+    const cron = new update-overpass-cache(db, cache);
 
     logger.info(`Update of the OverPass cache started`);
 
@@ -27,7 +27,7 @@ database.connect((err, db) => {
 
 
 
-export default class UpdateOverPassCache {
+export default class update-overpass-cache {
     constructor (db, cache) {
         this._db = db;
         this._cache = cache;

@@ -1,5 +1,5 @@
 /**
- * Usage: npm run importIdPresets -- --dir DIR
+ * Usage: npm run import-id-presets -- --dir DIR
  */
 
 import fs from 'fs';
