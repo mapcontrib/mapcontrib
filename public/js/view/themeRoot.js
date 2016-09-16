@@ -905,7 +905,7 @@ export default Marionette.LayoutView.extend({
             const object = objects[i];
             const id = GeoJsonHelper.findOsmId(object.feature);
             const type = GeoJsonHelper.findOsmType(object.feature);
-            const longId = this._overPassData.buildOsmIdFromTypeAndId(type, id);
+            const longId = OverPassData.buildOsmIdFromTypeAndId(type, id);
             const version = GeoJsonHelper.findOsmVersion(object.feature);
             const osmCacheModel = this._osmCache.findWhere({
                 themeFragment: this.model.get('fragment'),

@@ -9,13 +9,13 @@ let options = {
 };
 
 
-function setOptions (hash) {
+function setOptions(hash) {
     options = hash;
 }
 
 
 class Api {
-    static generate (req, res) {
+    static generate(req, res) {
         if ( !options.CONST.pattern.uuid.test( req.params.uuid ) ) {
             res.sendStatus(400);
 
@@ -25,10 +25,10 @@ class Api {
         const collection = options.database.collection('theme');
 
         collection.find({
-            'layers.uuid': req.params.uuid
+            'layers.uuid': req.params.uuid,
         })
         .toArray((err, results) => {
-            if(err) {
+            if (err) {
                 return res.sendStatus(500);
             }
 
@@ -43,21 +43,25 @@ class Api {
             }
 
             for (const i in theme.layers) {
-                const layer = theme.layers[i];
+                if ({}.hasOwnProperty.call(theme.layers, i)) {
+                    const layer = theme.layers[i];
 
-                if ( layer.uuid === req.params.uuid ) {
-                    res.send('ok');
+                    if ( layer.uuid === req.params.uuid ) {
+                        res.send('ok');
 
-                    return spawn('npm', ['run', 'update-overpass-cache', layer.uuid]);
+                        return spawn('npm', ['run', 'update-overpass-cache', layer.uuid]);
+                    }
                 }
             }
 
             return res.sendStatus(404);
         });
+
+        return true;
     }
 
 
-    static isThemeOwner (req, themeId) {
+    static isThemeOwner(req, themeId) {
         if ( !req.session.user || !req.session.themes ) {
             return false;
         }
@@ -71,8 +75,7 @@ class Api {
 }
 
 
-
 export default {
     setOptions,
-    Api
+    Api,
 };

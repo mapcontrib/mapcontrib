@@ -1,5 +1,4 @@
 
-import Backbone from 'backbone';
 import { ObjectID } from 'mongodb';
 import OsmCacheModel from '../public/js/model/osmCache';
 
@@ -11,42 +10,43 @@ let options = {
 };
 
 
-function setOptions (hash) {
+function setOptions(hash) {
     options = hash;
 }
 
 
-
 class Api {
-    static post (req, res) {
+    static post(req, res) {
         const collection = options.database.collection('osmCache');
-        const new_json = req.body;
-        const model = new OsmCacheModel(new_json);
+        const newJson = req.body;
+        const model = new OsmCacheModel(newJson);
 
         if ( !model.isValid() ) {
             return res.sendStatus(400);
         }
 
-        delete(new_json._id);
+        delete (newJson._id);
 
 
         collection.insertOne(
             model.toJSON(),
-            {safe: true},
+            { safe: true },
             (err, results) => {
-                if(err) {
+                if (err) {
                     return res.sendStatus(500);
                 }
 
                 const result = results.ops[0];
                 result._id = result._id.toString();
 
-                res.send(result);
+                return res.send(result);
             }
         );
+
+        return true;
     }
 
-    static get (req, res) {
+    static get(req, res) {
         if ( !req.params._id || !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
 
@@ -56,10 +56,10 @@ class Api {
         const collection = options.database.collection('osmCache');
 
         collection.find({
-            _id:  new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id),
         })
         .toArray((err, results) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
@@ -74,12 +74,14 @@ class Api {
             const result = results[0];
             result._id = result._id.toString();
 
-            res.send(result);
+            return res.send(result);
         });
+
+        return true;
     }
 
 
-    static getAll (req, res) {
+    static getAll(req, res) {
         const collection = options.database.collection('osmCache');
         const filters = {};
 
@@ -100,23 +102,25 @@ class Api {
             filters
         )
         .toArray((err, results) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
             }
 
-            res.send(
-                results.map(result => {
+            return res.send(
+                results.map((result) => {
                     result._id = result._id.toString();
                     return result;
                 })
             );
         });
+
+        return true;
     }
 
 
-    static findFromFragment (fragment) {
+    static findFromFragment(fragment) {
         return new Promise((resolve, reject) => {
             const collection = options.database.collection('osmCache');
 
@@ -126,15 +130,15 @@ class Api {
             }
 
             collection.find({
-                themeFragment: fragment
+                themeFragment: fragment,
             })
             .toArray((err, results) => {
-                if(err) {
+                if (err) {
                     return reject(500);
                 }
 
-                resolve(
-                    results.map(result => {
+                return resolve(
+                    results.map((result) => {
                         result._id = result._id.toString();
                         return result;
                     })
@@ -144,16 +148,16 @@ class Api {
     }
 
 
-    static put (req, res) {
+    static put(req, res) {
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
 
             return true;
         }
 
-        const new_json = req.body;
+        const newJson = req.body;
         const collection = options.database.collection('osmCache');
-        const model = new OsmCacheModel(new_json);
+        const model = new OsmCacheModel(newJson);
 
         if ( !model.isValid() ) {
             res.sendStatus(400);
@@ -161,26 +165,28 @@ class Api {
             return true;
         }
 
-        delete(new_json._id);
+        delete (newJson._id);
 
         collection.updateOne({
-            _id: new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id),
         },
-        new_json,
-        {safe: true},
+        newJson,
+        { safe: true },
         (err) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
             }
 
-            res.send({});
+            return res.send({});
         });
+
+        return true;
     }
 
 
-    static delete (req, res) {
+    static delete(req, res) {
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
 
@@ -190,24 +196,25 @@ class Api {
         const collection = options.database.collection('osmCache');
 
         collection.removeOne({
-            _id: new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id),
         },
-        {safe: true},
+        { safe: true },
         (err) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
             }
 
-            res.send({});
+            return res.send({});
         });
+
+        return true;
     }
 }
 
 
-
 export default {
     setOptions,
-    Api
+    Api,
 };

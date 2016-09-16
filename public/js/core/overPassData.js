@@ -89,6 +89,7 @@ export default class OverPassData {
 
     /**
      * @author Guillaume AMAT
+     * @static
      * @access public
      * @param {object} overPassElement - OverPass element.
      * @returns {string}
@@ -99,6 +100,7 @@ export default class OverPassData {
 
     /**
      * @author Guillaume AMAT
+     * @static
      * @access public
      * @param {string} type - OverPass element's type.
      * @param {string|number} id - OverPass element's id.

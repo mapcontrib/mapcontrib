@@ -1,7 +1,7 @@
 
 import App from './app';
 import Router from 'router/theme';
-import style from '../css/theme.less';
+import '../css/theme.less';
 import FontLoader from 'core/fontLoader';
 
 

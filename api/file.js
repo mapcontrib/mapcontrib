@@ -17,12 +17,12 @@ let options = {
 };
 
 
-function setOptions (hash) {
+function setOptions(hash) {
     options = hash;
 }
 
 
-function initDirectories (app) {
+function initDirectories(app) {
     if ( !fs.existsSync( config.get('dataDirectory') ) ) {
         mkdirp.sync(config.get('dataDirectory'));
     }
@@ -44,7 +44,7 @@ function initDirectories (app) {
 }
 
 
-function cleanThemeFiles (themeModel) {
+function cleanThemeFiles(themeModel) {
     const fragment = themeModel.get('fragment');
     const layers = themeModel.get('layers').models;
     const shapeDirectory = path.resolve(
@@ -55,91 +55,30 @@ function cleanThemeFiles (themeModel) {
     const themeFiles = [];
 
     for (const i in layers) {
-        const fileUri = layers[i].get('fileUri');
+        if ({}.hasOwnProperty.call(layers, i)) {
+            const fileUri = layers[i].get('fileUri');
 
-        if ( fileUri && re.test(fileUri) ) {
-            themeFiles.push(
-                basename(fileUri)
-            );
+            if ( fileUri && re.test(fileUri) ) {
+                themeFiles.push(
+                    basename(fileUri)
+                );
+            }
         }
     }
 
-    fs.readdir(shapeDirectory, function(err, fileList) {
+    fs.readdir(shapeDirectory, (err, fileList) => {
         for (const i in fileList) {
-            const file = fileList[i];
-            const filePath = path.resolve(shapeDirectory, file);
+            if ({}.hasOwnProperty.call(fileList, i)) {
+                const file = fileList[i];
+                const filePath = path.resolve(shapeDirectory, file);
 
-            if ( themeFiles.indexOf(file) === -1 ) {
-                fs.unlink(filePath);
+                if ( themeFiles.indexOf(file) === -1 ) {
+                    fs.unlink(filePath);
+                }
             }
         }
     });
 }
-
-
-
-class Api {
-    static postShapeFile (req, res) {
-        const fragment = req.query.fragment;
-        const promises = [];
-
-        for (const field in req.files) {
-            const file = req.files[field];
-            const fileSize = file.size / 1024;
-            const maxFileSize = config.get('client.uploadMaxShapeFileSize');
-
-            if ( fileSize > maxFileSize) {
-                return res.sendStatus(413);
-            }
-
-            const extension = file.extension.toLowerCase();
-
-            if ( options.CONST.shapeFileExtensions.indexOf(extension) === -1 ) {
-                return res.sendStatus(415);
-            }
-
-            promises.push(
-                uploadFile(req, res, req.files[field], `theme/${fragment}/shape`)
-            );
-        }
-
-        Promise.all(promises)
-        .then(results => {
-            res.send(results);
-        })
-        .catch(err => {
-            res.sendStatus(500);
-        });
-    }
-
-    static postNonOsmDataFile (req, res) {
-        const fragment = req.query.fragment;
-        const promises = [];
-
-        for (const field in req.files) {
-            const file = req.files[field];
-            const fileSize = file.size / 1024;
-            const maxFileSize = config.get('client.uploadMaxNonOsmDataFileSize');
-
-            if ( fileSize > maxFileSize) {
-                return res.status(413).send({fileInput: field});
-            }
-
-            promises.push(
-                uploadFile(req, res, req.files[field], `theme/${fragment}/nonOsmData`)
-            );
-        }
-
-        Promise.all(promises)
-        .then(results => {
-            res.send(results);
-        })
-        .catch(err => {
-            res.sendStatus(500);
-        });
-    }
-}
-
 
 
 function uploadFile(req, res, file, directory) {
@@ -163,26 +102,92 @@ function uploadFile(req, res, file, directory) {
 
         publicPath = `/files/${directory}/${fileName}`;
         fullPath = `${fullDirectory}/${fileName}`;
-        i++;
+        i += 1;
     }
 
     return new Promise((resolve, reject) => {
         fs.rename(
             file.path,
             fullPath,
-            err => {
-                if(err) {
+            (err) => {
+                if (err) {
                     return reject(err);
                 }
 
                 const result = {};
-                result[ file.fieldname ] = publicPath;
-                resolve(result);
+                result[file.fieldname] = publicPath;
+                return resolve(result);
             }
         );
     });
 }
 
+
+class Api {
+    static postShapeFile(req, res) {
+        const fragment = req.query.fragment;
+        const promises = [];
+
+        for (const field in req.files) {
+            if ({}.hasOwnProperty.call(req.files, field)) {
+                const file = req.files[field];
+                const fileSize = file.size / 1024;
+                const maxFileSize = config.get('client.uploadMaxShapeFileSize');
+
+                if ( fileSize > maxFileSize) {
+                    return res.sendStatus(413);
+                }
+
+                const extension = file.extension.toLowerCase();
+
+                if ( options.CONST.shapeFileExtensions.indexOf(extension) === -1 ) {
+                    return res.sendStatus(415);
+                }
+
+                promises.push(
+                    uploadFile(req, res, req.files[field], `theme/${fragment}/shape`)
+                );
+            }
+        }
+
+        return Promise.all(promises)
+        .then((results) => {
+            res.send(results);
+        })
+        .catch(() => {
+            res.sendStatus(500);
+        });
+    }
+
+    static postNonOsmDataFile(req, res) {
+        const fragment = req.query.fragment;
+        const promises = [];
+
+        for (const field in req.files) {
+            if ({}.hasOwnProperty.call(req.files, field)) {
+                const file = req.files[field];
+                const fileSize = file.size / 1024;
+                const maxFileSize = config.get('client.uploadMaxNonOsmDataFileSize');
+
+                if ( fileSize > maxFileSize) {
+                    return res.status(413).send({ fileInput: field });
+                }
+
+                promises.push(
+                    uploadFile(req, res, req.files[field], `theme/${fragment}/nonOsmData`)
+                );
+            }
+        }
+
+        return Promise.all(promises)
+        .then((results) => {
+            res.send(results);
+        })
+        .catch(() => {
+            res.sendStatus(500);
+        });
+    }
+}
 
 
 export default {

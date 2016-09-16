@@ -11,18 +11,18 @@ import logger from '../lib/logger';
 import CONST from '../const';
 
 
-const argv = argp.createParser({ once: true })
-    .description ('Import presets, categories, fields and defaults from an iD reporitory clone')
-    .on('end', function (argv) {
-        if ( !argv.dir ) {
+const argpResult = argp.createParser({ once: true })
+    .description('Import presets, categories, fields and defaults from an iD reporitory clone')
+    .on('end', (result) => {
+        if ( !result.dir ) {
             this.printUsage(1);
             process.exit(1);
         }
     })
-    .on('error', function (error) {
+    .on('error', (error) => {
         this.fail(error);
     })
-    .body ()
+    .body()
         .text(' Options:')
         .option({
             description: 'iD\'s repository clone directory',
@@ -30,13 +30,13 @@ const argv = argp.createParser({ once: true })
             long: 'dir',
             metavar: 'DIR',
             optional: false,
-            type: String
+            type: String,
         })
         .usage()
         .argv();
 
 
-const iDDirectoryPath = path.resolve(argv.dir);
+const iDDirectoryPath = path.resolve(argpResult.dir);
 const iDPresetsDirectoryPath = path.join(iDDirectoryPath, 'data/presets');
 const iDLocalesDirectoryPath = path.join(iDDirectoryPath, 'dist/locales');
 
@@ -64,8 +64,8 @@ presetsBuilder.generatePresets(iDPresetsDirectoryPath, (err, data) => {
     const finalPresetsPath = path.join(CONST.iDPresetsPath);
     const newData = {
         defaults: data.defaults,
-        presets:  data.presets,
-        fields:   data.fields,
+        presets: data.presets,
+        fields: data.fields,
     };
 
     logger.debug(`creating ${finalPresetsPath}`);
@@ -81,8 +81,8 @@ fs.readdir(iDLocalesDirectoryPath, (err, iDLocaleFiles) => {
         const iDLocaleFilePath = path.join(iDLocalesDirectoryPath, iDLocaleFile);
         const finalLocaleFilePath = path.join(CONST.iDLocalesDirectoryPath, iDLocaleFile);
 
-        fs.readFile(iDLocaleFilePath, 'utf-8', (err, data) => {
-            if (err) throw err;
+        fs.readFile(iDLocaleFilePath, 'utf-8', (error, data) => {
+            if (error) throw error;
 
             const json = JSON.parse(data);
             const newData = {};
@@ -100,14 +100,13 @@ fs.readdir(iDLocalesDirectoryPath, (err, iDLocaleFiles) => {
             }
 
             logger.debug(`creating ${finalLocaleFilePath}`);
-            fs.writeFile(
+            return fs.writeFile(
                 finalLocaleFilePath,
                 JSON.stringify(newData)
             );
         });
     }
 });
-
 
 
 logger.info('End of the generation');

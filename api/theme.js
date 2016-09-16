@@ -13,11 +13,11 @@ let options = {
 };
 
 
-function setOptions (hash) {
+function setOptions(hash) {
     options = hash;
 }
 
-function addThemeInUserSession (session, theme) {
+function addThemeInUserSession(session, theme) {
     theme._id = theme._id.toString();
 
     if (!session.themes) {
@@ -30,40 +30,40 @@ function addThemeInUserSession (session, theme) {
 
 
 class Api {
-    static post (req, res) {
+    static post(req, res) {
         if (!req.session.user) {
             res.sendStatus(401);
         }
 
         Api.createTheme( req.session, req.session.user._id.toString() )
-        .then(result => {
+        .then((result) => {
             result._id = result._id.toString();
             res.send(result);
         })
-        .catch(errorCode => {
+        .catch((errorCode) => {
             res.sendStatus(errorCode);
         });
     }
 
-    static createTheme (session, userId) {
+    static createTheme(session, userId) {
         Backbone.Relational.store.reset();
 
         const collection = options.database.collection('theme');
         const model = new ThemeModel({
-            userId: userId,
-            owners: [ userId ]
+            userId,
+            owners: [ userId ],
         });
 
         return new Promise((resolve, reject) => {
             Api.getNewFragment()
-            .then(fragment => {
+            .then((fragment) => {
                 model.set('fragment', fragment);
 
                 collection.insertOne(
                     model.toJSON(),
-                    {safe: true},
+                    { safe: true },
                     (err, results) => {
-                        if(err) {
+                        if (err) {
                             return reject(500);
                         }
 
@@ -71,44 +71,43 @@ class Api {
 
                         addThemeInUserSession(session, result);
 
-                        resolve(result);
+                        return resolve(result);
                     }
                 );
             });
         });
     }
 
-    static getNewFragment () {
+    static getNewFragment() {
         const collection = options.database.collection('theme');
         const shasum = crypto.createHash('sha1');
 
         shasum.update([
-            new Date().getTime().toString()
+            new Date().getTime().toString(),
         ].join('') );
 
         const fragment = shasum.digest('hex').substr(0, 6);
 
         return new Promise((resolve, reject) => {
             collection.find({
-                fragment: fragment
+                fragment,
             })
             .toArray((err, results) => {
-                if(err) {
+                if (err) {
                     return reject(500);
                 }
 
                 if (results.length === 0) {
-                    resolve(fragment);
+                    return resolve(fragment);
                 }
-                else {
-                    return Api.getNewFragment();
-                }
+
+                return Api.getNewFragment();
             });
         });
     }
 
 
-    static get (req, res) {
+    static get(req, res) {
         if ( !req.params._id || !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
 
@@ -118,10 +117,10 @@ class Api {
         const collection = options.database.collection('theme');
 
         collection.find({
-            _id:  new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id),
         })
         .toArray((err, results) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
@@ -136,21 +135,23 @@ class Api {
             const result = results[0];
             result._id = result._id.toString();
 
-            res.send(result);
+            return res.send(result);
         });
+
+        return true;
     }
 
 
-    static getAll (req, res) {
+    static getAll(req, res) {
         const collection = options.database.collection('theme');
         const filters = {};
 
         if (req.query.hasLayer) {
             filters.layers = {
-                '$exists': true,
-                '$not': {
-                    '$size': 0
-                }
+                $exists: true,
+                $not: {
+                    $size: 0,
+                },
             };
         }
 
@@ -171,7 +172,7 @@ class Api {
             filters
         )
         .toArray((err, results) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
@@ -185,8 +186,7 @@ class Api {
 
             if ( req.query.q ) {
                 if (req.query.q.length < 3) {
-                    res.status(400).send('Query too short');
-                    return;
+                    return res.status(400).send('Query too short');
                 }
 
                 const searchFields = [];
@@ -198,7 +198,7 @@ class Api {
                         layerfields.push([
                             layer.name,
                             layer.description,
-                            layer.overpassRequest
+                            layer.overpassRequest,
                         ].join(' '));
                     }
 
@@ -221,26 +221,27 @@ class Api {
                             'fragment',
                             'layers',
                         ],
-                        limit: 30
+                        limit: 30,
                     }
                 );
 
                 for (const result of sifterResults.items) {
                     searchResults.push(
-                        results[ result.id ]
+                        results[result.id]
                     );
                 }
 
-                res.send(searchResults);
+                return res.send(searchResults);
             }
-            else {
-                res.send(results);
-            }
+
+            return res.send(results);
         });
+
+        return true;
     }
 
 
-    static findFromFragment (fragment) {
+    static findFromFragment(fragment) {
         return new Promise((resolve, reject) => {
             const collection = options.database.collection('theme');
 
@@ -250,10 +251,10 @@ class Api {
             }
 
             collection.find({
-                fragment: fragment
+                fragment,
             })
             .toArray((err, results) => {
-                if(err) {
+                if (err) {
                     reject(500);
                     return;
                 }
@@ -272,7 +273,7 @@ class Api {
     }
 
 
-    static findFromOwnerId (ownerId) {
+    static findFromOwnerId(ownerId) {
         return new Promise((resolve, reject) => {
             const collection = options.database.collection('theme');
 
@@ -282,31 +283,31 @@ class Api {
             }
 
             collection.find({
-                '$or': [
+                $or: [
                     {
                         owners: {
-                            '$elemMatch': {
-                                '$eq': ownerId
-                            }
-                        }
+                            $elemMatch: {
+                                $eq: ownerId,
+                            },
+                        },
                     },
                     {
                         owners: {
-                            '$elemMatch': {
-                                '$eq': '*'
-                            }
-                        }
+                            $elemMatch: {
+                                $eq: '*',
+                            },
+                        },
                     },
-                ]
+                ],
             })
             .toArray((err, results) => {
-                if(err) {
+                if (err) {
                     reject(500);
                     return;
                 }
 
                 resolve(
-                    results.map(result => {
+                    results.map((result) => {
                         result._id = result._id.toString();
                         return result;
                     })
@@ -316,7 +317,7 @@ class Api {
     }
 
 
-    static put (req, res) {
+    static put(req, res) {
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
 
@@ -331,9 +332,9 @@ class Api {
 
         Backbone.Relational.store.reset();
 
-        const new_json = req.body,
-        collection = options.database.collection('theme'),
-        model = new ThemeModel(new_json);
+        const newJson = req.body;
+        const collection = options.database.collection('theme');
+        const model = new ThemeModel(newJson);
 
         if ( !model.isValid() ) {
             res.sendStatus(400);
@@ -341,15 +342,15 @@ class Api {
             return true;
         }
 
-        delete(new_json._id);
+        delete (newJson._id);
 
         collection.updateOne({
-            _id: new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id),
         },
-        new_json,
-        {safe: true},
+        newJson,
+        { safe: true },
         (err) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
@@ -357,13 +358,14 @@ class Api {
 
             options.fileApi.cleanThemeFiles(model);
 
-            res.send({});
+            return res.send({});
         });
+
+        return true;
     }
 
 
-
-    static delete (req, res) {
+    static delete(req, res) {
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
 
@@ -380,22 +382,24 @@ class Api {
         const collection = options.database.collection('theme');
 
         collection.remove({
-            _id: new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id),
         },
-        {safe: true},
+        { safe: true },
         (err) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
             }
 
-            res.send({});
+            return res.send({});
         });
+
+        return true;
     }
 
 
-    static isThemeOwner (req, res, themeId) {
+    static isThemeOwner(req, res, themeId) {
         if ( !req.session.user || !req.session.themes ) {
             return false;
         }
@@ -409,8 +413,7 @@ class Api {
 }
 
 
-
 export default {
     setOptions,
-    Api
+    Api,
 };

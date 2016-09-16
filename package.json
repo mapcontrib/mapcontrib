@@ -27,11 +27,11 @@
     "start-from-docker": "babel-node server.js",
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
-    "lint": "eslint *.js public/js/**/*.js",
+    "lint": "eslint **/*.js",
     "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --recursive --inline-diffs --compilers js:babel-core/register test",
     "pre-commit": "npm test && npm run lint",
-    "update-overpass-cache": "babel-node cron/update-overpass-cache.js",
-    "import-id-presets": "babel-node scripts/import-id-presets.js"
+    "update-overpass-cache": "babel-node cron/updateOverPassCache.js",
+    "import-id-presets": "babel-node scripts/importIdPresets.js"
   },
   "moduleRoots": [
     "public/js"
@@ -39,8 +39,7 @@
   "devDependencies": {
     "babel-eslint": "^6.1.2",
     "babel-plugin-webpack-alias": "^2.1.1",
-    "eslint": "^3.1.1",
-    "id-presets-builder": "^1.1.0"
+    "eslint": "^3.1.1"
   },
   "dependencies": {
     "argp": "^1.0.4",
@@ -87,6 +86,7 @@
     "font-awesome-webpack": "0.0.4",
     "fontfaceobserver": "^1.7.1",
     "helmet": "^2.1.1",
+    "id-presets-builder": "^1.1.0",
     "imports-loader": "^0.6.5",
     "inquirer": "^1.1.0",
     "ionicons": "^2.0.1",
