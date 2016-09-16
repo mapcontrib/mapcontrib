@@ -8,9 +8,9 @@ export default Marionette.LayoutView.extend({
     className: 'ui-input-search-wrapper',
 
     ui: {
-        'input': 'input',
-        'icon': '.icon',
-        'spinner': '.spinner',
+        input: 'input',
+        icon: '.icon',
+        spinner: '.spinner',
     },
 
     events: {

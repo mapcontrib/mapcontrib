@@ -8,19 +8,19 @@ export default Marionette.ItemView.extend({
     template: listItemTemplate,
 
     ui: {
-        'key': '.key',
-        'value': '.value',
-        'keyReadOnly': '.key_read_only',
-        'valueReadOnly': '.value_read_only',
-        'nonOsmData': '.non_osm_data',
-        'textInput': '.text_input',
-        'fileInput': '.file_input',
-        'keyReadOnlyGroup': '.key_read_only_group',
-        'valueReadOnlyGroup': '.value_read_only_group',
-        'textInputGroup': '.text_input_group',
-        'fileInputGroup': '.file_input_group',
-        'tagInfoBtn': '.tag_info_btn',
-        'removeBtn': '.remove_btn',
+        key: '.key',
+        value: '.value',
+        keyReadOnly: '.key_read_only',
+        valueReadOnly: '.value_read_only',
+        nonOsmData: '.non_osm_data',
+        textInput: '.text_input',
+        fileInput: '.file_input',
+        keyReadOnlyGroup: '.key_read_only_group',
+        valueReadOnlyGroup: '.value_read_only_group',
+        textInputGroup: '.text_input_group',
+        fileInputGroup: '.file_input_group',
+        tagInfoBtn: '.tag_info_btn',
+        removeBtn: '.remove_btn',
     },
 
     events: {
@@ -45,7 +45,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers() {
         return {
-            'cid': this.model.cid
+            cid: this.model.cid
         };
     },
 
@@ -173,7 +173,7 @@ export default Marionette.ItemView.extend({
 
     onCollectionUpdate() {
         const osmTags = this.model.collection.where({
-            'nonOsmData': false
+            nonOsmData: false
         });
 
         if (osmTags.length === 0) {

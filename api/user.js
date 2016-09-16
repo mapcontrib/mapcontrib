@@ -4,8 +4,8 @@ import UserModel from '../public/js/model/user';
 
 
 let options = {
-    'CONST': undefined,
-    'database': undefined,
+    CONST: undefined,
+    database: undefined,
 };
 
 
@@ -25,7 +25,7 @@ class Api {
             return true;
         }
 
-        collection.insertOne(req.body, {'safe': true}, (err, results) => {
+        collection.insertOne(req.body, {safe: true}, (err, results) => {
             if(err) {
                 res.sendStatus(500);
 
@@ -65,7 +65,7 @@ class Api {
         const collection = options.database.collection('user');
 
         collection.find({
-            '_id': new ObjectID(_id)
+            _id: new ObjectID(_id)
         })
         .toArray((err, results) => {
             if(err) {
@@ -137,10 +137,10 @@ class Api {
         delete(new_json._id);
 
         collection.updateOne({
-            '_id': new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id)
         },
         new_json,
-        {'safe': true},
+        {safe: true},
         (err) => {
             if(err) {
                 res.sendStatus(500);
@@ -171,9 +171,9 @@ class Api {
         const collection = options.database.collection('user');
 
         collection.remove({
-            '_id': new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id)
         },
-        {'safe': true},
+        {safe: true},
         (err) => {
             if(err) {
                 res.sendStatus(500);

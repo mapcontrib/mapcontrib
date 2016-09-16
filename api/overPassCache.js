@@ -3,9 +3,9 @@ import { spawn } from 'child_process';
 
 
 let options = {
-    'CONST': undefined,
-    'database': undefined,
-    'fileApi': undefined,
+    CONST: undefined,
+    database: undefined,
+    fileApi: undefined,
 };
 
 

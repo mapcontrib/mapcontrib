@@ -11,7 +11,7 @@ export default Marionette.ItemView.extend({
     className: 'col-xs-12 col-sm-4 col-lg-3 append-xs-1',
 
     ui: {
-        'layersContainer': '.ui-theme-thumb-layers',
+        layersContainer: '.ui-theme-thumb-layers',
     },
 
     templateHelpers() {
@@ -24,14 +24,14 @@ export default Marionette.ItemView.extend({
         );
 
         return {
-            'href': this.model.buildPath(),
-            'z': zoomLevel,
-            'x1': pos[0],
-            'y1': pos[1],
-            'x2': pos[0] + 1,
-            'y2': pos[1],
-            'x3': pos[0] + 2,
-            'y3': pos[1],
+            href: this.model.buildPath(),
+            z: zoomLevel,
+            x1: pos[0],
+            y1: pos[1],
+            x2: pos[0] + 1,
+            y2: pos[1],
+            x3: pos[0] + 2,
+            y3: pos[1],
         };
     },
 

@@ -1,12 +1,8 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import L from 'leaflet';
-import OsmEditHelper from 'helper/osmEdit.js';
 import MapUi from 'ui/map';
-import CONST from 'const';
 import template from 'templates/movePoiContextual.ejs';
-import ContributionErrorNotificationView from './contributionErrorNotification';
 
 
 export default Marionette.ItemView.extend({
@@ -14,15 +10,15 @@ export default Marionette.ItemView.extend({
 
     behaviors: {
         l20n: {},
-        'contextual': {
+        contextual: {
             destroyOnClose: true,
         },
     },
 
     ui: {
-        'validateBtn': '.validate_btn',
-        'cancelBtn': '.cancel_btn',
-        'contextual': '.contextual',
+        validateBtn: '.validate_btn',
+        cancelBtn: '.cancel_btn',
+        contextual: '.contextual',
     },
 
     events: {
@@ -31,8 +27,6 @@ export default Marionette.ItemView.extend({
     },
 
     initialize(options) {
-        const config = MAPCONTRIB.config;
-
         this._radio = Wreqr.radio.channel('global');
         this._map = this._radio.reqres.request('map');
 
@@ -58,7 +52,7 @@ export default Marionette.ItemView.extend({
 
         this._map.panTo(
             this._marker.getLatLng(),
-            { 'animate': true }
+            { animate: true }
         );
     },
 
@@ -74,7 +68,7 @@ export default Marionette.ItemView.extend({
     onClickValidate() {
         MapUi.hideContributionCross();
 
-        let mapCenter = this._map.getCenter();
+        const mapCenter = this._map.getCenter();
 
         this._editPoiColumnView.open();
         this._editPoiColumnView.setNewPosition(mapCenter.lat, mapCenter.lng);

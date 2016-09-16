@@ -1,6 +1,4 @@
 
-import moment from 'moment-timezone';
-import Locale from 'core/locale';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from 'ui/map';
@@ -21,43 +19,43 @@ export default Marionette.ItemView.extend({
 
     ui: {
         column: '#edit_temp_layer_column',
-        'submitButton': '.submit_btn',
+        submitButton: '.submit_btn',
 
-        'layerName': '#layer_name',
-        'layerDescription': '#layer_description',
-        'layerCluster': '#layer_cluster',
-        'layerHeat': '#layer_heat',
-        'layerMinZoom': '#layer_min_zoom',
-        'overPassInfo': '.info_overpass_btn',
-        'layerOverpassRequest': '#layer_overpass_request',
-        'layerPopupContent': '#layer_popup_content',
-        'infoDisplayInfo': '.info_info_display_btn',
+        layerName: '#layer_name',
+        layerDescription: '#layer_description',
+        layerCluster: '#layer_cluster',
+        layerHeat: '#layer_heat',
+        layerMinZoom: '#layer_min_zoom',
+        overPassInfo: '.info_overpass_btn',
+        layerOverpassRequest: '#layer_overpass_request',
+        layerPopupContent: '#layer_popup_content',
+        infoDisplayInfo: '.info_info_display_btn',
 
-        'heatOptions': '.heat-options',
-        'heatMapInfo': '.info_heat_map_btn',
-        'heatMinOpacity': '#layer_heat_min_opacity',
-        'heatMaxZoom': '#layer_heat_max_zoom',
-        'heatMax': '#layer_heat_max',
-        'heatBlur': '#layer_heat_blur',
-        'heatRadius': '#layer_heat_radius',
+        heatOptions: '.heat-options',
+        heatMapInfo: '.info_heat_map_btn',
+        heatMinOpacity: '#layer_heat_min_opacity',
+        heatMaxZoom: '#layer_heat_max_zoom',
+        heatMax: '#layer_heat_max',
+        heatBlur: '#layer_heat_blur',
+        heatRadius: '#layer_heat_radius',
 
-        'markerOptions': '.marker-options',
-        'markerWrapper': '.marker-wrapper',
-        'editMarkerButton': '.edit_marker_btn',
-        'currentMapZoom': '.current_map_zoom',
+        markerOptions: '.marker-options',
+        markerWrapper: '.marker-wrapper',
+        editMarkerButton: '.edit_marker_btn',
+        currentMapZoom: '.current_map_zoom',
     },
 
     events: {
         'change @ui.layerCluster': 'onChangeLayerRepresentation',
         'change @ui.layerHeat': 'onChangeLayerRepresentation',
         'click @ui.editMarkerButton': 'onClickEditMarker',
-        'submit': 'onSubmit',
-        'reset': 'onReset',
+        submit: 'onSubmit',
+        reset: 'onReset',
     },
 
     templateHelpers() {
         return {
-            'marker': MapUi.buildLayerHtmlIcon( this.model ),
+            marker: MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
@@ -85,34 +83,34 @@ export default Marionette.ItemView.extend({
 
     onShow() {
         this.ui.heatMapInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_heatMapPopoverContent')
             ),
         });
 
         this.ui.infoDisplayInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
             ),
         });
 
         this.ui.overPassInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_overPassPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_overPassPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_overPassPopoverContent')
             ),
         });
@@ -137,7 +135,7 @@ export default Marionette.ItemView.extend({
 
         this.ui.currentMapZoom.html(
             document.l10n.getSync(
-                'editLayerFormColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}
+                'editLayerFormColumn_currentMapZoom', { currentMapZoom }
             )
         );
     },
@@ -204,14 +202,14 @@ export default Marionette.ItemView.extend({
 
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
-        this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
+        this.model.set('minZoom', parseInt(this.ui.layerMinZoom.val(), 10));
         this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
         this.model.set('heatMinOpacity', parseFloat(this.ui.heatMinOpacity.val()));
-        this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val()));
+        this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val(), 10));
         this.model.set('heatMax', parseFloat(this.ui.heatMax.val()));
-        this.model.set('heatBlur', parseInt(this.ui.heatBlur.val()));
-        this.model.set('heatRadius', parseInt(this.ui.heatRadius.val()));
+        this.model.set('heatBlur', parseInt(this.ui.heatBlur.val(), 10));
+        this.model.set('heatRadius', parseInt(this.ui.heatRadius.val(), 10));
 
         if ( this.ui.layerCluster.prop('checked') ) {
             this.model.set('rootLayerType', CONST.rootLayerType.markerCluster);

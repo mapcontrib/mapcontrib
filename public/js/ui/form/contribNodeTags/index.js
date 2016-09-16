@@ -21,10 +21,10 @@ export default Marionette.CollectionView.extend({
     setTags(tags) {
         if (tags.length === 0) {
             this.collection.add({
-                'keyReadOnly': false,
-                'valueReadOnly': false,
-                'nonOsmData': false,
-                'type': CONST.tagType.text,
+                keyReadOnly: false,
+                valueReadOnly: false,
+                nonOsmData: false,
+                type: CONST.tagType.text,
             });
         }
         else {
@@ -37,10 +37,10 @@ export default Marionette.CollectionView.extend({
     addTag(tag) {
         if ( !tag ) {
             return this.collection.add({
-                'keyReadOnly': false,
-                'valueReadOnly': false,
-                'nonOsmData': false,
-                'type': CONST.tagType.text,
+                keyReadOnly: false,
+                valueReadOnly: false,
+                nonOsmData: false,
+                type: CONST.tagType.text,
             });
         }
 

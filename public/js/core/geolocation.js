@@ -1,5 +1,4 @@
 
-import L from 'leaflet';
 import GeolocationPoint from 'ui/geolocationPoint';
 
 
@@ -35,9 +34,9 @@ export default class Geolocation {
         this._addEventListeners();
 
         this._map.locate({
-            'watch': true,
-            'setView': false,
-            'enableHighAccuracy': true,
+            watch: true,
+            setView: false,
+            enableHighAccuracy: true,
         });
 
         this._locateTimeout = setTimeout(
@@ -73,7 +72,7 @@ export default class Geolocation {
 
         this._accuracyCircle = GeolocationPoint.getAccuracyCircle();
         this._accuracyCircle.setStyle({
-            'fillOpacity': 0
+            fillOpacity: 0,
         });
 
         this._map.addLayer( this._marker );
@@ -163,7 +162,7 @@ export default class Geolocation {
         this._accuracyCircle.setLatLng(e.latlng);
         this._accuracyCircle.setRadius(e.accuracy / 2);
         this._accuracyCircle.setStyle({
-            'fillOpacity': 1
+            fillOpacity: 1,
         });
 
         if (this._isDragged === false) {
@@ -177,7 +176,7 @@ export default class Geolocation {
             this._map.setView(
                 e.latlng,
                 zoom,
-                { 'animate': false}
+                { animate: false }
             );
         }
     }
@@ -188,7 +187,7 @@ export default class Geolocation {
      * @author Guillaume AMAT
      * @access private
      */
-    _onLocationError(a, b, c) {
+    _onLocationError() {
         if (this._marker) {
             this._marker.setOpacity(0.5);
         }
@@ -223,9 +222,9 @@ export default class Geolocation {
      */
     _onMoveEnd() {
         this._map.locate({
-            'watch': true,
-            'setView': false,
-            'enableHighAccuracy': true,
+            watch: true,
+            setView: false,
+            enableHighAccuracy: true,
         });
     }
 

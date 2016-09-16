@@ -14,14 +14,14 @@ export default Marionette.LayoutView.extend({
     template: listItemTemplate,
 
     ui: {
-        'formGroups': '.form-group',
-        'nonOsmWarning': '.non_osm_warning',
-        'displayRawTag': '.display_raw_tag',
+        formGroups: '.form-group',
+        nonOsmWarning: '.non_osm_warning',
+        displayRawTag: '.display_raw_tag',
     },
 
     regions: {
-        'key': '.rg_key',
-        'value': '.rg_value',
+        key: '.rg_key',
+        value: '.rg_value',
     },
 
     events: {
@@ -131,7 +131,7 @@ export default Marionette.LayoutView.extend({
         }
 
         const osmTags = this.model.collection.where({
-            'nonOsmData': false
+            nonOsmData: false
         });
 
         if (osmTags.length === 1) {

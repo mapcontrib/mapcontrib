@@ -1,5 +1,4 @@
 
-import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/newPoiPlacementContextual.ejs';
@@ -11,16 +10,16 @@ export default Marionette.ItemView.extend({
 
     behaviors: {
         l20n: {},
-        'contextual': {
+        contextual: {
             destroyOnClose: true,
             appendToBody: true,
         },
     },
 
     ui: {
-        'nextBtn': '.next_btn',
-        'cancelBtn': '.cancel_btn',
-        'contextual': '.contextual',
+        nextBtn: '.next_btn',
+        cancelBtn: '.cancel_btn',
+        contextual: '.contextual',
     },
 
     events: {
@@ -28,7 +27,7 @@ export default Marionette.ItemView.extend({
         'click @ui.nextBtn': 'onClickNext',
     },
 
-    initialize(options) {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
         this._map = this._radio.reqres.request('map');
 

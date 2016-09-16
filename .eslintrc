@@ -16,7 +16,15 @@
         "MAPCONTRIB": true,
         "$": true,
         "localStorage": true,
+        "sessionStorage": true,
         "XMLHttpRequest": true,
+        "File": true,
+        "FileList": true,
+        "FileReader": true,
+        "Blob": true,
+        "describe": true,
+        "it": true,
+        "L": true,
     },
     "rules": {
         "indent": [0, 4],
@@ -29,5 +37,6 @@
         "brace-style": [2, "stroustrup"],
         "no-param-reassign": 0,
         "import/imports-first": 0,
+        "no-case-declarations": 0,
     }
 }

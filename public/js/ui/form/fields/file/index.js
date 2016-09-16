@@ -9,9 +9,9 @@ export default Marionette.ItemView.extend({
     template,
 
     ui: {
-        'input': '.filestyle',
-        'currentFile': '.current_file',
-        'removeBtn': '.remove_btn',
+        input: '.filestyle',
+        currentFile: '.current_file',
+        removeBtn: '.remove_btn',
     },
 
     events: {
@@ -49,10 +49,10 @@ export default Marionette.ItemView.extend({
 
     onShow() {
         this.ui.input.filestyle({
-            'icon': false,
-            'badge': false,
-            'placeholder': document.l10n.getSync('file'),
-            'buttonText': document.l10n.getSync('editLayerFormColumn_browse'),
+            icon: false,
+            badge: false,
+            placeholder: document.l10n.getSync('file'),
+            buttonText: document.l10n.getSync('editLayerFormColumn_browse'),
         });
     },
 

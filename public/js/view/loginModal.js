@@ -9,19 +9,19 @@ export default Marionette.LayoutView.extend({
 
     behaviors: {
         l20n: {},
-        'modal': {
-            'appendToBody': true
+        modal: {
+            appendToBody: true,
         },
     },
 
     ui: {
-        'modal': '#login_modal',
+        modal: '#login_modal',
     },
 
     templateHelpers() {
         return {
-            'successRedirect': this.options.authSuccessCallback,
-            'failureRedirect': this.options.authFailCallback,
+            successRedirect: this.options.authSuccessCallback,
+            failureRedirect: this.options.authFailCallback,
         };
     },
 

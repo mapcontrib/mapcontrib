@@ -9,13 +9,13 @@ export default Marionette.LayoutView.extend({
 
     behaviors: {
         l20n: {},
-        'notification': {},
+        notification: {},
     },
 
     ui: {
-        'notification': '#zoom_notification',
+        notification: '#zoom_notification',
 
-        'content': '.content',
+        content: '.content',
     },
 
     initialize() {

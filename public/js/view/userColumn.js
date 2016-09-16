@@ -20,7 +20,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
-        'logoutItem': '.logout_item',
+        logoutItem: '.logout_item',
     },
 
     events: {

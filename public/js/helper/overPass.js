@@ -9,7 +9,7 @@ export default class OverPassHelper {
      * @param {string} request - An OverPass request to prepare for web.
      * @param {number} size - The max result size in byte.
      */
-    static buildUrlForCache (endPoint, request, size) {
+    static buildUrlForCache(endPoint, request, size) {
         const finalRequest = escape(
             OverPassHelper.buildRequestForCache(request, size)
         );
@@ -24,7 +24,7 @@ export default class OverPassHelper {
      * @param {string} request - An OverPass request to prepare for web.
      * @param {number} size - The max result size in byte.
      */
-    static buildRequestForCache (request, size) {
+    static buildRequestForCache(request, size) {
         const finalRequest = OverPassHelper.buildRequestForTheme(request).replace('({{bbox}})', '');
 
         return `[out:json][timeout:180][maxsize:${size}];${finalRequest}`;
@@ -36,7 +36,7 @@ export default class OverPassHelper {
      * @access public
      * @param {string} request - An OverPass request to prepare for web.
      */
-    static buildRequestForTheme (request) {
+    static buildRequestForTheme(request) {
         let overPassRequest = '';
         const requestSplit = request
         .trim()
@@ -62,7 +62,7 @@ export default class OverPassHelper {
             }
 
             if ( split.indexOf('body') !== -1 ) {
-                delete split[ split.indexOf('body') ];
+                delete split[split.indexOf('body')];
             }
 
             if ( split.indexOf('center') === -1 ) {
@@ -73,7 +73,7 @@ export default class OverPassHelper {
                 split.push('meta');
             }
 
-            overPassRequest += split.join(' ') + ';';
+            overPassRequest += `${split.join(' ')};`;
         }
 
         return overPassRequest;

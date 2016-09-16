@@ -10,13 +10,13 @@ describe('OverPassData', () => {
     describe('exists', () => {
         it('Should tell if an element exists', () => {
             const osmNode = {
-                'type': 'node',
-                'id': '1234'
+                type: 'node',
+                id: '1234'
             };
 
             const osmWay = {
-                'type': 'way',
-                'id': '1234'
+                type: 'way',
+                id: '1234'
             };
 
             const overPassData = new OverPassData();
@@ -49,13 +49,13 @@ describe('OverPassData', () => {
     describe('get', () => {
         it('Should return a saved element', () => {
             const osmNode = {
-                'type': 'node',
-                'id': '1234'
+                type: 'node',
+                id: '1234'
             };
 
             const osmWay = {
-                'type': 'way',
-                'id': '1234'
+                type: 'way',
+                id: '1234'
             };
 
             const overPassData = new OverPassData();

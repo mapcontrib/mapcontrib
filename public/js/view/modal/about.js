@@ -10,7 +10,7 @@ export default Marionette.LayoutView.extend({
     behaviors() {
         return {
             l20n: {},
-            'modal': {
+            modal: {
                 appendToBody: true,
                 routeOnClose: this.options.previousRoute,
             },
@@ -18,13 +18,13 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'modal': '#about_modal',
+        modal: '#about_modal',
     },
 
     templateHelpers() {
         const aboutTextVersion = document.l10n.getSync(
             'aboutTextVersion',
-            { 'version': this.options.version }
+            { version: this.options.version }
         );
 
         return {

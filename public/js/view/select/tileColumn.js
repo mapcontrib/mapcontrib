@@ -24,8 +24,8 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
-        'tileList': '.tile_list',
-        'tiles': '.tile_list input',
+        tileList: '.tile_list',
+        tiles: '.tile_list input',
     },
 
     events: {
@@ -79,10 +79,10 @@ export default Marionette.LayoutView.extend({
             }
 
             html += this.templateListItem({
-                'name': tile.name,
-                'id': id,
-                'thumbnailHtml': thumbnailHtml,
-                'checked': checked,
+                name: tile.name,
+                id: id,
+                thumbnailHtml: thumbnailHtml,
+                checked: checked,
             });
         });
 
@@ -98,7 +98,7 @@ export default Marionette.LayoutView.extend({
 
         newState = {
             ...oldState,
-            ...{ 'selectedTile': e.target.value }
+            ...{ selectedTile: e.target.value }
         };
 
         localStorage.setItem( key, JSON.stringify( newState ) );

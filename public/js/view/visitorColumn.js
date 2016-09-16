@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
-        'loginItem': '.login_item',
+        loginItem: '.login_item',
     },
 
     events: {
@@ -53,8 +53,8 @@ export default Marionette.LayoutView.extend({
         const authFailCallback = this.model.buildPath();
 
         new LoginModalView({
-            'authSuccessCallback': authSuccessCallback,
-            'authFailCallback': authFailCallback
+            authSuccessCallback,
+            authFailCallback,
         }).open();
     },
 });

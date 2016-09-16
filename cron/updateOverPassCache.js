@@ -133,7 +133,7 @@ export default class UpdateOverPassCache {
 
         return new Promise((resolve, reject) => {
             this._themeCollection.updateOne({
-                    '_id': theme._id,
+                    _id: theme._id,
                     'layers.uuid': layer.uuid
                 },
                 {
@@ -157,7 +157,7 @@ export default class UpdateOverPassCache {
 
         return new Promise((resolve, reject) => {
             this._themeCollection.updateOne({
-                    '_id': theme._id,
+                    _id: theme._id,
                     'layers.uuid': layer.uuid
                 },
                 {

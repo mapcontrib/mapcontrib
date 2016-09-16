@@ -9,17 +9,17 @@ export default Marionette.LayoutView.extend({
 
     behaviors: {
         l20n: {},
-        'notification': {
+        notification: {
             destroyOnClose: true,
         },
     },
 
     ui: {
-        'notification': '.notification',
+        notification: '.notification',
 
-        'content': '.content',
+        content: '.content',
 
-        'retryButton': '.retry_btn',
+        retryButton: '.retry_btn',
     },
 
     events: {

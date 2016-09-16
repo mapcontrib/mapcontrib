@@ -17,8 +17,8 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'description': '.description_container',
-        'downloadBtn': '.download_btn',
+        description: '.description_container',
+        downloadBtn: '.download_btn',
         column: '#info_csv_layer_column',
     },
 
@@ -26,13 +26,13 @@ export default Marionette.LayoutView.extend({
         'click @ui.downloadBtn': 'onClickDownload',
     },
 
-    initialize(options) {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
     templateHelpers() {
         return {
-            'description': MarkedHelper.render( this.model.get('description') || '' ),
+            description: MarkedHelper.render( this.model.get('description') || '' ),
         };
     },
 

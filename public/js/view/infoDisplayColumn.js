@@ -17,10 +17,10 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.info_display_column',
-        'content': '.info_content',
-        'prependStickyFooter': '.before-sticky-footer',
-        'footer': '.sticky-footer',
-        'editBtn': '.edit_btn',
+        content: '.info_content',
+        prependStickyFooter: '.before-sticky-footer',
+        footer: '.sticky-footer',
+        editBtn: '.edit_btn',
     },
 
     initialize() {

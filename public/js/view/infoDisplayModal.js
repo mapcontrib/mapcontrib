@@ -9,16 +9,16 @@ export default Marionette.LayoutView.extend({
 
     behaviors: {
         l20n: {},
-        'modal': {
+        modal: {
             appendToBody: true,
         },
     },
 
     ui: {
-        'modal': '.info_display_modal',
-        'content': '.info_content',
-        'editBtn': '.edit_btn',
-        'footer': '.bordered-footer',
+        modal: '.info_display_modal',
+        content: '.info_content',
+        editBtn: '.edit_btn',
+        footer: '.bordered-footer',
     },
 
     events: {

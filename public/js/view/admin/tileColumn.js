@@ -23,13 +23,13 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
-        'tileList': '.tile_list',
-        'tiles': '.tile_list input',
+        tileList: '.tile_list',
+        tiles: '.tile_list input',
     },
 
     events: {
-        'submit': 'onSubmit',
-        'reset': 'onReset',
+        submit: 'onSubmit',
+        reset: 'onReset',
     },
 
     initialize() {
@@ -78,16 +78,16 @@ export default Marionette.LayoutView.extend({
             thumbnailHtml = thumbnailHtml.replace(/\{y\}/g, '181');
 
             maxZoom = document.l10n.getSync('editTileColumn_maxZoom', {
-                'maxZoom': tile.maxZoom
+                maxZoom: tile.maxZoom
             });
 
 
             html += this.templateListItem({
-                'name': tile.name,
-                'maxZoom': maxZoom,
-                'id': id,
-                'thumbnailHtml': thumbnailHtml,
-                'checked': (tiles.indexOf(id) > -1) ? ' checked' : '',
+                name: tile.name,
+                maxZoom: maxZoom,
+                id: id,
+                thumbnailHtml: thumbnailHtml,
+                checked: (tiles.indexOf(id) > -1) ? ' checked' : '',
             });
         }
 

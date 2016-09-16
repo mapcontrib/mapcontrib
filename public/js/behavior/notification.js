@@ -1,6 +1,5 @@
 
 import $ from 'jquery';
-import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 
@@ -8,20 +7,20 @@ import Marionette from 'backbone.marionette';
 export default Marionette.Behavior.extend({
     defaults() {
         return {
-            'destroyOnClose': false,
+            destroyOnClose: false,
         };
     },
 
     ui: {
-        'closeBtn': '.close_btn',
+        closeBtn: '.close_btn',
     },
 
     events: {
         'click @ui.closeBtn': 'onClickClose',
-        'keyup': 'onKeyUp',
+        keyup: 'onKeyUp',
     },
 
-    initialize(options) {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this.listenTo(this._radio.vent, 'notification:closeAll', this.onCloseAll);
@@ -79,6 +78,8 @@ export default Marionette.Behavior.extend({
         if ( excludedViews.indexOf(this.view.cid) === -1 ) {
             return this._close();
         }
+
+        return true;
     },
 
     onClickClose() {
@@ -86,11 +87,11 @@ export default Marionette.Behavior.extend({
     },
 
     onKeyUp(e) {
-        switch ( e.keyCode ) {
+        switch (e.keyCode) {
             case 27:
-
                 this.onClose();
                 break;
+            default:
         }
     },
 

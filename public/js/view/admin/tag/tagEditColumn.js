@@ -2,7 +2,6 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/admin/tag/tagEditColumn.ejs';
-import CONST from 'const';
 import TagType from 'ui/form/tagType';
 import SearchList from 'ui/form/searchList';
 

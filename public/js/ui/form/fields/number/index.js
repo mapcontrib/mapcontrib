@@ -7,8 +7,8 @@ export default Marionette.ItemView.extend({
     template,
 
     ui: {
-        'input': '.form-control',
-        'removeBtn': '.remove_btn',
+        input: '.form-control',
+        removeBtn: '.remove_btn',
     },
 
     events: {

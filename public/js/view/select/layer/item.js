@@ -20,24 +20,24 @@ export default Marionette.ItemView.extend({
     className: 'list-group-item',
 
     attributes: {
-        'href': '#',
+        href: '#',
     },
 
     modelEvents: {
-        'change': 'render'
+        change: 'render'
     },
 
     ui: {
-        'visibilityCheckbox': '.visibility_checkbox',
-        'zoomTip': '.zoom_tip',
-        'infoLayerBtn': '.info_layer_btn',
+        visibilityCheckbox: '.visibility_checkbox',
+        zoomTip: '.zoom_tip',
+        infoLayerBtn: '.info_layer_btn',
     },
 
     events: {
         'click @ui.infoLayerBtn': 'onClickInfo', // Important : Has to be the first !
         'click a': 'onClickLink', // Important : Has to be the second !
         'click label': 'onClickLabel',
-        'click': 'onClick',
+        click: 'onClick',
     },
 
     initialize() {
@@ -61,8 +61,8 @@ export default Marionette.ItemView.extend({
 
     templateHelpers() {
         return {
-            'description': MarkedHelper.render( this.model.get('description') || '' ),
-            'marker': MapUi.buildLayerHtmlIcon( this.model ),
+            description: MarkedHelper.render( this.model.get('description') || '' ),
+            marker: MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
@@ -76,7 +76,7 @@ export default Marionette.ItemView.extend({
 
         if ( n > 0 && !this.model.get('cache') && !this.model.get('fileUri') ) {
             this.ui.zoomTip
-            .html( document.l10n.getSync('selectLayerColumn_needToZoom', {'n': n}) )
+            .html( document.l10n.getSync('selectLayerColumn_needToZoom', {n: n}) )
             .removeClass('hide');
         }
         else {
@@ -113,7 +113,7 @@ export default Marionette.ItemView.extend({
 
         newState = {
             ...oldState,
-            ...{ 'hiddenLayers': hiddenLayers }
+            ...{ hiddenLayers: hiddenLayers }
         };
 
         localStorage.setItem( key, JSON.stringify( newState ) );
@@ -134,22 +134,22 @@ export default Marionette.ItemView.extend({
         switch (this.model.get('type')) {
             case CONST.layerType.overpass:
                 new InfoOverPassLayerColumnView({
-                    'model': this.model,
+                    model: this.model,
                 }).open();
                 break;
             case CONST.layerType.gpx:
                 new InfoGpxLayerColumnView({
-                    'model': this.model,
+                    model: this.model,
                 }).open();
                 break;
             case CONST.layerType.csv:
                 new InfoCsvLayerColumnView({
-                    'model': this.model,
+                    model: this.model,
                 }).open();
                 break;
             case CONST.layerType.geojson:
                 new InfoGeoJsonLayerColumnView({
-                    'model': this.model,
+                    model: this.model,
                 }).open();
                 break;
         }

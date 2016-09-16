@@ -5,9 +5,9 @@ import NonOsmDataModel from '../public/js/model/nonOsmData';
 
 
 let options = {
-    'CONST': undefined,
-    'database': undefined,
-    'fileApi': undefined,
+    CONST: undefined,
+    database: undefined,
+    fileApi: undefined,
 };
 
 
@@ -32,7 +32,7 @@ class Api {
 
         collection.insertOne(
             model.toJSON(),
-            {'safe': true},
+            {safe: true},
             (err, results) => {
                 if(err) {
                     return res.sendStatus(500);
@@ -56,7 +56,7 @@ class Api {
         const collection = options.database.collection('nonOsmData');
 
         collection.find({
-            '_id':  new ObjectID(req.params._id)
+            _id:  new ObjectID(req.params._id)
         })
         .toArray((err, results) => {
             if(err) {
@@ -126,7 +126,7 @@ class Api {
             }
 
             collection.find({
-                'themeFragment': fragment
+                themeFragment: fragment
             })
             .toArray((err, results) => {
                 if(err) {
@@ -164,10 +164,10 @@ class Api {
         delete(new_json._id);
 
         collection.updateOne({
-            '_id': new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id)
         },
         new_json,
-        {'safe': true},
+        {safe: true},
         (err) => {
             if(err) {
                 res.sendStatus(500);

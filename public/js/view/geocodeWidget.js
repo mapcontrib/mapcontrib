@@ -9,17 +9,17 @@ import CONST from 'const';
 
 export default Marionette.LayoutView.extend({
     template,
-    templateResultItem: templateResultItem,
+    templateResultItem,
 
     behaviors: {
         l20n: {},
-        'widget': {},
+        widget: {},
     },
 
     ui: {
-        'widget': '#geocode_widget',
-        'query': 'input',
-        'resultList': '.results',
+        widget: '#geocode_widget',
+        query: 'input',
+        resultList: '.results',
     },
 
     events: {
@@ -57,7 +57,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    onKeyUpQuery(e) {
+    onKeyUpQuery() {
         if ( this._queryInterval ) {
             clearInterval(this._queryInterval);
         }
@@ -71,6 +71,8 @@ export default Marionette.LayoutView.extend({
         this._queryInterval = setTimeout(() => {
             this.geocode( query );
         }, 350);
+
+        return true;
     },
 
     onKeyDownQuery(e) {
@@ -95,6 +97,7 @@ export default Marionette.LayoutView.extend({
             case 13: // Enter
                 this.visitResult();
                 break;
+            default:
         }
     },
 
@@ -115,7 +118,7 @@ export default Marionette.LayoutView.extend({
         this._geocoder.geocode(query, (results) => {
             let i = 0;
 
-            for (let result of results) {
+            for (const result of results) {
                 elements.push(
                     $( this.templateResultItem(
                         this._buildGeocodeResultName(result)
@@ -123,7 +126,7 @@ export default Marionette.LayoutView.extend({
                     .on('click', this.onGeocodeResultClick.bind(this, result))
                 );
 
-                i++;
+                i += 1;
 
                 if (i === 5) {
                     break;
@@ -135,7 +138,6 @@ export default Marionette.LayoutView.extend({
             this.options.spinner.addClass('hide');
             this.options.icon.removeClass('hide');
         });
-
     },
 
     onGeocodeResultClick(result) {
@@ -145,15 +147,15 @@ export default Marionette.LayoutView.extend({
     },
 
     _buildGeocodeResultName(result) {
-        let details = [];
+        const details = [];
 
         switch ( this.model.get('geocoder') ) {
             case CONST.geocoder.nominatim:
-                let splittedResult = result.name.split(', ');
+                const splittedResult = result.name.split(', ');
 
                 return {
-                    'name': splittedResult.shift(),
-                    'detail': splittedResult.join(', ')
+                    name: splittedResult.shift(),
+                    detail: splittedResult.join(', '),
                 };
 
             case CONST.geocoder.photon:
@@ -170,9 +172,12 @@ export default Marionette.LayoutView.extend({
                 }
 
                 return {
-                    'name': result.name,
-                    'detail': details.join(', ')
+                    name: result.name,
+                    detail: details.join(', '),
                 };
+
+            default:
+                return false;
         }
     },
 
@@ -233,5 +238,5 @@ export default Marionette.LayoutView.extend({
             default:
                 this._geocoder = leafletControlGeocoder.photon();
         }
-    }
+    },
 });

@@ -1,7 +1,6 @@
 
 import Marionette from 'backbone.marionette';
 import LoginModalView from './loginModal';
-import ThemeModel from 'model/theme';
 import ThemeCollection from 'collection/theme';
 import ThemeThumbList from 'ui/themeThumbList';
 import SearchInput from 'ui/form/searchInput';
@@ -15,16 +14,16 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        'createThemeButton': '.create_theme_btn',
-        'searchResults': '#rg_search_results',
-        'noResultPlaceholder': '.no_result',
-        'charactersLeftPlaceholder': '.characters_left',
-        'charactersLeftPlaceholderText': '.characters_left .text',
+        createThemeButton: '.create_theme_btn',
+        searchResults: '#rg_search_results',
+        noResultPlaceholder: '.no_result',
+        charactersLeftPlaceholder: '.characters_left',
+        charactersLeftPlaceholderText: '.characters_left .text',
     },
 
     regions: {
-        'searchInput': '.rg_search_input',
-        'searchResults': '#rg_search_results',
+        searchInput: '.rg_search_input',
+        searchResults: '#rg_search_results',
     },
 
     events: {
@@ -41,7 +40,7 @@ export default Marionette.LayoutView.extend({
 
     onRender() {
         this._searchInput = new SearchInput({
-            placeholder: document.l10n.getSync('searchATheme')
+            placeholder: document.l10n.getSync('searchATheme'),
         });
 
         this.getRegion('searchInput').show( this._searchInput );
@@ -53,12 +52,12 @@ export default Marionette.LayoutView.extend({
 
         this.getRegion('searchResults').show(
             new ThemeThumbList({
-                'collection': this.collection
+                collection: this.collection,
             })
         );
     },
 
-    onClickCreateTheme(e) {
+    onClickCreateTheme() {
         if (this._app.isLogged()) {
             window.location.replace('/create_theme');
         }
@@ -69,24 +68,24 @@ export default Marionette.LayoutView.extend({
 
     fetchSearchedThemes(searchString) {
         this.collection.fetch({
-            'reset': true,
-            'merge': false,
-            'data': {
-                'q': searchString,
-                'hasLayer': true
+            reset: true,
+            merge: false,
+            data: {
+                q: searchString,
+                hasLayer: true,
             },
-            'success': (collection, response, options) => {
+            success: (collection, response, options) => {
                 this.onThemesFetchSuccess(collection, response, options);
                 this._searchInput.trigger('search:success');
             },
-            'error': (collection, response, options) => {
+            error: (collection, response, options) => {
                 this.onThemesFetchError(collection, response, options);
                 this._searchInput.trigger('search:error');
             },
         });
     },
 
-    onThemesFetchSuccess(collection, response, options) {
+    onThemesFetchSuccess(collection) {
         if (collection.models.length === 0) {
             this.showNoResultPlaceholder();
         }
@@ -95,7 +94,7 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    onThemesFetchError(collection, response, options) {
+    onThemesFetchError() {
         this.showNoResultPlaceholder();
     },
 
@@ -114,8 +113,8 @@ export default Marionette.LayoutView.extend({
 
     displayLoginModal() {
         new LoginModalView({
-            'authSuccessCallback': '/create_theme',
-            'authFailCallback': '/'
+            authSuccessCallback: '/create_theme',
+            authFailCallback: '/',
         }).open();
     },
 
@@ -125,7 +124,7 @@ export default Marionette.LayoutView.extend({
         this.ui.charactersLeftPlaceholderText.html(
             document.l10n.getSync(
                 'home_charactersLeft',
-                { 'n': charactersLeft }
+                { n: charactersLeft }
             )
         );
 

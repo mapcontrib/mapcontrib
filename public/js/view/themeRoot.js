@@ -470,7 +470,6 @@ export default Marionette.LayoutView.extend({
             }
 
             const icon = MapUi.buildLayerIcon(
-                L,
                 new LayerModel({
                     markerShape: MAPCONTRIB.config.newPoiMarkerShape,
                     markerIconType: CONST.map.markerIconType.library,
@@ -894,7 +893,7 @@ export default Marionette.LayoutView.extend({
     },
 
     _customizeDataAndDisplay(objects, rootLayer, layerModel, dataSource, hiddenLayer) {
-        const icon = MapUi.buildLayerIcon( L, layerModel );
+        const icon = MapUi.buildLayerIcon( layerModel );
         const polygonStyle = MapUi.buildLayerPolygonStyle( layerModel );
         const polylineStyle = MapUi.buildLayerPolylineStyle( layerModel );
 

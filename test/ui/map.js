@@ -20,10 +20,10 @@ describe('MapUi', () => {
             };
 
             let layerModel = new LayerModel({
-                'markerShape': 'marker2',
-                'markerIcon': 'star',
-                'markerIconType': CONST.map.markerIconType.library,
-                'markerColor': 'purple',
+                markerShape: 'marker2',
+                markerIcon: 'star',
+                markerIconType: CONST.map.markerIconType.library,
+                markerColor: 'purple',
             });
 
             let returnedOptions = MapUi.buildMarkerLayerIconOptions(layerModel);
@@ -41,10 +41,10 @@ describe('MapUi', () => {
             };
 
             let layerModel = new LayerModel({
-                'markerShape': 'marker3',
-                'markerIconUrl': 'http://myiconfromtheweb',
-                'markerIconType': CONST.map.markerIconType.external,
-                'markerColor': 'yellow',
+                markerShape: 'marker3',
+                markerIconUrl: 'http://myiconfromtheweb',
+                markerIconType: CONST.map.markerIconType.external,
+                markerColor: 'yellow',
             });
 
             let returnedOptions = MapUi.buildMarkerLayerIconOptions(layerModel);
@@ -58,10 +58,10 @@ describe('MapUi', () => {
             const expected = `<div class="marker marker-2 purple"><i class="fa fa-star fa-fw"></i></div>`;
 
             let layerModel = new LayerModel({
-                'markerShape': 'marker2',
-                'markerIcon': 'star',
-                'markerIconType': CONST.map.markerIconType.library,
-                'markerColor': 'purple',
+                markerShape: 'marker2',
+                markerIcon: 'star',
+                markerIconType: CONST.map.markerIconType.library,
+                markerColor: 'purple',
             });
 
             let returnedHtml = MapUi.buildLayerHtmlIcon(layerModel);

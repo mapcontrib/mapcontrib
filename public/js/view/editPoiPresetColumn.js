@@ -16,8 +16,8 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
-        'presetsNav': '.rg_presets_nav',
-        'noThanksNav': '.rg_no_thanks_nav',
+        presetsNav: '.rg_presets_nav',
+        noThanksNav: '.rg_no_thanks_nav',
     },
 
     ui: {
@@ -53,27 +53,27 @@ export default Marionette.LayoutView.extend({
         const noThanksNav = new NavPillsStackedListView();
         const presetModels = this.options.theme.get('presets').models;
         const options = {
-            'app': this.options.app,
-            'osmType': this.options.osmType,
-            'osmId': this.options.osmId,
-            'layerModel': this.options.layerModel,
-            'layer': this.options.layer,
+            app: this.options.app,
+            osmType: this.options.osmType,
+            osmId: this.options.osmId,
+            layerModel: this.options.layerModel,
+            layer: this.options.layer,
         };
 
 
         for (const key in presetModels) {
-            if (presetModels.hasOwnProperty(key)) {
+            if ({}.hasOwnProperty.call(presetModels, key)) {
                 presetNavItems.push({
-                    'label': presetModels[key].get('name'),
-                    'description': presetModels[key].get('description'),
-                    'callback': this._radio.commands.execute.bind(
+                    label: presetModels[key].get('name'),
+                    description: presetModels[key].get('description'),
+                    callback: this._radio.commands.execute.bind(
                         this._radio.commands,
                         'column:showEditPoi',
                         {
                             ...options,
-                            'presetModel': presetModels[key],
+                            presetModel: presetModels[key],
                         }
-                    )
+                    ),
                 });
             }
         }
@@ -81,12 +81,12 @@ export default Marionette.LayoutView.extend({
         presetsNav.setItems(presetNavItems);
 
         noThanksNav.setItems([{
-            'label': document.l10n.getSync('editPoiPresetColumn_noThanks'),
-            'callback': this._radio.commands.execute.bind(
+            label: document.l10n.getSync('editPoiPresetColumn_noThanks'),
+            callback: this._radio.commands.execute.bind(
                 this._radio.commands,
                 'column:showEditPoi',
                 options
-            )
+            ),
         }]);
 
         this.getRegion('presetsNav').show( presetsNav );

@@ -3,10 +3,10 @@ import Sifter from 'sifter';
 
 
 export default class IDPresetsHelper {
-    constructor(presets, locales) {
+    constructor(presets) {
         this._presets = presets;
         this._proposedFieldsForTypeahead = [
-            'text', 'number'
+            'text', 'number',
         ];
 
         this._prepareSifter();
@@ -22,7 +22,7 @@ export default class IDPresetsHelper {
         this._sifterPresets = [];
 
         for (const name in this._presets.presets) {
-            if (this._presets.presets.hasOwnProperty(name)) {
+            if ({}.hasOwnProperty.call(this._presets.presets, name)) {
                 const preset = this._presets.presets[name];
 
                 if (preset.geometry.indexOf('point') === -1) {
@@ -53,7 +53,7 @@ export default class IDPresetsHelper {
 
     getLocalizedFieldLabel(key) {
         for (const fieldName in this._presets.fields) {
-            if (this._presets.fields.hasOwnProperty(fieldName)) {
+            if ({}.hasOwnProperty.call(this._presets.fields, fieldName)) {
                 const field = this._presets.fields[fieldName];
 
                 if (field.key === key) {
@@ -67,10 +67,10 @@ export default class IDPresetsHelper {
 
     _getLocalizedPreset(name) {
         if (this._presets.presets[name]) {
-            const preset = {...this._presets.presets[name]};
+            const preset = { ...this._presets.presets[name] };
 
             if (this._locale && this._locale.presets[name]) {
-                const localizedStrings = {...this._locale.presets[name]};
+                const localizedStrings = { ...this._locale.presets[name] };
 
                 if (localizedStrings.name) {
                     preset.name = localizedStrings.name;
@@ -83,13 +83,11 @@ export default class IDPresetsHelper {
 
                     const terms = localizedStrings.terms
                     .split(',')
-                    .map(term => {
-                        return term.trim();
-                    });
+                    .map(term => term.trim());
 
                     preset.terms = [
                         ...preset.terms,
-                        ...terms
+                        ...terms,
                     ];
                 }
             }
@@ -102,10 +100,10 @@ export default class IDPresetsHelper {
 
     _getLocalizedField(name) {
         if (this._presets.fields[name]) {
-            const field = {...this._presets.fields[name]};
+            const field = { ...this._presets.fields[name] };
 
             if (this._locale && this._locale.fields[name]) {
-                const localizedStrings = {...this._locale.fields[name]};
+                const localizedStrings = { ...this._locale.fields[name] };
 
                 if (localizedStrings.label) {
                     field.label = localizedStrings.label;
@@ -153,10 +151,12 @@ export default class IDPresetsHelper {
         const fields = [];
 
         for (const name in this._presets.fields) {
-            const field = this._getLocalizedField(name);
+            if ({}.hasOwnProperty.call(this._presets.fields, name)) {
+                const field = this._getLocalizedField(name);
 
-            if (field) {
-                fields.push(field);
+                if (field) {
+                    fields.push(field);
+                }
             }
         }
 
@@ -169,15 +169,12 @@ export default class IDPresetsHelper {
     }
 
     buildPresetsFromSearchString(searchString) {
-        const navItems = [];
         const results = this._sifter.search(searchString, {
             fields: [ 'rawName', 'name', 'terms' ],
             sort: [{ field: 'name', direction: 'asc' }],
-            limit: 20
+            limit: 20,
         });
 
-        return results.items.map(result => {
-            return this._sifterPresets[result.id].preset;
-        });
+        return results.items.map(result => this._sifterPresets[result.id].preset);
     }
 }

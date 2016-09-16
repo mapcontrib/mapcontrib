@@ -35,16 +35,16 @@ describe('InfoDisplay', () => {
 <p>And this <em>is</em> <strong>recycling</strong> and .</p>
 `;
             const layerModel = new LayerModel({
-                'dataEditable': true,
-                'type': CONST.layerType.overpass,
-                'popupContent': `# This is a title
+                dataEditable: true,
+                type: CONST.layerType.overpass,
+                popupContent: `# This is a title
 
 And this *is* **{amenity}** and {other}.`
             });
             const feature = {
-                'properties': {
-                    'tags': {
-                        'amenity': 'recycling'
+                properties: {
+                    tags: {
+                        amenity: 'recycling'
                     }
                 }
             };
@@ -59,15 +59,15 @@ And this *is* **{amenity}** and {other}.`
 <p>And this <em>is</em>  and <strong>stuff</strong>.</p>
 `;
             const layerModel = new LayerModel({
-                'dataEditable': true,
-                'type': CONST.layerType.csv,
-                'popupContent': `# This is a title
+                dataEditable: true,
+                type: CONST.layerType.csv,
+                popupContent: `# This is a title
 
 And this *is* {amenity} and **{other}**.`
             });
             const feature = {
-                'properties': {
-                    'other': 'stuff'
+                properties: {
+                    other: 'stuff'
                 }
             };
 
@@ -81,16 +81,16 @@ And this *is* {amenity} and **{other}**.`
 <p>And this <em>is</em>  and <strong>stuff</strong>.</p>
 `;
             const layerModel = new LayerModel({
-                'dataEditable': true,
-                'type': CONST.layerType.csv,
-                'popupContent': `# This is a title
+                dataEditable: true,
+                type: CONST.layerType.csv,
+                popupContent: `# This is a title
 
 And this *is* {amenity} and **{other}**.`
             });
             const feature = {
-                'properties': {
-                    'tags': {
-                        'other': 'stuff'
+                properties: {
+                    tags: {
+                        other: 'stuff'
                     }
                 }
             };
@@ -103,14 +103,14 @@ And this *is* {amenity} and **{other}**.`
         it('Should return an empty string', () => {
             const expected = ``;
             const layerModel = new LayerModel({
-                'dataEditable': true,
-                'type': CONST.layerType.overpass,
-                'popupContent': ``
+                dataEditable: true,
+                type: CONST.layerType.overpass,
+                popupContent: ``
             });
             const feature = {
-                'properties': {
-                    'tags': {
-                        'amenity': 'recycling'
+                properties: {
+                    tags: {
+                        amenity: 'recycling'
                     }
                 }
             };

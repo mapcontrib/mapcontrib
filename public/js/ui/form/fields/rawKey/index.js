@@ -7,8 +7,8 @@ export default Marionette.ItemView.extend({
     template,
 
     ui: {
-        'key': '.key',
-        'tagInfoBtn': '.tag_info_btn',
+        key: '.key',
+        tagInfoBtn: '.tag_info_btn',
     },
 
     events: {

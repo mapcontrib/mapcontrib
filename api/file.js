@@ -12,8 +12,8 @@ const publicDirectory = path.resolve(__dirname, '..', 'public');
 const uploadDirectory = path.resolve(__dirname, '..', 'upload');
 
 let options = {
-    'CONST': undefined,
-    'database': undefined,
+    CONST: undefined,
+    database: undefined,
 };
 
 
@@ -39,7 +39,7 @@ function initDirectories (app) {
         express.static( config.get('dataDirectory') )
     );
     app.use(
-        multer({ 'dest': uploadDirectory })
+        multer({ dest: uploadDirectory })
     );
 }
 
@@ -122,7 +122,7 @@ class Api {
             const maxFileSize = config.get('client.uploadMaxNonOsmDataFileSize');
 
             if ( fileSize > maxFileSize) {
-                return res.status(413).send({'fileInput': field});
+                return res.status(413).send({fileInput: field});
             }
 
             promises.push(

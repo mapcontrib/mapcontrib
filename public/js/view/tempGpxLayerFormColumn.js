@@ -3,7 +3,6 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from 'ui/map';
 import { basename, extensionname } from 'core/utils';
-import CONST from 'const';
 import ColorSelectorView from 'ui/form/colorSelector';
 import template from 'templates/tempGpxLayerFormColumn.ejs';
 import MarkedHelper from 'helper/marked';
@@ -21,31 +20,31 @@ export default Marionette.ItemView.extend({
 
     ui: {
         column: '#edit_temp_layer_column',
-        'form': 'form',
-        'submitButton': '.submit_btn',
+        form: 'form',
+        submitButton: '.submit_btn',
 
-        'layerName': '#layer_name',
-        'layerDescription': '#layer_description',
-        'infoDisplayInfo': '.info_info_display_btn',
-        'layerPopupContent': '#layer_popup_content',
-        'layerFile': '#layer_file',
+        layerName: '#layer_name',
+        layerDescription: '#layer_description',
+        infoDisplayInfo: '.info_info_display_btn',
+        layerPopupContent: '#layer_popup_content',
+        layerFile: '#layer_file',
 
-        'colorSelector': '.color_selector',
+        colorSelector: '.color_selector',
 
-        'formGroups': '.form-group',
-        'fileFormGroup': '.form-group.layer_file',
+        formGroups: '.form-group',
+        fileFormGroup: '.form-group.layer_file',
 
-        'currentFile': '.current_file',
+        currentFile: '.current_file',
     },
 
     events: {
-        'submit': 'onSubmit',
-        'reset': 'onReset',
+        submit: 'onSubmit',
+        reset: 'onReset',
     },
 
     templateHelpers() {
         return {
-            'marker': MapUi.buildLayerHtmlIcon( this.model ),
+            marker: MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
@@ -55,7 +54,7 @@ export default Marionette.ItemView.extend({
         this._oldModel = this.model.clone();
 
         this._colorSelector = new ColorSelectorView({
-            'color': this.model.get('color')
+            color: this.model.get('color'),
         });
     },
 
@@ -71,7 +70,7 @@ export default Marionette.ItemView.extend({
             this.ui.currentFile
             .html(
                 document.l10n.getSync('currentFile', {
-                    file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`
+                    file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`,
                 })
             )
             .removeClass('hide');
@@ -80,20 +79,20 @@ export default Marionette.ItemView.extend({
 
     onShow() {
         this.ui.infoDisplayInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
             ),
         });
 
         this.ui.layerFile.filestyle({
-            'icon': false,
-            'badge': false,
-            'buttonText': document.l10n.getSync('editLayerFormColumn_browse'),
+            icon: false,
+            badge: false,
+            buttonText: document.l10n.getSync('editLayerFormColumn_browse'),
         });
     },
 
@@ -171,6 +170,8 @@ export default Marionette.ItemView.extend({
         }
 
         this.close();
+
+        return true;
     },
 
     onReset() {

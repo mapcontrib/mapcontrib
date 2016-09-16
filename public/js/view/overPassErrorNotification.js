@@ -9,16 +9,16 @@ export default Marionette.ItemView.extend({
 
     behaviors: {
         l20n: {},
-        'notification': {
+        notification: {
             destroyOnClose: true,
         },
     },
 
     ui: {
-        'notification': '.notification',
+        notification: '.notification',
 
-        'content': '.content',
-        'error': '.error',
+        content: '.content',
+        error: '.error',
     },
 
     initialize() {
@@ -40,7 +40,7 @@ export default Marionette.ItemView.extend({
     onRender() {
         this.ui.content.html(
 
-            document.l10n.getSync('overpassErrorNotification_content', { 'name': this.model.get('name') })
+            document.l10n.getSync('overpassErrorNotification_content', { name: this.model.get('name') })
         );
 
         this.ui.error.html(`«&nbsp;${this.options.error}&nbsp;»`);

@@ -27,7 +27,9 @@
     "startFromDocker": "babel-node server.js",
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
-    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --recursive --inline-diffs --compilers js:babel-core/register",
+    "lint": "eslint *.js public/js/**/*.js",
+    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --recursive --inline-diffs --compilers js:babel-core/register test",
+    "preCommit": "npm test && npm run lint",
     "updateOverPassCache": "babel-node cron/updateOverPassCache.js",
     "importIdPresets": "babel-node scripts/importIdPresets.js"
   },

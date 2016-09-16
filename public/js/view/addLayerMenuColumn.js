@@ -14,10 +14,10 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '#add_layer_menu_column',
-        'overPassItem': '.overpass_item',
-        'gpxItem': '.gpx_item',
-        'csvItem': '.csv_item',
-        'geoJsonItem': '.geojson_item',
+        overPassItem: '.overpass_item',
+        gpxItem: '.gpx_item',
+        csvItem: '.csv_item',
+        geoJsonItem: '.geojson_item',
     },
 
     events: {
@@ -27,7 +27,7 @@ export default Marionette.LayoutView.extend({
         'click @ui.geoJsonItem': 'onClickGeoJson',
     },
 
-    initialize(options) {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 

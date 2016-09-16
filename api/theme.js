@@ -7,9 +7,9 @@ import ThemeModel from '../public/js/model/theme';
 
 
 let options = {
-    'CONST': undefined,
-    'database': undefined,
-    'fileApi': undefined,
+    CONST: undefined,
+    database: undefined,
+    fileApi: undefined,
 };
 
 
@@ -50,8 +50,8 @@ class Api {
 
         const collection = options.database.collection('theme');
         const model = new ThemeModel({
-            'userId': userId,
-            'owners': [ userId ]
+            userId: userId,
+            owners: [ userId ]
         });
 
         return new Promise((resolve, reject) => {
@@ -61,7 +61,7 @@ class Api {
 
                 collection.insertOne(
                     model.toJSON(),
-                    {'safe': true},
+                    {safe: true},
                     (err, results) => {
                         if(err) {
                             return reject(500);
@@ -90,7 +90,7 @@ class Api {
 
         return new Promise((resolve, reject) => {
             collection.find({
-                'fragment': fragment
+                fragment: fragment
             })
             .toArray((err, results) => {
                 if(err) {
@@ -118,7 +118,7 @@ class Api {
         const collection = options.database.collection('theme');
 
         collection.find({
-            '_id':  new ObjectID(req.params._id)
+            _id:  new ObjectID(req.params._id)
         })
         .toArray((err, results) => {
             if(err) {
@@ -203,10 +203,10 @@ class Api {
                     }
 
                     searchFields.push({
-                        'name': theme.name,
-                        'description': theme.description,
-                        'fragment': theme.fragment,
-                        'layers': layerfields.join(' '),
+                        name: theme.name,
+                        description: theme.description,
+                        fragment: theme.fragment,
+                        layers: layerfields.join(' '),
                     });
                 }
 
@@ -215,13 +215,13 @@ class Api {
                 const sifterResults = sifter.search(
                     req.query.q,
                     {
-                        'fields': [
+                        fields: [
                             'name',
                             'description',
                             'fragment',
                             'layers',
                         ],
-                        'limit': 30
+                        limit: 30
                     }
                 );
 
@@ -250,7 +250,7 @@ class Api {
             }
 
             collection.find({
-                'fragment': fragment
+                fragment: fragment
             })
             .toArray((err, results) => {
                 if(err) {
@@ -284,14 +284,14 @@ class Api {
             collection.find({
                 '$or': [
                     {
-                        'owners': {
+                        owners: {
                             '$elemMatch': {
                                 '$eq': ownerId
                             }
                         }
                     },
                     {
-                        'owners': {
+                        owners: {
                             '$elemMatch': {
                                 '$eq': '*'
                             }
@@ -344,10 +344,10 @@ class Api {
         delete(new_json._id);
 
         collection.updateOne({
-            '_id': new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id)
         },
         new_json,
-        {'safe': true},
+        {safe: true},
         (err) => {
             if(err) {
                 res.sendStatus(500);
@@ -380,9 +380,9 @@ class Api {
         const collection = options.database.collection('theme');
 
         collection.remove({
-            '_id': new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id)
         },
-        {'safe': true},
+        {safe: true},
         (err) => {
             if(err) {
                 res.sendStatus(500);

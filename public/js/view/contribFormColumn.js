@@ -74,7 +74,6 @@ export default Marionette.LayoutView.extend({
         );
 
         const icon = MapUi.buildLayerIcon(
-            L,
             new LayerModel({
                 markerShape: MAPCONTRIB.config.newPoiMarkerShape,
                 markerIconType: CONST.map.markerIconType.library,

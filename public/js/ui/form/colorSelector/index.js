@@ -9,7 +9,7 @@ export default Marionette.LayoutView.extend({
     className: 'form-group',
 
     ui: {
-        'colorButtons': '.color-buttons .btn',
+        colorButtons: '.color-buttons .btn',
     },
 
     events: {
