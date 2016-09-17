@@ -29,7 +29,7 @@ export default Marionette.ItemView.extend({
         this.ui.tagInfoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
     },
 
-    updateKey(e) {
+    updateKey() {
         this.model.set(
             'key',
             this.ui.key.val().trim()

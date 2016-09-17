@@ -8,7 +8,7 @@ import templateListItem from 'templates/admin/tile/listItem.ejs';
 
 export default Marionette.LayoutView.extend({
     template,
-    templateListItem: templateListItem,
+    templateListItem,
 
     behaviors() {
         return {
@@ -60,35 +60,37 @@ export default Marionette.LayoutView.extend({
         const tiles = this.model.get('tiles');
 
         for (const id in CONST.map.tiles) {
-            tile = CONST.map.tiles[id];
+            if ({}.hasOwnProperty.call(CONST.map.tiles, id)) {
+                tile = CONST.map.tiles[id];
 
-            if (!tile) {
-                continue;
+                if (!tile) {
+                    continue;
+                }
+
+                let thumbnailHtml = '';
+
+                for (const urlTemplate of tile.urlTemplate) {
+                    thumbnailHtml += `<img src="${urlTemplate}" alt="" />`;
+                }
+
+                thumbnailHtml = thumbnailHtml.replace(/\{s\}/g, 'a');
+                thumbnailHtml = thumbnailHtml.replace(/\{z\}/g, '9');
+                thumbnailHtml = thumbnailHtml.replace(/\{x\}/g, '265');
+                thumbnailHtml = thumbnailHtml.replace(/\{y\}/g, '181');
+
+                maxZoom = document.l10n.getSync('editTileColumn_maxZoom', {
+                    maxZoom: tile.maxZoom,
+                });
+
+
+                html += this.templateListItem({
+                    name: tile.name,
+                    maxZoom,
+                    id,
+                    thumbnailHtml,
+                    checked: (tiles.indexOf(id) > -1) ? ' checked' : '',
+                });
             }
-
-            let thumbnailHtml = '';
-
-            for (let urlTemplate of tile.urlTemplate) {
-                thumbnailHtml += `<img src="${urlTemplate}" alt="" />`;
-            }
-
-            thumbnailHtml = thumbnailHtml.replace(/\{s\}/g, 'a');
-            thumbnailHtml = thumbnailHtml.replace(/\{z\}/g, '9');
-            thumbnailHtml = thumbnailHtml.replace(/\{x\}/g, '265');
-            thumbnailHtml = thumbnailHtml.replace(/\{y\}/g, '181');
-
-            maxZoom = document.l10n.getSync('editTileColumn_maxZoom', {
-                maxZoom: tile.maxZoom
-            });
-
-
-            html += this.templateListItem({
-                name: tile.name,
-                maxZoom: maxZoom,
-                id: id,
-                thumbnailHtml: thumbnailHtml,
-                checked: (tiles.indexOf(id) > -1) ? ' checked' : '',
-            });
         }
 
         this.ui.tileList.html( html );
@@ -101,7 +103,7 @@ export default Marionette.LayoutView.extend({
 
         let tiles = [];
 
-        this.ui.tiles.each(function (i, tileInput) {
+        this.ui.tiles.each((i, tileInput) => {
             if ( tileInput.checked ) {
                 tiles.push( tileInput.value );
             }

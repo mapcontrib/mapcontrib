@@ -31,8 +31,8 @@ export default Marionette.LayoutView.extend({
                 charactersMin: 3,
                 placeholder: '',
             },
-            ...this.options
-        }
+            ...this.options,
+        };
 
         this.on('search:success', this.hideSpinner);
         this.on('search:error', this.hideSpinner);
@@ -51,7 +51,7 @@ export default Marionette.LayoutView.extend({
         this.ui.input.focus();
     },
 
-    onKeyUp(e) {
+    onKeyUp() {
         const searchString = this.ui.input.val();
         const charactersCount = this.ui.input.val().length;
 
@@ -79,6 +79,8 @@ export default Marionette.LayoutView.extend({
                 300
             );
         }
+
+        return true;
     },
 
     showSpinner() {

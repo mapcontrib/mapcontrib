@@ -1,5 +1,4 @@
 
-import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import SelectLayerListItemView from './item';
 
@@ -9,9 +8,9 @@ export default Marionette.CollectionView.extend({
 
     className: 'list-group',
 
-    addChild(child, ChildView, index){
+    addChild(child) {
         if ( child.isVisible() ) {
-            Marionette.CollectionView.prototype.addChild.apply(this, arguments);
+            Marionette.CollectionView.prototype.addChild.apply(this);
         }
     },
 });

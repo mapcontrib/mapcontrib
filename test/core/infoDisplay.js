@@ -14,7 +14,7 @@ describe('InfoDisplay', () => {
             const expected = ['amenity', 'other_tag'];
             const popupContent = 'This text contains the {amenity} tag and an {other_tag}.';
 
-            let result = InfoDisplay.findTagsFromContent(popupContent);
+            const result = InfoDisplay.findTagsFromContent(popupContent);
 
             assert.deepEqual(result, expected);
         });
@@ -39,14 +39,14 @@ describe('InfoDisplay', () => {
                 type: CONST.layerType.overpass,
                 popupContent: `# This is a title
 
-And this *is* **{amenity}** and {other}.`
+And this *is* **{amenity}** and {other}.`,
             });
             const feature = {
                 properties: {
                     tags: {
-                        amenity: 'recycling'
-                    }
-                }
+                        amenity: 'recycling',
+                    },
+                },
             };
 
             const result = InfoDisplay.buildContent(layerModel, feature, [], true);
@@ -63,12 +63,12 @@ And this *is* **{amenity}** and {other}.`
                 type: CONST.layerType.csv,
                 popupContent: `# This is a title
 
-And this *is* {amenity} and **{other}**.`
+And this *is* {amenity} and **{other}**.`,
             });
             const feature = {
                 properties: {
-                    other: 'stuff'
-                }
+                    other: 'stuff',
+                },
             };
 
             const result = InfoDisplay.buildContent(layerModel, feature, [], true);
@@ -85,14 +85,14 @@ And this *is* {amenity} and **{other}**.`
                 type: CONST.layerType.csv,
                 popupContent: `# This is a title
 
-And this *is* {amenity} and **{other}**.`
+And this *is* {amenity} and **{other}**.`,
             });
             const feature = {
                 properties: {
                     tags: {
-                        other: 'stuff'
-                    }
-                }
+                        other: 'stuff',
+                    },
+                },
             };
 
             const result = InfoDisplay.buildContent(layerModel, feature, [], true);
@@ -101,18 +101,18 @@ And this *is* {amenity} and **{other}**.`
         });
 
         it('Should return an empty string', () => {
-            const expected = ``;
+            const expected = '';
             const layerModel = new LayerModel({
                 dataEditable: true,
                 type: CONST.layerType.overpass,
-                popupContent: ``
+                popupContent: '',
             });
             const feature = {
                 properties: {
                     tags: {
-                        amenity: 'recycling'
-                    }
-                }
+                        amenity: 'recycling',
+                    },
+                },
             };
 
             const result = InfoDisplay.buildContent(layerModel, feature, [], true);

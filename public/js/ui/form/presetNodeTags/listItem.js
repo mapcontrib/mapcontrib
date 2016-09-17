@@ -45,7 +45,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers() {
         return {
-            cid: this.model.cid
+            cid: this.model.cid,
         };
     },
 
@@ -90,7 +90,7 @@ export default Marionette.ItemView.extend({
         this.ui.tagInfoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
     },
 
-    updateKey(e) {
+    updateKey() {
         const key = this.ui.key.val().trim();
 
         this.model.set( 'key', key );
@@ -98,14 +98,14 @@ export default Marionette.ItemView.extend({
         this.renderTagInfo();
     },
 
-    updateValue(e) {
+    updateValue() {
         this.model.set(
             'value',
             this.ui.value.val().trim()
         );
     },
 
-    onChangeKeyReadOnly(e) {
+    onChangeKeyReadOnly() {
         this.model.set('keyReadOnly', this.ui.keyReadOnly.prop('checked'));
 
         this.ui.valueReadOnly.prop(
@@ -118,11 +118,11 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onChangeValueReadOnly(e) {
+    onChangeValueReadOnly() {
         this.model.set('valueReadOnly', this.ui.valueReadOnly.prop('checked'));
     },
 
-    onChangeNonOsmData(e) {
+    onChangeNonOsmData() {
         this.model.set('nonOsmData', this.ui.nonOsmData.prop('checked'));
 
         const nonOsmData = this.model.get('nonOsmData');
@@ -156,7 +156,7 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onChangetypeInput(e) {
+    onChangetypeInput() {
         if ( this.ui.fileInput.prop('checked') ) {
             this.model.set('type', CONST.tagType.file);
             this.ui.value.val('').prop('disabled', true);
@@ -167,13 +167,13 @@ export default Marionette.ItemView.extend({
         }
     },
 
-    onClickRemoveBtn(e) {
+    onClickRemoveBtn() {
         this.model.destroy();
     },
 
     onCollectionUpdate() {
         const osmTags = this.model.collection.where({
-            nonOsmData: false
+            nonOsmData: false,
         });
 
         if (osmTags.length === 0) {
@@ -181,15 +181,13 @@ export default Marionette.ItemView.extend({
         }
 
         if ( this.model.get('nonOsmData') ) {
-            this.ui.removeBtn.prop('disabled', false);
-            return;
+            return this.ui.removeBtn.prop('disabled', false);
         }
 
         if (osmTags.length === 1) {
-            this.ui.removeBtn.prop('disabled', true);
+            return this.ui.removeBtn.prop('disabled', true);
         }
-        else {
-            this.ui.removeBtn.prop('disabled', false);
-        }
+
+        return this.ui.removeBtn.prop('disabled', false);
     },
 });

@@ -5,7 +5,6 @@ import assert from 'assert';
 import GeoJsonHelper from 'helper/geoJson';
 
 
-
 describe('GeoJsonHelper', () => {
     const geoJsonObject = {
         geometry: {},
@@ -19,9 +18,9 @@ describe('GeoJsonHelper', () => {
                 timestamp: '',
                 uid: 9879,
                 user: 'qdlfjkh',
-                version: 23
-            }
-        }
+                version: 23,
+            },
+        },
     };
 
     describe('findOsmId', () => {

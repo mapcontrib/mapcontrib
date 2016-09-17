@@ -1,7 +1,6 @@
 
 import Marionette from 'backbone.marionette';
 import template from './template.ejs';
-import CONST from 'const';
 import { formatBytes, basename } from 'core/utils';
 
 
@@ -26,7 +25,7 @@ export default Marionette.ItemView.extend({
 
         return {
             cid: this.model.cid,
-            maxFileSize: document.l10n.getSync('maxFileSize', {maxFileSize}),
+            maxFileSize: document.l10n.getSync('maxFileSize', { maxFileSize }),
         };
     },
 
@@ -40,7 +39,7 @@ export default Marionette.ItemView.extend({
             this.ui.currentFile
             .html(
                 document.l10n.getSync('currentFile', {
-                    file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`
+                    file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`,
                 })
             )
             .removeClass('hide');
@@ -64,14 +63,14 @@ export default Marionette.ItemView.extend({
         return false;
     },
 
-    updateInput(e) {
+    updateInput() {
         this.model.set(
             'value',
             this.ui.input.val().trim()
         );
     },
 
-    onClickRemoveBtn(e) {
+    onClickRemoveBtn() {
         this.model.destroy();
     },
 

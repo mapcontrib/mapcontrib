@@ -36,19 +36,19 @@ export default Marionette.ItemView.extend({
     },
 
     onRender() {
-        let layers = this.model.get('layers');
+        const layers = this.model.get('layers');
 
         if (layers) {
             let i = 0;
 
-            for (let layer of layers.models) {
-                let iconElement = document.createElement('div');
+            for (const layer of layers.models) {
+                const iconElement = document.createElement('div');
                 iconElement.innerHTML = MapUi.buildLayerHtmlIcon( layer );
                 iconElement.classList.add(`ui-theme-thumb-layer-${i}`);
 
                 this.ui.layersContainer.append(iconElement);
 
-                i++;
+                i += 1;
 
                 if (i === 3) {
                     break;

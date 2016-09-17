@@ -21,14 +21,14 @@ export default Marionette.ItemView.extend({
         document.l10n.localizeNode( this.el );
     },
 
-    updateInput(e) {
+    updateInput() {
         this.model.set(
             'value',
             this.ui.input.val().trim()
         );
     },
 
-    onClickRemoveBtn(e) {
+    onClickRemoveBtn() {
         this.model.destroy();
     },
 

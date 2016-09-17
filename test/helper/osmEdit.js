@@ -1,10 +1,8 @@
 
 import 'babel-polyfill';
 import assert from 'assert';
-import { DOMParser } from 'xmldom';
 
 import OsmEditHelper from 'helper/osmEdit';
-
 
 
 describe('OsmEditHelper', () => {
@@ -38,7 +36,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
 
 
@@ -61,7 +59,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setNodes([1, 37, 6]);
 
@@ -85,12 +83,12 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setMembers([{
                 type: 'relation',
                 ref: 1745069,
-                role: ''
+                role: '',
             }]);
 
 
@@ -108,12 +106,12 @@ describe('OsmEditHelper', () => {
                 lon: 0.2,
                 tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
                 timestamp: '2016-03-24T12:21:30.546Z',
                 type: 'node',
                 uid: 3569284,
-                version: 0
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -127,7 +125,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
 
 
@@ -143,13 +141,13 @@ describe('OsmEditHelper', () => {
                 lon: 0.2,
                 tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
                 nodes: [1, 37, 6],
                 timestamp: '2016-03-24T12:21:30.546Z',
                 type: 'way',
                 uid: 3569284,
-                version: 0
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -163,7 +161,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setNodes([1, 37, 6]);
 
@@ -180,19 +178,19 @@ describe('OsmEditHelper', () => {
                 lon: 0.2,
                 tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
                 members: [
                     {
                         type: 'relation',
                         ref: 1745069,
-                        role: ''
-                    }
+                        role: '',
+                    },
                 ],
                 timestamp: '2016-03-24T12:21:30.546Z',
                 type: 'relation',
                 uid: 3569284,
-                version: 0
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -206,12 +204,12 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setMembers([{
                 type: 'relation',
                 ref: 1745069,
-                role: ''
+                role: '',
             }]);
 
 
@@ -231,7 +229,7 @@ describe('OsmEditHelper', () => {
                     lon: 0.2,
                     timestamp: '2016-03-24T12:21:30.546Z',
                     uid: 3569284,
-                    version: 0
+                    version: 0,
                 },
                 tags: [
                     {
@@ -240,8 +238,8 @@ describe('OsmEditHelper', () => {
                     },
                     {
                         k: 'another key',
-                        v: 'another value'
-                    }
+                        v: 'another value',
+                    },
                 ],
             };
 
@@ -256,7 +254,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
 
 
@@ -274,7 +272,7 @@ describe('OsmEditHelper', () => {
                     lon: 0.2,
                     timestamp: '2016-03-24T12:21:30.546Z',
                     uid: 3569284,
-                    version: 0
+                    version: 0,
                 },
                 tags: [
                     {
@@ -283,8 +281,8 @@ describe('OsmEditHelper', () => {
                     },
                     {
                         k: 'another key',
-                        v: 'another value'
-                    }
+                        v: 'another value',
+                    },
                 ],
                 nodes: [1, 37, 6],
             };
@@ -300,7 +298,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setNodes([1, 37, 6]);
 
@@ -319,7 +317,7 @@ describe('OsmEditHelper', () => {
                     lon: 0.2,
                     timestamp: '2016-03-24T12:21:30.546Z',
                     uid: 3569284,
-                    version: 0
+                    version: 0,
                 },
                 tags: [
                     {
@@ -328,15 +326,15 @@ describe('OsmEditHelper', () => {
                     },
                     {
                         k: 'another key',
-                        v: 'another value'
-                    }
+                        v: 'another value',
+                    },
                 ],
                 members: [
                     {
                         type: 'relation',
                         ref: 1745069,
-                        role: ''
-                    }
+                        role: '',
+                    },
                 ],
             };
 
@@ -351,12 +349,12 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setMembers([{
                 type: 'relation',
                 ref: 1745069,
-                role: ''
+                role: '',
             }]);
 
 
@@ -375,12 +373,12 @@ describe('OsmEditHelper', () => {
                 lon: 0.2,
                 tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
                 timestamp: '2016-03-24T12:21:30.546Z',
                 type: 'node',
                 uid: 3569284,
-                version: 0
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -394,7 +392,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
 
 
@@ -410,13 +408,13 @@ describe('OsmEditHelper', () => {
                 lon: 0.2,
                 tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
                 nodes: [1, 37, 6],
                 timestamp: '2016-03-24T12:21:30.546Z',
                 type: 'way',
                 uid: 3569284,
-                version: 0
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -430,7 +428,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setNodes([1, 37, 6]);
 
@@ -447,19 +445,19 @@ describe('OsmEditHelper', () => {
                 lon: 0.2,
                 tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
                 members: [
                     {
                         type: 'relation',
                         ref: 1745069,
-                        role: ''
-                    }
+                        role: '',
+                    },
                 ],
                 timestamp: '2016-03-24T12:21:30.546Z',
                 type: 'relation',
                 uid: 3569284,
-                version: 0
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -473,12 +471,12 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setMembers([{
                 type: 'relation',
                 ref: 1745069,
-                role: ''
+                role: '',
             }]);
 
 

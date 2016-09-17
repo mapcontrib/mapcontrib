@@ -5,18 +5,17 @@ import assert from 'assert';
 import OverPassData from 'core/overPassData';
 
 
-
 describe('OverPassData', () => {
     describe('exists', () => {
         it('Should tell if an element exists', () => {
             const osmNode = {
                 type: 'node',
-                id: '1234'
+                id: '1234',
             };
 
             const osmWay = {
                 type: 'way',
-                id: '1234'
+                id: '1234',
             };
 
             const overPassData = new OverPassData();
@@ -42,7 +41,6 @@ describe('OverPassData', () => {
 
             wayExists = overPassData.exists(osmWay.type, osmWay.id);
             assert.strictEqual(wayExists, true);
-
         });
     });
 
@@ -50,12 +48,12 @@ describe('OverPassData', () => {
         it('Should return a saved element', () => {
             const osmNode = {
                 type: 'node',
-                id: '1234'
+                id: '1234',
             };
 
             const osmWay = {
                 type: 'way',
-                id: '1234'
+                id: '1234',
             };
 
             const overPassData = new OverPassData();

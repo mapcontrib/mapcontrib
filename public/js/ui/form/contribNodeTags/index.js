@@ -8,9 +8,9 @@ import ContribNodeTagsListItemView from './listItem';
 export default Marionette.CollectionView.extend({
     childView: ContribNodeTagsListItemView,
 
-    childViewOptions(model, index) {
+    childViewOptions() {
         return {
-            iDPresetsHelper: this.options.iDPresetsHelper
+            iDPresetsHelper: this.options.iDPresetsHelper,
         };
     },
 
@@ -53,6 +53,8 @@ export default Marionette.CollectionView.extend({
         }
 
         this.collection.add(tag);
+
+        return true;
     },
 
     getTags() {
@@ -63,10 +65,12 @@ export default Marionette.CollectionView.extend({
         let hasFileToUpload = false;
 
         for (const i in this.children._views) {
-            const fileTag = this.children._views[i];
+            if ({}.hasOwnProperty.call(this.children._views, i)) {
+                const fileTag = this.children._views[i];
 
-            if ( fileTag.isFileTag() && fileTag.valueIsNotEmpty() ) {
-                hasFileToUpload = true;
+                if ( fileTag.isFileTag() && fileTag.valueIsNotEmpty() ) {
+                    hasFileToUpload = true;
+                }
             }
         }
 
@@ -75,20 +79,24 @@ export default Marionette.CollectionView.extend({
 
     showErrorFeedback(response) {
         for (const i in this.children._views) {
-            const view = this.children._views[i];
-            const modelId = response.fileInput.replace('fileInput_', '');
+            if ({}.hasOwnProperty.call(this.children._views, i)) {
+                const view = this.children._views[i];
+                const modelId = response.fileInput.replace('fileInput_', '');
 
-            if (view.model.cid === modelId) {
-                view.showErrorFeedback();
+                if (view.model.cid === modelId) {
+                    view.showErrorFeedback();
+                }
             }
         }
     },
 
     hideErrorFeedbacks() {
         for (const i in this.children._views) {
-            const view = this.children._views[i];
+            if ({}.hasOwnProperty.call(this.children._views, i)) {
+                const view = this.children._views[i];
 
-            view.hideErrorFeedback();
+                view.hideErrorFeedback();
+            }
         }
     },
 
@@ -99,10 +107,12 @@ export default Marionette.CollectionView.extend({
             const path = file[key];
 
             for (const i in this.children._views) {
-                const view = this.children._views[i];
+                if ({}.hasOwnProperty.call(this.children._views, i)) {
+                    const view = this.children._views[i];
 
-                if (view.model.cid === modelId) {
-                    view.model.set('value', path);
+                    if (view.model.cid === modelId) {
+                        view.model.set('value', path);
+                    }
                 }
             }
         }

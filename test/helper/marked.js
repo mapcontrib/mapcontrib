@@ -5,7 +5,6 @@ import assert from 'assert';
 import MarkedHelper from 'helper/marked';
 
 
-
 describe('MarkedHelper', () => {
     describe('render', () => {
         it('Should return markdown string transformed into HTML', () => {

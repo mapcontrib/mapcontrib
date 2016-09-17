@@ -70,15 +70,15 @@
 <currentFile "Current file: <a>{{ $file }}</a>">
 <file "File">
 <noResult "No result">
-<tagKey "Key">
-<tagType "Type">
-<tagTypeText "Text">
-<tagTypeNumber "Number">
-<tagTypeEmail "Email">
-<tagTypeTel "Phone number">
-<tagTypeUrl "Web address">
-<tagTypeTextarea "Big text">
-<tagLocales "Translations">
+<key "Key">
+<type "Type">
+<locales "Translations">
+<text "Text">
+<number "Number">
+<email "Email">
+<tel "Phone number">
+<url "Web address">
+<textarea "Big text">
 
 
 /* Home */

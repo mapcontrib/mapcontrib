@@ -72,15 +72,15 @@
 <name "Nome">
 <description "Descrizione">
 <noResult "Nessun risultato">
-<tagKey "Chiave">
-<tagType "Tipo">
-<tagTypeText "Text"> /* FIXME */
-<tagTypeNumber "Number"> /* FIXME */
-<tagTypeEmail "Email"> /* FIXME */
-<tagTypeTel "Phone number"> /* FIXME */
-<tagTypeUrl "Web address"> /* FIXME */
-<tagTypeTextarea "Big text"> /* FIXME */
-<tagLocales "Translations"> /* FIXME */
+<key "Chiave">
+<type "Tipo">
+<locales "Translations"> /* FIXME */
+<text "Text"> /* FIXME */
+<number "Number"> /* FIXME */
+<email "Email"> /* FIXME */
+<tel "Phone number"> /* FIXME */
+<url "Web address"> /* FIXME */
+<textarea "Big text"> /* FIXME */
 
 
 /* Home */

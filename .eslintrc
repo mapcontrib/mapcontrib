@@ -25,6 +25,7 @@
         "describe": true,
         "it": true,
         "L": true,
+        "before": true,
     },
     "rules": {
         "indent": [0, 4],

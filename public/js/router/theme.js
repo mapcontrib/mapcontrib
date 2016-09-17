@@ -180,10 +180,12 @@ export default Backbone.Router.extend({
                 router: this,
                 theme: this._theme,
                 model,
+                routeOnClose: 'admin/preset',
+                triggerRouteOnClose: true,
             }).open();
         }
         else {
-            this.navigate('');
+            this.navigate('admin/preset', true);
         }
     },
 
@@ -214,10 +216,12 @@ export default Backbone.Router.extend({
                 router: this,
                 theme: this._theme,
                 model,
+                routeOnClose: 'admin/tag',
+                triggerRouteOnClose: true,
             }).open();
         }
         else {
-            this.navigate('');
+            this.navigate('admin/tag', true);
         }
     },
 });

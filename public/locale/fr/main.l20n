@@ -72,15 +72,15 @@
 <noResult "Aucun résultat">
 <name "Nom">
 <description "Description">
-<tagKey "Clef">
-<tagType "Type">
-<tagTypeText "Texte">
-<tagTypeNumber "Nombre">
-<tagTypeEmail "E-mail">
-<tagTypeTel "Numéro de téléphone">
-<tagTypeUrl "Adresse web">
-<tagTypeTextarea "Grand texte">
-<tagLocales "Traductions">
+<type "Type">
+<locales "Traductions">
+<key "Clef">
+<text "Texte">
+<number "Nombre">
+<email "E-mail">
+<tel "Numéro de téléphone">
+<url "Adresse web">
+<textarea "Grand texte">
 
 
 /* Home */

@@ -8,7 +8,7 @@ export default Marionette.ItemView.extend({
 
     templateHelpers() {
         return {
-            placeholder: this.options.placeholder
-        }
-    }
+            placeholder: this.options.placeholder,
+        };
+    },
 });

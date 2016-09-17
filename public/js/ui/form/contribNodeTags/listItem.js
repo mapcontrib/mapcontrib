@@ -2,7 +2,6 @@
 import Marionette from 'backbone.marionette';
 import CONST from 'const';
 import listItemTemplate from './listItem.ejs';
-import { formatBytes, basename } from 'core/utils';
 import KeyField from '../fields/key';
 import RawKeyField from '../fields/rawKey';
 import TextField from '../fields/text';
@@ -131,7 +130,7 @@ export default Marionette.LayoutView.extend({
         }
 
         const osmTags = this.model.collection.where({
-            nonOsmData: false
+            nonOsmData: false,
         });
 
         if (osmTags.length === 1) {
@@ -162,7 +161,7 @@ export default Marionette.LayoutView.extend({
         this.ui.formGroups.removeClass('has-feedback has-error');
     },
 
-    onChangeDisplayRawTag(e) {
+    onChangeDisplayRawTag() {
         this._displayRawTag = this.ui.displayRawTag.prop('checked');
         this._renderKeyField();
         this._renderValueField();

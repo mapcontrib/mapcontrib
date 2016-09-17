@@ -24,7 +24,7 @@ export default Marionette.ItemView.extend({
     },
 
     modelEvents: {
-        change: 'render'
+        change: 'render',
     },
 
     ui: {
@@ -44,7 +44,7 @@ export default Marionette.ItemView.extend({
         this._radio = Wreqr.radio.channel('global');
 
         const fragment = this._radio.reqres.request('theme:fragment');
-        const storage = JSON.parse( localStorage.getItem( 'mapState-'+ fragment ) );
+        const storage = JSON.parse( localStorage.getItem(`mapState-${fragment}`) );
 
 
         this._fragment = fragment;
@@ -76,7 +76,7 @@ export default Marionette.ItemView.extend({
 
         if ( n > 0 && !this.model.get('cache') && !this.model.get('fileUri') ) {
             this.ui.zoomTip
-            .html( document.l10n.getSync('selectLayerColumn_needToZoom', {n: n}) )
+            .html( document.l10n.getSync('selectLayerColumn_needToZoom', { n }) )
             .removeClass('hide');
         }
         else {
@@ -91,12 +91,9 @@ export default Marionette.ItemView.extend({
     onClick(e) {
         e.stopPropagation();
 
-        let newState;
         const key = `mapState-${this._fragment}`;
         const oldState = JSON.parse( localStorage.getItem( key ) ) || {};
         let hiddenLayers = oldState.hiddenLayers || [];
-
-        this._layerIsVisible = this._layerIsVisible ? false : true;
 
         this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
 
@@ -111,9 +108,9 @@ export default Marionette.ItemView.extend({
             hiddenLayers = _.union( hiddenLayers, [this.model.get('uuid')] );
         }
 
-        newState = {
+        const newState = {
             ...oldState,
-            ...{ hiddenLayers: hiddenLayers }
+            ...{ hiddenLayers },
         };
 
         localStorage.setItem( key, JSON.stringify( newState ) );
@@ -152,6 +149,7 @@ export default Marionette.ItemView.extend({
                     model: this.model,
                 }).open();
                 break;
+            default:
         }
     },
 });

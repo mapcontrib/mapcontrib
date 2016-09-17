@@ -1,5 +1,4 @@
 
-import _ from 'underscore';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from 'const';
@@ -9,7 +8,7 @@ import templateListItem from 'templates/select/tile/item.ejs';
 
 export default Marionette.LayoutView.extend({
     template,
-    templateListItem: templateListItem,
+    templateListItem,
 
     behaviors() {
         return {
@@ -46,7 +45,8 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        let tile, checked;
+        let tile;
+        let checked;
         let html = '';
         const tiles = this.model.get('tiles');
 
@@ -59,7 +59,7 @@ export default Marionette.LayoutView.extend({
 
             let thumbnailHtml = '';
 
-            for (let urlTemplate of tile.urlTemplate) {
+            for (const urlTemplate of tile.urlTemplate) {
                 thumbnailHtml += `<img src="${urlTemplate}" alt="" />`;
             }
 
@@ -80,9 +80,9 @@ export default Marionette.LayoutView.extend({
 
             html += this.templateListItem({
                 name: tile.name,
-                id: id,
-                thumbnailHtml: thumbnailHtml,
-                checked: checked,
+                id,
+                thumbnailHtml,
+                checked,
             });
         });
 
@@ -92,13 +92,11 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickTiles(e) {
-        let newState;
         const key = `mapState-${this._fragment}`;
         const oldState = JSON.parse( localStorage.getItem( key ) );
-
-        newState = {
+        const newState = {
             ...oldState,
-            ...{ selectedTile: e.target.value }
+            ...{ selectedTile: e.target.value },
         };
 
         localStorage.setItem( key, JSON.stringify( newState ) );

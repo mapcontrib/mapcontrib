@@ -53,7 +53,7 @@ export default Marionette.ItemView.extend({
         return function findMatches(query, callback) {
             const substrRegex = new RegExp(query, 'i');
 
-            const matches = proposedFields.filter(field => {
+            const matches = proposedFields.filter((field) => {
                 if (substrRegex.test(field.label)) {
                     return true;
                 }
