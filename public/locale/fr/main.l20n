@@ -47,6 +47,7 @@
 <about "À propos de {{ mapcontrib }}">
 <myThemes "Mes thèmes">
 <preferences "Préférences">
+<edit "Édition">
 <login "Se connecter">
 <loginOrSubscribe "Se connecter ou créer un compte">
 <logout "Se déconnecter">
@@ -69,6 +70,8 @@
 <currentFile "Fichier actuel : <a>{{ $file }}</a>">
 <file "Fichier">
 <noResult "Aucun résultat">
+<name "Nom">
+<description "Description">
 <tagKey "Clef">
 <tagType "Type">
 <tagTypeText "Texte">
@@ -150,7 +153,7 @@
 /* Edit settings column */
 <editSettingColumn_title "Configuration">
 <editSettingColumn_themeName "Nom du thème">
-<editSettingColumn_themeDescription "Description">
+<editSettingColumn_themeDescription "{{ description }}">
 <editSettingColumn_color "Couleur">
 <editSettingColumn_position "Positionnement">
 <editSettingColumn_geolocation "Géolocalisation">
@@ -178,8 +181,8 @@ Insérez-le juste ici !">
 
 /* Edit layer column */
 <editLayerFormColumn_title "Édition de la couche">
-<editLayerFormColumn_layerName "Nom">
-<editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_layerName "{{ name }}">
+<editLayerFormColumn_layerDescription "{{ description }}">
 <editLayerFormColumn_representationType "Représentation">
 <editLayerFormColumn_clusterRepresentation "Points groupables">
 <editLayerFormColumn_heatRepresentation "Carte thermique">
@@ -247,19 +250,6 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 /* Edit tiles column */
 <editTileColumn_title "Fonds de carte">
 <editTileColumn_maxZoom "Zoom maximum&nbsp;: {{ $maxZoom }}">
-
-
-/* Edit presets column */
-<editPresetColumn_title "Types de nœuds">
-<editPresetColumn_addPreset "Ajouter un type de nœud">
-
-
-/* Edit presets tags column */
-<editPresetTagsColumn_title "Édition">
-<editPresetTagsColumn_presetName "Nom du type de nœud">
-<editPresetTagsColumn_presetDescription "Description">
-<editPresetTagsColumn_presetTags "Tags">
-<editPresetTagsColumn_addTag "Ajouter un tag">
 
 
 /* Edit POI column */
@@ -350,8 +340,8 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 /* Layer info column */
 <infoLayerColumn_title "Informations">
-<infoLayerColumn_layerName "Nom">
-<infoLayerColumn_layerDescription "Description">
+<infoLayerColumn_layerName "{{ name }}">
+<infoLayerColumn_layerDescription "{{ description }}">
 <infoLayerColumn_layerSource "Provenance des données">
 <infoLayerColumn_overPass "OverPass">
 <infoLayerColumn_gpx "<a>Fichier GPX</a>">
@@ -384,3 +374,13 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 /* Admin tag column */
 <adminTagColumn_title "Tags">
 <adminTagColumn_addTag "Ajouter un tag">
+
+
+/* Admin preset column */
+<adminPresetColumn_title "Types de nœuds">
+<adminPresetColumn_addPreset "Ajouter un type de nœud">
+
+
+/* Admin edit presets column */
+<adminEditPresetColumn_presetTags "Tags">
+<adminEditPresetColumn_addTag "Ajouter un tag">

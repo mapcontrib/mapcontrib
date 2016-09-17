@@ -2,6 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import PresetNodeTagsListView from 'ui/form/presetNodeTags';
+import SearchList from 'ui/form/searchList';
 import template from 'templates/admin/preset/presetEditColumn.ejs';
 
 
@@ -14,34 +15,32 @@ export default Marionette.LayoutView.extend({
             column: {
                 appendToBody: true,
                 destroyOnClose: true,
-                routeOnClose: this.options.previousRoute,
+                routeOnClose: this.options.routeOnClose,
+                triggerRouteOnClose: this.options.triggerRouteOnClose,
             },
         };
     },
 
     ui: {
-        column: '#edit_preset_tags_column',
-        content: '.content',
-        nameInput: '#preset_name',
-        descriptionInput: '#preset_description',
-        tagList: '.rg_tag_list',
-        addBtn: '.add_btn',
+        column: '.column',
+        name: '#preset_name',
+        description: '#preset_description',
     },
 
     events: {
-        'click @ui.addBtn': 'onClickAddBtn',
-
+        reset: 'onReset',
         submit: 'onSubmit',
+    },
+
+    regions: {
+        tagList: '.rg_tag_list',
+        locales: '.rg_locales',
     },
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
-    },
 
-    setModel(model) {
-        this.model = model;
-
-        this.render();
+        this._oldModel = this.model.clone();
     },
 
     open() {
@@ -55,26 +54,47 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        this._tagList = new PresetNodeTagsListView();
+        this._tagList = new PresetNodeTagsListView({
+            tags: this.model.get('tags'),
+        });
 
-        this._tagList.setTags( this.model.get('tags') );
+        this.getRegion('tagList').show(this._tagList);
 
-        this.ui.tagList.append( this._tagList.el );
+        const searchLocales = new SearchList({
+            items: [
+                {
+                    label: 'Français',
+                    progression: 100,
+                    href: '#',
+                    callback: undefined,
+                },
+                {
+                    label: 'Anglais',
+                    progression: 65,
+                    href: '#',
+                    callback: undefined,
+                },
+                {
+                    label: 'Italien',
+                    progression: 0,
+                    href: '#',
+                    callback: undefined,
+                },
+            ],
+        });
+        this.getRegion('locales').show(searchLocales);
     },
 
-    onClickAddBtn() {
-        this._tagList.addTag();
-
-        const scrollHeight = this.ui.column.height() +
-        this._tagList.el.scrollHeight;
-        this.ui.content[0].scrollTo(0, scrollHeight);
+    onBeforeOpen() {
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
     onSubmit(e) {
         e.preventDefault();
 
-        this.model.set('name', this.ui.nameInput.val());
-        this.model.set('description', this.ui.descriptionInput.val());
+        this.model.set('name', this.ui.name.val().trim());
+        this.model.set('description', this.ui.description.val().trim());
         this.model.set('tags', this._tagList.getTags());
 
         if (this.options.isNew) {

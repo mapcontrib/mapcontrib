@@ -166,6 +166,8 @@ export default Backbone.Router.extend({
             router: this,
             theme: this._theme,
             model: new PresetModel(),
+            routeOnClose: 'admin/preset',
+            triggerRouteOnClose: true,
             isNew: true,
         }).open();
     },

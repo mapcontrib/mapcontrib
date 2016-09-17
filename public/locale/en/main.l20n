@@ -47,6 +47,7 @@
 <about "About {{ mapcontrib }}">
 <myThemes "My themes">
 <preferences "Preferences">
+<edit "Edit">
 <login "Log in">
 <loginOrSubscribe "Log in or subscribe">
 <logout "Log out">
@@ -150,7 +151,7 @@
 /* Edit settings column */
 <editSettingColumn_title "Settings">
 <editSettingColumn_themeName "Theme name">
-<editSettingColumn_themeDescription "Description">
+<editSettingColumn_themeDescription "{{ description }}">
 <editSettingColumn_color "Color">
 <editSettingColumn_position "Location">
 <editSettingColumn_geolocation "Geolocation">
@@ -178,8 +179,8 @@ Put it right here!">
 
 /* Edit layer column */
 <editLayerFormColumn_title "Layer edit">
-<editLayerFormColumn_layerName "Name">
-<editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_layerName "{{ name }}">
+<editLayerFormColumn_layerDescription "{{ description }}">
 <editLayerFormColumn_representationType "Representation">
 <editLayerFormColumn_clusterRepresentation "Groupable points">
 <editLayerFormColumn_heatRepresentation "Heat map">
@@ -247,19 +248,6 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 /* Edit tiles column */
 <editTileColumn_title "Backgrounds">
 <editTileColumn_maxZoom "Maximum zoom: {{ $maxZoom }}">
-
-
-/* Edit presets column */
-<editPresetColumn_title "Nodes types">
-<editPresetColumn_addPreset "Add a node type">
-
-
-/* Edit presets tags column */
-<editPresetTagsColumn_title "Edit">
-<editPresetTagsColumn_presetName "Node type's name">
-<editPresetTagsColumn_presetDescription "Description">
-<editPresetTagsColumn_presetTags "Tags">
-<editPresetTagsColumn_addTag "Add a tag">
 
 
 /* Edit POI data column */
@@ -350,8 +338,8 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 
 /* Layer info column */
 <infoLayerColumn_title "Informations">
-<infoLayerColumn_layerName "Name">
-<infoLayerColumn_layerDescription "Description">
+<infoLayerColumn_layerName "{{ name }}">
+<infoLayerColumn_layerDescription "{{ description }}">
 <infoLayerColumn_layerSource "Source of data">
 <infoLayerColumn_overPass "OverPass">
 <infoLayerColumn_gpx "GPX file">
@@ -384,3 +372,13 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 /* Admin tag column */
 <adminTagColumn_title "Tags">
 <adminTagColumn_addTag "Add a tag">
+
+
+/* Admin presets column */
+<adminPresetColumn_title "Nodes types">
+<adminPresetColumn_addPreset "Add a node type">
+
+
+/* Admin edit presets column */
+<adminEditPresetColumn_presetTags "Tags">
+<adminEditPresetColumn_addTag "Add a tag">

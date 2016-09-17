@@ -47,6 +47,7 @@
 <about "Info {{ mapcontrib }}">
 <myThemes "I miei temi">
 <preferences "Preferenze">
+<edit "Modifica">
 <login "Log in">
 <loginOrSubscribe "Log in oppure iscriviti">
 <logout "Log out">
@@ -68,6 +69,8 @@
 <invalidFile "File non valido">
 <currentFile "FIle attuale: <a>{{ $file }}</a>">
 <file "File">
+<name "Nome">
+<description "Descrizione">
 <noResult "Nessun risultato">
 <tagKey "Chiave">
 <tagType "Tipo">
@@ -150,7 +153,7 @@
 /* Edit settings column */
 <editSettingColumn_title "Impostazioni">
 <editSettingColumn_themeName "Nome del tema">
-<editSettingColumn_themeDescription "Descrizione">
+<editSettingColumn_themeDescription "{{ description }}">
 <editSettingColumn_color "Colore">
 <editSettingColumn_position "Posizione">
 <editSettingColumn_geolocation "Geolocalizzazione">
@@ -178,8 +181,8 @@ Inseriscilo proprio qui!"> /
 
 /* Edit layer column */
 <editLayerFormColumn_title "Modifica livello">
-<editLayerFormColumn_layerName "Nome">
-<editLayerFormColumn_layerDescription "Descrizione">
+<editLayerFormColumn_layerName "{{ name }}">
+<editLayerFormColumn_layerDescription "{{ description }}">
 <editLayerFormColumn_representationType "Representation"> /* FIXME */
 <editLayerFormColumn_clusterRepresentation "Groupable points"> /* FIXME */
 <editLayerFormColumn_heatRepresentation "Heat map"> /* FIXME */
@@ -247,19 +250,6 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 /* Edit tiles column */
 <editTileColumn_title "Sfondi">
 <editTileColumn_maxZoom "Zoom massimo: {{ $maxZoom }}">
-
-
-/* Edit presets column */
-<editPresetColumn_title "Tipo di nodi">
-<editPresetColumn_addPreset "Aggiungere un tipo di nodo">
-
-
-/* Edit presets tags column */
-<editPresetTagsColumn_title "Modifca">
-<editPresetTagsColumn_presetName "Nome del tipo di nodo">
-<editPresetTagsColumn_presetDescription "Descrizione">
-<editPresetTagsColumn_presetTags "Tag">
-<editPresetTagsColumn_addTag "Aggiungi un tag">
 
 
 /* Edit POI data column */
@@ -351,8 +341,8 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* Layer info column */
 <infoLayerColumn_title "Informazioni">
-<infoLayerColumn_layerName "Nome">
-<infoLayerColumn_layerDescription "Descrizione">
+<infoLayerColumn_layerName "{{ name }}">
+<infoLayerColumn_layerDescription "{{ description }}">
 <infoLayerColumn_layerSource "Sorgente dati">
 <infoLayerColumn_overPass "OverPass">
 <infoLayerColumn_gpx "file GPX">
@@ -384,3 +374,13 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 /* Admin tag column */
 <adminTagColumn_title "Tags">
 <adminTagColumn_addTag "Aggiungi un tag">
+
+
+/* Admin presets column */
+<adminPresetColumn_title "Tipo di nodi">
+<adminPresetColumn_addPreset "Aggiungere un tipo di nodo">
+
+
+/* Admin edit presets column */
+<adminEditPresetColumn_presetTags "Tag">
+<adminEditPresetColumn_addTag "Aggiungi un tag">

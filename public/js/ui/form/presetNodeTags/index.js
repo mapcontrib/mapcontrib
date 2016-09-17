@@ -7,14 +7,12 @@ import PresetNodeTagsListItemView from './listItem';
 export default Marionette.CollectionView.extend({
     childView: PresetNodeTagsListItemView,
 
+    initialize(options) {
+        this.collection = new PresetNodeTagsCollection(options.items || []);
+    },
+
     setTags(tags) {
-        this.collection = new PresetNodeTagsCollection( tags );
-
-        if (tags.length === 0) {
-            this.collection.add({});
-        }
-
-        this.render();
+        this.collection.set(tags);
     },
 
     addTag() {

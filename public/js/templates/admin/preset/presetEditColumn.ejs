@@ -1,10 +1,10 @@
-<section id="edit_preset_tags_column" class="column right orange">
+<section class="column right orange">
     <header>
         <button type="button" class="btn btn-link btn-lg pull-right close_btn">
             <i class="fa fa-close"></i>
         </button>
 
-        <h2 data-l10n-id="editPresetTagsColumn_title"></h2>
+        <h2 data-l10n-id="adminPresetColumn_title"></h2>
     </header>
 
     <form>
@@ -12,24 +12,30 @@
             <div class="row before-sticky-footer">
                 <div class="col-xs-12">
                     <div class="form-group append-xs-2">
-                        <label for="preset_name" class="control-label" data-l10n-id="editPresetTagsColumn_presetName"></label>
+                        <label for="preset_name" class="control-label" data-l10n-id="name"></label>
                         <input type="text" spellcheck="true" class="form-control" id="preset_name" value="<%- name %>">
                     </div>
 
                     <div class="form-group append-xs-2">
-                        <label for="preset_description" class="control-label" data-l10n-id="editPresetTagsColumn_presetDescription"></label>
+                        <label for="preset_description" class="control-label" data-l10n-id="description"></label>
                         <textarea class="form-control" id="preset_description" rows="3"><%- description %></textarea>
                         <div class="help-block" data-l10n-id="markdownAvailable"><a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
                     </div>
 
-                    <label class="control-label" data-l10n-id="editPresetTagsColumn_presetTags"></label>
+                    <label class="control-label" data-l10n-id="adminEditPresetColumn_presetTags"></label>
                     <div class="rg_tag_list"></div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="tag_locales" class="control-label" data-l10n-id="tagLocales"></label>
+                        <div class="rg_locales"></div>
+                    </div>
                 </div>
             </div>
+
             <div class="row sticky-footer">
                 <div class="col-xs-12">
-                    <button type="button" class="btn btn-default add_btn" data-l10n-id="editPresetTagsColumn_addTag"></button>
-                    <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>
+                    <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>
+                    <button type="submit" class="btn btn-primary pull-right" data-l10n-id="save"></button>
                 </div>
             </div>
         </div>

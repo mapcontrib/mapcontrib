@@ -24,7 +24,6 @@ export default Marionette.LayoutView.extend({
     ui: {
         column: '.column',
         tagKey: '#tag_key',
-        tagType: '#tag_type',
     },
 
     events: {
@@ -44,12 +43,11 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        this.getRegion('type').show(
-            new TagType({
-                id: 'tag_type',
-                value: this.model.get('type'),
-            })
-        );
+        this._tagType = new TagType({
+            value: this.model.get('type'),
+        });
+
+        this.getRegion('type').show(this._tagType);
 
         const searchLocales = new SearchList({
             items: [
@@ -95,7 +93,7 @@ export default Marionette.LayoutView.extend({
         e.preventDefault();
 
         const tagKey = this.ui.tagKey.val().trim();
-        const tagType = this.ui.tagType.val();
+        const tagType = this._tagType.getValue();
 
         this.model.set('key', tagKey);
         this.model.set('type', tagType);

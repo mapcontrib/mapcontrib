@@ -20,4 +20,8 @@ export default Marionette.LayoutView.extend({
             this.$el.val(this.options.value);
         }
     },
+
+    getValue() {
+        return this.$el.val();
+    },
 });
