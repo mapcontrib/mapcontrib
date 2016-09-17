@@ -20,6 +20,8 @@ analyticScript: >
 
 
 client:
+    forceHttps: false
+
     oauthEndPoint: http://api.openstreetmap.org
     oauthConsumerKey:
     oauthSecret:
