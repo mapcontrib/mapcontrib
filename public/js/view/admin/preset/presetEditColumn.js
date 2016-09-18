@@ -25,10 +25,11 @@ export default Marionette.LayoutView.extend({
         column: '.column',
         name: '#preset_name',
         description: '#preset_description',
+        addTagBtn: '.add_tag_btn',
     },
 
     events: {
-        reset: 'onReset',
+        'click @ui.addTagBtn': 'onAddTagClick',
         submit: 'onSubmit',
     },
 
@@ -58,9 +59,6 @@ export default Marionette.LayoutView.extend({
             tags: this.options.theme.get('tags'),
             iDPresetsHelper: this.options.iDPresetsHelper,
         });
-        // this._tagList = new PresetNodeTagsList({
-        //     tags: this.options.theme.get('tags'),
-        // });
 
         this.getRegion('tagList').show(this._tagList);
 
@@ -115,5 +113,9 @@ export default Marionette.LayoutView.extend({
                 console.error('nok');
             },
         });
+    },
+
+    onAddTagClick() {
+        this._tagList.addTag();
     },
 });

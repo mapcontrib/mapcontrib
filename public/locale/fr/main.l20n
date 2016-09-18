@@ -81,6 +81,8 @@
 <tel "Numéro de téléphone">
 <url "Adresse web">
 <textarea "Grand texte">
+<value "Valeur">
+<defaultValue "Valeur par défaut">
 
 
 /* Home */
@@ -298,7 +300,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 /* Node tag field UI */
 <uiFormNodeTags_key "Clef">
-<uiFormNodeTags_value placeholder:"Valeur">
+<uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
 <uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">

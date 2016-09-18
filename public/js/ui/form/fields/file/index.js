@@ -7,6 +7,12 @@ import { formatBytes, basename } from 'core/utils';
 export default Marionette.ItemView.extend({
     template,
 
+    behaviors() {
+        return {
+            l20n: {},
+        };
+    },
+
     ui: {
         input: '.filestyle',
         currentFile: '.current_file',
@@ -22,16 +28,16 @@ export default Marionette.ItemView.extend({
     templateHelpers() {
         const config = MAPCONTRIB.config;
         const maxFileSize = formatBytes( config.uploadMaxNonOsmDataFileSize * 1024 );
+        const placeholder = this.options.placeholder || document.l10n.getSync('value');
 
         return {
             cid: this.model.cid,
             maxFileSize: document.l10n.getSync('maxFileSize', { maxFileSize }),
+            placeholder,
         };
     },
 
     onRender() {
-        document.l10n.localizeNode( this.el );
-
         if ( this.model.get('value') ) {
             const fileUri = this.model.get('value');
             const fileName = basename(fileUri || '');

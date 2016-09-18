@@ -12,8 +12,8 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'blur @ui.key': 'updateKey',
-        'keyup @ui.key': 'updateKey',
+        'blur @ui.key': '_updateKey',
+        'keyup @ui.key': '_updateKey',
     },
 
     templateHelpers() {
@@ -33,11 +33,15 @@ export default Marionette.ItemView.extend({
         this.ui.tagInfoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
     },
 
-    updateKey() {
+    _updateKey() {
         this.model.set(
             'key',
             this.ui.key.val().trim()
         );
+
+        this.trigger('change', this.model.get('key'));
+
+        this.renderTagInfo();
     },
 
     enable() {

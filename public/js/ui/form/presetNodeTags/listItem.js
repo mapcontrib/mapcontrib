@@ -5,6 +5,10 @@ import listItemTemplate from './listItem.ejs';
 import KeyField from '../fields/key';
 import RawKeyField from '../fields/rawKey';
 import TextField from '../fields/text';
+import EmailField from '../fields/email';
+import TextareaField from '../fields/textarea';
+import UrlField from '../fields/url';
+import TelField from '../fields/tel';
 import NumberField from '../fields/number';
 import FileField from '../fields/file';
 
@@ -12,10 +16,18 @@ import FileField from '../fields/file';
 export default Marionette.LayoutView.extend({
     template: listItemTemplate,
 
+    behaviors() {
+        return {
+            l20n: {},
+        };
+    },
+
     ui: {
         formGroups: '.form-group',
-        nonOsmWarning: '.non_osm_warning',
         displayRawTag: '.display_raw_tag',
+        nonOsmCheckbox: '.non_osm_data',
+        keyReadOnlyCheckbox: '.key_read_only',
+        valueReadOnlyCheckbox: '.value_read_only',
     },
 
     regions: {
@@ -50,15 +62,12 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        document.l10n.localizeNode( this.el );
-
         this._renderKeyField();
         this._renderValueField();
 
-        if (this.model.get('nonOsmData')) {
-            this.ui.nonOsmWarning.removeClass('hide');
-        }
-
+        this.ui.nonOsmCheckbox.prop('checked', this.model.get('nonOsmData'));
+        this.ui.keyReadOnlyCheckbox.prop('checked', this.model.get('keyReadOnly'));
+        this.ui.valueReadOnlyCheckbox.prop('checked', this.model.get('valueReadOnly'));
         this.ui.displayRawTag.prop('checked', this._displayRawTag);
 
         this.onCollectionUpdate();
@@ -78,16 +87,13 @@ export default Marionette.LayoutView.extend({
 
         this._keyField.on('change', this._renderValueField, this);
         this.getRegion('key').show(this._keyField, { preventDestroy: true });
-
-        if (this.model.get('keyReadOnly')) {
-            this._keyField.disable();
-        }
     },
 
     _renderValueField() {
         const fieldOptions = {
             model: this.model,
             iDPresetsHelper: this.options.iDPresetsHelper,
+            placeholder: document.l10n.getSync('defaultValue'),
         };
 
         if (this._displayRawTag) {
@@ -97,6 +103,18 @@ export default Marionette.LayoutView.extend({
             switch (this.model.get('type')) {
                 case CONST.tagType.text:
                     this._valueField = new TextField( fieldOptions );
+                    break;
+                case CONST.tagType.email:
+                    this._valueField = new EmailField( fieldOptions );
+                    break;
+                case CONST.tagType.url:
+                    this._valueField = new UrlField( fieldOptions );
+                    break;
+                case CONST.tagType.textarea:
+                    this._valueField = new TextareaField( fieldOptions );
+                    break;
+                case CONST.tagType.tel:
+                    this._valueField = new TelField( fieldOptions );
                     break;
                 case CONST.tagType.number:
                     this._valueField = new NumberField( fieldOptions );
@@ -116,10 +134,6 @@ export default Marionette.LayoutView.extend({
         }
 
         if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
-            this._valueField.disableRemoveBtn();
-        }
-
-        if (this.model.get('nonOsmData')) {
             this._valueField.disableRemoveBtn();
         }
     },

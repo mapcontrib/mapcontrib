@@ -69,18 +69,20 @@
 <invalidFile "File non valido">
 <currentFile "FIle attuale: <a>{{ $file }}</a>">
 <file "File">
+<noResult "Nessun risultato">
 <name "Nome">
 <description "Descrizione">
-<noResult "Nessun risultato">
-<key "Chiave">
 <type "Tipo">
 <locales "Translations"> /* FIXME */
+<key "Chiave">
 <text "Text"> /* FIXME */
 <number "Number"> /* FIXME */
 <email "Email"> /* FIXME */
 <tel "Phone number"> /* FIXME */
 <url "Web address"> /* FIXME */
 <textarea "Big text"> /* FIXME */
+<value "Valore">
+<defaultValue "Default value"> /* FIXME */
 
 
 /* Home */
@@ -298,7 +300,7 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* Node tag field UI */
 <uiFormNodeTags_key "Chiave">
-<uiFormNodeTags_value placeholder:"Valore">
+<uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
 <uiFormNodeTags_valueReadOnly "Valore in sola lettura">
 <uiFormNodeTags_nonOsmData "Non inviare questo tag a OSM">

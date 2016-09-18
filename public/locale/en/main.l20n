@@ -70,15 +70,19 @@
 <currentFile "Current file: <a>{{ $file }}</a>">
 <file "File">
 <noResult "No result">
-<key "Key">
+<name "Name">
+<description "Description">
 <type "Type">
 <locales "Translations">
+<key "Key">
 <text "Text">
 <number "Number">
 <email "Email">
 <tel "Phone number">
 <url "Web address">
 <textarea "Big text">
+<value "Valeur">
+<defaultValue "Default value">
 
 
 /* Home */
@@ -296,7 +300,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 
 /* Node tag field UI */
 <uiFormNodeTags_key "Key">
-<uiFormNodeTags_value placeholder:"Value">
+<uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Read-only key">
 <uiFormNodeTags_valueReadOnly "Read-only value">
 <uiFormNodeTags_nonOsmData "Do not send this tag to OSM">

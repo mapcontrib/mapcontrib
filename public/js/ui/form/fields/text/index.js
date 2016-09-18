@@ -6,6 +6,12 @@ import template from './template.ejs';
 export default Marionette.ItemView.extend({
     template,
 
+    behaviors() {
+        return {
+            l20n: {},
+        };
+    },
+
     ui: {
         input: '.form-control',
         removeBtn: '.remove_btn',
@@ -17,8 +23,12 @@ export default Marionette.ItemView.extend({
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
-    onRender() {
-        document.l10n.localizeNode( this.el );
+    templateHelpers() {
+        const placeholder = this.options.placeholder || document.l10n.getSync('value');
+
+        return {
+            placeholder,
+        };
     },
 
     updateInput() {

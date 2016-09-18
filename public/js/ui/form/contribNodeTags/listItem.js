@@ -12,6 +12,12 @@ import FileField from '../fields/file';
 export default Marionette.LayoutView.extend({
     template: listItemTemplate,
 
+    behaviors() {
+        return {
+            l20n: {},
+        };
+    },
+
     ui: {
         formGroups: '.form-group',
         nonOsmWarning: '.non_osm_warning',
@@ -50,8 +56,6 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        document.l10n.localizeNode( this.el );
-
         this._renderKeyField();
         this._renderValueField();
 
