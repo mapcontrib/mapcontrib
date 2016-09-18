@@ -36,41 +36,53 @@ export default Marionette.ItemView.extend({
             .removeClass('hide');
         }
 
-        const bar = new ProgressBar.Circle(this.ui.progression[0], {
-            easing: 'easeInOut',
-            duration: 1400,
-            trailWidth: 14,
-            strokeWidth: 14,
-            trailColor: 'rgba(255, 255, 255, 0.2)',
-            step: (state, circle) => {
-                const progression = circle.value() * 100;
+        if (this.model.get('progression')) {
+            this._progressCircle = new ProgressBar.Circle(this.ui.progression[0], {
+                trailWidth: 14,
+                strokeWidth: 14,
+                trailColor: 'rgba(255, 255, 255, 0.2)',
+            });
 
-                if (progression >= 100) {
-                    circle.path.setAttribute('stroke', '#8AE234');
+            const progression = this.model.get('progression');
+
+            this.ui.progression
+            .attr('title', `${progression} %`)
+            .tooltip({
+                container: 'body',
+                delay: {
+                    show: CONST.tooltip.showDelay,
+                    hide: CONST.tooltip.hideDelay,
+                },
+            })
+            .removeClass('hide');
+        }
+    },
+
+    onShow() {
+        if (this.model.get('progression')) {
+            const progression = this.model.get('progression');
+
+            this._progressCircle.animate(
+                progression / 100 || 0,
+                {
+                    easing: 'easeInOut',
+                    duration: 1400,
+                    step: (state, circle) => {
+                        const progress = circle.value() * 100;
+
+                        if (progress >= 100) {
+                            circle.path.setAttribute('stroke', '#8AE234');
+                        }
+                        else if (progress < 100 && progress > 50) {
+                            circle.path.setAttribute('stroke', '#FCE94F');
+                        }
+                        else {
+                            circle.path.setAttribute('stroke', '#EF2929');
+                        }
+                    },
                 }
-                else if (progression < 100 && progression > 50) {
-                    circle.path.setAttribute('stroke', '#FCE94F');
-                }
-                else {
-                    circle.path.setAttribute('stroke', '#EF2929');
-                }
-            },
-        });
-
-        const progression = this.model.get('progression');
-
-        this.ui.progression
-        .attr('title', `${progression} %`)
-        .tooltip({
-            container: 'body',
-            delay: {
-                show: CONST.tooltip.showDelay,
-                hide: CONST.tooltip.hideDelay,
-            },
-        })
-        .removeClass('hide');
-
-        bar.set(progression / 100 || 0);
+            );
+        }
     },
 
     onClick(e) {

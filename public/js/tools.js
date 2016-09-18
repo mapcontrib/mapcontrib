@@ -16,15 +16,22 @@ $.valHooks.textarea = {
 };
 
 
+function trim() {
+    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+}
+
+function ucfirst() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 if (!String.prototype.trim) {
     /* eslint-disable no-extend-native */
-    String.prototype.trim = () => this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+    String.prototype.trim = trim;
     /* eslint-enable */
 }
 
-
 if (!String.prototype.ucfirst) {
     /* eslint-disable no-extend-native */
-    String.prototype.ucfirst = () => this.charAt(0).toUpperCase() + this.slice(1);
+    String.prototype.ucfirst = ucfirst;
     /* eslint-enable */
 }

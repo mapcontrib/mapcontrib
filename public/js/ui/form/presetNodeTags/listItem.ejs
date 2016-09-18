@@ -1,15 +1,10 @@
 <div class="form-group append-xs-2">
-    <div class="input-group">
-        <input type="text" class="form-control key" data-l10n-id="uiFormNodeTags_key" value="<%- key %>" spellcheck="false" autocomplete="on" autocorrect="off">
-        <div class="input-group-btn">
-            <a rel="noopener noreferrer" target="_blank" class="btn btn-info tag_info_btn" tabindex="-1"><i class="fa fa-fw fa-info-circle"></i></a>
-        </div>
-    </div>
-    <div class="input-group">
-        <input type="text" class="form-control value" data-l10n-id="uiFormNodeTags_value" value="<%- value %>">
-        <div class="input-group-btn">
-            <button type="button" class="btn btn-danger remove_btn" tabindex="-1"><i class="fa fa-fw fa-trash"></i></button>
-        </div>
+    <div class="rg_key"></div>
+    <div class="rg_value"></div>
+    <div class="help-block form-group-help-block non_osm_warning hide" data-l10n-id="uiFormNodeTags_nonOsmContributionWarning"></div>
+    <div class="checkbox">
+        <input type="checkbox" id="display_raw_tag_<%- cid %>" class="display_raw_tag" value="1">
+        <label for="display_raw_tag_<%- cid %>" data-l10n-id="uiFormNodeTags_displayRawTag"></label>
     </div>
     <div class="checkbox">
         <input type="checkbox" id="nonOsmData_<%- cid %>" class="non_osm_data" value="1">
@@ -22,13 +17,5 @@
     <div class="checkbox value_read_only_group">
         <input type="checkbox" id="valueReadOnly_<%- cid %>" class="value_read_only" value="1">
         <label for="valueReadOnly_<%- cid %>" data-l10n-id="uiFormNodeTags_valueReadOnly"></label>
-    </div>
-    <div class="radio text_input_group hide">
-        <input type="radio" id="textInput_<%- cid %>" class="text_input" name="input_type_<%- cid %>" value="1">
-        <label for="textInput_<%- cid %>" data-l10n-id="uiFormNodeTags_textInput"></label>
-    </div>
-    <div class="radio file_input_group hide">
-        <input type="radio" id="fileInput_<%- cid %>" class="file_input" name="input_type_<%- cid %>" value="1">
-        <label for="fileInput_<%- cid %>" data-l10n-id="uiFormNodeTags_fileInput"></label>
     </div>
 </div>

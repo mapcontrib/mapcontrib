@@ -1,8 +1,8 @@
 
 import Backbone from 'backbone';
-import PresetNodeTagsModel from './model';
+import ContribNodeTagsModel from './model';
 
 
 export default Backbone.Collection.extend({
-    model: PresetNodeTagsModel,
+    model: ContribNodeTagsModel,
 });
