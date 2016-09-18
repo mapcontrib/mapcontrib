@@ -299,6 +299,11 @@ export default {
 
     tagType: {
         text: 'text',
+        number: 'number',
+        email: 'email',
+        tel: 'tel',
+        url: 'url',
+        textarea: 'textarea',
         file: 'file',
     },
 

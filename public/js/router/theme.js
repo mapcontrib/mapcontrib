@@ -55,6 +55,7 @@ export default Backbone.Router.extend({
     initialize(app) {
         this._app = app;
         this._theme = app.getTheme();
+        this._iDPresetsHelper = app.getIDPresetsHelper();
         this._radio = Wreqr.radio.channel('global');
         this._previousRoute = '';
 
@@ -166,6 +167,7 @@ export default Backbone.Router.extend({
             router: this,
             theme: this._theme,
             model: new PresetModel(),
+            iDPresetsHelper: this._iDPresetsHelper,
             routeOnClose: 'admin/preset',
             triggerRouteOnClose: true,
             isNew: true,
@@ -180,6 +182,7 @@ export default Backbone.Router.extend({
                 router: this,
                 theme: this._theme,
                 model,
+                iDPresetsHelper: this._iDPresetsHelper,
                 routeOnClose: 'admin/preset',
                 triggerRouteOnClose: true,
             }).open();

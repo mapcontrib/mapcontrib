@@ -1,21 +1,53 @@
 
+import CONST from 'const';
 import Sifter from 'sifter';
 
 
 export default class IDPresetsHelper {
     constructor(presets) {
         this._presets = presets;
-        this._proposedFieldsForTypeahead = [
-            'text', 'number',
-        ];
 
+        this._prepareFieldTypes();
+        this._prepareFieldsForTypeahead();
         this._prepareSifter();
     }
 
-    setLocale(locale) {
-        this._locale = locale;
+    /**
+     * The localized strings are loaded from a JSON file and set here.
+     *
+     * @access public
+     * @param {object} localeStrings
+     */
+    setLocaleStrings(localeStrings) {
+        this._localeStrings = localeStrings;
 
+        this._prepareFieldTypes();
+        this._prepareFieldsForTypeahead();
         this._prepareSifter();
+    }
+
+    /**
+     * Build an array of field types, to propose only the right fields with typehead.
+     *
+     * @access private
+     */
+    _prepareFieldTypes() {
+        this._proposedFieldTypesForTypeahead = [];
+
+        for (const index in CONST.tagType) {
+            if ({}.hasOwnProperty.call(CONST.tagType, index)) {
+                this._proposedFieldTypesForTypeahead.push(CONST.tagType[index]);
+            }
+        }
+    }
+
+    _prepareFieldsForTypeahead() {
+        this._fieldsForTypeahead = this.getFields()
+        .filter(field => this._proposedFieldTypesForTypeahead.indexOf(field.type) > -1);
+    }
+
+    getFieldsForTypeahead() {
+        return this._fieldsForTypeahead;
     }
 
     _prepareSifter() {
@@ -65,12 +97,22 @@ export default class IDPresetsHelper {
         return false;
     }
 
+    getLocalizedTypeaheadFieldLabel(key) {
+        for (const field of this._fieldsForTypeahead) {
+            if (field.key === key) {
+                return field.label;
+            }
+        }
+
+        return false;
+    }
+
     _getLocalizedPreset(name) {
         if (this._presets.presets[name]) {
             const preset = { ...this._presets.presets[name] };
 
-            if (this._locale && this._locale.presets[name]) {
-                const localizedStrings = { ...this._locale.presets[name] };
+            if (this._localeStrings && this._localeStrings.presets[name]) {
+                const localizedStrings = { ...this._localeStrings.presets[name] };
 
                 if (localizedStrings.name) {
                     preset.name = localizedStrings.name;
@@ -102,8 +144,8 @@ export default class IDPresetsHelper {
         if (this._presets.fields[name]) {
             const field = { ...this._presets.fields[name] };
 
-            if (this._locale && this._locale.fields[name]) {
-                const localizedStrings = { ...this._locale.fields[name] };
+            if (this._localeStrings && this._localeStrings.fields[name]) {
+                const localizedStrings = { ...this._localeStrings.fields[name] };
 
                 if (localizedStrings.label) {
                     field.label = localizedStrings.label;
@@ -161,11 +203,6 @@ export default class IDPresetsHelper {
         }
 
         return fields;
-    }
-
-    buildFieldsForTypeahead() {
-        return this.getFields()
-        .filter(field => this._proposedFieldsForTypeahead.indexOf(field.type) > -1);
     }
 
     buildPresetsFromSearchString(searchString) {

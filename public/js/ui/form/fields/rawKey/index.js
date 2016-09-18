@@ -12,13 +12,17 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'blur @ui.input': 'updateKey',
-        'keyup @ui.input': 'updateKey',
+        'blur @ui.key': 'updateKey',
+        'keyup @ui.key': 'updateKey',
+    },
+
+    templateHelpers() {
+        return {
+            placeholder: document.l10n.getSync('key'),
+        };
     },
 
     onRender() {
-        document.l10n.localizeNode( this.el );
-
         this.renderTagInfo();
     },
 

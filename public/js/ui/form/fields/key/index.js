@@ -15,21 +15,19 @@ export default Marionette.ItemView.extend({
 
     templateHelpers() {
         const key = this.model.get('key');
-        const label = this.options.iDPresetsHelper.getLocalizedFieldLabel(key) || key;
+        const label = this.options.iDPresetsHelper.getLocalizedTypeaheadFieldLabel(key) || key;
 
         return {
             label,
-            placeholder: document.l10n.getSync('uiFormNodeTags_key'),
+            placeholder: document.l10n.getSync('key'),
         };
     },
 
     onRender() {
-        document.l10n.localizeNode( this.el );
-
         this.renderTagInfo();
 
-        if ( this.model.get('keyReadOnly') === false ) {
-            this._proposedFields = this.options.iDPresetsHelper.buildFieldsForTypeahead();
+        if ( !this.model.get('keyReadOnly') ) {
+            this._proposedFields = this.options.iDPresetsHelper.getFieldsForTypeahead();
 
             this.ui.key.typeahead(
                 {
@@ -55,6 +53,10 @@ export default Marionette.ItemView.extend({
 
             const matches = proposedFields.filter((field) => {
                 if (substrRegex.test(field.label)) {
+                    return true;
+                }
+
+                if (substrRegex.test(field.key)) {
                     return true;
                 }
 

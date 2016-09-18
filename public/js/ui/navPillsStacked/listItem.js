@@ -42,11 +42,18 @@ export default Marionette.ItemView.extend({
             trailWidth: 14,
             strokeWidth: 14,
             trailColor: 'rgba(255, 255, 255, 0.2)',
-            color: '#eee',
-            from: { color: '#F8DC00', a: 1 },
-            to: { color: '#8AE234', a: 1 },
             step: (state, circle) => {
-                circle.path.setAttribute('stroke', state.color);
+                const progression = circle.value() * 100;
+
+                if (progression >= 100) {
+                    circle.path.setAttribute('stroke', '#8AE234');
+                }
+                else if (progression < 100 && progression > 50) {
+                    circle.path.setAttribute('stroke', '#FCE94F');
+                }
+                else {
+                    circle.path.setAttribute('stroke', '#EF2929');
+                }
             },
         });
 

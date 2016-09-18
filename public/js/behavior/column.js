@@ -105,11 +105,13 @@ export default Marionette.Behavior.extend({
     },
 
     onKeyUp(e) {
-        switch (e.keyCode) {
-            case 27:
+        if (e.target === this.ui.column[0]) {
+            switch (e.keyCode) {
+                case 27:
                 this.onClose();
                 break;
-            default:
+                default:
+            }
         }
     },
 

@@ -1,6 +1,5 @@
 
 import Marionette from 'backbone.marionette';
-import CONST from 'const';
 import ContribNodeTagsCollection from './collection';
 import ContribNodeTagsListItemView from './listItem';
 
@@ -14,34 +13,13 @@ export default Marionette.CollectionView.extend({
         };
     },
 
-    initialize() {
-        this.collection = new ContribNodeTagsCollection();
-    },
-
-    setTags(tags) {
-        if (tags.length === 0) {
-            this.collection.add({
-                keyReadOnly: false,
-                valueReadOnly: false,
-                nonOsmData: false,
-                type: CONST.tagType.text,
-            });
-        }
-        else {
-            this.collection.add( tags );
-        }
-
-        this.render();
+    initialize(options) {
+        this.collection = new ContribNodeTagsCollection(options.tags || [{}]);
     },
 
     addTag(tag) {
         if ( !tag ) {
-            return this.collection.add({
-                keyReadOnly: false,
-                valueReadOnly: false,
-                nonOsmData: false,
-                type: CONST.tagType.text,
-            });
+            return this.collection.add({});
         }
 
         if (tag.key) {

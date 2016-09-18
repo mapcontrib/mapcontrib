@@ -1,6 +1,7 @@
 
 import Backbone from 'backbone';
 import 'backbone-relational';
+import CONST from 'const';
 import { uuid } from '../core/utils';
 
 
@@ -11,7 +12,7 @@ export default Backbone.RelationalModel.extend({
             modificationDate: new Date().toISOString(),
             uuid: undefined,
             key: undefined,
-            type: 'text',
+            type: CONST.tagType.text,
             value: undefined,
             order: undefined,
             locales: {/*

@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import PresetNodeTagsListView from 'ui/form/presetNodeTags';
+import PresetNodeTagsList from 'ui/form/presetNodeTags';
 import SearchList from 'ui/form/searchList';
 import template from 'templates/admin/preset/presetEditColumn.ejs';
 
@@ -54,9 +54,13 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        this._tagList = new PresetNodeTagsListView({
-            tags: this.model.get('tags'),
+        this._tagList = new PresetNodeTagsList({
+            tags: this.options.theme.get('tags'),
+            iDPresetsHelper: this.options.iDPresetsHelper,
         });
+        // this._tagList = new PresetNodeTagsList({
+        //     tags: this.options.theme.get('tags'),
+        // });
 
         this.getRegion('tagList').show(this._tagList);
 
@@ -76,7 +80,7 @@ export default Marionette.LayoutView.extend({
                 },
                 {
                     label: 'Italien',
-                    progression: 0,
+                    progression: 40,
                     href: '#',
                     callback: undefined,
                 },

@@ -7,7 +7,6 @@ export default Backbone.Model.extend({
     defaults: {
         key: '',
         value: '',
-        keyReadOnly: true,
         valueReadOnly: false,
         nonOsmData: false,
         type: CONST.tagType.text,

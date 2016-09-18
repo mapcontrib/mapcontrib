@@ -33,6 +33,14 @@ export default Marionette.LayoutView.extend({
         this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
+
+        const fieldOptions = {
+            model: this.model,
+            iDPresetsHelper: this.options.iDPresetsHelper,
+        };
+
+        this._rawKeyField = new RawKeyField( fieldOptions );
+        this._localizedKeyField = new KeyField( fieldOptions );
     },
 
     templateHelpers() {
@@ -57,20 +65,19 @@ export default Marionette.LayoutView.extend({
     },
 
     _renderKeyField() {
-        const fieldOptions = {
-            model: this.model,
-            iDPresetsHelper: this.options.iDPresetsHelper,
-        };
+        if (this._keyField) {
+            this._keyField.off('change', this._renderValueField);
+        }
 
         if (this._displayRawTag) {
-            this._keyField = new RawKeyField( fieldOptions );
+            this._keyField = this._rawKeyField;
         }
         else {
-            this._keyField = new KeyField( fieldOptions );
+            this._keyField = this._localizedKeyField;
         }
 
         this._keyField.on('change', this._renderValueField, this);
-        this.getRegion('key').show( this._keyField );
+        this.getRegion('key').show(this._keyField, { preventDestroy: true });
 
         if (this.model.get('keyReadOnly')) {
             this._keyField.disable();
@@ -88,13 +95,13 @@ export default Marionette.LayoutView.extend({
         }
         else {
             switch (this.model.get('type')) {
-                case 'text':
+                case CONST.tagType.text:
                     this._valueField = new TextField( fieldOptions );
                     break;
-                case 'number':
+                case CONST.tagType.number:
                     this._valueField = new NumberField( fieldOptions );
                     break;
-                case 'file':
+                case CONST.tagType.file:
                     this._valueField = new FileField( fieldOptions );
                     break;
                 default:
@@ -106,9 +113,6 @@ export default Marionette.LayoutView.extend({
 
         if (this.model.get('valueReadOnly')) {
             this._valueField.disable();
-        }
-        else {
-            this._valueField.setFocus();
         }
 
         if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {

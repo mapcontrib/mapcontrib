@@ -39,6 +39,21 @@ export default Marionette.Application.extend({
             console.warn(`L20n: ${err}`);
         });
 
+
+        this._radio = Wreqr.radio.channel('global');
+
+        this._radio.vent.on('session:logged', () => {
+            this._isLogged = true;
+            window.document.body.classList.add('user_logged');
+        });
+
+        this._radio.vent.on('session:unlogged', () => {
+            this._isLogged = false;
+            window.document.body.classList.remove('user_logged');
+            this._user = new UserModel();
+        });
+
+
         Marionette.Behaviors.behaviorsLookup = Behaviors;
 
         this._isLogged = false;
@@ -79,25 +94,12 @@ export default Marionette.Application.extend({
             );
 
             $.get({
+                async: false,
                 url: `${CONST.apiPath}/iDPresets/locale`,
                 data: { locales: document.l10n.supportedLocales },
                 success: this.onReceiveIDPresetsLocale.bind(this),
             });
         }
-
-        this._radio = Wreqr.radio.channel('global');
-
-
-        this._radio.vent.on('session:logged', () => {
-            this._isLogged = true;
-            window.document.body.classList.add('user_logged');
-        });
-
-        this._radio.vent.on('session:unlogged', () => {
-            this._isLogged = false;
-            window.document.body.classList.remove('user_logged');
-            this._user = new UserModel();
-        });
     },
 
     getWindow() {
@@ -153,7 +155,7 @@ export default Marionette.Application.extend({
     },
 
     onReceiveIDPresetsLocale(response) {
-        this._iDPresetsHelper.setLocale(
+        this._iDPresetsHelper.setLocaleStrings(
             JSON.parse(response)
         );
 
