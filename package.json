@@ -122,6 +122,7 @@
     "raw-loader": "^0.5.1",
     "serve-static": "^1.9.2",
     "sifter": "^0.5.1",
+    "smoothscroll-polyfill": "^0.3.3",
     "style-loader": "^0.13.0",
     "svg-loader": "0.0.2",
     "transform-loader": "^0.2.3",

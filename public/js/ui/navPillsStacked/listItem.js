@@ -36,7 +36,7 @@ export default Marionette.ItemView.extend({
             .removeClass('hide');
         }
 
-        if (this.model.get('progression')) {
+        if (this.model.get('progression') >= 0) {
             this._progressCircle = new ProgressBar.Circle(this.ui.progression[0], {
                 trailWidth: 14,
                 strokeWidth: 14,
@@ -59,7 +59,7 @@ export default Marionette.ItemView.extend({
     },
 
     onShow() {
-        if (this.model.get('progression')) {
+        if (this.model.get('progression') >= 0) {
             const progression = this.model.get('progression');
 
             this._progressCircle.animate(

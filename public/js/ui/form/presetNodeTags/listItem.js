@@ -37,6 +37,9 @@ export default Marionette.LayoutView.extend({
 
     events: {
         'change @ui.displayRawTag': 'onChangeDisplayRawTag',
+        'change @ui.nonOsmCheckbox': 'onChangeNonOsmCheckbox',
+        'change @ui.keyReadOnlyCheckbox': 'onChangeKeyReadOnlyCheckbox',
+        'change @ui.valueReadOnlyCheckbox': 'onChangeValueReadOnlyCheckbox',
     },
 
     initialize() {
@@ -69,6 +72,8 @@ export default Marionette.LayoutView.extend({
         this.ui.keyReadOnlyCheckbox.prop('checked', this.model.get('keyReadOnly'));
         this.ui.valueReadOnlyCheckbox.prop('checked', this.model.get('valueReadOnly'));
         this.ui.displayRawTag.prop('checked', this._displayRawTag);
+
+        this._changeKeyReadOnlyStateIfNeeded();
 
         this.onCollectionUpdate();
     },
@@ -128,25 +133,9 @@ export default Marionette.LayoutView.extend({
         }
 
         this.getRegion('value').show( this._valueField );
-
-        if (this.model.get('valueReadOnly')) {
-            this._valueField.disable();
-        }
-
-        if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
-            this._valueField.disableRemoveBtn();
-        }
     },
 
     onCollectionUpdate() {
-        if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
-            return;
-        }
-
-        if ( this.model.get('nonOsmData') ) {
-            return;
-        }
-
         const osmTags = this.model.collection.where({
             nonOsmData: false,
         });
@@ -159,29 +148,45 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    isFileTag() {
-        if ( this.model.get('type') === CONST.tagType.file ) {
-            return true;
-        }
-
-        return false;
-    },
-
-    valueIsNotEmpty() {
-        return this._valueField.isNotEmpty();
-    },
-
-    showErrorFeedback() {
-        this.ui.formGroups.addClass('has-feedback has-error');
-    },
-
-    hideErrorFeedback() {
-        this.ui.formGroups.removeClass('has-feedback has-error');
-    },
-
     onChangeDisplayRawTag() {
         this._displayRawTag = this.ui.displayRawTag.prop('checked');
         this._renderKeyField();
         this._renderValueField();
+    },
+
+    onChangeNonOsmCheckbox() {
+        const nonOsmChecked = this.ui.nonOsmCheckbox.prop('checked');
+
+        this.model.set('nonOsmData', nonOsmChecked);
+
+        this._changeKeyReadOnlyStateIfNeeded();
+    },
+
+    onChangeKeyReadOnlyCheckbox() {
+        this.model.set(
+            'keyReadOnly',
+            this.ui.keyReadOnlyCheckbox.prop('checked')
+        );
+    },
+
+    onChangeValueReadOnlyCheckbox() {
+        const valueReadOnlyChecked = this.ui.valueReadOnlyCheckbox.prop('checked');
+
+        this.model.set('valueReadOnly', valueReadOnlyChecked);
+
+        this._changeKeyReadOnlyStateIfNeeded();
+    },
+
+    _changeKeyReadOnlyStateIfNeeded() {
+        if (this.model.get('nonOsmData') || this.model.get('valueReadOnly')) {
+            this.ui.keyReadOnlyCheckbox
+            .prop('checked', true)
+            .prop('disabled', true);
+
+            this.model.set('keyReadOnly', true);
+        }
+        else {
+            this.ui.keyReadOnlyCheckbox.prop('disabled', false);
+        }
     },
 });

@@ -14,7 +14,12 @@ export default Marionette.CollectionView.extend({
     },
 
     initialize(options) {
-        this.collection = new ContribNodeTagsCollection(options.tags || [{}]);
+        if (!options.tags || options.tags.length === 0) {
+            this.collection = new ContribNodeTagsCollection([{}]);
+        }
+        else {
+            this.collection = new ContribNodeTagsCollection(options.tags);
+        }
     },
 
     addTag(tag) {

@@ -23,6 +23,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        bottom: '.bottom',
         name: '#preset_name',
         description: '#preset_description',
         addTagBtn: '.add_tag_btn',
@@ -56,7 +57,7 @@ export default Marionette.LayoutView.extend({
 
     onRender() {
         this._tagList = new PresetNodeTagsList({
-            tags: this.options.theme.get('tags'),
+            tags: this.model.get('tags'),
             iDPresetsHelper: this.options.iDPresetsHelper,
         });
 
@@ -117,5 +118,12 @@ export default Marionette.LayoutView.extend({
 
     onAddTagClick() {
         this._tagList.addTag();
+        this._scrollToBottom();
+    },
+
+    _scrollToBottom() {
+        window.requestAnimationFrame(() => {
+            this.ui.bottom[0].scrollIntoView({ behavior: 'smooth' });
+        });
     },
 });

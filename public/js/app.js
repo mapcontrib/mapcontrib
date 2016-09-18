@@ -6,6 +6,7 @@ import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import '../lib/l20n.min.js';
+import SmoothScrollPolyfill from 'smoothscroll-polyfill';
 
 import 'ionicons/css/ionicons.css';
 import 'font-awesome-webpack';
@@ -38,6 +39,8 @@ export default Marionette.Application.extend({
         window.document.l10n.addEventListener('warning', (err) => {
             console.warn(`L20n: ${err}`);
         });
+
+        SmoothScrollPolyfill.polyfill();
 
 
         this._radio = Wreqr.radio.channel('global');
