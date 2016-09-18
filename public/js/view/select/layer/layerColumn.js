@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import SelectLayerListView from './list';
+import SelectLayerList from './list';
 import template from 'templates/select/layer/layerColumn.ejs';
 import LeafletHelper from 'helper/leaflet';
 
@@ -41,7 +41,7 @@ export default Marionette.LayoutView.extend({
 
     onRender() {
         this.getRegion('layerList').show(
-            new SelectLayerListView({ collection: this.collection })
+            new SelectLayerList({ collection: this.collection })
         );
     },
 

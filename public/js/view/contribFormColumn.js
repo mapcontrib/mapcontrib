@@ -28,6 +28,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '#contrib_form_column',
+        bottom: '.bottom',
         form: 'form',
         content: '.content',
         addBtn: '.add_btn',
@@ -126,10 +127,13 @@ export default Marionette.LayoutView.extend({
 
     onClickAddBtn() {
         this._tagList.addTag();
+        this._scrollToBottom();
+    },
 
-        const scrollHeight = this.ui.column.height() +
-        this._tagList.el.scrollHeight;
-        this.ui.content[0].scrollTo(0, scrollHeight);
+    _scrollToBottom() {
+        window.requestAnimationFrame(() => {
+            this.ui.bottom[0].scrollIntoView({ behavior: 'smooth' });
+        });
     },
 
     onSubmit(e) {

@@ -65,6 +65,10 @@ export default Marionette.LayoutView.extend({
         this._radio.vent.on('map:zoomChanged map:centerChanged', this.renderIframeCode, this);
     },
 
+    onDestroy() {
+        this._radio.vent.off('map:zoomChanged map:centerChanged');
+    },
+
     onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);

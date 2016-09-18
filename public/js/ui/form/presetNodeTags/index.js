@@ -1,11 +1,11 @@
 
 import Marionette from 'backbone.marionette';
-import ContribNodeTagsCollection from './collection';
-import ContribNodeTagsListItemView from './listItem';
+import PresetNodeTagsCollection from './collection';
+import PresetNodeTagsListItemView from './listItem';
 
 
 export default Marionette.CollectionView.extend({
-    childView: ContribNodeTagsListItemView,
+    childView: PresetNodeTagsListItemView,
 
     childViewOptions() {
         return {
@@ -14,7 +14,12 @@ export default Marionette.CollectionView.extend({
     },
 
     initialize(options) {
-        this.collection = new ContribNodeTagsCollection(options.tags || [{}]);
+        if (!options.tags || options.tags.length === 0) {
+            this.collection = new PresetNodeTagsCollection([{}]);
+        }
+        else {
+            this.collection = new PresetNodeTagsCollection(options.tags);
+        }
     },
 
     addTag(tag) {

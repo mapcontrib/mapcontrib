@@ -6,10 +6,10 @@ import MarkedHelper from 'helper/marked';
 import MapUi from 'ui/map';
 import template from 'templates/select/layer/item.ejs';
 import CONST from 'const';
-import InfoOverPassLayerColumnView from 'view/infoOverPassLayerColumn';
-import InfoGpxLayerColumnView from 'view/infoGpxLayerColumn';
-import InfoCsvLayerColumnView from 'view/infoCsvLayerColumn';
-import InfoGeoJsonLayerColumnView from 'view/infoGeoJsonLayerColumn';
+import InfoOverPassLayerColumn from 'view/infoOverPassLayerColumn';
+import InfoGpxLayerColumn from 'view/infoGpxLayerColumn';
+import InfoCsvLayerColumn from 'view/infoCsvLayerColumn';
+import InfoGeoJsonLayerColumn from 'view/infoGeoJsonLayerColumn';
 
 
 export default Marionette.ItemView.extend({
@@ -89,11 +89,14 @@ export default Marionette.ItemView.extend({
     },
 
     onClick(e) {
+        e.preventDefault();
         e.stopPropagation();
 
         const key = `mapState-${this._fragment}`;
         const oldState = JSON.parse( localStorage.getItem( key ) ) || {};
         let hiddenLayers = oldState.hiddenLayers || [];
+
+        this._layerIsVisible = !this._layerIsVisible;
 
         this.ui.visibilityCheckbox.prop('checked', this._layerIsVisible);
 
@@ -130,22 +133,22 @@ export default Marionette.ItemView.extend({
 
         switch (this.model.get('type')) {
             case CONST.layerType.overpass:
-                new InfoOverPassLayerColumnView({
+                new InfoOverPassLayerColumn({
                     model: this.model,
                 }).open();
                 break;
             case CONST.layerType.gpx:
-                new InfoGpxLayerColumnView({
+                new InfoGpxLayerColumn({
                     model: this.model,
                 }).open();
                 break;
             case CONST.layerType.csv:
-                new InfoCsvLayerColumnView({
+                new InfoCsvLayerColumn({
                     model: this.model,
                 }).open();
                 break;
             case CONST.layerType.geojson:
-                new InfoGeoJsonLayerColumnView({
+                new InfoGeoJsonLayerColumn({
                     model: this.model,
                 }).open();
                 break;

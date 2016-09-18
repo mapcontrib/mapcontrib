@@ -30,6 +30,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '#edit_poi_column',
+        bottom: '.bottom',
         content: '.content',
         form: 'form',
         footer: '.sticky-footer',
@@ -389,10 +390,13 @@ export default Marionette.LayoutView.extend({
 
     onClickAddBtn() {
         this._tagList.addTag();
+        this._scrollToBottom();
+    },
 
-        const scrollHeight = this.ui.column.height() +
-        this._tagList.el.scrollHeight;
-        this.ui.content[0].scrollTo(0, scrollHeight);
+    _scrollToBottom() {
+        window.requestAnimationFrame(() => {
+            this.ui.bottom[0].scrollIntoView({ behavior: 'smooth' });
+        });
     },
 
     setNewPosition(lat, lng) {
