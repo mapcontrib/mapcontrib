@@ -262,7 +262,7 @@ export default {
                 attribution: 'Données &copy; <a href="http://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a> et <a href="https://openstreetmap.fr/bano" rel="noopener noreferrer" target="_blank">BANO</a>',
                 urlTemplate: [
                     'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
-                    'https://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png',
+                    'http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png',
                 ],
                 minZoom: 0,
                 maxZoom: 19,

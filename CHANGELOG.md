@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.8
+
+* Switch the BANO tiles from https to http.
+
 ## 0.12.7
 
 * Deletes the cached contributions older than a day ago.
