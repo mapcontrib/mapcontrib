@@ -48,6 +48,7 @@ export default Marionette.LayoutView.extend({
         this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
         this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
+        this.listenTo(this.model, 'change', this._triggerCollectionUpdate);
 
         const fieldOptions = {
             model: this.model,
@@ -140,11 +141,11 @@ export default Marionette.LayoutView.extend({
             nonOsmData: false,
         });
 
-        if (osmTags.length === 1) {
-            this._valueField.disableRemoveBtn();
+        if (osmTags.length > 1) {
+            this._valueField.enableRemoveBtn();
         }
         else {
-            this._valueField.enableRemoveBtn();
+            this._valueField.disableRemoveBtn();
         }
     },
 
@@ -188,5 +189,9 @@ export default Marionette.LayoutView.extend({
         else {
             this.ui.keyReadOnlyCheckbox.prop('disabled', false);
         }
+    },
+
+    _triggerCollectionUpdate() {
+        this.model.collection.trigger('update');
     },
 });

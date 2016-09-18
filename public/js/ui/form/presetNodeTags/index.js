@@ -20,6 +20,8 @@ export default Marionette.CollectionView.extend({
         else {
             this.collection = new PresetNodeTagsCollection(options.tags);
         }
+
+        this.listenTo(this.collection, 'update', this._onCollectionUpdate);
     },
 
     addTag(tag) {
@@ -42,5 +44,15 @@ export default Marionette.CollectionView.extend({
 
     getTags() {
         return this.collection.toJSON();
+    },
+
+    _onCollectionUpdate() {
+        const osmTags = this.collection.where({
+            nonOsmData: false,
+        });
+
+        if (osmTags.length === 0) {
+            this.collection.add({});
+        }
     },
 });

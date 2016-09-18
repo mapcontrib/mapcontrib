@@ -45,28 +45,13 @@ export default Marionette.ItemView.extend({
 
             const progression = this.model.get('progression');
 
-            this.ui.progression
-            .attr('title', `${progression} %`)
-            .tooltip({
-                container: 'body',
-                delay: {
-                    show: CONST.tooltip.showDelay,
-                    hide: CONST.tooltip.hideDelay,
-                },
-            })
-            .removeClass('hide');
-        }
-    },
-
-    onShow() {
-        if (this.model.get('progression') >= 0) {
-            const progression = this.model.get('progression');
-
+            // If I use the set method instead of the animate one,
+            // Chromium doesn't use the step callback...
             this._progressCircle.animate(
                 progression / 100 || 0,
                 {
                     easing: 'easeInOut',
-                    duration: 1400,
+                    duration: 0,
                     step: (state, circle) => {
                         const progress = circle.value() * 100;
 
@@ -82,6 +67,17 @@ export default Marionette.ItemView.extend({
                     },
                 }
             );
+
+            this.ui.progression
+            .attr('title', `${progression} %`)
+            .tooltip({
+                container: 'body',
+                delay: {
+                    show: CONST.tooltip.showDelay,
+                    hide: CONST.tooltip.hideDelay,
+                },
+            })
+            .removeClass('hide');
         }
     },
 
