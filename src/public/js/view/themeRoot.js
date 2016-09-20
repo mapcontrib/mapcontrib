@@ -748,13 +748,13 @@ export default Marionette.LayoutView.extend({
         const cache = layerModel.get('cache');
         const cacheFilePath = layerModel.get('fileUri');
 
-        if (cache && cacheFilePath) {
-            return this.addOverPassCacheLayer(layerModel, hiddenLayer);
-        }
-
         const markerCluster = this._buildMarkerCluster(layerModel);
         this._markerClusters[ layerModel.cid ] = markerCluster;
         this._map.addLayer( markerCluster );
+
+        if (cache && cacheFilePath) {
+            this.addOverPassCacheLayer(markerCluster, layerModel, hiddenLayer);
+        }
 
         const overPassRequest = OverPassHelper.buildRequestForTheme(
             layerModel.get('overpassRequest') || ''
@@ -767,6 +767,7 @@ export default Marionette.LayoutView.extend({
             'timeout': this._config.overPassTimeout,
             'retryOnTimeout': true,
             'query': overPassRequest,
+            loadedBounds: [ layerModel.get('cacheBounds') ],
             'beforeRequest': () => {
                 this.showLayerLoadingProgress( layerModel );
             },
@@ -900,7 +901,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    addOverPassCacheLayer: function (layerModel, hiddenLayer) {
+    addOverPassCacheLayer: function (markerCluster, layerModel, hiddenLayer) {
         Omnivore.geojson(
             layerModel.get('fileUri')
         )
@@ -911,8 +912,6 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', layer => {
-            const markerCluster = this._buildMarkerCluster(layerModel);
-
             this._customizeDataAndDisplay(
                 layer.target._layers,
                 markerCluster,

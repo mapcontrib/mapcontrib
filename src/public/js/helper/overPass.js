@@ -1,7 +1,4 @@
 
-import GeoUtils from '../core/geoUtils.js';
-
-
 export default class OverPassHelper {
     /**
      * @author Guillaume AMAT
@@ -26,20 +23,13 @@ export default class OverPassHelper {
      * @access public
      * @param {string} request - An OverPass request to prepare for web.
      * @param {number} size - The max result size in byte.
-     * @param {float} lat - Optional: The latitude of the bbox center.
-     * @param {float} lon - Optional: The longitude of the bbox center.
-     * @param {number} zoom - Optional: The zoom of the bbox.
+     * @param {object} bounds - Optional: The bounding box to replace {{bbox}}.
      * @return {string}
      */
-    static buildRequestForCache(request, size, lat, lon, zoom) {
+    static buildRequestForCache(request, size, bounds) {
         let finalRequest = OverPassHelper.buildRequestForTheme(request);
 
-        if (
-            typeof lat !== 'undefined' &&
-            typeof lon !== 'undefined' &&
-            typeof zoom !== 'undefined'
-        ) {
-            const bounds = GeoUtils.zoomLatLngWidthHeightToBbox(zoom, lat, lon, 3840, 2160);
+        if (bounds) {
             const bbox = `${bounds._southWest.lat},${bounds._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng}`;
 
             finalRequest = finalRequest.replace(/\(\{\{bbox\}\}\)/g, `(${bbox})`);
