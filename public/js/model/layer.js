@@ -46,6 +46,7 @@ export default Backbone.RelationalModel.extend({
             'cacheUpdateSuccessDate': undefined,
             'cacheUpdateDate': undefined,
             'cacheUpdateError': undefined,
+            'cacheBounds': undefined,
         };
     },
 
