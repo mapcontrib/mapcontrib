@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.12.9
+
+* Better handling of bounds when generating the OverPass cache.
+* Don't relaunch an OverPass request whan toggling layers visibility.
+
 ## 0.12.8
 
 * Switch the BANO tiles from https to http.

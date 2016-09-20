@@ -9,6 +9,7 @@ import logger from '../lib/logger';
 import SERVER_CONST from '../const';
 import PUBLIC_CONST from '../public/js/const';
 import OverPassHelper from '../public/js/helper/overPass';
+import GeoUtils from '../public/js/core/geoUtils.js';
 
 
 const CONST = {...SERVER_CONST, ...PUBLIC_CONST};
@@ -35,10 +36,19 @@ export default class OverPassCache {
         logger.info('Theme fragment:', theme.fragment);
         logger.info('Layer uniqid:', layer.uniqid);
 
+        const bounds = GeoUtils.zoomLatLngWidthHeightToBbox(
+            theme.zoomLevel,
+            theme.center.lat,
+            theme.center.lng,
+            3840,
+            2160
+        );
+
         const url = OverPassHelper.buildUrlForCache(
             config.get('client.overPassEndPoint'),
             layer.overpassRequest,
-            config.get('client.overPassCacheFileSize')
+            config.get('client.overPassCacheFileSize'),
+            bounds
         );
 
         this._retrieveData(url)
@@ -48,7 +58,7 @@ export default class OverPassCache {
                 layer.uniqid,
                 data
             )
-            .then( filePath => setSuccess(theme, layer, filePath) )
+            .then( filePath => setSuccess(theme, layer, bounds, filePath) )
             .then( nextCallback );
         })
         .catch(xhr => {

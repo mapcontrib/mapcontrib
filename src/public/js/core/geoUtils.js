@@ -26,4 +26,29 @@ export default class GeoUtils {
         let y = Math.exp(x);
         return (y - 1/y) / 2;
     }
+
+    static zoomLatLngWidthHeightToBbox(zoom, lat, lng, width, height) {
+        const tileSize = 256;
+
+        const tile = GeoUtils.zoomLatLngToXY(zoom, lat, lng);
+
+        const xTile_s = (tile[0] * tileSize - width / 2) / tileSize;
+        const yTile_s = (tile[1] * tileSize - height / 2) / tileSize;
+        const xTile_e = (tile[0] * tileSize + width / 2) / tileSize;
+        const yTile_e = (tile[1] * tileSize + height / 2) / tileSize;
+
+        const s = GeoUtils.zoomXYToLatLng(zoom, xTile_s, yTile_s);
+        const e = GeoUtils.zoomXYToLatLng(zoom, xTile_e, yTile_e);
+
+        return {
+            _southWest: {
+                lat: e[0],
+                lng: s[1],
+            },
+            _northEast: {
+                lat: s[0],
+                lng: e[1],
+            },
+        };
+    }
 }
