@@ -936,6 +936,15 @@ export default Marionette.LayoutView.extend({
         .on('ready', layer => {
             layerModel.addObjects(layer.target._layers);
 
+            for (const index in layer.target._layers) {
+                if ({}.hasOwnProperty.call(layer.target._layers, index)) {
+                    this._overPassData.save(
+                        layer.target._layers[index].feature.properties,
+                        layerModel.cid
+                    );
+                }
+            }
+
             this._customizeDataAndDisplay(
                 layer.target._layers,
                 rootLayer,
