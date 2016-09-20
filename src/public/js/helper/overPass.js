@@ -1,4 +1,6 @@
 
+import GeoUtils from '../core/geoUtils.js';
+
 
 export default class OverPassHelper {
     /**
@@ -8,10 +10,11 @@ export default class OverPassHelper {
      * @param {string} endPoint - The OverPass server end point.
      * @param {string} request - An OverPass request to prepare for web.
      * @param {number} size - The max result size in byte.
+     * @return {string}
      */
-    static buildUrlForCache (endPoint, request, size) {
+    static buildUrlForCache(endPoint, request, size, lat, lon, zoom) {
         const finalRequest = escape(
-            OverPassHelper.buildRequestForCache(request, size)
+            OverPassHelper.buildRequestForCache(request, size, lat, lon, zoom)
         );
 
         return `${endPoint}interpreter?data=${finalRequest}`;
@@ -23,9 +26,27 @@ export default class OverPassHelper {
      * @access public
      * @param {string} request - An OverPass request to prepare for web.
      * @param {number} size - The max result size in byte.
+     * @param {float} lat - Optional: The latitude of the bbox center.
+     * @param {float} lon - Optional: The longitude of the bbox center.
+     * @param {number} zoom - Optional: The zoom of the bbox.
+     * @return {string}
      */
-    static buildRequestForCache (request, size) {
-        const finalRequest = OverPassHelper.buildRequestForTheme(request).replace('({{bbox}})', '');
+    static buildRequestForCache(request, size, lat, lon, zoom) {
+        let finalRequest = OverPassHelper.buildRequestForTheme(request);
+
+        if (
+            typeof lat !== 'undefined' &&
+            typeof lon !== 'undefined' &&
+            typeof zoom !== 'undefined'
+        ) {
+            const bounds = GeoUtils.zoomLatLngWidthHeightToBbox(zoom, lat, lon, 3840, 2160);
+            const bbox = `${bounds._southWest.lat},${bounds._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng}`;
+
+            finalRequest = finalRequest.replace(/\(\{\{bbox\}\}\)/g, `(${bbox})`);
+        }
+        else {
+            finalRequest = finalRequest.replace(/\(\{\{bbox\}\}\)/g, '');
+        }
 
         return `[out:json][timeout:180][maxsize:${size}];${finalRequest}`;
     }
@@ -35,6 +56,7 @@ export default class OverPassHelper {
      * @static
      * @access public
      * @param {string} request - An OverPass request to prepare for web.
+     * @return {string}
      */
     static buildRequestForTheme (request) {
         let overPassRequest = '';

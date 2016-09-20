@@ -38,7 +38,10 @@ export default class OverPassCache {
         const url = OverPassHelper.buildUrlForCache(
             config.get('client.overPassEndPoint'),
             layer.overpassRequest,
-            config.get('client.overPassCacheFileSize')
+            config.get('client.overPassCacheFileSize'),
+            theme.center.lat,
+            theme.center.lng,
+            theme.zoomLevel
         );
 
         this._retrieveData(url)
