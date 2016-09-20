@@ -111,7 +111,7 @@ export default class UpdateOverPassCache {
         );
     }
 
-    _setLayerStateSuccess(theme, layer, filePath) {
+    _setLayerStateSuccess(theme, layer, bounds, filePath) {
         logger.debug('_setLayerStateSuccess');
 
         return new Promise((resolve) => {
@@ -126,6 +126,7 @@ export default class UpdateOverPassCache {
                         'layers.$.cacheUpdateSuccessDate': new Date().toISOString(),
                         'layers.$.cacheUpdateDate': new Date().toISOString(),
                         'layers.$.cacheUpdateError': null,
+                        'layers.$.cacheBounds': bounds,
                     },
                 },
                 () => {
@@ -149,6 +150,7 @@ export default class UpdateOverPassCache {
                         'layers.$.cacheUpdateSuccess': false,
                         'layers.$.cacheUpdateDate': new Date().toISOString(),
                         'layers.$.cacheUpdateError': error,
+                        'layers.$.cacheBounds': null,
                     },
                 },
                 () => {

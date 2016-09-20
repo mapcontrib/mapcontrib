@@ -1,5 +1,4 @@
 
-
 export default class OverPassHelper {
     /**
      * @author Guillaume AMAT
@@ -8,10 +7,11 @@ export default class OverPassHelper {
      * @param {string} endPoint - The OverPass server end point.
      * @param {string} request - An OverPass request to prepare for web.
      * @param {number} size - The max result size in byte.
+     * @return {string}
      */
-    static buildUrlForCache(endPoint, request, size) {
+    static buildUrlForCache(endPoint, request, size, bounds) {
         const finalRequest = escape(
-            OverPassHelper.buildRequestForCache(request, size)
+            OverPassHelper.buildRequestForCache(request, size, bounds)
         );
 
         return `${endPoint}interpreter?data=${finalRequest}`;
@@ -23,9 +23,20 @@ export default class OverPassHelper {
      * @access public
      * @param {string} request - An OverPass request to prepare for web.
      * @param {number} size - The max result size in byte.
+     * @param {object} bounds - Optional: The bounding box to replace {{bbox}}.
+     * @return {string}
      */
-    static buildRequestForCache(request, size) {
-        const finalRequest = OverPassHelper.buildRequestForTheme(request).replace('({{bbox}})', '');
+    static buildRequestForCache(request, size, bounds) {
+        let finalRequest = OverPassHelper.buildRequestForTheme(request);
+
+        if (bounds) {
+            const bbox = `${bounds._southWest.lat},${bounds._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng}`;
+
+            finalRequest = finalRequest.replace(/\(\{\{bbox\}\}\)/g, `(${bbox})`);
+        }
+        else {
+            finalRequest = finalRequest.replace(/\(\{\{bbox\}\}\)/g, '');
+        }
 
         return `[out:json][timeout:180][maxsize:${size}];${finalRequest}`;
     }
@@ -35,6 +46,7 @@ export default class OverPassHelper {
      * @static
      * @access public
      * @param {string} request - An OverPass request to prepare for web.
+     * @return {string}
      */
     static buildRequestForTheme(request) {
         let overPassRequest = '';

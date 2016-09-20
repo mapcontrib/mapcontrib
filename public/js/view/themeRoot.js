@@ -701,13 +701,13 @@ export default Marionette.LayoutView.extend({
         const cache = layerModel.get('cache');
         const cacheFilePath = layerModel.get('fileUri');
 
-        if (cache && cacheFilePath) {
-            return this.addOverPassCacheLayer(layerModel, hiddenLayer);
-        }
-
         const rootLayer = this._buildRootLayer(layerModel);
         this._setRootLayer(layerModel, rootLayer);
         this._map.addLayer( rootLayer );
+
+        if (cache && cacheFilePath) {
+            this.addOverPassCacheLayer(rootLayer, layerModel, hiddenLayer);
+        }
 
         const overPassRequest = OverPassHelper.buildRequestForTheme(
             layerModel.get('overpassRequest') || ''
@@ -720,6 +720,7 @@ export default Marionette.LayoutView.extend({
             timeout: this._config.overPassTimeout,
             retryOnTimeout: true,
             query: overPassRequest,
+            loadedBounds: [ layerModel.get('cacheBounds') ],
             beforeRequest: () => {
                 this.showLayerLoadingProgress( layerModel );
             },
@@ -867,7 +868,7 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    addOverPassCacheLayer(layerModel, hiddenLayer) {
+    addOverPassCacheLayer(rootLayer, layerModel, hiddenLayer) {
         Omnivore.geojson(
             layerModel.get('fileUri')
         )
@@ -878,9 +879,16 @@ export default Marionette.LayoutView.extend({
             }).open();
         })
         .on('ready', (layer) => {
-            const rootLayer = this._buildRootLayer(layerModel);
-
             layerModel.addObjects(layer.target._layers);
+
+            for (const index in layer.target._layers) {
+                if ({}.hasOwnProperty.call(layer.target._layers, index)) {
+                    this._overPassData.save(
+                        layer.target._layers[index].feature.properties,
+                        layerModel.cid
+                    );
+                }
+            }
 
             this._customizeDataAndDisplay(
                 layer.target._layers,
