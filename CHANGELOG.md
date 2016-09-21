@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.10
+
+* Small bugfix.
+
 ## 0.12.9
 
 * Better handling of bounds when generating the OverPass cache.
