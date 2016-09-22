@@ -773,6 +773,12 @@ export default Marionette.LayoutView.extend({
             layerModel.get('overpassRequest') || ''
         );
 
+        const loadedBounds = [];
+
+        if (layerModel.get('cacheBounds')) {
+            loadedBounds.push(layerModel.get('cacheBounds'));
+        }
+
         const overPassLayer = new OverPassLayer({
             'debug': this._config.debug,
             'endPoint': this._config.overPassEndPoint,
@@ -780,7 +786,7 @@ export default Marionette.LayoutView.extend({
             'timeout': this._config.overPassTimeout,
             'retryOnTimeout': true,
             'query': overPassRequest,
-            loadedBounds: [layerModel.get('cacheBounds')] || [],
+            loadedBounds: loadedBounds,
             'beforeRequest': () => {
                 this.showLayerLoadingProgress( layerModel );
             },
