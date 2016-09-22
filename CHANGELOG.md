@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.11
+
+* Fixes the load of cached OverPass layers.
+
 ## 0.12.10
 
 * Small bugfix.
