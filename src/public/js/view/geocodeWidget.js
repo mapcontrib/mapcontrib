@@ -102,6 +102,7 @@ export default Marionette.LayoutView.extend({
         var elements = [];
 
         this._lastQuery = query;
+        this._lastQueryStartTime = new Date().getTime();
 
         if ( !query ) {
             this.ui.resultList.empty();
@@ -112,30 +113,38 @@ export default Marionette.LayoutView.extend({
         this.options.icon.addClass('hide');
         this.options.spinner.removeClass('hide');
 
-        this._geocoder.geocode(query, (results) => {
-            let i = 0;
+        this._geocoder.geocode(
+            query,
+            this._onGeocodeComplete.bind(this, this._lastQueryStartTime, elements)
+        );
+    },
 
-            for (let result of results) {
-                elements.push(
-                    $( this.templateResultItem(
-                        this._buildGeocodeResultName(result)
-                    ))
-                    .on('click', this.onGeocodeResultClick.bind(this, result))
-                );
+    _onGeocodeComplete(startTime, elements, results) {
+        if (startTime !== this._lastQueryStartTime) {
+            return;
+        }
 
-                i++;
+        let i = 0;
 
-                if (i === 5) {
-                    break;
-                }
+        for (let result of results) {
+            elements.push(
+                $( this.templateResultItem(
+                    this._buildGeocodeResultName(result)
+                ))
+                .on('click', this.onGeocodeResultClick.bind(this, result))
+            );
+
+            i++;
+
+            if (i === 5) {
+                break;
             }
+        }
 
-            this.ui.resultList.html( elements );
+        this.ui.resultList.html( elements );
 
-            this.options.spinner.addClass('hide');
-            this.options.icon.removeClass('hide');
-        });
-
+        this.options.spinner.addClass('hide');
+        this.options.icon.removeClass('hide');
     },
 
     onGeocodeResultClick: function (result) {

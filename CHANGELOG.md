@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.11
+
+* Fixes the load of cached OverPass layers.
+* Fixes a typo in the french translations.
+* Fixes a race condition on geocode searches.
+
 ## 0.12.10
 
 * Small bugfix.
