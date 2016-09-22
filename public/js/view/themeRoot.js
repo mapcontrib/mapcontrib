@@ -780,7 +780,7 @@ export default Marionette.LayoutView.extend({
             'timeout': this._config.overPassTimeout,
             'retryOnTimeout': true,
             'query': overPassRequest,
-            loadedBounds: layerModel.get('cacheBounds') || [],
+            loadedBounds: [layerModel.get('cacheBounds')] || [],
             'beforeRequest': () => {
                 this.showLayerLoadingProgress( layerModel );
             },
