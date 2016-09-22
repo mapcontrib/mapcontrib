@@ -3,6 +3,7 @@
 ## 0.12.11
 
 * Fixes the load of cached OverPass layers.
+* Fixes a typo in the french translations.
 
 ## 0.12.10
 
