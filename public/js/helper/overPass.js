@@ -90,7 +90,6 @@ export default class OverPassHelper {
             overPassRequest += split.join(' ') + ';';
         }
 
-        console.log(overPassRequest);
         return overPassRequest;
     }
 }
