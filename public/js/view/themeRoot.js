@@ -617,7 +617,9 @@ export default Marionette.LayoutView.extend({
 
         this._getRootLayer(layerModel).clearLayers();
         this._getOverPassLayer(layerModel).setQuery(
-            layerModel.get('overpassRequest')
+            OverPassHelper.buildRequestForTheme(
+                layerModel.get('overpassRequest') || ''
+            )
         );
     },
 
