@@ -213,7 +213,7 @@ Rayon de chacuns des points de la couche.">
 <editLayerFormColumn_layerOverpassRequest "Requête OverPass">
 <editLayerFormColumn_marker "Marqueur">
 <editLayerFormColumn_infoDisplayPopoverTitle "Valeur des tags">
-<editLayerFormColumn_infoDisplayPopoverContent "Pour afficher la valeur de tags de chaque éléments, insérez son nom entre crochets.
+<editLayerFormColumn_infoDisplayPopoverContent "Pour afficher la valeur de tags de chaque élément, insérez son nom entre crochets.
 
 Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <editLayerFormColumn_layerPopupContent "Contenu des bulles">

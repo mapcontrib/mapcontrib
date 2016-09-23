@@ -559,7 +559,9 @@ export default Marionette.LayoutView.extend({
 
         this._getRootLayer(layerModel).clearLayers();
         this._getOverPassLayer(layerModel).setQuery(
-            layerModel.get('overpassRequest')
+            OverPassHelper.buildRequestForTheme(
+                layerModel.get('overpassRequest') || ''
+            )
         );
     },
 
@@ -713,14 +715,20 @@ export default Marionette.LayoutView.extend({
             layerModel.get('overpassRequest') || ''
         );
 
+        const loadedBounds = [];
+
+        if (layerModel.get('cacheBounds')) {
+            loadedBounds.push(layerModel.get('cacheBounds'));
+        }
+
         const overPassLayer = new OverPassLayer({
+            loadedBounds,
             debug: this._config.debug,
             endPoint: this._config.overPassEndPoint,
             minZoom: layerModel.get('minZoom'),
             timeout: this._config.overPassTimeout,
             retryOnTimeout: true,
             query: overPassRequest,
-            loadedBounds: layerModel.get('cacheBounds') || [],
             beforeRequest: () => {
                 this.showLayerLoadingProgress( layerModel );
             },
