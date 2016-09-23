@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.13
+
+* Remove all comments from OverPass requests.
+
 ## 0.12.12
 
 * Fixes the load of cached OverPass layers (again...).

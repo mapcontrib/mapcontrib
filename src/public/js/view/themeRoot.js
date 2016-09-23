@@ -610,7 +610,9 @@ export default Marionette.LayoutView.extend({
 
         this._markerClusters[ layerModel.cid ].clearLayers();
         this._overPassLayers[ layerModel.cid ].setQuery(
-            layerModel.get('overpassRequest')
+            OverPassHelper.buildRequestForTheme(
+                layerModel.get('overpassRequest') || ''
+            )
         );
     },
 
