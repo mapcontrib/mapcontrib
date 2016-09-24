@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.14
+
+* Fixes the identifier of two localized strings in english and italian.
+
 ## 0.12.13
 
 * Remove all comments from OverPass requests.
