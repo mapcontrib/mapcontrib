@@ -228,8 +228,8 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <editLayerMarkerModal_external "Esterna">
 <editLayerMarkerModal_iconName "Nome dell´icona">
 <editLayerMarkerModal_iconUrl "URL icona">
-<editLayerMarkerModal_iconDescription1 "Le icone provengono dalla collezione Font Awesome.">
-<editLayerMarkerModal_iconDescription2 "Va a <a>questa pagina</a>, seleziona una icona e annotati il suo nome, dopodiché inseriscilo nel campo qui sotto.">
+<editLayerMarkerModal_iconDescriptionLibrary1 "Le icone provengono dalla collezione Font Awesome.">
+<editLayerMarkerModal_iconDescriptionLibrary2 "Va a <a>questa pagina</a>, seleziona una icona e annotati il suo nome, dopodiché inseriscilo nel campo qui sotto.">
 <editLayerMarkerModal_iconDescriptionExternal1 "Puoi fare uso di una icona personalizzata se raggiungibile su un sito internet.">
 <editLayerMarkerModal_iconDescriptionExternal2 "Inserisci l´indirizzo nel campo seguente.">
 
