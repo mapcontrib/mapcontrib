@@ -211,8 +211,8 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <editLayerMarkerModal_external "External">
 <editLayerMarkerModal_iconName "Icon name">
 <editLayerMarkerModal_iconUrl "Icon url">
-<editLayerMarkerModal_iconDescription1 "Icons come from the Font Awesome collection.">
-<editLayerMarkerModal_iconDescription2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
+<editLayerMarkerModal_iconDescriptionLibrary1 "Icons come from the Font Awesome collection.">
+<editLayerMarkerModal_iconDescriptionLibrary2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
 <editLayerMarkerModal_iconDescriptionExternal1 "You can use your own icon if it is hosted on the internet.">
 <editLayerMarkerModal_iconDescriptionExternal2 "Fill its address in the field below.">
 
