@@ -43,7 +43,7 @@
 
 
 
-<goBackToHome "Revenir à l'accueil">
+<goBackToHome "Return to home">
 <about "About {{ mapcontrib }}">
 <myThemes "My themes">
 <preferences "Preferences">
@@ -350,7 +350,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <infoLayerColumn_csv "CSV file">
 <infoLayerColumn_geoJson "GeoJSON file">
 <infoLayerColumn_layerMinZoom "Update minimum zoom">
-<infoLayerColumn_layerOverPassRequest "Requête OverPass">
+<infoLayerColumn_layerOverPassRequest "OverPass request">
 <infoLayerColumn_layerOverPassCache "Cache">
 <infoLayerColumn_layerOverPassCacheDescription "The request results are pre-calculated once a day.">
 <infoLayerColumn_layerOverPassCacheDate "Last update: {{ $date }}.">
