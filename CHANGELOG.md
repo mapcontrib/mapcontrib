@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.12.16
+
+* Change a Mongo request in order to be compatible with Mongo 2.x.
+* Remove a console.log.
+
+## 0.12.15
+
+* Fixes missing english translations.
+
 ## 0.12.14
 
 * Fixes the identifier of two localized strings in english and italian.

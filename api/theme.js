@@ -284,20 +284,8 @@ class Api {
 
             collection.find({
                 $or: [
-                    {
-                        owners: {
-                            $elemMatch: {
-                                $eq: ownerId,
-                            },
-                        },
-                    },
-                    {
-                        owners: {
-                            $elemMatch: {
-                                $eq: '*',
-                            },
-                        },
-                    },
+                    { owners: ownerId },
+                    { owners: '*' },
                 ],
             })
             .toArray((err, results) => {
