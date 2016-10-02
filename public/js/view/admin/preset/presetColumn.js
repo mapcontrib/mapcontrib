@@ -20,6 +20,7 @@ export default Marionette.LayoutView.extend({
     },
 
     regions: {
+        categoriesList: '.rg_categories_list',
         list: '.rg_list',
     },
 
@@ -32,6 +33,19 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
+        const categoriesListGroup = new ListGroup({
+            collection: this.model.get('presetCategories'),
+            labelAttribute: 'name',
+            reorderable: false,
+            removeable: true,
+            getLeftIcon: () => '<i class="fa fa-fw fa-caret-right"></i>',
+        });
+
+        this.listenTo(categoriesListGroup, 'item:remove', this._onRemoveCategory);
+        this.listenTo(categoriesListGroup, 'item:select', this._onSelectCategory);
+
+        this.getRegion('categoriesList').show( categoriesListGroup );
+
         const listGroup = new ListGroup({
             collection: this.model.get('presets'),
             labelAttribute: 'name',
@@ -67,13 +81,27 @@ export default Marionette.LayoutView.extend({
         this.model.save();
     },
 
-    _onRemove(model) {
+    _onRemove(model, e) {
+        e.preventDefault();
+
         model.destroy();
         this.model.save();
     },
 
     _onSelect(model) {
         const uuid = model.get('uuid');
-        this.options.router.navigate(`admin/preset/${uuid}`, true);
+        this.options.router.navigate(`admin/preset/edit/${uuid}`, true);
+    },
+
+    _onRemoveCategory(model, e) {
+        e.preventDefault();
+
+        model.destroy();
+        this.model.save();
+    },
+
+    _onSelectCategory(model) {
+        const uuid = model.get('uuid');
+        this.options.router.navigate(`admin/preset/category/edit/${uuid}`, true);
     },
 });

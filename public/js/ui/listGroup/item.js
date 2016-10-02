@@ -30,8 +30,9 @@ export default Marionette.ItemView.extend({
 
     templateHelpers() {
         return {
-            icon: this.options.getIcon(this.model),
             label: this.model.get(this.options.labelAttribute),
+            leftIcon: this.options.getLeftIcon(this.model),
+            rightIcon: this.options.getRightIcon(this.model),
         };
     },
 
@@ -51,12 +52,12 @@ export default Marionette.ItemView.extend({
         e.stopPropagation();
         e.preventDefault();
 
-        this.trigger('select', this.model);
+        this.trigger('select', this.model, e);
     },
 
     onClickRemove(e) {
         e.stopPropagation();
 
-        this.trigger('remove', this.model);
+        this.trigger('remove', this.model, e);
     },
 });

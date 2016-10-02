@@ -309,7 +309,6 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <uiFormNodeTags_fileInput "Champs fichier">
 <uiFormNodeTags_displayRawTag "Afficher le tag OSM brut">
 
-
 /* Color selector UI */
 <uiColorSelector_label "Couleur">
 
@@ -381,8 +380,14 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 /* Admin preset column */
 <adminPresetColumn_title "Types de nœuds">
 <adminPresetColumn_addPreset "Ajouter un type de nœud">
+<adminPresetColumn_addPresetCategory "Ajouter une catégorie">
 
 
 /* Admin edit presets column */
 <adminEditPresetColumn_presetTags "Tags">
 <adminEditPresetColumn_addTag "Ajouter un tag">
+
+
+/* Admin edit preset categories column */
+<adminPresetCategoryColumn_title "Catégorie">
+

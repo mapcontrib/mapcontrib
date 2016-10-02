@@ -14,7 +14,8 @@ export default Marionette.CollectionView.extend({
         placeholder: '',
         removeable: false,
         reorderable: false,
-        getIcon: () => '',
+        getLeftIcon: () => '',
+        getRightIcon: () => '',
     },
 
     emptyViewOptions() {
@@ -28,7 +29,8 @@ export default Marionette.CollectionView.extend({
             labelAttribute: this.options.labelAttribute,
             reorderable: this.options.reorderable,
             removeable: this.options.removeable,
-            getIcon: model => this.options.getIcon(model),
+            getLeftIcon: model => this.options.getLeftIcon(model),
+            getRightIcon: model => this.options.getRightIcon(model),
         };
     },
 
@@ -62,7 +64,7 @@ export default Marionette.CollectionView.extend({
         if (this.options.reorderable) {
             this.$el.sortable({
                 axis: 'y',
-                items: 'a',
+                items: '.list-group-item',
                 handle: '.reorder_icon',
                 update: () => this.onDnD(),
             });
@@ -88,11 +90,11 @@ export default Marionette.CollectionView.extend({
         this.trigger('reorder');
     },
 
-    onRemoveItem(child, model) {
-        this.trigger('item:remove', model);
+    onRemoveItem(child, model, e) {
+        this.trigger('item:remove', model, e);
     },
 
-    onSelectItem(child, model) {
-        this.trigger('item:select', model);
+    onSelectItem(child, model, e) {
+        this.trigger('item:select', model, e);
     },
 });

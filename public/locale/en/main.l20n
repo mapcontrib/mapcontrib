@@ -329,7 +329,6 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <movePoiContextual_text "Put the cross the exact node place.">
 
 
-
 /* Add layer menu column */
 <addLayerMenuColumn_title "Add a layer">
 <addLayerMenuColumn_remoteInformation "Remote information">
@@ -381,8 +380,14 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 /* Admin presets column */
 <adminPresetColumn_title "Nodes types">
 <adminPresetColumn_addPreset "Add a node type">
+<adminPresetColumn_addPresetCategory "Add a category">
 
 
 /* Admin edit presets column */
 <adminEditPresetColumn_presetTags "Tags">
 <adminEditPresetColumn_addTag "Add a tag">
+
+
+/* Admin edit preset categories column */
+<adminPresetCategoryColumn_title "Category">
+

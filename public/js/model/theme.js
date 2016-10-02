@@ -6,10 +6,12 @@ import CONST from 'const';
 
 import LayerCollection from '../collection/layer';
 import PresetCollection from '../collection/preset';
+import PresetCategoryCollection from '../collection/presetCategory';
 import TagCollection from '../collection/tag';
 
 import Layer from './layer';
 import Preset from './preset';
+import PresetCategory from './presetCategory';
 import Tag from './tag';
 
 
@@ -30,6 +32,12 @@ export default Backbone.RelationalModel.extend({
             key: 'presets',
             relatedModel: Preset,
             collectionType: PresetCollection,
+        },
+        {
+            type: Backbone.HasMany,
+            key: 'presetCategories',
+            relatedModel: PresetCategory,
+            collectionType: PresetCategoryCollection,
         },
         {
             type: Backbone.HasMany,

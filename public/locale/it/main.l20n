@@ -309,7 +309,6 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <uiFormNodeTags_fileInput "File di input">
 <uiFormNodeTags_displayRawTag "Display the raw OSM tag"> /* FIXME */
 
-
 /* Color selector UI */
 <uiColorSelector_label "Colore">
 
@@ -328,7 +327,6 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* Move POI contextual */
 <movePoiContextual_text "Posiziona la croce nel punto esatto del nodo.">
-
 
 
 /* Add layer menu column */
@@ -381,8 +379,14 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 /* Admin presets column */
 <adminPresetColumn_title "Tipo di nodi">
 <adminPresetColumn_addPreset "Aggiungere un tipo di nodo">
+<adminPresetColumn_addPresetCategory "Add a category"> /* FIXME */
 
 
 /* Admin edit presets column */
 <adminEditPresetColumn_presetTags "Tag">
 <adminEditPresetColumn_addTag "Aggiungi un tag">
+
+
+/* Admin edit preset categories column */
+<adminPresetCategoryColumn_title "Category"> /* FIXME */
+

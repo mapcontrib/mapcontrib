@@ -5,6 +5,7 @@ import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
 
 import PresetModel from 'model/preset';
+import PresetCategoryModel from 'model/presetCategory';
 import TagModel from 'model/tag';
 
 import ThemeRootView from 'view/themeRoot';
@@ -21,6 +22,7 @@ import LinkColumn from 'view/linkColumn';
 import AdminSettingColumn from 'view/admin/settingColumn';
 import AdminTileColumn from 'view/admin/tileColumn';
 import AdminPresetColumn from 'view/admin/preset/presetColumn';
+import AdminPresetCategoryEditColumn from 'view/admin/preset/presetCategoryEditColumn';
 import AdminPresetEditColumn from 'view/admin/preset/presetEditColumn';
 import AdminTagColumn from 'view/admin/tag/tagColumn';
 import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
@@ -41,11 +43,13 @@ export default Backbone.Router.extend({
 
         'admin/preset': 'routeAdminPreset',
         'admin/preset/new': 'routeAdminPresetNew',
-        'admin/preset/:uuid': 'routeAdminPresetEdit',
+        'admin/preset/edit/:uuid': 'routeAdminPresetEdit',
+        'admin/preset/category/new': 'routeAdminPresetCategoryNew',
+        'admin/preset/category/edit/:uuid': 'routeAdminPresetCategoryEdit',
 
         'admin/tag': 'routeAdminTag',
         'admin/tag/new': 'routeAdminTagNew',
-        'admin/tag/:uuid': 'routeAdminTagEdit',
+        'admin/tag/edit/:uuid': 'routeAdminTagEdit',
 
         about: 'routeAbout',
         logout: 'routeLogout',
@@ -183,6 +187,35 @@ export default Backbone.Router.extend({
                 theme: this._theme,
                 model,
                 iDPresetsHelper: this._iDPresetsHelper,
+                routeOnClose: 'admin/preset',
+                triggerRouteOnClose: true,
+            }).open();
+        }
+        else {
+            this.navigate('admin/preset', true);
+        }
+    },
+
+
+    routeAdminPresetCategoryNew() {
+        new AdminPresetCategoryEditColumn({
+            router: this,
+            theme: this._theme,
+            model: new PresetCategoryModel(),
+            routeOnClose: 'admin/preset',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeAdminPresetCategoryEdit(uuid) {
+        const model = this._theme.get('presetCategories').findWhere({ uuid });
+
+        if (model) {
+            new AdminPresetCategoryEditColumn({
+                router: this,
+                theme: this._theme,
+                model,
                 routeOnClose: 'admin/preset',
                 triggerRouteOnClose: true,
             }).open();

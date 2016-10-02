@@ -38,7 +38,7 @@ export default Marionette.LayoutView.extend({
             labelAttribute: 'name',
             reorderable: true,
             removeable: true,
-            getIcon: model => MapUi.buildLayerHtmlIcon(model),
+            getRightIcon: model => MapUi.buildLayerHtmlIcon(model),
             placeholder: document.l10n.getSync('uiListGroup_placeholder'),
         });
 

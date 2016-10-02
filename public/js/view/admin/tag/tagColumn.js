@@ -67,13 +67,15 @@ export default Marionette.LayoutView.extend({
         this.model.save();
     },
 
-    _onRemove(model) {
+    _onRemove(model, e) {
+        e.preventDefault();
+
         model.destroy();
         this.model.save();
     },
 
     _onSelect(model) {
         const uuid = model.get('uuid');
-        this.options.router.navigate(`admin/tag/${uuid}`, true);
+        this.options.router.navigate(`admin/tag/edit/${uuid}`, true);
     },
 });
