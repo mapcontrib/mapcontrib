@@ -41,10 +41,10 @@ export default Backbone.Router.extend({
         'admin/setting': 'routeAdminSetting',
         'admin/tile': 'routeAdminTile',
 
-        'admin/preset': 'routeAdminPreset',
-        'admin/preset/new': 'routeAdminPresetNew',
+        'admin/preset(/)(:categoryUuid)': 'routeAdminPreset',
+        'admin/preset/new(/)(:parentUuid)': 'routeAdminPresetNew',
         'admin/preset/edit/:uuid': 'routeAdminPresetEdit',
-        'admin/preset/category/new': 'routeAdminPresetCategoryNew',
+        'admin/preset/category/new(/)(:parentUuid)': 'routeAdminPresetCategoryNew',
         'admin/preset/category/edit/:uuid': 'routeAdminPresetCategoryEdit',
 
         'admin/tag': 'routeAdminTag',
@@ -159,18 +159,21 @@ export default Backbone.Router.extend({
         }).open();
     },
 
-    routeAdminPreset() {
+    routeAdminPreset(categoryUuid) {
         new AdminPresetColumn({
             router: this,
             model: this._theme,
+            categoryUuid: categoryUuid || undefined,
         }).open();
     },
 
-    routeAdminPresetNew() {
+    routeAdminPresetNew(parentUuid) {
         new AdminPresetEditColumn({
             router: this,
             theme: this._theme,
-            model: new PresetModel(),
+            model: new PresetModel({
+                parentUuid: parentUuid || undefined,
+            }),
             iDPresetsHelper: this._iDPresetsHelper,
             routeOnClose: 'admin/preset',
             triggerRouteOnClose: true,
@@ -197,11 +200,13 @@ export default Backbone.Router.extend({
     },
 
 
-    routeAdminPresetCategoryNew() {
+    routeAdminPresetCategoryNew(parentUuid) {
         new AdminPresetCategoryEditColumn({
             router: this,
             theme: this._theme,
-            model: new PresetCategoryModel(),
+            model: new PresetCategoryModel({
+                parentUuid: parentUuid || undefined,
+            }),
             routeOnClose: 'admin/preset',
             triggerRouteOnClose: true,
             isNew: true,

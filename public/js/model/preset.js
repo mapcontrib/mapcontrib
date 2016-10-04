@@ -10,6 +10,7 @@ export default Backbone.RelationalModel.extend({
             creationDate: new Date().toISOString(),
             modificationDate: new Date().toISOString(),
             uuid: undefined,
+            parentUuid: undefined,
             name: undefined,
             description: undefined,
             order: undefined,

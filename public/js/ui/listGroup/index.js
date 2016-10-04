@@ -14,6 +14,7 @@ export default Marionette.CollectionView.extend({
         placeholder: '',
         removeable: false,
         reorderable: false,
+        navigable: false,
         getLeftIcon: () => '',
         getRightIcon: () => '',
     },
@@ -28,6 +29,7 @@ export default Marionette.CollectionView.extend({
         return {
             labelAttribute: this.options.labelAttribute,
             reorderable: this.options.reorderable,
+            navigable: this.options.navigable,
             removeable: this.options.removeable,
             getLeftIcon: model => this.options.getLeftIcon(model),
             getRightIcon: model => this.options.getRightIcon(model),
@@ -36,6 +38,7 @@ export default Marionette.CollectionView.extend({
 
     childEvents: {
         select: 'onSelectItem',
+        navigate: 'onNavigateItem',
         remove: 'onRemoveItem',
     },
 
@@ -51,6 +54,10 @@ export default Marionette.CollectionView.extend({
 
         if (this.options.reorderable) {
             classes.push('reorderable');
+        }
+
+        if (this.options.navigable) {
+            classes.push('navigable');
         }
 
         if (this.options.removeable) {
@@ -96,5 +103,9 @@ export default Marionette.CollectionView.extend({
 
     onSelectItem(child, model, e) {
         this.trigger('item:select', model, e);
+    },
+
+    onNavigateItem(child, model, e) {
+        this.trigger('item:navigate', model, e);
     },
 });

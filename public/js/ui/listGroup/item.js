@@ -20,11 +20,13 @@ export default Marionette.ItemView.extend({
 
     ui: {
         reorderIcon: '.reorder_icon',
+        navigateBtn: '.navigate_btn',
         removeBtn: '.remove_btn',
     },
 
     events: {
         click: 'onClick',
+        'click @ui.navigateBtn': 'onClickNavigate',
         'click @ui.removeBtn': 'onClickRemove',
     },
 
@@ -41,6 +43,10 @@ export default Marionette.ItemView.extend({
             this.ui.reorderIcon.hide();
         }
 
+        if ( !this.options.navigable ) {
+            this.ui.navigateBtn.hide();
+        }
+
         if ( !this.options.removeable ) {
             this.ui.removeBtn.hide();
         }
@@ -53,6 +59,12 @@ export default Marionette.ItemView.extend({
         e.preventDefault();
 
         this.trigger('select', this.model, e);
+    },
+
+    onClickNavigate(e) {
+        e.stopPropagation();
+
+        this.trigger('navigate', this.model, e);
     },
 
     onClickRemove(e) {
