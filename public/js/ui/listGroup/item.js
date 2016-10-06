@@ -63,12 +63,14 @@ export default Marionette.ItemView.extend({
 
     onClickNavigate(e) {
         e.stopPropagation();
+        e.preventDefault();
 
         this.trigger('navigate', this.model, e);
     },
 
     onClickRemove(e) {
         e.stopPropagation();
+        e.preventDefault();
 
         this.trigger('remove', this.model, e);
     },
