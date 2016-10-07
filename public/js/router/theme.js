@@ -175,7 +175,7 @@ export default Backbone.Router.extend({
                 parentUuid: parentUuid || undefined,
             }),
             iDPresetsHelper: this._iDPresetsHelper,
-            routeOnClose: 'admin/preset',
+            routeOnClose: this._previousRoute,
             triggerRouteOnClose: true,
             isNew: true,
         }).open();
@@ -190,7 +190,7 @@ export default Backbone.Router.extend({
                 theme: this._theme,
                 model,
                 iDPresetsHelper: this._iDPresetsHelper,
-                routeOnClose: 'admin/preset',
+                routeOnClose: this._previousRoute,
                 triggerRouteOnClose: true,
             }).open();
         }
@@ -207,7 +207,7 @@ export default Backbone.Router.extend({
             model: new PresetCategoryModel({
                 parentUuid: parentUuid || undefined,
             }),
-            routeOnClose: 'admin/preset',
+            routeOnClose: this._previousRoute,
             triggerRouteOnClose: true,
             isNew: true,
         }).open();
@@ -221,7 +221,7 @@ export default Backbone.Router.extend({
                 router: this,
                 theme: this._theme,
                 model,
-                routeOnClose: 'admin/preset',
+                routeOnClose: this._previousRoute,
                 triggerRouteOnClose: true,
             }).open();
         }
