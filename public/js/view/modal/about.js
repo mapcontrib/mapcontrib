@@ -12,7 +12,7 @@ export default Marionette.LayoutView.extend({
             l20n: {},
             modal: {
                 appendToBody: true,
-                routeOnClose: this.options.previousRoute,
+                routeOnClose: this.options.routeOnClose,
             },
         };
     },

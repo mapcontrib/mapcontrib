@@ -132,7 +132,7 @@ export default Backbone.Router.extend({
         const version = this._app.getVersion();
 
         new AboutModal({
-            previousRoute: this._previousRoute,
+            routeOnClose: this._previousRoute,
             version,
         }).open();
     },
