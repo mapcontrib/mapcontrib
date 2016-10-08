@@ -69,6 +69,7 @@
 <invalidFile "File non valido">
 <currentFile "FIle attuale: <a>{{ $file }}</a>">
 <file "File">
+<fileNotFound "File not found"> /* FIXME */
 <noResult "Nessun risultato">
 <name "Nome">
 <description "Descrizione">
@@ -389,4 +390,3 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* Admin edit preset categories column */
 <adminPresetCategoryColumn_title "Category"> /* FIXME */
-

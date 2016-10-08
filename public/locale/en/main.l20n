@@ -69,6 +69,7 @@
 <invalidFile "Invalid file">
 <currentFile "Current file: <a>{{ $file }}</a>">
 <file "File">
+<fileNotFound "File not found">
 <noResult "No result">
 <name "Name">
 <description "Description">
@@ -390,4 +391,3 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 
 /* Admin edit preset categories column */
 <adminPresetCategoryColumn_title "Category">
-
