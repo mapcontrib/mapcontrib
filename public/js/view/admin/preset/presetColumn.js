@@ -161,7 +161,7 @@ export default Marionette.LayoutView.extend({
     },
 
     _onClickBack() {
-        const parentUuid = this.model.get('parentUuid');
+        const parentUuid = this.model.get('parentUuid') || '';
         this.options.router.navigate(`admin/preset/${parentUuid}`, true);
     },
 
