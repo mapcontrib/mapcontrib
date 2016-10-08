@@ -67,6 +67,7 @@
 <invalidFile "File non valido">
 <currentFile "FIle attuale: <a>{{ $file }}</a>">
 <file "File">
+<fileNotFound "File not found"> /* FIXME */
 
 
 /* Home */
