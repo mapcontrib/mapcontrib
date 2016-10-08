@@ -78,6 +78,19 @@ export default Backbone.RelationalModel.extend({
                 );
             }
         }
+
+        this.listenTo(this.get('presetCategories'), 'destroy', this._onPresetCategoryDestroy);
+    },
+
+    _onPresetCategoryDestroy(model) {
+        const modelsToDestroy = [
+            ...this.get('presets').where({ parentUuid: model.get('uuid') }),
+            ...this.get('presetCategories').where({ parentUuid: model.get('uuid') }),
+        ];
+
+        for (const modelToDestroy of modelsToDestroy) {
+            modelToDestroy.destroy();
+        }
     },
 
     updateModificationDate() {
