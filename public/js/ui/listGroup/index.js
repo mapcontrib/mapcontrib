@@ -108,4 +108,8 @@ export default Marionette.CollectionView.extend({
     onNavigateItem(child, model, e) {
         this.trigger('item:navigate', model, e);
     },
+
+    countItems() {
+        return this.collection.length;
+    },
 });

@@ -27,6 +27,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        categoriesList: '.rg_categories_list',
         backButton: '.back_btn',
         addButton: '.add_btn',
         addCategoryButton: '.add_category_btn',
@@ -64,7 +65,7 @@ export default Marionette.LayoutView.extend({
                 parentUuid: this._getCategoryUuid(),
             })
         );
-        const categoriesListGroup = new ListGroup({
+        this._categoriesListGroup = new ListGroup({
             collection: presetCategories,
             labelAttribute: 'name',
             reorderable: false,
@@ -72,11 +73,11 @@ export default Marionette.LayoutView.extend({
             navigable: true,
         });
 
-        this.listenTo(categoriesListGroup, 'item:remove', this._onRemoveCategory);
-        this.listenTo(categoriesListGroup, 'item:select', this._onSelectCategory);
-        this.listenTo(categoriesListGroup, 'item:navigate', this._onNavigateCategory);
+        this.listenTo(this._categoriesListGroup, 'item:remove', this._onRemoveCategory);
+        this.listenTo(this._categoriesListGroup, 'item:select', this._onSelectCategory);
+        this.listenTo(this._categoriesListGroup, 'item:navigate', this._onNavigateCategory);
 
-        this.getRegion('categoriesList').show( categoriesListGroup );
+        this.getRegion('categoriesList').show( this._categoriesListGroup );
 
 
         const presets = new Backbone.Collection(
@@ -86,7 +87,7 @@ export default Marionette.LayoutView.extend({
         );
         presets.comparator = 'order';
 
-        const listGroup = new ListGroup({
+        this._presetsListGroup = new ListGroup({
             collection: presets,
             labelAttribute: 'name',
             reorderable: true,
@@ -94,11 +95,13 @@ export default Marionette.LayoutView.extend({
             placeholder: document.l10n.getSync('uiListGroup_placeholder'),
         });
 
-        this.listenTo(listGroup, 'reorder', this._onReorder);
-        this.listenTo(listGroup, 'item:remove', this._onRemove);
-        this.listenTo(listGroup, 'item:select', this._onSelect);
+        this.listenTo(this._presetsListGroup, 'reorder', this._onReorder);
+        this.listenTo(this._presetsListGroup, 'item:remove', this._onRemove);
+        this.listenTo(this._presetsListGroup, 'item:select', this._onSelect);
 
-        this.getRegion('list').show( listGroup );
+        this.getRegion('list').show( this._presetsListGroup );
+
+        this._updateCategoriesDisplay();
     },
 
     onBeforeOpen() {
@@ -114,6 +117,15 @@ export default Marionette.LayoutView.extend({
     close() {
         this.triggerMethod('close');
         return this;
+    },
+
+    _updateCategoriesDisplay() {
+        if (this._categoriesListGroup.countItems() === 0) {
+            this.ui.categoriesList.addClass('hide');
+        }
+        else {
+            this.ui.categoriesList.removeClass('hide');
+        }
     },
 
     _onReorder() {
@@ -138,6 +150,7 @@ export default Marionette.LayoutView.extend({
 
         model.destroy();
         this.options.theme.save();
+        this._updateCategoriesDisplay();
     },
 
     _onSelectCategory(model) {
