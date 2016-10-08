@@ -47,62 +47,41 @@
 
 
 
-.sticky-header,
-.sticky-footer {
-    position: absolute;
-    z-index: 10;
+.sticky {
+    display: flex;
+    flex-direction: column;
 }
 
-.sticky-header {
-    top: 20px;
-    left: 0;
-    right: 0;
+.sticky-header,
+.sticky-footer {
+    margin-left: -15px;
+    margin-right: -15px;
+    & > div {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+.sticky-header > div {
+    margin-top: 0;
 }
 
 .bordered-header,
 .sticky-header {
-    padding: 0 0 20px 0;
-    margin: 0 0 20px 0;
     border-bottom-style: solid;
     border-bottom-width: 1px;
 }
 
-.sticky-footer {
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
 .bordered-footer,
 .sticky-footer {
-    padding: 20px 0;
-    margin: 20px 0 0 0;
     border-top-style: solid;
     border-top-width: 1px;
 }
 
-.after-sticky-header,
-.before-sticky-footer {
-    position: absolute;
+.sticky-inner {
     overflow-y: auto;
-    width: 100%;
     padding-top: 20px;
     padding-bottom: 20px;
-}
-
-.before-sticky-footer {
-    top: 0;
-    bottom: 75px;
-}
-
-.after-sticky-header {
-    top: 75px;
-    bottom: 0;
-}
-
-.before-sticky-footer.after-sticky-header {
-    top: 75px;
-    bottom: 75px;
 }
 
 .pop {

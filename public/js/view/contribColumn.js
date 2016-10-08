@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '#contrib_column',
-        prependStickyFooter: '.before-sticky-footer',
+        prependStickyFooter: '.sticky-inner',
         noResult: '.no_result',
         footer: '.sticky-footer',
         freeAdditionBtn: '.free_addition_btn',
@@ -151,7 +151,7 @@ export default Marionette.LayoutView.extend({
 
     _hideFooter() {
         this.ui.footer.addClass('hide');
-        this.ui.prependStickyFooter.removeClass('before-sticky-footer');
+        this.ui.prependStickyFooter.removeClass('sticky-inner');
     },
 
     onClickFreeAddition() {
