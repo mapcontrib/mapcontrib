@@ -27,12 +27,14 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        backButton: '.back_btn',
         addButton: '.add_btn',
         addCategoryButton: '.add_category_btn',
     },
 
     events: {
         'click @ui.addButton': '_onClickAdd',
+        'click @ui.backButton': '_onClickBack',
         'click @ui.addCategoryButton': '_onClickAddCategory',
     },
 
@@ -53,9 +55,13 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
+        if (this.model) {
+            this.ui.backButton.removeClass('hide');
+        }
+
         const presetCategories = new Backbone.Collection(
             this.options.theme.get('presetCategories').where({
-                parentUuid: this._getParentUuid(),
+                parentUuid: this._getCategoryUuid(),
             })
         );
         const categoriesListGroup = new ListGroup({
@@ -75,7 +81,7 @@ export default Marionette.LayoutView.extend({
 
         const presets = new Backbone.Collection(
             this.options.theme.get('presets').where({
-                parentUuid: this._getParentUuid(),
+                parentUuid: this._getCategoryUuid(),
             })
         );
         presets.comparator = 'order';
@@ -145,16 +151,21 @@ export default Marionette.LayoutView.extend({
     },
 
     _onClickAdd() {
-        const categoryUuid = this._getParentUuid() || '';
+        const categoryUuid = this._getCategoryUuid() || '';
         this.options.router.navigate(`admin/preset/new/${categoryUuid}`, true);
     },
 
     _onClickAddCategory() {
-        const categoryUuid = this._getParentUuid() || '';
+        const categoryUuid = this._getCategoryUuid() || '';
         this.options.router.navigate(`admin/preset/category/new/${categoryUuid}`, true);
     },
 
-    _getParentUuid() {
+    _onClickBack() {
+        const parentUuid = this.model.get('parentUuid');
+        this.options.router.navigate(`admin/preset/${parentUuid}`, true);
+    },
+
+    _getCategoryUuid() {
         if (this.model) {
             return this.model.get('uuid');
         }
