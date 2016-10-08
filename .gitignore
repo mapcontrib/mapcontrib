@@ -6,3 +6,4 @@ public/files
 npm-debug.log
 volumes
 local.yml
+/src
