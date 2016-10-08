@@ -15,6 +15,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         createThemeButton: '.create_theme_btn',
+        scrollTarget: '.scroll_target',
         searchResults: '#rg_search_results',
         noResultPlaceholder: '.no_result',
         charactersLeftPlaceholder: '.characters_left',
@@ -48,6 +49,8 @@ export default Marionette.LayoutView.extend({
         this._searchInput.on('empty', this.resetThemeCollection, this);
         this._searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
         this._searchInput.on('search', this.fetchSearchedThemes, this);
+        this._searchInput.on('focus', this._scrollToSearchInput, this);
+        this._searchInput.on('keyup', this._scrollToSearchInput, this);
         this._searchInput.setFocus();
 
         this.getRegion('searchResults').show(
@@ -55,6 +58,12 @@ export default Marionette.LayoutView.extend({
                 collection: this.collection,
             })
         );
+    },
+
+    _scrollToSearchInput() {
+        window.requestAnimationFrame(() => {
+            this.ui.scrollTarget[0].scrollIntoView({ behavior: 'smooth' });
+        });
     },
 
     onClickCreateTheme() {
@@ -119,6 +128,8 @@ export default Marionette.LayoutView.extend({
     },
 
     showCharactersLeftPlaceholder(searchString) {
+        this._scrollToSearchInput();
+
         const charactersLeft = 3 - searchString.length;
 
         this.ui.charactersLeftPlaceholderText.html(
@@ -134,12 +145,16 @@ export default Marionette.LayoutView.extend({
     },
 
     showNoResultPlaceholder() {
+        this._scrollToSearchInput();
+
         this.ui.searchResults.addClass('hide');
         this.ui.charactersLeftPlaceholder.addClass('hide');
         this.ui.noResultPlaceholder.removeClass('hide');
     },
 
     showResults() {
+        this._scrollToSearchInput();
+
         this.ui.noResultPlaceholder.addClass('hide');
         this.ui.charactersLeftPlaceholder.addClass('hide');
         this.ui.searchResults.removeClass('hide');

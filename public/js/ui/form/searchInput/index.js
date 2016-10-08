@@ -15,6 +15,7 @@ export default Marionette.LayoutView.extend({
 
     events: {
         'keyup @ui.input': 'onKeyUp',
+        'focus @ui.input': 'onFocus',
     },
 
     templateHelpers() {
@@ -51,7 +52,13 @@ export default Marionette.LayoutView.extend({
         this.ui.input.focus();
     },
 
+    onFocus() {
+        this.trigger('focus');
+    },
+
     onKeyUp() {
+        this.trigger('keyup');
+
         const searchString = this.ui.input.val();
         const charactersCount = this.ui.input.val().length;
 

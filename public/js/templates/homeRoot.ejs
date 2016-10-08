@@ -1,4 +1,4 @@
-<header class="main_header append-xs-1">
+<header class="main_header">
     <div class="container">
         <div class="row prepend-xs-1 prepend-sm-2 append-xs-1 append-lg-2">
             <div class="col-xs-6">
@@ -32,23 +32,25 @@
     </div>
 </header>
 
-<section class="container">
-    <div class="row append-sm-1">
+<section class="container scroll_target">
+    <div class="row prepend-xs-1 append-sm-1">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
             <div class="rg_search_input append-xs-2"></div>
         </div>
     </div>
-    <div class="append-xs-1 text-center hide no_result">
-        <p class="prepend-xs-1 append-xs-1">
-            <i class="icon ion-sad-outline"></i>
-        </p>
-        <p class="append-xs-1" data-l10n-id="noResult"></p>
-    </div>
-    <div class="append-xs-1 text-center hide characters_left">
-        <p class="prepend-xs-1 append-xs-1">
-            <i class="icon ion-more"></i>
-        </p>
-        <p class="append-xs-1 text"></p>
+    <div class="row text-center">
+        <div class="col-xs-12 append-xs-3 hide no_result">
+            <p class="prepend-xs-1 append-xs-1">
+                <i class="icon ion-sad-outline"></i>
+            </p>
+            <p data-l10n-id="noResult"></p>
+        </div>
+        <div class="col-xs-12 append-xs-3 hide characters_left">
+            <p class="prepend-xs-1 append-xs-1">
+                <i class="icon ion-more"></i>
+            </p>
+            <p class="text"></p>
+        </div>
     </div>
     <div id="rg_search_results" class="append-xs-1"></div>
 </section>
