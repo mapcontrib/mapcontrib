@@ -315,7 +315,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 
 /* List group UI */
-<uiListGroup_placeholder "Cliquez sur le bouton ci-dessous">
+<uiListGroup_placeholder "Cliquez ci-dessous">
 
 
 /* Contribution form column */
