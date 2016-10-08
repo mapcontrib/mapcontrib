@@ -844,11 +844,13 @@ export default Marionette.LayoutView.extend({
         Omnivore.gpx(
             layerModel.get('fileUri')
         )
-        .on('error', function(error) {
-            new GpxErrorNotificationView({
-                'model': layerModel,
-                'error': error.error[0].message,
-            }).open();
+        .on('error', function(xhr) {
+            if (xhr.error.status === 404) {
+                new GpxErrorNotificationView({
+                    'model': layerModel,
+                    'error': document.l10n.getSync('fileNotFound'),
+                }).open();
+            }
         })
         .on('ready', layer => {
             const markerCluster = this._buildMarkerCluster(layerModel);
@@ -867,11 +869,13 @@ export default Marionette.LayoutView.extend({
         Omnivore.csv(
             layerModel.get('fileUri')
         )
-        .on('error', function(error) {
-            new CsvErrorNotificationView({
-                'model': layerModel,
-                'error': error.error[0].message,
-            }).open();
+        .on('error', function(xhr) {
+            if (xhr.error.status === 404) {
+                new CsvErrorNotificationView({
+                    'model': layerModel,
+                    'error': document.l10n.getSync('fileNotFound'),
+                }).open();
+            }
         })
         .on('ready', layer => {
             const markerCluster = this._buildMarkerCluster(layerModel);
@@ -890,11 +894,13 @@ export default Marionette.LayoutView.extend({
         Omnivore.geojson(
             layerModel.get('fileUri')
         )
-        .on('error', function(error) {
-            new GeoJsonErrorNotificationView({
-                'model': layerModel,
-                'error': error.error[0].message,
-            }).open();
+        .on('error', function(xhr) {
+            if (xhr.error.status === 404) {
+                new GeoJsonErrorNotificationView({
+                    'model': layerModel,
+                    'error': document.l10n.getSync('fileNotFound'),
+                }).open();
+            }
         })
         .on('ready', layer => {
             const markerCluster = this._buildMarkerCluster(layerModel);
@@ -913,12 +919,6 @@ export default Marionette.LayoutView.extend({
         Omnivore.geojson(
             layerModel.get('fileUri')
         )
-        .on('error', function(error) {
-            new GeoJsonErrorNotificationView({
-                'model': layerModel,
-                'error': error.error[0].message,
-            }).open();
-        })
         .on('ready', layer => {
             this._customizeDataAndDisplay(
                 layer.target._layers,
