@@ -13,9 +13,21 @@ export default Marionette.ItemView.extend({
         tagInfoBtn: '.tag_info_btn',
     },
 
+    events: {
+        'keydown @ui.key': '_onKeyDown',
+    },
+
     templateHelpers() {
         const key = this.model.get('key');
-        const label = this.options.iDPresetsHelper.getLocalizedTypeaheadFieldLabel(key) || key;
+        let label = this.options.customTags.getLocalizedTypeaheadFieldLabel(key);
+
+        if (!label) {
+            label = this.options.iDPresetsHelper.getLocalizedTypeaheadFieldLabel(key);
+        }
+
+        if (!label) {
+            label = key;
+        }
 
         return {
             label,
@@ -27,7 +39,10 @@ export default Marionette.ItemView.extend({
         this.renderTagInfo();
 
         if ( !this.model.get('keyReadOnly') ) {
-            this._proposedFields = this.options.iDPresetsHelper.getFieldsForTypeahead();
+            this._proposedFields = [
+                ...this.options.customTags.getFieldsForTypeahead(),
+                ...this.options.iDPresetsHelper.getFieldsForTypeahead(),
+            ];
 
             this.ui.key.typeahead(
                 {
@@ -72,6 +87,10 @@ export default Marionette.ItemView.extend({
         const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
 
         this.ui.tagInfoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
+    },
+
+    _onKeyDown() {
+        this._updateKey(this.ui.key.val().trim());
     },
 
     _updateKey(key) {

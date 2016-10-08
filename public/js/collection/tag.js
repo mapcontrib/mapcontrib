@@ -25,4 +25,28 @@ export default Backbone.Collection.extend({
 
         model.set('order', maxOrder + 1);
     },
+
+    getLocalizedTypeaheadFieldLabel(key) {
+        const tag = this.findWhere({ key });
+
+        if (tag) {
+            return tag.get('key');
+        }
+
+        return undefined;
+    },
+
+    getFieldsForTypeahead() {
+        const fields = [];
+
+        for (const tag of this.models) {
+            fields.push({
+                key: tag.get('key'),
+                type: tag.get('type'),
+                label: tag.get('key'),
+            });
+        }
+
+        return fields;
+    },
 });

@@ -59,6 +59,7 @@ export default Marionette.LayoutView.extend({
         this._tagList = new PresetNodeTagsList({
             tags: this.model.get('tags'),
             iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.theme.get('tags'),
         });
 
         this.getRegion('tagList').show(this._tagList);

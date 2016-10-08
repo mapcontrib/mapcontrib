@@ -10,6 +10,7 @@ export default Marionette.CollectionView.extend({
     childViewOptions() {
         return {
             iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
         };
     },
 
