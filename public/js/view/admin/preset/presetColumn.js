@@ -36,14 +36,26 @@ export default Marionette.LayoutView.extend({
         'click @ui.addCategoryButton': '_onClickAddCategory',
     },
 
+    templateHelpers() {
+        let title = document.l10n.getSync('adminPresetColumn_title');
+
+        if (this.model) {
+            title = this.model.get('name');
+        }
+
+        return {
+            title,
+        };
+    },
+
     initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
     onRender() {
         const presetCategories = new Backbone.Collection(
-            this.model.get('presetCategories').where({
-                parentUuid: this.options.categoryUuid,
+            this.options.theme.get('presetCategories').where({
+                parentUuid: this._getParentUuid(),
             })
         );
         const categoriesListGroup = new ListGroup({
@@ -62,10 +74,12 @@ export default Marionette.LayoutView.extend({
 
 
         const presets = new Backbone.Collection(
-            this.model.get('presets').where({
-                parentUuid: this.options.categoryUuid,
+            this.options.theme.get('presets').where({
+                parentUuid: this._getParentUuid(),
             })
         );
+        presets.comparator = 'order';
+
         const listGroup = new ListGroup({
             collection: presets,
             labelAttribute: 'name',
@@ -97,15 +111,15 @@ export default Marionette.LayoutView.extend({
     },
 
     _onReorder() {
-        this.model.updateModificationDate();
-        this.model.save();
+        this.options.theme.updateModificationDate();
+        this.options.theme.save();
     },
 
     _onRemove(model, e) {
         e.preventDefault();
 
         model.destroy();
-        this.model.save();
+        this.options.theme.save();
     },
 
     _onSelect(model) {
@@ -117,7 +131,7 @@ export default Marionette.LayoutView.extend({
         e.preventDefault();
 
         model.destroy();
-        this.model.save();
+        this.options.theme.save();
     },
 
     _onSelectCategory(model) {
@@ -131,12 +145,20 @@ export default Marionette.LayoutView.extend({
     },
 
     _onClickAdd() {
-        const categoryUuid = this.options.categoryUuid || '';
+        const categoryUuid = this._getParentUuid() || '';
         this.options.router.navigate(`admin/preset/new/${categoryUuid}`, true);
     },
 
     _onClickAddCategory() {
-        const categoryUuid = this.options.categoryUuid || '';
+        const categoryUuid = this._getParentUuid() || '';
         this.options.router.navigate(`admin/preset/category/new/${categoryUuid}`, true);
+    },
+
+    _getParentUuid() {
+        if (this.model) {
+            return this.model.get('uuid');
+        }
+
+        return undefined;
     },
 });

@@ -160,10 +160,13 @@ export default Backbone.Router.extend({
     },
 
     routeAdminPreset(categoryUuid) {
+        const model = this._theme.get('presetCategories')
+        .findWhere({ uuid: categoryUuid || undefined });
+
         new AdminPresetColumn({
             router: this,
-            model: this._theme,
-            categoryUuid: categoryUuid || undefined,
+            theme: this._theme,
+            model,
         }).open();
     },
 
