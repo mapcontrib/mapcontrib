@@ -1,9 +1,13 @@
 # Changelog
 
-## 0.12.15
+## 0.12.16
 
 * Fixes the default buttons background color.
 * Display a proper message when a layer file is not found.
+
+## 0.12.15
+
+* Fixes missing english translations.
 
 ## 0.12.14
 
