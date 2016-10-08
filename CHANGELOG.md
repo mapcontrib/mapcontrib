@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.15
+
+* Fixes the default buttons background color.
+
 ## 0.12.14
 
 * Fixes the identifier of two localized strings in english and italian.
