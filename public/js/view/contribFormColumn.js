@@ -113,13 +113,16 @@ export default Marionette.LayoutView.extend({
 
         this._tagList = new ContribNodeTagsListView({
             iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.theme.get('tags'),
         });
 
         if (this.options.presetModel) {
-            this._tagList.setTags(this.options.presetModel.get('tags'));
+            for (const tag of this.options.presetModel.get('tags')) {
+                this._tagList.addTag(tag);
+            }
         }
         else {
-            this._tagList.setTags([]);
+            this._tagList.addTag();
         }
 
         this.getRegion('tagList').show( this._tagList );

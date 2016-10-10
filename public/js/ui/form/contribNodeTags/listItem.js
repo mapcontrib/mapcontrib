@@ -43,6 +43,7 @@ export default Marionette.LayoutView.extend({
         const fieldOptions = {
             model: this.model,
             iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
         };
 
         this._rawKeyField = new RawKeyField( fieldOptions );
@@ -92,6 +93,7 @@ export default Marionette.LayoutView.extend({
         const fieldOptions = {
             model: this.model,
             iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
         };
 
         if (this._displayRawTag) {

@@ -21,7 +21,8 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '#contrib_column',
-        prependStickyFooter: '.sticky-inner',
+        presetsNav: '.rg_presets_nav',
+        stickyInner: '.sticky-inner',
         noResult: '.no_result',
         footer: '.sticky-footer',
         freeAdditionBtn: '.free_addition_btn',
@@ -67,7 +68,6 @@ export default Marionette.LayoutView.extend({
                 {
                     presetModel,
                     center: this._center,
-                    iDPresetsHelper: this._iDPresetsHelper,
                 }
             ),
         }));
@@ -82,7 +82,6 @@ export default Marionette.LayoutView.extend({
                 //     {
                 //         presetModel: presetModels[key],
                 //         center: this._center,
-                //         iDPresetsHelper: this._iDPresetsHelper,
                 //     }
                 // )
         }));
@@ -123,6 +122,7 @@ export default Marionette.LayoutView.extend({
 
     _filterPresets(searchString) {
         this._searchInput.trigger('search:success');
+        this._scrollToResultsTop();
 
         const iDPresets = this._iDPresetsHelper.buildPresetsFromSearchString(searchString);
         const presetModels = this._presets.buildPresetsFromSearchString(searchString);
@@ -141,6 +141,12 @@ export default Marionette.LayoutView.extend({
         }
     },
 
+    _scrollToResultsTop() {
+        window.requestAnimationFrame(() => {
+            this.ui.stickyInner[0].scroll({ top: 0, behavior: 'smooth' });
+        });
+    },
+
     _hideNoResult() {
         this.ui.noResult.addClass('hide');
     },
@@ -151,7 +157,7 @@ export default Marionette.LayoutView.extend({
 
     _hideFooter() {
         this.ui.footer.addClass('hide');
-        this.ui.prependStickyFooter.removeClass('sticky-inner');
+        this.ui.stickyInner.removeClass('sticky-inner');
     },
 
     onClickFreeAddition() {

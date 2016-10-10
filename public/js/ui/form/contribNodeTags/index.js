@@ -10,15 +10,15 @@ export default Marionette.CollectionView.extend({
     childViewOptions() {
         return {
             iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
         };
     },
 
     initialize(options) {
-        if (!options.tags || options.tags.length === 0) {
-            this.collection = new ContribNodeTagsCollection([{}]);
-        }
-        else {
-            this.collection = new ContribNodeTagsCollection(options.tags);
+        this.collection = new ContribNodeTagsCollection();
+
+        if (options.tags && options.tags.length > 0) {
+            this.collection.add(options.tags);
         }
     },
 
@@ -35,9 +35,7 @@ export default Marionette.CollectionView.extend({
             }
         }
 
-        this.collection.add(tag);
-
-        return true;
+        return this.collection.add(tag);
     },
 
     getTags() {

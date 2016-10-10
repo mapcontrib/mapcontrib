@@ -1570,14 +1570,12 @@ export default Marionette.LayoutView.extend({
     },
 
     showContribForm(options) {
-        let newOptions = { ...options };
-
-        if (!newOptions) {
-            newOptions = { user: this._user };
-        }
-        else {
-            newOptions.user = this._user;
-        }
+        const newOptions = {
+            ...options,
+            user: this._user,
+            theme: this.model,
+            iDPresetsHelper: this._iDPresetsHelper,
+        };
 
         const view = new ContribFormColumnView( newOptions );
 
