@@ -34,7 +34,6 @@ export default Marionette.LayoutView.extend({
     },
 
     open() {
-        this._setGeocoder();
         this.triggerMethod('open');
         return this;
     },
@@ -45,7 +44,6 @@ export default Marionette.LayoutView.extend({
     },
 
     toggle() {
-        this._setGeocoder();
         this.triggerMethod('toggle');
     },
 
@@ -116,7 +114,8 @@ export default Marionette.LayoutView.extend({
         this.options.icon.addClass('hide');
         this.options.spinner.removeClass('hide');
 
-        this._geocoder.geocode(
+        const geocoder = this._buildGeocoder();
+        geocoder.geocode(
             query,
             this._onGeocodeComplete.bind(this, this._lastQueryStartTime, elements)
         );
@@ -240,13 +239,32 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    _setGeocoder() {
+    _buildGeocoder() {
+        const lang = document.l10n.supportedLocales[0];
+
         switch ( this.model.get('geocoder') ) {
             case CONST.geocoder.nominatim:
-                this._geocoder = leafletControlGeocoder.nominatim();
-                break;
+                const bounds = this._radio.reqres.request('map:currentBounds');
+                const left = bounds._southWest.lng;
+                const top = bounds._northEast.lat;
+                const right = bounds._northEast.lng;
+                const bottom = bounds._southWest.lat;
+
+                return leafletControlGeocoder.nominatim({
+                    geocodingQueryParams: {
+                        viewbox: `${left},${top},${right},${bottom}`,
+                        'accept-language': lang,
+                    },
+                });
             default:
-                this._geocoder = leafletControlGeocoder.photon();
+                const { lat, lng } = this._radio.reqres.request('map:currentCenter');
+                return leafletControlGeocoder.photon({
+                    geocodingQueryParams: {
+                        lat,
+                        lon: lng,
+                        lang,
+                    },
+                });
         }
     },
 });

@@ -170,6 +170,20 @@ export default Marionette.LayoutView.extend({
 
                 return false;
             },
+            'map:currentCenter': () => {
+                if (this._map) {
+                    return this._map.getCenter();
+                }
+
+                return false;
+            },
+            'map:currentBounds': () => {
+                if (this._map) {
+                    return this._map.getBounds();
+                }
+
+                return false;
+            },
             'map:markerCluster': layerModel => this._getRootLayer(layerModel),
         });
 
