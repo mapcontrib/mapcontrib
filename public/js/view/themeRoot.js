@@ -1275,7 +1275,6 @@ export default Marionette.LayoutView.extend({
         if (this._presetCollection.models.length === 0) {
             this.onEditPoi({
                 app: this._app,
-                theme: this.model,
                 osmType,
                 osmId,
                 layerModel,
@@ -1295,7 +1294,13 @@ export default Marionette.LayoutView.extend({
     },
 
     onEditPoi(options) {
-        new EditPoiColumnView(options).open();
+        const newOptions = {
+            ...options,
+            iDPresetsHelper: this._iDPresetsHelper,
+            theme: this.model,
+        };
+
+        new EditPoiColumnView(newOptions).open();
     },
 
     renderUserButton() {

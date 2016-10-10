@@ -48,7 +48,7 @@ export default Marionette.LayoutView.extend({
 
     templateHelpers() {
         return {
-            fragment: this._theme.get('fragment'),
+            fragment: this.options.theme.get('fragment'),
             apiPath: `${CONST.apiPath}/file/nonOsmData`,
         };
     },
@@ -60,7 +60,6 @@ export default Marionette.LayoutView.extend({
         this._layer = this.options.layer;
         this._layerModel = this.options.layerModel;
 
-        this._theme = this._radio.reqres.request('theme');
         this._nonOsmData = this._radio.reqres.request('nonOsmData');
         this._osmCache = this._radio.reqres.request('osmCache');
 
@@ -123,14 +122,14 @@ export default Marionette.LayoutView.extend({
 
 
         this._nonOsmDataModel = this._nonOsmData.findWhere({
-            themeFragment: this._theme.get('fragment'),
+            themeFragment: this.options.theme.get('fragment'),
             osmId: this.options.osmId,
             osmType: this.options.osmType,
         });
 
         if ( !this._nonOsmDataModel ) {
             this._nonOsmDataModel = new NonOsmDataModel({
-                themeFragment: this._theme.get('fragment'),
+                themeFragment: this.options.theme.get('fragment'),
                 osmId: this.options.osmId,
                 osmType: this.options.osmType,
             });
@@ -148,14 +147,14 @@ export default Marionette.LayoutView.extend({
         }
 
         this._osmCacheModel = this._osmCache.findWhere({
-            themeFragment: this._theme.get('fragment'),
+            themeFragment: this.options.theme.get('fragment'),
             osmId: this.options.osmId,
             osmType: this.options.osmType,
         });
 
         if ( !this._osmCacheModel ) {
             this._osmCacheModel = new OsmCacheModel({
-                themeFragment: this._theme.get('fragment'),
+                themeFragment: this.options.theme.get('fragment'),
                 osmId: this.options.osmId,
                 osmType: this.options.osmType,
             });
@@ -199,7 +198,10 @@ export default Marionette.LayoutView.extend({
     },
 
     renderTags(tags) {
-        this._tagList = new ContribNodeTagsListView();
+        this._tagList = new ContribNodeTagsListView({
+            iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.theme.get('tags'),
+        });
 
         let value;
         const popupContent = this._layerModel.get('popupContent');
