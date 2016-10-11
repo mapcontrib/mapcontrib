@@ -82,6 +82,7 @@
 <tel "Phone number">
 <url "Web address">
 <textarea "Big text">
+<checkbox "Checkbox">
 <value "Valeur">
 <defaultValue "Default value">
 <yes "Yes">

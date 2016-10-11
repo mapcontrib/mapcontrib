@@ -82,6 +82,7 @@
 <tel "Numéro de téléphone">
 <url "Adresse web">
 <textarea "Grand texte">
+<checkbox "Case à cocher">
 <value "Valeur">
 <defaultValue "Valeur par défaut">
 <yes "Oui">
