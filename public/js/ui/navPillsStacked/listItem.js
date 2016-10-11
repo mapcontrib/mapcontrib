@@ -18,6 +18,8 @@ export default Marionette.ItemView.extend({
     ui: {
         link: '.top_link',
         description: '.description',
+        leftIcon: '.left_icon',
+        rightIcon: '.right_icon',
         progression: '.progression',
     },
 
@@ -28,12 +30,22 @@ export default Marionette.ItemView.extend({
 
     onRender() {
         const description = this.model.get('description');
+        const leftIcon = this.model.get('leftIcon');
+        const rightIcon = this.model.get('rightIcon');
 
         if ( description ) {
             this.ui.description.html(
                 MarkedHelper.render( description )
             )
             .removeClass('hide');
+        }
+
+        if ( leftIcon ) {
+            this.ui.leftIcon.removeClass('hide');
+        }
+
+        if ( rightIcon ) {
+            this.ui.rightIcon.removeClass('hide');
         }
 
         if (this.model.get('progression') >= 0) {

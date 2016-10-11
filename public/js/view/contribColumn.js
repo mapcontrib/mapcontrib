@@ -74,6 +74,39 @@ export default Marionette.LayoutView.extend({
         }));
     },
 
+    _buildNavItemsFromPresetCategoryModels(presetCategoryModels, parentModel) {
+        const items = presetCategoryModels
+        .filter((model) => {
+            const child = this._presets.findWhere({ parentUuid: model.get('uuid') });
+
+            if (!child) {
+                return false;
+            }
+
+            return true;
+        })
+        .map(model => ({
+            rightIcon: '<i class="fa fa-chevron-right"></i>',
+            label: model.get('name'),
+            callback: this._displayPresetCategoryChildren.bind(this, model),
+        }));
+
+        const backItem = {
+            leftIcon: '<i class="fa fa-chevron-left"></i>',
+            label: document.l10n.getSync('back'),
+        };
+
+        if (parentModel) {
+            backItem.callback = this._displayPresetCategoryChildren.bind(
+                this,
+                this._presetCategories.findWhere({ uuid: parentModel.get('parentUuid') })
+            );
+            items.unshift(backItem);
+        }
+
+        return items;
+    },
+
     _buildNavItemsFromIDPresets(defaultIDPresets) {
         return defaultIDPresets.map(iDPreset => ({
                 label: iDPreset.name,
@@ -89,12 +122,37 @@ export default Marionette.LayoutView.extend({
     },
 
     _buildDefaultNavItems() {
-        if (this._presets.models.length > 0) {
-            return this._buildNavItemsFromPresetModels(this._presets.models);
+        if (this._presets.length > 0) {
+            return [
+                ...this._buildNavItemsFromPresetCategoryModels(
+                    this._presetCategories.where({ parentUuid: undefined })
+                ),
+                ...this._buildNavItemsFromPresetModels(
+                    this._presets.where({ parentUuid: undefined })
+                ),
+            ];
         }
 
         const defaultIDPresets = this._iDPresetsHelper.getDefaultPoints();
         return this._buildNavItemsFromIDPresets(defaultIDPresets);
+    },
+
+    _displayPresetCategoryChildren(presetCategoryModel) {
+        let parentUuid;
+
+        if (presetCategoryModel) {
+            parentUuid = presetCategoryModel.get('uuid');
+        }
+
+        this._presetsNav.setItems([
+            ...this._buildNavItemsFromPresetCategoryModels(
+                this._presetCategories.where({ parentUuid }),
+                presetCategoryModel
+            ),
+            ...this._buildNavItemsFromPresetModels(
+                this._presets.where({ parentUuid })
+            ),
+        ]);
     },
 
     onRender() {
