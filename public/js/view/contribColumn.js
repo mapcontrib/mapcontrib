@@ -35,6 +35,7 @@ export default Marionette.LayoutView.extend({
     initialize() {
         this._radio = Wreqr.radio.channel('global');
         this._presets = this.options.theme.get('presets');
+        this._presetCategories = this.options.theme.get('presetCategories');
         this._iDPresetsHelper = this.options.iDPresetsHelper;
     },
 
@@ -87,17 +88,20 @@ export default Marionette.LayoutView.extend({
         }));
     },
 
-    onRender() {
-        const presetModels = this._presets.models;
-        const defaultIDPresets = this._iDPresetsHelper.getDefaultPoints();
-        const presetNavItems = [
-            ...this._buildNavItemsFromPresetModels(presetModels),
-            ...this._buildNavItemsFromIDPresets(defaultIDPresets),
-        ];
+    _buildDefaultNavItems() {
+        if (this._presets.models.length > 0) {
+            return this._buildNavItemsFromPresetModels(this._presets.models);
+        }
 
+        const defaultIDPresets = this._iDPresetsHelper.getDefaultPoints();
+        return this._buildNavItemsFromIDPresets(defaultIDPresets);
+    },
+
+    onRender() {
+        const defaultPresetNavItems = this._buildDefaultNavItems();
 
         this._presetsNav = new NavPillsStackedListView();
-        this._presetsNav.setItems(presetNavItems);
+        this._presetsNav.setItems(defaultPresetNavItems);
         this.getRegion('presetsNav').show( this._presetsNav );
 
 
@@ -111,7 +115,7 @@ export default Marionette.LayoutView.extend({
         this._searchInput.on('search', this._filterPresets, this);
         this._searchInput.on(
             'empty',
-            this._presetsNav.setItems.bind(this._presetsNav, presetNavItems),
+            this._presetsNav.setItems.bind(this._presetsNav, defaultPresetNavItems),
             this
         );
 
