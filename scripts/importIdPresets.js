@@ -11,17 +11,21 @@ import logger from '../lib/logger';
 import CONST from '../const';
 
 
+function onArgpEnd(result) {
+    if ( !result || !result.dir ) {
+        this.printUsage();
+        process.exit();
+    }
+}
+
+function onArgpError(error) {
+    this.fail(error);
+}
+
 const argpResult = argp.createParser({ once: true })
     .description('Import presets, categories, fields and defaults from an iD reporitory clone')
-    .on('end', (result) => {
-        if ( !result.dir ) {
-            this.printUsage(1);
-            process.exit(1);
-        }
-    })
-    .on('error', (error) => {
-        this.fail(error);
-    })
+    .on('end', onArgpEnd)
+    .on('error', onArgpError)
     .body()
         .text(' Options:')
         .option({
@@ -32,7 +36,6 @@ const argpResult = argp.createParser({ once: true })
             optional: false,
             type: String,
         })
-        .usage()
         .argv();
 
 
@@ -66,6 +69,7 @@ presetsBuilder.generatePresets(iDPresetsDirectoryPath, (err, data) => {
         defaults: data.defaults,
         presets: data.presets,
         fields: data.fields,
+        categories: data.categories,
     };
 
     logger.debug(`creating ${finalPresetsPath}`);
@@ -97,6 +101,10 @@ fs.readdir(iDLocalesDirectoryPath, (err, iDLocaleFiles) => {
 
             if (typeof json.presets.fields !== 'undefined') {
                 newData.fields = json.presets.fields;
+            }
+
+            if (typeof json.presets.categories !== 'undefined') {
+                newData.categories = json.presets.categories;
             }
 
             logger.debug(`creating ${finalLocaleFilePath}`);
