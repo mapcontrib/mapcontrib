@@ -59,6 +59,7 @@ export default Backbone.Router.extend({
     initialize(app) {
         this._app = app;
         this._theme = app.getTheme();
+        this._user = app.getUser();
         this._iDPresetsHelper = app.getIDPresetsHelper();
         this._radio = Wreqr.radio.channel('global');
         this._previousRoute = '';
@@ -74,6 +75,10 @@ export default Backbone.Router.extend({
         const url = window.location.href;
         const route = url.substring( url.indexOf('#') + 1 );
         this._previousRoute = route;
+    },
+
+    _userIsOwnerOfTheme() {
+        return this._theme.isOwner(this._user);
     },
 
     routeOups() {
@@ -146,6 +151,11 @@ export default Backbone.Router.extend({
 
 
     routeAdminSetting() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         new AdminSettingColumn({
             router: this,
             model: this._theme,
@@ -153,6 +163,11 @@ export default Backbone.Router.extend({
     },
 
     routeAdminTile() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         new AdminTileColumn({
             router: this,
             model: this._theme,
@@ -160,6 +175,11 @@ export default Backbone.Router.extend({
     },
 
     routeAdminPreset(categoryUuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         const model = this._theme.get('presetCategories')
         .findWhere({ uuid: categoryUuid || undefined });
 
@@ -171,6 +191,11 @@ export default Backbone.Router.extend({
     },
 
     routeAdminPresetNew(parentUuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         new AdminPresetEditColumn({
             router: this,
             theme: this._theme,
@@ -185,6 +210,11 @@ export default Backbone.Router.extend({
     },
 
     routeAdminPresetEdit(uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         const model = this._theme.get('presets').findWhere({ uuid });
 
         if (model) {
@@ -204,6 +234,11 @@ export default Backbone.Router.extend({
 
 
     routeAdminPresetCategoryNew(parentUuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         new AdminPresetCategoryEditColumn({
             router: this,
             theme: this._theme,
@@ -217,6 +252,11 @@ export default Backbone.Router.extend({
     },
 
     routeAdminPresetCategoryEdit(uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         const model = this._theme.get('presetCategories').findWhere({ uuid });
 
         if (model) {
@@ -235,6 +275,11 @@ export default Backbone.Router.extend({
 
 
     routeAdminTag() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         new AdminTagColumn({
             router: this,
             model: this._theme,
@@ -242,6 +287,11 @@ export default Backbone.Router.extend({
     },
 
     routeAdminTagNew() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         new AdminTagEditColumn({
             router: this,
             theme: this._theme,
@@ -253,6 +303,11 @@ export default Backbone.Router.extend({
     },
 
     routeAdminTagEdit(uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
         const model = this._theme.get('tags').findWhere({ uuid });
 
         if (model) {
