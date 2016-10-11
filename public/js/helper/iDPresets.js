@@ -111,6 +111,8 @@ export default class IDPresetsHelper {
         if (this._presets.presets[name]) {
             const preset = { ...this._presets.presets[name] };
 
+            preset.presetName = name;
+
             if (this._localeStrings && this._localeStrings.presets[name]) {
                 const localizedStrings = { ...this._localeStrings.presets[name] };
 

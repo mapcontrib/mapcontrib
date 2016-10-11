@@ -19,6 +19,10 @@ import UserColumn from 'view/userColumn';
 import VisitorColumn from 'view/visitorColumn';
 import LinkColumn from 'view/linkColumn';
 
+import ContributeAddPositionContextual from 'view/contribute/add/positionContextual';
+import ContributeAddPresetSelectionColumn from 'view/contribute/add/presetSelectionColumn';
+import ContributeAddFormColumn from 'view/contribute/add/formColumn';
+
 import AdminSettingColumn from 'view/admin/settingColumn';
 import AdminTileColumn from 'view/admin/tileColumn';
 import AdminPresetColumn from 'view/admin/preset/presetColumn';
@@ -37,6 +41,11 @@ export default Backbone.Router.extend({
 
         user: 'routeUser',
         link: 'routeLink',
+
+        'contribute/add': 'routeContributeAddPosition',
+        'contribute/add/:lat/:lng': 'routeContributeAddPresetSelection',
+        'contribute/add/:lat/:lng/iD/:presetName': 'routeContributeAddIDPreset',
+        'contribute/add/:lat/:lng/:uuid': 'routeContributeAddCustomPreset',
 
         'admin/setting': 'routeAdminSetting',
         'admin/tile': 'routeAdminTile',
@@ -58,6 +67,7 @@ export default Backbone.Router.extend({
 
     initialize(app) {
         this._app = app;
+        this._config = app.getConfig();
         this._theme = app.getTheme();
         this._user = app.getUser();
         this._iDPresetsHelper = app.getIDPresetsHelper();
@@ -75,6 +85,10 @@ export default Backbone.Router.extend({
         const url = window.location.href;
         const route = url.substring( url.indexOf('#') + 1 );
         this._previousRoute = route;
+    },
+
+    _userIsLogged() {
+        return this._app.isLogged();
     },
 
     _userIsOwnerOfTheme() {
@@ -146,6 +160,66 @@ export default Backbone.Router.extend({
         new LinkColumn({
             router: this,
             model: this._theme,
+        }).open();
+    },
+
+
+    routeContributeAddPosition() {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new ContributeAddPositionContextual({
+            router: this,
+            model: this._theme,
+        }).open();
+    },
+
+    routeContributeAddPresetSelection(lat, lng) {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new ContributeAddPresetSelectionColumn({
+            router: this,
+            config: this._config,
+            theme: this._theme,
+            center: { lat, lng },
+            iDPresetsHelper: this._iDPresetsHelper,
+        }).open();
+    },
+
+    routeContributeAddIDPreset(lat, lng, presetName) {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new ContributeAddFormColumn({
+            router: this,
+            config: this._config,
+            theme: this._theme,
+            center: { lat, lng },
+            iDPresetsHelper: this._iDPresetsHelper,
+            preset: presetName,
+        }).open();
+    },
+
+    routeContributeAddCustomPreset(lat, lng, uuid) {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new ContributeAddFormColumn({
+            router: this,
+            config: this._config,
+            theme: this._theme,
+            center: { lat, lng },
+            iDPresetsHelper: this._iDPresetsHelper,
+            preset: this._theme.get('presets').findWhere({ uuid }),
         }).open();
     },
 

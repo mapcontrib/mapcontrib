@@ -1,76 +1,33 @@
 
-import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import NavPillsStackedListView from 'ui/navPillsStacked';
 import SearchInput from 'ui/form/searchInput';
-import template from 'templates/contribColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template,
+    template: false,
 
-    behaviors: {
-        l20n: {},
-        column: {},
-    },
-
-    regions: {
-        searchInput: '.rg_search_input',
-        presetsNav: '.rg_presets_nav',
-    },
-
-    ui: {
-        column: '#contrib_column',
-        presetsNav: '.rg_presets_nav',
-        stickyInner: '.sticky-inner',
-        noResult: '.no_result',
-        footer: '.sticky-footer',
-        freeAdditionBtn: '.free_addition_btn',
-    },
-
-    events: {
-        'click @ui.freeAdditionBtn': 'onClickFreeAddition',
+    behaviors() {
+        return {
+            l20n: {},
+        };
     },
 
     initialize() {
-        this._radio = Wreqr.radio.channel('global');
         this._presets = this.options.theme.get('presets');
         this._presetCategories = this.options.theme.get('presetCategories');
         this._iDPresetsHelper = this.options.iDPresetsHelper;
-    },
 
-    onBeforeOpen() {
-        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
-        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
-    },
-
-    open() {
         this.render();
-        this.triggerMethod('open');
-        return this;
-    },
-
-    close() {
-        this.triggerMethod('close');
-        return this;
-    },
-
-    setCenter( center ) {
-        this._center = center;
     },
 
     _buildNavItemsFromPresetModels(presetModels) {
         return presetModels.map(presetModel => ({
             label: presetModel.get('name'),
             description: presetModel.get('description'),
-            callback: this._radio.commands.execute.bind(
-                this._radio.commands,
-                'column:showContribForm',
-                {
-                    presetModel,
-                    center: this._center,
-                }
-            ),
+            callback: () => {
+                this.options.callbacks.customPreset(presetModel);
+            },
         }));
     },
 
@@ -107,17 +64,12 @@ export default Marionette.LayoutView.extend({
         return items;
     },
 
-    _buildNavItemsFromIDPresets(defaultIDPresets) {
-        return defaultIDPresets.map(iDPreset => ({
+    _buildNavItemsFromIDPresets(IDPresets) {
+        return IDPresets.map(iDPreset => ({
                 label: iDPreset.name,
-                // callback: this._radio.commands.execute.bind(
-                //     this._radio.commands,
-                //     'column:showContribForm',
-                //     {
-                //         presetModel: presetModels[key],
-                //         center: this._center,
-                //     }
-                // )
+                callback: () => {
+                    this.options.callbacks.iD(iDPreset);
+                },
         }));
     },
 
@@ -160,7 +112,7 @@ export default Marionette.LayoutView.extend({
 
         this._presetsNav = new NavPillsStackedListView();
         this._presetsNav.setItems(defaultPresetNavItems);
-        this.getRegion('presetsNav').show( this._presetsNav );
+        this.options.regions.presetsNav.show( this._presetsNav );
 
 
         this._searchInput = new SearchInput({
@@ -168,23 +120,20 @@ export default Marionette.LayoutView.extend({
             placeholder: document.l10n.getSync('contribColumn_searchAPreset'),
         });
 
-        this.getRegion('searchInput').show( this._searchInput );
+        this.options.regions.searchInput.show( this._searchInput );
         this._searchInput.setFocus();
+        this._searchInput.on('search', this.trigger.bind(this, 'search'), this);
         this._searchInput.on('search', this._filterPresets, this);
+        this._searchInput.on('empty', this.trigger.bind(this, 'empty'), this);
         this._searchInput.on(
             'empty',
             this._presetsNav.setItems.bind(this._presetsNav, defaultPresetNavItems),
             this
         );
-
-        if ( !this.options.config.freeTagsContributionEnabled ) {
-            this._hideFooter();
-        }
     },
 
     _filterPresets(searchString) {
         this._searchInput.trigger('search:success');
-        this._scrollToResultsTop();
 
         const iDPresets = this._iDPresetsHelper.buildPresetsFromSearchString(searchString);
         const presetModels = this._presets.buildPresetsFromSearchString(searchString);
@@ -196,38 +145,7 @@ export default Marionette.LayoutView.extend({
         this._presetsNav.setItems(presetNavItems);
 
         if (presetNavItems.length === 0) {
-            this._showNoResult();
+            this.trigger('search:noResult');
         }
-        else {
-            this._hideNoResult();
-        }
-    },
-
-    _scrollToResultsTop() {
-        window.requestAnimationFrame(() => {
-            this.ui.stickyInner[0].scroll({ top: 0, behavior: 'smooth' });
-        });
-    },
-
-    _hideNoResult() {
-        this.ui.noResult.addClass('hide');
-    },
-
-    _showNoResult() {
-        this.ui.noResult.removeClass('hide');
-    },
-
-    _hideFooter() {
-        this.ui.footer.addClass('hide');
-        this.ui.stickyInner.removeClass('sticky-inner');
-    },
-
-    onClickFreeAddition() {
-        this._radio.commands.execute(
-            'column:showContribForm',
-            {
-                center: this._center,
-            }
-        );
     },
 });

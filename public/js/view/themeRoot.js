@@ -35,7 +35,6 @@ import TempOverPassLayerFormColumnView from './tempOverPassLayerFormColumn';
 import TempGpxLayerFormColumnView from './tempGpxLayerFormColumn';
 import TempCsvLayerFormColumnView from './tempCsvLayerFormColumn';
 import TempGeoJsonLayerFormColumnView from './tempGeoJsonLayerFormColumn';
-import ContribColumnView from './contribColumn';
 import ContribFormColumnView from './contribFormColumn';
 import EditLayerListColumnView from './editLayerListColumn';
 import AddLayerMenuColumnView from './addLayerMenuColumn';
@@ -52,7 +51,6 @@ import OverPassErrorNotificationView from './overPassErrorNotification';
 import CsvErrorNotificationView from './csvErrorNotification';
 import GeoJsonErrorNotificationView from './geoJsonErrorNotification';
 import GpxErrorNotificationView from './gpxErrorNotification';
-import NewPoiPlacementContextual from './newPoiPlacementContextual';
 
 
 export default Marionette.LayoutView.extend({
@@ -100,7 +98,6 @@ export default Marionette.LayoutView.extend({
         tempLayerListColumn: '#rg_temp_layer_column',
         addTempLayerMenuColumn: '#rg_add_temp_layer_menu_column',
         tempLayerFormColumn: '#rg_edit_temp_layer_column',
-        contribColumn: '#rg_contrib_column',
         contribFormColumn: '#rg_contrib_form_column',
         editLayerListColumn: '#rg_edit_layer_column',
         addLayerMenuColumn: '#rg_add_layer_menu_column',
@@ -120,7 +117,6 @@ export default Marionette.LayoutView.extend({
         'click @ui.compressScreenButton': 'onClickCompressScreen',
 
         'click @ui.tempLayerButton': 'onClickTempLayer',
-        'click @ui.contribButton': 'onClickContrib',
         'click @ui.editLayerButton': 'onClickEditLayer',
 
         keydown: 'onKeyDown',
@@ -221,9 +217,6 @@ export default Marionette.LayoutView.extend({
             },
             'column:editGeoJsonLayer': (layerModel) => {
                 this.onCommandEditGeoJsonLayer( layerModel );
-            },
-            'column:showContribColumn': (opt) => {
-                this.onCommandShowContribColumn(opt);
             },
             'column:showContribForm': (opt) => {
                 this.onCommandShowContribForm(opt);
@@ -326,11 +319,6 @@ export default Marionette.LayoutView.extend({
             collection: this._tempLayerCollection,
         });
         this._addTempLayerMenuColumnView = new AddTempLayerMenuColumnView();
-        this._contribColumnView = new ContribColumnView({
-            theme: this.model,
-            iDPresetsHelper: this._iDPresetsHelper,
-            config: this._config,
-        });
         this._editLayerListColumnView = new EditLayerListColumnView({ model: this.model });
         this._addLayerMenuColumnView = new AddLayerMenuColumnView({ model: this.model });
 
@@ -342,7 +330,6 @@ export default Marionette.LayoutView.extend({
         this.getRegion('geocodeWidget').show( this._geocodeWidgetView );
         this.getRegion('tempLayerListColumn').show( this._tempLayerListColumnView );
         this.getRegion('addTempLayerMenuColumn').show( this._addTempLayerMenuColumnView );
-        this.getRegion('contribColumn').show( this._contribColumnView );
         this.getRegion('editLayerListColumn').show( this._editLayerListColumnView );
         this.getRegion('addLayerMenuColumn').show( this._addLayerMenuColumnView );
 
@@ -1575,15 +1562,6 @@ export default Marionette.LayoutView.extend({
         this._addTempLayerMenuColumnView.open();
     },
 
-    onCommandShowContribColumn(center, layer) {
-        this.showContribColumn(center, layer);
-    },
-
-    showContribColumn(options) {
-        this._contribColumnView.setCenter(options.center);
-        this._contribColumnView.open();
-    },
-
     onCommandShowContribForm(options) {
         this.showContribForm(options);
     },
@@ -1758,13 +1736,6 @@ export default Marionette.LayoutView.extend({
 
     onClickTempLayer() {
         this._tempLayerListColumnView.open();
-    },
-
-    onClickContrib() {
-        new NewPoiPlacementContextual({
-            collection: this._presetCollection,
-            user: this._user,
-        }).open();
     },
 
     onClickEditLayer() {

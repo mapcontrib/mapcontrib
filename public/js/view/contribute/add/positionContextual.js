@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/newPoiPlacementContextual.ejs';
+import template from 'templates/contribute/add/positionContextual.ejs';
 import MapUi from 'ui/map';
 
 
@@ -53,18 +53,14 @@ export default Marionette.ItemView.extend({
     },
 
     onClickCancel() {
+        this.options.router.navigate('');
         this.close();
     },
 
     onClickNext() {
         const center = this._map.getCenter();
 
-        if ( this.collection.models.length === 0 ) {
-            this._radio.commands.execute('column:showContribForm', { center });
-        }
-        else {
-            this._radio.commands.execute('column:showContribColumn', { center });
-        }
+        this.options.router.navigate(`contribute/add/${center.lat}/${center.lng}`, true);
 
         this.close();
     },
