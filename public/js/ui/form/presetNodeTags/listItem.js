@@ -11,6 +11,7 @@ import UrlField from '../fields/url';
 import TelField from '../fields/tel';
 import NumberField from '../fields/number';
 import FileField from '../fields/file';
+import CheckField from '../fields/check';
 
 
 export default Marionette.LayoutView.extend({
@@ -129,6 +130,9 @@ export default Marionette.LayoutView.extend({
                     break;
                 case CONST.tagType.file:
                     this._valueField = new FileField( fieldOptions );
+                    break;
+                case CONST.tagType.check:
+                    this._valueField = new CheckField( fieldOptions );
                     break;
                 default:
                     this._valueField = new TextField( fieldOptions );

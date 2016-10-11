@@ -305,6 +305,7 @@ export default {
         url: 'url',
         textarea: 'textarea',
         file: 'file',
+        check: 'check',
     },
 
     geocoder: {

@@ -1,0 +1,26 @@
+<section id="contrib_form_column" class="column right red">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="contribColumn_title"></h2>
+    </header>
+
+    <form action="<%- apiPath %>?fragment=<%- fragment %>" method="post" enctype="multipart/form-data">
+        <div class="container-fluid content sticky">
+            <div class="row sticky-inner">
+                <div class="col-xs-12">
+                    <div class="rg_tag_list"></div>
+                    <div class="bottom"></div>
+                </div>
+            </div>
+            <div class="row sticky-footer">
+                <div class="col-xs-12">
+                    <button type="button" class="btn btn-default add_btn" data-l10n-id="contribColumn_addTag"></button>
+                    <button type="submit" class="btn btn-primary pull-right save_btn" data-l10n-id="save"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

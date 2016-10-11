@@ -82,8 +82,11 @@
 <tel "Phone number"> /* FIXME */
 <url "Web address"> /* FIXME */
 <textarea "Big text"> /* FIXME */
+<checkbox "Checkbox"> /* FIXME */
 <value "Valore">
 <defaultValue "Default value"> /* FIXME */
+<yes "Si">
+<no "No">
 
 
 /* Home */

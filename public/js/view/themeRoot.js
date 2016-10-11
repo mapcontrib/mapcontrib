@@ -35,7 +35,6 @@ import TempOverPassLayerFormColumnView from './tempOverPassLayerFormColumn';
 import TempGpxLayerFormColumnView from './tempGpxLayerFormColumn';
 import TempCsvLayerFormColumnView from './tempCsvLayerFormColumn';
 import TempGeoJsonLayerFormColumnView from './tempGeoJsonLayerFormColumn';
-import ContribFormColumnView from './contribFormColumn';
 import EditLayerListColumnView from './editLayerListColumn';
 import AddLayerMenuColumnView from './addLayerMenuColumn';
 import EditOverPassLayerFormColumnView from './editOverPassLayerFormColumn';
@@ -98,7 +97,6 @@ export default Marionette.LayoutView.extend({
         tempLayerListColumn: '#rg_temp_layer_column',
         addTempLayerMenuColumn: '#rg_add_temp_layer_menu_column',
         tempLayerFormColumn: '#rg_edit_temp_layer_column',
-        contribFormColumn: '#rg_contrib_form_column',
         editLayerListColumn: '#rg_edit_layer_column',
         addLayerMenuColumn: '#rg_add_layer_menu_column',
         editLayerFormColumn: '#rg_edit_poi_layer_column',
@@ -217,9 +215,6 @@ export default Marionette.LayoutView.extend({
             },
             'column:editGeoJsonLayer': (layerModel) => {
                 this.onCommandEditGeoJsonLayer( layerModel );
-            },
-            'column:showContribForm': (opt) => {
-                this.onCommandShowContribForm(opt);
             },
             'column:showEditPoi': (opt) => {
                 this.onEditPoi(opt);
@@ -1561,26 +1556,6 @@ export default Marionette.LayoutView.extend({
     onCommandShowAddTempLayerMenu() {
         this._addTempLayerMenuColumnView.open();
     },
-
-    onCommandShowContribForm(options) {
-        this.showContribForm(options);
-    },
-
-    showContribForm(options) {
-        const newOptions = {
-            ...options,
-            user: this._user,
-            theme: this.model,
-            iDPresetsHelper: this._iDPresetsHelper,
-        };
-
-        const view = new ContribFormColumnView( newOptions );
-
-        this.getRegion('contribFormColumn').show( view );
-
-        view.open();
-    },
-
 
     onCommandShowEditPoiMarker(layerModel) {
         this.getRegion('editLayerMarkerModal').show(

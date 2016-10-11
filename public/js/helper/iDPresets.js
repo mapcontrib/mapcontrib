@@ -191,6 +191,14 @@ export default class IDPresetsHelper {
         return defaultPresets;
     }
 
+    getPreset(name) {
+        return this._presets.presets[name];
+    }
+
+    getField(name) {
+        return this._presets.fields[name];
+    }
+
     getFields() {
         const fields = [];
 

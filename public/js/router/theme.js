@@ -44,7 +44,7 @@ export default Backbone.Router.extend({
 
         'contribute/add': 'routeContributeAddPosition',
         'contribute/add/:lat/:lng': 'routeContributeAddPresetSelection',
-        'contribute/add/:lat/:lng/iD/:presetName': 'routeContributeAddIDPreset',
+        'contribute/add/:lat/:lng/iD/*presetName': 'routeContributeAddIDPreset',
         'contribute/add/:lat/:lng/:uuid': 'routeContributeAddCustomPreset',
 
         'admin/setting': 'routeAdminSetting',
@@ -71,6 +71,8 @@ export default Backbone.Router.extend({
         this._theme = app.getTheme();
         this._user = app.getUser();
         this._iDPresetsHelper = app.getIDPresetsHelper();
+        this._nonOsmData = this._app.getNonOsmData();
+        this._osmCache = this._app.getOsmCache();
         this._radio = Wreqr.radio.channel('global');
         this._previousRoute = '';
 
@@ -201,8 +203,11 @@ export default Backbone.Router.extend({
             router: this,
             config: this._config,
             theme: this._theme,
+            user: this._user,
             center: { lat, lng },
             iDPresetsHelper: this._iDPresetsHelper,
+            nonOsmData: this._nonOsmData,
+            osmCache: this._osmCache,
             preset: presetName,
         }).open();
     },
@@ -217,8 +222,11 @@ export default Backbone.Router.extend({
             router: this,
             config: this._config,
             theme: this._theme,
+            user: this._user,
             center: { lat, lng },
             iDPresetsHelper: this._iDPresetsHelper,
+            nonOsmData: this._nonOsmData,
+            osmCache: this._osmCache,
             preset: this._theme.get('presets').findWhere({ uuid }),
         }).open();
     },

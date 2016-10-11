@@ -84,6 +84,8 @@
 <textarea "Big text">
 <value "Valeur">
 <defaultValue "Default value">
+<yes "Yes">
+<no "No">
 
 
 /* Home */

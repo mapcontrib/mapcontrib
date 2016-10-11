@@ -1,5 +1,6 @@
 
 import Marionette from 'backbone.marionette';
+import CONST from 'const';
 import template from './template.ejs';
 import 'typeahead.js';
 import 'typeahead.js-bootstrap-css/typeaheadjs.css';
@@ -99,12 +100,14 @@ export default Marionette.ItemView.extend({
         for (const field of this._proposedFields) {
             if (key.toLowerCase() === field.label.toLowerCase()) {
                 this.model.set('key', field.key);
+                this.model.set('type', field.type);
                 isProposedField = true;
             }
         }
 
         if (isProposedField === false) {
-            this.model.set( 'key', key );
+            this.model.set('key', key);
+            this.model.set('type', CONST.tagType.text);
         }
 
         this.trigger('change', this.model.get('key'));

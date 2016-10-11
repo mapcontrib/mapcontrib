@@ -5,8 +5,13 @@ import listItemTemplate from './listItem.ejs';
 import KeyField from '../fields/key';
 import RawKeyField from '../fields/rawKey';
 import TextField from '../fields/text';
+import EmailField from '../fields/email';
+import TextareaField from '../fields/textarea';
+import UrlField from '../fields/url';
+import TelField from '../fields/tel';
 import NumberField from '../fields/number';
 import FileField from '../fields/file';
+import CheckField from '../fields/check';
 
 
 export default Marionette.LayoutView.extend({
@@ -104,11 +109,26 @@ export default Marionette.LayoutView.extend({
                 case CONST.tagType.text:
                     this._valueField = new TextField( fieldOptions );
                     break;
+                case CONST.tagType.email:
+                    this._valueField = new EmailField( fieldOptions );
+                    break;
+                case CONST.tagType.url:
+                    this._valueField = new UrlField( fieldOptions );
+                    break;
+                case CONST.tagType.textarea:
+                    this._valueField = new TextareaField( fieldOptions );
+                    break;
+                case CONST.tagType.tel:
+                    this._valueField = new TelField( fieldOptions );
+                    break;
                 case CONST.tagType.number:
                     this._valueField = new NumberField( fieldOptions );
                     break;
                 case CONST.tagType.file:
                     this._valueField = new FileField( fieldOptions );
+                    break;
+                case CONST.tagType.check:
+                    this._valueField = new CheckField( fieldOptions );
                     break;
                 default:
                     this._valueField = new TextField( fieldOptions );

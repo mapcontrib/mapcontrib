@@ -1,5 +1,6 @@
 
 import Marionette from 'backbone.marionette';
+import CONST from 'const';
 import template from './template.ejs';
 
 
@@ -34,10 +35,17 @@ export default Marionette.ItemView.extend({
     },
 
     _updateKey() {
-        this.model.set(
-            'key',
-            this.ui.key.val().trim()
-        );
+        const key = this.ui.key.val().trim();
+        const field = this.options.iDPresetsHelper.getField(key);
+
+        this.model.set('key', key);
+
+        if (field) {
+            this.model.set('type', field.type);
+        }
+        else {
+            this.model.set('type', CONST.tagType.text);
+        }
 
         this.trigger('change', this.model.get('key'));
 
