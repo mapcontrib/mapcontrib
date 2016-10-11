@@ -196,7 +196,8 @@ export default class IDPresetsHelper {
     }
 
     getField(name) {
-        return this._presets.fields[name];
+        const properName = name.replace(':', '/');
+        return this._presets.fields[properName];
     }
 
     getFields() {

@@ -76,6 +76,7 @@ export default Marionette.LayoutView.extend({
         this.ui.valueReadOnlyCheckbox.prop('checked', this.model.get('valueReadOnly'));
         this.ui.displayRawTag.prop('checked', this._displayRawTag);
 
+        this._setNonOsmIfFileTagType();
         this._changeKeyReadOnlyStateIfNeeded();
 
         this.onCollectionUpdate();
@@ -94,6 +95,7 @@ export default Marionette.LayoutView.extend({
         }
 
         this._keyField.on('change', this._renderValueField, this);
+        this._keyField.on('change', this._setNonOsmIfFileTagType, this);
         this.getRegion('key').show(this._keyField, { preventDestroy: true });
     },
 
@@ -109,7 +111,9 @@ export default Marionette.LayoutView.extend({
             this._valueField = new TextField( fieldOptions );
         }
         else {
-            switch (this.model.get('type')) {
+            const tagType = this._findTagType(this.model.get('key'));
+
+            switch (tagType) {
                 case CONST.tagType.text:
                     this._valueField = new TextField( fieldOptions );
                     break;
@@ -140,6 +144,21 @@ export default Marionette.LayoutView.extend({
         }
 
         this.getRegion('value').show( this._valueField );
+    },
+
+    _findTagType(key) {
+        const customTag = this.options.customTags.findWhere({ key });
+        const iDTag = this.options.iDPresetsHelper.getField(key);
+
+        if (customTag) {
+            return customTag.get('type');
+        }
+
+        if (iDTag) {
+            return iDTag.type;
+        }
+
+        return CONST.tagType.text;
     },
 
     onCollectionUpdate() {
@@ -195,6 +214,22 @@ export default Marionette.LayoutView.extend({
         else {
             this.ui.keyReadOnlyCheckbox.prop('disabled', false);
         }
+    },
+
+    _setNonOsmIfFileTagType() {
+        const tagType = this._findTagType(this.model.get('key'));
+
+        if (tagType === CONST.tagType.file) {
+            this.ui.nonOsmCheckbox
+            .prop('checked', true)
+            .prop('disabled', true);
+        }
+        else {
+            this.ui.nonOsmCheckbox
+            .prop('disabled', false);
+        }
+
+        this.onChangeNonOsmCheckbox();
     },
 
     _triggerCollectionUpdate() {

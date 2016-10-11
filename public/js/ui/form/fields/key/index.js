@@ -39,47 +39,50 @@ export default Marionette.ItemView.extend({
     onRender() {
         this.renderTagInfo();
 
-        if ( !this.model.get('keyReadOnly') ) {
-            this._proposedFields = [
-                ...this.options.customTags.getFieldsForTypeahead(),
-                ...this.options.iDPresetsHelper.getFieldsForTypeahead(),
-            ];
+        this._proposedFields = [
+            ...this.options.customTags.getFieldsForTypeahead(),
+            ...this.options.iDPresetsHelper.getFieldsForTypeahead(),
+        ];
 
-            this.ui.key.typeahead(
-                {
-                    hint: true,
-                    highlight: true,
-                    minLength: 1,
-                },
-                {
-                    name: 'fields',
-                    source: this._substringMatcher(this._proposedFields),
-                    display: 'label',
-                }
-            )
-            .on('typeahead:change', (e, key) => {
-                this._updateKey(key.trim());
-            });
-        }
+        this.ui.key.typeahead(
+            {
+                hint: true,
+                highlight: true,
+                minLength: 1,
+            },
+            {
+                name: 'fields',
+                source: this._substringMatcher(this._proposedFields),
+                display: 'label',
+            }
+        )
+        .on('typeahead:change', (e, key) => {
+            this._updateKey(key.trim());
+        });
     },
 
     _substringMatcher(proposedFields) {
         return function findMatches(query, callback) {
-            const substrRegex = new RegExp(query, 'i');
+            try {
+                const substrRegex = new RegExp(query, 'i');
 
-            const matches = proposedFields.filter((field) => {
-                if (substrRegex.test(field.label)) {
-                    return true;
-                }
+                const matches = proposedFields.filter((field) => {
+                    if (substrRegex.test(field.label)) {
+                        return true;
+                    }
 
-                if (substrRegex.test(field.key)) {
-                    return true;
-                }
+                    if (substrRegex.test(field.key)) {
+                        return true;
+                    }
 
-                return false;
-            });
+                    return false;
+                });
 
-            callback(matches);
+                callback(matches);
+            }
+            catch (e) {
+                callback([]);
+            }
         };
     },
 
