@@ -43,7 +43,6 @@ import EditCsvLayerFormColumnView from './editCsvLayerFormColumn';
 import EditGeoJsonLayerFormColumnView from './editGeoJsonLayerFormColumn';
 import EditLayerMarkerModalView from './editLayerMarkerModal';
 import EditPoiColumnView from './editPoiColumn';
-import EditPoiPresetColumnView from './editPoiPresetColumn';
 import ZoomNotificationView from './zoomNotification';
 import OverPassTimeoutNotificationView from './overPassTimeoutNotification';
 import OverPassErrorNotificationView from './overPassErrorNotification';
@@ -215,9 +214,6 @@ export default Marionette.LayoutView.extend({
             },
             'column:editGeoJsonLayer': (layerModel) => {
                 this.onCommandEditGeoJsonLayer( layerModel );
-            },
-            'column:showEditPoi': (opt) => {
-                this.onEditPoi(opt);
             },
             'modal:showEditPoiMarker': (layerModel) => {
                 this.onCommandShowEditPoiMarker( layerModel );
@@ -1195,7 +1191,10 @@ export default Marionette.LayoutView.extend({
         globalWrapper.innerHTML = content;
 
         if ( isLogged && dataEditable ) {
-            const editButton = this._document.createElement('button');
+            const osmType = feature.properties.type;
+            const osmId = feature.properties.id;
+            const editButton = this._document.createElement('a');
+            editButton.href = `contribute/edit/${osmType}/${osmId}`;
 
             if ( !content ) {
                 globalWrapper.className = 'global_wrapper no_popup_content';
@@ -1207,17 +1206,6 @@ export default Marionette.LayoutView.extend({
                 editButton.className = 'btn btn-default btn-sm edit_btn';
                 editButton.innerHTML = '<i class="fa fa-pencil"></i>';
             }
-
-            $(editButton).on(
-                'click',
-                this.onClickEditPoi.bind(
-                    this,
-                    layer,
-                    feature.properties.type,
-                    feature.properties.id,
-                    layerModel
-                )
-            );
 
             globalWrapper.appendChild( editButton );
         }
@@ -1251,38 +1239,6 @@ export default Marionette.LayoutView.extend({
             default:
                 return rootLayer.refreshClusters();
         }
-    },
-
-    onClickEditPoi(layer, osmType, osmId, layerModel) {
-        if (this._presetCollection.models.length === 0) {
-            this.onEditPoi({
-                app: this._app,
-                osmType,
-                osmId,
-                layerModel,
-                layer,
-            });
-        }
-        else {
-            new EditPoiPresetColumnView({
-                app: this._app,
-                theme: this.model,
-                osmType,
-                osmId,
-                layerModel,
-                layer,
-            }).open();
-        }
-    },
-
-    onEditPoi(options) {
-        const newOptions = {
-            ...options,
-            iDPresetsHelper: this._iDPresetsHelper,
-            theme: this.model,
-        };
-
-        new EditPoiColumnView(newOptions).open();
     },
 
     renderUserButton() {
@@ -1853,13 +1809,9 @@ export default Marionette.LayoutView.extend({
             nonOsmData ? nonOsmData.get('tags') : [],
             isLogged
         );
-        const editAction = this.onClickEditPoi.bind(
-            this,
-            layer,
-            layer.feature.properties.type,
-            layer.feature.properties.id,
-            layer._layerModel
-        );
+        const osmType = layer.feature.properties.type;
+        const osmId = layer.feature.properties.id;
+        const editRoute = `contribute/edit/${osmType}/${osmId}`;
 
         if ( !content && !dataEditable ) {
             return false;
@@ -1878,7 +1830,7 @@ export default Marionette.LayoutView.extend({
                 this._infoDisplayView = new InfoDisplayModalView({
                     layerModel: layer._layerModel,
                     content,
-                    editAction,
+                    editRoute,
                     isLogged,
                 }).open();
                 break;
@@ -1887,7 +1839,7 @@ export default Marionette.LayoutView.extend({
                 this._infoDisplayView = new InfoDisplayColumnView({
                     layerModel: layer._layerModel,
                     content,
-                    editAction,
+                    editRoute,
                     isLogged,
                 }).open();
                 break;

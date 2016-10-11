@@ -29,6 +29,12 @@ export default Marionette.LayoutView.extend({
         this._radio = Wreqr.radio.channel('global');
     },
 
+    templateHelpers() {
+        return {
+            editRoute: this.options.editRoute,
+        };
+    },
+
     onRender() {
         const layerModel = this.options.layerModel;
 
@@ -39,7 +45,6 @@ export default Marionette.LayoutView.extend({
             && this.options.isLogged
             && layerModel.get('type') === CONST.layerType.overpass
         ) {
-            this.ui.editBtn.on( 'click', this.options.editAction );
             this.ui.footer.removeClass('hide');
         }
     },

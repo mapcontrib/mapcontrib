@@ -23,6 +23,9 @@ import ContributeAddPositionContextual from 'view/contribute/add/positionContext
 import ContributeAddPresetSelectionColumn from 'view/contribute/add/presetSelectionColumn';
 import ContributeAddFormColumn from 'view/contribute/add/formColumn';
 
+import ContributeEditPresetSelectionColumn from 'view/contribute/edit/presetSelectionColumn';
+import ContributeEditFormColumn from 'view/contribute/edit/formColumn';
+
 import AdminSettingColumn from 'view/admin/settingColumn';
 import AdminTileColumn from 'view/admin/tileColumn';
 import AdminPresetColumn from 'view/admin/preset/presetColumn';
@@ -47,6 +50,11 @@ export default Backbone.Router.extend({
         'contribute/add/:lat/:lng/no-preset': 'routeContributeAddNoPreset',
         'contribute/add/:lat/:lng/iD/*presetName': 'routeContributeAddIDPreset',
         'contribute/add/:lat/:lng/:uuid': 'routeContributeAddCustomPreset',
+
+        'contribute/edit/:type/:id': 'routeContributeEditPresetSelection',
+        'contribute/edit/:type/:id/no-preset': 'routeContributeEditNoPreset',
+        'contribute/edit/:type/:id/iD/*presetName': 'routeContributeEditIDPreset',
+        'contribute/edit/:type/:id/:uuid': 'routeContributeEditCustomPreset',
 
         'admin/setting': 'routeAdminSetting',
         'admin/tile': 'routeAdminTile',
@@ -243,6 +251,78 @@ export default Backbone.Router.extend({
             theme: this._theme,
             user: this._user,
             center: { lat, lng },
+            iDPresetsHelper: this._iDPresetsHelper,
+            nonOsmData: this._nonOsmData,
+            osmCache: this._osmCache,
+            preset: this._theme.get('presets').findWhere({ uuid }),
+        }).open();
+    },
+
+
+    routeContributeEditPresetSelection(type, id) {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new ContributeEditPresetSelectionColumn({
+            router: this,
+            config: this._config,
+            theme: this._theme,
+            osmId: `${type}/${id}`,
+            iDPresetsHelper: this._iDPresetsHelper,
+        }).open();
+    },
+
+    routeContributeEditNoPreset(type, id) {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new ContributeEditFormColumn({
+            router: this,
+            config: this._config,
+            theme: this._theme,
+            user: this._user,
+            osmId: `${type}/${id}`,
+            iDPresetsHelper: this._iDPresetsHelper,
+            nonOsmData: this._nonOsmData,
+            osmCache: this._osmCache,
+        }).open();
+    },
+
+    routeContributeEditIDPreset(type, id, presetName) {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new ContributeEditFormColumn({
+            router: this,
+            config: this._config,
+            theme: this._theme,
+            user: this._user,
+            osmId: `${type}/${id}`,
+            iDPresetsHelper: this._iDPresetsHelper,
+            nonOsmData: this._nonOsmData,
+            osmCache: this._osmCache,
+            preset: presetName,
+        }).open();
+    },
+
+    routeContributeEditCustomPreset(type, id, uuid) {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new ContributeEditFormColumn({
+            router: this,
+            config: this._config,
+            theme: this._theme,
+            user: this._user,
+            osmId: `${type}/${id}`,
             iDPresetsHelper: this._iDPresetsHelper,
             nonOsmData: this._nonOsmData,
             osmCache: this._osmCache,
