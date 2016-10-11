@@ -44,6 +44,7 @@ export default Backbone.Router.extend({
 
         'contribute/add': 'routeContributeAddPosition',
         'contribute/add/:lat/:lng': 'routeContributeAddPresetSelection',
+        'contribute/add/:lat/:lng/no-preset': 'routeContributeAddNoPreset',
         'contribute/add/:lat/:lng/iD/*presetName': 'routeContributeAddIDPreset',
         'contribute/add/:lat/:lng/:uuid': 'routeContributeAddCustomPreset',
 
@@ -190,6 +191,24 @@ export default Backbone.Router.extend({
             theme: this._theme,
             center: { lat, lng },
             iDPresetsHelper: this._iDPresetsHelper,
+        }).open();
+    },
+
+    routeContributeAddNoPreset(lat, lng) {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new ContributeAddFormColumn({
+            router: this,
+            config: this._config,
+            theme: this._theme,
+            user: this._user,
+            center: { lat, lng },
+            iDPresetsHelper: this._iDPresetsHelper,
+            nonOsmData: this._nonOsmData,
+            osmCache: this._osmCache,
         }).open();
     },
 
