@@ -7,7 +7,7 @@ import redirectToHttps from 'helper/forceHttps';
 
 document.l10n.ready(() => {
     if (MAPCONTRIB.config.forceHttps) {
-        return redirectToHttps(MAPCONTRIB.config.forceHttps);
+        redirectToHttps(MAPCONTRIB.config.forceHttps);
     }
 
     return new App(window).start(Router);
