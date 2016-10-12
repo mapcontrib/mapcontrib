@@ -33,9 +33,9 @@
 <buttonLinkTooltip title:"Partager">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
 <buttonTempLayerTooltip title:"Ajouter une couche temporaire">
-<buttonEditSettingTooltip title:"Configuration générale">
+<buttonEditSettingTooltip title:"{{ settings }}">
 <buttonEditLayerTooltip title:"Couches">
-<buttonEditTileTooltip title:"Fonds de carte">
+<buttonEditLocaleTooltip title:"Traductions">
 <buttonEditPresetTooltip title:"Types de nœuds">
 <buttonEditTagTooltip title:"Tags">
 <buttonHelpTooltip title:"Aide">
@@ -87,6 +87,9 @@
 <defaultValue "Valeur par défaut">
 <yes "Oui">
 <no "Non">
+<settings "Configuration">
+<mainSettings "Configuration générale">
+<tiles "Fonds de carte">
 
 
 /* Home */

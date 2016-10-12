@@ -33,9 +33,9 @@
 <buttonLinkTooltip title:"Condividi">
 <buttonContribTooltip title:"Aggiungi dati mancanti">
 <buttonTempLayerTooltip title:"Aggiungere un livello temporaneo">
-<buttonEditSettingTooltip title:"Impostazioni generali">
+<buttonEditSettingTooltip title:"{{ settings }}">
 <buttonEditLayerTooltip title:"Livello">
-<buttonEditTileTooltip title:"Sfondi">
+<buttonEditLocaleTooltip title:"Locales"> /* FIXME */
 <buttonEditPresetTooltip title:"Tipo di Nodi">
 <buttonEditTagTooltip title:"Tags">
 <buttonHelpTooltip title:"Aiuto">
@@ -87,6 +87,9 @@
 <defaultValue "Default value"> /* FIXME */
 <yes "Si">
 <no "No">
+<settings "Impostazioni">
+<mainSettings "Impostazioni generali">
+<tiles "Sfondi">
 
 
 /* Home */

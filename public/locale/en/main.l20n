@@ -33,9 +33,9 @@
 <buttonLinkTooltip title:"Share">
 <buttonContribTooltip title:"Add missing data">
 <buttonTempLayerTooltip title:"Add a temporary layer">
-<buttonEditSettingTooltip title:"Main settings">
+<buttonEditSettingTooltip title:"{{ settings }}">
 <buttonEditLayerTooltip title:"Layer">
-<buttonEditTileTooltip title:"Backgrounds">
+<buttonEditLocaleTooltip title:"Locales">
 <buttonEditPresetTooltip title:"Nodes types">
 <buttonEditTagTooltip title:"Tags">
 <buttonHelpTooltip title:"Help">
@@ -87,6 +87,9 @@
 <defaultValue "Default value">
 <yes "Yes">
 <no "No">
+<settings "Settings">
+<mainSettings "Main settings">
+<tiles "Backgrounds">
 
 
 /* Home */

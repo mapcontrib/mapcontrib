@@ -26,8 +26,9 @@ import ContributeAddFormColumn from 'view/contribute/add/formColumn';
 import ContributeEditPresetSelectionColumn from 'view/contribute/edit/presetSelectionColumn';
 import ContributeEditFormColumn from 'view/contribute/edit/formColumn';
 
-import AdminSettingColumn from 'view/admin/settingColumn';
-import AdminTileColumn from 'view/admin/tileColumn';
+import AdminSettingMenuColumn from 'view/admin/setting/menuColumn';
+import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
+import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
 import AdminPresetColumn from 'view/admin/preset/presetColumn';
 import AdminPresetCategoryEditColumn from 'view/admin/preset/presetCategoryEditColumn';
 import AdminPresetEditColumn from 'view/admin/preset/presetEditColumn';
@@ -57,7 +58,8 @@ export default Backbone.Router.extend({
         'contribute/edit/:osmType/:osmId/:uuid': 'routeContributeEditCustomPreset',
 
         'admin/setting': 'routeAdminSetting',
-        'admin/tile': 'routeAdminTile',
+        'admin/setting/main': 'routeAdminSettingMain',
+        'admin/setting/tile': 'routeAdminSettingTile',
 
         'admin/preset(/)(:categoryUuid)': 'routeAdminPreset',
         'admin/preset/new(/)(:parentUuid)': 'routeAdminPresetNew',
@@ -375,19 +377,31 @@ export default Backbone.Router.extend({
             return;
         }
 
-        new AdminSettingColumn({
+        new AdminSettingMenuColumn({
             router: this,
             model: this._theme,
         }).open();
     },
 
-    routeAdminTile() {
+    routeAdminSettingMain() {
         if (!this._userIsOwnerOfTheme()) {
             this.navigate('');
             return;
         }
 
-        new AdminTileColumn({
+        new AdminSettingMainColumn({
+            router: this,
+            model: this._theme,
+        }).open();
+    },
+
+    routeAdminSettingTile() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminSettingTileColumn({
             router: this,
             model: this._theme,
         }).open();
