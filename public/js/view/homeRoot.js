@@ -86,6 +86,7 @@ export default Marionette.LayoutView.extend({
             success: (collection, response, options) => {
                 this.onThemesFetchSuccess(collection, response, options);
                 this._searchInput.trigger('search:success');
+                this._scrollToSearchInput();
             },
             error: (collection, response, options) => {
                 this.onThemesFetchError(collection, response, options);
@@ -153,8 +154,6 @@ export default Marionette.LayoutView.extend({
     },
 
     showResults() {
-        this._scrollToSearchInput();
-
         this.ui.noResultPlaceholder.addClass('hide');
         this.ui.charactersLeftPlaceholder.addClass('hide');
         this.ui.searchResults.removeClass('hide');
