@@ -1,73 +1,72 @@
 
 import moment from 'moment-timezone';
-import Locale from '../core/locale';
+import Locale from 'core/locale';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import MapUi from '../ui/map';
-import template from '../../templates/editOverPassLayerFormColumn.ejs';
-import CONST from '../const';
-import MarkedHelper from '../helper/marked';
+import MapUi from 'ui/map';
+import template from 'templates/editOverPassLayerFormColumn.ejs';
+import CONST from 'const';
+import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {
-            'destroyOnClose': true,
+        l20n: {},
+        column: {
+            destroyOnClose: true,
         },
     },
 
     ui: {
-        'column': '#edit_poi_layer_column',
-        'submitButton': '.submit_btn',
+        column: '#edit_poi_layer_column',
+        submitButton: '.submit_btn',
 
-        'layerName': '#layer_name',
-        'layerDescription': '#layer_description',
-        'layerCluster': '#layer_cluster',
-        'layerHeat': '#layer_heat',
-        'layerDataEditable': '#layer_data_editable',
-        'layerVisible': '#layer_visible',
-        'layerMinZoom': '#layer_min_zoom',
-        'overPassInfo': '.info_overpass_btn',
-        'layerOverpassRequest': '#layer_overpass_request',
-        'layerPopupContent': '#layer_popup_content',
-        'infoDisplayInfo': '.info_info_display_btn',
-        'layerCache': '#layer_cache',
+        layerName: '#layer_name',
+        layerDescription: '#layer_description',
+        layerCluster: '#layer_cluster',
+        layerHeat: '#layer_heat',
+        layerVisible: '#layer_visible',
+        layerMinZoom: '#layer_min_zoom',
+        overPassInfo: '.info_overpass_btn',
+        layerOverpassRequest: '#layer_overpass_request',
+        layerPopupContent: '#layer_popup_content',
+        infoDisplayInfo: '.info_info_display_btn',
+        layerCache: '#layer_cache',
 
-        'heatOptions': '.heat-options',
-        'heatMapInfo': '.info_heat_map_btn',
-        'heatMinOpacity': '#layer_heat_min_opacity',
-        'heatMaxZoom': '#layer_heat_max_zoom',
-        'heatMax': '#layer_heat_max',
-        'heatBlur': '#layer_heat_blur',
-        'heatRadius': '#layer_heat_radius',
+        heatOptions: '.heat-options',
+        heatMapInfo: '.info_heat_map_btn',
+        heatMinOpacity: '#layer_heat_min_opacity',
+        heatMaxZoom: '#layer_heat_max_zoom',
+        heatMax: '#layer_heat_max',
+        heatBlur: '#layer_heat_blur',
+        heatRadius: '#layer_heat_radius',
 
-        'markerOptions': '.marker-options',
-        'markerWrapper': '.marker-wrapper',
-        'editMarkerButton': '.edit_marker_btn',
-        'currentMapZoom': '.current_map_zoom',
-        'cacheSection': '.cache_section',
-        'cacheInfo': '.info_cache_btn',
-        'cacheDate': '.cache_date',
-        'cacheErrorTimeout': '.cache_error_timeout',
-        'cacheErrorMemory': '.cache_error_memory',
-        'cacheErrorBadRequest': '.cache_error_bad_request',
-        'cacheErrorUnknown': '.cache_error_unknown',
+        markerOptions: '.marker-options',
+        markerWrapper: '.marker-wrapper',
+        editMarkerButton: '.edit_marker_btn',
+        currentMapZoom: '.current_map_zoom',
+        cacheSection: '.cache_section',
+        cacheInfo: '.info_cache_btn',
+        cacheDate: '.cache_date',
+        cacheErrorTimeout: '.cache_error_timeout',
+        cacheErrorMemory: '.cache_error_memory',
+        cacheErrorBadRequest: '.cache_error_bad_request',
+        cacheErrorUnknown: '.cache_error_unknown',
     },
 
     events: {
         'change @ui.layerCluster': 'onChangeLayerRepresentation',
         'change @ui.layerHeat': 'onChangeLayerRepresentation',
         'click @ui.editMarkerButton': 'onClickEditMarker',
-        'submit': 'onSubmit',
-        'reset': 'onReset',
+        submit: 'onSubmit',
+        reset: 'onReset',
     },
 
     templateHelpers() {
         return {
-            'marker': MapUi.buildLayerHtmlIcon( this.model ),
+            marker: MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
 
@@ -82,7 +81,6 @@ export default Marionette.ItemView.extend({
 
     onRender() {
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
-        this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
         this.ui.layerCache.prop('checked', this.model.get('cache'));
 
         if ( MAPCONTRIB.config.overPassCacheEnabled === true ) {
@@ -143,45 +141,45 @@ export default Marionette.ItemView.extend({
 
     onShow() {
         this.ui.heatMapInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_heatMapPopoverContent')
             ),
         });
 
         this.ui.infoDisplayInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
             ),
         });
 
         this.ui.overPassInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_overPassPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_overPassPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_overPassPopoverContent')
             ),
         });
 
         this.ui.cacheInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_cachePopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_cachePopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_cachePopoverContent')
             ),
         });
@@ -206,7 +204,7 @@ export default Marionette.ItemView.extend({
 
         this.ui.currentMapZoom.html(
             document.l10n.getSync(
-                'editLayerFormColumn_currentMapZoom', {'currentMapZoom': currentMapZoom}
+                'editLayerFormColumn_currentMapZoom', { currentMapZoom }
             )
         );
     },
@@ -275,16 +273,15 @@ export default Marionette.ItemView.extend({
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
         this.model.set('visible', this.ui.layerVisible.prop('checked'));
-        this.model.set('dataEditable', this.ui.layerDataEditable.prop('checked'));
-        this.model.set('minZoom', parseInt( this.ui.layerMinZoom.val() ));
+        this.model.set('minZoom', parseInt(this.ui.layerMinZoom.val(), 10));
         this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
         this.model.set('cache', this.ui.layerCache.prop('checked'));
         this.model.set('heatMinOpacity', parseFloat(this.ui.heatMinOpacity.val()));
-        this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val()));
+        this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val(), 10));
         this.model.set('heatMax', parseFloat(this.ui.heatMax.val()));
-        this.model.set('heatBlur', parseInt(this.ui.heatBlur.val()));
-        this.model.set('heatRadius', parseInt(this.ui.heatRadius.val()));
+        this.model.set('heatBlur', parseInt(this.ui.heatBlur.val(), 10));
+        this.model.set('heatRadius', parseInt(this.ui.heatRadius.val(), 10));
 
         if ( this.ui.layerCluster.prop('checked') ) {
             this.model.set('rootLayerType', CONST.rootLayerType.markerCluster);
@@ -330,9 +327,9 @@ export default Marionette.ItemView.extend({
                     }
 
                     if ( updateCache ) {
-                        const layerUuid = this.model.get('uniqid');
+                        const layerUuid = this.model.get('uuid');
                         const xhr = new XMLHttpRequest();
-                        xhr.open('GET', `${CONST.apiPath}overPassCache/generate/${layerUuid}`, true);
+                        xhr.open('GET', `${CONST.apiPath}/overPassCache/generate/${layerUuid}`, true);
                         xhr.send();
                     }
                 }

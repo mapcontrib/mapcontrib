@@ -1,27 +1,27 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/loginModal.ejs';
+import template from 'templates/loginModal.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'modal': {
-            'appendToBody': true
+        l20n: {},
+        modal: {
+            appendToBody: true,
         },
     },
 
     ui: {
-        'modal': '#login_modal',
+        modal: '#login_modal',
     },
 
     templateHelpers() {
         return {
-            'successRedirect': this.options.authSuccessCallback,
-            'failRedirect': this.options.authFailCallback,
+            successRedirect: this.options.authSuccessCallback,
+            failureRedirect: this.options.authFailCallback,
         };
     },
 

@@ -1,0 +1,3 @@
+node_modules/*
+public/lib/l20n.min.js
+*.bundle.js

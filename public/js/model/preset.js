@@ -1,27 +1,47 @@
 
-import _ from 'underscore';
 import Backbone from 'backbone';
-import BackboneRelational from 'backbone-relational';
-import CONST from '../const';
+import 'backbone-relational';
 import { uuid } from '../core/utils';
 
 
 export default Backbone.RelationalModel.extend({
     defaults() {
         return {
-            'creationDate': new Date().toISOString(),
-            'modificationDate': new Date().toISOString(),
-            'uniqid': undefined,
-            'name': undefined,
-            'description': undefined,
-            'order': undefined,
-            'tags': [], // [{'key': '', 'value': '', 'readOnly': true, 'nonOsmData': false, type: text|file}, [...]]
+            creationDate: new Date().toISOString(),
+            modificationDate: new Date().toISOString(),
+            uuid: undefined,
+            parentUuid: undefined,
+            name: undefined,
+            description: undefined,
+            order: undefined,
+            fields: [/*
+                {
+                    field: '',
+                    nonOsmData: false,
+                }
+            */],
+            tags: [/*
+                {
+                    tag: '',
+                    value: '',
+                    keyReadOnly: false,
+                    valueReadOnly: false,
+                    nonOsmData: false,
+                    type: 'text'|'file'
+                }
+            */],
+            locales: {/*
+                fr: {
+                    name: '',
+                    description: '',
+                }
+            */},
         };
     },
 
     initialize() {
-        if (!this.get('uniqid')) {
-            this.set('uniqid', uuid());
+        if (!this.get('uuid')) {
+            this.set('uuid', uuid());
         }
     },
 

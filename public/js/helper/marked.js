@@ -1,14 +1,14 @@
 
 import marked from 'marked';
 
-let renderer = new marked.Renderer();
+const renderer = new marked.Renderer();
 
 
 renderer.link = (href, title, text) => {
-    let attributesList = [
+    const attributesList = [
         `href="${href}"`,
-        `rel="noopener noreferrer"`,
-        `target="_blank"`
+        'rel="noopener noreferrer"',
+        'target="_blank"',
     ];
 
     if (title) {
@@ -29,7 +29,7 @@ export default class MarkedHelper {
      * @param {string} markdown - A markdown string to transform into HTML.
      * @returns {string}
      */
-    static render (markdownString) {
+    static render(markdownString) {
         return marked(markdownString, { renderer });
     }
 }

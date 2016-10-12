@@ -1,6 +1,5 @@
 
 import $ from 'jquery';
-import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 
@@ -8,23 +7,23 @@ import Marionette from 'backbone.marionette';
 export default Marionette.Behavior.extend({
     defaults() {
         return {
-            'appendToBody': false,
-            'routeOnClose': '',
-            'triggerRouteOnClose': false,
+            appendToBody: false,
+            routeOnClose: '',
+            triggerRouteOnClose: false,
         };
     },
 
     ui: {
-        'closeBtn': '.close_btn',
+        closeBtn: '.close_btn',
     },
 
     events: {
         'click @ui.modal': 'onClickModal',
         'click @ui.closeBtn': 'onClickClose',
-        'keyup': 'onKeyUp',
+        keyup: 'onKeyUp',
     },
 
-    initialize(options) {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
@@ -56,6 +55,8 @@ export default Marionette.Behavior.extend({
                 }
             });
         }, 100);
+
+        return true;
     },
 
     onClose() {
@@ -96,11 +97,11 @@ export default Marionette.Behavior.extend({
     },
 
     onKeyUp(e) {
-        switch ( e.keyCode ) {
+        switch (e.keyCode) {
             case 27:
-
                 this.onClose();
                 break;
+            default:
         }
     },
 
@@ -111,5 +112,5 @@ export default Marionette.Behavior.extend({
             this.options.routeOnClose,
             this.options.triggerRouteOnClose
         );
-    }
+    },
 });

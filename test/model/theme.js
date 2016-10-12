@@ -2,9 +2,8 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import ThemeModel from '../../public/js/model/theme';
-import UserModel from '../../public/js/model/user';
-
+import ThemeModel from 'model/theme';
+import UserModel from 'model/user';
 
 
 describe('ThemeModel', () => {
@@ -12,13 +11,13 @@ describe('ThemeModel', () => {
 
     before(() => {
         theme = new ThemeModel({
-            'userId': '5d8e2fv4s65s8ze4sd8cv4v',
-            'owners': [
+            userId: '5d8e2fv4s65s8ze4sd8cv4v',
+            owners: [
                 '5d8e2fv4s65s8ze4sd8cv4v',
-                '5d8e2fv4s65s8ze4sdbbbbb'
+                '5d8e2fv4s65s8ze4sdbbbbb',
             ],
-            'fragment': 'a6g07ft',
-            'name': 'A name with spécial-characterS_...'
+            fragment: 'a6g07ft',
+            name: 'A name with spécial-characterS_...',
         });
     });
 
@@ -40,27 +39,27 @@ describe('ThemeModel', () => {
 
     describe('isOwner', () => {
         it('Should be a owner by userId', () => {
-            let user = new UserModel({ '_id': '5d8e2fv4s65s8ze4sd8cv4v' });
+            const user = new UserModel({ _id: '5d8e2fv4s65s8ze4sd8cv4v' });
             assert.strictEqual(theme.isOwner(user), true);
         });
 
         it('Should be a owner by owners list', () => {
-            let user = new UserModel({ '_id': '5d8e2fv4s65s8ze4sdbbbbb' });
+            const user = new UserModel({ _id: '5d8e2fv4s65s8ze4sdbbbbb' });
             assert.strictEqual(theme.isOwner(user), true);
         });
 
         it('Should be a owner by wildcard', () => {
-            let user = new UserModel({ '_id': '5d8e2fv4s65s8ze4sdbbbbb' });
-            let theme = new ThemeModel({
-                'owners': [
-                    '*'
-                ]
+            const user = new UserModel({ _id: '5d8e2fv4s65s8ze4sdbbbbb' });
+            const otherTheme = new ThemeModel({
+                owners: [
+                    '*',
+                ],
             });
-            assert.strictEqual(theme.isOwner(user), true);
+            assert.strictEqual(otherTheme.isOwner(user), true);
         });
 
         it('Shouldn\'t be a owner', () => {
-            let user = new UserModel({ '_id': '5d8e2fv4s65s8ze4sdccccc' });
+            const user = new UserModel({ _id: '5d8e2fv4s65s8ze4sdccccc' });
             assert.strictEqual(theme.isOwner(user), false);
         });
     });

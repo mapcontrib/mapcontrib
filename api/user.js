@@ -4,20 +4,20 @@ import UserModel from '../public/js/model/user';
 
 
 let options = {
-    'CONST': undefined,
-    'database': undefined,
+    CONST: undefined,
+    database: undefined,
 };
 
 
-function setOptions (hash) {
+function setOptions(hash) {
     options = hash;
 }
 
 
 class Api {
-    static post (req, res) {
-        const collection = options.database.collection('user'),
-        model = new UserModel(req.body);
+    static post(req, res) {
+        const collection = options.database.collection('user');
+        const model = new UserModel(req.body);
 
         if ( !model.isValid() ) {
             res.sendStatus(400);
@@ -25,8 +25,8 @@ class Api {
             return true;
         }
 
-        collection.insertOne(req.body, {'safe': true}, (err, results) => {
-            if(err) {
+        collection.insertOne(req.body, { safe: true }, (err, results) => {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
@@ -35,19 +35,21 @@ class Api {
             const result = results.ops[0];
             result._id = result._id.toString();
 
-            res.send(result);
+            return res.send(result);
         });
+
+        return true;
     }
 
 
-    static get (req, res) {
+    static get(req, res) {
         Api.findFromId(req, res, req.params._id, (user) => {
             res.send(user);
         });
     }
 
 
-    static findFromId (req, res, _id, callback) {
+    static findFromId(req, res, _id, callback) {
         if ( _id === 'me' ) {
             _id = req.user;
         }
@@ -65,10 +67,10 @@ class Api {
         const collection = options.database.collection('user');
 
         collection.find({
-            '_id': new ObjectID(_id)
+            _id: new ObjectID(_id),
         })
         .toArray((err, results) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
@@ -83,17 +85,19 @@ class Api {
             const result = results[0];
             result._id = result._id.toString();
 
-            callback(result);
+            return callback(result);
         });
+
+        return true;
     }
 
 
-    static getAll (req, res) {
+    static getAll(req, res) {
         const collection = options.database.collection('user');
 
         collection.find()
         .toArray((err, results) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
@@ -105,12 +109,12 @@ class Api {
                 });
             }
 
-            res.send(results);
+            return res.send(results);
         });
     }
 
 
-    static put (req, res) {
+    static put(req, res) {
         if (req.user !== req.params._id) {
             res.sendStatus(401);
 
@@ -124,9 +128,9 @@ class Api {
         }
 
 
-        const new_json = req.body,
-        collection = options.database.collection('user'),
-        model = new UserModel(new_json);
+        const newJson = req.body;
+        const collection = options.database.collection('user');
+        const model = new UserModel(newJson);
 
         if ( !model.isValid() ) {
             res.sendStatus(400);
@@ -134,27 +138,28 @@ class Api {
             return true;
         }
 
-        delete(new_json._id);
+        delete (newJson._id);
 
         collection.updateOne({
-            '_id': new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id),
         },
-        new_json,
-        {'safe': true},
+        newJson,
+        { safe: true },
         (err) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
             }
 
-            res.send({});
+            return res.send({});
         });
+
+        return true;
     }
 
 
-
-    static delete (req, res) {
+    static delete(req, res) {
         if (req.user !== req.params._id) {
             res.sendStatus(401);
 
@@ -171,21 +176,23 @@ class Api {
         const collection = options.database.collection('user');
 
         collection.remove({
-            '_id': new ObjectID(req.params._id)
+            _id: new ObjectID(req.params._id),
         },
-        {'safe': true},
+        { safe: true },
         (err) => {
-            if(err) {
+            if (err) {
                 res.sendStatus(500);
 
                 return true;
             }
 
-            res.send({});
+            return res.send({});
         });
+
+        return true;
     }
 
-    static logout (req, res) {
+    static logout(req, res) {
         req.logout();
 
         delete req.session.user;
@@ -196,8 +203,7 @@ class Api {
 }
 
 
-
 export default {
     setOptions,
-    Api
+    Api,
 };

@@ -1,24 +1,24 @@
 
 import Backbone from 'backbone';
-import CONST from '../const';
+import CONST from 'const';
 
 
 export default Backbone.Model.extend({
     idAttribute: '_id',
 
-    urlRoot: CONST.apiPath + 'osmCache',
+    urlRoot: `${CONST.apiPath}/osmCache`,
 
     defaults() {
         return {
-            'creationDate': new Date().toISOString(),
-            'modificationDate': new Date().toISOString(),
-            'osmId': undefined,
-            'osmType': undefined,
-            'osmVersion': 0,
-            'osmElement': undefined,
-            'overPassElement': undefined,
-            'userId': undefined,
-            'themeFragment': undefined,
+            creationDate: new Date().toISOString(),
+            modificationDate: new Date().toISOString(),
+            osmId: undefined,
+            osmType: undefined,
+            osmVersion: 0,
+            osmElement: undefined,
+            overPassElement: undefined,
+            userId: undefined,
+            themeFragment: undefined,
         };
     },
 
@@ -27,9 +27,9 @@ export default Backbone.Model.extend({
         this.on('change:osmVersion', this.setInt.bind(this, 'osmVersion'));
         this.on('change:userId', this.setInt.bind(this, 'userId'));
 
-        this.set('osmId', parseInt(this.get('osmId')));
-        this.set('osmVersion', parseInt(this.get('osmVersion')));
-        this.set('userId', parseInt(this.get('userId')));
+        this.set('osmId', parseInt(this.get('osmId'), 10));
+        this.set('osmVersion', parseInt(this.get('osmVersion'), 10));
+        this.set('userId', parseInt(this.get('userId'), 10));
     },
 
     updateModificationDate() {
@@ -37,6 +37,6 @@ export default Backbone.Model.extend({
     },
 
     setInt(attributeName, model, value) {
-        this.set(attributeName, parseInt(value));
+        this.set(attributeName, parseInt(value, 10));
     },
 });

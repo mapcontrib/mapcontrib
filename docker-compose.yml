@@ -17,4 +17,4 @@ node:
     volumes:
         - ./:/data
     working_dir: /data
-    command: npm run startFromDocker
+    command: npm run start-from-docker

@@ -1,26 +1,27 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import TempLayerListView from './tempLayerList';
-import template from '../../templates/tempLayerListColumn.ejs';
-
+import ListGroup from 'ui/listGroup';
+import template from 'templates/tempLayerListColumn.ejs';
+import CONST from 'const';
+import MapUi from 'ui/map';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {},
+        l20n: {},
+        column: {},
     },
 
     regions: {
-        'layerList': '.rg_layer_list',
+        list: '.rg_list',
     },
 
     ui: {
-        'column': '#temp_layer_column',
-        'addButton': '.add_btn',
+        column: '#temp_layer_column',
+        addButton: '.add_btn',
     },
 
     events: {
@@ -32,11 +33,18 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        const tempLayerListView = new TempLayerListView({
-            'collection': this.collection,
+        const listGroup = new ListGroup({
+            collection: this.collection,
+            labelAttribute: 'name',
+            reorderable: true,
+            removeable: true,
+            getRightIcon: model => MapUi.buildLayerHtmlIcon(model),
+            placeholder: document.l10n.getSync('uiListGroup_placeholder'),
         });
 
-        this.getRegion('layerList').show( tempLayerListView );
+        this.listenTo(listGroup, 'item:select', this.onSelect);
+
+        this.getRegion('list').show( listGroup );
     },
 
     onBeforeOpen() {
@@ -56,5 +64,22 @@ export default Marionette.LayoutView.extend({
 
     onClickAdd() {
         this._radio.commands.execute('column:showAddTempLayerMenu');
+    },
+
+    onSelect(model) {
+        switch (model.get('type')) {
+            case CONST.layerType.overpass:
+                return this._radio.commands.execute( 'column:tempOverPassLayer', model );
+            case CONST.layerType.gpx:
+                return this._radio.commands.execute( 'column:tempGpxLayer', model );
+            case CONST.layerType.csv:
+                return this._radio.commands.execute( 'column:tempCsvLayer', model );
+            case CONST.layerType.geojson:
+                return this._radio.commands.execute( 'column:tempGeoJsonLayer', model );
+            case CONST.layerType.osmose:
+                return this._radio.commands.execute( 'column:tempOsmoseLayer', model );
+            default:
+                return false;
+        }
     },
 });

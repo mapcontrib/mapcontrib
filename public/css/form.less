@@ -63,6 +63,18 @@ textarea.font-monospace {
     margin-top: -5px;
 }
 
+.radio-inline,
+.checkbox-inline {
+    margin-top: 0;
+}
+
+.input-group {
+    .radio-inline,
+    .checkbox-inline {
+        margin-top: 8px;
+    }
+}
+
 .form-control-feedback {
     display: none;
 }
@@ -113,7 +125,8 @@ input + .help-block,
 .input-group-btn + .help-block,
 .help-block + .help-block,
 textarea + .help-block,
-figure + figcaption {
+figure + figcaption,
+.form-group-help-block {
     padding: 4px 6px;
     margin-top: 0;
 }
@@ -122,7 +135,8 @@ input + .help-block,
 .input-group + .help-block,
 .input-group-btn + .help-block,
 .help-block + .help-block,
-textarea + .help-block {
+textarea + .help-block,
+.form-group-help-block {
     font-size: 12px;
 }
 
@@ -135,6 +149,17 @@ textarea + .help-block {
         margin-top: 0;
     }
 }
+
+/* To avoid a flip between the input and its group on focus... */
+.input-group .form-control:focus {
+    z-index: 2;
+}
+
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group,
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
+    z-index: 1;
+}
+
 
 .input-group-addon {
     border-radius: 0;

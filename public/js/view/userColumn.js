@@ -1,20 +1,26 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/userColumn.ejs';
+import template from 'templates/userColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
+            },
+        };
     },
 
     ui: {
-        'column': '#user_column',
-        'logoutItem': '.logout_item',
+        column: '.column',
+        logoutItem: '.logout_item',
     },
 
     events: {

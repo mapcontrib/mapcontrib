@@ -1,7 +1,4 @@
 
-import osmtogeojson from 'osmtogeojson';
-
-
 export default class GeoJsonHelper {
     /**
      * @author Guillaume AMAT
@@ -10,7 +7,7 @@ export default class GeoJsonHelper {
      * @param {object} object.
      * @returns {number}
      */
-    static findOsmId (object) {
+    static findOsmId(object) {
         if ( !object.properties) {
             return false;
         }
@@ -29,7 +26,7 @@ export default class GeoJsonHelper {
      * @param {object} object.
      * @returns {string}
      */
-    static findOsmType (object) {
+    static findOsmType(object) {
         if ( !object.properties) {
             return false;
         }
@@ -48,7 +45,7 @@ export default class GeoJsonHelper {
      * @param {object} object.
      * @returns {number}
      */
-    static findOsmVersion (object) {
+    static findOsmVersion(object) {
         if ( !object.properties) {
             return false;
         }
@@ -72,13 +69,13 @@ export default class GeoJsonHelper {
      * @param {object} overPassElement.
      * @returns {object}
      */
-    static hydrateFeatureFromOverPassElement (feature, overPassElement) {
+    static hydrateFeatureFromOverPassElement(feature, overPassElement) {
         const hydratedFeature = { ...feature };
 
         if (feature.properties.type === 'node') {
             hydratedFeature.geometry.coordinates = [
                 overPassElement.lat,
-                overPassElement.lon
+                overPassElement.lon,
             ];
         }
 
@@ -93,7 +90,7 @@ export default class GeoJsonHelper {
 
             hydratedFeature.properties.tags = {
                 ...hydratedFeature.properties.tags,
-                ...overPassElement.tags
+                ...overPassElement.tags,
             };
         }
 

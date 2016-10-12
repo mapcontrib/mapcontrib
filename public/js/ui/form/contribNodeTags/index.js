@@ -1,6 +1,5 @@
 
 import Marionette from 'backbone.marionette';
-import CONST from '../../../const';
 import ContribNodeTagsCollection from './collection';
 import ContribNodeTagsListItemView from './listItem';
 
@@ -8,34 +7,24 @@ import ContribNodeTagsListItemView from './listItem';
 export default Marionette.CollectionView.extend({
     childView: ContribNodeTagsListItemView,
 
-    initialize: function () {
+    childViewOptions() {
+        return {
+            iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
+        };
+    },
+
+    initialize(options) {
         this.collection = new ContribNodeTagsCollection();
+
+        if (options.tags && options.tags.length > 0) {
+            this.collection.add(options.tags);
+        }
     },
 
-    setTags: function (tags) {
-        if (tags.length === 0) {
-            this.collection.add({
-                'keyReadOnly': false,
-                'valueReadOnly': false,
-                'nonOsmData': false,
-                'type': CONST.tagType.text,
-            });
-        }
-        else {
-            this.collection.add( tags );
-        }
-
-        this.render();
-    },
-
-    addTag: function (tag) {
+    addTag(tag) {
         if ( !tag ) {
-            return this.collection.add({
-                'keyReadOnly': false,
-                'valueReadOnly': false,
-                'nonOsmData': false,
-                'type': CONST.tagType.text,
-            });
+            return this.collection.add({});
         }
 
         if (tag.key) {
@@ -46,57 +35,65 @@ export default Marionette.CollectionView.extend({
             }
         }
 
-        this.collection.add(tag);
+        return this.collection.add(tag);
     },
 
-    getTags: function () {
+    getTags() {
         return this.collection.toJSON();
     },
 
-    hasFileToUpload: function () {
+    hasFileToUpload() {
         let hasFileToUpload = false;
 
         for (const i in this.children._views) {
-            const fileTag = this.children._views[i];
+            if ({}.hasOwnProperty.call(this.children._views, i)) {
+                const fileTag = this.children._views[i];
 
-            if ( fileTag.isFileTag() && fileTag.isNotEmpty() ) {
-                hasFileToUpload = true;
+                if ( fileTag.isFileTag() && fileTag.valueIsNotEmpty() ) {
+                    hasFileToUpload = true;
+                }
             }
         }
 
         return hasFileToUpload;
     },
 
-    showErrorFeedback: function (response) {
+    showErrorFeedback(response) {
         for (const i in this.children._views) {
-            const view = this.children._views[i];
-            const modelId = response.fileInput.replace('fileInput_', '');
+            if ({}.hasOwnProperty.call(this.children._views, i)) {
+                const view = this.children._views[i];
+                const modelId = response.fileInput.replace('fileInput_', '');
 
-            if (view.model.cid === modelId) {
-                view.showErrorFeedback();
+                if (view.model.cid === modelId) {
+                    view.showErrorFeedback();
+                }
             }
         }
     },
 
-    hideErrorFeedbacks: function () {
+    hideErrorFeedbacks() {
         for (const i in this.children._views) {
-            const view = this.children._views[i];
+            if ({}.hasOwnProperty.call(this.children._views, i)) {
+                const view = this.children._views[i];
 
-            view.hideErrorFeedback();
+                view.hideErrorFeedback();
+            }
         }
     },
 
-    setFilesPathFromApiResponse: function (apiResponse) {
+    setFilesPathFromApiResponse(apiResponse) {
         for (const file of apiResponse) {
             const key = Object.keys(file)[0];
             const modelId = key.replace('fileInput_', '');
             const path = file[key];
 
             for (const i in this.children._views) {
-                const view = this.children._views[i];
+                if ({}.hasOwnProperty.call(this.children._views, i)) {
+                    const view = this.children._views[i];
 
-                if (view.model.cid === modelId) {
-                    view.model.set('value', path);
+                    if (view.model.cid === modelId) {
+                        view.model.set('value', path);
+                    }
                 }
             }
         }

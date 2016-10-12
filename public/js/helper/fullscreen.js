@@ -1,7 +1,7 @@
 
 
 export default class FullscreenHelper {
-    static isFullscreenAPISupported (document) {
+    static isFullscreenAPISupported(document) {
         if (
             !document.fullscreenEnabled &&
             !document.mozFullScreenEnabled &&
@@ -10,12 +10,11 @@ export default class FullscreenHelper {
         ) {
             return false;
         }
-        else {
-            return true;
-        }
+
+        return true;
     }
 
-    static onFullscreenChange (window, callback) {
+    static onFullscreenChange(window, callback) {
         let eventName;
 
         if (window.document.fullscreenEnabled) {
@@ -39,7 +38,7 @@ export default class FullscreenHelper {
         }
     }
 
-    static getFullscreenElement (document) {
+    static getFullscreenElement(document) {
         if (document.fullscreenElement) {
             return document.fullscreenElement;
         }
@@ -52,38 +51,41 @@ export default class FullscreenHelper {
         else if (document.msFullscreenElement) {
             return document.msFullscreenElement;
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 
-    static requestFullscreen (element) {
+    static requestFullscreen(element) {
         if (element.requestFullscreen) {
             return element.requestFullscreen();
-        } else if (element.mozRequestFullScreen) {
+        }
+        else if (element.mozRequestFullScreen) {
             return element.mozRequestFullScreen();
-        } else if (element.webkitRequestFullScreen) {
+        }
+        else if (element.webkitRequestFullScreen) {
             return element.webkitRequestFullScreen();
-        } else if (element.msRequestFullscreen) {
+        }
+        else if (element.msRequestFullscreen) {
             return element.msRequestFullscreen();
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 
-    static exitFullscreen (document) {
+    static exitFullscreen(document) {
         if (document.exitFullscreen) {
             return document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
+        }
+        else if (document.mozCancelFullScreen) {
             return document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
+        }
+        else if (document.webkitExitFullscreen) {
             return document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
+        }
+        else if (document.msExitFullscreen) {
             return document.msExitFullscreen();
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 }

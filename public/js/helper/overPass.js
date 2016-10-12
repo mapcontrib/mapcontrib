@@ -9,9 +9,9 @@ export default class OverPassHelper {
      * @param {number} size - The max result size in byte.
      * @return {string}
      */
-    static buildUrlForCache(endPoint, request, size, lat, lon, zoom) {
+    static buildUrlForCache(endPoint, request, size, bounds) {
         const finalRequest = escape(
-            OverPassHelper.buildRequestForCache(request, size, lat, lon, zoom)
+            OverPassHelper.buildRequestForCache(request, size, bounds)
         );
 
         return `${endPoint}interpreter?data=${finalRequest}`;
@@ -48,7 +48,7 @@ export default class OverPassHelper {
      * @param {string} request - An OverPass request to prepare for web.
      * @return {string}
      */
-    static buildRequestForTheme (request) {
+    static buildRequestForTheme(request) {
         let overPassRequest = '';
         const requestSplit = request
         .trim()
@@ -76,7 +76,7 @@ export default class OverPassHelper {
             }
 
             if ( split.indexOf('body') !== -1 ) {
-                delete split[ split.indexOf('body') ];
+                delete split[split.indexOf('body')];
             }
 
             if ( split.indexOf('center') === -1 ) {
@@ -87,7 +87,7 @@ export default class OverPassHelper {
                 split.push('meta');
             }
 
-            overPassRequest += split.join(' ') + ';';
+            overPassRequest += `${split.join(' ')};`;
         }
 
         return overPassRequest;

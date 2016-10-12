@@ -4,41 +4,41 @@ import template from './template.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     className: 'form-group',
 
     ui: {
-        'colorButtons': '.color-buttons .btn',
+        colorButtons: '.color-buttons .btn',
     },
 
     events: {
         'click @ui.colorButtons': '_onClickColorButtons',
     },
 
-    initialize: function () {
+    initialize() {
         this._color = this.options.color;
         this.render();
     },
 
-    onRender: function () {
+    onRender() {
         if (this._color) {
             this._checkColor(this._color);
         }
     },
 
-    getSelectedColor: function () {
+    getSelectedColor() {
         return this._color;
     },
 
-    _checkColor: function (color) {
+    _checkColor(color) {
         this.ui.colorButtons
         .filter( `.${color}` )
         .find('i')
         .addClass('fa-check');
     },
 
-    _onClickColorButtons: function (e) {
+    _onClickColorButtons(e) {
         $('i', this.ui.colorButtons).removeClass('fa-check');
 
         e.currentTarget.querySelector('i').classList.add('fa-check');

@@ -1,47 +1,47 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import MapUi from '../ui/map';
-import { basename, extensionname, formatBytes } from '../core/utils';
-import CONST from '../const';
-import ColorSelectorView from '../ui/form/colorSelector';
-import template from '../../templates/editGpxLayerFormColumn.ejs';
-import MarkedHelper from '../helper/marked';
+import MapUi from 'ui/map';
+import { basename, extensionname, formatBytes } from 'core/utils';
+import CONST from 'const';
+import ColorSelectorView from 'ui/form/colorSelector';
+import template from 'templates/editGpxLayerFormColumn.ejs';
+import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {
-            'destroyOnClose': true,
+        l20n: {},
+        column: {
+            destroyOnClose: true,
         },
     },
 
     ui: {
-        'column': '#edit_poi_layer_column',
-        'form': 'form',
-        'submitButton': '.submit_btn',
+        column: '#edit_poi_layer_column',
+        form: 'form',
+        submitButton: '.submit_btn',
 
-        'layerName': '#layer_name',
-        'layerDescription': '#layer_description',
-        'layerVisible': '#layer_visible',
-        'infoDisplayInfo': '.info_info_display_btn',
-        'layerPopupContent': '#layer_popup_content',
-        'layerFile': '#layer_file',
+        layerName: '#layer_name',
+        layerDescription: '#layer_description',
+        layerVisible: '#layer_visible',
+        infoDisplayInfo: '.info_info_display_btn',
+        layerPopupContent: '#layer_popup_content',
+        layerFile: '#layer_file',
 
-        'colorSelector': '.color_selector',
+        colorSelector: '.color_selector',
 
-        'formGroups': '.form-group',
-        'fileFormGroup': '.form-group.layer_file',
+        formGroups: '.form-group',
+        fileFormGroup: '.form-group.layer_file',
 
-        'currentFile': '.current_file',
+        currentFile: '.current_file',
     },
 
     events: {
-        'submit': 'onSubmit',
-        'reset': 'onReset',
+        submit: 'onSubmit',
+        reset: 'onReset',
     },
 
     templateHelpers() {
@@ -49,9 +49,9 @@ export default Marionette.ItemView.extend({
         const maxFileSize = formatBytes( config.uploadMaxShapeFileSize * 1024 );
 
         return {
-            'fragment': this.options.theme.get('fragment'),
-            'apiPath': `${CONST.apiPath}file/shape`,
-            'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
+            fragment: this.options.theme.get('fragment'),
+            apiPath: `${CONST.apiPath}/file/shape`,
+            maxFileSize: document.l10n.getSync('maxFileSize', { maxFileSize }),
         };
     },
 
@@ -61,7 +61,7 @@ export default Marionette.ItemView.extend({
         this._oldModel = this.model.clone();
 
         this._colorSelector = new ColorSelectorView({
-            'color': this.model.get('color')
+            color: this.model.get('color'),
         });
     },
 
@@ -79,7 +79,7 @@ export default Marionette.ItemView.extend({
             this.ui.currentFile
             .html(
                 document.l10n.getSync('currentFile', {
-                    file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`
+                    file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`,
                 })
             )
             .removeClass('hide');
@@ -88,20 +88,20 @@ export default Marionette.ItemView.extend({
 
     onShow() {
         this.ui.infoDisplayInfo.popover({
-            'container': 'body',
-            'placement': 'left',
-            'trigger': 'focus',
-            'html': true,
-            'title': document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
-            'content': MarkedHelper.render(
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
             ),
         });
 
         this.ui.layerFile.filestyle({
-            'icon': false,
-            'badge': false,
-            'buttonText': document.l10n.getSync('editLayerFormColumn_browse'),
+            icon: false,
+            badge: false,
+            buttonText: document.l10n.getSync('editLayerFormColumn_browse'),
         });
     },
 
@@ -147,7 +147,7 @@ export default Marionette.ItemView.extend({
             }
 
             this.ui.form.ajaxSubmit({
-                'error': xhr => {
+                error: (xhr) => {
                     switch (xhr.status) {
                         case 413:
                             this.ui.fileFormGroup.addClass('has-feedback has-error');
@@ -155,19 +155,23 @@ export default Marionette.ItemView.extend({
                         case 415:
                             this.ui.fileFormGroup.addClass('has-feedback has-error');
                             break;
+                        default:
+                            this.ui.formGroups.addClass('has-feedback has-error');
                     }
                     this.enableSubmitButton();
                 },
-                'success': response => {
+                success: (response) => {
                     const file = response[0];
                     this.model.set('fileUri', file.layer_file);
                     this.saveLayer();
-                }
+                },
             });
         }
         else {
             this.saveLayer();
         }
+
+        return true;
     },
 
     saveLayer() {

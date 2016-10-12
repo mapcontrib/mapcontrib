@@ -1,6 +1,5 @@
 
-import _ from 'underscore';
-import CONST from '../const';
+import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
 
 
@@ -12,7 +11,7 @@ export default class MapUi {
      * @static
      * @access public
      */
-    static showContributionCross () {
+    static showContributionCross() {
         document.body.classList.add('contribution_cross_visible');
         document.querySelector('.leaflet-marker-pane').classList.add('in_contribution');
     }
@@ -24,7 +23,7 @@ export default class MapUi {
      * @static
      * @access public
      */
-    static hideContributionCross () {
+    static hideContributionCross() {
         document.body.classList.remove('contribution_cross_visible');
         document.querySelector('.leaflet-marker-pane').classList.remove('in_contribution');
     }
@@ -38,7 +37,7 @@ export default class MapUi {
      * @param {string} layerModel - Model of the POI layer which we request its icon.
      * @return {object} - A Leaflet divIcon.
      */
-    static buildLayerIcon (L, layerModel) {
+    static buildLayerIcon(layerModel) {
         return L.divIcon( MapUi.buildMarkerLayerIconOptions(layerModel) );
     }
 
@@ -52,8 +51,10 @@ export default class MapUi {
      * @param {string} layerModel - Model of the POI layer which we request its icon.
      * @return {string} - The HTML tags of the icon.
      */
-    static buildLayerHtmlIcon (layerModel) {
-        let iconColor, className, iconHtml;
+    static buildLayerHtmlIcon(layerModel) {
+        let iconColor;
+        let className;
+        let iconHtml;
 
         if (layerModel.get('type') === CONST.layerType.gpx) {
             iconColor = layerModel.get('color');
@@ -80,13 +81,13 @@ export default class MapUi {
      * @param {string} layerModel - Model of the POI layer which we request its icon.
      * @return {object} - The icon options.
      */
-    static buildMarkerLayerIconOptions (layerModel) {
+    static buildMarkerLayerIconOptions(layerModel) {
         const markerShape = layerModel.get('markerShape');
         const markerIcon = layerModel.get('markerIcon');
         const markerIconType = layerModel.get('markerIconType');
         const markerIconUrl = layerModel.get('markerIconUrl');
         const markerColor = layerModel.get('markerColor');
-        const iconOptions = { ...CONST.map.markers[ markerShape ] };
+        const iconOptions = { ...CONST.map.markers[markerShape] };
 
         iconOptions.className += ` ${markerColor}`;
 
@@ -117,10 +118,10 @@ export default class MapUi {
      * @param {string} layerModel - Model of the polyline's POI layer.
      * @return {object} - The polyline options.
      */
-    static buildLayerPolylineStyle (layerModel) {
+    static buildLayerPolylineStyle(layerModel) {
         return {
             ...CONST.map.wayPolylineOptions,
-            ...{ color: CONST.colors[ layerModel.get('color') ] }
+            ...{ color: CONST.colors[layerModel.get('color')] },
         };
     }
 
@@ -134,10 +135,10 @@ export default class MapUi {
      * @param {string} layerModel - Model of the polygon's POI layer.
      * @return {object} - The polygon options.
      */
-    static buildLayerPolygonStyle (layerModel) {
+    static buildLayerPolygonStyle(layerModel) {
         return {
             ...CONST.map.wayPolygonOptions,
-            ...{ color: CONST.colors[ layerModel.get('color') ] }
+            ...{ color: CONST.colors[layerModel.get('color')] },
         };
     }
 
@@ -151,22 +152,22 @@ export default class MapUi {
      * @param {string} layerModel.
      * @return {object} - The marker cluster layer.
      */
-    static buildMarkerClusterLayer (layerModel) {
+    static buildMarkerClusterLayer(layerModel) {
         return L.markerClusterGroup({
-            'polygonOptions': CONST.map.markerCLusterPolygonOptions,
-            'animate': false,
-            'animateAddingMarkers': false,
-            'spiderfyOnMaxZoom': false,
-            'disableClusteringAtZoom': 18,
-            'zoomToBoundsOnClick': true,
-            'iconCreateFunction': cluster => {
+            polygonOptions: CONST.map.markerCLusterPolygonOptions,
+            animate: false,
+            animateAddingMarkers: false,
+            spiderfyOnMaxZoom: false,
+            disableClusteringAtZoom: 18,
+            zoomToBoundsOnClick: true,
+            iconCreateFunction: (cluster) => {
                 const count = cluster.getChildCount();
                 const color = layerModel.get('markerColor');
 
                 return L.divIcon({
-                    html: `<div class="marker-cluster ${color}">${count}</div>`
+                    html: `<div class="marker-cluster ${color}">${count}</div>`,
                 });
-            }
+            },
         });
     }
 
@@ -180,7 +181,7 @@ export default class MapUi {
      * @param {string} layerModel.
      * @return {object} - The heat layer.
      */
-    static buildHeatLayer (layerModel) {
+    static buildHeatLayer(layerModel) {
         const heatLayer = L.heatLayer([], MapUi.buildHeatLayerOptions(layerModel));
 
         heatLayer.addLayer = (layer) => {
@@ -207,7 +208,7 @@ export default class MapUi {
      * @param {string} layerModel.
      * @return {object} - The heat layer.
      */
-    static buildHeatLayerOptions (layerModel) {
+    static buildHeatLayerOptions(layerModel) {
         const options = {
             minOpacity: layerModel.get('heatMinOpacity'),
             maxZoom: layerModel.get('heatMaxZoom'),
@@ -230,7 +231,7 @@ export default class MapUi {
      * @param {object} olderLayerModel.
      * @param {boolean} isNew.
      */
-    static updateLayerDisplayFromOlderModel (layerModel, oldLayerModel, isNew) {
+    static updateLayerDisplayFromOlderModel(layerModel, oldLayerModel, isNew) {
         const radio = Wreqr.radio.channel('global');
 
         if ( isNew ) {
@@ -262,7 +263,7 @@ export default class MapUi {
      * @param {object} layerModel.
      * @param {object} olderLayerModel.
      */
-    static updateLayerStyleFromOlderModel (layerModel, oldLayerModel) {
+    static updateLayerStyleFromOlderModel(layerModel, oldLayerModel) {
         const radio = Wreqr.radio.channel('global');
         let updateRepresentation = false;
         let updateMarkers = false;
@@ -306,7 +307,6 @@ export default class MapUi {
         if ( oldLayerModel.get('minZoom') !== layerModel.get('minZoom') ) {
             updateMinZoom = true;
         }
-
 
 
         if ( updateRepresentation ) {

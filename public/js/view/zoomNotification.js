@@ -1,21 +1,21 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/zoomNotification.ejs';
+import template from 'templates/zoomNotification.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'notification': {},
+        l20n: {},
+        notification: {},
     },
 
     ui: {
-        'notification': '#zoom_notification',
+        notification: '#zoom_notification',
 
-        'content': '.content',
+        content: '.content',
     },
 
     initialize() {

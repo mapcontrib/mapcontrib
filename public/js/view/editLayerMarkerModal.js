@@ -2,31 +2,31 @@
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import CONST from '../const';
-import template from '../../templates/editLayerMarkerModal.ejs';
+import CONST from 'const';
+import template from 'templates/editLayerMarkerModal.ejs';
 
 
 export default Marionette.ItemView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'modal': {},
+        l20n: {},
+        modal: {},
     },
 
     ui: {
-        'modal': '#edit_poi_marker_modal',
-        'colorButtons': '.color-buttons .btn',
-        'shapeButtons': '.shape-buttons .btn',
-        'iconTypeTabs': '.marker_icon_type_tab',
-        'iconTypeLibraryTab': '#iconTypeLibraryTab',
-        'iconTypeLibraryForm': '.form-library',
-        'iconTypeExternalTab': '#iconTypeExternalTab',
-        'iconTypeExternalForm': '.form-external',
-        'iconNameInput': '#markerIconName',
-        'iconUrlInput': '#markerIconUrl',
-        'iconPreview': '.icon-preview',
-        'closeButton': '.close_btn',
+        modal: '#edit_poi_marker_modal',
+        colorButtons: '.color-buttons .btn',
+        shapeButtons: '.shape-buttons .btn',
+        iconTypeTabs: '.marker_icon_type_tab',
+        iconTypeLibraryTab: '#iconTypeLibraryTab',
+        iconTypeLibraryForm: '.form-library',
+        iconTypeExternalTab: '#iconTypeExternalTab',
+        iconTypeExternalForm: '.form-external',
+        iconNameInput: '#markerIconName',
+        iconUrlInput: '#markerIconUrl',
+        iconPreview: '.icon-preview',
+        closeButton: '.close_btn',
     },
 
     events: {
@@ -39,8 +39,8 @@ export default Marionette.ItemView.extend({
         'keyup @ui.iconUrlInput': 'onChangeIconUrl',
         'blur @ui.iconUrlInput': 'onChangeIconUrl',
 
-        'submit': 'onSubmit',
-        'reset': 'onReset',
+        submit: 'onSubmit',
+        reset: 'onReset',
     },
 
     initialize() {
@@ -50,13 +50,16 @@ export default Marionette.ItemView.extend({
     },
 
     onRender() {
+        const markerColor = this.model.get('markerColor');
+        const markerShape = this.model.get('markerShape');
+
         this.ui.colorButtons
-        .filter( '.'+ this.model.get('markerColor') )
+        .filter(`.${markerColor}`)
         .find('i')
         .addClass('fa-check');
 
         this.ui.shapeButtons
-        .filter( '.'+ this.model.get('markerShape') )
+        .filter(`.${markerShape}`)
         .addClass('active');
 
         this.ui.iconTypeTabs.removeClass('active');
@@ -106,7 +109,7 @@ export default Marionette.ItemView.extend({
         this.model.set('markerShape', e.currentTarget.dataset.shape);
     },
 
-    onChangeIconName(e) {
+    onChangeIconName() {
         this.updateIconPreview();
     },
 
@@ -115,24 +118,24 @@ export default Marionette.ItemView.extend({
     },
 
     updateIconPreview() {
-        var iconName = this.ui.iconNameInput.val();
+        const iconName = this.ui.iconNameInput.val();
 
-        this.ui.iconPreview.attr('class', 'icon-preview fa fa-'+ iconName);
+        this.ui.iconPreview.attr('class', `icon-preview fa fa-${iconName}`);
 
         this.model.set('markerIcon', iconName);
     },
 
-    onClickIconTypeLibraryTab(e) {
+    onClickIconTypeLibraryTab() {
         this.ui.iconTypeExternalForm.addClass('hide');
         this.ui.iconTypeLibraryForm.removeClass('hide');
 
         this.model.set('markerIconType', CONST.map.markerIconType.library);
     },
 
-    onClickIconTypeExternalTab(e) {
+    onClickIconTypeExternalTab() {
         this.ui.iconTypeLibraryForm.addClass('hide');
         this.ui.iconTypeExternalForm.removeClass('hide');
 
         this.model.set('markerIconType', CONST.map.markerIconType.external);
-    }
+    },
 });

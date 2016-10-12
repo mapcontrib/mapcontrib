@@ -37,6 +37,7 @@
 <buttonEditLayerTooltip title:"Layer">
 <buttonEditTileTooltip title:"Backgrounds">
 <buttonEditPresetTooltip title:"Nodes types">
+<buttonEditTagTooltip title:"Tags">
 <buttonHelpTooltip title:"Help">
 
 
@@ -46,6 +47,7 @@
 <about "About {{ mapcontrib }}">
 <myThemes "My themes">
 <preferences "Preferences">
+<edit "Edit">
 <login "Log in">
 <loginOrSubscribe "Log in or subscribe">
 <logout "Log out">
@@ -62,16 +64,32 @@
 <editThatElement "Edit that element">
 <loadingData title:"Some data are being loaded">
 <createATheme "Create a theme">
-<searchATheme placeholder:"Search a theme (3 characters min.)">
+<searchATheme "Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
 <invalidFile "Invalid file">
 <currentFile "Current file: <a>{{ $file }}</a>">
 <file "File">
 <fileNotFound "File not found">
+<noResult "No result">
+<name "Name">
+<description "Description">
+<type "Type">
+<locales "Translations">
+<key "Key">
+<text "Text">
+<number "Number">
+<email "Email">
+<tel "Phone number">
+<url "Web address">
+<textarea "Big text">
+<checkbox "Checkbox">
+<value "Valeur">
+<defaultValue "Default value">
+<yes "Yes">
+<no "No">
 
 
 /* Home */
-<home_noResult "No result">
 <home_charactersLeft[plural($n)] {
   one: "1 character left",
   many: "{{ $n }} characters left"
@@ -120,6 +138,7 @@
 /* Contribution column */
 <contribColumn_title "Add a node">
 <contribColumn_description "Choose a type of node">
+<contribColumn_searchAPreset "Search a type of node">
 <contribColumn_freeAddition "Free tags addition">
 <contribColumn_addTag "Add a tag">
 
@@ -140,7 +159,7 @@
 /* Edit settings column */
 <editSettingColumn_title "Settings">
 <editSettingColumn_themeName "Theme name">
-<editSettingColumn_themeDescription "Description">
+<editSettingColumn_themeDescription "{{ description }}">
 <editSettingColumn_color "Color">
 <editSettingColumn_position "Location">
 <editSettingColumn_geolocation "Geolocation">
@@ -163,21 +182,18 @@ Put it right here!">
 
 /* Edit layer column */
 <editLayerListColumn_title "Layers">
-<editLayerListColumn_clickButton "Click the button below">
 <editLayerListColumn_addLayer "Add a layer">
 
 
 /* Edit layer column */
 <editLayerFormColumn_title "Layer edit">
-<editLayerFormColumn_layerName "Name">
-<editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_layerName "{{ name }}">
+<editLayerFormColumn_layerDescription "{{ description }}">
 <editLayerFormColumn_representationType "Representation">
 <editLayerFormColumn_clusterRepresentation "Groupable points">
 <editLayerFormColumn_heatRepresentation "Heat map">
 <editLayerFormColumn_visibility "Visibility">
-<editLayerFormColumn_visibilityAndEdition "Visibility and edition">
 <editLayerFormColumn_visible "Visible by users">
-<editLayerFormColumn_dataEditable "Allow to edit data">
 <editLayerFormColumn_heatOptions "Heat map">
 <editLayerFormColumn_heatMapPopoverTitle "Informations">
 <editLayerFormColumn_heatMapPopoverContent "#### Maximum zoom
@@ -240,20 +256,6 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <editTileColumn_maxZoom "Maximum zoom: {{ $maxZoom }}">
 
 
-/* Edit presets column */
-<editPresetColumn_title "Nodes types">
-<editPresetColumn_addPreset "Add a node type">
-<editPresetColumn_clickButton "Click the button below">
-
-
-/* Edit presets tags column */
-<editPresetTagsColumn_title "Edit">
-<editPresetTagsColumn_presetName "Node type's name">
-<editPresetTagsColumn_presetDescription "Description">
-<editPresetTagsColumn_presetTags "Tags">
-<editPresetTagsColumn_addTag "Add a tag">
-
-
 /* Edit POI data column */
 <editPoiColumn_title "Edit data">
 <editPoiColumn_movePoi "Move the node">
@@ -299,17 +301,22 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 
 
 /* Node tag field UI */
-<uiFormNodeTags_key placeholder:"Key">
-<uiFormNodeTags_value placeholder:"Value">
+<uiFormNodeTags_key "Key">
+<uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Read-only key">
 <uiFormNodeTags_valueReadOnly "Read-only value">
 <uiFormNodeTags_nonOsmData "Do not send this tag to OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap">
 <uiFormNodeTags_textInput "Text input">
 <uiFormNodeTags_fileInput "File input">
+<uiFormNodeTags_displayRawTag "Display the raw OSM tag">
 
 /* Color selector UI */
 <uiColorSelector_label "Color">
+
+
+/* List group UI */
+<uiListGroup_placeholder "Click below">
 
 
 /* Contribution form column */
@@ -324,7 +331,6 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <movePoiContextual_text "Put the cross the exact node place.">
 
 
-
 /* Add layer menu column */
 <addLayerMenuColumn_title "Add a layer">
 <addLayerMenuColumn_remoteInformation "Remote information">
@@ -337,8 +343,8 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 
 /* Layer info column */
 <infoLayerColumn_title "Informations">
-<infoLayerColumn_layerName "Name">
-<infoLayerColumn_layerDescription "Description">
+<infoLayerColumn_layerName "{{ name }}">
+<infoLayerColumn_layerDescription "{{ description }}">
 <infoLayerColumn_layerSource "Source of data">
 <infoLayerColumn_overPass "OverPass">
 <infoLayerColumn_gpx "GPX file">
@@ -366,3 +372,23 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <editPoiPresetColumn_title "Nodes types">
 <editPoiPresetColumn_noThanks "No thanks">
 <editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?">
+
+
+/* Admin tag column */
+<adminTagColumn_title "Tags">
+<adminTagColumn_addTag "Add a tag">
+
+
+/* Admin presets column */
+<adminPresetColumn_title "Nodes types">
+<adminPresetColumn_addPreset "Add a node type">
+<adminPresetColumn_addPresetCategory "Add a category">
+
+
+/* Admin edit presets column */
+<adminEditPresetColumn_presetTags "Tags">
+<adminEditPresetColumn_addTag "Add a tag">
+
+
+/* Admin edit preset categories column */
+<adminPresetCategoryColumn_title "Category">

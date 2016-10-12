@@ -7,21 +7,53 @@ import PresetNodeTagsListItemView from './listItem';
 export default Marionette.CollectionView.extend({
     childView: PresetNodeTagsListItemView,
 
-    setTags: function (tags) {
-        this.collection = new PresetNodeTagsCollection( tags );
+    childViewOptions() {
+        return {
+            iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
+        };
+    },
 
-        if (tags.length === 0) {
-            this.collection.add({});
+    initialize(options) {
+        if (!options.tags || options.tags.length === 0) {
+            this.collection = new PresetNodeTagsCollection([{}]);
+        }
+        else {
+            this.collection = new PresetNodeTagsCollection(options.tags);
         }
 
-        this.render();
+        this.listenTo(this.collection, 'update', this._onCollectionUpdate);
     },
 
-    addTag: function () {
-        this.collection.add({});
+    addTag(tag) {
+        if ( !tag ) {
+            return this.collection.add({});
+        }
+
+        if (tag.key) {
+            const currentTag = this.collection.findWhere({ key: tag.key });
+
+            if (currentTag) {
+                return currentTag.set(tag);
+            }
+        }
+
+        this.collection.add(tag);
+
+        return true;
     },
 
-    getTags: function () {
+    getTags() {
         return this.collection.toJSON();
+    },
+
+    _onCollectionUpdate() {
+        const osmTags = this.collection.where({
+            nonOsmData: false,
+        });
+
+        if (osmTags.length === 0) {
+            this.collection.add({});
+        }
     },
 });

@@ -1,0 +1,81 @@
+<section class="column right green">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="linkColumn_title"></h2>
+    </header>
+
+    <div class="container-fluid content">
+        <div class="row">
+            <div class="col-xs-12">
+                <h4 data-l10n-id="linkColumn_linkTitle"></h4>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control auto_select link_url" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <input type="checkbox" id="link_include_position" value="1">
+                            <label for="link_include_position" data-l10n-id="linkColumn_linkIncludePosition"></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row prepend-xs-2">
+            <div class="col-xs-12">
+                <h4 data-l10n-id="linkColumn_integrationTitle"></h4>
+                <form>
+                    <div class="form-group">
+                        <textarea spellcheck="false" class="form-control auto_select iframe_code font-monospace" readonly="readonly" rows="6"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <input type="checkbox" id="iframe_include_position" value="1">
+                            <label for="iframe_include_position" data-l10n-id="linkColumn_iframeIncludePosition"></label>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="form-horizontal prepend-xs-2">
+                    <div class="form-group">
+                        <label for="iframe_width" class="col-xs-4 control-label" data-l10n-id="linkColumn_width"></label>
+                        <div class="col-xs-8">
+                            <div class="input-group">
+                                <input type="number" min="0" id="iframe_width" class="form-control" value="<%- iframeWidth %>">
+                                <span class="input-group-addon" id="iframe_width_unit"><%- iframeWidthUnit %></span>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-right" id="iframe_width_unit_dropdown">
+                                        <li><a href="#" data-l10n-id="linkColumn_percentage" data-unit="%"></a></li>
+                                        <li><a href="#" data-l10n-id="linkColumn_pixel" data-unit="px"></a></li>
+                                    </ul>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="iframe_height" class="col-xs-4 control-label" data-l10n-id="linkColumn_height"></label>
+                        <div class="col-xs-8">
+                            <div class="input-group">
+                                <input type="number" min="0" id="iframe_height" class="form-control" value="<%- iframeHeight %>">
+                                <span class="input-group-addon" id="iframe_height_unit"><%- iframeHeightUnit %></span>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-right" id="iframe_height_unit_dropdown">
+                                        <li><a href="#" data-l10n-id="linkColumn_percentage" data-unit="%"></a></li>
+                                        <li><a href="#" data-l10n-id="linkColumn_pixel" data-unit="px"></a></li>
+                                    </ul>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

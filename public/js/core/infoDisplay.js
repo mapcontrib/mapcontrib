@@ -1,6 +1,6 @@
 
-import MarkedHelper from '../helper/marked';
-import CONST from '../const';
+import MarkedHelper from 'helper/marked';
+import CONST from 'const';
 
 export default class InfoDisplay {
     /**
@@ -10,16 +10,16 @@ export default class InfoDisplay {
      * @param {string} content - A popup content.
      * @returns {Array}
      */
-    static findTagsFromContent (content) {
-        let re = new RegExp('{(.*?)}', 'g');
-        let matches = content.match(re);
-        let tags = [];
+    static findTagsFromContent(content) {
+        const re = new RegExp('{(.*?)}', 'g');
+        const matches = content.match(re);
+        const tags = [];
 
         if (!matches) {
             return [];
         }
 
-        for (let rawTag of matches) {
+        for (const rawTag of matches) {
             tags.push(
                 rawTag.replace( /\{(.*?)\}/g, '$1' )
             );
@@ -38,8 +38,7 @@ export default class InfoDisplay {
      * @param {boolean} feature - Is the user logged?
      * @returns {string}
      */
-    static buildContent (layerModel, feature, nonOsmTags, isLogged) {
-        const dataEditable = layerModel.get('dataEditable');
+    static buildContent(layerModel, feature, nonOsmTags) {
         let content = layerModel.get('popupContent');
         let data;
 
@@ -50,13 +49,11 @@ export default class InfoDisplay {
         if ( layerModel.get('type') === CONST.layerType.overpass) {
             data = feature.properties.tags;
         }
+        else if ( feature.properties.tags ) {
+            data = feature.properties.tags;
+        }
         else {
-            if ( feature.properties.tags ) {
-                data = feature.properties.tags;
-            }
-            else {
-                data = feature.properties;
-            }
+            data = feature.properties;
         }
 
         content = content.replace(
@@ -70,19 +67,23 @@ export default class InfoDisplay {
         );
 
         for (const i in nonOsmTags) {
-            const tag = nonOsmTags[i];
+            if ({}.hasOwnProperty.call(nonOsmTags, i)) {
+                const tag = nonOsmTags[i];
 
-            content = content.replace(
-                new RegExp('{'+ tag.key +'}', 'g'),
-                tag.value
-            );
+                content = content.replace(
+                    new RegExp(`{${tag.key}}`, 'g'),
+                    tag.value
+                );
+            }
         }
 
         for (const k in data) {
-            content = content.replace(
-                new RegExp('{'+ k +'}', 'g'),
-                data[k]
-            );
+            if ({}.hasOwnProperty.call(data, k)) {
+                content = content.replace(
+                    new RegExp(`{${k}}`, 'g'),
+                    data[k]
+                );
+            }
         }
 
         content = content.replace( /\{(.*?)\}/g, '' );

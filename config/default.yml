@@ -20,6 +20,8 @@ analyticScript: >
 
 
 client:
+    forceHttps: false
+
     oauthEndPoint: http://api.openstreetmap.org
     oauthConsumerKey:
     oauthSecret:
@@ -30,6 +32,7 @@ client:
     overPassCacheFileSize: 1048576
 
     taginfoServiceHost: https://taginfo.openstreetmap.org/
+    freeTagsContributionEnabled: true
 
     largeScreenMinWidth: 400
     largeScreenMinHeight: 500

@@ -1,6 +1,5 @@
 
 import $ from 'jquery';
-import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 
@@ -8,20 +7,20 @@ import Marionette from 'backbone.marionette';
 export default Marionette.Behavior.extend({
     defaults() {
         return {
-            'destroyOnClose': false,
+            destroyOnClose: false,
         };
     },
 
     ui: {
-        'closeBtn': '.close_btn',
+        closeBtn: '.close_btn',
     },
 
     events: {
         'click @ui.closeBtn': 'onClickClose',
-        'keyup': 'onKeyUp',
+        keyup: 'onKeyUp',
     },
 
-    initialize(options) {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this.listenTo(this._radio.vent, 'contextual:closeAll', this.onCloseAll);
@@ -65,11 +64,40 @@ export default Marionette.Behavior.extend({
     },
 
     onClose() {
-        let mapElement = this._radio.reqres.request('map')._container;
-
-        this._isOpened = false;
+        const mapElement = this._radio.reqres.request('map')._container;
 
         $(mapElement).focus();
+
+        this._close();
+    },
+
+    onCloseAll(excludedViews) {
+        if ( !excludedViews ) {
+            return this._close();
+        }
+
+        if ( excludedViews.indexOf(this.view.cid) === -1 ) {
+            return this._close();
+        }
+
+        return true;
+    },
+
+    onClickClose() {
+        this.onClose();
+    },
+
+    onKeyUp(e) {
+        switch (e.keyCode) {
+            case 27:
+                this.onClose();
+                break;
+            default:
+        }
+    },
+
+    _close() {
+        this._isOpened = false;
 
         if (this.view.onBeforeClose) {
             this.view.onBeforeClose();
@@ -87,28 +115,5 @@ export default Marionette.Behavior.extend({
             })
             .removeClass('open');
         });
-    },
-
-    onCloseAll(excludedViews) {
-        if ( !excludedViews ) {
-            return this.onClose();
-        }
-
-        if ( excludedViews.indexOf(this.view.cid) === -1 ) {
-            return this.onClose();
-        }
-    },
-
-    onClickClose() {
-        this.onClose();
-    },
-
-    onKeyUp(e) {
-        switch ( e.keyCode ) {
-            case 27:
-
-                this.onClose();
-                break;
-        }
     },
 });

@@ -1,10 +1,8 @@
 
 import 'babel-polyfill';
 import assert from 'assert';
-import { DOMParser } from 'xmldom';
 
-import OsmEditHelper from '../../public/js/helper/osmEdit';
-
+import OsmEditHelper from 'helper/osmEdit';
 
 
 describe('OsmEditHelper', () => {
@@ -38,7 +36,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
 
 
@@ -61,7 +59,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setNodes([1, 37, 6]);
 
@@ -85,12 +83,12 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setMembers([{
-                'type': 'relation',
-                'ref': 1745069,
-                'role': ''
+                type: 'relation',
+                ref: 1745069,
+                role: '',
             }]);
 
 
@@ -103,17 +101,17 @@ describe('OsmEditHelper', () => {
     describe('getOverPassElement', () => {
         it('Should return an OverPass version of the OSM node', () => {
             const expected = {
-                'display_name': 'Walter White',
-                'lat': 42.3,
-                'lon': 0.2,
-                'tags': {
+                display_name: 'Walter White',
+                lat: 42.3,
+                lon: 0.2,
+                tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
-                'timestamp': '2016-03-24T12:21:30.546Z',
-                'type': 'node',
-                'uid': 3569284,
-                'version': 0
+                timestamp: '2016-03-24T12:21:30.546Z',
+                type: 'node',
+                uid: 3569284,
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -127,7 +125,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
 
 
@@ -138,18 +136,18 @@ describe('OsmEditHelper', () => {
 
         it('Should return an OverPass version of the OSM way', () => {
             const expected = {
-                'display_name': 'Walter White',
-                'lat': 42.3,
-                'lon': 0.2,
-                'tags': {
+                display_name: 'Walter White',
+                lat: 42.3,
+                lon: 0.2,
+                tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
-                'nodes': [1, 37, 6],
-                'timestamp': '2016-03-24T12:21:30.546Z',
-                'type': 'way',
-                'uid': 3569284,
-                'version': 0
+                nodes: [1, 37, 6],
+                timestamp: '2016-03-24T12:21:30.546Z',
+                type: 'way',
+                uid: 3569284,
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -163,7 +161,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setNodes([1, 37, 6]);
 
@@ -175,24 +173,24 @@ describe('OsmEditHelper', () => {
 
         it('Should return an OverPass version of the OSM relation', () => {
             const expected = {
-                'display_name': 'Walter White',
-                'lat': 42.3,
-                'lon': 0.2,
-                'tags': {
+                display_name: 'Walter White',
+                lat: 42.3,
+                lon: 0.2,
+                tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
-                'members': [
+                members: [
                     {
-                        'type': 'relation',
-                        'ref': 1745069,
-                        'role': ''
-                    }
+                        type: 'relation',
+                        ref: 1745069,
+                        role: '',
+                    },
                 ],
-                'timestamp': '2016-03-24T12:21:30.546Z',
-                'type': 'relation',
-                'uid': 3569284,
-                'version': 0
+                timestamp: '2016-03-24T12:21:30.546Z',
+                type: 'relation',
+                uid: 3569284,
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -206,12 +204,12 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setMembers([{
-                'type': 'relation',
-                'ref': 1745069,
-                'role': ''
+                type: 'relation',
+                ref: 1745069,
+                role: '',
             }]);
 
 
@@ -224,24 +222,24 @@ describe('OsmEditHelper', () => {
     describe('getElement', () => {
         it('Should return the OSM node', () => {
             const expected = {
-                'type': 'node',
-                'attributes': {
-                    'display_name': 'Walter White',
-                    'lat': 42.3,
-                    'lon': 0.2,
-                    'timestamp': '2016-03-24T12:21:30.546Z',
-                    'uid': 3569284,
-                    'version': 0
+                type: 'node',
+                attributes: {
+                    display_name: 'Walter White',
+                    lat: 42.3,
+                    lon: 0.2,
+                    timestamp: '2016-03-24T12:21:30.546Z',
+                    uid: 3569284,
+                    version: 0,
                 },
-                'tags': [
+                tags: [
                     {
-                        'k': 'a key',
-                        'v': 'a value',
+                        k: 'a key',
+                        v: 'a value',
                     },
                     {
-                        'k': 'another key',
-                        'v': 'another value'
-                    }
+                        k: 'another key',
+                        v: 'another value',
+                    },
                 ],
             };
 
@@ -256,7 +254,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
 
 
@@ -267,26 +265,26 @@ describe('OsmEditHelper', () => {
 
         it('Should return the OSM way', () => {
             const expected = {
-                'type': 'way',
-                'attributes': {
-                    'display_name': 'Walter White',
-                    'lat': 42.3,
-                    'lon': 0.2,
-                    'timestamp': '2016-03-24T12:21:30.546Z',
-                    'uid': 3569284,
-                    'version': 0
+                type: 'way',
+                attributes: {
+                    display_name: 'Walter White',
+                    lat: 42.3,
+                    lon: 0.2,
+                    timestamp: '2016-03-24T12:21:30.546Z',
+                    uid: 3569284,
+                    version: 0,
                 },
-                'tags': [
+                tags: [
                     {
-                        'k': 'a key',
-                        'v': 'a value',
+                        k: 'a key',
+                        v: 'a value',
                     },
                     {
-                        'k': 'another key',
-                        'v': 'another value'
-                    }
+                        k: 'another key',
+                        v: 'another value',
+                    },
                 ],
-                'nodes': [1, 37, 6],
+                nodes: [1, 37, 6],
             };
 
             const osmEdit = new OsmEditHelper();
@@ -300,7 +298,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setNodes([1, 37, 6]);
 
@@ -312,31 +310,31 @@ describe('OsmEditHelper', () => {
 
         it('Should return the OSM relation', () => {
             const expected = {
-                'type': 'relation',
-                'attributes': {
-                    'display_name': 'Walter White',
-                    'lat': 42.3,
-                    'lon': 0.2,
-                    'timestamp': '2016-03-24T12:21:30.546Z',
-                    'uid': 3569284,
-                    'version': 0
+                type: 'relation',
+                attributes: {
+                    display_name: 'Walter White',
+                    lat: 42.3,
+                    lon: 0.2,
+                    timestamp: '2016-03-24T12:21:30.546Z',
+                    uid: 3569284,
+                    version: 0,
                 },
-                'tags': [
+                tags: [
                     {
-                        'k': 'a key',
-                        'v': 'a value',
+                        k: 'a key',
+                        v: 'a value',
                     },
                     {
-                        'k': 'another key',
-                        'v': 'another value'
-                    }
+                        k: 'another key',
+                        v: 'another value',
+                    },
                 ],
-                'members': [
+                members: [
                     {
-                        'type': 'relation',
-                        'ref': 1745069,
-                        'role': ''
-                    }
+                        type: 'relation',
+                        ref: 1745069,
+                        role: '',
+                    },
                 ],
             };
 
@@ -351,12 +349,12 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setMembers([{
-                'type': 'relation',
-                'ref': 1745069,
-                'role': ''
+                type: 'relation',
+                ref: 1745069,
+                role: '',
             }]);
 
 
@@ -370,17 +368,17 @@ describe('OsmEditHelper', () => {
     describe('hydrateOverPassObject', () => {
         it('Should return an OverPass object hydrated with an OSM node\'s attributes', () => {
             const expected = {
-                'display_name': 'Walter White',
-                'lat': 42.3,
-                'lon': 0.2,
-                'tags': {
+                display_name: 'Walter White',
+                lat: 42.3,
+                lon: 0.2,
+                tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
-                'timestamp': '2016-03-24T12:21:30.546Z',
-                'type': 'node',
-                'uid': 3569284,
-                'version': 0
+                timestamp: '2016-03-24T12:21:30.546Z',
+                type: 'node',
+                uid: 3569284,
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -394,7 +392,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
 
 
@@ -405,18 +403,18 @@ describe('OsmEditHelper', () => {
 
         it('Should return an OverPass object hydrated with an OSM way\'s attributes', () => {
             const expected = {
-                'display_name': 'Walter White',
-                'lat': 42.3,
-                'lon': 0.2,
-                'tags': {
+                display_name: 'Walter White',
+                lat: 42.3,
+                lon: 0.2,
+                tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
-                'nodes': [1, 37, 6],
-                'timestamp': '2016-03-24T12:21:30.546Z',
-                'type': 'way',
-                'uid': 3569284,
-                'version': 0
+                nodes: [1, 37, 6],
+                timestamp: '2016-03-24T12:21:30.546Z',
+                type: 'way',
+                uid: 3569284,
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -430,7 +428,7 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setNodes([1, 37, 6]);
 
@@ -442,24 +440,24 @@ describe('OsmEditHelper', () => {
 
         it('Should return an OverPass object hydrated with an OSM relation\'s attributes', () => {
             const expected = {
-                'display_name': 'Walter White',
-                'lat': 42.3,
-                'lon': 0.2,
-                'tags': {
+                display_name: 'Walter White',
+                lat: 42.3,
+                lon: 0.2,
+                tags: {
                     'a key': 'a value',
-                    'another key': 'another value'
+                    'another key': 'another value',
                 },
-                'members': [
+                members: [
                     {
-                        'type': 'relation',
-                        'ref': 1745069,
-                        'role': ''
-                    }
+                        type: 'relation',
+                        ref: 1745069,
+                        role: '',
+                    },
                 ],
-                'timestamp': '2016-03-24T12:21:30.546Z',
-                'type': 'relation',
-                'uid': 3569284,
-                'version': 0
+                timestamp: '2016-03-24T12:21:30.546Z',
+                type: 'relation',
+                uid: 3569284,
+                version: 0,
             };
 
             const osmEdit = new OsmEditHelper();
@@ -473,12 +471,12 @@ describe('OsmEditHelper', () => {
             osmEdit.setDisplayName('Walter White');
             osmEdit.setTags({
                 'a key': 'a value',
-                'another key': 'another value'
+                'another key': 'another value',
             });
             osmEdit.setMembers([{
-                'type': 'relation',
-                'ref': 1745069,
-                'role': ''
+                type: 'relation',
+                ref: 1745069,
+                role: '',
             }]);
 
 

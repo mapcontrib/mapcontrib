@@ -1,18 +1,14 @@
 
 import path from 'path';
-import _ from 'underscore';
-import mkdirp from 'mkdirp';
 
 import ejs from 'ejs';
 import express from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import multer from 'multer';
 import methodOverride from 'method-override';
 import session from 'express-session';
 import bodyParser from 'body-parser';
-import serveStatic from 'serve-static';
 import cookieParser from 'cookie-parser';
 import errorHandler from 'errorhandler';
 import connectMongo from 'connect-mongo';
@@ -29,29 +25,25 @@ import Api from './api';
 import Passport from './lib/passport';
 
 
-const CONST = {...SERVER_CONST, ...PUBLIC_CONST};
+const CONST = { ...SERVER_CONST, ...PUBLIC_CONST };
 
 if (!config.get('client.oauthConsumerKey')) {
-    throw 'Error: client.oauthConsumerKey is not configured';
+    throw new Error('Error: client.oauthConsumerKey is not configured');
 }
 
 if (!config.get('client.oauthSecret')) {
-    throw 'Error: client.oauthSecret is not configured';
+    throw new Error('Error: client.oauthSecret is not configured');
 }
-
 
 
 const MongoStore = connectMongo(session);
 const app = express();
 
 
-
-
-
 app.use(compression());
 app.use(
     helmet({
-        frameguard: false
+        frameguard: false,
     })
 );
 app.engine('ejs', ejs.renderFile);
@@ -59,16 +51,16 @@ app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'views'));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ 'extended': true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-    'resave': true,
-    'saveUninitialized': true,
-    'secret': config.get('salt'),
-    'store': new MongoStore({
-        'host': config.get('mongodb.host'),
-        'port': config.get('mongodb.port'),
-        'db': config.get('mongodb.database'),
+    resave: true,
+    saveUninitialized: true,
+    secret: config.get('salt'),
+    store: new MongoStore({
+        host: config.get('mongodb.host'),
+        port: config.get('mongodb.port'),
+        db: config.get('mongodb.database'),
     }),
 }));
 
@@ -81,12 +73,12 @@ if (app.get('env') !== 'production') {
 }
 
 
-
-
 const database = new Database();
+const passport = new Passport();
+const api = new Api();
 
 database.connect((err, db) => {
-    if(err) {
+    if (err) {
         throw err;
     }
 
@@ -94,13 +86,11 @@ database.connect((err, db) => {
 
     migrate.start()
     .then(() => {
-        new Passport(app, db, config);
-        new Api(app, db, CONST, packageJson);
+        passport.init(app, db, config);
+        api.init(app, db, CONST, packageJson);
     })
     .catch(throwError);
 });
-
-
 
 
 app.get('/theme-s8c2d4', (req, res) => {

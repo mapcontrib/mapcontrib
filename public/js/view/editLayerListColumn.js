@@ -1,26 +1,27 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import EditLayerListView from './editLayerList';
-import template from '../../templates/editLayerListColumn.ejs';
-
+import ListGroup from 'ui/listGroup';
+import template from 'templates/editLayerListColumn.ejs';
+import CONST from 'const';
+import MapUi from 'ui/map';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {},
+        l20n: {},
+        column: {},
     },
 
     regions: {
-        'layerList': '.rg_layer_list',
+        list: '.rg_list',
     },
 
     ui: {
-        'column': '#edit_layer_column',
-        'addButton': '.add_btn',
+        column: '#edit_layer_column',
+        addButton: '.add_btn',
     },
 
     events: {
@@ -32,13 +33,20 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        var layers = this.model.get('layers'),
-        editLayerListView = new EditLayerListView({
-            'collection': layers,
-            'theme': this.model
+        const listGroup = new ListGroup({
+            collection: this.model.get('layers'),
+            labelAttribute: 'name',
+            reorderable: true,
+            removeable: true,
+            getRightIcon: model => MapUi.buildLayerHtmlIcon(model),
+            placeholder: document.l10n.getSync('uiListGroup_placeholder'),
         });
 
-        this.getRegion('layerList').show( editLayerListView );
+        this.listenTo(listGroup, 'reorder', this._onReorder);
+        this.listenTo(listGroup, 'item:remove', this._onRemove);
+        this.listenTo(listGroup, 'item:select', this._onSelect);
+
+        this.getRegion('list').show( listGroup );
     },
 
     onBeforeOpen() {
@@ -58,5 +66,32 @@ export default Marionette.LayoutView.extend({
 
     onClickAdd() {
         this._radio.commands.execute('column:showAddLayerMenu');
+    },
+
+    _onReorder() {
+        this.model.updateModificationDate();
+        this.model.save();
+    },
+
+    _onRemove(model) {
+        model.destroy();
+        this.model.save();
+    },
+
+    _onSelect(model) {
+        switch (model.get('type')) {
+            case CONST.layerType.overpass:
+                return this._radio.commands.execute( 'column:editOverPassLayer', model );
+            case CONST.layerType.gpx:
+                return this._radio.commands.execute( 'column:editGpxLayer', model );
+            case CONST.layerType.csv:
+                return this._radio.commands.execute( 'column:editCsvLayer', model );
+            case CONST.layerType.geojson:
+                return this._radio.commands.execute( 'column:editGeoJsonLayer', model );
+            case CONST.layerType.osmose:
+                return this._radio.commands.execute( 'column:editOsmoseLayer', model );
+            default:
+                return false;
+        }
     },
 });

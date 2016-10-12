@@ -2,8 +2,7 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import MarkedHelper from '../../public/js/helper/marked';
-
+import MarkedHelper from 'helper/marked';
 
 
 describe('MarkedHelper', () => {

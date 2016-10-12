@@ -37,6 +37,7 @@
 <buttonEditLayerTooltip title:"Couches">
 <buttonEditTileTooltip title:"Fonds de carte">
 <buttonEditPresetTooltip title:"Types de nœuds">
+<buttonEditTagTooltip title:"Tags">
 <buttonHelpTooltip title:"Aide">
 
 
@@ -46,6 +47,7 @@
 <about "À propos de {{ mapcontrib }}">
 <myThemes "Mes thèmes">
 <preferences "Préférences">
+<edit "Édition">
 <login "Se connecter">
 <loginOrSubscribe "Se connecter ou créer un compte">
 <logout "Se déconnecter">
@@ -62,16 +64,32 @@
 <editThatElement "Éditer cet élément">
 <loadingData title:"Certaines données sont en cours de chargement">
 <createATheme "Créer un thème">
-<searchATheme placeholder:"Rechercher un thème (3 caractères min.)">
+<searchATheme "Rechercher un thème (3 caractères min.)">
 <aboutMapContrib "À propos de MapContrib">
 <invalidFile "Fichier non valide">
 <currentFile "Fichier actuel : <a>{{ $file }}</a>">
 <file "Fichier">
 <fileNotFound "Fichier introuvable">
+<noResult "Aucun résultat">
+<name "Nom">
+<description "Description">
+<type "Type">
+<locales "Traductions">
+<key "Clef">
+<text "Texte">
+<number "Nombre">
+<email "E-mail">
+<tel "Numéro de téléphone">
+<url "Adresse web">
+<textarea "Grand texte">
+<checkbox "Case à cocher">
+<value "Valeur">
+<defaultValue "Valeur par défaut">
+<yes "Oui">
+<no "Non">
 
 
 /* Home */
-<home_noResult "Aucun résultat">
 <home_charactersLeft[plural($n)] {
   one: "Saisissez encore 1 caractère",
   many: "Saisissez encore {{ $n }} caractères"
@@ -120,6 +138,7 @@
 /* Contribution column */
 <contribColumn_title "Ajouter un nœud">
 <contribColumn_description "Sélectionnez un type de nœud">
+<contribColumn_searchAPreset "Rechercher un type de nœud">
 <contribColumn_freeAddition "Ajout de tags libre">
 <contribColumn_addTag "Ajouter un tag">
 
@@ -140,7 +159,7 @@
 /* Edit settings column */
 <editSettingColumn_title "Configuration">
 <editSettingColumn_themeName "Nom du thème">
-<editSettingColumn_themeDescription "Description">
+<editSettingColumn_themeDescription "{{ description }}">
 <editSettingColumn_color "Couleur">
 <editSettingColumn_position "Positionnement">
 <editSettingColumn_geolocation "Géolocalisation">
@@ -163,20 +182,17 @@ Insérez-le juste ici !">
 
 /* Edit layer column */
 <editLayerListColumn_title "Couches">
-<editLayerListColumn_clickButton "Cliquez sur le bouton ci-dessous">
 <editLayerListColumn_addLayer "Ajouter une couche">
 
 
 /* Edit layer column */
 <editLayerFormColumn_title "Édition de la couche">
-<editLayerFormColumn_layerName "Nom">
-<editLayerFormColumn_layerDescription "Description">
+<editLayerFormColumn_layerName "{{ name }}">
+<editLayerFormColumn_layerDescription "{{ description }}">
 <editLayerFormColumn_representationType "Représentation">
 <editLayerFormColumn_clusterRepresentation "Points groupables">
 <editLayerFormColumn_heatRepresentation "Carte thermique">
 <editLayerFormColumn_visibility "Visibilité">
-<editLayerFormColumn_visibilityAndEdition "Visibilité et édition">
-<editLayerFormColumn_dataEditable "Permettre l'édition des données">
 <editLayerFormColumn_visible "Visible par les utilisateurs">
 <editLayerFormColumn_heatOptions "Carte thermique">
 <editLayerFormColumn_heatMapPopoverTitle "Informations">
@@ -240,20 +256,6 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <editTileColumn_maxZoom "Zoom maximum&nbsp;: {{ $maxZoom }}">
 
 
-/* Edit presets column */
-<editPresetColumn_title "Types de nœuds">
-<editPresetColumn_addPreset "Ajouter un type de nœud">
-<editPresetColumn_clickButton "Cliquez sur le bouton ci-dessous">
-
-
-/* Edit presets tags column */
-<editPresetTagsColumn_title "Édition">
-<editPresetTagsColumn_presetName "Nom du type de nœud">
-<editPresetTagsColumn_presetDescription "Description">
-<editPresetTagsColumn_presetTags "Tags">
-<editPresetTagsColumn_addTag "Ajouter un tag">
-
-
 /* Edit POI column */
 <editPoiColumn_title "Éditer les données">
 <editPoiColumn_movePoi "Déplacer le nœud">
@@ -299,18 +301,22 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 
 /* Node tag field UI */
-<uiFormNodeTags_key placeholder:"Clef">
-<uiFormNodeTags_value placeholder:"Valeur">
+<uiFormNodeTags_key "Clef">
+<uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
 <uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
 <uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag non envoyé à OpenStreetMap">
 <uiFormNodeTags_textInput "Champs texte">
 <uiFormNodeTags_fileInput "Champs fichier">
-
+<uiFormNodeTags_displayRawTag "Afficher le tag OSM brut">
 
 /* Color selector UI */
 <uiColorSelector_label "Couleur">
+
+
+/* List group UI */
+<uiListGroup_placeholder "Cliquez ci-dessous">
 
 
 /* Contribution form column */
@@ -337,8 +343,8 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 /* Layer info column */
 <infoLayerColumn_title "Informations">
-<infoLayerColumn_layerName "Nom">
-<infoLayerColumn_layerDescription "Description">
+<infoLayerColumn_layerName "{{ name }}">
+<infoLayerColumn_layerDescription "{{ description }}">
 <infoLayerColumn_layerSource "Provenance des données">
 <infoLayerColumn_overPass "OverPass">
 <infoLayerColumn_gpx "<a>Fichier GPX</a>">
@@ -366,3 +372,23 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <editPoiPresetColumn_title "Type de nœud">
 <editPoiPresetColumn_noThanks "Non merci">
 <editPoiPresetColumn_applyPreset "Voulez-vous automatiquement ajouter les tags d'un de ces types de nœuds ?">
+
+
+/* Admin tag column */
+<adminTagColumn_title "Tags">
+<adminTagColumn_addTag "Ajouter un tag">
+
+
+/* Admin preset column */
+<adminPresetColumn_title "Types de nœuds">
+<adminPresetColumn_addPreset "Ajouter un type de nœud">
+<adminPresetColumn_addPresetCategory "Ajouter une catégorie">
+
+
+/* Admin edit presets column */
+<adminEditPresetColumn_presetTags "Tags">
+<adminEditPresetColumn_addTag "Ajouter un tag">
+
+
+/* Admin edit preset categories column */
+<adminPresetCategoryColumn_title "Catégorie">

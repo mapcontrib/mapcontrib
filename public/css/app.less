@@ -77,6 +77,9 @@ img {
     height: auto;
 }
 
+.vertical-align-top {
+    vertical-align: top;
+}
 
 .list-group {
     /* Fixes a placement bug on items when they are moved/dragged more than once */
@@ -109,9 +112,34 @@ img {
     }
 }
 
+.list-group.navigable {
+    .list-group-item {
+        padding-left: 50px;
+
+        .navigate_btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 40px;
+            background: transparent;
+            border-color: transparent;
+        }
+    }
+}
+
+.list-group.navigable.reorderable {
+    .list-group-item {
+        padding-left: 80px;
+
+        .navigate_btn {
+            left: 30px;
+        }
+    }
+}
+
 .list-group.removeable {
     .list-group-item {
-        padding-right: 46px;
+        padding-right: 50px;
 
         .remove_btn {
             position: absolute;

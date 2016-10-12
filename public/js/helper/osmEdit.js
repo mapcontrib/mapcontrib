@@ -1,15 +1,14 @@
 
-import _ from 'underscore';
 import { DOMImplementation, XMLSerializer } from 'xmldom';
 
 
-export default class OsmEdit{
+export default class OsmEdit {
     /**
      * @author Guillaume AMAT
      * @access public
      * @param {object} osmAuth - Instance of osm-auth.
      */
-    constructor (osmAuth) {
+    constructor(osmAuth) {
         this._auth = osmAuth;
         this._changesetCreatedBy = null;
         this._changesetComment = null;
@@ -20,13 +19,13 @@ export default class OsmEdit{
         this._resetElement();
     }
 
-    _resetElement () {
+    _resetElement() {
         this._element = {
-            'type': undefined,
-            'attributes': {},
-            'tags': [],
-            'nodes': [],
-            'members': [],
+            type: undefined,
+            attributes: {},
+            tags: [],
+            nodes: [],
+            members: [],
         };
     }
 
@@ -46,7 +45,7 @@ export default class OsmEdit{
      * @return {object}
      */
     getElement() {
-        return this._buildCleanedElement(this._element);
+        return OsmEdit._buildCleanedElement(this._element);
     }
 
     /**
@@ -56,26 +55,28 @@ export default class OsmEdit{
      */
     getOverPassElement() {
         const element = {
-            'type': this._element.type,
-            'nodes': this._element.nodes,
-            'members': this._element.members,
-            'tags': {},
-            ...this._element.attributes
+            type: this._element.type,
+            nodes: this._element.nodes,
+            members: this._element.members,
+            tags: {},
+            ...this._element.attributes,
         };
 
         for (const i in this._element.tags) {
-            const key = this._element.tags[i].k;
-            const value = this._element.tags[i].v;
-            element.tags[ key ] = value;
+            if ({}.hasOwnProperty.call(this._element.tags, i)) {
+                const key = this._element.tags[i].k;
+                const value = this._element.tags[i].v;
+                element.tags[key] = value;
+            }
         }
 
-        return this._buildCleanedElement(element);
+        return OsmEdit._buildCleanedElement(element);
     }
 
     /**
      * @author Guillaume AMAT
      * @access public
-     * @param {string} changesetCreatedBy - Application used to send datas to OSM (in the changeset).
+     * @param {string} changesetCreatedBy - Application used to send datas (in the changeset).
      */
     setChangesetCreatedBy(changesetCreatedBy) {
         this._changesetCreatedBy = changesetCreatedBy;
@@ -189,10 +190,10 @@ export default class OsmEdit{
         this._element.tags = [];
 
         for (const key in tags) {
-            if (tags.hasOwnProperty(key)) {
+            if ({}.hasOwnProperty.call(tags, key)) {
                 this._element.tags.push({
-                    'k': key,
-                    'v': tags[key],
+                    k: key,
+                    v: tags[key],
                 });
             }
         }
@@ -207,7 +208,7 @@ export default class OsmEdit{
         const tags = {};
 
         for (const tag of this._element.tags) {
-            tags[ tag.k ] = tag.v;
+            tags[tag.k] = tag.v;
         }
 
         return tags;
@@ -347,14 +348,14 @@ export default class OsmEdit{
 
         return new Promise((resolve, reject) => {
             $.ajax({
-                'method': 'GET',
-                'dataType': 'xml',
-                'url': `https://api.openstreetmap.org/api/0.6/${type}/${id}`,
-                'error': (jqXHR, textStatus, errorThrown) => {
+                method: 'GET',
+                dataType: 'xml',
+                url: `https://api.openstreetmap.org/api/0.6/${type}/${id}`,
+                error: (jqXHR, textStatus, errorThrown) => {
                     console.error(`ERROR on fetch element: ${errorThrown}`);
                     return reject(errorThrown);
                 },
-                'success': (xml, jqXHR, textStatus) => {
+                success: (xml) => {
                     const parentElement = xml.getElementsByTagName(type)[0];
                     const tagElements = parentElement.getElementsByTagName('tag');
                     const ndElements = parentElement.getElementsByTagName('nd');
@@ -364,13 +365,13 @@ export default class OsmEdit{
 
                     this.setType( parentElement.tagName );
 
-                    for (let i = 0; i < parentElement.attributes.length; i++){
+                    for (let i = 0; i < parentElement.attributes.length; i += 1) {
                         const att = parentElement.attributes[i];
                         const key = att.nodeName;
                         let value = att.nodeValue;
 
                         if ( this._intAttributes.indexOf(att.nodeName) > -1 ) {
-                            value = parseInt(value);
+                            value = parseInt(value, 10);
                         }
                         else if ( this._floatAttributes.indexOf(att.nodeName) > -1 ) {
                             value = parseFloat(value);
@@ -382,10 +383,10 @@ export default class OsmEdit{
 
                     if (tagElements.length > 0) {
                         for (const i in tagElements) {
-                            if (tagElements.hasOwnProperty(i)) {
+                            if ({}.hasOwnProperty.call(tagElements, i)) {
                                 this._element.tags.push({
-                                    'k': tagElements[i].getAttribute('k'),
-                                    'v': tagElements[i].getAttribute('v'),
+                                    k: tagElements[i].getAttribute('k'),
+                                    v: tagElements[i].getAttribute('v'),
                                 });
                             }
                         }
@@ -393,7 +394,7 @@ export default class OsmEdit{
 
                     if (ndElements.length > 0) {
                         for (const i in ndElements) {
-                            if (ndElements.hasOwnProperty(i)) {
+                            if ({}.hasOwnProperty.call(ndElements, i)) {
                                 this._element.nodes.push(
                                     ndElements[i].getAttribute('ref'),
                                 );
@@ -403,11 +404,11 @@ export default class OsmEdit{
 
                     if (memberElements.length > 0) {
                         for (const i in memberElements) {
-                            if (memberElements.hasOwnProperty(i)) {
+                            if ({}.hasOwnProperty.call(memberElements, i)) {
                                 const role = memberElements[i].getAttribute('role');
                                 const data = {
-                                    'type': memberElements[i].getAttribute('type'),
-                                    'ref': memberElements[i].getAttribute('ref'),
+                                    type: memberElements[i].getAttribute('type'),
+                                    ref: memberElements[i].getAttribute('ref'),
                                 };
 
                                 if (role) {
@@ -420,11 +421,10 @@ export default class OsmEdit{
                     }
 
                     resolve(this);
-                }
+                },
             });
         });
     }
-
 
 
     /**
@@ -438,24 +438,21 @@ export default class OsmEdit{
         return new Promise((resolve, reject) => {
             this._getChangesetId()
             .then(
-                changesetId => {
-                    return this._sendXml(changesetId);
-                },
-                err => {
+                changesetId => this._sendXml(changesetId),
+                (err) => {
                     reject(err);
                 }
             )
             .then(
-                response => {
+                (response) => {
                     resolve(response);
                 },
-                err => {
+                (err) => {
                     reject(err);
                 }
             );
         });
     }
-
 
 
     /**
@@ -487,7 +484,6 @@ export default class OsmEdit{
     }
 
 
-
     /**
      * Builds a node XML.
      *
@@ -506,7 +502,9 @@ export default class OsmEdit{
         this._element.attributes.changeset = changesetId;
 
         for (const key in this._element.attributes) {
-            parentElement.setAttribute(key, this._element.attributes[key]);
+            if ({}.hasOwnProperty.call(this._element.attributes, key)) {
+                parentElement.setAttribute(key, this._element.attributes[key]);
+            }
         }
 
         for (const tag of this._element.tags) {
@@ -548,7 +546,6 @@ export default class OsmEdit{
     }
 
 
-
     /**
      * Asks OSM to create a changeset and return its ID.
      *
@@ -557,30 +554,32 @@ export default class OsmEdit{
      * @return {promise}
      */
     _createChangeset() {
-        const changesetXml = this._buildChangesetXml(this._changesetCreatedBy, this._changesetComment);
+        const changesetXml = this._buildChangesetXml(
+            this._changesetCreatedBy,
+            this._changesetComment
+        );
 
         return new Promise((resolve, reject) => {
             this._auth.xhr({
-                'method': 'PUT',
-                'path': '/api/0.6/changeset/create',
-                'options': {
-                    'header': {
-                        'Content-Type': 'text/xml'
-                    }
+                method: 'PUT',
+                path: '/api/0.6/changeset/create',
+                options: {
+                    header: {
+                        'Content-Type': 'text/xml',
+                    },
                 },
-                'content': changesetXml
+                content: changesetXml,
             },
             (err, changesetId) => {
                 if (err) {
-                    console.error('ERROR on put changeset: ' + err.response);
+                    console.error(`ERROR on put changeset: ${err.response}`);
                     return reject(err);
                 }
 
-                resolve( parseInt(changesetId) );
+                return resolve( parseInt(changesetId, 10) );
             });
         });
     }
-
 
 
     /**
@@ -594,12 +593,12 @@ export default class OsmEdit{
     _isChangesetStillOpen(changesetId) {
         return new Promise((resolve, reject) => {
             this._auth.xhr({
-                'method': 'GET',
-                'path': '/api/0.6/changeset/'+ changesetId.toString(),
-                'options': {
-                    'header': {
-                        'Content-Type': 'text/xml'
-                    }
+                method: 'GET',
+                path: `/api/0.6/changeset/${changesetId.toString()}`,
+                options: {
+                    header: {
+                        'Content-Type': 'text/xml',
+                    },
                 },
             },
             (err, xml) => {
@@ -613,11 +612,10 @@ export default class OsmEdit{
                     return reject(err);
                 }
 
-                resolve(changesetId);
+                return resolve(changesetId);
             });
         });
     }
-
 
 
     /**
@@ -628,35 +626,31 @@ export default class OsmEdit{
      * @return {promise}
      */
     _getChangesetId() {
-        const changesetId = parseInt( sessionStorage.getItem('osmEdit-changesetId') );
+        const changesetId = parseInt(sessionStorage.getItem('osmEdit-changesetId'), 10);
 
         if ( changesetId ) {
             return this._isChangesetStillOpen(changesetId)
             .then(
-                changesetId => {
-                    return changesetId;
-                },
-                err => {
+                id => id,
+                () => {
                     sessionStorage.removeItem('osmEdit-changesetId');
                     return this._getChangesetId();
                 }
             );
         }
-        else {
-            return this._createChangeset()
-            .then(
-                changesetId => {
-                    sessionStorage.setItem('osmEdit-changesetId', changesetId);
-                    return changesetId;
-                },
-                err => {
-                    sessionStorage.removeItem('osmEdit-changesetId');
-                    return this._getChangesetId();
-                }
-            );
-        }
-    }
 
+        return this._createChangeset()
+        .then(
+            (id) => {
+                sessionStorage.setItem('osmEdit-changesetId', id);
+                return id;
+            },
+            () => {
+                sessionStorage.removeItem('osmEdit-changesetId');
+                return this._getChangesetId();
+            }
+        );
+    }
 
 
      /**
@@ -678,14 +672,14 @@ export default class OsmEdit{
 
         return new Promise((resolve, reject) => {
             this._auth.xhr({
-                'method': method,
-                'path': path,
-                'options': {
-                    'header': {
-                        'Content-Type': 'text/xml'
-                    }
+                method,
+                path,
+                options: {
+                    header: {
+                        'Content-Type': 'text/xml',
+                    },
                 },
-                'content': xml,
+                content: xml,
             },
             (err, response) => {
                 if (err) {
@@ -697,7 +691,6 @@ export default class OsmEdit{
             });
         });
     }
-
 
 
      /**
@@ -714,7 +707,9 @@ export default class OsmEdit{
         overPassObject.type = this._element.type;
 
         for (const key in this._element.attributes) {
-            overPassObject[key] = this._element.attributes[key];
+            if ({}.hasOwnProperty.call(this._element.attributes, key)) {
+                overPassObject[key] = this._element.attributes[key];
+            }
         }
 
         overPassObject.tags = {};
@@ -743,8 +738,8 @@ export default class OsmEdit{
      * @param {object} element - An OverPass or OSM element.
      * @return {object}
      */
-    _buildCleanedElement(element) {
-        const cleanedElement = {...element};
+    static _buildCleanedElement(element) {
+        const cleanedElement = { ...element };
 
         if (element.type !== 'relation') {
             delete cleanedElement.members;

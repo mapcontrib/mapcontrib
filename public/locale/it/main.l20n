@@ -37,6 +37,7 @@
 <buttonEditLayerTooltip title:"Livello">
 <buttonEditTileTooltip title:"Sfondi">
 <buttonEditPresetTooltip title:"Tipo di Nodi">
+<buttonEditTagTooltip title:"Tags">
 <buttonHelpTooltip title:"Aiuto">
 
 
@@ -46,6 +47,7 @@
 <about "Info {{ mapcontrib }}">
 <myThemes "I miei temi">
 <preferences "Preferenze">
+<edit "Modifica">
 <login "Log in">
 <loginOrSubscribe "Log in oppure iscriviti">
 <logout "Log out">
@@ -62,16 +64,32 @@
 <editThatElement "Modifica questo oggetto">
 <loadingData title:"Alcuni dati saranno caricati">
 <createATheme "Crea un tema">
-<searchATheme placeholder:"Cerca un tema (min. 3 caratteri)">
+<searchATheme "Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
 <invalidFile "File non valido">
 <currentFile "FIle attuale: <a>{{ $file }}</a>">
 <file "File">
 <fileNotFound "File not found"> /* FIXME */
+<noResult "Nessun risultato">
+<name "Nome">
+<description "Descrizione">
+<type "Tipo">
+<locales "Translations"> /* FIXME */
+<key "Chiave">
+<text "Text"> /* FIXME */
+<number "Number"> /* FIXME */
+<email "Email"> /* FIXME */
+<tel "Phone number"> /* FIXME */
+<url "Web address"> /* FIXME */
+<textarea "Big text"> /* FIXME */
+<checkbox "Checkbox"> /* FIXME */
+<value "Valore">
+<defaultValue "Default value"> /* FIXME */
+<yes "Si">
+<no "No">
 
 
 /* Home */
-<home_noResult "Nessun risultato">
 <home_charactersLeft[plural($n)] {
   one: "1 carattere mancante",
   many: "{{ $n }} caratteri mancanti"
@@ -120,6 +138,7 @@
 /* Contribution column */
 <contribColumn_title "Aggiungi un nodo">
 <contribColumn_description "Scegli il tipo di nodo">
+<contribColumn_searchAPreset "Search a type of node"> /* FIXME */
 <contribColumn_freeAddition "Aggiunta libera di tag">
 <contribColumn_addTag "Aggiungi un tag">
 
@@ -140,7 +159,7 @@
 /* Edit settings column */
 <editSettingColumn_title "Impostazioni">
 <editSettingColumn_themeName "Nome del tema">
-<editSettingColumn_themeDescription "Descrizione">
+<editSettingColumn_themeDescription "{{ description }}">
 <editSettingColumn_color "Colore">
 <editSettingColumn_position "Posizione">
 <editSettingColumn_geolocation "Geolocalizzazione">
@@ -163,21 +182,18 @@ Inseriscilo proprio qui!"> /
 
 /* Edit layer column */
 <editLayerListColumn_title "Livelli">
-<editLayerListColumn_clickButton "Clic sul seguente bottone">
 <editLayerListColumn_addLayer "Aggiungi un livello">
 
 
 /* Edit layer column */
 <editLayerFormColumn_title "Modifica livello">
-<editLayerFormColumn_layerName "Nome">
-<editLayerFormColumn_layerDescription "Descrizione">
+<editLayerFormColumn_layerName "{{ name }}">
+<editLayerFormColumn_layerDescription "{{ description }}">
 <editLayerFormColumn_representationType "Representation"> /* FIXME */
 <editLayerFormColumn_clusterRepresentation "Groupable points"> /* FIXME */
 <editLayerFormColumn_heatRepresentation "Heat map"> /* FIXME */
 <editLayerFormColumn_visibility "Visibilità">
-<editLayerFormColumn_visibilityAndEdition "Visibilità e modifica">
 <editLayerFormColumn_visible "Visibile agli utenti">
-<editLayerFormColumn_dataEditable "Permetti di modificare i dati">
 <editLayerFormColumn_heatOptions "Heat map"> /* FIXME */
 <editLayerFormColumn_heatMapPopoverTitle "Informations"> /* FIXME */
 <editLayerFormColumn_heatMapPopoverContent "#### Maximum zoom
@@ -240,20 +256,6 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <editTileColumn_maxZoom "Zoom massimo: {{ $maxZoom }}">
 
 
-/* Edit presets column */
-<editPresetColumn_title "Tipo di nodi">
-<editPresetColumn_addPreset "Aggiungere un tipo di nodo">
-<editPresetColumn_clickButton "Clic sul seguente bottone">
-
-
-/* Edit presets tags column */
-<editPresetTagsColumn_title "Modifca">
-<editPresetTagsColumn_presetName "Nome del tipo di nodo">
-<editPresetTagsColumn_presetDescription "Descrizione">
-<editPresetTagsColumn_presetTags "Tag">
-<editPresetTagsColumn_addTag "Aggiungi un tag">
-
-
 /* Edit POI data column */
 <editPoiColumn_title "Modifica dati">
 <editPoiColumn_movePoi "Sposta il nodo">
@@ -299,18 +301,22 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 
 /* Node tag field UI */
-<uiFormNodeTags_key placeholder:"Chiave">
-<uiFormNodeTags_value placeholder:"Valore">
+<uiFormNodeTags_key "Chiave">
+<uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
 <uiFormNodeTags_valueReadOnly "Valore in sola lettura">
 <uiFormNodeTags_nonOsmData "Non inviare questo tag a OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag non inviato a OpenStreetMap">
 <uiFormNodeTags_textInput "Testo di input">
 <uiFormNodeTags_fileInput "File di input">
-
+<uiFormNodeTags_displayRawTag "Display the raw OSM tag"> /* FIXME */
 
 /* Color selector UI */
 <uiColorSelector_label "Colore">
+
+
+/* List group UI */
+<uiListGroup_placeholder "Click below"> /* FIXME */
 
 
 /* Contribution form column */
@@ -325,7 +331,6 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <movePoiContextual_text "Posiziona la croce nel punto esatto del nodo.">
 
 
-
 /* Add layer menu column */
 <addLayerMenuColumn_title "Aggiungi un livello">
 <addLayerMenuColumn_remoteInformation "Informazioni a distanza">
@@ -338,8 +343,8 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* Layer info column */
 <infoLayerColumn_title "Informazioni">
-<infoLayerColumn_layerName "Nome">
-<infoLayerColumn_layerDescription "Descrizione">
+<infoLayerColumn_layerName "{{ name }}">
+<infoLayerColumn_layerDescription "{{ description }}">
 <infoLayerColumn_layerSource "Sorgente dati">
 <infoLayerColumn_overPass "OverPass">
 <infoLayerColumn_gpx "file GPX">
@@ -366,3 +371,23 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <editPoiPresetColumn_title "Tipo di nodo">
 <editPoiPresetColumn_noThanks "No grazie">
 <editPoiPresetColumn_applyPreset "Vuoi aggiungere automatica i tag ad un tipo di nodo?">
+
+
+/* Admin tag column */
+<adminTagColumn_title "Tags">
+<adminTagColumn_addTag "Aggiungi un tag">
+
+
+/* Admin presets column */
+<adminPresetColumn_title "Tipo di nodi">
+<adminPresetColumn_addPreset "Aggiungere un tipo di nodo">
+<adminPresetColumn_addPresetCategory "Add a category"> /* FIXME */
+
+
+/* Admin edit presets column */
+<adminEditPresetColumn_presetTags "Tag">
+<adminEditPresetColumn_addTag "Aggiungi un tag">
+
+
+/* Admin edit preset categories column */
+<adminPresetCategoryColumn_title "Category"> /* FIXME */

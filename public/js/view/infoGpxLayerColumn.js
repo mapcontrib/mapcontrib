@@ -1,38 +1,38 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import MarkedHelper from '../helper/marked';
-import template from '../../templates/infoGpxLayerColumn.ejs';
-import LeafletHelper from '../helper/leaflet';
+import MarkedHelper from 'helper/marked';
+import template from 'templates/infoGpxLayerColumn.ejs';
+import LeafletHelper from 'helper/leaflet';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {
-            'appendToBody': true,
+        l20n: {},
+        column: {
+            appendToBody: true,
         },
     },
 
     ui: {
-        'description': '.description_container',
-        'downloadBtn': '.download_btn',
-        'column': '#info_gpx_layer_column',
+        description: '.description_container',
+        downloadBtn: '.download_btn',
+        column: '#info_gpx_layer_column',
     },
 
     events: {
         'click @ui.downloadBtn': 'onClickDownload',
     },
 
-    initialize(options) {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 
     templateHelpers() {
         return {
-            'description': MarkedHelper.render( this.model.get('description') || '' ),
+            description: MarkedHelper.render( this.model.get('description') || '' ),
         };
     },
 

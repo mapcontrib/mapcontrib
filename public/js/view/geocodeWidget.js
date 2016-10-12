@@ -2,24 +2,24 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import leafletControlGeocoder from 'leaflet-control-geocoder';
-import template from '../../templates/geocodeWidget.ejs';
-import templateResultItem from '../../templates/geocodeResultItem.ejs';
-import CONST from '../const';
+import template from 'templates/geocodeWidget.ejs';
+import templateResultItem from 'templates/geocodeResultItem.ejs';
+import CONST from 'const';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
-    templateResultItem: templateResultItem,
+    template,
+    templateResultItem,
 
     behaviors: {
-        'l20n': {},
-        'widget': {},
+        l20n: {},
+        widget: {},
     },
 
     ui: {
-        'widget': '#geocode_widget',
-        'query': 'input',
-        'resultList': '.results',
+        widget: '#geocode_widget',
+        query: 'input',
+        resultList: '.results',
     },
 
     events: {
@@ -34,7 +34,6 @@ export default Marionette.LayoutView.extend({
     },
 
     open() {
-        this._setGeocoder();
         this.triggerMethod('open');
         return this;
     },
@@ -45,7 +44,6 @@ export default Marionette.LayoutView.extend({
     },
 
     toggle() {
-        this._setGeocoder();
         this.triggerMethod('toggle');
     },
 
@@ -57,12 +55,12 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    onKeyUpQuery(e) {
+    onKeyUpQuery() {
         if ( this._queryInterval ) {
             clearInterval(this._queryInterval);
         }
 
-        var query = this.ui.query.val();
+        const query = this.ui.query.val();
 
         if ( this._lastQuery && this._lastQuery === query ) {
             return false;
@@ -71,6 +69,8 @@ export default Marionette.LayoutView.extend({
         this._queryInterval = setTimeout(() => {
             this.geocode( query );
         }, 350);
+
+        return true;
     },
 
     onKeyDownQuery(e) {
@@ -95,11 +95,12 @@ export default Marionette.LayoutView.extend({
             case 13: // Enter
                 this.visitResult();
                 break;
+            default:
         }
     },
 
     geocode(query) {
-        var elements = [];
+        const elements = [];
 
         this._lastQuery = query;
         this._lastQueryStartTime = new Date().getTime();
@@ -113,7 +114,8 @@ export default Marionette.LayoutView.extend({
         this.options.icon.addClass('hide');
         this.options.spinner.removeClass('hide');
 
-        this._geocoder.geocode(
+        const geocoder = this._buildGeocoder();
+        geocoder.geocode(
             query,
             this._onGeocodeComplete.bind(this, this._lastQueryStartTime, elements)
         );
@@ -126,7 +128,7 @@ export default Marionette.LayoutView.extend({
 
         let i = 0;
 
-        for (let result of results) {
+        for (const result of results) {
             elements.push(
                 $( this.templateResultItem(
                     this._buildGeocodeResultName(result)
@@ -134,7 +136,7 @@ export default Marionette.LayoutView.extend({
                 .on('click', this.onGeocodeResultClick.bind(this, result))
             );
 
-            i++;
+            i += 1;
 
             if (i === 5) {
                 break;
@@ -154,15 +156,15 @@ export default Marionette.LayoutView.extend({
     },
 
     _buildGeocodeResultName(result) {
-        let details = [];
+        const details = [];
 
         switch ( this.model.get('geocoder') ) {
             case CONST.geocoder.nominatim:
-                let splittedResult = result.name.split(', ');
+                const splittedResult = result.name.split(', ');
 
                 return {
-                    'name': splittedResult.shift(),
-                    'detail': splittedResult.join(', ')
+                    name: splittedResult.shift(),
+                    detail: splittedResult.join(', '),
                 };
 
             case CONST.geocoder.photon:
@@ -179,14 +181,17 @@ export default Marionette.LayoutView.extend({
                 }
 
                 return {
-                    'name': result.name,
-                    'detail': details.join(', ')
+                    name: result.name,
+                    detail: details.join(', '),
                 };
+
+            default:
+                return false;
         }
     },
 
     activeNextResult() {
-        var current = this.ui.resultList.find('.active');
+        const current = this.ui.resultList.find('.active');
 
         if ( !current.length ) {
             this.ui.resultList
@@ -203,7 +208,7 @@ export default Marionette.LayoutView.extend({
     },
 
     activePreviousResult() {
-        var current = this.ui.resultList.find('.active');
+        const current = this.ui.resultList.find('.active');
 
         if ( !current.length ) {
             this.ui.resultList
@@ -220,7 +225,7 @@ export default Marionette.LayoutView.extend({
     },
 
     visitResult() {
-        var current = this.ui.resultList.find('.active');
+        const current = this.ui.resultList.find('.active');
 
         if ( !current.length ) {
             this.ui.resultList
@@ -234,13 +239,32 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    _setGeocoder() {
+    _buildGeocoder() {
+        const lang = document.l10n.supportedLocales[0];
+
         switch ( this.model.get('geocoder') ) {
             case CONST.geocoder.nominatim:
-                this._geocoder = leafletControlGeocoder.nominatim();
-                break;
+                const bounds = this._radio.reqres.request('map:currentBounds');
+                const left = bounds._southWest.lng;
+                const top = bounds._northEast.lat;
+                const right = bounds._northEast.lng;
+                const bottom = bounds._southWest.lat;
+
+                return leafletControlGeocoder.nominatim({
+                    geocodingQueryParams: {
+                        viewbox: `${left},${top},${right},${bottom}`,
+                        'accept-language': lang,
+                    },
+                });
             default:
-                this._geocoder = leafletControlGeocoder.photon();
+                const { lat, lng } = this._radio.reqres.request('map:currentCenter');
+                return leafletControlGeocoder.photon({
+                    geocodingQueryParams: {
+                        lat,
+                        lon: lng,
+                        lang,
+                    },
+                });
         }
-    }
+    },
 });

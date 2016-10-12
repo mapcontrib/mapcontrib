@@ -1,34 +1,17 @@
 
-import config from 'config';
-import { XMLHttpRequest } from 'xmlhttprequest';
 import logger from '../lib/logger';
 import Database from '../lib/database';
 import SERVER_CONST from '../const';
 import PUBLIC_CONST from '../public/js/const';
-import OverPassHelper from '../public/js/helper/overPass';
 import OverPassCache from '../lib/overPassCache';
 
 
-const CONST = {...SERVER_CONST, ...PUBLIC_CONST};
+const CONST = { ...SERVER_CONST, ...PUBLIC_CONST };
 const database = new Database();
 
 
-database.connect((err, db) => {
-    if (err) throw err;
-
-    const cache = new OverPassCache(db);
-    const cron = new UpdateOverPassCache(db, cache);
-
-    logger.info(`Update of the OverPass cache started`);
-
-    cron.start();
-});
-
-
-
-
 export default class UpdateOverPassCache {
-    constructor (db, cache) {
+    constructor(db, cache) {
         this._db = db;
         this._cache = cache;
 
@@ -36,11 +19,11 @@ export default class UpdateOverPassCache {
             this._nextIteration.bind(this),
             this._retryIteration.bind(this),
             this._setLayerStateSuccess.bind(this),
-            this._setLayerStateError.bind(this)
+            this._setLayerStateError.bind(this),
         ];
     }
 
-    start () {
+    start() {
         logger.debug('start');
 
         this._themeCollection = this._db.collection('theme');
@@ -51,12 +34,12 @@ export default class UpdateOverPassCache {
         };
 
         if ( process.argv.length === 3 ) {
-            findOptions['layers.uniqid'] = process.argv[2];
+            findOptions['layers.uuid'] = process.argv[2];
         }
 
         this._themeCollection.find( findOptions )
         .toArray((err, themes) => {
-            if(err) {
+            if (err) {
                 throw err;
             }
 
@@ -64,11 +47,11 @@ export default class UpdateOverPassCache {
                 return this._end();
             }
 
-            this._iterate = this._iterateLayers(themes);
+            this._iterate = UpdateOverPassCache._iterateLayers(themes);
 
             const iteration = this._iterate.next();
 
-            this._cache.process(
+            return OverPassCache.process(
                 iteration.value.theme,
                 iteration.value.layer,
                 ...this._callbacks
@@ -76,11 +59,11 @@ export default class UpdateOverPassCache {
         });
     }
 
-    *_iterateLayers (themes) {
+    static* _iterateLayers(themes) {
         logger.debug('_iterateLayers');
 
-        for (let theme of themes) {
-            for (let layer of theme.layers) {
+        for (const theme of themes) {
+            for (const layer of theme.layers) {
                 if (layer.cache !== true) {
                     continue;
                 }
@@ -89,12 +72,12 @@ export default class UpdateOverPassCache {
                     continue;
                 }
 
-                yield {theme, layer};
+                yield { theme, layer };
             }
         }
     }
 
-    _nextIteration () {
+    _nextIteration() {
         logger.debug('_nextIteration');
 
         const iteration = this._iterate.next();
@@ -103,8 +86,8 @@ export default class UpdateOverPassCache {
             return this._end();
         }
 
-        setTimeout(
-            this._cache.process.bind(
+        return setTimeout(
+            OverPassCache.process.bind(
                 this._cache,
                 iteration.value.theme,
                 iteration.value.layer,
@@ -114,11 +97,11 @@ export default class UpdateOverPassCache {
         );
     }
 
-    _retryIteration (theme, layer) {
+    _retryIteration(theme, layer) {
         logger.debug('_retryIteration');
 
         setTimeout(
-            this._cache.process.bind(
+            OverPassCache.process.bind(
                 this._cache,
                 theme,
                 layer,
@@ -128,23 +111,23 @@ export default class UpdateOverPassCache {
         );
     }
 
-    _setLayerStateSuccess (theme, layer, bounds, filePath) {
+    _setLayerStateSuccess(theme, layer, bounds, filePath) {
         logger.debug('_setLayerStateSuccess');
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this._themeCollection.updateOne({
-                    '_id': theme._id,
-                    'layers.uniqid': layer.uniqid
+                    _id: theme._id,
+                    'layers.uuid': layer.uuid,
                 },
                 {
-                    '$set': {
+                    $set: {
                         'layers.$.fileUri': filePath,
                         'layers.$.cacheUpdateSuccess': true,
                         'layers.$.cacheUpdateSuccessDate': new Date().toISOString(),
                         'layers.$.cacheUpdateDate': new Date().toISOString(),
                         'layers.$.cacheUpdateError': null,
                         'layers.$.cacheBounds': bounds,
-                    }
+                    },
                 },
                 () => {
                     resolve();
@@ -153,22 +136,22 @@ export default class UpdateOverPassCache {
         });
     }
 
-    _setLayerStateError (theme, layer, error) {
+    _setLayerStateError(theme, layer, error) {
         logger.debug('_setLayerStateError');
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this._themeCollection.updateOne({
-                    '_id': theme._id,
-                    'layers.uniqid': layer.uniqid
+                    _id: theme._id,
+                    'layers.uuid': layer.uuid,
                 },
                 {
-                    '$set': {
+                    $set: {
                         'layers.$.fileUri': null,
                         'layers.$.cacheUpdateSuccess': false,
                         'layers.$.cacheUpdateDate': new Date().toISOString(),
                         'layers.$.cacheUpdateError': error,
                         'layers.$.cacheBounds': null,
-                    }
+                    },
                 },
                 () => {
                     resolve();
@@ -177,9 +160,21 @@ export default class UpdateOverPassCache {
         });
     }
 
-    _end () {
-        logger.info(`Update of the OverPass cache finished`);
+    _end() {
+        logger.info('Update of the OverPass cache finished');
 
         this._db.close();
     }
 }
+
+
+database.connect((err, db) => {
+    if (err) throw err;
+
+    const cache = new OverPassCache(db);
+    const cron = new UpdateOverPassCache(db, cache);
+
+    logger.info('Update of the OverPass cache started');
+
+    cron.start();
+});

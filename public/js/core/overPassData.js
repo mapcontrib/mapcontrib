@@ -5,7 +5,7 @@ export default class OverPassData {
      * @author Guillaume AMAT
      * @access public
      */
-    constructor () {
+    constructor() {
         this._overPassData = {};
     }
 
@@ -18,8 +18,8 @@ export default class OverPassData {
      * @param {string|number} layerId - OverPass element's parent layer.
      * @returns {boolean}
      */
-    exists (type, id, layerId) {
-        const osmId = this.buildOsmIdFromTypeAndId(type, id);
+    exists(type, id, layerId) {
+        const osmId = OverPassData.buildOsmIdFromTypeAndId(type, id);
 
         if ( !this._overPassData[layerId] ) {
             return false;
@@ -28,9 +28,8 @@ export default class OverPassData {
         if ( this._overPassData[layerId][osmId] ) {
             return true;
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 
     /**
@@ -40,8 +39,8 @@ export default class OverPassData {
      * @param {string|number} layerId - OverPass element's parent layer.
      * @returns {boolean}
      */
-    save (overPassElement, layerId) {
-        const osmId = this.buildOsmIdFromElement(overPassElement);
+    save(overPassElement, layerId) {
+        const osmId = OverPassData.buildOsmIdFromElement(overPassElement);
 
         if ( !this._overPassData[layerId] ) {
             this._overPassData[layerId] = {};
@@ -60,8 +59,8 @@ export default class OverPassData {
      * @param {string|number} layerId - OverPass element's parent layer.
      * @returns {object|boolean}
      */
-    get (type, id, layerId) {
-        const osmId = this.buildOsmIdFromTypeAndId(type, id);
+    get(type, id, layerId) {
+        const osmId = OverPassData.buildOsmIdFromTypeAndId(type, id);
 
         if ( !this._overPassData[layerId] ) {
             return false;
@@ -78,7 +77,7 @@ export default class OverPassData {
      * @param {string|number} layerId - OverPass element's parent layer.
      * @returns {boolean}
      */
-    clearLayerData (layerId) {
+    clearLayerData(layerId) {
         if ( !this._overPassData[layerId] ) {
             return false;
         }
@@ -90,22 +89,24 @@ export default class OverPassData {
 
     /**
      * @author Guillaume AMAT
+     * @static
      * @access public
      * @param {object} overPassElement - OverPass element.
      * @returns {string}
      */
-    buildOsmIdFromElement (overPassElement) {
+    static buildOsmIdFromElement(overPassElement) {
         return `${overPassElement.type}/${overPassElement.id}`;
     }
 
     /**
      * @author Guillaume AMAT
+     * @static
      * @access public
      * @param {string} type - OverPass element's type.
      * @param {string|number} id - OverPass element's id.
      * @returns {string}
      */
-    buildOsmIdFromTypeAndId (type, id) {
+    static buildOsmIdFromTypeAndId(type, id) {
         return `${type}/${id}`;
     }
 }

@@ -1,23 +1,23 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/addLayerMenuColumn.ejs';
+import template from 'templates/addLayerMenuColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'column': {},
+        l20n: {},
+        column: {},
     },
 
     ui: {
-        'column': '#add_layer_menu_column',
-        'overPassItem': '.overpass_item',
-        'gpxItem': '.gpx_item',
-        'csvItem': '.csv_item',
-        'geoJsonItem': '.geojson_item',
+        column: '#add_layer_menu_column',
+        overPassItem: '.overpass_item',
+        gpxItem: '.gpx_item',
+        csvItem: '.csv_item',
+        geoJsonItem: '.geojson_item',
     },
 
     events: {
@@ -27,7 +27,7 @@ export default Marionette.LayoutView.extend({
         'click @ui.geoJsonItem': 'onClickGeoJson',
     },
 
-    initialize(options) {
+    initialize() {
         this._radio = Wreqr.radio.channel('global');
     },
 

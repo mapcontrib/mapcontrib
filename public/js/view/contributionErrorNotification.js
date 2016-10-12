@@ -1,25 +1,25 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/contributionErrorNotification.ejs';
+import template from 'templates/contributionErrorNotification.ejs';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
     behaviors: {
-        'l20n': {},
-        'notification': {
-            'destroyOnClose': true,
+        l20n: {},
+        notification: {
+            destroyOnClose: true,
         },
     },
 
     ui: {
-        'notification': '.notification',
+        notification: '.notification',
 
-        'content': '.content',
+        content: '.content',
 
-        'retryButton': '.retry_btn',
+        retryButton: '.retry_btn',
     },
 
     events: {

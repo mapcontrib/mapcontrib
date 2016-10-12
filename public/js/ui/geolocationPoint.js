@@ -14,7 +14,7 @@ export default class GeolocationPoint {
      * @param {number} angle - The marker's angle.
      */
     static rotate(angle) {
-        let marker = document.querySelector('.ui-map-geolocation-marker > svg');
+        const marker = document.querySelector('.ui-map-geolocation-marker > svg');
         marker.style.transform = `rotate(${angle}deg)`;
     }
 
@@ -30,8 +30,8 @@ export default class GeolocationPoint {
         return L.marker(
             [0, 0],
             {
-                'clickable': false,
-                'icon': GeolocationPoint._getDefaultMarkerIcon()
+                clickable: false,
+                icon: GeolocationPoint._getDefaultMarkerIcon(),
             }
         );
     }
@@ -48,8 +48,8 @@ export default class GeolocationPoint {
         return L.marker(
             [0, 0],
             {
-                'clickable': false,
-                'icon': GeolocationPoint._getHeadingMarkerIcon()
+                clickable: false,
+                icon: GeolocationPoint._getHeadingMarkerIcon(),
             }
         );
     }
@@ -64,10 +64,10 @@ export default class GeolocationPoint {
      */
     static _getDefaultMarkerIcon() {
         return L.divIcon({
-            'iconSize': [30, 30],
-            'iconAnchor': [15, 15],
-            'className': 'ui-map-geolocation-marker',
-            'html': markerSvg
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
+            className: 'ui-map-geolocation-marker',
+            html: markerSvg,
         });
     }
 
@@ -81,10 +81,10 @@ export default class GeolocationPoint {
      */
     static _getHeadingMarkerIcon() {
         return L.divIcon({
-            'iconSize': [30, 30],
-            'iconAnchor': [15, 15],
-            'className': 'ui-map-geolocation-marker',
-            'html': headingMarkerSvg
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
+            className: 'ui-map-geolocation-marker',
+            html: headingMarkerSvg,
         });
     }
 
@@ -135,10 +135,10 @@ export default class GeolocationPoint {
             [0, 0],
             0,
             {
-                'stroke': false,
-                'fillColor': 'rgba(34, 176, 223, 0.15)',
-                'fillOpacity': 1,
-                'clickable': false
+                stroke: false,
+                fillColor: 'rgba(34, 176, 223, 0.15)',
+                fillOpacity: 1,
+                clickable: false,
             });
     }
 }

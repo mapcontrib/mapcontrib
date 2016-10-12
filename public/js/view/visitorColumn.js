@@ -1,21 +1,27 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from '../../templates/visitorColumn.ejs';
+import template from 'templates/visitorColumn.ejs';
 import LoginModalView from './loginModal';
 
 
 export default Marionette.LayoutView.extend({
-    template: template,
+    template,
 
-    behaviors: {
-        'l20n': {},
-        'column': {},
+    behaviors() {
+        return {
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
+            },
+        };
     },
 
     ui: {
-        'column': '#visitor_column',
-        'loginItem': '.login_item',
+        column: '.column',
+        loginItem: '.login_item',
     },
 
     events: {
@@ -43,12 +49,12 @@ export default Marionette.LayoutView.extend({
 
     onClickLogin() {
         // FIXME To have a real fail callback
-        let authSuccessCallback = this.options.theme.buildPath();
-        let authFailCallback = this.options.theme.buildPath();
+        const authSuccessCallback = this.model.buildPath();
+        const authFailCallback = this.model.buildPath();
 
         new LoginModalView({
-            'authSuccessCallback': authSuccessCallback,
-            'authFailCallback': authFailCallback
+            authSuccessCallback,
+            authFailCallback,
         }).open();
     },
 });

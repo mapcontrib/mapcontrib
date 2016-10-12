@@ -1,149 +1,177 @@
 
 import Marionette from 'backbone.marionette';
-import CONST from '../../../const';
+import CONST from 'const';
 import listItemTemplate from './listItem.ejs';
-import { formatBytes, basename } from '../../../core/utils';
+import KeyField from '../fields/key';
+import RawKeyField from '../fields/rawKey';
+import TextField from '../fields/text';
+import EmailField from '../fields/email';
+import TextareaField from '../fields/textarea';
+import UrlField from '../fields/url';
+import TelField from '../fields/tel';
+import NumberField from '../fields/number';
+import FileField from '../fields/file';
+import CheckField from '../fields/check';
 
 
-export default Marionette.ItemView.extend({
+export default Marionette.LayoutView.extend({
     template: listItemTemplate,
 
-    ui: {
-        'key': '.key',
-        'textInput': '.text_input',
-        'fileInput': '.file_input',
-        'textInputGroup': '.text_input_group',
-        'fileInputGroup': '.file_input_group',
-        'formGroups': '.form-group',
-        'currentFile': '.current_file',
-        'infoBtn': '.info_btn',
-        'nonOsmWarning': '.non_osm_warning',
-        'removeBtn': '.remove_btn',
-    },
-
-    events: {
-        'blur @ui.key': 'updateKey',
-        'blur @ui.textInput': 'updateTextInput',
-        'keyup @ui.key': 'updateKey',
-        'keyup @ui.textInput': 'updateTextInput',
-        'click @ui.removeBtn': 'onClickRemoveBtn',
-    },
-
-    initialize: function () {
-        this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
-        this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
-        this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
-    },
-
-    templateHelpers: function () {
-        const config = MAPCONTRIB.config;
-        const maxFileSize = formatBytes( config.uploadMaxNonOsmDataFileSize * 1024 );
-
+    behaviors() {
         return {
-            'cid': this.model.cid,
-            'maxFileSize': document.l10n.getSync('maxFileSize', {maxFileSize}),
+            l20n: {},
         };
     },
 
-    onRender: function () {
-        document.l10n.localizeNode( this.el );
+    ui: {
+        formGroups: '.form-group',
+        nonOsmWarning: '.non_osm_warning',
+        displayRawTag: '.display_raw_tag',
+    },
 
-        if (this.model.get('keyReadOnly')) {
-            this.ui.key.prop('disabled', 'disabled');
-        }
+    regions: {
+        key: '.rg_key',
+        value: '.rg_value',
+    },
 
-        if (this.model.get('valueReadOnly')) {
-            this.ui.textInput.prop('disabled', 'disabled');
-        }
+    events: {
+        'change @ui.displayRawTag': 'onChangeDisplayRawTag',
+    },
 
-        if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
-            this.ui.removeBtn.prop('disabled', true);
-        }
+    initialize() {
+        this._displayRawTag = false;
+
+        this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
+        this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
+        this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
+
+        const fieldOptions = {
+            model: this.model,
+            iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
+        };
+
+        this._rawKeyField = new RawKeyField( fieldOptions );
+        this._localizedKeyField = new KeyField( fieldOptions );
+    },
+
+    templateHelpers() {
+        return {
+            cid: this.model.cid,
+        };
+    },
+
+    onRender() {
+        this._renderKeyField();
+        this._renderValueField();
 
         if (this.model.get('nonOsmData')) {
             this.ui.nonOsmWarning.removeClass('hide');
         }
 
-        if (this.model.get('type') === CONST.tagType.text) {
-            this.ui.textInputGroup.removeClass('hide');
-            this.ui.fileInputGroup.addClass('hide');
-        }
-        else {
-            if ( this.model.get('value') ) {
-                const fileUri = this.model.get('value');
-                const fileName = basename(fileUri || '');
-
-                this.ui.currentFile
-                .html(
-                    document.l10n.getSync('currentFile', {
-                        file: `<a href="${fileUri}" rel="noopener noreferrer" target="_blank">${fileName}</a>`
-                    })
-                )
-                .removeClass('hide');
-            }
-
-            this.ui.textInputGroup.addClass('hide');
-            this.ui.fileInputGroup.removeClass('hide');
-        }
-
-        this.renderTagInfo();
+        this.ui.displayRawTag.prop('checked', this._displayRawTag);
 
         this.onCollectionUpdate();
     },
 
-    onShow: function () {
-        this.ui.fileInput.filestyle({
-            'icon': false,
-            'badge': false,
-            'placeholder': document.l10n.getSync('file'),
-            'buttonText': document.l10n.getSync('editLayerFormColumn_browse'),
-        });
+    _renderKeyField() {
+        if (this._keyField) {
+            this._keyField.off('change', this._renderValueField);
+        }
+
+        if (this._displayRawTag) {
+            this._keyField = this._rawKeyField;
+        }
+        else {
+            this._keyField = this._localizedKeyField;
+        }
+
+        this._keyField.on('change', this._renderValueField, this);
+        this.getRegion('key').show(this._keyField, { preventDestroy: true });
+
+        if (this.model.get('keyReadOnly')) {
+            this._keyField.disable();
+        }
     },
 
-    renderTagInfo: function () {
-        const key = this.ui.key.val().trim();
-        const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
+    _renderValueField() {
+        const fieldOptions = {
+            model: this.model,
+            iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
+        };
 
-        this.ui.infoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
+        if (this._displayRawTag) {
+            this._valueField = new TextField( fieldOptions );
+        }
+        else {
+            switch (this.model.get('type')) {
+                case CONST.tagType.text:
+                    this._valueField = new TextField( fieldOptions );
+                    break;
+                case CONST.tagType.email:
+                    this._valueField = new EmailField( fieldOptions );
+                    break;
+                case CONST.tagType.url:
+                    this._valueField = new UrlField( fieldOptions );
+                    break;
+                case CONST.tagType.textarea:
+                    this._valueField = new TextareaField( fieldOptions );
+                    break;
+                case CONST.tagType.tel:
+                    this._valueField = new TelField( fieldOptions );
+                    break;
+                case CONST.tagType.number:
+                    this._valueField = new NumberField( fieldOptions );
+                    break;
+                case CONST.tagType.file:
+                    this._valueField = new FileField( fieldOptions );
+                    break;
+                case CONST.tagType.check:
+                    this._valueField = new CheckField( fieldOptions );
+                    break;
+                default:
+                    this._valueField = new TextField( fieldOptions );
+            }
+        }
+
+        this.getRegion('value').show( this._valueField );
+
+        if (this.model.get('valueReadOnly')) {
+            this._valueField.disable();
+        }
+
+        if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
+            this._valueField.disableRemoveBtn();
+        }
+
+        if (this.model.get('nonOsmData')) {
+            this._valueField.disableRemoveBtn();
+        }
     },
 
-    updateKey: function (e) {
-        const key = this.ui.key.val().trim();
+    onCollectionUpdate() {
+        if (this.model.get('keyReadOnly') || this.model.get('valueReadOnly')) {
+            return;
+        }
 
-        this.model.set( 'key', key );
-
-        this.renderTagInfo();
-    },
-
-    updateTextInput: function (e) {
-        this.model.set(
-            'value',
-            this.ui.textInput.val().trim()
-        );
-    },
-
-    onClickRemoveBtn: function (e) {
-        this.model.destroy();
-    },
-
-    onCollectionUpdate: function () {
         if ( this.model.get('nonOsmData') ) {
             return;
         }
 
         const osmTags = this.model.collection.where({
-            'nonOsmData': false
+            nonOsmData: false,
         });
 
         if (osmTags.length === 1) {
-            this.ui.removeBtn.prop('disabled', true);
+            this._valueField.disableRemoveBtn();
         }
         else {
-            this.ui.removeBtn.prop('disabled', false);
+            this._valueField.enableRemoveBtn();
         }
     },
 
-    isFileTag: function () {
+    isFileTag() {
         if ( this.model.get('type') === CONST.tagType.file ) {
             return true;
         }
@@ -151,19 +179,21 @@ export default Marionette.ItemView.extend({
         return false;
     },
 
-    isNotEmpty: function () {
-        if ( this.ui.fileInput.val() ) {
-            return true;
-        }
-
-        return false;
+    valueIsNotEmpty() {
+        return this._valueField.isNotEmpty();
     },
 
-    showErrorFeedback: function () {
+    showErrorFeedback() {
         this.ui.formGroups.addClass('has-feedback has-error');
     },
 
-    hideErrorFeedback: function () {
+    hideErrorFeedback() {
         this.ui.formGroups.removeClass('has-feedback has-error');
+    },
+
+    onChangeDisplayRawTag() {
+        this._displayRawTag = this.ui.displayRawTag.prop('checked');
+        this._renderKeyField();
+        this._renderValueField();
     },
 });

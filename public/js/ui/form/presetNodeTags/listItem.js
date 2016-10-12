@@ -1,195 +1,238 @@
 
 import Marionette from 'backbone.marionette';
-import CONST from '../../../const';
+import CONST from 'const';
 import listItemTemplate from './listItem.ejs';
+import KeyField from '../fields/key';
+import RawKeyField from '../fields/rawKey';
+import TextField from '../fields/text';
+import EmailField from '../fields/email';
+import TextareaField from '../fields/textarea';
+import UrlField from '../fields/url';
+import TelField from '../fields/tel';
+import NumberField from '../fields/number';
+import FileField from '../fields/file';
+import CheckField from '../fields/check';
 
 
-export default Marionette.ItemView.extend({
+export default Marionette.LayoutView.extend({
     template: listItemTemplate,
 
-    ui: {
-        'key': '.key',
-        'value': '.value',
-        'keyReadOnly': '.key_read_only',
-        'valueReadOnly': '.value_read_only',
-        'nonOsmData': '.non_osm_data',
-        'textInput': '.text_input',
-        'fileInput': '.file_input',
-        'keyReadOnlyGroup': '.key_read_only_group',
-        'valueReadOnlyGroup': '.value_read_only_group',
-        'textInputGroup': '.text_input_group',
-        'fileInputGroup': '.file_input_group',
-        'infoBtn': '.info_btn',
-        'removeBtn': '.remove_btn',
-    },
-
-    events: {
-        'blur @ui.key': 'updateKey',
-        'blur @ui.value': 'updateValue',
-        'keyup @ui.key': 'updateKey',
-        'keyup @ui.value': 'updateValue',
-        'change @ui.keyReadOnly': 'onChangeKeyReadOnly',
-        'change @ui.valueReadOnly': 'onChangeValueReadOnly',
-        'change @ui.nonOsmData': 'onChangeNonOsmData',
-        'change @ui.textInput': 'onChangetypeInput',
-        'change @ui.fileInput': 'onChangetypeInput',
-        'click @ui.removeBtn': 'onClickRemoveBtn',
-    },
-
-    initialize: function () {
-        this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
-        this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
-        this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
-        this.listenTo(this.model.collection, 'change', this.onCollectionUpdate);
-    },
-
-    templateHelpers: function () {
+    behaviors() {
         return {
-            'cid': this.model.cid
+            l20n: {},
         };
     },
 
-    onRender: function () {
-        document.l10n.localizeNode( this.el );
+    ui: {
+        formGroups: '.form-group',
+        displayRawTag: '.display_raw_tag',
+        nonOsmCheckbox: '.non_osm_data',
+        keyReadOnlyCheckbox: '.key_read_only',
+        valueReadOnlyCheckbox: '.value_read_only',
+    },
 
-        this.ui.nonOsmData.prop(
-            'checked',
-            this.model.get('nonOsmData')
-        );
+    regions: {
+        key: '.rg_key',
+        value: '.rg_value',
+    },
 
-        this.ui.keyReadOnly.prop(
-            'checked',
-            this.model.get('keyReadOnly')
-        );
+    events: {
+        'change @ui.displayRawTag': 'onChangeDisplayRawTag',
+        'change @ui.nonOsmCheckbox': 'onChangeNonOsmCheckbox',
+        'change @ui.keyReadOnlyCheckbox': 'onChangeKeyReadOnlyCheckbox',
+        'change @ui.valueReadOnlyCheckbox': 'onChangeValueReadOnlyCheckbox',
+    },
 
-        this.ui.valueReadOnly.prop(
-            'checked',
-            this.model.get('valueReadOnly')
-        );
+    initialize() {
+        this._displayRawTag = false;
 
-        if ( this.model.get('type') === CONST.tagType.text ) {
-            this.ui.textInput.prop('checked', true);
-        }
-        else {
-            this.ui.fileInput.prop('checked', true);
-        }
+        this.listenTo(this.model.collection, 'sync', this.onCollectionUpdate);
+        this.listenTo(this.model.collection, 'reset', this.onCollectionUpdate);
+        this.listenTo(this.model.collection, 'update', this.onCollectionUpdate);
+        this.listenTo(this.model, 'change', this._triggerCollectionUpdate);
 
-        this.onChangeValueReadOnly();
-        this.onChangeKeyReadOnly();
-        this.onChangeNonOsmData();
+        const fieldOptions = {
+            model: this.model,
+            iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
+        };
 
-        this.renderTagInfo();
+        this._rawKeyField = new RawKeyField( fieldOptions );
+        this._localizedKeyField = new KeyField( fieldOptions );
+    },
+
+    templateHelpers() {
+        return {
+            cid: this.model.cid,
+        };
+    },
+
+    onRender() {
+        this._renderKeyField();
+        this._renderValueField();
+
+        this.ui.nonOsmCheckbox.prop('checked', this.model.get('nonOsmData'));
+        this.ui.keyReadOnlyCheckbox.prop('checked', this.model.get('keyReadOnly'));
+        this.ui.valueReadOnlyCheckbox.prop('checked', this.model.get('valueReadOnly'));
+        this.ui.displayRawTag.prop('checked', this._displayRawTag);
+
+        this._setNonOsmIfFileTagType();
+        this._changeKeyReadOnlyStateIfNeeded();
 
         this.onCollectionUpdate();
     },
 
-    renderTagInfo: function () {
-        const key = this.ui.key.val().trim();
-        const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
+    _renderKeyField() {
+        if (this._keyField) {
+            this._keyField.off('change', this._renderValueField);
+        }
 
-        this.ui.infoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
+        if (this._displayRawTag) {
+            this._keyField = this._rawKeyField;
+        }
+        else {
+            this._keyField = this._localizedKeyField;
+        }
+
+        this._keyField.on('change', this._renderValueField, this);
+        this._keyField.on('change', this._setNonOsmIfFileTagType, this);
+        this.getRegion('key').show(this._keyField, { preventDestroy: true });
     },
 
-    updateKey: function (e) {
-        const key = this.ui.key.val().trim();
+    _renderValueField() {
+        const fieldOptions = {
+            model: this.model,
+            iDPresetsHelper: this.options.iDPresetsHelper,
+            customTags: this.options.customTags,
+            placeholder: document.l10n.getSync('defaultValue'),
+        };
 
-        this.model.set( 'key', key );
+        if (this._displayRawTag) {
+            this._valueField = new TextField( fieldOptions );
+        }
+        else {
+            const tagType = this._findTagType(this.model.get('key'));
 
-        this.renderTagInfo();
+            switch (tagType) {
+                case CONST.tagType.text:
+                    this._valueField = new TextField( fieldOptions );
+                    break;
+                case CONST.tagType.email:
+                    this._valueField = new EmailField( fieldOptions );
+                    break;
+                case CONST.tagType.url:
+                    this._valueField = new UrlField( fieldOptions );
+                    break;
+                case CONST.tagType.textarea:
+                    this._valueField = new TextareaField( fieldOptions );
+                    break;
+                case CONST.tagType.tel:
+                    this._valueField = new TelField( fieldOptions );
+                    break;
+                case CONST.tagType.number:
+                    this._valueField = new NumberField( fieldOptions );
+                    break;
+                case CONST.tagType.file:
+                    this._valueField = new FileField( fieldOptions );
+                    break;
+                case CONST.tagType.check:
+                    this._valueField = new CheckField( fieldOptions );
+                    break;
+                default:
+                    this._valueField = new TextField( fieldOptions );
+            }
+        }
+
+        this.getRegion('value').show( this._valueField );
     },
 
-    updateValue: function (e) {
-        this.model.set(
-            'value',
-            this.ui.value.val().trim()
-        );
+    _findTagType(key) {
+        const customTag = this.options.customTags.findWhere({ key });
+        const iDTag = this.options.iDPresetsHelper.getField(key);
+
+        if (customTag) {
+            return customTag.get('type');
+        }
+
+        if (iDTag) {
+            return iDTag.type;
+        }
+
+        return CONST.tagType.text;
     },
 
-    onChangeKeyReadOnly: function (e) {
-        this.model.set('keyReadOnly', this.ui.keyReadOnly.prop('checked'));
+    onCollectionUpdate() {
+        const osmTags = this.model.collection.where({
+            nonOsmData: false,
+        });
 
-        this.ui.valueReadOnly.prop(
-            'disabled',
-            !this.model.get('keyReadOnly')
-        );
-
-        if ( !this.model.get('keyReadOnly') ) {
-            this.ui.valueReadOnly.prop('checked', false);
+        if (osmTags.length > 1) {
+            this._valueField.enableRemoveBtn();
+        }
+        else {
+            this._valueField.disableRemoveBtn();
         }
     },
 
-    onChangeValueReadOnly: function (e) {
-        this.model.set('valueReadOnly', this.ui.valueReadOnly.prop('checked'));
+    onChangeDisplayRawTag() {
+        this._displayRawTag = this.ui.displayRawTag.prop('checked');
+        this._renderKeyField();
+        this._renderValueField();
     },
 
-    onChangeNonOsmData: function (e) {
-        this.model.set('nonOsmData', this.ui.nonOsmData.prop('checked'));
+    onChangeNonOsmCheckbox() {
+        const nonOsmChecked = this.ui.nonOsmCheckbox.prop('checked');
 
-        const nonOsmData = this.model.get('nonOsmData');
+        this.model.set('nonOsmData', nonOsmChecked);
 
-        if (nonOsmData) {
-            this.ui.keyReadOnly
+        this._changeKeyReadOnlyStateIfNeeded();
+    },
+
+    onChangeKeyReadOnlyCheckbox() {
+        this.model.set(
+            'keyReadOnly',
+            this.ui.keyReadOnlyCheckbox.prop('checked')
+        );
+    },
+
+    onChangeValueReadOnlyCheckbox() {
+        const valueReadOnlyChecked = this.ui.valueReadOnlyCheckbox.prop('checked');
+
+        this.model.set('valueReadOnly', valueReadOnlyChecked);
+
+        this._changeKeyReadOnlyStateIfNeeded();
+    },
+
+    _changeKeyReadOnlyStateIfNeeded() {
+        if (this.model.get('nonOsmData') || this.model.get('valueReadOnly')) {
+            this.ui.keyReadOnlyCheckbox
             .prop('checked', true)
             .prop('disabled', true);
 
-            this.ui.valueReadOnly
-            .prop('checked', false)
+            this.model.set('keyReadOnly', true);
+        }
+        else {
+            this.ui.keyReadOnlyCheckbox.prop('disabled', false);
+        }
+    },
+
+    _setNonOsmIfFileTagType() {
+        const tagType = this._findTagType(this.model.get('key'));
+
+        if (tagType === CONST.tagType.file) {
+            this.ui.nonOsmCheckbox
+            .prop('checked', true)
             .prop('disabled', true);
-
-            this.ui.textInputGroup.removeClass('hide');
-            this.ui.fileInputGroup.removeClass('hide');
-            this.ui.keyReadOnlyGroup.addClass('hide');
-            this.ui.valueReadOnlyGroup.addClass('hide');
         }
         else {
-            this.ui.keyReadOnly
+            this.ui.nonOsmCheckbox
             .prop('disabled', false);
-
-            this.ui.valueReadOnly
-            .prop('disabled', false);
-
-            this.ui.value.prop('disabled', false);
-            this.ui.textInputGroup.addClass('hide');
-            this.ui.fileInputGroup.addClass('hide');
-            this.ui.keyReadOnlyGroup.removeClass('hide');
-            this.ui.valueReadOnlyGroup.removeClass('hide');
         }
+
+        this.onChangeNonOsmCheckbox();
     },
 
-    onChangetypeInput: function (e) {
-        if ( this.ui.fileInput.prop('checked') ) {
-            this.model.set('type', CONST.tagType.file);
-            this.ui.value.val('').prop('disabled', true);
-        }
-        else {
-            this.model.set('type', CONST.tagType.text);
-            this.ui.value.prop('disabled', false);
-        }
-    },
-
-    onClickRemoveBtn: function (e) {
-        this.model.destroy();
-    },
-
-    onCollectionUpdate: function () {
-        const osmTags = this.model.collection.where({
-            'nonOsmData': false
-        });
-
-        if (osmTags.length === 0) {
-            return this.model.collection.add({});
-        }
-
-        if ( this.model.get('nonOsmData') ) {
-            this.ui.removeBtn.prop('disabled', false);
-            return;
-        }
-
-        if (osmTags.length === 1) {
-            this.ui.removeBtn.prop('disabled', true);
-        }
-        else {
-            this.ui.removeBtn.prop('disabled', false);
-        }
+    _triggerCollectionUpdate() {
+        this.model.collection.trigger('update');
     },
 });
