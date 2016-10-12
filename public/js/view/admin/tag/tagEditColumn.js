@@ -3,7 +3,6 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/admin/tag/tagEditColumn.ejs';
 import TagType from 'ui/form/tagType';
-import SearchList from 'ui/form/searchList';
 
 
 export default Marionette.LayoutView.extend({
@@ -33,7 +32,6 @@ export default Marionette.LayoutView.extend({
 
     regions: {
         type: '.rg_type',
-        locales: '.rg_locales',
     },
 
     initialize() {
@@ -48,30 +46,6 @@ export default Marionette.LayoutView.extend({
         });
 
         this.getRegion('type').show(this._tagType);
-
-        const searchLocales = new SearchList({
-            items: [
-                {
-                    label: 'Français',
-                    progression: 100,
-                    href: '#',
-                    callback: undefined,
-                },
-                {
-                    label: 'Anglais',
-                    progression: 65,
-                    href: '#',
-                    callback: undefined,
-                },
-                {
-                    label: 'Italien',
-                    progression: 0,
-                    href: '#',
-                    callback: undefined,
-                },
-            ],
-        });
-        this.getRegion('locales').show(searchLocales);
     },
 
     onBeforeOpen() {

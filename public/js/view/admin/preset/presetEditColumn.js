@@ -2,7 +2,6 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import PresetNodeTagsList from 'ui/form/presetNodeTags';
-import SearchList from 'ui/form/searchList';
 import template from 'templates/admin/preset/presetEditColumn.ejs';
 
 
@@ -36,7 +35,6 @@ export default Marionette.LayoutView.extend({
 
     regions: {
         tagList: '.rg_tag_list',
-        locales: '.rg_locales',
     },
 
     initialize() {
@@ -63,30 +61,6 @@ export default Marionette.LayoutView.extend({
         });
 
         this.getRegion('tagList').show(this._tagList);
-
-        const searchLocales = new SearchList({
-            items: [
-                {
-                    label: 'Français',
-                    progression: 100,
-                    href: '#',
-                    callback: undefined,
-                },
-                {
-                    label: 'Anglais',
-                    progression: 65,
-                    href: '#',
-                    callback: undefined,
-                },
-                {
-                    label: 'Italien',
-                    progression: 40,
-                    href: '#',
-                    callback: undefined,
-                },
-            ],
-        });
-        this.getRegion('locales').show(searchLocales);
     },
 
     onBeforeOpen() {
