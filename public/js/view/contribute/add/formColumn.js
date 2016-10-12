@@ -34,7 +34,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        column: '#contrib_form_column',
+        column: '.column',
         bottom: '.bottom',
         form: 'form',
         content: '.content',

@@ -42,7 +42,6 @@ import EditGpxLayerFormColumnView from './editGpxLayerFormColumn';
 import EditCsvLayerFormColumnView from './editCsvLayerFormColumn';
 import EditGeoJsonLayerFormColumnView from './editGeoJsonLayerFormColumn';
 import EditLayerMarkerModalView from './editLayerMarkerModal';
-import EditPoiColumnView from './editPoiColumn';
 import ZoomNotificationView from './zoomNotification';
 import OverPassTimeoutNotificationView from './overPassTimeoutNotification';
 import OverPassErrorNotificationView from './overPassErrorNotification';
