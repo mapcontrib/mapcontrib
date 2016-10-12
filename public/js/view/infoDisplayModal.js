@@ -22,7 +22,7 @@ export default Marionette.LayoutView.extend({
     },
 
     events: {
-        'click @ui.editBtn': 'close',
+        'click @ui.editBtn': '_onClickEdit',
     },
 
     initialize() {
@@ -41,8 +41,7 @@ export default Marionette.LayoutView.extend({
         this.ui.content.append( this.options.content );
 
         if (
-            layerModel.get('dataEditable')
-            && this.options.isLogged
+            this.options.isLogged
             && layerModel.get('type') === CONST.layerType.overpass
         ) {
             this.ui.footer.removeClass('hide');
@@ -62,5 +61,13 @@ export default Marionette.LayoutView.extend({
     onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
+    },
+
+    _onClickEdit() {
+        this._radio.commands.execute('set:edition-data', {
+            layer: this.options.layer,
+            layerModel: this.options.layerModel,
+        });
+        this.close();
     },
 });

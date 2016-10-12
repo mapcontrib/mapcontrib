@@ -103,19 +103,25 @@ export default Marionette.LayoutView.extend({
     },
 
     _onClickFreeAddition() {
-        this.options.router.navigate(`contribute/edit/${this.options.osmId}/no-preset`, true);
+        const { osmId, osmType } = this.options;
+
+        this.options.router.navigate(`contribute/edit/${osmType}/${osmId}/no-preset`, true);
     },
 
     _onClickIDPreset(preset) {
+        const { osmId, osmType } = this.options;
+
         this.options.router.navigate(
-            `contribute/edit/${this.options.osmId}/iD/${preset.presetName}`,
+            `contribute/edit/${osmType}/${osmId}/iD/${preset.presetName}`,
             true
         );
     },
 
     _onClickCustomPreset(preset) {
+        const { osmId, osmType } = this.options;
+
         this.options.router.navigate(
-            `contribute/edit/${this.options.osmId}/${preset.get('uuid')}`,
+            `contribute/edit/${osmType}/${osmId}/${preset.get('uuid')}`,
             true
         );
     },

@@ -193,9 +193,7 @@ Inseriscilo proprio qui!"> /
 <editLayerFormColumn_clusterRepresentation "Groupable points"> /* FIXME */
 <editLayerFormColumn_heatRepresentation "Heat map"> /* FIXME */
 <editLayerFormColumn_visibility "Visibilità">
-<editLayerFormColumn_visibilityAndEdition "Visibilità e modifica">
 <editLayerFormColumn_visible "Visibile agli utenti">
-<editLayerFormColumn_dataEditable "Permetti di modificare i dati">
 <editLayerFormColumn_heatOptions "Heat map"> /* FIXME */
 <editLayerFormColumn_heatMapPopoverTitle "Informations"> /* FIXME */
 <editLayerFormColumn_heatMapPopoverContent "#### Maximum zoom

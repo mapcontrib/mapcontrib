@@ -51,10 +51,10 @@ export default Backbone.Router.extend({
         'contribute/add/:lat/:lng/iD/*presetName': 'routeContributeAddIDPreset',
         'contribute/add/:lat/:lng/:uuid': 'routeContributeAddCustomPreset',
 
-        'contribute/edit/:type/:id': 'routeContributeEditPresetSelection',
-        'contribute/edit/:type/:id/no-preset': 'routeContributeEditNoPreset',
-        'contribute/edit/:type/:id/iD/*presetName': 'routeContributeEditIDPreset',
-        'contribute/edit/:type/:id/:uuid': 'routeContributeEditCustomPreset',
+        'contribute/edit/:osmType/:osmId': 'routeContributeEditPresetSelection',
+        'contribute/edit/:osmType/:osmId/no-preset': 'routeContributeEditNoPreset',
+        'contribute/edit/:osmType/:osmId/iD/*presetName': 'routeContributeEditIDPreset',
+        'contribute/edit/:osmType/:osmId/:uuid': 'routeContributeEditCustomPreset',
 
         'admin/setting': 'routeAdminSetting',
         'admin/tile': 'routeAdminTile',
@@ -259,8 +259,15 @@ export default Backbone.Router.extend({
     },
 
 
-    routeContributeEditPresetSelection(type, id) {
+    routeContributeEditPresetSelection(osmType, osmId) {
         if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        const editionData = this._radio.reqres.request('edition-data');
+
+        if (!editionData) {
             this.navigate('');
             return;
         }
@@ -269,13 +276,21 @@ export default Backbone.Router.extend({
             router: this,
             config: this._config,
             theme: this._theme,
-            osmId: `${type}/${id}`,
+            osmId,
+            osmType,
             iDPresetsHelper: this._iDPresetsHelper,
         }).open();
     },
 
-    routeContributeEditNoPreset(type, id) {
+    routeContributeEditNoPreset(osmType, osmId) {
         if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        const editionData = this._radio.reqres.request('edition-data');
+
+        if (!editionData) {
             this.navigate('');
             return;
         }
@@ -285,15 +300,25 @@ export default Backbone.Router.extend({
             config: this._config,
             theme: this._theme,
             user: this._user,
-            osmId: `${type}/${id}`,
+            osmId,
+            osmType,
+            layer: editionData.layer,
+            layerModel: editionData.layerModel,
             iDPresetsHelper: this._iDPresetsHelper,
             nonOsmData: this._nonOsmData,
             osmCache: this._osmCache,
         }).open();
     },
 
-    routeContributeEditIDPreset(type, id, presetName) {
+    routeContributeEditIDPreset(osmType, osmId, presetName) {
         if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        const editionData = this._radio.reqres.request('edition-data');
+
+        if (!editionData) {
             this.navigate('');
             return;
         }
@@ -303,7 +328,10 @@ export default Backbone.Router.extend({
             config: this._config,
             theme: this._theme,
             user: this._user,
-            osmId: `${type}/${id}`,
+            osmId,
+            osmType,
+            layer: editionData.layer,
+            layerModel: editionData.layerModel,
             iDPresetsHelper: this._iDPresetsHelper,
             nonOsmData: this._nonOsmData,
             osmCache: this._osmCache,
@@ -311,8 +339,15 @@ export default Backbone.Router.extend({
         }).open();
     },
 
-    routeContributeEditCustomPreset(type, id, uuid) {
+    routeContributeEditCustomPreset(osmType, osmId, uuid) {
         if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        const editionData = this._radio.reqres.request('edition-data');
+
+        if (!editionData) {
             this.navigate('');
             return;
         }
@@ -322,7 +357,10 @@ export default Backbone.Router.extend({
             config: this._config,
             theme: this._theme,
             user: this._user,
-            osmId: `${type}/${id}`,
+            osmId,
+            osmType,
+            layer: editionData.layer,
+            layerModel: editionData.layerModel,
             iDPresetsHelper: this._iDPresetsHelper,
             nonOsmData: this._nonOsmData,
             osmCache: this._osmCache,

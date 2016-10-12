@@ -177,9 +177,13 @@ export default Marionette.LayoutView.extend({
                 return false;
             },
             'map:markerCluster': layerModel => this._getRootLayer(layerModel),
+            'edition-data': () => this._editionData,
         });
 
         this._radio.commands.setHandlers({
+            'set:edition-data': (data) => {
+                this._editionData = data;
+            },
             'theme:save': () => {
                 this.model.updateModificationDate();
                 this.model.save();
@@ -1161,7 +1165,6 @@ export default Marionette.LayoutView.extend({
 
     _buildLayerPopupContent(layer, layerModel, feature) {
         const isLogged = this._app.isLogged();
-        const dataEditable = layerModel.get('dataEditable');
         const nonOsmData = this._nonOsmData.findWhere({
             themeFragment: this.model.get('fragment'),
             osmId: feature.properties.id,
@@ -1174,7 +1177,7 @@ export default Marionette.LayoutView.extend({
             isLogged
         );
 
-        if ( !content && !dataEditable ) {
+        if ( !content ) {
             return '';
         }
 
@@ -1189,7 +1192,7 @@ export default Marionette.LayoutView.extend({
         const globalWrapper = this._document.createElement('div');
         globalWrapper.innerHTML = content;
 
-        if ( isLogged && dataEditable ) {
+        if ( isLogged ) {
             const osmType = feature.properties.type;
             const osmId = feature.properties.id;
             const editButton = this._document.createElement('a');
@@ -1207,6 +1210,13 @@ export default Marionette.LayoutView.extend({
             }
 
             globalWrapper.appendChild( editButton );
+
+            $(editButton).on('click', () => {
+                this._radio.commands.execute('set:edition-data', {
+                    layer,
+                    layerModel,
+                });
+            });
         }
 
         return globalWrapper;
@@ -1794,7 +1804,6 @@ export default Marionette.LayoutView.extend({
 
     _displayInfo(e) {
         const layer = e.target;
-        const dataEditable = layer._layerModel.get('dataEditable');
         const layerType = layer._layerModel.get('type');
         const isLogged = this._app.isLogged();
         const nonOsmData = this._nonOsmData.findWhere({
@@ -1812,7 +1821,7 @@ export default Marionette.LayoutView.extend({
         const osmId = layer.feature.properties.id;
         const editRoute = `contribute/edit/${osmType}/${osmId}`;
 
-        if ( !content && !dataEditable ) {
+        if ( !content ) {
             return false;
         }
 
@@ -1827,6 +1836,7 @@ export default Marionette.LayoutView.extend({
         switch (this.model.get('infoDisplay')) {
             case CONST.infoDisplay.modal:
                 this._infoDisplayView = new InfoDisplayModalView({
+                    layer,
                     layerModel: layer._layerModel,
                     content,
                     editRoute,
@@ -1836,6 +1846,7 @@ export default Marionette.LayoutView.extend({
 
             case CONST.infoDisplay.column:
                 this._infoDisplayView = new InfoDisplayColumnView({
+                    layer,
                     layerModel: layer._layerModel,
                     content,
                     editRoute,

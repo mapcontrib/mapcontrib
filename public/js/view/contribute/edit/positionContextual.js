@@ -17,19 +17,22 @@ export default Marionette.ItemView.extend({
     },
 
     ui: {
-        nextBtn: '.next_btn',
+        validateBtn: '.validate_btn',
         cancelBtn: '.cancel_btn',
         contextual: '.contextual',
     },
 
     events: {
         'click @ui.cancelBtn': 'onClickCancel',
-        'click @ui.nextBtn': 'onClickNext',
+        'click @ui.validateBtn': 'onClickValidate',
     },
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
         this._map = this._radio.reqres.request('map');
+
+        this._layer = this.options.layer;
+        this._formColumnView = this.options.formColumnView;
 
         return this.render();
     },
@@ -45,7 +48,13 @@ export default Marionette.ItemView.extend({
     },
 
     onOpen() {
+        this._layer.closePopup();
         MapUi.showContributionCross();
+
+        this._map.panTo(
+            this._layer.getLatLng(),
+            { animate: true }
+        );
     },
 
     onBeforeClose() {
@@ -53,14 +62,17 @@ export default Marionette.ItemView.extend({
     },
 
     onClickCancel() {
-        this.options.router.navigate('');
         this.close();
+        this._formColumnView.open();
     },
 
-    onClickNext() {
-        const center = this._map.getCenter();
+    onClickValidate() {
+        MapUi.hideContributionCross();
 
-        this.options.router.navigate(`contribute/add/${center.lat}/${center.lng}`, true);
+        const mapCenter = this._map.getCenter();
+
+        this._formColumnView.open();
+        this._formColumnView.setNewPosition(mapCenter.lat, mapCenter.lng);
 
         this.close();
     },

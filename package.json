@@ -22,7 +22,7 @@
   },
   "scripts": {
     "init": "babel-node init.js",
-    "start": "babel-node server.js",
+    "start": "NODE_ENV=production babel-node server.js",
     "debug": "babel-node debug server.js",
     "start-from-docker": "babel-node server.js",
     "build": "NODE_ENV=production webpack --progress",

@@ -16,7 +16,6 @@ export default Backbone.RelationalModel.extend({
             name: undefined,
             description: undefined,
             visible: true,
-            dataEditable: true,
             minZoom: 14,
             popupContent: undefined,
             order: undefined,

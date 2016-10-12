@@ -27,7 +27,6 @@ export default Marionette.ItemView.extend({
         layerDescription: '#layer_description',
         layerCluster: '#layer_cluster',
         layerHeat: '#layer_heat',
-        layerDataEditable: '#layer_data_editable',
         layerVisible: '#layer_visible',
         layerMinZoom: '#layer_min_zoom',
         overPassInfo: '.info_overpass_btn',
@@ -82,7 +81,6 @@ export default Marionette.ItemView.extend({
 
     onRender() {
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
-        this.ui.layerDataEditable.prop('checked', this.model.get('dataEditable'));
         this.ui.layerCache.prop('checked', this.model.get('cache'));
 
         if ( MAPCONTRIB.config.overPassCacheEnabled === true ) {
@@ -275,7 +273,6 @@ export default Marionette.ItemView.extend({
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
         this.model.set('visible', this.ui.layerVisible.prop('checked'));
-        this.model.set('dataEditable', this.ui.layerDataEditable.prop('checked'));
         this.model.set('minZoom', parseInt(this.ui.layerMinZoom.val(), 10));
         this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());

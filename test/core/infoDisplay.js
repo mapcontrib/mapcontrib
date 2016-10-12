@@ -35,7 +35,6 @@ describe('InfoDisplay', () => {
 <p>And this <em>is</em> <strong>recycling</strong> and .</p>
 `;
             const layerModel = new LayerModel({
-                dataEditable: true,
                 type: CONST.layerType.overpass,
                 popupContent: `# This is a title
 
@@ -59,7 +58,6 @@ And this *is* **{amenity}** and {other}.`,
 <p>And this <em>is</em>  and <strong>stuff</strong>.</p>
 `;
             const layerModel = new LayerModel({
-                dataEditable: true,
                 type: CONST.layerType.csv,
                 popupContent: `# This is a title
 
@@ -81,7 +79,6 @@ And this *is* {amenity} and **{other}**.`,
 <p>And this <em>is</em>  and <strong>stuff</strong>.</p>
 `;
             const layerModel = new LayerModel({
-                dataEditable: true,
                 type: CONST.layerType.csv,
                 popupContent: `# This is a title
 
@@ -103,7 +100,6 @@ And this *is* {amenity} and **{other}**.`,
         it('Should return an empty string', () => {
             const expected = '';
             const layerModel = new LayerModel({
-                dataEditable: true,
                 type: CONST.layerType.overpass,
                 popupContent: '',
             });

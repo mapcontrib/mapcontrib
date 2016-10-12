@@ -135,4 +135,9 @@ export default Marionette.Behavior.extend({
             .removeClass('open');
         });
     },
+
+    onCloseAndDestroy() {
+        this.options.destroyOnClose = true;
+        this.onClose();
+    },
 });

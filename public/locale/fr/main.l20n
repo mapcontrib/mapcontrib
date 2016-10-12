@@ -193,8 +193,6 @@ Insérez-le juste ici !">
 <editLayerFormColumn_clusterRepresentation "Points groupables">
 <editLayerFormColumn_heatRepresentation "Carte thermique">
 <editLayerFormColumn_visibility "Visibilité">
-<editLayerFormColumn_visibilityAndEdition "Visibilité et édition">
-<editLayerFormColumn_dataEditable "Permettre l'édition des données">
 <editLayerFormColumn_visible "Visible par les utilisateurs">
 <editLayerFormColumn_heatOptions "Carte thermique">
 <editLayerFormColumn_heatMapPopoverTitle "Informations">

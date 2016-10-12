@@ -1,8 +1,10 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import L from 'leaflet';
 import ContribNodeTagsListView from 'ui/form/contribNodeTags';
 import ContributionErrorNotificationView from 'view/contributionErrorNotification';
+import ContributeAddPositionContextual from 'view/contribute/edit/positionContextual';
 import template from 'templates/contribute/edit/formColumn.ejs';
 import osmAuth from 'osm-auth';
 import OsmEditHelper from 'helper/osmEdit.js';
@@ -10,6 +12,7 @@ import NonOsmDataModel from 'model/nonOsmData';
 import OsmCacheModel from 'model/osmCache';
 import TagModel from 'model/tag';
 import CONST from 'const';
+import InfoDisplay from 'core/infoDisplay';
 
 
 export default Marionette.LayoutView.extend({
@@ -20,7 +23,7 @@ export default Marionette.LayoutView.extend({
             l20n: {},
             column: {
                 appendToBody: true,
-                destroyOnClose: true,
+                destroyOnClose: false,
                 routeOnClose: this.options.previousRoute,
             },
         };
@@ -32,6 +35,9 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        closeBtn: '.close_btn',
+        moveSection: '.move_section',
+        moveBtn: '.move_btn',
         bottom: '.bottom',
         form: 'form',
         content: '.content',
@@ -41,6 +47,8 @@ export default Marionette.LayoutView.extend({
 
     events: {
         'click @ui.addBtn': 'onClickAddBtn',
+        'click @ui.moveBtn': 'onClickMove',
+        'click @ui.closeBtn': 'onClickClose',
         submit: 'onSubmit',
     },
 
@@ -60,7 +68,11 @@ export default Marionette.LayoutView.extend({
         this._nonOsmData = this.options.nonOsmData;
         this._osmCache = this.options.osmCache;
         this._user = this.options.user;
-        this._center = this.options.center;
+        this._layer = this.options.layer;
+        this._layer = this.options.layer;
+        this._layerModel = this.options.layerModel;
+
+        this._contributionSent = false;
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
@@ -71,6 +83,9 @@ export default Marionette.LayoutView.extend({
                 oauth_token_secret: this._user.get('tokenSecret'),
             })
         );
+
+        this._osmEdit.setType( this.options.osmType );
+        this._osmEdit.setId( this.options.osmId );
     },
 
     onBeforeOpen() {
@@ -83,16 +98,119 @@ export default Marionette.LayoutView.extend({
         return this;
     },
 
+    onBeforeClose() {
+        if ( this._osmEdit.getType() === 'node' && this._oldLatLng ) {
+            if (!this._contributionSent) {
+                this._layer.setLatLng( this._oldLatLng );
+            }
+        }
+    },
+
     close() {
         this.triggerMethod('close');
         return this;
     },
 
     onRender() {
+        const promises = [ this._osmEdit.fetch() ];
+
+        this._nonOsmDataModel = this._nonOsmData.findWhere({
+            themeFragment: this.options.theme.get('fragment'),
+            osmId: this.options.osmId,
+            osmType: this.options.osmType,
+        });
+
+        if ( !this._nonOsmDataModel ) {
+            this._nonOsmDataModel = new NonOsmDataModel({
+                themeFragment: this.options.theme.get('fragment'),
+                osmId: this.options.osmId,
+                osmType: this.options.osmType,
+            });
+            this._nonOsmData.add( this._nonOsmDataModel );
+        }
+        else {
+            promises.push(
+                new Promise((resolve, reject) => {
+                    this._nonOsmDataModel.fetch({
+                        success: model => resolve(model),
+                        error: (model, response) => reject(response),
+                    });
+                })
+            );
+        }
+
+        this._osmCacheModel = this._osmCache.findWhere({
+            themeFragment: this.options.theme.get('fragment'),
+            osmId: this.options.osmId,
+            osmType: this.options.osmType,
+        });
+
+        if ( !this._osmCacheModel ) {
+            this._osmCacheModel = new OsmCacheModel({
+                themeFragment: this.options.theme.get('fragment'),
+                osmId: this.options.osmId,
+                osmType: this.options.osmType,
+            });
+            this._osmCache.add( this._osmCacheModel );
+        }
+        else {
+            promises.push(
+                new Promise((resolve, reject) => {
+                    this._osmCacheModel.fetch({
+                        success: model => resolve(model),
+                        error: (model, response) => reject(response),
+                    });
+                })
+            );
+        }
+
+        Promise.all(promises)
+        .then((results) => {
+            const osmEdit = results[0];
+
+            if ( this._osmEdit.getType() === 'node' ) {
+                this._oldLatLng = L.latLng(
+                    this._osmEdit.getLatitude(),
+                    this._osmEdit.getLongitude(),
+                );
+                this.ui.moveSection.removeClass('hide');
+            }
+
+            const version = osmEdit.getVersion();
+
+            if ( this._osmCacheModel.get('osmVersion') > version ) {
+                osmEdit.setElement(
+                    this._osmCacheModel.get('osmElement')
+                );
+            }
+
+            this.renderTags( osmEdit.getTags() );
+        })
+        .catch((err) => {
+            console.error('FIXME', err);
+        });
+    },
+
+    renderTags(tags) {
         this._tagList = new ContribNodeTagsListView({
             iDPresetsHelper: this.options.iDPresetsHelper,
             customTags: this.options.theme.get('tags'),
         });
+
+        const popupContent = this._layerModel.get('popupContent');
+        const popupTags = InfoDisplay.findTagsFromContent(popupContent);
+
+
+        for (const tag of this._nonOsmDataModel.get('tags')) {
+            this._tagList.addTag({
+                key: tag.key,
+                value: tag.value,
+                type: tag.type,
+                keyReadOnly: true,
+                valueReadOnly: false,
+                nonOsmData: true,
+            });
+        }
 
         switch (typeof this.options.preset) {
             case 'object':
@@ -138,7 +256,45 @@ export default Marionette.LayoutView.extend({
                 }
                 break;
             default:
-                this._tagList.addTag();
+        }
+
+        if ( popupTags) {
+            for (const popupTag of popupTags) {
+                let value;
+
+                if (popupTag === 'id' || popupTag === 'type') {
+                    continue;
+                }
+
+                if ( tags[popupTag] ) {
+                    value = tags[popupTag];
+                }
+                else {
+                    value = '';
+                }
+
+                this._tagList.addTag({
+                    key: popupTag,
+                    value,
+                    type: CONST.tagType.text,
+                    keyReadOnly: false,
+                    valueReadOnly: false,
+                    nonOsmData: false,
+                });
+            }
+        }
+
+        for (const key in tags) {
+            if ({}.hasOwnProperty.call(tags, key)) {
+                this._tagList.addTag({
+                    key,
+                    value: tags[key],
+                    type: CONST.tagType.text,
+                    keyReadOnly: false,
+                    valueReadOnly: false,
+                    nonOsmData: false,
+                });
+            }
         }
 
         this.getRegion('tagList').show( this._tagList );
@@ -210,51 +366,52 @@ export default Marionette.LayoutView.extend({
             }
         }
 
-        this._nonOsmDataModel = new NonOsmDataModel();
         this._nonOsmDataModel.updateModificationDate();
-        this._nonOsmDataModel.set('osmType', 'node');
-        this._nonOsmDataModel.set('userId', this.options.user.get('osmId'));
-        this._nonOsmDataModel.set('themeFragment', this._theme.get('fragment'));
         this._nonOsmDataModel.set('tags', nonOsmTags);
+        this._nonOsmDataModel.set('userId', this._user.get('osmId'));
+        this._nonOsmDataModel.save();
 
         this._osmEdit.setChangesetCreatedBy(createdBy);
         this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
-        this._osmEdit.setType('node');
-        this._osmEdit.setVersion(0);
         this._osmEdit.setTimestamp();
-        this._osmEdit.setLatitude(this._center.lat);
-        this._osmEdit.setLongitude(this._center.lng);
-        this._osmEdit.setTags(osmTags);
-        this._osmEdit.setUid(this.options.user.get('osmId'));
-        this._osmEdit.setDisplayName(this.options.user.get('displayName'));
+        this._osmEdit.setTags( osmTags );
+        this._osmEdit.setUid(this._user.get('osmId'));
+        this._osmEdit.setDisplayName(this._user.get('displayName'));
 
         this.sendContributionToOSM();
     },
 
     sendContributionToOSM() {
         this._osmEdit.send()
-        .then((osmId) => {
+        .then((version) => {
             this.ui.footerButtons.prop('disabled', false);
 
-            this._nonOsmDataModel.set('osmId', osmId);
+            this._contributionSent = true;
 
-            this._osmCacheModel = new OsmCacheModel();
+            this._osmEdit.setVersion(version);
+
+            const overPassElement = this._osmEdit.getOverPassElement();
+
+            this._radio.commands.execute(
+                'saveOverPassData',
+                overPassElement,
+                this._layerModel
+            );
+
+            this._radio.commands.execute(
+                'map:updatePoiPopup',
+                this._layerModel,
+                overPassElement
+            );
+
             this._osmCacheModel.updateModificationDate();
-            this._osmCacheModel.set('osmId', osmId);
-            this._osmCacheModel.set('osmType', 'node');
-            this._osmCacheModel.set('osmVersion', 0);
+            this._osmCacheModel.set('userId', this._user.get('osmId'));
+            this._osmCacheModel.set('osmVersion', version);
+            this._osmCacheModel.set('overPassElement', overPassElement);
             this._osmCacheModel.set('osmElement', this._osmEdit.getElement());
-            this._osmCacheModel.set('overPassElement', this._osmEdit.getOverPassElement());
-            this._osmCacheModel.set('userId', this.options.user.get('osmId'));
-            this._osmCacheModel.set('themeFragment', this._theme.get('fragment'));
-
-            this._nonOsmData.add( this._nonOsmDataModel );
-            this._osmCache.add( this._osmCacheModel );
-
-            this._nonOsmDataModel.save();
             this._osmCacheModel.save();
 
-            this.close();
+            this.triggerMethod('closeAndDestroy');
         })
         .catch((err) => {
             console.error(err);
@@ -265,5 +422,30 @@ export default Marionette.LayoutView.extend({
                 retryCallback: this.sendContributionToOSM.bind(this),
             }).open();
         });
+    },
+
+    setNewPosition(lat, lng) {
+        this._osmEdit.setLatitude(lat);
+        this._osmEdit.setLongitude(lng);
+
+        this._layer.setLatLng(
+            L.latLng([ lat, lng ])
+        );
+    },
+
+    onClickMove(e) {
+        e.preventDefault();
+
+        new ContributeAddPositionContextual({
+            layer: this.options.layer,
+            formColumnView: this,
+        }).open();
+
+        this.close(true);
+    },
+
+    onClickClose(e) {
+        e.stopPropagation();
+        this.triggerMethod('closeAndDestroy');
     },
 });

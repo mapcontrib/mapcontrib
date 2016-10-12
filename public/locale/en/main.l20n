@@ -193,9 +193,7 @@ Put it right here!">
 <editLayerFormColumn_clusterRepresentation "Groupable points">
 <editLayerFormColumn_heatRepresentation "Heat map">
 <editLayerFormColumn_visibility "Visibility">
-<editLayerFormColumn_visibilityAndEdition "Visibility and edition">
 <editLayerFormColumn_visible "Visible by users">
-<editLayerFormColumn_dataEditable "Allow to edit data">
 <editLayerFormColumn_heatOptions "Heat map">
 <editLayerFormColumn_heatMapPopoverTitle "Informations">
 <editLayerFormColumn_heatMapPopoverContent "#### Maximum zoom
