@@ -6,6 +6,7 @@ import Marionette from 'backbone.marionette';
 import CONST from 'const';
 import L from 'leaflet';
 import 'leaflet.markercluster';
+import 'leaflet.heat';
 import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import Omnivore from 'leaflet-omnivore';
