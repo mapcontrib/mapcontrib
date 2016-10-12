@@ -260,26 +260,12 @@ export default Marionette.LayoutView.extend({
 
         if ( popupTags) {
             for (const popupTag of popupTags) {
-                let value;
-
                 if (popupTag === 'id' || popupTag === 'type') {
                     continue;
                 }
 
-                if ( tags[popupTag] ) {
-                    value = tags[popupTag];
-                }
-                else {
-                    value = '';
-                }
-
                 this._tagList.addTag({
                     key: popupTag,
-                    value,
-                    type: CONST.tagType.text,
-                    keyReadOnly: false,
-                    valueReadOnly: false,
-                    nonOsmData: false,
                 });
             }
         }
