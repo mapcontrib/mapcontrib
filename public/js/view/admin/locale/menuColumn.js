@@ -1,11 +1,11 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/admin/setting/menuColumn.ejs';
+import template from 'templates/admin/locale/menuColumn.ejs';
 import SearchList from 'ui/form/searchList';
 
 
-export default Marionette.ItemView.extend({
+export default Marionette.LayoutView.extend({
     template,
 
     behaviors() {
@@ -21,6 +21,10 @@ export default Marionette.ItemView.extend({
 
     ui: {
         column: '.column',
+    },
+
+    regions: {
+        locales: '.rg_locales',
     },
 
     initialize() {

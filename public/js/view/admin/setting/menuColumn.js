@@ -4,7 +4,7 @@ import Marionette from 'backbone.marionette';
 import template from 'templates/admin/setting/menuColumn.ejs';
 
 
-export default Marionette.ItemView.extend({
+export default Marionette.LayoutView.extend({
     template,
 
     behaviors() {
