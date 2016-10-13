@@ -39,7 +39,12 @@
   "devDependencies": {
     "babel-eslint": "^6.1.2",
     "babel-plugin-webpack-alias": "^2.1.1",
-    "eslint": "^3.1.1"
+    "eslint": "^3.5.0",
+    "eslint-config-airbnb": "^11.1.0",
+    "eslint-import-resolver-webpack": "^0.6.0",
+    "eslint-plugin-import": "^1.15.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.2.1"
   },
   "dependencies": {
     "argp": "^1.0.4",
@@ -70,12 +75,6 @@
     "ejs": "^2.3.3",
     "ejs-loader": "^0.2.1",
     "errorhandler": "^1.1.1",
-    "eslint": "^3.5.0",
-    "eslint-config-airbnb": "^11.1.0",
-    "eslint-import-resolver-webpack": "^0.6.0",
-    "eslint-plugin-import": "^1.15.0",
-    "eslint-plugin-jsx-a11y": "^2.2.2",
-    "eslint-plugin-react": "^6.2.1",
     "exports-loader": "^0.6.3",
     "express": "^4.8.0",
     "express-session": "^1.7.2",
