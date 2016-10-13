@@ -1,6 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import Locale from 'core/locale';
 import template from 'templates/admin/locale/menuColumn.ejs';
 import SearchList from 'ui/form/searchList';
 
@@ -32,27 +33,21 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
+        const searchListItems = [];
+        const localesCompletion = Locale.buildLocalesCompletion(this.options.theme);
+
+        for (const locale of localesCompletion) {
+            searchListItems.push({
+                label: locale.label,
+                progression: locale.completion,
+                href: `#admin/locale/${locale.code}`,
+                // callback: undefined,
+            });
+        }
+
+        // const searchLocales = new SearchList(searchListItems);
         const searchLocales = new SearchList({
-            items: [
-                {
-                    label: 'Français',
-                    progression: 100,
-                    href: '#',
-                    callback: undefined,
-                },
-                {
-                    label: 'Anglais',
-                    progression: 65,
-                    href: '#',
-                    callback: undefined,
-                },
-                {
-                    label: 'Italien',
-                    progression: 40,
-                    href: '#',
-                    callback: undefined,
-                },
-            ],
+            items: searchListItems,
         });
         this.getRegion('locales').show(searchLocales);
     },

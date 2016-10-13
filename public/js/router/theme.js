@@ -571,7 +571,7 @@ export default Backbone.Router.extend({
 
         new AdminLocaleMenuColumn({
             router: this,
-            model: this._theme,
+            theme: this._theme,
         }).open();
     },
 });
