@@ -39,6 +39,7 @@ export default Marionette.LayoutView.extend({
         for (const locale of localesCompletion) {
             searchListItems.push({
                 label: locale.label,
+                description: locale.description,
                 progression: locale.completion,
                 href: `#admin/locale/${locale.code}`,
                 // callback: undefined,

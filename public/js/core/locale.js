@@ -1,7 +1,7 @@
 
 import CONST from 'const';
 import currentLocale from 'current-locale';
-// import localizedCountries from 'localized-countries';
+import langs from 'langs';
 
 
 export default class Locale {
@@ -17,18 +17,18 @@ export default class Locale {
 
     static buildLocalesCompletion(themeModel) {
         const localesCompletion = [];
-        const countries = require("localized-countries")(require("localized-countries/data/en"));
-        // const countries = localizedCountries( Locale.getLocale() );
 
-        for (const code of CONST.availableLocales) {
+        for (const localCode of CONST.availableLocales) {
             let completion = 0;
+            const isoInfo = langs.where('1', localCode);
             const presets = themeModel.get('presets');
             const presetCategories = themeModel.get('presetCategories');
             const tags = themeModel.get('tags');
 
             localesCompletion.push({
-                code,
-                label: countries.get(code.toUpperCase()),
+                code: localCode,
+                label: isoInfo.name,
+                description: isoInfo.local,
                 completion,
             });
         }
