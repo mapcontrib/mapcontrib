@@ -29,11 +29,15 @@ import ContributeEditFormColumn from 'view/contribute/edit/formColumn';
 import AdminSettingMenuColumn from 'view/admin/setting/menuColumn';
 import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
 import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
+
 import AdminPresetColumn from 'view/admin/preset/presetColumn';
 import AdminPresetCategoryEditColumn from 'view/admin/preset/presetCategoryEditColumn';
 import AdminPresetEditColumn from 'view/admin/preset/presetEditColumn';
+
 import AdminTagColumn from 'view/admin/tag/tagColumn';
 import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
+
+import AdminLocaleMenuColumn from 'view/admin/locale/menuColumn';
 
 
 export default Backbone.Router.extend({
@@ -57,7 +61,7 @@ export default Backbone.Router.extend({
         'contribute/edit/:osmType/:osmId/iD/*presetName': 'routeContributeEditIDPreset',
         'contribute/edit/:osmType/:osmId/:uuid': 'routeContributeEditCustomPreset',
 
-        'admin/setting': 'routeAdminSetting',
+        'admin/setting': 'routeAdminSettingMenu',
         'admin/setting/main': 'routeAdminSettingMain',
         'admin/setting/tile': 'routeAdminSettingTile',
 
@@ -70,6 +74,8 @@ export default Backbone.Router.extend({
         'admin/tag': 'routeAdminTag',
         'admin/tag/new': 'routeAdminTagNew',
         'admin/tag/edit/:uuid': 'routeAdminTagEdit',
+
+        'admin/locale': 'routeAdminLocaleMenu',
 
         about: 'routeAbout',
         logout: 'routeLogout',
@@ -371,7 +377,7 @@ export default Backbone.Router.extend({
     },
 
 
-    routeAdminSetting() {
+    routeAdminSettingMenu() {
         if (!this._userIsOwnerOfTheme()) {
             this.navigate('');
             return;
@@ -555,5 +561,17 @@ export default Backbone.Router.extend({
         else {
             this.navigate('admin/tag', true);
         }
+    },
+
+    routeAdminLocaleMenu() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLocaleMenuColumn({
+            router: this,
+            theme: this._theme,
+        }).open();
     },
 });
