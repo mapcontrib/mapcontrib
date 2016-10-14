@@ -22,7 +22,7 @@ analyticScript: >
 client:
     forceHttps: false
 
-    oauthEndPoint: http://api.openstreetmap.org
+    oauthEndPoint: https://api.openstreetmap.org
     oauthConsumerKey:
     oauthSecret:
 
