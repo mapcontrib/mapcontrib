@@ -99,7 +99,6 @@ export default Marionette.LayoutView.extend({
 
     _hideFooter() {
         this.ui.footer.addClass('hide');
-        this.ui.stickyInner.removeClass('sticky-inner');
     },
 
     _onClickFreeAddition() {
