@@ -221,37 +221,42 @@ export default Marionette.LayoutView.extend({
             case 'string':
                 const preset = this._iDPresetsHelper.getPreset(this.options.preset);
 
-                for (const fieldName of preset.fields) {
-                    if ({}.hasOwnProperty.bind(preset.fields, fieldName)) {
-                        const field = this._iDPresetsHelper.getField(fieldName);
+                if (preset.fields) {
+                    for (const fieldName of preset.fields) {
+                        if ({}.hasOwnProperty.bind(preset.fields, fieldName)) {
+                            const field = this._iDPresetsHelper.getField(fieldName);
 
-                        // FIXME - Have to take care of that case
-                        if (!field.key) {
-                            continue;
+                            // FIXME - Have to take care of that case
+                            if (!field.key) {
+                                continue;
+                            }
+
+                            this._tagList.addTag(
+                                new TagModel({
+                                    key: field.key,
+                                    type: field.type,
+                                })
+                            );
                         }
-
-                        this._tagList.addTag(
-                            new TagModel({
-                                key: field.key,
-                                type: field.type,
-                            })
-                        );
                     }
                 }
-                for (const tagName in preset.tags) {
-                    if ({}.hasOwnProperty.bind(preset.tags, tagName)) {
-                        let value = preset.tags[tagName];
 
-                        if (value === '*') {
-                            value = '';
+                if (preset.tags) {
+                    for (const tagName in preset.tags) {
+                        if ({}.hasOwnProperty.bind(preset.tags, tagName)) {
+                            let value = preset.tags[tagName];
+
+                            if (value === '*') {
+                                value = '';
+                            }
+
+                            this._tagList.addTag(
+                                new TagModel({
+                                    key: tagName,
+                                    value,
+                                })
+                            );
                         }
-
-                        this._tagList.addTag(
-                            new TagModel({
-                                key: tagName,
-                                value,
-                            })
-                        );
                     }
                 }
                 break;
