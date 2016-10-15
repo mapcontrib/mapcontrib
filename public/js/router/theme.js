@@ -39,6 +39,7 @@ import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
 
 import AdminLocaleLangMenuColumn from 'view/admin/locale/langMenuColumn';
 import AdminLocaleItemMenuColumn from 'view/admin/locale/itemMenuColumn';
+import AdminLocaleSettingColumn from 'view/admin/locale/settingColumn';
 
 
 export default Backbone.Router.extend({
@@ -78,6 +79,7 @@ export default Backbone.Router.extend({
 
         'admin/locale': 'routeAdminLocaleLangMenu',
         'admin/locale/:locale': 'routeAdminLocaleItemMenu',
+        'admin/locale/:locale/theme': 'routeAdminLocaleSetting',
 
         about: 'routeAbout',
         logout: 'routeLogout',
@@ -592,6 +594,21 @@ export default Backbone.Router.extend({
             theme: this._theme,
             locale,
             routeOnClose: 'admin/locale',
+            triggerRouteOnClose: true,
+        }).open();
+    },
+
+    routeAdminLocaleSetting(locale) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLocaleSettingColumn({
+            router: this,
+            model: this._theme,
+            locale,
+            routeOnClose: `admin/locale/${locale}`,
             triggerRouteOnClose: true,
         }).open();
     },
