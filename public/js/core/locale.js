@@ -68,6 +68,13 @@ export default class Locale {
         const presets = themeModel.get('presets');
         const presetCategories = themeModel.get('presetCategories');
         const tags = themeModel.get('tags');
+
+        const presetData = Locale._buildLocaleCompletionFromCollection(presets, localeCode);
+        const categoriesData = Locale._buildLocaleCompletionFromCollection(
+            presetCategories,
+            localeCode
+        );
+
         const localesCompletion = [
             {
                 id: 'theme',
@@ -85,14 +92,12 @@ export default class Locale {
                 data: Locale._buildLocaleCompletionFromCollection(tags, localeCode),
             },
             {
-                id: 'preset-category',
-                label: document.l10n.getSync('presetCategories'),
-                data: Locale._buildLocaleCompletionFromCollection(presetCategories, localeCode),
-            },
-            {
                 id: 'preset',
                 label: document.l10n.getSync('presets'),
-                data: Locale._buildLocaleCompletionFromCollection(presets, localeCode),
+                data: {
+                    items: presetData.items + categoriesData.items,
+                    completed: presetData.completed + categoriesData.completed,
+                },
             },
         ];
 
