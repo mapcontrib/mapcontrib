@@ -15,15 +15,17 @@ export default class Locale {
         return locale;
     }
 
-    static buildLocalesCompletion(themeModel) {
+    static buildLocalesCompletion() {
+    // static buildLocalesCompletion(themeModel) {
         const localesCompletion = [];
 
         for (const localCode of CONST.availableLocales) {
-            let completion = 0;
+            const completion = 0;
+            // let completion = 0;
             const isoInfo = langs.where('1', localCode);
-            const presets = themeModel.get('presets');
-            const presetCategories = themeModel.get('presetCategories');
-            const tags = themeModel.get('tags');
+            // const presets = themeModel.get('presets');
+            // const presetCategories = themeModel.get('presetCategories');
+            // const tags = themeModel.get('tags');
 
             localesCompletion.push({
                 code: localCode,
