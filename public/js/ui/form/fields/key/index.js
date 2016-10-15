@@ -54,6 +54,7 @@ export default Marionette.ItemView.extend({
                 name: 'fields',
                 source: this._substringMatcher(this._proposedFields),
                 display: 'label',
+                limit: 10,
             }
         )
         .on('typeahead:change', (e, key) => {
