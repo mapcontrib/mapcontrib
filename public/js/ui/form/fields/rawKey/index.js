@@ -13,8 +13,7 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'blur @ui.key': '_updateKey',
-        'keyup @ui.key': '_updateKey',
+        'change @ui.key': '_updateKey',
     },
 
     templateHelpers() {
