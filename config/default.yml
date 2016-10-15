@@ -17,11 +17,10 @@ dataDirectory: public/files
 analyticScript: >
     <!-- Put your analytics javascript code here! -->
 
+forceHttps: false
 
 
 client:
-    forceHttps: false
-
     oauthEndPoint: https://api.openstreetmap.org
     oauthConsumerKey:
     oauthSecret:
