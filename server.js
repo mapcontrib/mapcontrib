@@ -10,6 +10,7 @@ import methodOverride from 'method-override';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import httpsRedirect from 'express-https-redirect';
 import errorHandler from 'errorhandler';
 import connectMongo from 'connect-mongo';
 
@@ -38,6 +39,11 @@ if (!config.get('client.oauthSecret')) {
 
 const MongoStore = connectMongo(session);
 const app = express();
+
+
+if (config.get('forceHttps') === true) {
+    app.use('/', httpsRedirect());
+}
 
 
 app.use(compression());
