@@ -243,6 +243,7 @@ export default Backbone.Router.extend({
             iDPresetsHelper: this._iDPresetsHelper,
             nonOsmData: this._nonOsmData,
             osmCache: this._osmCache,
+            presetType: 'iD',
             preset: presetName,
         }).open();
     },
@@ -262,6 +263,7 @@ export default Backbone.Router.extend({
             iDPresetsHelper: this._iDPresetsHelper,
             nonOsmData: this._nonOsmData,
             osmCache: this._osmCache,
+            presetType: 'custom',
             preset: this._theme.get('presets').findWhere({ uuid }),
         }).open();
     },
@@ -343,6 +345,7 @@ export default Backbone.Router.extend({
             iDPresetsHelper: this._iDPresetsHelper,
             nonOsmData: this._nonOsmData,
             osmCache: this._osmCache,
+            presetType: 'iD',
             preset: presetName,
         }).open();
     },
@@ -372,6 +375,7 @@ export default Backbone.Router.extend({
             iDPresetsHelper: this._iDPresetsHelper,
             nonOsmData: this._nonOsmData,
             osmCache: this._osmCache,
+            presetType: 'custom',
             preset: this._theme.get('presets').findWhere({ uuid }),
         }).open();
     },

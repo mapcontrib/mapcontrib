@@ -306,6 +306,7 @@ export default {
         textarea: 'textarea',
         file: 'file',
         check: 'check',
+        defaultCheck: 'defaultCheck',
     },
 
     geocoder: {

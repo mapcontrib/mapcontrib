@@ -18,8 +18,7 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'blur @ui.input': 'updateInput',
-        'keyup @ui.input': 'updateInput',
+        'change @ui.input': 'updateInput',
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 

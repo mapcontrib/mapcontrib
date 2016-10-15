@@ -83,6 +83,8 @@
 <url "Adresse web">
 <textarea "Grand texte">
 <checkbox "Case à cocher">
+<checkField "Oui ou non">
+<defaultCheckField "Oui ou vide">
 <value "Valeur">
 <defaultValue "Valeur par défaut">
 <yes "Oui">
