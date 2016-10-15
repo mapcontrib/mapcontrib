@@ -55,7 +55,7 @@ export default Backbone.RelationalModel.extend({
             name: 'MapContrib',
             description: '',
             color: 'blue',
-            tiles: ['osmFr'],
+            tiles: ['osm'],
             zoomLevel: 3,
             autoCenter: false,
             center: {
@@ -66,8 +66,20 @@ export default Backbone.RelationalModel.extend({
             geocoder: undefined,
             infoDisplay: CONST.infoDisplay.modal,
             analyticScript: '',
+
+            locales: {/*
+                fr: {
+                    name: '',
+                    description: '',
+                }
+            */},
         };
     },
+
+    localizedAttributes: [
+        'name',
+        'description',
+    ],
 
     initialize() {
         if (!this.get('geocoder')) {
@@ -162,5 +174,25 @@ export default Backbone.RelationalModel.extend({
         }
 
         return basePath;
+    },
+
+    getLocaleCompletion(localeCode) {
+        const locale = this.get('locales')[localeCode];
+        const data = {
+            items: this.localizedAttributes.length,
+            completed: 0,
+        };
+
+        if (!locale) {
+            return data;
+        }
+
+        for (const attribute of this.localizedAttributes) {
+            if (locale[attribute]) {
+                data.completed += 1;
+            }
+        }
+
+        return data;
     },
 });
