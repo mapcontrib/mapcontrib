@@ -83,6 +83,8 @@
 <url "Web address"> /* FIXME */
 <textarea "Big text"> /* FIXME */
 <checkbox "Checkbox"> /* FIXME */
+<checkField "Yes or no"> /* FIXME */
+<defaultCheckField "Yes or empty"> /* FIXME */
 <value "Valore">
 <defaultValue "Default value"> /* FIXME */
 <yes "Si">
