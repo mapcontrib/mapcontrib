@@ -37,7 +37,8 @@ import AdminPresetEditColumn from 'view/admin/preset/presetEditColumn';
 import AdminTagColumn from 'view/admin/tag/tagColumn';
 import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
 
-import AdminLocaleMenuColumn from 'view/admin/locale/menuColumn';
+import AdminLocaleLangMenuColumn from 'view/admin/locale/langMenuColumn';
+import AdminLocaleItemMenuColumn from 'view/admin/locale/itemMenuColumn';
 
 
 export default Backbone.Router.extend({
@@ -75,7 +76,8 @@ export default Backbone.Router.extend({
         'admin/tag/new': 'routeAdminTagNew',
         'admin/tag/edit/:uuid': 'routeAdminTagEdit',
 
-        'admin/locale': 'routeAdminLocaleMenu',
+        'admin/locale': 'routeAdminLocaleLangMenu',
+        'admin/locale/:locale': 'routeAdminLocaleItemMenu',
 
         about: 'routeAbout',
         logout: 'routeLogout',
@@ -567,15 +569,30 @@ export default Backbone.Router.extend({
         }
     },
 
-    routeAdminLocaleMenu() {
+    routeAdminLocaleLangMenu() {
         if (!this._userIsOwnerOfTheme()) {
             this.navigate('');
             return;
         }
 
-        new AdminLocaleMenuColumn({
+        new AdminLocaleLangMenuColumn({
             router: this,
             theme: this._theme,
+        }).open();
+    },
+
+    routeAdminLocaleItemMenu(locale) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLocaleItemMenuColumn({
+            router: this,
+            theme: this._theme,
+            locale,
+            routeOnClose: 'admin/locale',
+            triggerRouteOnClose: true,
         }).open();
     },
 });

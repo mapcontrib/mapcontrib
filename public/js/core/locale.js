@@ -29,10 +29,10 @@ export default class Locale {
 
             const localeCompletions = [
                 themeModel.getLocaleCompletion(localeCode),
-                Locale._buildLocaleCompletionFromCollection(layers, isoInfos.code),
-                Locale._buildLocaleCompletionFromCollection(presets, isoInfos.code),
-                Locale._buildLocaleCompletionFromCollection(presetCategories, isoInfos.code),
-                Locale._buildLocaleCompletionFromCollection(tags, isoInfos.code),
+                Locale._buildLocaleCompletionFromCollection(layers, localeCode),
+                Locale._buildLocaleCompletionFromCollection(presets, localeCode),
+                Locale._buildLocaleCompletionFromCollection(presetCategories, localeCode),
+                Locale._buildLocaleCompletionFromCollection(tags, localeCode),
             ];
 
             /* eslint-disable no-unused-vars */
@@ -58,6 +58,52 @@ export default class Locale {
                 description: isoInfos.local,
                 completion: totalCompletion,
             });
+        }
+
+        return localesCompletion;
+    }
+
+    static buildItemsLocaleCompletion(themeModel, localeCode) {
+        const layers = themeModel.get('layers');
+        const presets = themeModel.get('presets');
+        const presetCategories = themeModel.get('presetCategories');
+        const tags = themeModel.get('tags');
+        const localesCompletion = [
+            {
+                id: 'theme',
+                label: document.l10n.getSync('mainSettings'),
+                data: themeModel.getLocaleCompletion(localeCode),
+            },
+            {
+                id: 'layer',
+                label: document.l10n.getSync('layers'),
+                data: Locale._buildLocaleCompletionFromCollection(layers, localeCode),
+            },
+            {
+                id: 'tag',
+                label: document.l10n.getSync('tags'),
+                data: Locale._buildLocaleCompletionFromCollection(tags, localeCode),
+            },
+            {
+                id: 'preset-category',
+                label: document.l10n.getSync('presetCategories'),
+                data: Locale._buildLocaleCompletionFromCollection(presetCategories, localeCode),
+            },
+            {
+                id: 'preset',
+                label: document.l10n.getSync('presets'),
+                data: Locale._buildLocaleCompletionFromCollection(presets, localeCode),
+            },
+        ];
+
+        for (const locale of localesCompletion) {
+            locale.completion = format(
+                (locale.data.completed / locale.data.items) * 100,
+                {
+                    floor: 1,
+                    ifInfinity: 0,
+                }
+            );
         }
 
         return localesCompletion;

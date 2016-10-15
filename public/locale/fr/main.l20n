@@ -34,15 +34,20 @@
 <buttonContribTooltip title:"Ajouter une donnée manquante">
 <buttonTempLayerTooltip title:"Ajouter une couche temporaire">
 <buttonEditSettingTooltip title:"{{ settings }}">
-<buttonEditLayerTooltip title:"Couches">
-<buttonEditLocaleTooltip title:"Traductions">
-<buttonEditPresetTooltip title:"Types de nœuds">
-<buttonEditTagTooltip title:"Tags">
+<buttonEditLayerTooltip title:"{{ layers }}">
+<buttonEditLocaleTooltip title:"{{ translations }}">
+<buttonEditPresetTooltip title:"{{ presets }}">
+<buttonEditTagTooltip title:"{{ tags }}">
 <buttonHelpTooltip title:"Aide">
 
 
 
 
+<layers "Couches">
+<translations "Traductions">
+<presets "Types de nœuds">
+<presetCategories "Catégories de types de nœuds">
+<tags "Tags">
 <goBackToHome "Revenir à l'accueil">
 <about "À propos de {{ mapcontrib }}">
 <myThemes "Mes thèmes">

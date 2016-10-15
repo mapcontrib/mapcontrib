@@ -2,7 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import Locale from 'core/locale';
-import template from 'templates/admin/locale/menuColumn.ejs';
+import template from 'templates/admin/locale/langMenuColumn.ejs';
 import SearchList from 'ui/form/searchList';
 
 
@@ -42,11 +42,9 @@ export default Marionette.LayoutView.extend({
                 description: locale.description.ucfirst(),
                 progression: locale.completion,
                 href: `#admin/locale/${locale.code}`,
-                // callback: undefined,
             });
         }
 
-        // const searchLocales = new SearchList(searchListItems);
         const searchLocales = new SearchList({
             items: searchListItems,
         });
