@@ -9,7 +9,7 @@ import OsmEditHelper from 'helper/osmEdit.js';
 import LayerModel from 'model/layer';
 import NonOsmDataModel from 'model/nonOsmData';
 import OsmCacheModel from 'model/osmCache';
-import TagModel from 'model/tag';
+import PresetsHelper from 'helper/presets';
 import CONST from 'const';
 import MapUi from 'ui/map';
 import L from 'leaflet';
@@ -64,6 +64,11 @@ export default Marionette.LayoutView.extend({
         this._osmCache = this.options.osmCache;
         this._user = this.options.user;
         this._center = this.options.center;
+
+        this._presetsHelper = new PresetsHelper(
+            this._theme,
+            this._iDPresetsHelper
+        );
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
@@ -124,53 +129,18 @@ export default Marionette.LayoutView.extend({
             customTags: this.options.theme.get('tags'),
         });
 
-        switch (typeof this.options.preset) {
-            case 'object':
-                for (const tag of this.options.preset.get('tags')) {
-                    this._tagList.addTag(tag);
-                }
+        switch (this.options.presetType) {
+            case 'custom':
+                this._presetsHelper.fillTagListWithCustomPreset(
+                    this._tagList,
+                    this.options.preset
+                );
                 break;
-            case 'string':
-                const preset = this._iDPresetsHelper.getPreset(this.options.preset);
-
-                if (preset.fields) {
-                    for (const fieldName of preset.fields) {
-                        if ({}.hasOwnProperty.bind(preset.fields, fieldName)) {
-                            const field = this._iDPresetsHelper.getField(fieldName);
-
-                            // FIXME - Have to take care of that case
-                            if (!field.key) {
-                                continue;
-                            }
-
-                            this._tagList.addTag(
-                                new TagModel({
-                                    key: field.key,
-                                    type: field.type,
-                                })
-                            );
-                        }
-                    }
-                }
-
-                if (preset.tags) {
-                    for (const tagName in preset.tags) {
-                        if ({}.hasOwnProperty.bind(preset.tags, tagName)) {
-                            let value = preset.tags[tagName];
-
-                            if (value === '*') {
-                                value = '';
-                            }
-
-                            this._tagList.addTag(
-                                new TagModel({
-                                    key: tagName,
-                                    value,
-                                })
-                            );
-                        }
-                    }
-                }
+            case 'iD':
+                this._presetsHelper.fillTagListWithIDPreset(
+                    this._tagList,
+                    this.options.preset
+                );
                 break;
             default:
                 this._tagList.addTag();

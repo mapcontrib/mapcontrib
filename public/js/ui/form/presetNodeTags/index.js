@@ -26,7 +26,11 @@ export default Marionette.CollectionView.extend({
     },
 
     addTag(tag) {
-        if ( !tag ) {
+        if ( tag === false ) {
+            return false;
+        }
+
+        if ( typeof tag === 'undefined' ) {
             return this.collection.add({});
         }
 

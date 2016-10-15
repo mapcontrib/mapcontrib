@@ -147,5 +147,8 @@ export default Marionette.LayoutView.extend({
         if (presetNavItems.length === 0) {
             this.trigger('search:noResult');
         }
+        else {
+            this.trigger('search:success');
+        }
     },
 });

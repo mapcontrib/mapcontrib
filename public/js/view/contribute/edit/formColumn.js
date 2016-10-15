@@ -10,7 +10,7 @@ import osmAuth from 'osm-auth';
 import OsmEditHelper from 'helper/osmEdit.js';
 import NonOsmDataModel from 'model/nonOsmData';
 import OsmCacheModel from 'model/osmCache';
-import TagModel from 'model/tag';
+import PresetsHelper from 'helper/presets';
 import CONST from 'const';
 import InfoDisplay from 'core/infoDisplay';
 
@@ -73,6 +73,11 @@ export default Marionette.LayoutView.extend({
         this._layerModel = this.options.layerModel;
 
         this._contributionSent = false;
+
+        this._presetsHelper = new PresetsHelper(
+            this._theme,
+            this._iDPresetsHelper
+        );
 
         this._osmEdit = new OsmEditHelper(
             osmAuth({
@@ -197,8 +202,40 @@ export default Marionette.LayoutView.extend({
             customTags: this.options.theme.get('tags'),
         });
 
+
         const popupContent = this._layerModel.get('popupContent');
         const popupTags = InfoDisplay.findTagsFromContent(popupContent);
+
+        if ( popupTags) {
+            for (const popupTag of popupTags) {
+                if (popupTag === 'id' || popupTag === 'type') {
+                    continue;
+                }
+
+                this._tagList.addTag(
+                    this._presetsHelper.hydrateTag({
+                        key: popupTag,
+                    })
+                );
+            }
+        }
+
+
+        switch (this.options.presetType) {
+            case 'custom':
+                this._presetsHelper.fillTagListWithCustomPreset(
+                    this._tagList,
+                    this.options.preset
+                );
+                break;
+            case 'iD':
+                this._presetsHelper.fillTagListWithIDPreset(
+                    this._tagList,
+                    this.options.preset
+                );
+                break;
+            default:
+        }
 
 
         for (const tag of this._nonOsmDataModel.get('tags')) {
@@ -212,68 +249,6 @@ export default Marionette.LayoutView.extend({
             });
         }
 
-        switch (typeof this.options.preset) {
-            case 'object':
-                for (const tag of this.options.preset.get('tags')) {
-                    this._tagList.addTag(tag);
-                }
-                break;
-            case 'string':
-                const preset = this._iDPresetsHelper.getPreset(this.options.preset);
-
-                if (preset.fields) {
-                    for (const fieldName of preset.fields) {
-                        if ({}.hasOwnProperty.bind(preset.fields, fieldName)) {
-                            const field = this._iDPresetsHelper.getField(fieldName);
-
-                            // FIXME - Have to take care of that case
-                            if (!field.key) {
-                                continue;
-                            }
-
-                            this._tagList.addTag(
-                                new TagModel({
-                                    key: field.key,
-                                    type: field.type,
-                                })
-                            );
-                        }
-                    }
-                }
-
-                if (preset.tags) {
-                    for (const tagName in preset.tags) {
-                        if ({}.hasOwnProperty.bind(preset.tags, tagName)) {
-                            let value = preset.tags[tagName];
-
-                            if (value === '*') {
-                                value = '';
-                            }
-
-                            this._tagList.addTag(
-                                new TagModel({
-                                    key: tagName,
-                                    value,
-                                })
-                            );
-                        }
-                    }
-                }
-                break;
-            default:
-        }
-
-        if ( popupTags) {
-            for (const popupTag of popupTags) {
-                if (popupTag === 'id' || popupTag === 'type') {
-                    continue;
-                }
-
-                this._tagList.addTag({
-                    key: popupTag,
-                });
-            }
-        }
 
         for (const key in tags) {
             if ({}.hasOwnProperty.call(tags, key)) {
