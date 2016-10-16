@@ -58,6 +58,7 @@ export default Backbone.RelationalModel.extend({
     localizedAttributes: [
         'name',
         'description',
+        'popupContent',
     ],
 
     // GeoJSON objects displayed on the map

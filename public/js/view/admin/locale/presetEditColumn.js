@@ -41,8 +41,6 @@ export default Marionette.LayoutView.extend({
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
-
-        this._oldModel = this.model.clone();
     },
 
     open() {

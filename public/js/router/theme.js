@@ -55,6 +55,8 @@ import AdminPresetEditColumn from 'view/admin/preset/presetEditColumn';
 import AdminLocaleLangMenuColumn from 'view/admin/locale/langMenuColumn';
 import AdminLocaleItemMenuColumn from 'view/admin/locale/itemMenuColumn';
 import AdminLocaleSettingColumn from 'view/admin/locale/settingColumn';
+import AdminLocaleLayerColumn from 'view/admin/locale/layerColumn';
+import AdminLocaleLayerEditColumn from 'view/admin/locale/layerEditColumn';
 import AdminLocaleTagColumn from 'view/admin/locale/tagColumn';
 import AdminLocaleTagEditColumn from 'view/admin/locale/tagEditColumn';
 import AdminLocalePresetColumn from 'view/admin/locale/presetColumn';
@@ -116,6 +118,8 @@ export default Backbone.Router.extend({
         'admin/locale': 'routeAdminLocaleLangMenu',
         'admin/locale/:locale': 'routeAdminLocaleItemMenu',
         'admin/locale/:locale/theme': 'routeAdminLocaleSetting',
+        'admin/locale/:locale/layer': 'routeAdminLocaleLayer',
+        'admin/locale/:locale/layer/edit/:uuid': 'routeAdminLocaleLayerEdit',
         'admin/locale/:locale/tag': 'routeAdminLocaleTag',
         'admin/locale/:locale/tag/edit/:uuid': 'routeAdminLocaleTagEdit',
         'admin/locale/:locale/preset(/)(:categoryUuid)': 'routeAdminLocalePreset',
@@ -940,6 +944,44 @@ export default Backbone.Router.extend({
             routeOnClose: `admin/locale/${locale}`,
             triggerRouteOnClose: true,
         }).open();
+    },
+
+    routeAdminLocaleLayer(locale) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLocaleLayerColumn({
+            router: this,
+            model: this._theme,
+            locale,
+            routeOnClose: `admin/locale/${locale}`,
+            triggerRouteOnClose: true,
+        }).open();
+    },
+
+    routeAdminLocaleLayerEdit(locale, uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const model = this._theme.get('layers').findWhere({ uuid });
+
+        if (model) {
+            new AdminLocaleLayerEditColumn({
+                router: this,
+                theme: this._theme,
+                locale,
+                model,
+                routeOnClose: `admin/locale/${locale}/layer`,
+                triggerRouteOnClose: true,
+            }).open();
+        }
+        else {
+            this.navigate(`admin/locale/${locale}/layer`, true);
+        }
     },
 
     routeAdminLocaleTag(locale) {

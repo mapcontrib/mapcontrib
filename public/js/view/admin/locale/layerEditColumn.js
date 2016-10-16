@@ -1,7 +1,8 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/admin/locale/settingColumn.ejs';
+import template from 'templates/admin/locale/layerEditColumn.ejs';
+import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({
@@ -21,9 +22,12 @@ export default Marionette.ItemView.extend({
 
     ui: {
         column: '.column',
+        submitButton: '.submit_btn',
 
-        themeName: '#theme_name',
-        themeDescription: '#theme_description',
+        layerName: '#layer_name',
+        layerDescription: '#layer_description',
+        layerPopupContent: '#layer_popup_content',
+        infoDisplayInfo: '.info_info_display_btn',
     },
 
     events: {
@@ -37,6 +41,7 @@ export default Marionette.ItemView.extend({
         return {
             name: attributes ? attributes.name : '',
             description: attributes ? attributes.description : '',
+            popupContent: attributes ? attributes.popupContent : '',
         };
     },
 
@@ -49,6 +54,19 @@ export default Marionette.ItemView.extend({
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
+    onRender() {
+        this.ui.infoDisplayInfo.popover({
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus',
+            html: true,
+            title: document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
+            content: MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
+            ),
+        });
+    },
+
     open() {
         this.triggerMethod('open');
         return this;
@@ -59,26 +77,38 @@ export default Marionette.ItemView.extend({
         return this;
     },
 
+    enableSubmitButton() {
+        this.ui.submitButton.prop('disabled', false);
+    },
+
+    disableSubmitButton() {
+        this.ui.submitButton.prop('disabled', true);
+    },
+
     onSubmit(e) {
         e.preventDefault();
 
         const locales = this.model.get('locales');
 
         locales[this.options.locale] = {
-            name: this.ui.themeName.val(),
-            description: this.ui.themeDescription.val(),
+            name: this.ui.layerName.val(),
+            description: this.ui.layerDescription.val(),
+            popupContent: this.ui.layerPopupContent.val(),
         };
 
         this.model.set('locales', locales);
-        this.model.updateModificationDate();
 
-        this.model.save({}, {
+        this.model.updateModificationDate();
+        this.options.theme.updateModificationDate();
+
+        this.options.theme.save({}, {
             success: () => {
                 this.close();
             },
             error: () => {
                 // FIXME
                 console.error('nok');
+                this.enableSubmitButton();
             },
         });
     },
