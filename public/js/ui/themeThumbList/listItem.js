@@ -3,6 +3,7 @@ import Marionette from 'backbone.marionette';
 import MapUi from '../map';
 import GeoUtils from 'core/geoUtils';
 import listItemTemplate from './listItem.ejs';
+import Locale from 'core/locale';
 
 
 export default Marionette.ItemView.extend({
@@ -15,6 +16,7 @@ export default Marionette.ItemView.extend({
     },
 
     templateHelpers() {
+        const name = Locale.getLocalized(this.model, 'name');
         const zoomLevel = this.model.get('zoomLevel');
         const mapCenter = this.model.get('center');
         const pos = GeoUtils.zoomLatLngToXY(
@@ -24,6 +26,7 @@ export default Marionette.ItemView.extend({
         );
 
         return {
+            name,
             href: this.model.buildPath(),
             z: zoomLevel,
             x1: pos[0],
