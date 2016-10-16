@@ -1,8 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/admin/tag/tagEditColumn.ejs';
-import TagType from 'ui/form/tagType';
+import template from 'templates/admin/locale/tagEditColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
@@ -30,22 +29,18 @@ export default Marionette.LayoutView.extend({
         reset: 'onReset',
     },
 
-    regions: {
-        type: '.rg_type',
+    templateHelpers() {
+        const attributes = this.model.get('locales')[this.options.locale];
+
+        return {
+            key: attributes ? attributes.key : '',
+        };
     },
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
-    },
-
-    onRender() {
-        this._tagType = new TagType({
-            value: this.model.get('type'),
-        });
-
-        this.getRegion('type').show(this._tagType);
     },
 
     onBeforeOpen() {
@@ -66,15 +61,13 @@ export default Marionette.LayoutView.extend({
     onSubmit(e) {
         e.preventDefault();
 
-        const tagKey = this.ui.tagKey.val().trim();
-        const tagType = this._tagType.getValue();
+        const locales = this.model.get('locales');
 
-        this.model.set('key', tagKey);
-        this.model.set('type', tagType);
+        locales[this.options.locale] = {
+            key: this.ui.tagKey.val().trim(),
+        };
 
-        if (this.options.isNew) {
-            this.options.theme.get('tags').add( this.model );
-        }
+        this.model.set('locales', locales);
 
         this.model.updateModificationDate();
         this.options.theme.updateModificationDate();

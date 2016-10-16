@@ -1,8 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/admin/tag/tagEditColumn.ejs';
-import TagType from 'ui/form/tagType';
+import template from 'templates/admin/locale/presetCategoryEditColumn.ejs';
 
 
 export default Marionette.LayoutView.extend({
@@ -22,35 +21,27 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
-        tagKey: '#tag_key',
+        bottom: '.bottom',
+        name: '#category_name',
     },
 
     events: {
-        submit: 'onSubmit',
         reset: 'onReset',
+        submit: 'onSubmit',
     },
 
-    regions: {
-        type: '.rg_type',
+    templateHelpers() {
+        const attributes = this.model.get('locales')[this.options.locale];
+
+        return {
+            name: attributes ? attributes.name : '',
+        };
     },
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
-    },
-
-    onRender() {
-        this._tagType = new TagType({
-            value: this.model.get('type'),
-        });
-
-        this.getRegion('type').show(this._tagType);
-    },
-
-    onBeforeOpen() {
-        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
-        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
     },
 
     open() {
@@ -63,25 +54,26 @@ export default Marionette.LayoutView.extend({
         return this;
     },
 
+    onBeforeOpen() {
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
+    },
+
     onSubmit(e) {
         e.preventDefault();
 
-        const tagKey = this.ui.tagKey.val().trim();
-        const tagType = this._tagType.getValue();
+        const locales = this.model.get('locales');
 
-        this.model.set('key', tagKey);
-        this.model.set('type', tagType);
+        locales[this.options.locale] = {
+            name: this.ui.name.val().trim(),
+        };
 
-        if (this.options.isNew) {
-            this.options.theme.get('tags').add( this.model );
-        }
+        this.model.set('locales', locales);
 
         this.model.updateModificationDate();
         this.options.theme.updateModificationDate();
         this.options.theme.save({}, {
-            success: () => {
-                this.close();
-            },
+            success: () => this.close(),
 
             error: () => {
                 // FIXME

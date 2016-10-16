@@ -4,6 +4,7 @@ import 'jquery-ui/sortable';
 import 'jquery-ui-touch-punch';
 import EmptyView from './empty';
 import ItemView from './item';
+import './style.less';
 
 
 export default Marionette.CollectionView.extend({
@@ -15,6 +16,8 @@ export default Marionette.CollectionView.extend({
         removeable: false,
         reorderable: false,
         navigable: false,
+        progression: undefined,
+        getProgression: () => '',
         getLeftIcon: () => '',
         getRightIcon: () => '',
     },
@@ -31,6 +34,8 @@ export default Marionette.CollectionView.extend({
             reorderable: this.options.reorderable,
             navigable: this.options.navigable,
             removeable: this.options.removeable,
+            progression: this.options.progression,
+            getProgression: model => this.options.getProgression(model),
             getLeftIcon: model => this.options.getLeftIcon(model),
             getRightIcon: model => this.options.getRightIcon(model),
         };

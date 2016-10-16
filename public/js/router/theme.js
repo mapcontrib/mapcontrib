@@ -40,6 +40,11 @@ import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
 import AdminLocaleLangMenuColumn from 'view/admin/locale/langMenuColumn';
 import AdminLocaleItemMenuColumn from 'view/admin/locale/itemMenuColumn';
 import AdminLocaleSettingColumn from 'view/admin/locale/settingColumn';
+import AdminLocaleTagColumn from 'view/admin/locale/tagColumn';
+import AdminLocaleTagEditColumn from 'view/admin/locale/tagEditColumn';
+import AdminLocalePresetColumn from 'view/admin/locale/presetColumn';
+import AdminLocalePresetEditColumn from 'view/admin/locale/presetEditColumn';
+import AdminLocalePresetCategoryEditColumn from 'view/admin/locale/presetCategoryEditColumn';
 
 
 export default Backbone.Router.extend({
@@ -80,6 +85,11 @@ export default Backbone.Router.extend({
         'admin/locale': 'routeAdminLocaleLangMenu',
         'admin/locale/:locale': 'routeAdminLocaleItemMenu',
         'admin/locale/:locale/theme': 'routeAdminLocaleSetting',
+        'admin/locale/:locale/tag': 'routeAdminLocaleTag',
+        'admin/locale/:locale/tag/edit/:uuid': 'routeAdminLocaleTagEdit',
+        'admin/locale/:locale/preset(/)(:categoryUuid)': 'routeAdminLocalePreset',
+        'admin/locale/:locale/preset/edit/:uuid': 'routeAdminLocalePresetEdit',
+        'admin/locale/:locale/preset/category/edit/:uuid': 'routeAdminLocalePresetCategoryEdit',
 
         about: 'routeAbout',
         logout: 'routeLogout',
@@ -611,5 +621,108 @@ export default Backbone.Router.extend({
             routeOnClose: `admin/locale/${locale}`,
             triggerRouteOnClose: true,
         }).open();
+    },
+
+    routeAdminLocaleTag(locale) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLocaleTagColumn({
+            router: this,
+            model: this._theme,
+            locale,
+            routeOnClose: `admin/locale/${locale}`,
+            triggerRouteOnClose: true,
+        }).open();
+    },
+
+    routeAdminLocaleTagEdit(locale, uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const model = this._theme.get('tags').findWhere({ uuid });
+
+        if (model) {
+            new AdminLocaleTagEditColumn({
+                router: this,
+                theme: this._theme,
+                locale,
+                model,
+                routeOnClose: `admin/locale/${locale}/tag`,
+                triggerRouteOnClose: true,
+            }).open();
+        }
+        else {
+            this.navigate(`admin/locale/${locale}/tag`, true);
+        }
+    },
+
+    routeAdminLocalePreset(locale, categoryUuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const model = this._theme.get('presetCategories')
+        .findWhere({ uuid: categoryUuid || undefined });
+
+        new AdminLocalePresetColumn({
+            router: this,
+            theme: this._theme,
+            model,
+            locale,
+            routeOnClose: `admin/locale/${locale}`,
+            triggerRouteOnClose: true,
+        }).open();
+    },
+
+    routeAdminLocalePresetEdit(locale, uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const model = this._theme.get('presets').findWhere({ uuid });
+
+        if (model) {
+            new AdminLocalePresetEditColumn({
+                router: this,
+                theme: this._theme,
+                locale,
+                model,
+                routeOnClose: this._previousRoute,
+                triggerRouteOnClose: true,
+            }).open();
+        }
+        else {
+            this.navigate(`admin/locale/${locale}/preset`, true);
+        }
+    },
+
+    routeAdminLocalePresetCategoryEdit(locale, uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const model = this._theme.get('presetCategories').findWhere({ uuid });
+
+        if (model) {
+            new AdminLocalePresetCategoryEditColumn({
+                router: this,
+                theme: this._theme,
+                locale,
+                model,
+                routeOnClose: this._previousRoute,
+                triggerRouteOnClose: true,
+            }).open();
+        }
+        else {
+            this.navigate(`admin/locale/${locale}/preset`, true);
+        }
     },
 });
