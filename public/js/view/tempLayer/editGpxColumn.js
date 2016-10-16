@@ -3,45 +3,38 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MapUi from 'ui/map';
 import { basename, extensionname } from 'core/utils';
-import CONST from 'const';
-import template from 'templates/tempGeoJsonLayerFormColumn.ejs';
+import ColorSelectorView from 'ui/form/colorSelector';
+import template from 'templates/tempLayer/editGpxColumn.ejs';
 import MarkedHelper from 'helper/marked';
 
 
 export default Marionette.ItemView.extend({
     template,
 
-    behaviors: {
-        l20n: {},
-        column: {
-            destroyOnClose: true,
-        },
+    behaviors() {
+        return {
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.routeOnClose,
+                triggerRouteOnClose: this.options.triggerRouteOnClose,
+            },
+        };
     },
 
     ui: {
-        column: '#edit_temp_layer_column',
+        column: '.column',
         form: 'form',
         submitButton: '.submit_btn',
 
         layerName: '#layer_name',
         layerDescription: '#layer_description',
-        layerCluster: '#layer_cluster',
-        layerHeat: '#layer_heat',
         infoDisplayInfo: '.info_info_display_btn',
         layerPopupContent: '#layer_popup_content',
         layerFile: '#layer_file',
 
-        heatOptions: '.heat-options',
-        heatMapInfo: '.info_heat_map_btn',
-        heatMinOpacity: '#layer_heat_min_opacity',
-        heatMaxZoom: '#layer_heat_max_zoom',
-        heatMax: '#layer_heat_max',
-        heatBlur: '#layer_heat_blur',
-        heatRadius: '#layer_heat_radius',
-
-        markerOptions: '.marker-options',
-        markerWrapper: '.marker-wrapper',
-        editMarkerButton: '.edit_marker_btn',
+        colorSelector: '.color_selector',
 
         formGroups: '.form-group',
         fileFormGroup: '.form-group.layer_file',
@@ -50,9 +43,6 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'change @ui.layerCluster': 'onChangeLayerRepresentation',
-        'change @ui.layerHeat': 'onChangeLayerRepresentation',
-        'click @ui.editMarkerButton': 'onClickEditMarker',
         submit: 'onSubmit',
         reset: 'onReset',
     },
@@ -68,10 +58,16 @@ export default Marionette.ItemView.extend({
 
         this._oldModel = this.model.clone();
 
-        this.listenTo(this.model, 'change', this.updateMarkerIcon);
+        this._colorSelector = new ColorSelectorView({
+            color: this.model.get('color'),
+        });
     },
 
     onRender() {
+        this.ui.colorSelector.append(
+            this._colorSelector.el
+        );
+
         if ( this.model.get('fileUri') ) {
             const fileUri = this.model.get('fileUri');
             const fileName = basename(fileUri || '');
@@ -84,28 +80,6 @@ export default Marionette.ItemView.extend({
             )
             .removeClass('hide');
         }
-
-        if ( this.model.get('rootLayerType') === CONST.rootLayerType.heat ) {
-            this.ui.layerHeat.prop('checked', true);
-            this.hideMarkerOptions();
-            this.showHeatOptions();
-        }
-        else {
-            this.ui.layerCluster.prop('checked', true);
-        }
-    },
-
-    onShow() {
-        this.ui.heatMapInfo.popover({
-            container: 'body',
-            placement: 'left',
-            trigger: 'focus',
-            html: true,
-            title: document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
-            content: MarkedHelper.render(
-                document.l10n.getSync('editLayerFormColumn_heatMapPopoverContent')
-            ),
-        });
 
         this.ui.infoDisplayInfo.popover({
             container: 'body',
@@ -125,6 +99,11 @@ export default Marionette.ItemView.extend({
         });
     },
 
+    onBeforeOpen() {
+        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
+    },
+
     open() {
         this.triggerMethod('open');
         return this;
@@ -133,43 +112,6 @@ export default Marionette.ItemView.extend({
     close() {
         this.triggerMethod('close');
         return this;
-    },
-
-    onChangeLayerRepresentation() {
-        if ( this.ui.layerCluster.prop('checked') ) {
-            this.hideHeatOptions();
-            this.showMarkerOptions();
-        }
-        else {
-            this.hideMarkerOptions();
-            this.showHeatOptions();
-        }
-    },
-
-    showHeatOptions() {
-        this.ui.heatOptions.removeClass('hide');
-    },
-
-    hideHeatOptions() {
-        this.ui.heatOptions.addClass('hide');
-    },
-
-    showMarkerOptions() {
-        this.ui.markerOptions.removeClass('hide');
-    },
-
-    hideMarkerOptions() {
-        this.ui.markerOptions.addClass('hide');
-    },
-
-    updateMarkerIcon() {
-        const html = MapUi.buildLayerHtmlIcon( this.model );
-
-        this.ui.markerWrapper.html( html );
-    },
-
-    onClickEditMarker() {
-        this._radio.commands.execute( 'modal:showEditPoiMarker', this.model );
     },
 
     enableSubmitButton() {
@@ -197,39 +139,18 @@ export default Marionette.ItemView.extend({
         else if ( fileName ) {
             const extension = extensionname(fileName).toLowerCase();
 
-            if (extension !== 'geojson') {
+            if (extension !== 'gpx') {
                 this.ui.fileFormGroup.addClass('has-feedback has-error');
                 this.enableSubmitButton();
                 return false;
             }
         }
 
-
-        const color = this.model.get('markerColor');
-
-        if (color === 'dark-gray') {
-            this.model.set('color', 'anthracite');
-        }
-        else {
-            this.model.set('color', color);
-        }
-
         this.model.set('minZoom', 0);
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
+        this.model.set('color', this._colorSelector.getSelectedColor());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
-        this.model.set('heatMinOpacity', parseFloat(this.ui.heatMinOpacity.val()));
-        this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val(), 10));
-        this.model.set('heatMax', parseFloat(this.ui.heatMax.val()));
-        this.model.set('heatBlur', parseInt(this.ui.heatBlur.val(), 10));
-        this.model.set('heatRadius', parseInt(this.ui.heatRadius.val(), 10));
-
-        if ( this.ui.layerCluster.prop('checked') ) {
-            this.model.set('rootLayerType', CONST.rootLayerType.markerCluster);
-        }
-        else {
-            this.model.set('rootLayerType', CONST.rootLayerType.heat);
-        }
 
         if ( this.options.isNew ) {
             this.collection.add( this.model );

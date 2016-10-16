@@ -2,17 +2,22 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import ListGroup from 'ui/listGroup';
-import template from 'templates/editLayerListColumn.ejs';
-import CONST from 'const';
+import template from 'templates/admin/layer/layerColumn.ejs';
 import MapUi from 'ui/map';
 
 
 export default Marionette.LayoutView.extend({
     template,
 
-    behaviors: {
-        l20n: {},
-        column: {},
+    behaviors() {
+        return {
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
+            },
+        };
     },
 
     regions: {
@@ -20,7 +25,7 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        column: '#edit_layer_column',
+        column: '.column',
         addButton: '.add_btn',
     },
 
@@ -65,7 +70,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickAdd() {
-        this._radio.commands.execute('column:showAddLayerMenu');
+        this.options.router.navigate('admin/layer/new', true);
     },
 
     _onReorder() {
@@ -79,19 +84,7 @@ export default Marionette.LayoutView.extend({
     },
 
     _onSelect(model) {
-        switch (model.get('type')) {
-            case CONST.layerType.overpass:
-                return this._radio.commands.execute( 'column:editOverPassLayer', model );
-            case CONST.layerType.gpx:
-                return this._radio.commands.execute( 'column:editGpxLayer', model );
-            case CONST.layerType.csv:
-                return this._radio.commands.execute( 'column:editCsvLayer', model );
-            case CONST.layerType.geojson:
-                return this._radio.commands.execute( 'column:editGeoJsonLayer', model );
-            case CONST.layerType.osmose:
-                return this._radio.commands.execute( 'column:editOsmoseLayer', model );
-            default:
-                return false;
-        }
+        const uuid = model.get('uuid');
+        this.options.router.navigate(`admin/layer/edit/${uuid}`, true);
     },
 });

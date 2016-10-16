@@ -3,19 +3,24 @@ import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from 'const';
-import template from 'templates/editLayerMarkerModal.ejs';
+import template from 'templates/admin/layer/editMarkerModal.ejs';
 
 
 export default Marionette.ItemView.extend({
     template,
 
-    behaviors: {
-        l20n: {},
-        modal: {},
+    behaviors() {
+        return {
+            l20n: {},
+            modal: {
+                appendToBody: true,
+                destroyOnClose: true,
+            },
+        };
     },
 
     ui: {
-        modal: '#edit_poi_marker_modal',
+        modal: '.pop_modal',
         colorButtons: '.color-buttons .btn',
         shapeButtons: '.shape-buttons .btn',
         iconTypeTabs: '.marker_icon_type_tab',
@@ -77,8 +82,14 @@ export default Marionette.ItemView.extend({
         this.updateIconPreview();
     },
 
+    open() {
+        this.triggerMethod('open');
+        return this;
+    },
+
     close() {
         this.triggerMethod('close');
+        return this;
     },
 
     onReset() {

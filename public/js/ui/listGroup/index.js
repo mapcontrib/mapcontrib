@@ -17,7 +17,7 @@ export default Marionette.CollectionView.extend({
         reorderable: false,
         navigable: false,
         progression: undefined,
-        getProgression: () => '',
+        getProgression: undefined,
         getLeftIcon: () => '',
         getRightIcon: () => '',
     },
@@ -35,7 +35,13 @@ export default Marionette.CollectionView.extend({
             navigable: this.options.navigable,
             removeable: this.options.removeable,
             progression: this.options.progression,
-            getProgression: model => this.options.getProgression(model),
+            getProgression: (model) => {
+                if (this.options.getProgression) {
+                    return this.options.getProgression(model);
+                }
+
+                return undefined;
+            },
             getLeftIcon: model => this.options.getLeftIcon(model),
             getRightIcon: model => this.options.getRightIcon(model),
         };

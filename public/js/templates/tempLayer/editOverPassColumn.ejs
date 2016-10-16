@@ -1,4 +1,4 @@
-<section id="edit_poi_layer_column" class="column right orange">
+<section class="column right red">
     <header>
         <button type="button" class="btn btn-link btn-lg pull-right close_btn">
             <i class="fa fa-close"></i>
@@ -7,7 +7,7 @@
         <h2 data-l10n-id="editLayerFormColumn_title"></h2>
     </header>
 
-    <form action="<%- apiPath %>?fragment=<%- fragment %>" method="post" enctype="multipart/form-data">
+    <form>
         <div class="container-fluid content sticky">
             <div class="row sticky-inner">
                 <div class="col-xs-12">
@@ -31,14 +31,6 @@
                         <div class="radio">
                             <input type="radio" id="layer_heat" name="layer_representation_type" value="heat">
                             <label for="layer_heat" data-l10n-id="editLayerFormColumn_heatRepresentation"></label>
-                        </div>
-                    </div>
-
-                    <div class="form-group append-xs-2">
-                        <label class="control-label" data-l10n-id="editLayerFormColumn_visibility"></label>
-                        <div class="checkbox">
-                            <input type="checkbox" id="layer_visible" value="1" checked>
-                            <label for="layer_visible" data-l10n-id="editLayerFormColumn_visible"></label>
                         </div>
                     </div>
 
@@ -102,15 +94,22 @@
                         </div>
                     </section>
 
-                    <div class="form-group append-xs-2 layer_file">
-                        <label for="layer_file" class="control-label" data-l10n-id="editLayerFormColumn_csvFile"></label>
-                        <p data-l10n-id="editLayerFormColumn_csvDisclaimer"></p>
-                        <p class="hide current_file"></p>
-                        <input type="file" id="layer_file" name="layer_file" class="filestyle">
-                        <div class="help-block max_file_size"><%- maxFileSize %></div>
+                    <div class="form-group append-xs-2">
+                        <label for="layer_min_zoom" class="control-label" data-l10n-id="editLayerFormColumn_layerZoomLevel"></label>
+                        <input type="number" id="layer_min_zoom" class="form-control" min="0" value="<%- minZoom %>">
+                        <div class="help-block current_map_zoom"></div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="layer_overpass_request" class="control-label" data-l10n-id="editLayerFormColumn_layerOverpassRequest"></label>
+                        <a tabindex="0" role="button" class="info_btn info_overpass_btn pull-right">
+                            <i class="fa fa-info-circle fa-lg"></i>
+                        </a>
+                        <textarea rows="7" spellcheck="false" class="form-control font-monospace" id="layer_overpass_request"><%- overpassRequest %></textarea>
                     </div>
                 </div>
             </div>
+
             <div class="row sticky-footer">
                 <div class="col-xs-12">
                     <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>

@@ -14,7 +14,6 @@ import moment from 'moment-timezone';
 
 
 import LayerModel from 'model/layer';
-import LayerCollection from 'collection/layer';
 
 import MapUi from 'ui/map';
 import Geolocation from 'core/geolocation';
@@ -30,19 +29,6 @@ import ThemeTitleView from './themeTitle';
 import InfoDisplayModalView from './infoDisplayModal';
 import InfoDisplayColumnView from './infoDisplayColumn';
 import GeocodeWidgetView from './geocodeWidget';
-import TempLayerListColumnView from './tempLayerListColumn';
-import AddTempLayerMenuColumnView from './addTempLayerMenuColumn';
-import TempOverPassLayerFormColumnView from './tempOverPassLayerFormColumn';
-import TempGpxLayerFormColumnView from './tempGpxLayerFormColumn';
-import TempCsvLayerFormColumnView from './tempCsvLayerFormColumn';
-import TempGeoJsonLayerFormColumnView from './tempGeoJsonLayerFormColumn';
-import EditLayerListColumnView from './editLayerListColumn';
-import AddLayerMenuColumnView from './addLayerMenuColumn';
-import EditOverPassLayerFormColumnView from './editOverPassLayerFormColumn';
-import EditGpxLayerFormColumnView from './editGpxLayerFormColumn';
-import EditCsvLayerFormColumnView from './editCsvLayerFormColumn';
-import EditGeoJsonLayerFormColumnView from './editGeoJsonLayerFormColumn';
-import EditLayerMarkerModalView from './editLayerMarkerModal';
 import ZoomNotificationView from './zoomNotification';
 import OverPassTimeoutNotificationView from './overPassTimeoutNotification';
 import OverPassErrorNotificationView from './overPassErrorNotification';
@@ -81,26 +67,14 @@ export default Marionette.LayoutView.extend({
         rightToolbar: '#right_toolbar',
         userToolbar: '#user_toolbar',
         userButton: '#user_toolbar .user_btn',
-        tempLayerButton: '#contrib_toolbar .temp_layer_btn',
         contribButton: '#contrib_toolbar .contrib_btn',
 
         editToolbar: '#edit_toolbar',
-        editLayerButton: '#edit_toolbar .layer_btn',
     },
 
     regions: {
         mainTitle: '#rg_main_title',
-
         geocodeWidget: '#rg_geocode_widget',
-
-        tempLayerListColumn: '#rg_temp_layer_column',
-        addTempLayerMenuColumn: '#rg_add_temp_layer_menu_column',
-        tempLayerFormColumn: '#rg_edit_temp_layer_column',
-        editLayerListColumn: '#rg_edit_layer_column',
-        addLayerMenuColumn: '#rg_add_layer_menu_column',
-        editLayerFormColumn: '#rg_edit_poi_layer_column',
-        editLayerMarkerModal: '#rg_edit_poi_marker_modal',
-
         zoomNotification: '#rg_zoom_notification',
     },
 
@@ -113,9 +87,6 @@ export default Marionette.LayoutView.extend({
         'click @ui.expandScreenButton': 'onClickExpandScreen',
         'click @ui.compressScreenButton': 'onClickCompressScreen',
 
-        'click @ui.tempLayerButton': 'onClickTempLayer',
-        'click @ui.editLayerButton': 'onClickEditLayer',
-
         keydown: 'onKeyDown',
     },
 
@@ -127,7 +98,7 @@ export default Marionette.LayoutView.extend({
         this.model = this._app.getTheme();
 
         this._layerCollection = this.model.get('layers');
-        this._tempLayerCollection = new LayerCollection();
+        this._tempLayerCollection = this._app.getTempLayerCollection();
         this._nonOsmData = this._app.getNonOsmData();
         this._osmCache = this._app.getOsmCache();
 
@@ -185,39 +156,6 @@ export default Marionette.LayoutView.extend({
             'theme:save': () => {
                 this.model.updateModificationDate();
                 this.model.save();
-            },
-            'column:showAddTempLayerMenu': () => {
-                this.onCommandShowAddTempLayerMenu();
-            },
-            'column:tempOverPassLayer': (layerModel) => {
-                this.onCommandTempOverPassLayer( layerModel );
-            },
-            'column:tempGpxLayer': (layerModel) => {
-                this.onCommandTempGpxLayer( layerModel );
-            },
-            'column:tempCsvLayer': (layerModel) => {
-                this.onCommandTempCsvLayer( layerModel );
-            },
-            'column:tempGeoJsonLayer': (layerModel) => {
-                this.onCommandTempGeoJsonLayer( layerModel );
-            },
-            'column:showAddLayerMenu': () => {
-                this.onCommandShowAddLayerMenu();
-            },
-            'column:editOverPassLayer': (layerModel) => {
-                this.onCommandEditOverPassLayer( layerModel );
-            },
-            'column:editGpxLayer': (layerModel) => {
-                this.onCommandEditGpxLayer( layerModel );
-            },
-            'column:editCsvLayer': (layerModel) => {
-                this.onCommandEditCsvLayer( layerModel );
-            },
-            'column:editGeoJsonLayer': (layerModel) => {
-                this.onCommandEditGeoJsonLayer( layerModel );
-            },
-            'modal:showEditPoiMarker': (layerModel) => {
-                this.onCommandShowEditPoiMarker( layerModel );
             },
             'map:position': (zoom, lat, lng) => {
                 this.setMapPosition( zoom, lat, lng );
@@ -307,24 +245,11 @@ export default Marionette.LayoutView.extend({
             icon: this.ui.geocodeIcon,
             spinner: this.ui.geocodeSpinner,
         });
-        this._tempLayerListColumnView = new TempLayerListColumnView({
-            collection: this._tempLayerCollection,
-        });
-        this._addTempLayerMenuColumnView = new AddTempLayerMenuColumnView();
-        this._editLayerListColumnView = new EditLayerListColumnView({ model: this.model });
-        this._addLayerMenuColumnView = new AddLayerMenuColumnView({ model: this.model });
-
         this._zoomNotificationView = new ZoomNotificationView();
 
 
         this.getRegion('mainTitle').show( new ThemeTitleView({ model: this.model }) );
-
         this.getRegion('geocodeWidget').show( this._geocodeWidgetView );
-        this.getRegion('tempLayerListColumn').show( this._tempLayerListColumnView );
-        this.getRegion('addTempLayerMenuColumn').show( this._addTempLayerMenuColumnView );
-        this.getRegion('editLayerListColumn').show( this._editLayerListColumnView );
-        this.getRegion('addLayerMenuColumn').show( this._addLayerMenuColumnView );
-
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
 
@@ -1296,238 +1221,6 @@ export default Marionette.LayoutView.extend({
         this.ui.editToolbar.addClass('hide');
     },
 
-    onCommandTempOverPassLayer(layerModel) {
-        let view;
-
-        if ( layerModel ) {
-            view = new TempOverPassLayerFormColumnView({
-                model: layerModel,
-                collection: this._tempLayerCollection,
-            });
-        }
-        else {
-            const newLayerModel = new LayerModel({
-                type: CONST.layerType.overpass,
-                markerColor: 'red',
-                color: 'red',
-            });
-
-            view = new TempOverPassLayerFormColumnView({
-                model: newLayerModel,
-                collection: this._tempLayerCollection,
-                isNew: true,
-            });
-        }
-
-        this.getRegion('tempLayerFormColumn').show( view );
-
-        view.open();
-    },
-
-    onCommandTempGpxLayer(layerModel) {
-        let view;
-
-        if ( layerModel ) {
-            view = new TempGpxLayerFormColumnView({
-                model: layerModel,
-                collection: this._tempLayerCollection,
-            });
-        }
-        else {
-            const newLayerModel = new LayerModel({
-                type: CONST.layerType.gpx,
-                markerColor: 'red',
-                color: 'red',
-            });
-
-            view = new TempGpxLayerFormColumnView({
-                model: newLayerModel,
-                collection: this._tempLayerCollection,
-                isNew: true,
-            });
-        }
-
-        this.getRegion('tempLayerFormColumn').show( view );
-
-        view.open();
-    },
-
-    onCommandTempCsvLayer(layerModel) {
-        let view;
-
-        if ( layerModel ) {
-            view = new TempCsvLayerFormColumnView({
-                model: layerModel,
-                collection: this._tempLayerCollection,
-            });
-        }
-        else {
-            const newLayerModel = new LayerModel({
-                type: CONST.layerType.csv,
-                markerColor: 'red',
-                color: 'red',
-            });
-
-            view = new TempCsvLayerFormColumnView({
-                model: newLayerModel,
-                collection: this._tempLayerCollection,
-                isNew: true,
-            });
-        }
-
-        this.getRegion('tempLayerFormColumn').show( view );
-
-        view.open();
-    },
-
-    onCommandTempGeoJsonLayer(layerModel) {
-        let view;
-
-        if ( layerModel ) {
-            view = new TempGeoJsonLayerFormColumnView({
-                model: layerModel,
-                collection: this._tempLayerCollection,
-            });
-        }
-        else {
-            const newLayerModel = new LayerModel({
-                type: CONST.layerType.geojson,
-                markerColor: 'red',
-                color: 'red',
-            });
-
-            view = new TempGeoJsonLayerFormColumnView({
-                model: newLayerModel,
-                collection: this._tempLayerCollection,
-                isNew: true,
-            });
-        }
-
-        this.getRegion('tempLayerFormColumn').show( view );
-
-        view.open();
-    },
-
-    onCommandEditOverPassLayer(layerModel) {
-        let view;
-
-        if ( layerModel ) {
-            view = new EditOverPassLayerFormColumnView({
-                model: layerModel,
-                theme: this.model,
-            });
-        }
-        else {
-            const newLayerModel = new LayerModel({
-                type: CONST.layerType.overpass,
-            });
-
-            view = new EditOverPassLayerFormColumnView({
-                model: newLayerModel,
-                theme: this.model,
-                isNew: true,
-            });
-        }
-
-        this.getRegion('editLayerFormColumn').show( view );
-
-        view.open();
-    },
-
-    onCommandEditGpxLayer(layerModel) {
-        let view;
-
-        if ( layerModel ) {
-            view = new EditGpxLayerFormColumnView({
-                model: layerModel,
-                theme: this.model,
-            });
-        }
-        else {
-            const newLayerModel = new LayerModel({
-                type: CONST.layerType.gpx,
-            });
-
-            view = new EditGpxLayerFormColumnView({
-                model: newLayerModel,
-                theme: this.model,
-                isNew: true,
-            });
-        }
-
-        this.getRegion('editLayerFormColumn').show( view );
-
-        view.open();
-    },
-
-    onCommandEditCsvLayer(layerModel) {
-        let view;
-
-        if ( layerModel ) {
-            view = new EditCsvLayerFormColumnView({
-                model: layerModel,
-                theme: this.model,
-            });
-        }
-        else {
-            const newLayerModel = new LayerModel({
-                type: CONST.layerType.csv,
-            });
-
-            view = new EditCsvLayerFormColumnView({
-                model: newLayerModel,
-                theme: this.model,
-                isNew: true,
-            });
-        }
-
-        this.getRegion('editLayerFormColumn').show( view );
-
-        view.open();
-    },
-
-    onCommandEditGeoJsonLayer(layerModel) {
-        let view;
-
-        if ( layerModel ) {
-            view = new EditGeoJsonLayerFormColumnView({
-                model: layerModel,
-                theme: this.model,
-            });
-        }
-        else {
-            const newLayerModel = new LayerModel({
-                type: CONST.layerType.geojson,
-            });
-
-            view = new EditGeoJsonLayerFormColumnView({
-                model: newLayerModel,
-                theme: this.model,
-                isNew: true,
-            });
-        }
-
-        this.getRegion('editLayerFormColumn').show( view );
-
-        view.open();
-    },
-
-    onCommandShowAddLayerMenu() {
-        this._addLayerMenuColumnView.open();
-    },
-
-    onCommandShowAddTempLayerMenu() {
-        this._addTempLayerMenuColumnView.open();
-    },
-
-    onCommandShowEditPoiMarker(layerModel) {
-        this.getRegion('editLayerMarkerModal').show(
-            new EditLayerMarkerModalView({
-                model: layerModel,
-            })
-        );
-    },
-
     onClickZoomIn() {
         this._map.zoomIn();
     },
@@ -1670,14 +1363,6 @@ export default Marionette.LayoutView.extend({
     onCompressScreen() {
         this.ui.compressScreenButton.addClass('hide');
         this.ui.expandScreenButton.removeClass('hide');
-    },
-
-    onClickTempLayer() {
-        this._tempLayerListColumnView.open();
-    },
-
-    onClickEditLayer() {
-        this._editLayerListColumnView.open();
     },
 
     setPosition(latLng, zoomLevel) {

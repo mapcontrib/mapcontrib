@@ -4,9 +4,10 @@ import Backbone from 'backbone';
 import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
 
+import LayerModel from 'model/layer';
+import TagModel from 'model/tag';
 import PresetModel from 'model/preset';
 import PresetCategoryModel from 'model/presetCategory';
-import TagModel from 'model/tag';
 
 import ThemeRootView from 'view/themeRoot';
 
@@ -19,6 +20,13 @@ import UserColumn from 'view/userColumn';
 import VisitorColumn from 'view/visitorColumn';
 import LinkColumn from 'view/linkColumn';
 
+import TempLayerColumn from 'view/tempLayer/layerColumn';
+import TempLayerAddMenuColumn from 'view/tempLayer/addMenuColumn';
+import TempLayerEditOverPassColumn from 'view/tempLayer/editOverPassColumn';
+import TempLayerEditGpxColumn from 'view/tempLayer/editGpxColumn';
+import TempLayerEditCsvColumn from 'view/tempLayer/editCsvColumn';
+import TempLayerEditGeoJsonColumn from 'view/tempLayer/editGeoJsonColumn';
+
 import ContributeAddPositionContextual from 'view/contribute/add/positionContextual';
 import ContributeAddPresetSelectionColumn from 'view/contribute/add/presetSelectionColumn';
 import ContributeAddFormColumn from 'view/contribute/add/formColumn';
@@ -30,12 +38,19 @@ import AdminSettingMenuColumn from 'view/admin/setting/menuColumn';
 import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
 import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
 
-import AdminPresetColumn from 'view/admin/preset/presetColumn';
-import AdminPresetCategoryEditColumn from 'view/admin/preset/presetCategoryEditColumn';
-import AdminPresetEditColumn from 'view/admin/preset/presetEditColumn';
+import AdminLayerColumn from 'view/admin/layer/layerColumn';
+import AdminLayerAddMenuColumn from 'view/admin/layer/addMenuColumn';
+import AdminLayerEditOverPassColumn from 'view/admin/layer/editOverPassColumn';
+import AdminLayerEditGpxColumn from 'view/admin/layer/editGpxColumn';
+import AdminLayerEditCsvColumn from 'view/admin/layer/editCsvColumn';
+import AdminLayerEditGeoJsonColumn from 'view/admin/layer/editGeoJsonColumn';
 
 import AdminTagColumn from 'view/admin/tag/tagColumn';
 import AdminTagEditColumn from 'view/admin/tag/tagEditColumn';
+
+import AdminPresetColumn from 'view/admin/preset/presetColumn';
+import AdminPresetCategoryEditColumn from 'view/admin/preset/presetCategoryEditColumn';
+import AdminPresetEditColumn from 'view/admin/preset/presetEditColumn';
 
 import AdminLocaleLangMenuColumn from 'view/admin/locale/langMenuColumn';
 import AdminLocaleItemMenuColumn from 'view/admin/locale/itemMenuColumn';
@@ -57,6 +72,14 @@ export default Backbone.Router.extend({
         user: 'routeUser',
         link: 'routeLink',
 
+        'temp/layer': 'routeTempLayer',
+        'temp/layer/new': 'routeTempLayerNew',
+        'temp/layer/new/overpass': 'routeTempLayerNewOverPass',
+        'temp/layer/new/gpx': 'routeTempLayerNewGpx',
+        'temp/layer/new/csv': 'routeTempLayerNewCsv',
+        'temp/layer/new/geojson': 'routeTempLayerNewGeoJson',
+        'temp/layer/edit/:uuid': 'routeTempLayerEdit',
+
         'contribute/add': 'routeContributeAddPosition',
         'contribute/add/:lat/:lng': 'routeContributeAddPresetSelection',
         'contribute/add/:lat/:lng/no-preset': 'routeContributeAddNoPreset',
@@ -72,15 +95,23 @@ export default Backbone.Router.extend({
         'admin/setting/main': 'routeAdminSettingMain',
         'admin/setting/tile': 'routeAdminSettingTile',
 
+        'admin/layer': 'routeAdminLayer',
+        'admin/layer/new': 'routeAdminLayerNew',
+        'admin/layer/new/overpass': 'routeAdminLayerNewOverPass',
+        'admin/layer/new/gpx': 'routeAdminLayerNewGpx',
+        'admin/layer/new/csv': 'routeAdminLayerNewCsv',
+        'admin/layer/new/geojson': 'routeAdminLayerNewGeoJson',
+        'admin/layer/edit/:uuid': 'routeAdminLayerEdit',
+
+        'admin/tag': 'routeAdminTag',
+        'admin/tag/new': 'routeAdminTagNew',
+        'admin/tag/edit/:uuid': 'routeAdminTagEdit',
+
         'admin/preset(/)(:categoryUuid)': 'routeAdminPreset',
         'admin/preset/new(/)(:parentUuid)': 'routeAdminPresetNew',
         'admin/preset/edit/:uuid': 'routeAdminPresetEdit',
         'admin/preset/category/new(/)(:parentUuid)': 'routeAdminPresetCategoryNew',
         'admin/preset/category/edit/:uuid': 'routeAdminPresetCategoryEdit',
-
-        'admin/tag': 'routeAdminTag',
-        'admin/tag/new': 'routeAdminTagNew',
-        'admin/tag/edit/:uuid': 'routeAdminTagEdit',
 
         'admin/locale': 'routeAdminLocaleLangMenu',
         'admin/locale/:locale': 'routeAdminLocaleItemMenu',
@@ -104,6 +135,7 @@ export default Backbone.Router.extend({
         this._iDPresetsHelper = app.getIDPresetsHelper();
         this._nonOsmData = this._app.getNonOsmData();
         this._osmCache = this._app.getOsmCache();
+        this._tempLayerCollection = this._app.getTempLayerCollection();
         this._radio = Wreqr.radio.channel('global');
         this._previousRoute = '';
 
@@ -194,6 +226,152 @@ export default Backbone.Router.extend({
             router: this,
             model: this._theme,
         }).open();
+    },
+
+
+    routeTempLayer() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new TempLayerColumn({
+            router: this,
+            collection: this._tempLayerCollection,
+            model: this._theme,
+        }).open();
+    },
+
+    routeTempLayerNew() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new TempLayerAddMenuColumn({
+            router: this,
+            model: this._theme,
+            routeOnClose: 'temp/layer',
+            triggerRouteOnClose: true,
+        }).open();
+    },
+
+    routeTempLayerNewOverPass() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new TempLayerEditOverPassColumn({
+            router: this,
+            theme: this._theme,
+            collection: this._tempLayerCollection,
+            model: new LayerModel({
+                type: CONST.layerType.overpass,
+            }),
+            routeOnClose: 'temp/layer',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeTempLayerNewGpx() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new TempLayerEditGpxColumn({
+            router: this,
+            theme: this._theme,
+            collection: this._tempLayerCollection,
+            model: new LayerModel({
+                type: CONST.layerType.gpx,
+            }),
+            routeOnClose: 'temp/layer',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeTempLayerNewCsv() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new TempLayerEditCsvColumn({
+            router: this,
+            theme: this._theme,
+            collection: this._tempLayerCollection,
+            model: new LayerModel({
+                type: CONST.layerType.csv,
+            }),
+            routeOnClose: 'temp/layer',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeTempLayerNewGeoJson() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new TempLayerEditGeoJsonColumn({
+            router: this,
+            theme: this._theme,
+            collection: this._tempLayerCollection,
+            model: new LayerModel({
+                type: CONST.layerType.geojson,
+            }),
+            routeOnClose: 'temp/layer',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeTempLayerEdit(uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const model = this._tempLayerCollection.findWhere({ uuid });
+
+        if (model) {
+            let TempLayerEditColumn;
+            switch (model.get('type')) {
+                case CONST.layerType.overpass:
+                    TempLayerEditColumn = TempLayerEditOverPassColumn;
+                    break;
+                case CONST.layerType.gpx:
+                    TempLayerEditColumn = TempLayerEditOverPassColumn;
+                    break;
+                case CONST.layerType.csv:
+                    TempLayerEditColumn = TempLayerEditOverPassColumn;
+                    break;
+                case CONST.layerType.geojson:
+                    TempLayerEditColumn = TempLayerEditOverPassColumn;
+                    break;
+                default:
+                    this.navigate('temp/layer', true);
+                    return;
+            }
+
+            new TempLayerEditColumn({
+                router: this,
+                theme: this._theme,
+                collection: this._tempLayerCollection,
+                model,
+                routeOnClose: 'temp/layer',
+                triggerRouteOnClose: true,
+            }).open();
+        }
+        else {
+            this.navigate('temp/layer', true);
+        }
     },
 
 
@@ -431,6 +609,198 @@ export default Backbone.Router.extend({
         }).open();
     },
 
+
+    routeAdminLayer() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLayerColumn({
+            router: this,
+            model: this._theme,
+        }).open();
+    },
+
+    routeAdminLayerNew() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLayerAddMenuColumn({
+            router: this,
+            model: this._theme,
+            routeOnClose: 'admin/layer',
+            triggerRouteOnClose: true,
+        }).open();
+    },
+
+    routeAdminLayerNewOverPass() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLayerEditOverPassColumn({
+            router: this,
+            theme: this._theme,
+            model: new LayerModel({
+                type: CONST.layerType.overpass,
+            }),
+            routeOnClose: 'admin/layer',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeAdminLayerNewGpx() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLayerEditGpxColumn({
+            router: this,
+            theme: this._theme,
+            model: new LayerModel({
+                type: CONST.layerType.gpx,
+            }),
+            routeOnClose: 'admin/layer',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeAdminLayerNewCsv() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLayerEditCsvColumn({
+            router: this,
+            theme: this._theme,
+            model: new LayerModel({
+                type: CONST.layerType.csv,
+            }),
+            routeOnClose: 'admin/layer',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeAdminLayerNewGeoJson() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminLayerEditGeoJsonColumn({
+            router: this,
+            theme: this._theme,
+            model: new LayerModel({
+                type: CONST.layerType.geojson,
+            }),
+            routeOnClose: 'admin/layer',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeAdminLayerEdit(uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const model = this._theme.get('layers').findWhere({ uuid });
+
+        if (model) {
+            let AdminLayerEditColumn;
+            switch (model.get('type')) {
+                case CONST.layerType.overpass:
+                    AdminLayerEditColumn = AdminLayerEditOverPassColumn;
+                    break;
+                case CONST.layerType.gpx:
+                    AdminLayerEditColumn = AdminLayerEditOverPassColumn;
+                    break;
+                case CONST.layerType.csv:
+                    AdminLayerEditColumn = AdminLayerEditOverPassColumn;
+                    break;
+                case CONST.layerType.geojson:
+                    AdminLayerEditColumn = AdminLayerEditOverPassColumn;
+                    break;
+                default:
+                    this.navigate('admin/layer', true);
+                    return;
+            }
+
+            new AdminLayerEditColumn({
+                router: this,
+                theme: this._theme,
+                model,
+                routeOnClose: 'admin/layer',
+                triggerRouteOnClose: true,
+            }).open();
+        }
+        else {
+            this.navigate('admin/layer', true);
+        }
+    },
+
+
+    routeAdminTag() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminTagColumn({
+            router: this,
+            model: this._theme,
+        }).open();
+    },
+
+    routeAdminTagNew() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminTagEditColumn({
+            router: this,
+            theme: this._theme,
+            model: new TagModel(),
+            routeOnClose: 'admin/tag',
+            triggerRouteOnClose: true,
+            isNew: true,
+        }).open();
+    },
+
+    routeAdminTagEdit(uuid) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const model = this._theme.get('tags').findWhere({ uuid });
+
+        if (model) {
+            new AdminTagEditColumn({
+                router: this,
+                theme: this._theme,
+                model,
+                routeOnClose: 'admin/tag',
+                triggerRouteOnClose: true,
+            }).open();
+        }
+        else {
+            this.navigate('admin/tag', true);
+        }
+    },
+
+
     routeAdminPreset(categoryUuid) {
         if (!this._userIsOwnerOfTheme()) {
             this.navigate('');
@@ -489,7 +859,6 @@ export default Backbone.Router.extend({
         }
     },
 
-
     routeAdminPresetCategoryNew(parentUuid) {
         if (!this._userIsOwnerOfTheme()) {
             this.navigate('');
@@ -530,56 +899,6 @@ export default Backbone.Router.extend({
         }
     },
 
-
-    routeAdminTag() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
-        new AdminTagColumn({
-            router: this,
-            model: this._theme,
-        }).open();
-    },
-
-    routeAdminTagNew() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
-        new AdminTagEditColumn({
-            router: this,
-            theme: this._theme,
-            model: new TagModel(),
-            routeOnClose: 'admin/tag',
-            triggerRouteOnClose: true,
-            isNew: true,
-        }).open();
-    },
-
-    routeAdminTagEdit(uuid) {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
-        const model = this._theme.get('tags').findWhere({ uuid });
-
-        if (model) {
-            new AdminTagEditColumn({
-                router: this,
-                theme: this._theme,
-                model,
-                routeOnClose: 'admin/tag',
-                triggerRouteOnClose: true,
-            }).open();
-        }
-        else {
-            this.navigate('admin/tag', true);
-        }
-    },
 
     routeAdminLocaleLangMenu() {
         if (!this._userIsOwnerOfTheme()) {
