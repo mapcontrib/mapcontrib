@@ -5,6 +5,7 @@ import Marionette from 'backbone.marionette';
 import CONST from 'const';
 import MarkedHelper from 'helper/marked';
 import template from 'templates/themeTitle.ejs';
+import Locale from 'core/locale';
 
 
 export default Marionette.LayoutView.extend({
@@ -37,8 +38,12 @@ export default Marionette.LayoutView.extend({
     },
 
     templateHelpers() {
+        const name = Locale.getLocalized(this.model, 'name');
+        const description = Locale.getLocalized(this.model, 'description');
+
         return {
-            description: MarkedHelper.render( this.model.get('description') ),
+            name,
+            description: MarkedHelper.render( description || '' ),
         };
     },
 

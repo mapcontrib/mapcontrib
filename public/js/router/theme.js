@@ -16,6 +16,11 @@ import AboutModal from 'view/modal/about';
 import SelectLayerColumn from 'view/select/layer/layerColumn';
 import SelectTileColumn from 'view/select/tileColumn';
 
+import InfoOverPassLayerColumn from 'view/info/layer/overPassColumn';
+import InfoGpxLayerColumn from 'view/info/layer/gpxColumn';
+import InfoCsvLayerColumn from 'view/info/layer/csvColumn';
+import InfoGeoJsonLayerColumn from 'view/info/layer/geoJsonColumn';
+
 import UserColumn from 'view/userColumn';
 import VisitorColumn from 'view/visitorColumn';
 import LinkColumn from 'view/linkColumn';
@@ -69,6 +74,7 @@ export default Backbone.Router.extend({
         'position/:zoom/:lat/:lng': 'routeMapPosition',
 
         'select/layer': 'routeSelectLayer',
+        'info/layer/:uuid': 'routeInfoLayer',
         'select/tile': 'routeSelectTile',
 
         user: 'routeUser',
@@ -192,6 +198,40 @@ export default Backbone.Router.extend({
             model: this._theme,
             collection: this._theme.get('layers'),
         }).open();
+    },
+
+    routeInfoLayer(uuid) {
+        const model = this._theme.get('layers').findWhere({ uuid });
+
+        if (model) {
+            let InfoLayerColumn;
+            switch (model.get('type')) {
+                case CONST.layerType.overpass:
+                    InfoLayerColumn = InfoOverPassLayerColumn;
+                    break;
+                case CONST.layerType.gpx:
+                    InfoLayerColumn = InfoGpxLayerColumn;
+                    break;
+                case CONST.layerType.csv:
+                    InfoLayerColumn = InfoCsvLayerColumn;
+                    break;
+                case CONST.layerType.geojson:
+                    InfoLayerColumn = InfoGeoJsonLayerColumn;
+                    break;
+                default:
+                    this.navigate('admin/layer', true);
+                    return;
+            }
+
+            new InfoLayerColumn({
+                router: this,
+                theme: this._theme,
+                model,
+            }).open();
+        }
+        else {
+            this.navigate('', true);
+        }
     },
 
     routeSelectTile() {
@@ -351,13 +391,13 @@ export default Backbone.Router.extend({
                     TempLayerEditColumn = TempLayerEditOverPassColumn;
                     break;
                 case CONST.layerType.gpx:
-                    TempLayerEditColumn = TempLayerEditOverPassColumn;
+                    TempLayerEditColumn = TempLayerEditGpxColumn;
                     break;
                 case CONST.layerType.csv:
-                    TempLayerEditColumn = TempLayerEditOverPassColumn;
+                    TempLayerEditColumn = TempLayerEditCsvColumn;
                     break;
                 case CONST.layerType.geojson:
-                    TempLayerEditColumn = TempLayerEditOverPassColumn;
+                    TempLayerEditColumn = TempLayerEditGeoJsonColumn;
                     break;
                 default:
                     this.navigate('temp/layer', true);
@@ -727,13 +767,13 @@ export default Backbone.Router.extend({
                     AdminLayerEditColumn = AdminLayerEditOverPassColumn;
                     break;
                 case CONST.layerType.gpx:
-                    AdminLayerEditColumn = AdminLayerEditOverPassColumn;
+                    AdminLayerEditColumn = AdminLayerEditGpxColumn;
                     break;
                 case CONST.layerType.csv:
-                    AdminLayerEditColumn = AdminLayerEditOverPassColumn;
+                    AdminLayerEditColumn = AdminLayerEditCsvColumn;
                     break;
                 case CONST.layerType.geojson:
-                    AdminLayerEditColumn = AdminLayerEditOverPassColumn;
+                    AdminLayerEditColumn = AdminLayerEditGeoJsonColumn;
                     break;
                 default:
                     this.navigate('admin/layer', true);

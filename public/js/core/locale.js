@@ -129,4 +129,15 @@ export default class Locale {
 
         return data;
     }
+
+    static getLocalized(model, attributeName) {
+        const locale = Locale.getLocale();
+        const attributes = model.get('locales')[locale];
+
+        if (attributes && attributes[attributeName]) {
+            return attributes[attributeName];
+        }
+
+        return model.get(attributeName);
+    }
 }

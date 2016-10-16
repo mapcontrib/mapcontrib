@@ -41,7 +41,10 @@ export default Marionette.LayoutView.extend({
 
     onRender() {
         this.getRegion('layerList').show(
-            new SelectLayerList({ collection: this.collection })
+            new SelectLayerList({
+                collection: this.collection,
+                router: this.options.router,
+            })
         );
     },
 

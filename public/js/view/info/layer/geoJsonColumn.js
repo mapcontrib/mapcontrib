@@ -2,24 +2,29 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import MarkedHelper from 'helper/marked';
-import template from 'templates/infoCsvLayerColumn.ejs';
+import template from 'templates/info/layer/geoJsonColumn.ejs';
 import LeafletHelper from 'helper/leaflet';
+import Locale from 'core/locale';
 
 
 export default Marionette.LayoutView.extend({
     template,
 
-    behaviors: {
-        l20n: {},
-        column: {
-            appendToBody: true,
-        },
+    behaviors() {
+        return {
+            l20n: {},
+            column: {
+                appendToBody: true,
+                destroyOnClose: true,
+                routeOnClose: this.options.previousRoute,
+            },
+        };
     },
 
     ui: {
-        description: '.description_container',
+        descriptionSection: '.description_section',
         downloadBtn: '.download_btn',
-        column: '#info_csv_layer_column',
+        column: '.column',
     },
 
     events: {
@@ -31,8 +36,12 @@ export default Marionette.LayoutView.extend({
     },
 
     templateHelpers() {
+        const name = Locale.getLocalized(this.model, 'name');
+        const description = Locale.getLocalized(this.model, 'description');
+
         return {
-            description: MarkedHelper.render( this.model.get('description') || '' ),
+            name,
+            description: MarkedHelper.render( description || '' ),
         };
     },
 
@@ -52,8 +61,10 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        if ( this.model.get('description') ) {
-            this.ui.description.removeClass('hide');
+        const description = Locale.getLocalized(this.model, 'description');
+
+        if (description) {
+            this.ui.descriptionSection.removeClass('hide');
         }
     },
 
@@ -61,7 +72,8 @@ export default Marionette.LayoutView.extend({
         e.preventDefault();
 
         const markerCluster = this._radio.reqres.request('map:markerCluster', this.model);
-        const layerName = this.model.get('name') || document.l10n.getSync('mapcontrib');
+        const name = Locale.getLocalized(this.model, 'name');
+        const layerName = name || document.l10n.getSync('mapcontrib');
         const fileName = `${layerName}.geojson`;
 
         LeafletHelper.downloadGeoJsonFromLayer(markerCluster, fileName);
