@@ -327,6 +327,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 /* List group UI */
 <uiListGroup_placeholder "Cliquez ci-dessous">
+<uiListGroup_placeholderNothingToTranslate "Aucun élément à traduire">
 
 
 /* Contribution form column */

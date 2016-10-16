@@ -327,6 +327,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 
 /* List group UI */
 <uiListGroup_placeholder "Click below">
+<uiListGroup_placeholderNothingToTranslate "Nothing to translate">
 
 
 /* Contribution form column */

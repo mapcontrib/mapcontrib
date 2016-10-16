@@ -327,6 +327,7 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* List group UI */
 <uiListGroup_placeholder "Click below"> /* FIXME */
+<uiListGroup_placeholderNothingToTranslate "Nothing to translate"> /* FIXME */
 
 
 /* Contribution form column */

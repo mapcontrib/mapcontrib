@@ -39,7 +39,7 @@ export default Marionette.LayoutView.extend({
             labelAttribute: 'key',
             reorderable: false,
             removeable: false,
-            placeholder: document.l10n.getSync('uiListGroup_placeholder'),
+            placeholder: document.l10n.getSync('uiListGroup_placeholderNothingToTranslate'),
             getProgression: (model) => {
                 const data = model.getLocaleCompletion(this.options.locale);
                 return format(
