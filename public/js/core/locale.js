@@ -1,5 +1,5 @@
 
-import CONST from 'const';
+import CONST from '../const';
 import currentLocale from 'current-locale';
 import langs from 'langs';
 import format from 'math.format';
