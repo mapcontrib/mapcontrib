@@ -18,10 +18,11 @@ import 'bootstrap-more/bootstrap-more.js';
 import 'leaflet/dist/leaflet.css';
 
 import CONST from 'const';
-import UserModel from './model/user';
-import ThemeModel from './model/theme';
-import NonOsmDataCollection from './collection/nonOsmData';
-import OsmCacheCollection from './collection/osmCache';
+import UserModel from 'model/user';
+import ThemeModel from 'model/theme';
+import NonOsmDataCollection from 'collection/nonOsmData';
+import OsmCacheCollection from 'collection/osmCache';
+import LayerCollection from 'collection/layer';
 import Behaviors from './behavior';
 import IDPresetsHelper from 'helper/iDPresets';
 
@@ -63,6 +64,7 @@ export default Marionette.Application.extend({
         this._window = window;
         this._config = MAPCONTRIB.config;
         this._version = MAPCONTRIB.version;
+        this._tempLayerCollection = new LayerCollection();
         this._user = new UserModel(
             JSON.parse(unescape( MAPCONTRIB.user ))
         );
@@ -127,6 +129,10 @@ export default Marionette.Application.extend({
 
     getTheme() {
         return this._theme;
+    },
+
+    getTempLayerCollection() {
+        return this._tempLayerCollection;
     },
 
     getNonOsmData() {

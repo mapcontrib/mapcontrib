@@ -34,15 +34,20 @@
 <buttonContribTooltip title:"Aggiungi dati mancanti">
 <buttonTempLayerTooltip title:"Aggiungere un livello temporaneo">
 <buttonEditSettingTooltip title:"{{ settings }}">
-<buttonEditLayerTooltip title:"Livello">
-<buttonEditLocaleTooltip title:"Locales"> /* FIXME */
-<buttonEditPresetTooltip title:"Tipo di Nodi">
-<buttonEditTagTooltip title:"Tags">
+<buttonEditLayerTooltip title:"{{ layers }}">
+<buttonEditLocaleTooltip title:"{{ translations }}">
+<buttonEditPresetTooltip title:"{{ presets }}">
+<buttonEditTagTooltip title:"{{ tags }}">
 <buttonHelpTooltip title:"Aiuto">
 
 
 
 
+<layers "Livello">
+<translations "Translations"> /* FIXME */
+<presets "Tipo di Nodi">
+<presetCategories "Nodes types categories"> /* FIXME */
+<tags "Tags">
 <goBackToHome "Ritorno alla home">
 <about "Info {{ mapcontrib }}">
 <myThemes "I miei temi">
@@ -322,6 +327,7 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* List group UI */
 <uiListGroup_placeholder "Click below"> /* FIXME */
+<uiListGroup_placeholderNothingToTranslate "Nothing to translate"> /* FIXME */
 
 
 /* Contribution form column */

@@ -1,6 +1,8 @@
 
 import Marionette from 'backbone.marionette';
 import template from './item.ejs';
+import ProgressBar from 'progressbar.js';
+import CONST from 'const';
 
 
 export default Marionette.ItemView.extend({
@@ -22,6 +24,7 @@ export default Marionette.ItemView.extend({
         reorderIcon: '.reorder_icon',
         navigateBtn: '.navigate_btn',
         removeBtn: '.remove_btn',
+        progression: '.progression',
     },
 
     events: {
@@ -52,6 +55,54 @@ export default Marionette.ItemView.extend({
         }
 
         this.el.id = `item-${this.model.cid}`;
+
+        let progression = this.options.progression;
+
+        if (this.options.getProgression) {
+            progression = this.options.getProgression(this.model);
+        }
+
+        if (progression >= 0) {
+            this._progressCircle = new ProgressBar.Circle(this.ui.progression[0], {
+                trailWidth: 14,
+                strokeWidth: 14,
+                trailColor: 'rgba(255, 255, 255, 0.2)',
+            });
+
+            // If I use the set method instead of the animate one,
+            // Chromium doesn't use the step callback...
+            this._progressCircle.animate(
+                progression / 100 || 0,
+                {
+                    easing: 'easeInOut',
+                    duration: 1000,
+                    step: (state, circle) => {
+                        const progress = circle.value() * 100;
+
+                        if (progress >= 100) {
+                            circle.path.setAttribute('stroke', '#8AE234');
+                        }
+                        else if (progress < 100 && progress > 50) {
+                            circle.path.setAttribute('stroke', '#FCE94F');
+                        }
+                        else {
+                            circle.path.setAttribute('stroke', '#EF2929');
+                        }
+                    },
+                }
+            );
+
+            this.ui.progression
+            .attr('title', `${progression} %`)
+            .tooltip({
+                container: 'body',
+                delay: {
+                    show: CONST.tooltip.showDelay,
+                    hide: CONST.tooltip.hideDelay,
+                },
+            })
+            .removeClass('hide');
+        }
     },
 
     onClick(e) {

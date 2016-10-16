@@ -34,15 +34,20 @@
 <buttonContribTooltip title:"Add missing data">
 <buttonTempLayerTooltip title:"Add a temporary layer">
 <buttonEditSettingTooltip title:"{{ settings }}">
-<buttonEditLayerTooltip title:"Layer">
-<buttonEditLocaleTooltip title:"Locales">
-<buttonEditPresetTooltip title:"Nodes types">
-<buttonEditTagTooltip title:"Tags">
+<buttonEditLayerTooltip title:"{{ layers }}">
+<buttonEditLocaleTooltip title:"{{ translations }}">
+<buttonEditPresetTooltip title:"{{ presets }}">
+<buttonEditTagTooltip title:"{{ tags }}">
 <buttonHelpTooltip title:"Help">
 
 
 
 
+<layers "Layers">
+<translations "Translations">
+<presets "Nodes types">
+<presetCategories "Nodes types categories">
+<tags "Tags">
 <goBackToHome "Return to home">
 <about "About {{ mapcontrib }}">
 <myThemes "My themes">
@@ -322,6 +327,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 
 /* List group UI */
 <uiListGroup_placeholder "Click below">
+<uiListGroup_placeholderNothingToTranslate "Nothing to translate">
 
 
 /* Contribution form column */

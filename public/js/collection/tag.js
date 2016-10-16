@@ -2,6 +2,7 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import TagModel from '../model/tag';
+import Locale from 'core/locale';
 
 
 export default Backbone.Collection.extend({
@@ -30,7 +31,7 @@ export default Backbone.Collection.extend({
         const tag = this.findWhere({ key });
 
         if (tag) {
-            return tag.get('key');
+            return Locale.getLocalized(tag, 'key');
         }
 
         return undefined;
@@ -43,7 +44,7 @@ export default Backbone.Collection.extend({
             fields.push({
                 key: tag.get('key'),
                 type: tag.get('type'),
-                label: tag.get('key'),
+                label: Locale.getLocalized(tag, 'key'),
             });
         }
 

@@ -5,6 +5,7 @@ import Marionette from 'backbone.marionette';
 import CONST from 'const';
 import MarkedHelper from 'helper/marked';
 import template from 'templates/themeTitle.ejs';
+import Locale from 'core/locale';
 
 
 export default Marionette.LayoutView.extend({
@@ -30,15 +31,19 @@ export default Marionette.LayoutView.extend({
 
         this._currentTitleColor = this.model.get('color');
 
-        this.listenTo(this.model, 'change:name', this.setTitle);
-        this.listenTo(this.model, 'change:description', this.setDescription);
+        this.listenTo(this.model, 'change', this.setTitle);
+        this.listenTo(this.model, 'change', this.setDescription);
 
         this._radio.commands.setHandler('ui:setTitleColor', this.commandSetTitleColor, this);
     },
 
     templateHelpers() {
+        const name = Locale.getLocalized(this.model, 'name');
+        const description = Locale.getLocalized(this.model, 'description');
+
         return {
-            description: MarkedHelper.render( this.model.get('description') ),
+            name,
+            description: MarkedHelper.render( description || '' ),
         };
     },
 
@@ -66,7 +71,7 @@ export default Marionette.LayoutView.extend({
     },
 
     setTitle() {
-        const themeName = this.model.get('name');
+        const themeName = Locale.getLocalized(this.model, 'name');
         const appName = document.l10n.getSync('mapcontrib');
 
         if (themeName === appName) {
@@ -96,7 +101,9 @@ export default Marionette.LayoutView.extend({
     },
 
     setDescription() {
-        const description = MarkedHelper.render( this.model.get('description') );
+        const description = MarkedHelper.render(
+            Locale.getLocalized(this.model, 'description')
+        );
 
         if ( description ) {
             this.ui.description.html( description );

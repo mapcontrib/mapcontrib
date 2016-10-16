@@ -63,7 +63,7 @@ export default Marionette.ItemView.extend({
                 progression / 100 || 0,
                 {
                     easing: 'easeInOut',
-                    duration: 0,
+                    duration: 1000,
                     step: (state, circle) => {
                         const progress = circle.value() * 100;
 

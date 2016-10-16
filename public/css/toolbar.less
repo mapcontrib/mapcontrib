@@ -144,9 +144,34 @@
 
     .setting_btn,
     .layer_btn,
-    .locale_btn,
     .preset_btn,
-    .tag_btn {
+    .tag_btn,
+    .locale_btn {
         background: @orange;
+    }
+
+    .locale_btn {
+        position: relative;
+
+        .fa-stack {
+            position: absolute;
+            top: -3px;
+            right: -2px;
+            font-size: 18px;
+        }
+
+        .fa-circle {
+            color: #fff;
+            transform: scale(0.85);
+        }
+
+        .fa-comment {
+            color: @orange;
+            transform: scale(1.2);
+        }
+
+        .fa-commenting-o {
+            transform: scale(.9);
+        }
     }
 }

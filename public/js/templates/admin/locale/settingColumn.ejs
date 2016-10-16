@@ -1,0 +1,35 @@
+<section class="column right orange">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="editSettingColumn_title"></h2>
+    </header>
+
+    <form>
+        <div class="container-fluid content sticky">
+            <div class="row sticky-inner">
+                <div class="col-xs-12">
+                    <div class="form-group append-xs-2">
+                        <label for="theme_name" class="control-label" data-l10n-id="editSettingColumn_themeName"></label>
+                        <input type="text" spellcheck="true" class="form-control" id="theme_name" value="<%- name %>">
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="theme_description" class="control-label" data-l10n-id="editSettingColumn_themeDescription"></label>
+                        <textarea rows="3" class="form-control" id="theme_description"><%= description %></textarea>
+                        <div class="help-block" data-l10n-id="markdownAvailable"><a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row sticky-footer">
+                <div class="col-xs-12">
+                    <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>
+                    <button type="submit" class="btn btn-primary pull-right" data-l10n-id="save"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

@@ -2,14 +2,10 @@
 import _ from 'underscore';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import Locale from 'core/locale';
 import MarkedHelper from 'helper/marked';
 import MapUi from 'ui/map';
 import template from 'templates/select/layer/item.ejs';
-import CONST from 'const';
-import InfoOverPassLayerColumn from 'view/infoOverPassLayerColumn';
-import InfoGpxLayerColumn from 'view/infoGpxLayerColumn';
-import InfoCsvLayerColumn from 'view/infoCsvLayerColumn';
-import InfoGeoJsonLayerColumn from 'view/infoGeoJsonLayerColumn';
 
 
 export default Marionette.ItemView.extend({
@@ -60,8 +56,12 @@ export default Marionette.ItemView.extend({
     },
 
     templateHelpers() {
+        const name = Locale.getLocalized(this.model, 'name');
+        const description = Locale.getLocalized(this.model, 'description');
+
         return {
-            description: MarkedHelper.render( this.model.get('description') || '' ),
+            name,
+            description: MarkedHelper.render( description || '' ),
             marker: MapUi.buildLayerHtmlIcon( this.model ),
         };
     },
@@ -131,28 +131,7 @@ export default Marionette.ItemView.extend({
         e.preventDefault();
         e.stopPropagation();
 
-        switch (this.model.get('type')) {
-            case CONST.layerType.overpass:
-                new InfoOverPassLayerColumn({
-                    model: this.model,
-                }).open();
-                break;
-            case CONST.layerType.gpx:
-                new InfoGpxLayerColumn({
-                    model: this.model,
-                }).open();
-                break;
-            case CONST.layerType.csv:
-                new InfoCsvLayerColumn({
-                    model: this.model,
-                }).open();
-                break;
-            case CONST.layerType.geojson:
-                new InfoGeoJsonLayerColumn({
-                    model: this.model,
-                }).open();
-                break;
-            default:
-        }
+        const uuid = this.model.get('uuid');
+        this.options.router.navigate(`info/layer/${uuid}`, true);
     },
 });

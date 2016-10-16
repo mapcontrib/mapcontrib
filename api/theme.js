@@ -193,8 +193,18 @@ class Api {
 
                 for (const theme of results) {
                     const layerfields = [];
+                    const localefields = [];
 
                     for (const layer of theme.layers) {
+                        for (const locale in layer.locales) {
+                            if ({}.hasOwnProperty.call(layer.locales, locale)) {
+                                localefields.push([
+                                    layer.locales[locale].name,
+                                    layer.locales[locale].description,
+                                ].join(' '));
+                            }
+                        }
+
                         layerfields.push([
                             layer.name,
                             layer.description,
@@ -202,11 +212,21 @@ class Api {
                         ].join(' '));
                     }
 
+                    for (const locale in theme.locales) {
+                        if ({}.hasOwnProperty.call(theme.locales, locale)) {
+                            localefields.push([
+                                theme.locales[locale].name,
+                                theme.locales[locale].description,
+                            ].join(' '));
+                        }
+                    }
+
                     searchFields.push({
                         name: theme.name,
                         description: theme.description,
                         fragment: theme.fragment,
                         layers: layerfields.join(' '),
+                        locales: localefields.join(' '),
                     });
                 }
 
@@ -220,6 +240,7 @@ class Api {
                             'description',
                             'fragment',
                             'layers',
+                            'locales',
                         ],
                         limit: 30,
                     }

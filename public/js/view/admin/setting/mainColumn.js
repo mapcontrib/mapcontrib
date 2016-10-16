@@ -197,8 +197,6 @@ export default Marionette.ItemView.extend({
                     }
                 }
 
-                this._oldModel = this.model.clone();
-
                 this.close();
             },
             error: () => {
@@ -214,8 +212,6 @@ export default Marionette.ItemView.extend({
 
     onReset() {
         this._reset();
-
-        this.ui.column.one('transitionend', this.render);
 
         this.close();
     },

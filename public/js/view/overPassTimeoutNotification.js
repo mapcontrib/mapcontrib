@@ -2,6 +2,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/overPassTimeoutNotification.ejs';
+import Locale from 'core/locale';
 
 
 export default Marionette.ItemView.extend({
@@ -38,8 +39,9 @@ export default Marionette.ItemView.extend({
 
     onRender() {
         this.ui.content.html(
-
-            document.l10n.getSync('overpassTimeoutNotification_content', { name: this.model.get('name') })
+            document.l10n.getSync('overpassTimeoutNotification_content', {
+                name: Locale.getLocalized(this.model, 'name'),
+            })
         );
     },
 });

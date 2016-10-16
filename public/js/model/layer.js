@@ -45,8 +45,21 @@ export default Backbone.RelationalModel.extend({
             cacheUpdateDate: undefined,
             cacheUpdateError: undefined,
             cacheBounds: undefined,
+
+            locales: {/*
+                fr: {
+                    name: '',
+                    description: '',
+                }
+            */},
         };
     },
+
+    localizedAttributes: [
+        'name',
+        'description',
+        'popupContent',
+    ],
 
     // GeoJSON objects displayed on the map
     _geoJsonObjects: {},
@@ -94,5 +107,25 @@ export default Backbone.RelationalModel.extend({
 
     getObjects() {
         return this._geoJsonObjects;
+    },
+
+    getLocaleCompletion(localeCode) {
+        const locale = this.get('locales')[localeCode];
+        const data = {
+            items: this.localizedAttributes.length,
+            completed: 0,
+        };
+
+        if (!locale) {
+            return data;
+        }
+
+        for (const attribute of this.localizedAttributes) {
+            if (locale[attribute]) {
+                data.completed += 1;
+            }
+        }
+
+        return data;
     },
 });

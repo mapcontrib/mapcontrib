@@ -80,8 +80,6 @@ export default Marionette.LayoutView.extend({
         this.options.theme.updateModificationDate();
         this.options.theme.save({}, {
             success: () => {
-                this._oldModel = this.model.clone();
-
                 this.close();
             },
 

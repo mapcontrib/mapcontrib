@@ -326,4 +326,6 @@ export default {
         badRequest: 'badRequest',
         unknown: 'unknown',
     },
+
+    availableLocales: ['fr', 'en', 'it'],
 };

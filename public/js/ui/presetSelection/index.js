@@ -2,6 +2,7 @@
 import Marionette from 'backbone.marionette';
 import NavPillsStackedListView from 'ui/navPillsStacked';
 import SearchInput from 'ui/form/searchInput';
+import Locale from 'core/locale';
 
 
 export default Marionette.LayoutView.extend({
@@ -23,8 +24,8 @@ export default Marionette.LayoutView.extend({
 
     _buildNavItemsFromPresetModels(presetModels) {
         return presetModels.map(presetModel => ({
-            label: presetModel.get('name'),
-            description: presetModel.get('description'),
+            label: Locale.getLocalized(presetModel, 'name'),
+            description: Locale.getLocalized(presetModel, 'description'),
             callback: () => {
                 this.options.callbacks.customPreset(presetModel);
             },
@@ -44,7 +45,7 @@ export default Marionette.LayoutView.extend({
         })
         .map(model => ({
             rightIcon: '<i class="fa fa-chevron-right"></i>',
-            label: model.get('name'),
+            label: Locale.getLocalized(model, 'name'),
             callback: this._displayPresetCategoryChildren.bind(this, model),
         }));
 
