@@ -2,7 +2,7 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import TagModel from '../model/tag';
-import Locale from 'core/locale';
+import Locale from '../core/locale';
 
 
 export default Backbone.Collection.extend({
