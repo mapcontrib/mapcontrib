@@ -123,14 +123,11 @@ export default Marionette.LayoutView.extend({
         this._app = options.app;
         this._user = this._app.getUser();
         this._config = this._app.getConfig();
-        this._version = this._app.getVersion();
-        this._iDPresetsHelper = this._app.getIDPresetsHelper();
 
         this.model = this._app.getTheme();
 
         this._layerCollection = this.model.get('layers');
         this._tempLayerCollection = new LayerCollection();
-        this._presetCollection = this.model.get('presets');
         this._nonOsmData = this._app.getNonOsmData();
         this._osmCache = this._app.getOsmCache();
 
