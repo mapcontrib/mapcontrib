@@ -23,11 +23,13 @@ export default Marionette.LayoutView.extend({
     ui: {
         column: '.column',
         tagKey: '#tag_key',
+        comboSection: '.combo_section',
+        multiComboSection: '.multi_combo_section',
     },
 
     events: {
-        submit: 'onSubmit',
-        reset: 'onReset',
+        submit: '_onSubmit',
+        reset: '_onReset',
     },
 
     regions: {
@@ -44,6 +46,8 @@ export default Marionette.LayoutView.extend({
         this._tagType = new TagType({
             value: this.model.get('type'),
         });
+
+        this._tagType.on('change', this._onChangeTagType, this);
 
         this.getRegion('type').show(this._tagType);
     },
@@ -63,7 +67,7 @@ export default Marionette.LayoutView.extend({
         return this;
     },
 
-    onSubmit(e) {
+    _onSubmit(e) {
         e.preventDefault();
 
         const tagKey = this.ui.tagKey.val().trim();
@@ -90,7 +94,24 @@ export default Marionette.LayoutView.extend({
         });
     },
 
-    onReset() {
+    _onReset() {
         this.close();
+    },
+
+    _onChangeTagType(tagType) {
+        switch (tagType) {
+            case 'combo':
+            case 'typeCombo':
+                this.ui.multiComboSection.addClass('hide');
+                this.ui.comboSection.removeClass('hide');
+                break;
+            case 'multiCombo':
+                this.ui.comboSection.addClass('hide');
+                this.ui.multiComboSection.removeClass('hide');
+                break;
+            default:
+                this.ui.multiComboSection.addClass('hide');
+                this.ui.comboSection.addClass('hide');
+        }
     },
 });

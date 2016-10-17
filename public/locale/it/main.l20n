@@ -104,6 +104,7 @@
 <settings "Impostazioni">
 <mainSettings "Impostazioni generali">
 <tiles "Sfondi">
+<options "Options"> /* FIXME */
 
 
 /* Home */
