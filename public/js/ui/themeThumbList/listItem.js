@@ -1,6 +1,6 @@
 
 import Marionette from 'backbone.marionette';
-import MapUi from '../map';
+import MapUi from 'ui/map';
 import GeoUtils from 'core/geoUtils';
 import listItemTemplate from './listItem.ejs';
 import Locale from 'core/locale';

@@ -1,6 +1,7 @@
 
 import Marionette from 'backbone.marionette';
 import template from './template.ejs';
+import './style.less';
 
 
 export default Marionette.LayoutView.extend({

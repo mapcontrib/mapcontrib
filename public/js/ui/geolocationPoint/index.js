@@ -1,7 +1,8 @@
 
 import L from 'leaflet';
-import markerSvg from '../../img/geolocation_marker.svg';
-import headingMarkerSvg from '../../img/geolocation_heading_marker.svg';
+import markerSvg from './geolocation_marker.svg';
+import headingMarkerSvg from './geolocation_heading_marker.svg';
+import './style.less';
 
 
 export default class GeolocationPoint {
