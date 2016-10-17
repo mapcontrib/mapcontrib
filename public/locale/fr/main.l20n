@@ -81,6 +81,9 @@
 <type "Type">
 <locales "Traductions">
 <key "Clef">
+<textFields label:"Texte">
+<checkboxFields label:"Cases à cocher">
+<nonOsmFields label:"Non OSM">
 <text "Texte">
 <number "Nombre">
 <email "E-mail">

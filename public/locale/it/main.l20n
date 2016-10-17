@@ -81,6 +81,9 @@
 <type "Tipo">
 <locales "Translations"> /* FIXME */
 <key "Chiave">
+<textFields label:"Text"> /* FIXME */
+<checkboxFields label:"Checkboxes"> /* FIXME */
+<nonOsmFields label:"Non OSM"> /* FIXME */
 <text "Text"> /* FIXME */
 <number "Number"> /* FIXME */
 <email "Email"> /* FIXME */
