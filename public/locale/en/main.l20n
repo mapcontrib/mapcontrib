@@ -82,7 +82,8 @@
 <locales "Translations">
 <key "Key">
 <textFields label:"Text">
-<checkboxFields label:"Checkboxes">
+<checkboxFields label:"Checkbox">
+<comboFields label:"Dropdown">
 <nonOsmFields label:"Non OSM">
 <text "Text">
 <number "Number">
@@ -93,6 +94,9 @@
 <checkbox "Checkbox">
 <checkField "Yes or no">
 <defaultCheckField "Yes or empty">
+<comboField "Only choice">
+<typeComboField "Yes or only choice">
+<multiComboField "Multi-choice">
 <value "Valeur">
 <defaultValue "Default value">
 <yes "Yes">

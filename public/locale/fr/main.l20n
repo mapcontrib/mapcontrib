@@ -82,7 +82,8 @@
 <locales "Traductions">
 <key "Clef">
 <textFields label:"Texte">
-<checkboxFields label:"Cases à cocher">
+<checkboxFields label:"Case à cocher">
+<comboFields label:"Liste déroulante">
 <nonOsmFields label:"Non OSM">
 <text "Texte">
 <number "Nombre">
@@ -93,6 +94,9 @@
 <checkbox "Case à cocher">
 <checkField "Oui ou non">
 <defaultCheckField "Oui ou vide">
+<comboField "Choix unique">
+<typeComboField "Oui ou choix unique">
+<multiComboField "Multi-choix">
 <value "Valeur">
 <defaultValue "Valeur par défaut">
 <yes "Oui">
