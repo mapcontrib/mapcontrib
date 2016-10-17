@@ -19,9 +19,9 @@ import PUBLIC_CONST from './public/js/const';
 import packageJson from './package.json';
 import config from 'config';
 import logger from './lib/logger';
-import throwError from './lib/throwError';
+// import throwError from './lib/throwError';
 import Database from './lib/database';
-import Migrate from './lib/migrate';
+// import Migrate from './lib/migrate';
 import Api from './api';
 import Passport from './lib/passport';
 
@@ -88,14 +88,14 @@ database.connect((err, db) => {
         throw err;
     }
 
-    const migrate = new Migrate(db, CONST);
-
-    migrate.start()
-    .then(() => {
+    // const migrate = new Migrate(db, CONST);
+    //
+    // migrate.start()
+    // .then(() => {
         passport.init(app, db, config);
         api.init(app, db, CONST, packageJson);
-    })
-    .catch(throwError);
+    // })
+    // .catch(throwError);
 });
 
 
