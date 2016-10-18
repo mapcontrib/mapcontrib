@@ -83,7 +83,7 @@
 <key "Key">
 <textFields label:"Text">
 <checkboxFields label:"Checkboxes">
-<nonOsmFields label:"Non OSM">
+<nonTextFields label:"Non text">
 <text "Text">
 <number "Number">
 <email "Email">

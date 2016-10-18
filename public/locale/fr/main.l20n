@@ -83,7 +83,7 @@
 <key "Clef">
 <textFields label:"Texte">
 <checkboxFields label:"Cases à cocher">
-<nonOsmFields label:"Non OSM">
+<nonTextFields label:"Non texte">
 <text "Texte">
 <number "Nombre">
 <email "E-mail">

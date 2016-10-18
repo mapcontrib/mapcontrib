@@ -83,7 +83,7 @@
 <key "Chiave">
 <textFields label:"Text"> /* FIXME */
 <checkboxFields label:"Checkboxes"> /* FIXME */
-<nonOsmFields label:"Non OSM"> /* FIXME */
+<nonTextFields label:"Non text"> /* FIXME */
 <text "Text"> /* FIXME */
 <number "Number"> /* FIXME */
 <email "Email"> /* FIXME */
