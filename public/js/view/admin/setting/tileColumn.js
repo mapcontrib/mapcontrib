@@ -69,14 +69,17 @@ export default Marionette.LayoutView.extend({
 
                 let thumbnailHtml = '';
 
-                for (const urlTemplate of tile.urlTemplate) {
-                    thumbnailHtml += `<img src="${urlTemplate}" alt="" />`;
-                }
+                for (let urlTemplate of tile.urlTemplate) {
+                    urlTemplate = urlTemplate.replace(/\{s\}/g, 'a')
+                        .replace(/\{z\}/g, '9')
+                        .replace(/\{y\}/g, '181');
 
-                thumbnailHtml = thumbnailHtml.replace(/\{s\}/g, 'a');
-                thumbnailHtml = thumbnailHtml.replace(/\{z\}/g, '9');
-                thumbnailHtml = thumbnailHtml.replace(/\{x\}/g, '265');
-                thumbnailHtml = thumbnailHtml.replace(/\{y\}/g, '181');
+                    const urlTemplate1 = urlTemplate.replace(/\{x\}/g, '265');
+                    const urlTemplate2 = urlTemplate.replace(/\{x\}/g, '266');
+
+                    thumbnailHtml += `<img class="tile_1" src="${urlTemplate1}" alt="" />`;
+                    thumbnailHtml += `<img class="tile_2" src="${urlTemplate2}" alt="" />`;
+                }
 
                 maxZoom = document.l10n.getSync('editTileColumn_maxZoom', {
                     maxZoom: tile.maxZoom,
