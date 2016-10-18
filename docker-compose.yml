@@ -6,7 +6,7 @@ mongo:
         - ./volumes/mongo:/data/db
 
 node:
-    image: node:5-slim
+    image: node:6-slim
     environment:
         - NODE_CONFIG={"mongodb":{"host":"mongo"}}
         - DEBUG
