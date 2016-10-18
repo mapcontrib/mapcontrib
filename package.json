@@ -63,6 +63,7 @@
     "bootstrap": "^3.3.6",
     "bootstrap-filestyle": "^1.2.1",
     "bootstrap-more": "^0.4.12",
+    "bootstrap-multiselect": "^0.9.13-1",
     "bootstrap-webpack": "0.0.5",
     "brfs": "^1.4.3",
     "compression": "^1.6.1",
