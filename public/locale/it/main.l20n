@@ -105,6 +105,9 @@
 <mainSettings "Impostazioni generali">
 <tiles "Sfondi">
 <options "Options"> /* FIXME */
+<addAnOption "Add an option"> /* FIXME */
+<multiComboInfo1 "Complete the <em>{{ $prefix }}</em> prefix"> /* FIXME */
+<multiComboInfo2 "Eg: recycling:glass"> /* FIXME */
 
 
 /* Home */

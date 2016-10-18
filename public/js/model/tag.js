@@ -13,11 +13,13 @@ export default Backbone.RelationalModel.extend({
             uuid: undefined,
             key: undefined,
             type: CONST.tagType.text,
+            options: [],
             order: undefined,
 
             locales: {/*
                 fr: {
                     key: '',
+                    options: [],
                 }
             */},
         };

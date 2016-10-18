@@ -105,6 +105,9 @@
 <mainSettings "Main settings">
 <tiles "Backgrounds">
 <options "Options">
+<addAnOption "Add an option">
+<multiComboInfo1 "Complete the <em>{{ $prefix }}</em> prefix">
+<multiComboInfo2 "Eg: recycling:glass">
 
 
 /* Home */

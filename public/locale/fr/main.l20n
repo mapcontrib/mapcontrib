@@ -105,6 +105,9 @@
 <mainSettings "Configuration générale">
 <tiles "Fonds de carte">
 <options "Options">
+<addAnOption "Ajouter une option">
+<multiComboInfo1 "Complètent le préfixe <em>{{ $prefix }}</em>">
+<multiComboInfo2 "Ex : recycling:glass">
 
 
 /* Home */

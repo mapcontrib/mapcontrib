@@ -3,6 +3,7 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/admin/tag/tagEditColumn.ejs';
 import TagType from 'ui/form/tagType';
+import ComboFieldOptions from 'ui/form/comboFieldOptions';
 
 
 export default Marionette.LayoutView.extend({
@@ -23,17 +24,23 @@ export default Marionette.LayoutView.extend({
     ui: {
         column: '.column',
         tagKey: '#tag_key',
+        multiComboInfo1: '.multi_combo_info_1',
+        multiComboInfo: '.multi_combo_info',
+        keyPrefix: '.key_prefix',
         comboSection: '.combo_section',
-        multiComboSection: '.multi_combo_section',
+        addOptionButton: '.add_option_btn',
     },
 
     events: {
+        'click @ui.addOptionButton': '_onClickAddOption',
+        'change @ui.tagKey': '_onChangeTagKey',
         submit: '_onSubmit',
         reset: '_onReset',
     },
 
     regions: {
         type: '.rg_type',
+        comboOptions: '.rg_combo_options',
     },
 
     initialize() {
@@ -50,6 +57,15 @@ export default Marionette.LayoutView.extend({
         this._tagType.on('change', this._onChangeTagType, this);
 
         this.getRegion('type').show(this._tagType);
+
+
+        this._comboOptions = new ComboFieldOptions({
+            options: this.model.get('options'),
+        });
+        this.getRegion('comboOptions').show(this._comboOptions);
+
+        this._onChangeTagKey();
+        this._onChangeTagType();
     },
 
     onBeforeOpen() {
@@ -72,9 +88,11 @@ export default Marionette.LayoutView.extend({
 
         const tagKey = this.ui.tagKey.val().trim();
         const tagType = this._tagType.getValue();
+        const tagOptions = this._comboOptions.getOptions();
 
         this.model.set('key', tagKey);
         this.model.set('type', tagType);
+        this.model.set('options', tagOptions);
 
         if (this.options.isNew) {
             this.options.theme.get('tags').add( this.model );
@@ -98,20 +116,37 @@ export default Marionette.LayoutView.extend({
         this.close();
     },
 
-    _onChangeTagType(tagType) {
+    _onChangeTagType() {
+        const tagType = this._tagType.getValue();
+
+        this.ui.multiComboInfo.addClass('hide');
+
         switch (tagType) {
             case 'combo':
+                this.ui.comboSection.removeClass('hide');
+                break;
             case 'typeCombo':
-                this.ui.multiComboSection.addClass('hide');
                 this.ui.comboSection.removeClass('hide');
                 break;
             case 'multiCombo':
-                this.ui.comboSection.addClass('hide');
-                this.ui.multiComboSection.removeClass('hide');
+                this.ui.multiComboInfo.removeClass('hide');
+                this.ui.comboSection.removeClass('hide');
                 break;
             default:
-                this.ui.multiComboSection.addClass('hide');
                 this.ui.comboSection.addClass('hide');
         }
+    },
+
+    _onClickAddOption() {
+        this._comboOptions.addOption();
+    },
+
+    _onChangeTagKey() {
+        const key = this.ui.tagKey.val();
+        const prefix = `${key}:`;
+
+        this.ui.multiComboInfo1.html(
+            document.l10n.getSync('multiComboInfo1', { prefix })
+        );
     },
 });
