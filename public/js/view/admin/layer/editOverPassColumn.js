@@ -272,14 +272,6 @@ export default Marionette.ItemView.extend({
 
         let updateRequest = false;
         let updateCache = false;
-        const color = this.model.get('markerColor');
-
-        if (color === 'dark-gray') {
-            this.model.set('color', 'anthracite');
-        }
-        else {
-            this.model.set('color', color);
-        }
 
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());

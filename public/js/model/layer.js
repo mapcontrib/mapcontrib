@@ -34,7 +34,6 @@ export default Backbone.RelationalModel.extend({
             heatRadius: 25,
 
             // Shape files based layer specific
-            color: 'turquoise',
             fileUri: undefined,
 
             // Overpass type specific

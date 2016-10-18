@@ -52,21 +52,10 @@ export default class MapUi {
      * @return {string} - The HTML tags of the icon.
      */
     static buildLayerHtmlIcon(layerModel) {
-        let iconColor;
-        let className;
-        let iconHtml;
-
-        if (layerModel.get('type') === CONST.layerType.gpx) {
-            iconColor = layerModel.get('color');
-            className = 'shape';
-            iconHtml = CONST.map.shape.html;
-        }
-        else {
-            const markerShape = layerModel.get('markerShape');
-            iconColor = layerModel.get('markerColor');
-            className = CONST.map.markers[markerShape].className;
-            iconHtml = MapUi.buildMarkerLayerIconOptions(layerModel).html;
-        }
+        const markerShape = layerModel.get('markerShape');
+        const iconColor = layerModel.get('markerColor');
+        const className = CONST.map.markers[markerShape].className;
+        const iconHtml = MapUi.buildMarkerLayerIconOptions(layerModel).html;
 
         return `<div class="${className} ${iconColor}">${iconHtml}</div>`;
     }
@@ -119,9 +108,15 @@ export default class MapUi {
      * @return {object} - The polyline options.
      */
     static buildLayerPolylineStyle(layerModel) {
+        let color = layerModel.get('markerColor');
+
+        if (color === 'dark-gray') {
+            color = 'anthracite';
+        }
+
         return {
             ...CONST.map.wayPolylineOptions,
-            ...{ color: CONST.colors[layerModel.get('color')] },
+            ...{ color: CONST.colors[color] },
         };
     }
 
@@ -136,9 +131,15 @@ export default class MapUi {
      * @return {object} - The polygon options.
      */
     static buildLayerPolygonStyle(layerModel) {
+        let color = layerModel.get('markerColor');
+
+        if (color === 'dark-gray') {
+            color = 'anthracite';
+        }
+
         return {
             ...CONST.map.wayPolygonOptions,
-            ...{ color: CONST.colors[layerModel.get('color')] },
+            ...{ color: CONST.colors[color] },
         };
     }
 
@@ -267,7 +268,6 @@ export default class MapUi {
         const radio = Wreqr.radio.channel('global');
         let updateRepresentation = false;
         let updateMarkers = false;
-        let updatePolylines = false;
         let updateHeat = false;
         let updatePopups = false;
         let updateMinZoom = false;
@@ -296,10 +296,6 @@ export default class MapUi {
             updateMarkers = true;
         }
 
-        if ( oldLayerModel.get('color') !== layerModel.get('color') ) {
-            updatePolylines = true;
-        }
-
         if ( oldLayerModel.get('popupContent') !== layerModel.get('popupContent') ) {
             updatePopups = true;
         }
@@ -313,7 +309,7 @@ export default class MapUi {
             radio.commands.execute('map:updateRepresentation', layerModel);
         }
         else {
-            if ( updateMarkers || updatePolylines ) {
+            if ( updateMarkers ) {
                 radio.commands.execute('map:updateMarkerStyle', layerModel);
             }
 
