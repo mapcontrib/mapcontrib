@@ -13,6 +13,8 @@ export default Backbone.Collection.extend({
     initialize(models, options) {
         this.options = options;
 
+        this._prepareSifter();
+
         this.on('add', this.onAdd);
         this.on('update', this._prepareSifter);
     },

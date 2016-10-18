@@ -82,9 +82,9 @@
 <locales "Traductions">
 <key "Clef">
 <textFields label:"Texte">
-<checkboxFields label:"Case à cocher">
+<checkboxFields label:"Cases à cocher">
+<nonTextFields label:"Non texte">
 <comboFields label:"Liste déroulante">
-<nonOsmFields label:"Non OSM">
 <text "Texte">
 <number "Nombre">
 <email "E-mail">

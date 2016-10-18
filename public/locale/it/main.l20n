@@ -82,9 +82,9 @@
 <locales "Translations"> /* FIXME */
 <key "Chiave">
 <textFields label:"Text"> /* FIXME */
-<checkboxFields label:"Checkbox"> /* FIXME */
+<checkboxFields label:"Checkboxes"> /* FIXME */
+<nonTextFields label:"Non text"> /* FIXME */
 <comboFields label:"Dropdown"> /* FIXME */
-<nonOsmFields label:"Non OSM"> /* FIXME */
 <text "Text"> /* FIXME */
 <number "Number"> /* FIXME */
 <email "Email"> /* FIXME */

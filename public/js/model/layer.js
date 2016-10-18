@@ -22,8 +22,8 @@ export default Backbone.RelationalModel.extend({
 
             // Point based layer specific
             rootLayerType: CONST.rootLayerType.markerCluster,
-            markerShape: 'marker1',
-            markerColor: 'orange',
+            markerShape: 'marker2',
+            markerColor: 'green',
             markerIconType: CONST.map.markerIconType.library,
             markerIcon: undefined,
             markerIconUrl: undefined,
@@ -34,7 +34,6 @@ export default Backbone.RelationalModel.extend({
             heatRadius: 25,
 
             // Shape files based layer specific
-            color: 'turquoise',
             fileUri: undefined,
 
             // Overpass type specific

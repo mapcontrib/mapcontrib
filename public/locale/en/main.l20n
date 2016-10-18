@@ -82,9 +82,9 @@
 <locales "Translations">
 <key "Key">
 <textFields label:"Text">
-<checkboxFields label:"Checkbox">
+<checkboxFields label:"Checkboxes">
+<nonTextFields label:"Non text">
 <comboFields label:"Dropdown">
-<nonOsmFields label:"Non OSM">
 <text "Text">
 <number "Number">
 <email "Email">

@@ -83,7 +83,7 @@ module.exports = {
                 loader: 'json',
             },
             {
-                test: /.*\.svg$/,
+                test: /\.svg$/,
                 loader: 'raw',
             },
             {
