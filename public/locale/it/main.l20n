@@ -398,6 +398,7 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 /* Admin tag column */
 <adminTagColumn_title "Tags">
 <adminTagColumn_addTag "Aggiungi un tag">
+<adminTagColumn_description "Créez vos propres tags, pour remplacer un tag OSM existant ou le rendre uniquement disponible dans cette instance de MapContrib.">
 
 
 /* Admin presets column */
