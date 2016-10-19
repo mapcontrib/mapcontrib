@@ -4,6 +4,7 @@ import Marionette from 'backbone.marionette';
 import template from 'templates/admin/setting/mainColumn.ejs';
 import CONST from 'const';
 import MarkedHelper from 'helper/marked';
+import 'ui/form/colorSelector/style.less';
 
 
 export default Marionette.ItemView.extend({
