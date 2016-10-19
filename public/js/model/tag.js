@@ -39,8 +39,15 @@ export default Backbone.RelationalModel.extend({
         this.set('modificationDate', new Date().toISOString());
     },
 
+    isComboField() {
+        return [
+            CONST.tagType.combo,
+            CONST.tagType.typeConbo,
+            CONST.tagType.multiCombo,
+        ].indexOf(this.model.get('type')) > -1;
+    },
+
     getLocaleCompletion(localeCode) {
-        const type = this.get('type');
         const options = this.get('options');
         const locale = this.get('locales')[localeCode];
         const data = {
@@ -58,7 +65,7 @@ export default Backbone.RelationalModel.extend({
             }
         }
 
-        if (['combo', 'typeConbo', 'multiCombo'].indexOf(type) > -1) {
+        if (this.isComboField()) {
             for (const option of options) {
                 if (locale.options && locale.options[option]) {
                     data.completed += 1;

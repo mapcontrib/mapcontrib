@@ -1,6 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import CONST from 'const';
 import template from 'templates/admin/locale/tagEditColumn.ejs';
 import templateOption from 'templates/admin/locale/tagOption.ejs';
 
@@ -53,9 +54,9 @@ export default Marionette.LayoutView.extend({
 
     onRender() {
         switch (this.model.get('type')) {
-            case 'combo':
-            case 'typeCombo':
-            case 'multiCombo':
+            case CONST.tagType.combo:
+            case CONST.tagType.typeCombo:
+            case CONST.tagType.multiCombo:
                 this._renderOptions();
                 break;
             default:
@@ -73,7 +74,7 @@ export default Marionette.LayoutView.extend({
             let optionLabel = `${option}`;
             let value = '';
 
-            if (this.model.get('type') === 'multiCombo') {
+            if (this.model.get('type') === CONST.tagType.multiCombo) {
                 optionLabel = `${key}:${option}`;
             }
 

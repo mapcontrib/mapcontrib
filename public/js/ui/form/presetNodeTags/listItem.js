@@ -13,6 +13,7 @@ import NumberField from '../fields/number';
 import FileField from '../fields/file';
 import CheckField from '../fields/check';
 import DefaultCheckField from '../fields/defaultCheck';
+import ComboField from '../fields/combo';
 
 
 export default Marionette.LayoutView.extend({
@@ -141,6 +142,9 @@ export default Marionette.LayoutView.extend({
                     break;
                 case CONST.tagType.defaultCheck:
                     this._valueField = new DefaultCheckField( fieldOptions );
+                    break;
+                case CONST.tagType.combo:
+                    this._valueField = new ComboField( fieldOptions );
                     break;
                 default:
                     this._valueField = new TextField( fieldOptions );

@@ -1,6 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import CONST from 'const';
 import template from 'templates/admin/tag/tagEditColumn.ejs';
 import TagType from 'ui/form/tagType';
 import ComboFieldOptions from 'ui/form/comboFieldOptions';
@@ -122,13 +123,13 @@ export default Marionette.LayoutView.extend({
         this.ui.multiComboInfo.addClass('hide');
 
         switch (tagType) {
-            case 'combo':
+            case CONST.tagType.combo:
                 this.ui.comboSection.removeClass('hide');
                 break;
-            case 'typeCombo':
+            case CONST.tagType.typeCombo:
                 this.ui.comboSection.removeClass('hide');
                 break;
-            case 'multiCombo':
+            case CONST.tagType.multiCombo:
                 this.ui.multiComboInfo.removeClass('hide');
                 this.ui.comboSection.removeClass('hide');
                 break;
