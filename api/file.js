@@ -51,7 +51,7 @@ function cleanThemeFiles(themeModel) {
         publicDirectory,
         `files/theme/${fragment}/shape/`
     );
-    const re = new RegExp(`^/files\/theme\/${fragment}\/shape/`);
+    const re = new RegExp(`^/files/theme/${fragment}/shape/`);
     const themeFiles = [];
 
     for (const i in layers) {

@@ -2,10 +2,12 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/admin/locale/tagEditColumn.ejs';
+import templateOption from 'templates/admin/locale/tagOption.ejs';
 
 
 export default Marionette.LayoutView.extend({
     template,
+    templateOption,
 
     behaviors() {
         return {
@@ -22,6 +24,7 @@ export default Marionette.LayoutView.extend({
     ui: {
         column: '.column',
         tagKey: '#tag_key',
+        optionsSection: '.options_section',
     },
 
     events: {
@@ -30,10 +33,10 @@ export default Marionette.LayoutView.extend({
     },
 
     templateHelpers() {
-        const attributes = this.model.get('locales')[this.options.locale];
+        const attributes = this.model.get('locales')[this.options.locale] || {};
 
         return {
-            key: attributes ? attributes.key : '',
+            key: attributes.key || '',
         };
     },
 
@@ -46,6 +49,42 @@ export default Marionette.LayoutView.extend({
     onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
+    },
+
+    onRender() {
+        switch (this.model.get('type')) {
+            case 'combo':
+            case 'typeCombo':
+            case 'multiCombo':
+                this._renderOptions();
+                break;
+            default:
+        }
+    },
+
+    _renderOptions() {
+        const key = this.model.get('key');
+        const options = this.model.get('options');
+        const attributes = this.model.get('locales')[this.options.locale] || {};
+        let optionHtml = '';
+
+        for (const option of options) {
+            const inputId = `${key}_${option}_${this.model.cid}`;
+            const optionsKey = `${key}:${option}`;
+            let value = '';
+
+            if (attributes.options && attributes.options[option]) {
+                value = attributes.options[option];
+            }
+
+            optionHtml += this.templateOption({
+                id: inputId,
+                key: optionsKey,
+                value,
+            });
+        }
+
+        this.ui.optionsSection.html(optionHtml);
     },
 
     open() {
@@ -61,11 +100,21 @@ export default Marionette.LayoutView.extend({
     onSubmit(e) {
         e.preventDefault();
 
-        const locales = this.model.get('locales');
-
-        locales[this.options.locale] = {
+        const key = this.model.get('key');
+        const options = this.model.get('options');
+        const locale = {
             key: this.ui.tagKey.val().trim(),
+            options: {},
         };
+
+        for (const option of options) {
+            const inputId = `${key}_${option}_${this.model.cid}`;
+            const value = this.el.querySelector(`#${inputId}`).value;
+            locale.options[option] = value;
+        }
+
+        const locales = this.model.get('locales');
+        locales[this.options.locale] = locale;
 
         this.model.set('locales', locales);
 
