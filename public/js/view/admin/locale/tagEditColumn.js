@@ -70,8 +70,12 @@ export default Marionette.LayoutView.extend({
 
         for (const option of options) {
             const inputId = `${key}_${option}_${this.model.cid}`;
-            const optionsKey = `${key}:${option}`;
+            let optionLabel = `${option}`;
             let value = '';
+
+            if (this.model.get('type') === 'multiCombo') {
+                optionLabel = `${key}:${option}`;
+            }
 
             if (attributes.options && attributes.options[option]) {
                 value = attributes.options[option];
@@ -79,7 +83,7 @@ export default Marionette.LayoutView.extend({
 
             optionHtml += this.templateOption({
                 id: inputId,
-                key: optionsKey,
+                label: optionLabel,
                 value,
             });
         }
