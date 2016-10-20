@@ -36,7 +36,15 @@ export default Marionette.CollectionView.extend({
             const currentTag = this.collection.findWhere({ key: tag.key });
 
             if (currentTag) {
-                return currentTag.set(tag);
+                currentTag.set(tag);
+
+                const child = this.children.findByModel(currentTag);
+
+                if (child) {
+                    child.render();
+                }
+
+                return true;
             }
 
             // const re = /^(\w+):/;
