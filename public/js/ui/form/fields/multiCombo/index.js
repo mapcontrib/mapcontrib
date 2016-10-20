@@ -48,6 +48,11 @@ export default Marionette.ItemView.extend({
         this._selectize.setValue(
             this.model.get('options')
         );
+
+        this.setOption({
+            key: 'recycling:azeaze',
+            value: 'qdfkh',
+        });
     },
 
     _buildOptions() {
@@ -83,16 +88,25 @@ export default Marionette.ItemView.extend({
         this.model.set('options', options);
     },
 
+    setOption(option) {
+        this._selectize.addOption({
+            label: option.key.replace(/^\w+:/, ''),
+            value: option.value,
+        });
+
+        this._selectize.addItem(option.value);
+    },
+
     onClickRemoveBtn() {
         this.model.destroy();
     },
 
     enable() {
-        this.ui.select.prop('disabled', false);
+        this._selectize.enable();
     },
 
     disable() {
-        this.ui.select.prop('disabled', true);
+        this._selectize.disable();
     },
 
     enableRemoveBtn() {

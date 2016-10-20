@@ -56,7 +56,7 @@ export default Marionette.LayoutView.extend({
         switch (this.model.get('type')) {
             case CONST.tagType.combo:
             case CONST.tagType.typeCombo:
-            case CONST.tagType.multiCombo:
+            // case CONST.tagType.multiCombo:
                 this._renderOptions();
                 break;
             default:
@@ -71,12 +71,12 @@ export default Marionette.LayoutView.extend({
 
         for (const option of options) {
             const inputId = `${key}_${option}_${this.model.cid}`;
-            let optionLabel = `${option}`;
+            const optionLabel = `${option}`;
             let value = '';
 
-            if (this.model.get('type') === CONST.tagType.multiCombo) {
-                optionLabel = `${key}:${option}`;
-            }
+            // if (this.model.get('type') === CONST.tagType.multiCombo) {
+            //     optionLabel = `${key}:${option}`;
+            // }
 
             if (attributes.options && attributes.options[option]) {
                 value = attributes.options[option];

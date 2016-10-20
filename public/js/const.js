@@ -309,7 +309,7 @@ export default {
         defaultCheck: 'defaultCheck',
         combo: 'combo',
         typeCombo: 'typeCombo',
-        multiCombo: 'multiCombo',
+        // multiCombo: 'multiCombo',
     },
 
     geocoder: {

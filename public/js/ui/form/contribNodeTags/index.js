@@ -1,6 +1,6 @@
 
 import Marionette from 'backbone.marionette';
-import CONST from 'const';
+// import CONST from 'const';
 import ContribNodeTagsCollection from './collection';
 import ContribNodeTagsListItemView from './listItem';
 
@@ -33,25 +33,38 @@ export default Marionette.CollectionView.extend({
         }
 
         if (tag.key) {
-            const re = /(\w+):/;
             const currentTag = this.collection.findWhere({ key: tag.key });
 
             if (currentTag) {
                 return currentTag.set(tag);
             }
 
-            // Search for multiCombo fields matching the tag key
-            if (re.test(tag.key)) {
-                const key = re.exec(tag.key)[1];
-                const multiComboTag = this.collection.findWhere({
-                    key,
-                    type: CONST.tagType.multiCombo,
-                });
+            // const re = /^(\w+):/;
 
-                if (multiComboTag) {
-                    return multiComboTag.setOption(tag.key, tag.value);
-                }
-            }
+            // Search for multiCombo fields matching the tag key
+            // if (re.test(tag.key)) {
+            //     const key = re.exec(tag.key)[1];
+            //     const multiComboTag = this.collection.findWhere({
+            //         key,
+            //         type: CONST.tagType.multiCombo,
+            //     });
+            //
+            //     if (multiComboTag) {
+            //         const child = this.children.findByModel(multiComboTag);
+            //
+            //         if (child) {
+            //             return child.setOption(tag.key, tag.value);
+            //         }
+            //
+            //         return multiComboTag.set(
+            //             'options',
+            //             [
+            //                 ...multiComboTag.get('options'),
+            //                 tag.key,
+            //             ]
+            //         );
+            //     }
+            // }
         }
 
         return this.collection.add(tag);
@@ -62,19 +75,19 @@ export default Marionette.CollectionView.extend({
         const tags = [];
 
         for (const tag of rawTags) {
-            if (tag.type === CONST.tagType.multiCombo) {
-                if (tag.options) {
-                    for (const key of tag.options) {
-                        tags.push({
-                            key,
-                            value: 'yes',
-                        });
-                    }
-                }
-            }
-            else {
+            // if (tag.type === CONST.tagType.multiCombo) {
+            //     if (tag.options) {
+            //         for (const key of tag.options) {
+            //             tags.push({
+            //                 key,
+            //                 value: 'yes',
+            //             });
+            //         }
+            //     }
+            // }
+            // else {
                 tags.push(tag);
-            }
+            // }
         }
 
         return tags;

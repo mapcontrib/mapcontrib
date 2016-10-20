@@ -15,7 +15,7 @@ import CheckField from '../fields/check';
 import DefaultCheckField from '../fields/defaultCheck';
 import ComboField from '../fields/combo';
 import TypeComboField from '../fields/typeCombo';
-import MultiComboField from '../fields/multiCombo';
+// import MultiComboField from '../fields/multiCombo';
 
 
 export default Marionette.LayoutView.extend({
@@ -151,9 +151,9 @@ export default Marionette.LayoutView.extend({
                 case CONST.tagType.typeCombo:
                     this._valueField = new TypeComboField( fieldOptions );
                     break;
-                case CONST.tagType.multiCombo:
-                    this._valueField = new MultiComboField( fieldOptions );
-                    break;
+                // case CONST.tagType.multiCombo:
+                //     this._valueField = new MultiComboField( fieldOptions );
+                //     break;
                 default:
                     this._valueField = new TextField( fieldOptions );
             }
