@@ -920,6 +920,15 @@ export default Marionette.LayoutView.extend({
             layerModel.get('fileUri')
         )
         .on('ready', layer => {
+            for (const index in layer.target._layers) {
+                if ({}.hasOwnProperty.call(layer.target._layers, index)) {
+                    this._overPassData.save(
+                        layer.target._layers[index].feature.properties,
+                        layerModel.cid
+                    );
+                }
+            }
+
             this._customizeDataAndDisplay(
                 layer.target._layers,
                 markerCluster,

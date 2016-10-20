@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.17
+
+* Fix duplicate elements when the layer cache is enabled.
+
 ## 0.12.16
 
 * Fixes the default buttons background color.
