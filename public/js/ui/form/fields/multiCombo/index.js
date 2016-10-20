@@ -1,5 +1,6 @@
 
 import Marionette from 'backbone.marionette';
+import Locale from 'core/locale';
 import template from './template.ejs';
 import 'selectize';
 import 'selectize/dist/css/selectize.css';
@@ -21,7 +22,7 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'change @ui.input': 'updateInput',
+        'change @ui.select': '_onChangeSelect',
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
@@ -33,18 +34,57 @@ export default Marionette.ItemView.extend({
         };
     },
 
-    onShow() {
+    onRender() {
         this.ui.select.selectize({
-            create: true,
-            sortField: 'text',
+            maxItems: null,
+            create: false,
+            plugins: ['remove_button'],
+            valueField: 'value',
+            labelField: 'label',
+            searchField: ['label', 'value'],
+            options: this._buildOptions(),
         });
     },
 
-    updateInput() {
-        this.model.set(
-            'value',
-            this.ui.input.val().trim()
-        );
+    _buildOptions() {
+        const key = this.model.get('key');
+        const customTag = this.options.customTags.findWhere({ key });
+        const iDTag = this.options.iDPresetsHelper.getField(key);
+
+        if (customTag) {
+            return this._buildOptionsFromCustomTag(
+                Locale.getLocalizedOptions(customTag)
+            );
+        }
+
+        if (iDTag) {
+            return iDTag.options;
+        }
+
+        return [];
+    },
+
+    _buildOptionsFromCustomTag(localizedOptions) {
+        const options = [];
+        const key = this.model.get('key');
+
+        for (const option in localizedOptions) {
+            if ({}.hasOwnProperty.call(localizedOptions, option)) {
+                options.push({
+                    label: localizedOptions[option],
+                    value: `${key}:${option}`,
+                });
+            }
+        }
+
+        return options;
+    },
+
+    _onChangeSelect() {
+        // this.model.set(
+        //     'value',
+        //     this.ui.select.val().trim()
+        // );
     },
 
     onClickRemoveBtn() {
@@ -52,11 +92,11 @@ export default Marionette.ItemView.extend({
     },
 
     enable() {
-        this.ui.input.prop('disabled', false);
+        this.ui.select.prop('disabled', false);
     },
 
     disable() {
-        this.ui.input.prop('disabled', true);
+        this.ui.select.prop('disabled', true);
     },
 
     enableRemoveBtn() {
@@ -68,6 +108,6 @@ export default Marionette.ItemView.extend({
     },
 
     setFocus() {
-        this.ui.input.focus();
+        this.ui.select.focus();
     },
 });
