@@ -43,14 +43,9 @@ export default Marionette.ItemView.extend({
     _findTagOptions() {
         const key = this.model.get('key');
         const customTag = this.options.customTags.findWhere({ key });
-        const iDTag = this.options.iDPresetsHelper.getField(key);
 
         if (customTag) {
             return Locale.getLocalizedOptions(customTag);
-        }
-
-        if (iDTag) {
-            return iDTag.options;
         }
 
         return [];

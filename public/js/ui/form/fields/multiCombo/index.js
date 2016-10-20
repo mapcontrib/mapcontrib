@@ -22,7 +22,6 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
-        'change @ui.select': '_onChangeSelect',
         'click @ui.removeBtn': 'onClickRemoveBtn',
     },
 
@@ -35,7 +34,7 @@ export default Marionette.ItemView.extend({
     },
 
     onRender() {
-        this.ui.select.selectize({
+        this._selectize = this.ui.select.selectize({
             maxItems: null,
             create: false,
             plugins: ['remove_button'],
@@ -43,22 +42,22 @@ export default Marionette.ItemView.extend({
             labelField: 'label',
             searchField: ['label', 'value'],
             options: this._buildOptions(),
-        });
+            onChange: this._onChangeSelect.bind(this),
+        })[0].selectize;
+
+        this._selectize.setValue(
+            this.model.get('options')
+        );
     },
 
     _buildOptions() {
         const key = this.model.get('key');
         const customTag = this.options.customTags.findWhere({ key });
-        const iDTag = this.options.iDPresetsHelper.getField(key);
 
         if (customTag) {
             return this._buildOptionsFromCustomTag(
                 Locale.getLocalizedOptions(customTag)
             );
-        }
-
-        if (iDTag) {
-            return iDTag.options;
         }
 
         return [];
@@ -80,11 +79,8 @@ export default Marionette.ItemView.extend({
         return options;
     },
 
-    _onChangeSelect() {
-        // this.model.set(
-        //     'value',
-        //     this.ui.select.val().trim()
-        // );
+    _onChangeSelect(options) {
+        this.model.set('options', options);
     },
 
     onClickRemoveBtn() {

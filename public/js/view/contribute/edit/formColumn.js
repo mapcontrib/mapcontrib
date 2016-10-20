@@ -202,6 +202,7 @@ export default Marionette.LayoutView.extend({
             customTags: this.options.theme.get('tags'),
         });
 
+        tags['recycling:glass'] = 'yes';
 
         const popupContent = this._layerModel.get('popupContent');
         const popupTags = InfoDisplay.findTagsFromContent(popupContent);
