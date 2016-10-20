@@ -25,7 +25,9 @@ export default Marionette.ItemView.extend({
 
     onRender() {
         const options = this._findTagOptions();
+        const yes = document.l10n.getSync('yes');
         let html = '<option value=""></option>';
+        html += `<option value="yes">${yes}</option>`;
 
         for (const value in options) {
             if ({}.hasOwnProperty.call(options, value)) {

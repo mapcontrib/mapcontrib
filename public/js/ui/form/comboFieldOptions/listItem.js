@@ -27,6 +27,12 @@ export default Marionette.LayoutView.extend({
     },
 
     _onChangeInputValue() {
-        this.model.set('value', this.ui.inputValue.val().trim());
+        const oldValue = this.ui.inputValue.val();
+        const value = oldValue.trim().replace(' ', '_');
+        this.model.set('value', value);
+
+        if (oldValue !== value) {
+            this.ui.inputValue.val(value);
+        }
     },
 });

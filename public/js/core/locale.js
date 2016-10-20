@@ -140,4 +140,23 @@ export default class Locale {
 
         return model.get(attributeName);
     }
+
+    static getLocalizedOptions(model) {
+        const locale = Locale.getLocale();
+        const options = model.get('options');
+        const attributes = model.get('locales')[locale];
+        let localizedOptions = {};
+
+        if (attributes && attributes.options) {
+            localizedOptions = attributes.options;
+        }
+
+        for (const option of options) {
+            if (!localizedOptions[option]) {
+                localizedOptions[option] = option;
+            }
+        }
+
+        return localizedOptions;
+    }
 }

@@ -42,9 +42,9 @@ export default Backbone.RelationalModel.extend({
     isComboField() {
         return [
             CONST.tagType.combo,
-            CONST.tagType.typeConbo,
+            CONST.tagType.typeCombo,
             CONST.tagType.multiCombo,
-        ].indexOf(this.model.get('type')) > -1;
+        ].indexOf(this.get('type')) > -1;
     },
 
     getLocaleCompletion(localeCode) {
