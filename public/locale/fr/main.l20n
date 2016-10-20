@@ -84,6 +84,7 @@
 <textFields label:"Texte">
 <checkboxFields label:"Cases à cocher">
 <nonTextFields label:"Non texte">
+<comboFields label:"Liste déroulante">
 <text "Texte">
 <number "Nombre">
 <email "E-mail">
@@ -93,6 +94,9 @@
 <checkbox "Case à cocher">
 <checkField "Oui ou non">
 <defaultCheckField "Oui ou vide">
+<comboField "Choix unique">
+<typeComboField "Oui ou choix unique">
+<multiComboField "Multi-choix">
 <value "Valeur">
 <defaultValue "Valeur par défaut">
 <yes "Oui">
@@ -100,6 +104,10 @@
 <settings "Configuration">
 <mainSettings "Configuration générale">
 <tiles "Fonds de carte">
+<options "Options">
+<addAnOption "Ajouter une option">
+<multiComboInfo1 "Complètent le préfixe <em>{{ $prefix }}</em>">
+<multiComboInfo2 "Ex : recycling:glass">
 
 
 /* Home */
@@ -391,6 +399,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 /* Admin tag column */
 <adminTagColumn_title "Tags">
 <adminTagColumn_addTag "Ajouter un tag">
+<adminTagColumn_description "Créez vos propres tags, pour remplacer un tag OSM existant ou le rendre uniquement disponible dans cette instance de MapContrib.">
 
 
 /* Admin preset column */

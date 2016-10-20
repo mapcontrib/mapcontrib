@@ -18,6 +18,7 @@ export default Backbone.RelationalModel.extend({
                 {
                     tag: '',
                     value: '',
+                    options: [],
                     keyReadOnly: false,
                     valueReadOnly: false,
                     nonOsmData: false,

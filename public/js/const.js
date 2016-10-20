@@ -307,6 +307,9 @@ export default {
         file: 'file',
         check: 'check',
         defaultCheck: 'defaultCheck',
+        combo: 'combo',
+        typeCombo: 'typeCombo',
+        // multiCombo: 'multiCombo',
     },
 
     geocoder: {

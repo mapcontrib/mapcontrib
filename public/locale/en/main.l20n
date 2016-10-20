@@ -84,6 +84,7 @@
 <textFields label:"Text">
 <checkboxFields label:"Checkboxes">
 <nonTextFields label:"Non text">
+<comboFields label:"Dropdown">
 <text "Text">
 <number "Number">
 <email "Email">
@@ -93,6 +94,9 @@
 <checkbox "Checkbox">
 <checkField "Yes or no">
 <defaultCheckField "Yes or empty">
+<comboField "Only choice">
+<typeComboField "Yes or only choice">
+<multiComboField "Multi-choice">
 <value "Valeur">
 <defaultValue "Default value">
 <yes "Yes">
@@ -100,6 +104,10 @@
 <settings "Settings">
 <mainSettings "Main settings">
 <tiles "Backgrounds">
+<options "Options">
+<addAnOption "Add an option">
+<multiComboInfo1 "Complete the <em>{{ $prefix }}</em> prefix">
+<multiComboInfo2 "Eg: recycling:glass">
 
 
 /* Home */
@@ -391,6 +399,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 /* Admin tag column */
 <adminTagColumn_title "Tags">
 <adminTagColumn_addTag "Add a tag">
+<adminTagColumn_description "Créez vos propres tags, pour remplacer un tag OSM existant ou le rendre uniquement disponible dans cette instance de MapContrib.">
 
 
 /* Admin presets column */

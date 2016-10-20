@@ -7,7 +7,6 @@ import InfoDisplay from 'core/infoDisplay';
 import LayerModel from 'model/layer';
 
 
-
 describe('InfoDisplay', () => {
     describe('findTagsFromContent', () => {
         it('Should return tag list', () => {

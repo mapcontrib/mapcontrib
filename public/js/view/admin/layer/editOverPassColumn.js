@@ -328,13 +328,13 @@ export default Marionette.ItemView.extend({
                     if ( updateRequest ) {
                         this._radio.commands.execute('layer:updateOverPassRequest', this.model);
                     }
+                }
 
-                    if ( updateCache ) {
-                        const layerUuid = this.model.get('uuid');
-                        const xhr = new XMLHttpRequest();
-                        xhr.open('GET', `${CONST.apiPath}/overPassCache/generate/${layerUuid}`, true);
-                        xhr.send();
-                    }
+                if ( updateCache ) {
+                    const layerUuid = this.model.get('uuid');
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', `${CONST.apiPath}/overPassCache/generate/${layerUuid}`, true);
+                    xhr.send();
                 }
 
                 this.close();

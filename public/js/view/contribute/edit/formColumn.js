@@ -202,7 +202,6 @@ export default Marionette.LayoutView.extend({
             customTags: this.options.theme.get('tags'),
         });
 
-
         const popupContent = this._layerModel.get('popupContent');
         const popupTags = InfoDisplay.findTagsFromContent(popupContent);
 

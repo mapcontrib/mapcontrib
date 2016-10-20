@@ -36,7 +36,15 @@ export default class IDPresetsHelper {
 
         for (const index in CONST.tagType) {
             if ({}.hasOwnProperty.call(CONST.tagType, index)) {
-                this._proposedFieldTypesForTypeahead.push(CONST.tagType[index]);
+                const type = CONST.tagType[index];
+                if ([
+                        CONST.tagType.combo,
+                        CONST.tagType.typeCombo,
+                        CONST.tagType.multiCombo,
+                    ].indexOf(type) === -1
+                ) {
+                    this._proposedFieldTypesForTypeahead.push(type);
+                }
             }
         }
     }
@@ -89,7 +97,7 @@ export default class IDPresetsHelper {
                 const field = this._presets.fields[fieldName];
 
                 if (field.key === key) {
-                    return this._getLocalizedField(fieldName).label;
+                    return this._getLocalizedFieldFromName(fieldName).label;
                 }
             }
         }
@@ -142,7 +150,7 @@ export default class IDPresetsHelper {
         return false;
     }
 
-    _getLocalizedField(name) {
+    _getLocalizedFieldFromName(name) {
         if (this._presets.fields[name]) {
             const field = { ...this._presets.fields[name] };
 
@@ -205,7 +213,7 @@ export default class IDPresetsHelper {
 
         for (const name in this._presets.fields) {
             if ({}.hasOwnProperty.call(this._presets.fields, name)) {
-                const field = this._getLocalizedField(name);
+                const field = this._getLocalizedFieldFromName(name);
 
                 if (field) {
                     fields.push(field);

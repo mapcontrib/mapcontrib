@@ -13,11 +13,13 @@ export default Backbone.RelationalModel.extend({
             uuid: undefined,
             key: undefined,
             type: CONST.tagType.text,
+            options: [],
             order: undefined,
 
             locales: {/*
                 fr: {
                     key: '',
+                    options: [],
                 }
             */},
         };
@@ -37,10 +39,19 @@ export default Backbone.RelationalModel.extend({
         this.set('modificationDate', new Date().toISOString());
     },
 
+    isComboField() {
+        return [
+            CONST.tagType.combo,
+            CONST.tagType.typeCombo,
+            CONST.tagType.multiCombo,
+        ].indexOf(this.get('type')) > -1;
+    },
+
     getLocaleCompletion(localeCode) {
+        const options = this.get('options');
         const locale = this.get('locales')[localeCode];
         const data = {
-            items: this.localizedAttributes.length,
+            items: this.localizedAttributes.length + options.length,
             completed: 0,
         };
 
@@ -51,6 +62,14 @@ export default Backbone.RelationalModel.extend({
         for (const attribute of this.localizedAttributes) {
             if (locale[attribute]) {
                 data.completed += 1;
+            }
+        }
+
+        if (this.isComboField()) {
+            for (const option of options) {
+                if (locale.options && locale.options[option]) {
+                    data.completed += 1;
+                }
             }
         }
 

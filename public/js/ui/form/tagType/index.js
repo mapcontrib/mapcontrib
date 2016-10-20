@@ -9,6 +9,10 @@ export default Marionette.LayoutView.extend({
     tagName: 'select',
     className: 'form-control',
 
+    events: {
+        change: '_onChange',
+    },
+
     behaviors() {
         return {
             l20n: {},
@@ -23,5 +27,9 @@ export default Marionette.LayoutView.extend({
 
     getValue() {
         return this.$el.val();
+    },
+
+    _onChange() {
+        this.trigger('change', this.$el.val());
     },
 });

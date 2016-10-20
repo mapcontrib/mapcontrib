@@ -5,7 +5,6 @@ import assert from 'assert';
 import OverPassHelper from 'helper/overPass';
 
 
-
 describe('OverPassHelper', () => {
     describe('buildRequestForTheme', () => {
         it('Should return an OverPass request built for the theme', () => {
