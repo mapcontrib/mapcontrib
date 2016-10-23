@@ -29,6 +29,7 @@ client:
     overPassTimeout: 120000 # Milliseconds
     overPassCacheEnabled: true
     overPassCacheFileSize: 1048576
+    overPassCacheDeleteArchiveEnabled: false
 
     taginfoServiceHost: https://taginfo.openstreetmap.org/
     freeTagsContributionEnabled: true
