@@ -304,10 +304,31 @@ class Api {
             }
 
             collection.find({
-                $or: [
-                    { owners: ownerId },
-                    { owners: '*' },
-                ],
+                owners: ownerId,
+            })
+            .toArray((err, results) => {
+                if (err) {
+                    reject(500);
+                    return;
+                }
+
+                resolve(
+                    results.map((result) => {
+                        result._id = result._id.toString();
+                        return result;
+                    })
+                );
+            });
+        });
+    }
+
+
+    static findAllOwners() {
+        return new Promise((resolve, reject) => {
+            const collection = options.database.collection('theme');
+
+            collection.find({
+                owners: '*',
             })
             .toArray((err, results) => {
                 if (err) {
