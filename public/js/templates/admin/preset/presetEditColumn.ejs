@@ -1,0 +1,42 @@
+<section class="column right orange">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="adminPresetColumn_title"></h2>
+    </header>
+
+    <form>
+        <div class="container-fluid content sticky">
+            <div class="row sticky-inner">
+                <div class="col-xs-12">
+                    <div class="form-group append-xs-2">
+                        <label for="preset_name" class="control-label" data-l10n-id="name"></label>
+                        <input type="text" spellcheck="true" class="form-control" id="preset_name" value="<%- name %>">
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="preset_description" class="control-label" data-l10n-id="description"></label>
+                        <textarea class="form-control" id="preset_description" rows="3"><%- description %></textarea>
+                        <div class="help-block" data-l10n-id="markdownAvailable"><a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="adminEditPresetColumn_presetTags"></label>
+                        <div class="rg_tag_list"></div>
+                    </div>
+
+                    <div class="bottom"></div>
+                </div>
+            </div>
+
+            <div class="row sticky-footer">
+                <div class="col-xs-12">
+                    <button type="button" class="btn btn-default add_tag_btn" data-l10n-id="adminEditPresetColumn_addTag"></button>
+                    <button type="submit" class="btn btn-primary pull-right" data-l10n-id="save"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

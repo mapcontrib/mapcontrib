@@ -1,0 +1,82 @@
+
+@import '../../../css/variable.less';
+
+
+.colored a.ui-theme-thumb-theme,
+.ui-theme-thumb-theme {
+    text-decoration: none;
+}
+
+.ui-theme-thumb-theme {
+    background-color: @lightGray;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: block;
+    cursor: pointer;
+
+    .title {
+        font-size: 14px;
+        text-align: center;
+        margin: 0;
+        padding: 7px 8px 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .marker {
+        cursor: pointer;
+        font-size: 0;
+    }
+}
+
+.ui-theme-thumb-layers {
+    position: relative;
+    height: 130px;
+    overflow: hidden;
+}
+
+.ui-theme-thumb-tile-1,
+.ui-theme-thumb-tile-2,
+.ui-theme-thumb-tile-3 {
+    position: absolute;
+}
+
+.ui-theme-thumb-tile-2 {
+    left: 256px;
+}
+
+.ui-theme-thumb-tile-3 {
+    left: 512px;
+}
+
+.ui-theme-thumb-layer-0,
+.ui-theme-thumb-layer-1,
+.ui-theme-thumb-layer-2 {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+
+    .marker,
+    .shape {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(2);
+    }
+}
+
+.ui-theme-thumb-layer-1,
+.ui-theme-thumb-layer-2 {
+    z-index: 0;
+}
+
+.ui-theme-thumb-layer-1 .marker,
+.ui-theme-thumb-layer-1 .shape {
+    transform: translate(-150%, -50%) scale(2);
+}
+
+.ui-theme-thumb-layer-2 .marker,
+.ui-theme-thumb-layer-2 .shape {
+    transform: translate(50%, -50%) scale(2);
+}

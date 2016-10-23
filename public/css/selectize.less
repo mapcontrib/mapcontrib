@@ -1,0 +1,43 @@
+.selectize-control.form-control {
+    z-index: 999;
+
+    .selectize-input,
+    .selectize-input.focus {
+        box-shadow: none;
+        border-radius: 0;
+        border-color: transparent;
+
+        &.disabled {
+            opacity: 1;
+            background-color: @darkGray;
+
+            [data-value] {
+                padding-right: 3px !important;
+            }
+
+            .remove {
+                display: none;
+            }
+        }
+    }
+
+    .selectize-dropdown.form-control {
+        position: absolute;
+        top: 100%;
+        margin: 0;
+        box-shadow: 0 8px 8px rgba(0, 0, 0, 0.175);
+    }
+
+    .selectize-dropdown [data-selectable] .highlight {
+        background-color: @lightYellow;
+    }
+
+    .selectize-dropdown-content .option {
+        padding: 3px 20px;
+
+        &.active {
+            background: @darkGray;
+            color: @anthracite;
+        }
+    }
+}

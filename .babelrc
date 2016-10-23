@@ -1,8 +1,14 @@
 {
-    "presets": ["es2015"],
+    "presets": [
+        "es2015",
+        "stage-0"
+    ],
     "plugins": [
-        "syntax-object-rest-spread",
-        "transform-object-rest-spread",
-        "transform-es2015-destructuring"
+        [
+            "babel-plugin-webpack-alias",
+            {
+                "config": "./webpack.config.js"
+            }
+        ]
     ]
 }

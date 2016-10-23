@@ -1,0 +1,417 @@
+<plural($n) {
+
+    $n == 0 ? "zero" :
+    $n == 1 ? "one" :
+    "many"
+}>
+
+
+<mapcontrib "MapContrib">
+<slogan "Contribution thématique à <a>OpenStreetMap</a>">
+
+
+<pageTitle "{{ mapcontrib }}">
+<pageTitleWithMapName "{{ $map.name }} - {{ mapcontrib }}">
+
+
+<markdownAvailable "Format <a>Markdown</a> disponible">
+<maxFileSize "Le poids ne doit pas dépasser {{ $maxFileSize }}">
+
+
+<buttonDescriptionTooltip title:"Lire la description">
+<buttonZoomInTooltip title:"Vue rapprochée">
+<buttonZoomOutTooltip title:"Vue éloignée">
+<buttonGeocodeTooltip title:"Trouver un lieu">
+<buttonLocateTooltip title:"Afficher mon emplacement">
+<buttonLocateWaitTooltip title:"Annuler la recherche de mon emplacement">
+<buttonExpandScreenTooltip title:"Passer en plein écran">
+<buttonCompressScreenTooltip title:"Quitter le plein écran">
+<buttonLayerTooltip title:"Affichage des couches">
+<buttonTileTooltip title:"Affichage des fonds de carte">
+<buttonLoginTooltip title:"{{ login }}">
+<buttonUserTooltip title:"Mon compte">
+<buttonLinkTooltip title:"Partager">
+<buttonContribTooltip title:"Ajouter une donnée manquante">
+<buttonTempLayerTooltip title:"Ajouter une couche temporaire">
+<buttonEditSettingTooltip title:"{{ settings }}">
+<buttonEditLayerTooltip title:"{{ layers }}">
+<buttonEditLocaleTooltip title:"{{ translations }}">
+<buttonEditPresetTooltip title:"{{ presets }}">
+<buttonEditTagTooltip title:"{{ tags }}">
+<buttonHelpTooltip title:"Aide">
+
+
+
+
+<layers "Couches">
+<translations "Traductions">
+<presets "Types de nœuds">
+<presetCategories "Catégories de types de nœuds">
+<tags "Tags">
+<goBackToHome "Revenir à l'accueil">
+<about "À propos de {{ mapcontrib }}">
+<myThemes "Mes thèmes">
+<preferences "Préférences">
+<edit "Édition">
+<login "Se connecter">
+<loginOrSubscribe "Se connecter ou créer un compte">
+<logout "Se déconnecter">
+<close "Fermer">
+<save "Enregistrer">
+<validate "Valider">
+<cancel "Annuler">
+<next "Suivant">
+<previous "Précédent">
+<back "Retour">
+<customize "Personnaliser">
+<letsGo "C'est parti">
+<empty "Vide">
+<editThatElement "Éditer cet élément">
+<loadingData title:"Certaines données sont en cours de chargement">
+<createATheme "Créer un thème">
+<searchATheme "Rechercher un thème (3 caractères min.)">
+<aboutMapContrib "À propos de MapContrib">
+<invalidFile "Fichier non valide">
+<currentFile "Fichier actuel : <a>{{ $file }}</a>">
+<file "Fichier">
+<fileNotFound "Fichier introuvable">
+<noResult "Aucun résultat">
+<name "Nom">
+<description "Description">
+<type "Type">
+<locales "Traductions">
+<key "Clef">
+<textFields label:"Texte">
+<checkboxFields label:"Cases à cocher">
+<nonTextFields label:"Non texte">
+<comboFields label:"Liste déroulante">
+<text "Texte">
+<number "Nombre">
+<email "E-mail">
+<tel "Numéro de téléphone">
+<url "Adresse web">
+<textarea "Grand texte">
+<checkbox "Case à cocher">
+<checkField "Oui ou non">
+<defaultCheckField "Oui ou vide">
+<comboField "Choix unique">
+<typeComboField "Oui ou choix unique">
+<multiComboField "Multi-choix">
+<value "Valeur">
+<defaultValue "Valeur par défaut">
+<yes "Oui">
+<no "Non">
+<settings "Configuration">
+<mainSettings "Configuration générale">
+<tiles "Fonds de carte">
+<options "Options">
+<addAnOption "Ajouter une option">
+<multiComboInfo1 "Complètent le préfixe <em>{{ $prefix }}</em>">
+<multiComboInfo2 "Ex : recycling:glass">
+
+
+/* Home */
+<home_charactersLeft[plural($n)] {
+  one: "Saisissez encore 1 caractère",
+  many: "Saisissez encore {{ $n }} caractères"
+}>
+
+
+/* About */
+<aboutTitle "À propos">
+<aboutText1 "MapContrib est développé avec le soutien du Département de la Gironde, dans le cadre d'un appel à projets «&nbsp;Déchets et Numériques&nbsp;».">
+<aboutText2 "MapContrib vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
+<aboutText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbL&nbsp;»</a>, permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
+<aboutText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
+<aboutTextVersion "Cette instance de MapContrib utilise la version {{ $version }}.">
+
+
+/* Login modal */
+<loginModal_explanation "Pour plus de simplicité, MapContrib a seulement besoin de se connecter à votre compte OpenStreetMap.">
+
+
+/* Geocode widget */
+<geocodeWidget_queryInput placeholder:"Ville, code postal, ...">
+
+
+/* Layers column */
+<selectLayerColumn_title "Couches">
+<selectLayerColumn_explanation "Sélectionnez les couches que vous voulez voir sur la carte.">
+<selectLayerColumn_needToZoom[plural($n)] {
+  one: "Pour voir ces données, vous devez zoomer une fois.",
+  many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
+}>
+<selectLayerColumn_downloadData "Télécharger les données visibles">
+
+
+/* Tile column */
+<selectTileColumn_title "Fonds de cartes">
+
+
+/* User column */
+<userColumn_title "Mon compte">
+
+
+/* Visitor column */
+<visitorColumn_title "Salut !">
+
+
+/* Contribution column */
+<contribColumn_title "Ajouter un nœud">
+<contribColumn_description "Sélectionnez un type de nœud">
+<contribColumn_searchAPreset "Rechercher un type de nœud">
+<contribColumn_freeAddition "Ajout de tags libre">
+<contribColumn_addTag "Ajouter un tag">
+
+
+/* Link column */
+<linkColumn_title "Partager">
+<linkColumn_linkTitle "Lien direct">
+<linkColumn_linkIncludePosition "Inclure la position actuelle">
+<linkColumn_integrationTitle "Intégré dans votre site">
+<linkColumn_iframeIncludePosition "Inclure la position actuelle">
+<linkColumn_seeBigger "Voir en plus grand">
+<linkColumn_width "Largeur">
+<linkColumn_height "Hauteur">
+<linkColumn_percentage "Pourcentage">
+<linkColumn_pixel "Pixel">
+
+
+/* Edit settings column */
+<editSettingColumn_title "Configuration">
+<editSettingColumn_themeName "Nom du thème">
+<editSettingColumn_themeDescription "{{ description }}">
+<editSettingColumn_color "Couleur">
+<editSettingColumn_position "Positionnement">
+<editSettingColumn_geolocation "Géolocalisation">
+<editSettingColumn_keepOld "Garder les paramètres configurés">
+<editSettingColumn_setNew "Enregistrer les paramètres actuels">
+<editSettingColumn_autoGeolocateUser "Géolocaliser automatiquement l'utilisateur">
+<editSettingColumn_geocoder "Géocodeur">
+<editSettingColumn_photon "Photon">
+<editSettingColumn_nominatim "Nominatim">
+<editSettingColumn_infoDisplay "Affichage des informations">
+<editSettingColumn_popup "Infobulle">
+<editSettingColumn_modal "Fenêtre modale">
+<editSettingColumn_column "Colonne">
+<editSettingColumn_themeAnalytics "Statistiques">
+<editSettingColumn_infoAnalyticsPopoverTitle "Intégration">
+<editSettingColumn_infoAnalyticsPopoverContent "Les outils de suivi statistique fournissent un code javascript à insérer dans les pages du site internet concerné.
+
+Insérez-le juste ici !">
+
+
+/* Edit layer column */
+<editLayerListColumn_title "Couches">
+<editLayerListColumn_addLayer "Ajouter une couche">
+
+
+/* Edit layer column */
+<editLayerFormColumn_title "Édition de la couche">
+<editLayerFormColumn_layerName "{{ name }}">
+<editLayerFormColumn_layerDescription "{{ description }}">
+<editLayerFormColumn_representationType "Représentation">
+<editLayerFormColumn_clusterRepresentation "Points groupables">
+<editLayerFormColumn_heatRepresentation "Carte thermique">
+<editLayerFormColumn_visibility "Visibilité">
+<editLayerFormColumn_visible "Visible par les utilisateurs">
+<editLayerFormColumn_heatOptions "Carte thermique">
+<editLayerFormColumn_heatMapPopoverTitle "Informations">
+<editLayerFormColumn_heatMapPopoverContent "#### Zoom maximum
+
+Niveau de zoom à partir duquel les points atteignent leur intensité maximum.
+
+#### Rayon
+
+Rayon de chacuns des points de la couche.">
+<editLayerFormColumn_heatMinOpacity "Opacité minimum">
+<editLayerFormColumn_heatMaxZoom "Zoom maximum">
+<editLayerFormColumn_heatMax "Intensité maximum">
+<editLayerFormColumn_heatBlur "Quantité de flou">
+<editLayerFormColumn_heatRadius "Rayon">
+<editLayerFormColumn_layerZoomLevel "Zoom minimum">
+<editLayerFormColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
+<editLayerFormColumn_overPassPopoverTitle "Bounding box">
+<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` est remplacé par la bounding box courante.">
+<editLayerFormColumn_layerOverpassRequest "Requête OverPass">
+<editLayerFormColumn_marker "Marqueur">
+<editLayerFormColumn_infoDisplayPopoverTitle "Valeur des tags">
+<editLayerFormColumn_infoDisplayPopoverContent "Pour afficher la valeur de tags de chaque élément, insérez son nom entre crochets.
+
+Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
+<editLayerFormColumn_layerPopupContent "Contenu des bulles">
+<editLayerFormColumn_gpxFile "Fichier GPX">
+<editLayerFormColumn_csvFile "Fichier CSV">
+<editLayerFormColumn_csvDisclaimer "Il doit contenir les latitude et longitude, dans des colonnes nommées <em>latitude</em> et <em>longitude</em>">
+<editLayerFormColumn_geoJsonFile "Fichier GeoJSON">
+<editLayerFormColumn_browse "Parcourir">
+<editLayerFormColumn_cache "Cache">
+<editLayerFormColumn_cacheDescription "Il se substitue à la requête OverPass temps réél.">
+<editLayerFormColumn_enableCache "Activer le cache">
+<editLayerFormColumn_cachePopoverTitle "Limitations">
+<editLayerFormColumn_cachePopoverContent "Les informations sont mises à jour quotidiennement à condition que la requête exécutée sur l'ensemble du globe ne mette pas plus de 3 minutes et que le fichier final ne fasse pas plus d'1 Mo.">
+<editLayerFormColumn_cacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
+<editLayerFormColumn_cacheErrorTimeout "<i></i> La dernière mise à jour du cache a échoué en raison d'un temps d'exécution trop important.">
+<editLayerFormColumn_cacheErrorMemory "<i></i> La dernière mise à jour du cache a échoué en raison d'un poids de fichier final trop important.">
+<editLayerFormColumn_cacheErrorBadRequest "<i></i> La dernière mise à jour du cache a échoué parce que la requête est erronée.">
+<editLayerFormColumn_cacheErrorUnknown "<i></i> La dernière mise à jour du cache a échoué pour une raison inconnue.">
+
+
+/* Edit layer marker modal */
+<editLayerMarkerModal_colorAndShape "Couleur et forme">
+<editLayerMarkerModal_color "Couleur">
+<editLayerMarkerModal_shape "Forme">
+<editLayerMarkerModal_icon "Icône">
+<editLayerMarkerModal_library "Bibliothèque">
+<editLayerMarkerModal_external "Externe">
+<editLayerMarkerModal_iconName "Nom de l'icône">
+<editLayerMarkerModal_iconUrl "Url de l'icône">
+<editLayerMarkerModal_iconDescriptionLibrary1 "Les icônes sont tirées de la bibliothèque Font Awesome.">
+<editLayerMarkerModal_iconDescriptionLibrary2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
+<editLayerMarkerModal_iconDescriptionExternal1 "Vous pouvez utiliser votre propre icône si elle est hébergée sur internet.">
+<editLayerMarkerModal_iconDescriptionExternal2 "Renseignez son adresse dans le champs ci-dessous.">
+
+
+/* Edit tiles column */
+<editTileColumn_title "Fonds de carte">
+<editTileColumn_maxZoom "Zoom maximum&nbsp;: {{ $maxZoom }}">
+
+
+/* Edit POI column */
+<editPoiColumn_title "Éditer les données">
+<editPoiColumn_movePoi "Déplacer le nœud">
+<editPoiColumn_emptyState "Actualisation des données de l'élément à modifier...">
+<editPoiColumn_remoteValue "Nouvelle valeur distante&nbsp;:<br>{{ $remoteValue }}">
+<editPoiColumn_take "Prendre">
+<editPoiColumn_reject "Rejeter">
+
+
+/* Zoom notification */
+<zoomNotification_content "Zoomez pour voir les données">
+
+
+/* Overpass timeout notification */
+<overpassTimeoutNotification_title "Temps d'attente dépassé">
+<overpassTimeoutNotification_content "Il semblerait que les centres d'intérêts de type <em>{{ $name }}</em> mettent beaucoup de temps à être chargés...">
+
+
+/* Overpass error notification */
+<overpassErrorNotification_title "Erreur">
+<overpassErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+
+
+/* CSV error notification */
+<csvErrorNotification_title "Erreur">
+<csvErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+
+
+/* GeoJSON error notification */
+<geoJsonErrorNotification_title "Erreur">
+<geoJsonErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+
+
+/* GPX error notification */
+<gpxErrorNotification_title "Erreur">
+<gpxErrorNotification_content "Une erreur est survenue lors du chargement de la couche <em>{{ $name }}</em>.">
+
+
+/* Contribution error notification */
+<contributionErrorNotification_title "Contribution échouée">
+<contributionErrorNotification_content "Une erreur est survenue lors de l'envoi de votre contribution.">
+<contributionErrorNotification_retry "Retenter l'envoi">
+
+
+/* Node tag field UI */
+<uiFormNodeTags_key "Clef">
+<uiFormNodeTags_value placeholder:"{{ value }}">
+<uiFormNodeTags_keyReadOnly "Clef en lecture seule">
+<uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
+<uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag non envoyé à OpenStreetMap">
+<uiFormNodeTags_textInput "Champs texte">
+<uiFormNodeTags_fileInput "Champs fichier">
+<uiFormNodeTags_displayRawTag "Afficher le tag OSM brut">
+
+/* Color selector UI */
+<uiColorSelector_label "Couleur">
+
+
+/* List group UI */
+<uiListGroup_placeholder "Cliquez ci-dessous">
+<uiListGroup_placeholderNothingToTranslate "Aucun élément à traduire">
+
+
+/* Contribution form column */
+<contribFormColumn_placeOnMap "Placer sur la carte">
+
+
+/* New POI placement contextual */
+<newPoiPlacementContextual_text "Placez la croix à l'exact endroit du nœud.">
+
+
+/* Move POI contextual */
+<movePoiContextual_text "Placez la croix à l'exact endroit du nœud.">
+
+
+/* Add layer menu column */
+<addLayerMenuColumn_title "Ajouter une couche">
+<addLayerMenuColumn_remoteInformation "Information distante">
+<addLayerMenuColumn_file "Fichier">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
+
+
+/* Layer info column */
+<infoLayerColumn_title "Informations">
+<infoLayerColumn_layerName "{{ name }}">
+<infoLayerColumn_layerDescription "{{ description }}">
+<infoLayerColumn_layerSource "Provenance des données">
+<infoLayerColumn_overPass "OverPass">
+<infoLayerColumn_gpx "<a>Fichier GPX</a>">
+<infoLayerColumn_csv "<a>Fichier CSV</a>">
+<infoLayerColumn_geoJson "<a>Fichier GeoJSON</a>">
+<infoLayerColumn_layerMinZoom "Zoom minimum de mise à jour">
+<infoLayerColumn_layerOverPassRequest "Requête OverPass">
+<infoLayerColumn_layerOverPassCache "Cache">
+<infoLayerColumn_layerOverPassCacheDescription "Les résultats de la requête OverPass sont pré-calculés une fois par jour.">
+<infoLayerColumn_layerOverPassCacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
+<infoLayerColumn_geoJsonData "Données GeoJSON">
+<infoLayerColumn_downloadData "Télécharger les données">
+
+
+/* Info display column */
+<infoDisplayColumn_title "Détails">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Couches temporaires">
+<tempLayerListColumn_description "Ces couches sont éphémères. Elles ne sont visibles que par vous et disparaissent après avoir fermé MapContrib.">
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Type de nœud">
+<editPoiPresetColumn_noThanks "Non merci">
+<editPoiPresetColumn_applyPreset "Voulez-vous automatiquement ajouter les tags d'un de ces types de nœuds ?">
+
+
+/* Admin tag column */
+<adminTagColumn_title "Tags">
+<adminTagColumn_addTag "Ajouter un tag">
+<adminTagColumn_description "Créez vos propres tags, pour remplacer un tag OSM existant ou le rendre uniquement disponible dans cette instance de MapContrib.">
+
+
+/* Admin preset column */
+<adminPresetColumn_title "Types de nœuds">
+<adminPresetColumn_addPreset "Ajouter un type de nœud">
+<adminPresetColumn_addPresetCategory "Ajouter une catégorie">
+
+
+/* Admin edit presets column */
+<adminEditPresetColumn_presetTags "Tags">
+<adminEditPresetColumn_addTag "Ajouter un tag">
+
+
+/* Admin edit preset categories column */
+<adminPresetCategoryColumn_title "Catégorie">

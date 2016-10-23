@@ -25,7 +25,7 @@ It will install all the dependancies and test the code.
 
 ## OpenStreetMap tokens
 
-In order to let the users log in, you have to register a new app on [osm.org](https://openstreetmap.org). When done, you will have two tokens to put in a new `src/config/local.yml` file (manual copy of `src/config/default.yml`).
+In order to let the users log in, you have to register a new app on [osm.org](https://openstreetmap.org). When done, you will have two tokens to put in a new `config/local.yml` file (manual copy of `config/default.yml`).
 
 
 ## Launch the server
@@ -81,6 +81,7 @@ MapContrib is what it is because of some crazy people and free and open source p
 * Yohan Boniface ([uMap](https://bitbucket.org/yohanboniface/umap), [Leaflet-Storage](https://github.com/yohanboniface/Leaflet.Storage))
 * Noémie Lehuby ([OpenBeerMap](https://github.com/OpenBeerMap/OpenBeerMap.github.io))
 * Adrien Pavie ([OpenLevelUp](http://openlevelup.net), [YoHours](http://projets.pavie.info/yohours))
+* Maurizio Napolitano ([Github profile](https://github.com/napo))
 * Les Libres Géographes
 * OpenStreetMap ([OSM](http://osm.org))
 * Leaflet ([Website](http://leafletjs.com))

@@ -1,0 +1,172 @@
+
+
+@import 'variable.less';
+@import 'font.less';
+@import 'form.less';
+@import 'toolbar.less';
+@import 'widget.less';
+@import 'marker.less';
+@import 'shape.less';
+@import 'spinner.less';
+
+
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    0%, 5%, 13%, 20%, 25% {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        transform: translate3d(0, 0, 0);
+    }
+
+    10%, 11% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(12px, 0, 0);
+    }
+
+    17% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(6px, 0, 0);
+    }
+
+    22% {
+        transform: translate3d(2px, 0, 0);
+    }
+}
+
+
+.icon-preview {
+    position: absolute;
+    top: 8px;
+    right: 11px;
+    z-index: 10;
+    color: @lightAnthracite;
+    font-size: 19px;
+}
+
+.marker-form-widget {
+    height: 42px;
+
+    .marker,
+    .btn {
+        float: left;
+    }
+
+    .marker {
+        position: relative;
+        margin-left: 15px;
+        margin-right: 20px;
+    }
+
+    .btn {
+        margin-top: 4px;
+    }
+}
+
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.vertical-align-top {
+    vertical-align: top;
+}
+
+.list-group {
+    /* Fixes a placement bug on items when they are moved/dragged more than once */
+    position: relative;
+
+    .list-group-item {
+        label .help-block,
+        label .help-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        min-height: 42px;
+    }
+}
+
+.list-group.reorderable {
+    .list-group-item {
+        padding-left: 30px;
+
+        .reorder_icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 6px;
+            cursor: grab;
+        }
+    }
+}
+
+.list-group.navigable {
+    .list-group-item {
+        padding-left: 50px;
+
+        .navigate_btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 40px;
+            background: transparent;
+            border-color: transparent;
+        }
+    }
+}
+
+.list-group.navigable.reorderable {
+    .list-group-item {
+        padding-left: 80px;
+
+        .navigate_btn {
+            left: 30px;
+        }
+    }
+}
+
+.list-group.removeable {
+    .list-group-item {
+        padding-right: 50px;
+
+        .remove_btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 40px;
+            background: transparent;
+            border-color: transparent;
+        }
+    }
+}
+
+.dropdown-menu {
+    border-radius: 0;
+    padding: 0;
+    border: none;
+
+    li a {
+        padding: 8px 16px;
+    }
+
+    .divider {
+        margin: 4px 0;
+    }
+}
+
+#login_modal .pop {
+    width: 500px;
+    min-width: auto;
+}

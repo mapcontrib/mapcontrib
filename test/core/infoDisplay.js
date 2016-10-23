@@ -2,10 +2,9 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import CONST from '../../src/public/js/const';
-import InfoDisplay from '../../src/public/js/core/infoDisplay';
-import LayerModel from '../../src/public/js/model/layer';
-
+import CONST from 'const';
+import InfoDisplay from 'core/infoDisplay';
+import LayerModel from 'model/layer';
 
 
 describe('InfoDisplay', () => {
@@ -14,7 +13,7 @@ describe('InfoDisplay', () => {
             const expected = ['amenity', 'other_tag'];
             const popupContent = 'This text contains the {amenity} tag and an {other_tag}.';
 
-            let result = InfoDisplay.findTagsFromContent(popupContent);
+            const result = InfoDisplay.findTagsFromContent(popupContent);
 
             assert.deepEqual(result, expected);
         });
@@ -35,18 +34,17 @@ describe('InfoDisplay', () => {
 <p>And this <em>is</em> <strong>recycling</strong> and .</p>
 `;
             const layerModel = new LayerModel({
-                'dataEditable': true,
-                'type': CONST.layerType.overpass,
-                'popupContent': `# This is a title
+                type: CONST.layerType.overpass,
+                popupContent: `# This is a title
 
-And this *is* **{amenity}** and {other}.`
+And this *is* **{amenity}** and {other}.`,
             });
             const feature = {
-                'properties': {
-                    'tags': {
-                        'amenity': 'recycling'
-                    }
-                }
+                properties: {
+                    tags: {
+                        amenity: 'recycling',
+                    },
+                },
             };
 
             const result = InfoDisplay.buildContent(layerModel, feature, [], true);
@@ -59,16 +57,15 @@ And this *is* **{amenity}** and {other}.`
 <p>And this <em>is</em>  and <strong>stuff</strong>.</p>
 `;
             const layerModel = new LayerModel({
-                'dataEditable': true,
-                'type': CONST.layerType.csv,
-                'popupContent': `# This is a title
+                type: CONST.layerType.csv,
+                popupContent: `# This is a title
 
-And this *is* {amenity} and **{other}**.`
+And this *is* {amenity} and **{other}**.`,
             });
             const feature = {
-                'properties': {
-                    'other': 'stuff'
-                }
+                properties: {
+                    other: 'stuff',
+                },
             };
 
             const result = InfoDisplay.buildContent(layerModel, feature, [], true);
@@ -81,18 +78,17 @@ And this *is* {amenity} and **{other}**.`
 <p>And this <em>is</em>  and <strong>stuff</strong>.</p>
 `;
             const layerModel = new LayerModel({
-                'dataEditable': true,
-                'type': CONST.layerType.csv,
-                'popupContent': `# This is a title
+                type: CONST.layerType.csv,
+                popupContent: `# This is a title
 
-And this *is* {amenity} and **{other}**.`
+And this *is* {amenity} and **{other}**.`,
             });
             const feature = {
-                'properties': {
-                    'tags': {
-                        'other': 'stuff'
-                    }
-                }
+                properties: {
+                    tags: {
+                        other: 'stuff',
+                    },
+                },
             };
 
             const result = InfoDisplay.buildContent(layerModel, feature, [], true);
@@ -101,18 +97,17 @@ And this *is* {amenity} and **{other}**.`
         });
 
         it('Should return an empty string', () => {
-            const expected = ``;
+            const expected = '';
             const layerModel = new LayerModel({
-                'dataEditable': true,
-                'type': CONST.layerType.overpass,
-                'popupContent': ``
+                type: CONST.layerType.overpass,
+                popupContent: '',
             });
             const feature = {
-                'properties': {
-                    'tags': {
-                        'amenity': 'recycling'
-                    }
-                }
+                properties: {
+                    tags: {
+                        amenity: 'recycling',
+                    },
+                },
             };
 
             const result = InfoDisplay.buildContent(layerModel, feature, [], true);

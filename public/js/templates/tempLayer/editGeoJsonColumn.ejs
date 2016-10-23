@@ -1,0 +1,113 @@
+<section class="column right red">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="editLayerFormColumn_title"></h2>
+    </header>
+
+    <form>
+        <div class="container-fluid content sticky">
+            <div class="row sticky-inner">
+                <div class="col-xs-12">
+                    <div class="form-group append-xs-2">
+                        <label for="layer_name" class="control-label" data-l10n-id="editLayerFormColumn_layerName"></label>
+                        <input type="text" spellcheck="true" class="form-control" id="layer_name" value="<%- name %>">
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="layer_description" class="control-label" data-l10n-id="editLayerFormColumn_layerDescription"></label>
+                        <textarea spellcheck="true" class="form-control" id="layer_description" rows="2"><%- description %></textarea>
+                        <div class="help-block" data-l10n-id="markdownAvailable"><a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="editLayerFormColumn_representationType"></label>
+                        <div class="radio">
+                            <input type="radio" id="layer_cluster" name="layer_representation_type" value="cluster" checked>
+                            <label for="layer_cluster" data-l10n-id="editLayerFormColumn_clusterRepresentation"></label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" id="layer_heat" name="layer_representation_type" value="heat">
+                            <label for="layer_heat" data-l10n-id="editLayerFormColumn_heatRepresentation"></label>
+                        </div>
+                    </div>
+
+                    <section class="heat-options hide">
+                        <label class="control-label" data-l10n-id="editLayerFormColumn_heatOptions"></label>
+                        <a tabindex="0" role="button" class="info_btn info_heat_map_btn pull-right">
+                            <i class="fa fa-info-circle fa-lg"></i>
+                        </a>
+                        <div class="form-horizontal append-xs-2">
+                            <div class="form-group">
+                                <label for="layer_heat_min_opacity" class="control-label col-xs-7" data-l10n-id="editLayerFormColumn_heatMinOpacity"></label>
+                                <div class="col-xs-5">
+                                    <input type="number" id="layer_heat_min_opacity" class="form-control" min="0.0" max="1.0" step="0.01" value="<%- heatMinOpacity %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="layer_heat_max_zoom" class="control-label col-xs-7" data-l10n-id="editLayerFormColumn_heatMaxZoom"></label>
+                                <div class="col-xs-5">
+                                    <input type="number" id="layer_heat_max_zoom" class="form-control" min="0" step="1" value="<%- heatMaxZoom %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="layer_heat_max" class="control-label col-xs-7" data-l10n-id="editLayerFormColumn_heatMax"></label>
+                                <div class="col-xs-5">
+                                    <input type="number" id="layer_heat_max" class="form-control" min="0.0" max="1.0" step="0.01" value="<%- heatMax %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="layer_heat_blur" class="control-label col-xs-7" data-l10n-id="editLayerFormColumn_heatBlur"></label>
+                                <div class="col-xs-5">
+                                    <input type="number" id="layer_heat_blur" class="form-control" min="0" step="1" value="<%- heatBlur %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="layer_heat_radius" class="control-label col-xs-7" data-l10n-id="editLayerFormColumn_heatRadius"></label>
+                                <div class="col-xs-5">
+                                    <input type="number" id="layer_heat_radius" class="form-control" min="0" step="1" value="<%- heatRadius %>">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="marker-options">
+                        <div class="form-group append-xs-2">
+                            <label class="control-label" data-l10n-id="editLayerFormColumn_marker"></label>
+                            <div class="marker-form-widget">
+                                <div class="marker-wrapper">
+                                    <%= marker %>
+                                </div>
+                                <button type="button" class="btn btn-default edit_marker_btn" data-l10n-id="customize"></button>
+                            </div>
+                        </div>
+
+                        <div class="form-group append-xs-2">
+                            <label for="layer_popup_content" class="control-label" data-l10n-id="editLayerFormColumn_layerPopupContent"></label>
+                            <a tabindex="0" role="button" class="info_btn info_info_display_btn pull-right">
+                                <i class="fa fa-info-circle fa-lg"></i>
+                            </a>
+                            <textarea rows="3" class="form-control font-monospace" id="layer_popup_content"><%- popupContent %></textarea>
+                            <div class="help-block" data-l10n-id="markdownAvailable"><a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
+                        </div>
+                    </section>
+
+                    <div class="form-group append-xs-2 layer_file">
+                        <label for="layer_file" class="control-label" data-l10n-id="editLayerFormColumn_geoJsonFile"></label>
+                        <p class="hide current_file"></p>
+                        <input type="file" id="layer_file" name="layer_file" class="filestyle">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row sticky-footer">
+                <div class="col-xs-12">
+                    <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>
+                    <button type="submit" class="btn btn-primary pull-right submit_btn" data-l10n-id="save"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

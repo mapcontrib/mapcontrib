@@ -1,0 +1,177 @@
+
+.toolbar {
+    position: fixed;
+    top: @titleHeight;
+    width: @toolbarBtnSize;
+    transition: transform ease-out .2s;
+
+    &.left {
+        left: 0;
+        z-index: @leftToolbarZIndex;
+        transform: translate(-100%, 0);
+    }
+
+    &.right {
+        right: 0;
+        z-index: @rightToolbarZIndex;
+        transform: translate(100%, 0);
+    }
+
+    &.open {
+        transform: translate(0, 0);
+    }
+
+    .btn {
+        width: @toolbarBtnSize;
+        height: @toolbarBtnSize;
+        font-size: 24px;
+        line-height: 24px;
+        padding: 12px 0;
+        border-radius: 0;
+    }
+}
+
+
+#control_toolbar {
+    .btn,
+    .zoom_level {
+        color: @anthracite;
+        background: #fff;
+    }
+
+    .zoom_in_btn.glow {
+        i {
+            animation-duration: 4s;
+            animation-fill-mode: both;
+            animation-iteration-count: infinite;
+            animation-name: glow;
+        }
+    }
+
+    .zoom_level {
+        padding: 5px;
+        text-align: center;
+        font-family: 'Fira Sans';
+        font-weight: normal;
+    }
+
+    .locate_btn,
+    .locate_wait_btn,
+    .expand_screen_btn,
+    .compress_screen_btn {
+        margin-bottom: @toolbarButtonBottomMargin;
+    }
+}
+
+@keyframes glow {
+    50% {
+        color: @lightBlue;
+    }
+}
+
+
+#user_toolbar {
+    margin-bottom: @toolbarButtonBottomMargin;
+
+    .btn {
+        color: #fff;
+    }
+
+    .login_btn {
+        background: @blue;
+    }
+
+    .user_btn {
+        background: @blue;
+        font-weight: bold;
+
+        &.avatar {
+            border: none;
+            padding: 0;
+            overflow: hidden;
+
+            img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+    }
+
+    .link_btn {
+        background: @lightGreen;
+    }
+}
+
+
+#contrib_toolbar {
+    margin-bottom: @toolbarButtonBottomMargin;
+
+    .btn {
+        color: #fff;
+    }
+
+    .temp_layer_btn,
+    .contrib_btn {
+        background: @red;
+    }
+
+    .temp_layer_btn {
+        position: relative;
+
+        .fa-stack {
+            position: absolute;
+            top: -3px;
+            right: -2px;
+            font-size: 18px;
+        }
+
+        .fa-circle {
+            color: #fff;
+            transform: scale(0.85);
+        }
+
+        .fa-clock-o {
+            color: @red;
+        }
+    }
+}
+
+
+#edit_toolbar {
+    .btn {
+        color: #fff;
+    }
+
+    .setting_btn,
+    .layer_btn,
+    .preset_btn,
+    .tag_btn,
+    .locale_btn {
+        background: @orange;
+    }
+
+    .locale_btn {
+        position: relative;
+
+        .fa-stack {
+            position: absolute;
+            top: -3px;
+            right: -2px;
+            font-size: 18px;
+        }
+
+        .fa-circle {
+            color: #fff;
+            transform: scale(0.85);
+        }
+
+        .fa-comment {
+            color: @orange;
+            transform: scale(1.2);
+        }
+
+        .fa-commenting-o {
+            transform: scale(.9);
+        }
+    }
+}

@@ -1,8 +1,8 @@
-## 0.12.0
+## 0.14.0
 
-* Adds a button to download all the visible data from the current bounding box.
-* Makes the layer info button more visible in the layer selection column.
-* Deletes the layer OverPass cache when its generation failed.
-* Introduces the temporary layers addition, available for both logged and anonymous users.
-* Automatically re-launches OverPass requests when modified in the layer setting.
+* A brand new tag and preset handling, inluding iD presets.
+* Heat maps can be created with point based layers.
+* The administrator can now force the use of https on his instance.
+* The columns are a bit larger.
+* Change a Mongo request in order to be compatible with Mongo 2.x.
 * And as always, multiple bufixes and enhancement.
