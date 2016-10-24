@@ -44,6 +44,7 @@ export default Backbone.RelationalModel.extend({
             cacheUpdateDate: undefined,
             cacheUpdateError: undefined,
             cacheBounds: undefined,
+            cacheArchive: false,
             cacheDeletedFeatures: [],
 
             locales: {/*
