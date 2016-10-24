@@ -43,6 +43,7 @@
 
 
 
+<overPassCacheArchives "OverPass cache archives"> /* FIXME */
 <layers "Livello">
 <translations "Translations"> /* FIXME */
 <presets "Tipo di Nodi">
@@ -248,10 +249,10 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <editLayerFormColumn_cache "Cache">
 <editLayerFormColumn_cacheDescription "Questo sostituisce la richiesta live a OverPass.">
 <editLayerFormColumn_enableCache "Abilita la cache">
-<editLayerFormColumn_enableCacheArchive "Enable the cache archive"> /* FIXME */
+<editLayerFormColumn_enableCacheArchive "Enable the cache archiving"> /* FIXME */
 <editLayerFormColumn_cachePopoverTitle "Limiti">
 <editLayerFormColumn_cachePopoverContent "I dati sono aggiornati quotidianamente dalla richiesta, eseguita sull´intero pianeta, che richiede meno di 3 minuti e produce un file finale di dimensioni minori ad 1MB.">
-<editLayerFormColumn_cacheArchivePopoverTitle "Cache archive"> /* FIXME */
+<editLayerFormColumn_cacheArchivePopoverTitle "Cache archiving"> /* FIXME */
 <editLayerFormColumn_cacheArchivePopoverContent "It lets theme administrators to decide to keep or definitly remove the OSM removed POIs."> /* FIXME */
 <editLayerFormColumn_cacheDate "Ultimo aggiornamento: {{ $date }}.">
 <editLayerFormColumn_cacheErrorTimeout "<i></i> L´ultima cache di aggiornamento non è andata a buon fine a causa di tempo di esecuzione troppo lungo.">
