@@ -1,9 +1,13 @@
 # Changelog
 
+## 0.12.17
+
+* Fix duplicate elements when the layer cache is enabled.
+
 ## 0.12.16
 
-* Change a Mongo request in order to be compatible with Mongo 2.x.
-* Remove a console.log.
+* Fixes the default buttons background color.
+* Display a proper message when a layer file is not found.
 
 ## 0.12.15
 

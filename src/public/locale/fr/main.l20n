@@ -67,6 +67,7 @@
 <invalidFile "Fichier non valide">
 <currentFile "Fichier actuel : <a>{{ $file }}</a>">
 <file "Fichier">
+<fileNotFound "Fichier introuvable">
 
 
 /* Home */
