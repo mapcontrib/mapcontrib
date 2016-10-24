@@ -42,6 +42,7 @@ import ContributeEditFormColumn from 'view/contribute/edit/formColumn';
 import AdminSettingMenuColumn from 'view/admin/setting/menuColumn';
 import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
 import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
+import AdminSettingCacheArchiveColumn from 'view/admin/setting/cacheArchive/mainColumn';
 
 import AdminLayerColumn from 'view/admin/layer/layerColumn';
 import AdminLayerAddMenuColumn from 'view/admin/layer/addMenuColumn';
@@ -102,6 +103,7 @@ export default Backbone.Router.extend({
         'admin/setting': 'routeAdminSettingMenu',
         'admin/setting/main': 'routeAdminSettingMain',
         'admin/setting/tile': 'routeAdminSettingTile',
+        'admin/setting/cache-archive': 'routeAdminSettingCacheArchive',
 
         'admin/layer': 'routeAdminLayer',
         'admin/layer/new': 'routeAdminLayerNew',
@@ -648,6 +650,18 @@ export default Backbone.Router.extend({
         }
 
         new AdminSettingTileColumn({
+            router: this,
+            model: this._theme,
+        }).open();
+    },
+
+    routeAdminSettingCacheArchive() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminSettingCacheArchiveColumn({
             router: this,
             model: this._theme,
         }).open();
