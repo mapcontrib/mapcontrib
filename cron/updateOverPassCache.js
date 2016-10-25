@@ -11,7 +11,7 @@ const CONST = { ...SERVER_CONST, ...PUBLIC_CONST };
 const database = new Database();
 
 
-if (config.get('client.overPassCacheEnabled')) {
+if (config.get('client.overPassCacheEnabled') !== true) {
     logger.info('The OverPass cache is not enabled');
     process.exit();
 }
