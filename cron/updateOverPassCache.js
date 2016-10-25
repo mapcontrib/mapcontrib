@@ -1,4 +1,5 @@
 
+import config from 'config';
 import logger from '../lib/logger';
 import Database from '../lib/database';
 import SERVER_CONST from '../const';
@@ -8,6 +9,12 @@ import OverPassCache from '../lib/overPassCache';
 
 const CONST = { ...SERVER_CONST, ...PUBLIC_CONST };
 const database = new Database();
+
+
+if (config.get('client.overPassCacheEnabled')) {
+    logger.info('The OverPass cache is not enabled');
+    process.exit();
+}
 
 
 export default class UpdateOverPassCache {
