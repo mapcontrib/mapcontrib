@@ -2,10 +2,11 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/admin/setting/cacheArchive/mainColumn.ejs';
-import 'ui/form/colorSelector/style.less';
+import MapUi from 'ui/map';
+import NavPillsStackedListView from 'ui/navPillsStacked';
 
 
-export default Marionette.ItemView.extend({
+export default Marionette.LayoutView.extend({
     template,
 
     behaviors() {
@@ -21,10 +22,10 @@ export default Marionette.ItemView.extend({
 
     ui: {
         column: '.column',
-
     },
 
-    events: {
+    regions: {
+        list: '.rg_list',
     },
 
     initialize() {
@@ -45,5 +46,32 @@ export default Marionette.ItemView.extend({
     close() {
         this.triggerMethod('close');
         return this;
+    },
+
+    onRender() {
+        const navPillsStackedList = new NavPillsStackedListView({
+            items: this._buildItems(),
+        });
+        this.getRegion('list').show( navPillsStackedList );
+    },
+
+    _buildItems() {
+        const items = [];
+        const layers = this.model.get('layers').models;
+
+        for (const layerModel of layers) {
+            const deletedFeatures = layerModel.get('cacheDeletedFeatures');
+            const rightIcon = MapUi.buildLayerHtmlIcon(layerModel);
+
+            for (const feature of deletedFeatures) {
+                items.push({
+                    label: feature.properties.tags.name || feature.id,
+                    rightIcon,
+                    href: `#admin/setting/cache-archive/${feature.id}`,
+                });
+            }
+        }
+
+        return items;
     },
 });

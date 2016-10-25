@@ -44,6 +44,7 @@
 
 
 <overPassCacheArchives "OverPass cache archives"> /* FIXME */
+<overPassCacheArchives_explanation "The following POI are in your OverPass layers cache but have been removed from OSM."> /* FIXME */
 <layers "Livello">
 <translations "Translations"> /* FIXME */
 <presets "Tipo di Nodi">
