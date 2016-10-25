@@ -46,6 +46,7 @@
 <overPassCacheArchives "OverPass cache archives">
 <overPassCacheArchives_explanation "The following POI are in your OverPass layers cache but have been removed from OSM.">
 <layers "Layers">
+<layer "Layer">
 <translations "Translations">
 <presets "Nodes types">
 <presetCategories "Nodes types categories">
@@ -60,6 +61,8 @@
 <logout "Log out">
 <close "Close">
 <save "Save">
+<delete "Delete">
+<archive "Archive">
 <validate "Validate">
 <cancel "Cancel">
 <next "Next">

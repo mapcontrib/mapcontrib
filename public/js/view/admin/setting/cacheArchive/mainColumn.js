@@ -60,6 +60,7 @@ export default Marionette.LayoutView.extend({
         const layers = this.model.get('layers').models;
 
         for (const layerModel of layers) {
+            const uuid = layerModel.get('uuid');
             const deletedFeatures = layerModel.get('cacheDeletedFeatures');
             const rightIcon = MapUi.buildLayerHtmlIcon(layerModel);
 
@@ -67,7 +68,7 @@ export default Marionette.LayoutView.extend({
                 items.push({
                     label: feature.properties.tags.name || feature.id,
                     rightIcon,
-                    href: `#admin/setting/cache-archive/${feature.id}`,
+                    href: `#admin/setting/cache-archive/${uuid}/${feature.id}`,
                 });
             }
         }

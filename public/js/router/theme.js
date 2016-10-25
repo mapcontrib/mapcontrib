@@ -43,6 +43,7 @@ import AdminSettingMenuColumn from 'view/admin/setting/menuColumn';
 import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
 import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
 import AdminSettingCacheArchiveColumn from 'view/admin/setting/cacheArchive/mainColumn';
+import AdminSettingCacheArchiveDetailColumn from 'view/admin/setting/cacheArchive/detailColumn';
 
 import AdminLayerColumn from 'view/admin/layer/layerColumn';
 import AdminLayerAddMenuColumn from 'view/admin/layer/addMenuColumn';
@@ -104,6 +105,7 @@ export default Backbone.Router.extend({
         'admin/setting/main': 'routeAdminSettingMain',
         'admin/setting/tile': 'routeAdminSettingTile',
         'admin/setting/cache-archive': 'routeAdminSettingCacheArchive',
+        'admin/setting/cache-archive/:layerUuid/*osmId': 'routeAdminSettingCacheArchiveDetail',
 
         'admin/layer': 'routeAdminLayer',
         'admin/layer/new': 'routeAdminLayerNew',
@@ -665,6 +667,38 @@ export default Backbone.Router.extend({
         new AdminSettingCacheArchiveColumn({
             router: this,
             model: this._theme,
+        }).open();
+    },
+
+    routeAdminSettingCacheArchiveDetail(layerUuid, osmId) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const layerModel = this._theme.get('layers').findWhere({
+            uuid: layerUuid,
+        });
+
+        if (!layerModel) {
+            this.navigate('');
+            return;
+        }
+
+        const features = layerModel.get('cacheDeletedFeatures').filter(
+            feature => feature.id === osmId
+        );
+
+        if (features.length === 0) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminSettingCacheArchiveDetailColumn({
+            router: this,
+            theme: this._theme,
+            model: layerModel,
+            deletedFeature: features[0],
         }).open();
     },
 

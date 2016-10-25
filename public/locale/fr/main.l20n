@@ -46,6 +46,7 @@
 <overPassCacheArchives "Archives du cache OverPass">
 <overPassCacheArchives_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été supprimés d'OSM.">
 <layers "Couches">
+<layer "Couche">
 <translations "Traductions">
 <presets "Types de nœuds">
 <presetCategories "Catégories de types de nœuds">
@@ -60,6 +61,8 @@
 <logout "Se déconnecter">
 <close "Fermer">
 <save "Enregistrer">
+<delete "Supprimer">
+<archive "Archiver">
 <validate "Valider">
 <cancel "Annuler">
 <next "Suivant">
