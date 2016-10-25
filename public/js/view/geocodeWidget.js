@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import leafletControlGeocoder from 'leaflet-control-geocoder';
+import leafletControlGeocoder from 'leaflet-control-geocoder/src';
 import template from 'templates/geocodeWidget.ejs';
 import templateResultItem from 'templates/geocodeResultItem.ejs';
 import CONST from 'const';
