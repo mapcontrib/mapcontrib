@@ -40,6 +40,7 @@ export default Marionette.ItemView.extend({
         layerPopupContent: '#layer_popup_content',
         infoDisplayInfo: '.info_info_display_btn',
         layerCache: '#layer_cache',
+        layerCacheArchive: '#layer_cache_archive',
 
         heatOptions: '.heat-options',
         heatMapInfo: '.info_heat_map_btn',
@@ -55,6 +56,7 @@ export default Marionette.ItemView.extend({
         currentMapZoom: '.current_map_zoom',
         cacheSection: '.cache_section',
         cacheInfo: '.info_cache_btn',
+        cacheArchiveInfo: '.info_cache_archive_btn',
         cacheDate: '.cache_date',
         cacheErrorTimeout: '.cache_error_timeout',
         cacheErrorMemory: '.cache_error_memory',
@@ -63,6 +65,7 @@ export default Marionette.ItemView.extend({
     },
 
     events: {
+        'change @ui.layerCache': 'onChangeLayerCache',
         'change @ui.layerCluster': 'onChangeLayerRepresentation',
         'change @ui.layerHeat': 'onChangeLayerRepresentation',
         'click @ui.editMarkerButton': 'onClickEditMarker',
@@ -93,6 +96,11 @@ export default Marionette.ItemView.extend({
     onRender() {
         this.ui.layerVisible.prop('checked', this.model.get('visible'));
         this.ui.layerCache.prop('checked', this.model.get('cache'));
+        this.ui.layerCacheArchive.prop('checked', this.model.get('cacheArchive'));
+
+        if (!this.model.get('cache')) {
+            this.ui.layerCacheArchive.prop('disabled', true);
+        }
 
         if ( MAPCONTRIB.config.overPassCacheEnabled === true ) {
             this.ui.cacheSection.removeClass('hide');
@@ -149,11 +157,15 @@ export default Marionette.ItemView.extend({
             this.ui.layerCluster.prop('checked', true);
         }
 
-        this.ui.heatMapInfo.popover({
+        const infoOptions = {
             container: 'body',
             placement: 'left',
             trigger: 'focus',
             html: true,
+        };
+
+        this.ui.heatMapInfo.popover({
+            ...infoOptions,
             title: document.l10n.getSync('editLayerFormColumn_heatMapPopoverTitle'),
             content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_heatMapPopoverContent')
@@ -161,10 +173,7 @@ export default Marionette.ItemView.extend({
         });
 
         this.ui.infoDisplayInfo.popover({
-            container: 'body',
-            placement: 'left',
-            trigger: 'focus',
-            html: true,
+            ...infoOptions,
             title: document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverTitle'),
             content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_infoDisplayPopoverContent')
@@ -172,10 +181,7 @@ export default Marionette.ItemView.extend({
         });
 
         this.ui.overPassInfo.popover({
-            container: 'body',
-            placement: 'left',
-            trigger: 'focus',
-            html: true,
+            ...infoOptions,
             title: document.l10n.getSync('editLayerFormColumn_overPassPopoverTitle'),
             content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_overPassPopoverContent')
@@ -183,13 +189,18 @@ export default Marionette.ItemView.extend({
         });
 
         this.ui.cacheInfo.popover({
-            container: 'body',
-            placement: 'left',
-            trigger: 'focus',
-            html: true,
+            ...infoOptions,
             title: document.l10n.getSync('editLayerFormColumn_cachePopoverTitle'),
             content: MarkedHelper.render(
                 document.l10n.getSync('editLayerFormColumn_cachePopoverContent')
+            ),
+        });
+
+        this.ui.cacheArchiveInfo.popover({
+            ...infoOptions,
+            title: document.l10n.getSync('editLayerFormColumn_cacheArchivePopoverTitle'),
+            content: MarkedHelper.render(
+                document.l10n.getSync('editLayerFormColumn_cacheArchivePopoverContent')
             ),
         });
     },
@@ -216,6 +227,17 @@ export default Marionette.ItemView.extend({
                 'editLayerFormColumn_currentMapZoom', { currentMapZoom }
             )
         );
+    },
+
+    onChangeLayerCache() {
+        if (this.ui.layerCache.prop('checked') === true) {
+            this.ui.layerCacheArchive.prop('disabled', false);
+        }
+        else {
+            this.ui.layerCacheArchive
+            .prop('checked', false)
+            .prop('disabled', true);
+        }
     },
 
     onChangeLayerRepresentation() {
@@ -272,6 +294,12 @@ export default Marionette.ItemView.extend({
 
         let updateRequest = false;
         let updateCache = false;
+        const layerCache = this.ui.layerCache.prop('checked');
+        let layerCacheArchive = this.ui.layerCacheArchive.prop('checked');
+
+        if (!layerCache) {
+            layerCacheArchive = false;
+        }
 
         this.model.set('name', this.ui.layerName.val());
         this.model.set('description', this.ui.layerDescription.val());
@@ -279,7 +307,8 @@ export default Marionette.ItemView.extend({
         this.model.set('minZoom', parseInt(this.ui.layerMinZoom.val(), 10));
         this.model.set('overpassRequest', this.ui.layerOverpassRequest.val());
         this.model.set('popupContent', this.ui.layerPopupContent.val());
-        this.model.set('cache', this.ui.layerCache.prop('checked'));
+        this.model.set('cache', layerCache);
+        this.model.set('cacheArchive', layerCacheArchive);
         this.model.set('heatMinOpacity', parseFloat(this.ui.heatMinOpacity.val()));
         this.model.set('heatMaxZoom', parseInt(this.ui.heatMaxZoom.val(), 10));
         this.model.set('heatMax', parseFloat(this.ui.heatMax.val()));

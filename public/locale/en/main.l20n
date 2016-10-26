@@ -43,7 +43,13 @@
 
 
 
+<overPassCacheArchives "OverPass cache archives">
+<overPassCacheArchives_explanation "The following POI are in your OverPass layers cache but have been removed from OSM.">
+<overPassCacheArchives_emptyStateTextArchived "No archived POI">
+<overPassCacheArchives_emptyStateTextWaiting "No POI waiting">
+<seeArchives "See the archived POI">
 <layers "Layers">
+<layer "Layer">
 <translations "Translations">
 <presets "Nodes types">
 <presetCategories "Nodes types categories">
@@ -58,6 +64,8 @@
 <logout "Log out">
 <close "Close">
 <save "Save">
+<delete "Delete">
+<archive "Archive">
 <validate "Validate">
 <cancel "Cancel">
 <next "Next">
@@ -248,8 +256,11 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <editLayerFormColumn_cache "Cache">
 <editLayerFormColumn_cacheDescription "It replaces the live OverPass request.">
 <editLayerFormColumn_enableCache "Enable the cache">
-<editLayerFormColumn_cachePopoverTitle "Limitations">
+<editLayerFormColumn_enableCacheArchive "Enable the cache archive">
+<editLayerFormColumn_cachePopoverTitle "Cache archiving">
 <editLayerFormColumn_cachePopoverContent "Data are daily updated while the request, executed on the entire globe, take less than 3 minutes and the final file size is lower than 1 MB.">
+<editLayerFormColumn_cacheArchivePopoverTitle "Cache archiving">
+<editLayerFormColumn_cacheArchivePopoverContent "It lets theme administrators to decide to keep or definitly remove the OSM removed POIs.">
 <editLayerFormColumn_cacheDate "Last update: {{ $date }}.">
 <editLayerFormColumn_cacheErrorTimeout "<i></i> The last cache update failed because of an execution time too important.">
 <editLayerFormColumn_cacheErrorMemory "<i></i> The last cache update failed because of a final file size too important.">

@@ -20,10 +20,17 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        cacheArchiveItem: '.cache_archive',
     },
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
+    },
+
+    onRender() {
+        if ( this.options.config.overPassCacheArchiveEnabled === true ) {
+            this.ui.cacheArchiveItem.removeClass('hide');
+        }
     },
 
     onBeforeOpen() {

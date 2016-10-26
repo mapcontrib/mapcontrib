@@ -42,6 +42,9 @@ import ContributeEditFormColumn from 'view/contribute/edit/formColumn';
 import AdminSettingMenuColumn from 'view/admin/setting/menuColumn';
 import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
 import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
+import AdminSettingCacheArchiveColumn from 'view/admin/setting/cacheArchive/mainColumn';
+import AdminSettingCacheArchiveSeeArchivesColumn from 'view/admin/setting/cacheArchive/archiveColumn';
+import AdminSettingCacheArchiveDetailColumn from 'view/admin/setting/cacheArchive/detailColumn';
 
 import AdminLayerColumn from 'view/admin/layer/layerColumn';
 import AdminLayerAddMenuColumn from 'view/admin/layer/addMenuColumn';
@@ -102,6 +105,9 @@ export default Backbone.Router.extend({
         'admin/setting': 'routeAdminSettingMenu',
         'admin/setting/main': 'routeAdminSettingMain',
         'admin/setting/tile': 'routeAdminSettingTile',
+        'admin/setting/cache-archive': 'routeAdminSettingCacheArchive',
+        'admin/setting/cache-archive/archives': 'routeAdminSettingCacheArchiveSeeArchives',
+        'admin/setting/cache-archive/:layerUuid/*osmId': 'routeAdminSettingCacheArchiveDetail',
 
         'admin/layer': 'routeAdminLayer',
         'admin/layer/new': 'routeAdminLayerNew',
@@ -626,6 +632,7 @@ export default Backbone.Router.extend({
         new AdminSettingMenuColumn({
             router: this,
             model: this._theme,
+            config: this._config,
         }).open();
     },
 
@@ -650,6 +657,66 @@ export default Backbone.Router.extend({
         new AdminSettingTileColumn({
             router: this,
             model: this._theme,
+        }).open();
+    },
+
+    routeAdminSettingCacheArchive() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminSettingCacheArchiveColumn({
+            router: this,
+            model: this._theme,
+        }).open();
+    },
+
+    routeAdminSettingCacheArchiveSeeArchives() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminSettingCacheArchiveSeeArchivesColumn({
+            router: this,
+            model: this._theme,
+            routeOnClose: 'admin/setting/cache-archive',
+            triggerRouteOnClose: true,
+        }).open();
+    },
+
+    routeAdminSettingCacheArchiveDetail(layerUuid, osmId) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const layerModel = this._theme.get('layers').findWhere({
+            uuid: layerUuid,
+        });
+
+        if (!layerModel) {
+            this.navigate('');
+            return;
+        }
+
+        const features = layerModel.get('cacheDeletedFeatures').filter(
+            feature => feature.id === osmId
+        );
+
+        if (features.length === 0) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminSettingCacheArchiveDetailColumn({
+            router: this,
+            theme: this._theme,
+            model: layerModel,
+            deletedFeature: features[0],
+            routeOnClose: this._previousRoute,
+            triggerRouteOnClose: true,
         }).open();
     },
 

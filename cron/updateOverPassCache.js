@@ -1,4 +1,5 @@
 
+import config from 'config';
 import logger from '../lib/logger';
 import Database from '../lib/database';
 import SERVER_CONST from '../const';
@@ -8,6 +9,12 @@ import OverPassCache from '../lib/overPassCache';
 
 const CONST = { ...SERVER_CONST, ...PUBLIC_CONST };
 const database = new Database();
+
+
+if (config.get('client.overPassCacheEnabled') !== true) {
+    logger.info('The OverPass cache is not enabled');
+    process.exit();
+}
 
 
 export default class UpdateOverPassCache {
@@ -20,6 +27,7 @@ export default class UpdateOverPassCache {
             this._retryIteration.bind(this),
             this._setLayerStateSuccess.bind(this),
             this._setLayerStateError.bind(this),
+            this._setLayerDeletedFeatures.bind(this),
         ];
     }
 
@@ -151,6 +159,38 @@ export default class UpdateOverPassCache {
                         'layers.$.cacheUpdateDate': new Date().toISOString(),
                         'layers.$.cacheUpdateError': error,
                         'layers.$.cacheBounds': null,
+                    },
+                },
+                () => {
+                    resolve();
+                }
+            );
+        });
+    }
+
+    _setLayerDeletedFeatures(theme, layer, deletedFeatures) {
+        logger.debug('_setLayerDeletedFeatures');
+
+        if (!layer.cacheDeletedFeatures) {
+            layer.cacheDeletedFeatures = [];
+        }
+
+        return new Promise((resolve) => {
+            if (deletedFeatures.length === 0) {
+                resolve();
+            }
+
+            layer.cacheDeletedFeatures.push(
+                ...deletedFeatures
+            );
+
+            this._themeCollection.updateOne({
+                    _id: theme._id,
+                    'layers.uuid': layer.uuid,
+                },
+                {
+                    $set: {
+                        'layers.$.cacheDeletedFeatures': layer.cacheDeletedFeatures,
                     },
                 },
                 () => {
