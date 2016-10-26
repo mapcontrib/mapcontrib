@@ -13,7 +13,8 @@ export default Marionette.LayoutView.extend({
             column: {
                 appendToBody: true,
                 destroyOnClose: true,
-                routeOnClose: this.options.previousRoute,
+                routeOnClose: this.options.routeOnClose,
+                triggerRouteOnClose: this.options.triggerRouteOnClose,
             },
         };
     },
@@ -21,6 +22,13 @@ export default Marionette.LayoutView.extend({
     ui: {
         column: '.column',
         tableBody: 'table tbody',
+        archiveBtn: '.archive_btn',
+        deleteBtn: '.delete_btn',
+    },
+
+    events: {
+        'click @ui.archiveBtn': '_onClickArchive',
+        'click @ui.deleteBtn': '_onClickDelete',
     },
 
     initialize() {
@@ -53,5 +61,29 @@ export default Marionette.LayoutView.extend({
         }
 
         this.ui.tableBody.html(html);
+    },
+
+    _onClickArchive() {
+        const features = this.model.get('cacheDeletedFeatures').map((feature) => {
+            if (feature.id === this.options.deletedFeature.id) {
+                feature.isArchived = true;
+            }
+
+            return feature;
+        });
+
+        this.model.set('cacheDeletedFeatures', features);
+        this.options.theme.save();
+        this.close();
+    },
+
+    _onClickDelete() {
+        const features = this.model.get('cacheDeletedFeatures').filter(
+            feature => feature.id !== this.options.deletedFeature.id
+        );
+
+        this.model.set('cacheDeletedFeatures', features);
+        this.options.theme.save();
+        this.close();
     },
 });

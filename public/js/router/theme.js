@@ -699,6 +699,8 @@ export default Backbone.Router.extend({
             theme: this._theme,
             model: layerModel,
             deletedFeature: features[0],
+            routeOnClose: 'admin/setting/cache-archive',
+            triggerRouteOnClose: true,
         }).open();
     },
 

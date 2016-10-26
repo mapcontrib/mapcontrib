@@ -45,6 +45,7 @@
 
 <overPassCacheArchives "OverPass cache archives">
 <overPassCacheArchives_explanation "The following POI are in your OverPass layers cache but have been removed from OSM.">
+<overPassCacheArchives_emptyStateText "No POI waiting">
 <layers "Layers">
 <layer "Layer">
 <translations "Translations">

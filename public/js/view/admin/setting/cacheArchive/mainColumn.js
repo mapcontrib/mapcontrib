@@ -22,6 +22,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        emptyState: '.empty_state',
     },
 
     regions: {
@@ -49,9 +50,13 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        const navPillsStackedList = new NavPillsStackedListView({
-            items: this._buildItems(),
-        });
+        const items = this._buildItems();
+
+        if (items.length > 0) {
+            this.ui.emptyState.hide();
+        }
+
+        const navPillsStackedList = new NavPillsStackedListView({ items });
         this.getRegion('list').show( navPillsStackedList );
     },
 
@@ -65,11 +70,13 @@ export default Marionette.LayoutView.extend({
             const rightIcon = MapUi.buildLayerHtmlIcon(layerModel);
 
             for (const feature of deletedFeatures) {
-                items.push({
-                    label: feature.properties.tags.name || feature.id,
-                    rightIcon,
-                    href: `#admin/setting/cache-archive/${uuid}/${feature.id}`,
-                });
+                if (!feature.isArchived) {
+                    items.push({
+                        label: feature.properties.tags.name || feature.id,
+                        rightIcon,
+                        href: `#admin/setting/cache-archive/${uuid}/${feature.id}`,
+                    });
+                }
             }
         }
 
