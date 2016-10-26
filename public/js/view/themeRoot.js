@@ -805,19 +805,25 @@ export default Marionette.LayoutView.extend({
             layerModel.get('fileUri')
         )
         .on('ready', (layer) => {
-            layerModel.addObjects(layer.target._layers);
+            const deletedFeatures = L.geoJson(layerModel.get('cacheDeletedFeatures'));
+            const layers = {
+                ...deletedFeatures._layers,
+                ...layer.target._layers,
+            };
 
-            for (const index in layer.target._layers) {
-                if ({}.hasOwnProperty.call(layer.target._layers, index)) {
+            layerModel.addObjects(layers);
+
+            for (const index in layers) {
+                if ({}.hasOwnProperty.call(layers, index)) {
                     this._overPassData.save(
-                        layer.target._layers[index].feature.properties,
+                        layers[index].feature.properties,
                         layerModel.cid
                     );
                 }
             }
 
             this._customizeDataAndDisplay(
-                layer.target._layers,
+                layers,
                 rootLayer,
                 layerModel,
                 CONST.layerType.geojson,

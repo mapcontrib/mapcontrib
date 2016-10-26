@@ -110,6 +110,18 @@ export default Backbone.RelationalModel.extend({
         return this._geoJsonObjects;
     },
 
+    getArchivedDeletedPois() {
+        return this.get('cacheDeletedFeatures').filter(
+            feature => feature.isArchived === true
+        );
+    },
+
+    getWaitingDeletedPois() {
+        return this.get('cacheDeletedFeatures').filter(
+            feature => feature.isArchived !== true
+        );
+    },
+
     getLocaleCompletion(localeCode) {
         const locale = this.get('locales')[localeCode];
         const data = {

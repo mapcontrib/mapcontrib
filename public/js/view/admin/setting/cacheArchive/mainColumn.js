@@ -66,17 +66,15 @@ export default Marionette.LayoutView.extend({
 
         for (const layerModel of layers) {
             const uuid = layerModel.get('uuid');
-            const deletedFeatures = layerModel.get('cacheDeletedFeatures');
+            const deletedFeatures = layerModel.getWaitingDeletedPois();
             const rightIcon = MapUi.buildLayerHtmlIcon(layerModel);
 
             for (const feature of deletedFeatures) {
-                if (!feature.isArchived) {
-                    items.push({
-                        label: feature.properties.tags.name || feature.id,
-                        rightIcon,
-                        href: `#admin/setting/cache-archive/${uuid}/${feature.id}`,
-                    });
-                }
+                items.push({
+                    label: feature.properties.tags.name || feature.id,
+                    rightIcon,
+                    href: `#admin/setting/cache-archive/${uuid}/${feature.id}`,
+                });
             }
         }
 
