@@ -45,7 +45,9 @@
 
 <overPassCacheArchives "OverPass cache archives"> /* FIXME */
 <overPassCacheArchives_explanation "The following POI are in your OverPass layers cache but have been removed from OSM."> /* FIXME */
-<overPassCacheArchives_emptyStateText "No POI waiting"> /* FIXME */
+<overPassCacheArchives_emptyStateTextArchived "No archived POI"> /* FIXME */
+<overPassCacheArchives_emptyStateTextWaiting "No POI waiting"> /* FIXME */
+<seeArchives "See the archived POI"> /* FIXME */
 <layers "Livelli">
 <layer "Livello">
 <translations "Translations"> /* FIXME */

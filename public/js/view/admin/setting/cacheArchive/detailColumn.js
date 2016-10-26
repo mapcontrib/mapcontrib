@@ -51,6 +51,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
+        const isArchived = this.options.deletedFeature.isArchived;
         const tags = this.options.deletedFeature.properties.tags;
         let html = '';
 
@@ -61,6 +62,11 @@ export default Marionette.LayoutView.extend({
         }
 
         this.ui.tableBody.html(html);
+
+        if (isArchived) {
+            this.ui.archiveBtn.hide();
+            this.ui.deleteBtn.addClass('btn-block');
+        }
     },
 
     _onClickArchive() {
