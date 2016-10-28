@@ -28,7 +28,8 @@
     "build": "NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
     "lint": "eslint .",
-    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --recursive --inline-diffs --compilers js:babel-core/register test",
+    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 nyc --reporter=text-summary mocha --recursive --inline-diffs -- test",
+    "test-n-coverage": "NODE_ENV=test BABEL_DISABLE_CACHE=1 nyc mocha --recursive --inline-diffs -- test",
     "pre-commit": "npm test && npm run lint",
     "update-overpass-cache": "babel-node cron/updateOverPassCache.js",
     "import-id-presets": "babel-node scripts/importIdPresets.js"
