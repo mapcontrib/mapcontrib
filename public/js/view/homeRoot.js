@@ -109,15 +109,20 @@ export default Marionette.LayoutView.extend({
     },
 
     resetThemeCollection() {
-        this.collection = new ThemeCollection();
+        let themes = [];
 
         if (MAPCONTRIB.highlightList) {
-            this.collection.add(
-                JSON.parse(unescape( MAPCONTRIB.highlightList ))
-            );
+            themes = JSON.parse(unescape( MAPCONTRIB.highlightList ));
         }
 
-        this.render();
+        if (!this.collection) {
+            this.collection = new ThemeCollection(themes);
+            this.render();
+        }
+        else {
+            this.collection.reset(themes);
+        }
+
         this.showResults();
     },
 
