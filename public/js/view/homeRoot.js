@@ -77,6 +77,8 @@ export default Marionette.LayoutView.extend({
     },
 
     fetchSearchedThemes(searchString) {
+        const startTime = this._lastQueryStartTime = new Date().getTime();
+
         this.collection.fetch({
             reset: true,
             merge: false,
@@ -85,6 +87,10 @@ export default Marionette.LayoutView.extend({
                 hasLayer: true,
             },
             success: (collection, response, options) => {
+                if (startTime !== this._lastQueryStartTime) {
+                    return;
+                }
+
                 this.onThemesFetchSuccess(collection, response, options);
                 this._searchInput.trigger('search:success');
                 this._scrollToSearchInput();
