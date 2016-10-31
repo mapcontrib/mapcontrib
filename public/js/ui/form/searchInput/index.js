@@ -79,6 +79,7 @@ export default Marionette.LayoutView.extend({
             this.trigger('notEnoughCharacters', searchString);
         }
         else {
+            this.trigger('search:before', searchString);
             this.showSpinner();
 
             this._timeout = setTimeout(

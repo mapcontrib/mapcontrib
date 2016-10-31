@@ -49,6 +49,7 @@ export default Marionette.LayoutView.extend({
         this._searchInput.on('empty', this.resetThemeCollection, this);
         this._searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
         this._searchInput.on('search', this.fetchSearchedThemes, this);
+        this._searchInput.on('search:before', this.showSearchPlaceholder, this);
         this._searchInput.on('focus', this._scrollToSearchInput, this);
         this._searchInput.on('keyup', this._scrollToSearchInput, this);
         this._searchInput.setFocus();
@@ -133,6 +134,16 @@ export default Marionette.LayoutView.extend({
         }).open();
     },
 
+    showSearchPlaceholder() {
+        this._scrollToSearchInput();
+
+        this.ui.charactersLeftPlaceholderText.addClass('hide');
+
+        this.ui.noResultPlaceholder.addClass('hide');
+        this.ui.searchResults.addClass('hide');
+        this.ui.charactersLeftPlaceholder.removeClass('hide');
+    },
+
     showCharactersLeftPlaceholder(searchString) {
         this._scrollToSearchInput();
 
@@ -143,7 +154,8 @@ export default Marionette.LayoutView.extend({
                 'home_charactersLeft',
                 { n: charactersLeft }
             )
-        );
+        )
+        .removeClass('hide');
 
         this.ui.noResultPlaceholder.addClass('hide');
         this.ui.searchResults.addClass('hide');
