@@ -280,11 +280,6 @@ export default Backbone.Router.extend({
 
 
     routeTempLayer() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerColumn({
             router: this,
             collection: this._tempLayerCollection,
@@ -293,11 +288,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNew() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerAddMenuColumn({
             router: this,
             model: this._theme,
@@ -307,11 +297,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNewOverPass() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerEditOverPassColumn({
             router: this,
             theme: this._theme,
@@ -326,11 +311,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNewGpx() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerEditGpxColumn({
             router: this,
             theme: this._theme,
@@ -345,11 +325,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNewCsv() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerEditCsvColumn({
             router: this,
             theme: this._theme,
@@ -364,11 +339,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNewGeoJson() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerEditGeoJsonColumn({
             router: this,
             theme: this._theme,
@@ -383,11 +353,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerEdit(uuid) {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         const model = this._tempLayerCollection.findWhere({ uuid });
 
         if (model) {
