@@ -185,6 +185,7 @@ export default Backbone.Router.extend({
             url: `${CONST.apiPath}/user/logout`,
             dataType: 'json',
             context: this,
+            cache: false,
             complete: () => {
                 this.navigate('');
 
