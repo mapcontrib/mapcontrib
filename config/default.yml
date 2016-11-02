@@ -11,7 +11,7 @@ mongodb:
     host: localhost
     port: 27017
     database: mapcontrib
-    poolSize: 3
+    poolSize: 1
 
 dataDirectory: public/files
 
