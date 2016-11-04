@@ -258,7 +258,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <editLayerFormColumn_enableCache "Enable the cache">
 <editLayerFormColumn_enableCacheArchive "Enable the cache archive">
 <editLayerFormColumn_cachePopoverTitle "Cache archiving">
-<editLayerFormColumn_cachePopoverContent "Data are daily updated while the request, executed on the entire globe, take less than 3 minutes and the final file size is lower than 1 MB.">
+<editLayerFormColumn_cachePopoverContent "Data are daily updated while the request take less than 3 minutes and the final file size is lower than 1 MB.">
 <editLayerFormColumn_cacheArchivePopoverTitle "Cache archiving">
 <editLayerFormColumn_cacheArchivePopoverContent "It lets theme administrators to decide to keep or definitly remove the OSM removed POIs.">
 <editLayerFormColumn_cacheDate "Last update: {{ $date }}.">

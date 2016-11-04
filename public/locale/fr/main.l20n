@@ -258,7 +258,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <editLayerFormColumn_enableCache "Activer le cache">
 <editLayerFormColumn_enableCacheArchive "Activer l'archivage du cache">
 <editLayerFormColumn_cachePopoverTitle "Limitations">
-<editLayerFormColumn_cachePopoverContent "Les informations sont mises à jour quotidiennement à condition que la requête exécutée sur l'ensemble du globe ne mette pas plus de 3 minutes et que le fichier final ne fasse pas plus d'1 Mo.">
+<editLayerFormColumn_cachePopoverContent "Les informations sont mises à jour quotidiennement à condition que la requête ne mette pas plus de 3 minutes et que le fichier final ne fasse pas plus d'1 Mo.">
 <editLayerFormColumn_cacheArchivePopoverTitle "Archivage de cache">
 <editLayerFormColumn_cacheArchivePopoverContent "Il permet aux administrateurs de thème de décider de garder ou de supprimer définitivement les POI supprimés d'OSM.">
 <editLayerFormColumn_cacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
