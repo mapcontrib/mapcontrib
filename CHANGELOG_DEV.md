@@ -6,4 +6,5 @@
 * The administrator can now force the use of https on his instance.
 * The columns are a bit larger.
 * Change a Mongo request in order to be compatible with Mongo 2.x.
+* Upgrade to Leaflet 1.0.1.
 * And as always, multiple bufixes and enhancement.
