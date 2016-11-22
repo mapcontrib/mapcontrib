@@ -8,7 +8,7 @@ export function extensionname(path) {
 }
 
 export function dirname(path) {
-    return path.replace(/\\/g, '/').replace(/\/[^\/]*$/, '');
+    return path.replace(/\\/g, '/').replace(/\/[^/]*$/, '');
 }
 
 // http://stackoverflow.com/a/18650828
