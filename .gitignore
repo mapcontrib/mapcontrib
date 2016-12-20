@@ -6,7 +6,4 @@ npm-debug.log
 /.nyc_output
 
 /config/local.yml
-/upload
-/public/assets
-/public/files
 *bundle.*
