@@ -222,6 +222,10 @@ export default Marionette.LayoutView.extend({
             this.hideEditTools();
             this.updateAllLayerPopups();
         });
+
+        this._radio.vent.on('geocode:itemSelected', () => {
+            this._geolocation.stopPanning();
+        });
     },
 
     onRender() {

@@ -151,6 +151,7 @@ export default Marionette.LayoutView.extend({
 
     onGeocodeResultClick(result) {
         this._radio.commands.execute('map:fitBounds', result.bbox);
+        this._radio.vent.trigger('geocode:itemSelected');
 
         this.close();
     },
