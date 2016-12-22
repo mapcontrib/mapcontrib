@@ -35,8 +35,8 @@ client:
     taginfoServiceHost: https://taginfo.openstreetmap.org/
     freeTagsContributionEnabled: true
 
-    largeScreenMinWidth: 400
-    largeScreenMinHeight: 500
+    largeScreenMinWidth: 500
+    largeScreenMinHeight: 800
 
     shareIframeWidth: 100
     shareIframeWidthUnit: '%'

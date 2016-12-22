@@ -35,6 +35,7 @@ export default Marionette.LayoutView.extend({
         this._app = options.app;
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
+        this._config = this._app.getConfig();
 
         this.resetThemeCollection();
     },
@@ -50,8 +51,8 @@ export default Marionette.LayoutView.extend({
         this._searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
         this._searchInput.on('search', this.fetchSearchedThemes, this);
         this._searchInput.on('search:before', this.showSearchPlaceholder, this);
-        this._searchInput.on('focus', this._scrollToSearchInput, this);
-        this._searchInput.on('keyup', this._scrollToSearchInput, this);
+        this._searchInput.on('focus', this._checkScreenSizeAndScrollToSearchInput, this);
+        this._searchInput.on('keyup', this._checkScreenSizeAndScrollToSearchInput, this);
         this._searchInput.setFocus();
 
         this.getRegion('searchResults').show(
@@ -59,6 +60,20 @@ export default Marionette.LayoutView.extend({
                 collection: this.collection,
             })
         );
+    },
+
+    _isTallScreen() {
+        if ( $(this._window).height() >= this._config.largeScreenMinHeight ) {
+            return true;
+        }
+
+        return false;
+    },
+
+    _checkScreenSizeAndScrollToSearchInput() {
+        if ( this._isTallScreen() === false ) {
+            this._scrollToSearchInput();
+        }
     },
 
     _scrollToSearchInput() {
