@@ -171,7 +171,15 @@ export default Marionette.LayoutView.extend({
         }
 
         if (iDTag) {
-            return iDTag.type;
+            switch (iDTag.type) {
+                // If no custom tag is present to fill the combo options
+                case CONST.tagType.typeCombo:
+                case CONST.tagType.combo:
+                    return CONST.tagType.text;
+
+                default:
+                    return iDTag.type;
+            }
         }
 
         return CONST.tagType.text;
