@@ -16,9 +16,9 @@ Informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUT
 
     $ git clone https://github.com/MapContrib/MapContrib.git
     $ cd MapContrib
-    $ npm install
-    $ npm run build
-    $ npm test
+    $ yarn install
+    $ yarn run build
+    $ yarn test
 
 It will install all the dependancies and test the code.
 
