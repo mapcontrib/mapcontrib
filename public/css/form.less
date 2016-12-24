@@ -1,0 +1,166 @@
+
+input[disabled],
+select[disabled],
+textarea[disabled],
+.form-control[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+    cursor: default;
+}
+
+button,
+.btn,
+.nav > li > a {
+    border-radius: 0;
+}
+
+input,
+select,
+textarea,
+.form-control,
+.list-group-item,
+.list-group-item:first-child,
+.list-group-item:last-child,
+fieldset .form-control {
+    border-radius: 0 !important;
+    box-shadow: none;
+
+    &:hover,
+    &.focus,
+    &:focus,
+    &.active,
+    &:active {
+        box-shadow: none;
+    }
+}
+
+
+
+textarea {
+    resize: vertical;
+}
+
+textarea.font-monospace {
+    font-size: 12px;
+}
+
+.form-horizontal .control-label {
+    padding: 7px 15px 0 15px;
+}
+
+.control-label + .radio,
+.control-label + .checkbox {
+    margin-top: 0;
+}
+
+.radio + .radio,
+.radio + .checkbox,
+.checkbox + .radio,
+.checkbox + .checkbox {
+    margin-top: -5px;
+}
+
+.radio-inline,
+.checkbox-inline {
+    margin-top: 0;
+}
+
+.input-group {
+    .radio-inline,
+    .checkbox-inline {
+        margin-top: 8px;
+    }
+}
+
+.form-control-feedback {
+    display: none;
+}
+
+.has-feedback {
+    .form-control {
+        box-shadow: none;
+    }
+
+    .form-control-feedback {
+        display: block;
+    }
+}
+
+.has-success {
+    .form-control {
+        background: lighten(@green, 57%);
+    }
+
+    .form-control-feedback {
+        color: @green;
+    }
+}
+
+.has-warning {
+    .form-control {
+        background: lighten(@orange, 35%);
+    }
+
+    .form-control-feedback {
+        color: @orange;
+    }
+}
+
+.has-error {
+    .form-control {
+        background: lighten(@red, 22%);
+    }
+
+    .form-control-feedback {
+        color: @red;
+    }
+}
+
+
+input + .help-block,
+.input-group + .help-block,
+.input-group-btn + .help-block,
+.help-block + .help-block,
+textarea + .help-block,
+figure + figcaption,
+.form-group-help-block {
+    padding: 4px 6px;
+    margin-top: 0;
+}
+
+input + .help-block,
+.input-group + .help-block,
+.input-group-btn + .help-block,
+.help-block + .help-block,
+textarea + .help-block,
+.form-group-help-block {
+    font-size: 12px;
+}
+
+.form-group {
+    .help-block + .help-block {
+        margin-top: -10px;
+    }
+
+    .help-block.hide + .help-block {
+        margin-top: 0;
+    }
+}
+
+/* To avoid a flip between the input and its group on focus... */
+.input-group .form-control:focus {
+    z-index: 2;
+}
+
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group,
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
+    z-index: 1;
+}
+
+
+.input-group-addon {
+    border-radius: 0;
+}

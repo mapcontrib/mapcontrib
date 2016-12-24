@@ -2,26 +2,25 @@
 import 'babel-polyfill';
 import assert from 'assert';
 
-import GeoJsonHelper from '../../src/public/js/helper/geoJson';
-
+import GeoJsonHelper from 'helper/geoJson';
 
 
 describe('GeoJsonHelper', () => {
     const geoJsonObject = {
-        'geometry': {},
-        'id': 'node/1234',
-        'type': 'feature',
-        'properties': {
-            'id': 1234,
-            'type': 'node',
-            'meta': {
-                'changeset': 654564654,
-                'timestamp': '',
-                'uid': 9879,
-                'user': 'qdlfjkh',
-                'version': 23
-            }
-        }
+        geometry: {},
+        id: 'node/1234',
+        type: 'feature',
+        properties: {
+            id: 1234,
+            type: 'node',
+            meta: {
+                changeset: 654564654,
+                timestamp: '',
+                uid: 9879,
+                user: 'qdlfjkh',
+                version: 23,
+            },
+        },
     };
 
     describe('findOsmId', () => {

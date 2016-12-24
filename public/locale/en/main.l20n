@@ -1,0 +1,428 @@
+<plural($n) {
+
+    $n == 0 ? "zero" :
+    $n == 1 ? "one" :
+    "many"
+}>
+
+
+<mapcontrib "MapContrib">
+<slogan "Thematic <a>OpenStreetMap</a> contribution">
+
+
+<pageTitle "{{ mapcontrib }}">
+<pageTitleWithMapName "{{ $map.name }} - {{ mapcontrib }}">
+
+
+<markdownAvailable "<a>Markdown</a> format available">
+<maxFileSize "The file size has to be lower than {{ $maxFileSize }}">
+
+
+<buttonDescriptionTooltip title:"Read the description">
+<buttonZoomInTooltip title:"Zoom in">
+<buttonZoomOutTooltip title:"Zoom out">
+<buttonGeocodeTooltip title:"Find a place">
+<buttonLocateTooltip title:"Show my location">
+<buttonLocateWaitTooltip title:"Cancel the search of my location">
+<buttonExpandScreenTooltip title:"Full screen">
+<buttonCompressScreenTooltip title:"Exit full screen">
+<buttonLayerTooltip title:"Layers display">
+<buttonTileTooltip title:"Background display">
+<buttonLoginTooltip title:"{{ login }}">
+<buttonUserTooltip title:"My account">
+<buttonLinkTooltip title:"Share">
+<buttonContribTooltip title:"Add missing data">
+<buttonTempLayerTooltip title:"Add a temporary layer">
+<buttonEditSettingTooltip title:"{{ settings }}">
+<buttonEditLayerTooltip title:"{{ layers }}">
+<buttonEditLocaleTooltip title:"{{ translations }}">
+<buttonEditPresetTooltip title:"{{ presets }}">
+<buttonEditTagTooltip title:"{{ tags }}">
+<buttonHelpTooltip title:"Help">
+
+
+
+
+<overPassCacheArchives "OverPass cache archives">
+<overPassCacheArchives_explanation "The following POI are in your OverPass layers cache but have been removed from OSM.">
+<overPassCacheArchives_emptyStateTextArchived "No archived POI">
+<overPassCacheArchives_emptyStateTextWaiting "No POI waiting">
+<seeArchives "See the archived POI">
+<layers "Layers">
+<layer "Layer">
+<translations "Translations">
+<presets "Nodes types">
+<presetCategories "Nodes types categories">
+<tags "Tags">
+<goBackToHome "Return to home">
+<about "About {{ mapcontrib }}">
+<myThemes "My themes">
+<preferences "Preferences">
+<edit "Edit">
+<login "Log in">
+<loginOrSubscribe "Log in or subscribe">
+<logout "Log out">
+<close "Close">
+<save "Save">
+<delete "Delete">
+<archive "Archive">
+<validate "Validate">
+<cancel "Cancel">
+<next "Next">
+<previous "Previous">
+<back "Back">
+<customize "Customize">
+<letsGo "Let's go">
+<empty "Empty">
+<editThatElement "Edit that element">
+<loadingData title:"Some data are being loaded">
+<createATheme "Create a theme">
+<searchATheme "Search a theme (3 characters min.)">
+<aboutMapContrib "About MapContrib">
+<invalidFile "Invalid file">
+<currentFile "Current file: <a>{{ $file }}</a>">
+<file "File">
+<fileNotFound "File not found">
+<noResult "No result">
+<name "Name">
+<description "Description">
+<type "Type">
+<locales "Translations">
+<key "Key">
+<textFields label:"Text">
+<checkboxFields label:"Checkboxes">
+<nonTextFields label:"Non text">
+<comboFields label:"Dropdown">
+<text "Text">
+<number "Number">
+<email "Email">
+<tel "Phone number">
+<url "Web address">
+<textarea "Big text">
+<checkbox "Checkbox">
+<checkField "Yes or no">
+<defaultCheckField "Yes or empty">
+<comboField "Only choice">
+<typeComboField "Yes or only choice">
+<multiComboField "Multi-choice">
+<value "Valeur">
+<defaultValue "Default value">
+<yes "Yes">
+<no "No">
+<settings "Settings">
+<mainSettings "Main settings">
+<tiles "Backgrounds">
+<options "Options">
+<addAnOption "Add an option">
+<multiComboInfo1 "Complete the <em>{{ $prefix }}</em> prefix">
+<multiComboInfo2 "Eg: recycling:glass">
+
+
+/* Home */
+<home_charactersLeft[plural($n)] {
+  one: "1 character left",
+  many: "{{ $n }} characters left"
+}>
+
+
+/* About */
+<aboutTitle "About">
+<aboutText1 "MapContrib is a <a>free software</a>. It can create cartographic themes.">
+<aboutText2 "Those themes are <a>OpenStreetMap</a> based maps on which we can add some markers/points of interest.">
+<aboutText3 "When using MapContrib, you accept to put your contributions <a>under the «&nbsp;ODbL&nbsp;» licence</a>, which grant to use and share those datas by quoting «&nbsp;the OSM contributors&nbsp;»</a>.">
+<aboutText4 "Kudos to several inspiring projects:">
+<aboutTextVersion "That MapContrib instance is using the {{ $version }} version.">
+
+
+/* Login modal */
+<loginModal_explanation "To keep it simple, MapContrib only needs to connect to your OpenStreetMap account.">
+
+
+/* Geocode widget */
+<geocodeWidget_queryInput placeholder:"City, zip code, ...">
+
+
+/* Layer column */
+<selectLayerColumn_title "Layers">
+<selectLayerColumn_explanation "Select the layers you want to see on the map">
+<selectLayerColumn_needToZoom[plural($n)] {
+  one: "To see these data, you need to zoom once.",
+  many: "To see these data, you need to zoom {{ $n }} times."
+}>
+<selectLayerColumn_downloadData "Download the visible data">
+
+
+/* Tile column */
+<selectTileColumn_title "Backgrounds">
+
+
+/* User column */
+<userColumn_title "My account">
+
+
+/* Visitor column */
+<visitorColumn_title "Hi!">
+
+
+/* Contribution column */
+<contribColumn_title "Add a node">
+<contribColumn_description "Choose a type of node">
+<contribColumn_searchAPreset "Search a type of node">
+<contribColumn_freeAddition "Free tags addition">
+<contribColumn_addTag "Add a tag">
+
+
+/* Link column */
+<linkColumn_title "Share">
+<linkColumn_linkTitle "Direct link">
+<linkColumn_linkIncludePosition "Include the current position">
+<linkColumn_integrationTitle "Integrated in your website">
+<linkColumn_iframeIncludePosition "Include the current position">
+<linkColumn_seeBigger "See it bigger">
+<linkColumn_width "Width">
+<linkColumn_height "Height">
+<linkColumn_percentage "Percentage">
+<linkColumn_pixel "Pixel">
+
+
+/* Edit settings column */
+<editSettingColumn_title "Settings">
+<editSettingColumn_themeName "Theme name">
+<editSettingColumn_themeDescription "{{ description }}">
+<editSettingColumn_color "Color">
+<editSettingColumn_position "Location">
+<editSettingColumn_geolocation "Geolocation">
+<editSettingColumn_keepOld "Keep old parameters">
+<editSettingColumn_setNew "Set the new ones">
+<editSettingColumn_autoGeolocateUser "Automatically geolocate the user">
+<editSettingColumn_geocoder "Geocoder">
+<editSettingColumn_photon "Photon">
+<editSettingColumn_nominatim "Nominatim">
+<editSettingColumn_infoDisplay "Informations display">
+<editSettingColumn_popup "Popup">
+<editSettingColumn_modal "Modale window">
+<editSettingColumn_column "Column">
+<editSettingColumn_themeAnalytics "Analytics">
+<editSettingColumn_infoAnalyticsPopoverTitle "Integration">
+<editSettingColumn_infoAnalyticsPopoverContent "Analytics tools provide a javascript code to insert in the concerned website.
+
+Put it right here!">
+
+
+/* Edit layer column */
+<editLayerListColumn_title "Layers">
+<editLayerListColumn_addLayer "Add a layer">
+
+
+/* Edit layer column */
+<editLayerFormColumn_title "Layer edit">
+<editLayerFormColumn_layerName "{{ name }}">
+<editLayerFormColumn_layerDescription "{{ description }}">
+<editLayerFormColumn_representationType "Representation">
+<editLayerFormColumn_clusterRepresentation "Groupable points">
+<editLayerFormColumn_heatRepresentation "Heat map">
+<editLayerFormColumn_visibility "Visibility">
+<editLayerFormColumn_visible "Visible by users">
+<editLayerFormColumn_heatOptions "Heat map">
+<editLayerFormColumn_heatMapPopoverTitle "Informations">
+<editLayerFormColumn_heatMapPopoverContent "#### Maximum zoom
+
+Zoom level where the points reach maximum intensity.
+
+#### Radius
+
+Radius of each point of the layer.">
+<editLayerFormColumn_heatMinOpacity "Minimum opacity">
+<editLayerFormColumn_heatMaxZoom "Maximum zoom">
+<editLayerFormColumn_heatMax "Maximum intensity">
+<editLayerFormColumn_heatBlur "Amount of blur">
+<editLayerFormColumn_heatRadius "Radius">
+<editLayerFormColumn_layerZoomLevel "Minimum zoom">
+<editLayerFormColumn_currentMapZoom "The map is currently using the zoom level {{ $currentMapZoom }}">
+<editLayerFormColumn_overPassPopoverTitle "Bounding box">
+<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` is replaced by the current bounding box.">
+<editLayerFormColumn_layerOverpassRequest "OverPass request">
+<editLayerFormColumn_marker "Marker">
+<editLayerFormColumn_infoDisplayPopoverTitle "Value of tags">
+<editLayerFormColumn_infoDisplayPopoverContent "To display the value of each elements' tags, insert its name between brackets.
+
+Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
+<editLayerFormColumn_layerPopupContent "Popup content">
+<editLayerFormColumn_gpxFile "GPX file">
+<editLayerFormColumn_csvFile "CSV file">
+<editLayerFormColumn_csvDisclaimer "It must contain latitude and longitude values, in column named roughly <em>latitude</em> and <em>longitude</em>">
+<editLayerFormColumn_geoJsonFile "GeoJSON file">
+<editLayerFormColumn_browse "Browse">
+<editLayerFormColumn_cache "Cache">
+<editLayerFormColumn_cacheDescription "It replaces the live OverPass request.">
+<editLayerFormColumn_enableCache "Enable the cache">
+<editLayerFormColumn_enableCacheArchive "Enable the cache archive">
+<editLayerFormColumn_cachePopoverTitle "Cache archiving">
+<editLayerFormColumn_cachePopoverContent "Data are daily updated while the request take less than 3 minutes and the final file size is lower than 1 MB.">
+<editLayerFormColumn_cacheArchivePopoverTitle "Cache archiving">
+<editLayerFormColumn_cacheArchivePopoverContent "It lets theme administrators to decide to keep or definitly remove the OSM removed POIs.">
+<editLayerFormColumn_cacheDate "Last update: {{ $date }}.">
+<editLayerFormColumn_cacheErrorTimeout "<i></i> The last cache update failed because of an execution time too important.">
+<editLayerFormColumn_cacheErrorMemory "<i></i> The last cache update failed because of a final file size too important.">
+<editLayerFormColumn_cacheErrorBadRequest "<i></i> The last cache update failed because the request is erroneous.">
+<editLayerFormColumn_cacheErrorUnknown "<i></i> The last cache update failed for an unkown reason.">
+
+
+/* Edit layer marker modal */
+<editLayerMarkerModal_colorAndShape "Color and shape">
+<editLayerMarkerModal_color "Color">
+<editLayerMarkerModal_shape "Shape">
+<editLayerMarkerModal_icon "Icon">
+<editLayerMarkerModal_library "Library">
+<editLayerMarkerModal_external "External">
+<editLayerMarkerModal_iconName "Icon name">
+<editLayerMarkerModal_iconUrl "Icon url">
+<editLayerMarkerModal_iconDescriptionLibrary1 "Icons come from the Font Awesome collection.">
+<editLayerMarkerModal_iconDescriptionLibrary2 "Go to <a>that page</a>, choose an icon and note its name, then put it in the field below.">
+<editLayerMarkerModal_iconDescriptionExternal1 "You can use your own icon if it is hosted on the internet.">
+<editLayerMarkerModal_iconDescriptionExternal2 "Fill its address in the field below.">
+
+
+/* Edit tiles column */
+<editTileColumn_title "Backgrounds">
+<editTileColumn_maxZoom "Maximum zoom: {{ $maxZoom }}">
+
+
+/* Edit POI data column */
+<editPoiColumn_title "Edit data">
+<editPoiColumn_movePoi "Move the node">
+<editPoiColumn_emptyState "Refreshing the element data...">
+<editPoiColumn_remoteValue "New remote value:<br>{{ $remoteValue }}">
+<editPoiColumn_take "Take">
+<editPoiColumn_reject "Reject">
+
+
+/* Zoom indicator notification */
+<zoomNotification_content "Zoom to see data">
+
+
+/* Overpass timeout notification */
+<overpassTimeoutNotification_title "Timeout">
+<overpassTimeoutNotification_content "It seems that the <em>{{ $name }}</em> points of interest take too long to be loaded...">
+
+
+/* Overpass error notification */
+<overpassErrorNotification_title "Error">
+<overpassErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
+
+
+/* CSV error notification */
+<csvErrorNotification_title "Error">
+<csvErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
+
+
+/* GeoJSON error notification */
+<geoJsonErrorNotification_title "Error">
+<geoJsonErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> points of interest.">
+
+
+/* GPX error notification */
+<gpxErrorNotification_title "Error">
+<gpxErrorNotification_content "An error occured during the load of the <em>{{ $name }}</em> layer.">
+
+
+/* Contribution error notification */
+<contributionErrorNotification_title "Contribution failed">
+<contributionErrorNotification_content "An error occured during the send of your contribution.">
+<contributionErrorNotification_retry "Retry to send">
+
+
+/* Node tag field UI */
+<uiFormNodeTags_key "Key">
+<uiFormNodeTags_value placeholder:"{{ value }}">
+<uiFormNodeTags_keyReadOnly "Read-only key">
+<uiFormNodeTags_valueReadOnly "Read-only value">
+<uiFormNodeTags_nonOsmData "Do not send this tag to OSM">
+<uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap">
+<uiFormNodeTags_textInput "Text input">
+<uiFormNodeTags_fileInput "File input">
+<uiFormNodeTags_displayRawTag "Display the raw OSM tag">
+
+/* Color selector UI */
+<uiColorSelector_label "Color">
+
+
+/* List group UI */
+<uiListGroup_placeholder "Click below">
+<uiListGroup_placeholderNothingToTranslate "Nothing to translate">
+
+
+/* Contribution form column */
+<contribFormColumn_placeOnMap "Place on the map">
+
+
+/* New POI placement contextual */
+<newPoiPlacementContextual_text "Put the cross the exact node place.">
+
+
+/* Move POI contextual */
+<movePoiContextual_text "Put the cross the exact node place.">
+
+
+/* Add layer menu column */
+<addLayerMenuColumn_title "Add a layer">
+<addLayerMenuColumn_remoteInformation "Remote information">
+<addLayerMenuColumn_file "File">
+<addLayerMenuColumn_overPass "OverPass">
+<addLayerMenuColumn_gpx "GPX">
+<addLayerMenuColumn_csv "CSV">
+<addLayerMenuColumn_geoJson "GeoJSON">
+
+
+/* Layer info column */
+<infoLayerColumn_title "Informations">
+<infoLayerColumn_layerName "{{ name }}">
+<infoLayerColumn_layerDescription "{{ description }}">
+<infoLayerColumn_layerSource "Source of data">
+<infoLayerColumn_overPass "OverPass">
+<infoLayerColumn_gpx "GPX file">
+<infoLayerColumn_csv "CSV file">
+<infoLayerColumn_geoJson "GeoJSON file">
+<infoLayerColumn_layerMinZoom "Update minimum zoom">
+<infoLayerColumn_layerOverPassRequest "OverPass request">
+<infoLayerColumn_layerOverPassCache "Cache">
+<infoLayerColumn_layerOverPassCacheDescription "The request results are pre-calculated once a day.">
+<infoLayerColumn_layerOverPassCacheDate "Last update: {{ $date }}.">
+<infoLayerColumn_geoJsonData "GeoJSON data">
+<infoLayerColumn_downloadData "Download the data">
+
+
+/* Info display column */
+<infoDisplayColumn_title "Details">
+
+
+/* Temporary layers column */
+<tempLayerListColumn_title "Temporary layers">
+<tempLayerListColumn_description "Those layers are ephemeral. They are only visible by you and disappear after you closed MapContrib.">
+
+
+/* Edit POI preset column */
+<editPoiPresetColumn_title "Nodes types">
+<editPoiPresetColumn_noThanks "No thanks">
+<editPoiPresetColumn_applyPreset "Do you want to automatically add the tags of a node type?">
+
+
+/* Admin tag column */
+<adminTagColumn_title "Tags">
+<adminTagColumn_addTag "Add a tag">
+<adminTagColumn_description "Créez vos propres tags, pour remplacer un tag OSM existant ou le rendre uniquement disponible dans cette instance de MapContrib.">
+
+
+/* Admin presets column */
+<adminPresetColumn_title "Nodes types">
+<adminPresetColumn_addPreset "Add a node type">
+<adminPresetColumn_addPresetCategory "Add a category">
+
+
+/* Admin edit presets column */
+<adminEditPresetColumn_presetTags "Tags">
+<adminEditPresetColumn_addTag "Add a tag">
+
+
+/* Admin edit preset categories column */
+<adminPresetCategoryColumn_title "Category">

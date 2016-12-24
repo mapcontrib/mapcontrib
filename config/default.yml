@@ -1,0 +1,58 @@
+
+debug: false
+logLevel: warn
+
+salt: '/m<gkZCXr44_={Zr/=64]ojGhAL;m/q>*@";[Eo,8C<Lht^`WiC$WSP4R,a]eozd~aTG^7'
+
+server:
+    port: 8080
+
+mongodb:
+    host: localhost
+    port: 27017
+    database: mapcontrib
+    poolSize: 1
+
+dataDirectory: public/files
+
+analyticScript: >
+    <!-- Put your analytics javascript code here! -->
+
+forceHttps: false
+
+
+client:
+    oauthEndPoint: https://api.openstreetmap.org
+    oauthConsumerKey:
+    oauthSecret:
+
+    overPassEndPoint: https://overpass-api.de/api/
+    overPassTimeout: 120000 # Milliseconds
+    overPassCacheEnabled: true
+    overPassCacheFileSize: 1048576
+    overPassCacheArchiveEnabled: false
+
+    taginfoServiceHost: https://taginfo.openstreetmap.org/
+    freeTagsContributionEnabled: true
+
+    largeScreenMinWidth: 500
+    largeScreenMinHeight: 800
+
+    shareIframeWidth: 100
+    shareIframeWidthUnit: '%'
+    shareIframeHeight: 500
+    shareIframeHeightUnit: px
+
+    newPoiMarkerShape: marker3
+    newPoiMarkerIcon: star
+    newPoiMarkerColor: yellow
+
+    highlightedThemes:
+
+    defaultGeocoder: photon
+    availableGeocoders:
+        - photon
+        - nominatim
+
+    uploadMaxShapeFileSize: 2048 # Kilo Bytes
+    uploadMaxNonOsmDataFileSize: 512 # Kilo Bytes

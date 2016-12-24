@@ -1,0 +1,48 @@
+
+
+@import 'app.less';
+
+
+#rg_root {
+    height: 100%;
+    overflow: auto;
+
+    & > div {
+        /* In order to scroll when focusing the search input */
+        min-height: 160%;
+    }
+}
+
+.main_header .logo {
+    height: 34px;
+}
+
+.main_header h1 a.openstreetmap {
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: underline;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .main_header h1 {
+        font-size: 28px;
+    }
+}
+@media screen and (max-width: 420px) {
+    .main_header h1 {
+        font-size: 20px;
+    }
+}
+
+.no_result,
+.characters_left {
+    .icon {
+        pointer-events: none;
+        font-size: 40px;
+        color: rgba(255, 255, 255, 0.9);
+    }
+}

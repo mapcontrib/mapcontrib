@@ -1,0 +1,109 @@
+<section class="column right orange">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="editSettingColumn_title"></h2>
+    </header>
+
+    <form>
+        <div class="container-fluid content sticky">
+            <div class="row sticky-inner">
+                <div class="col-xs-12">
+                    <div class="form-group append-xs-2">
+                        <label for="theme_name" class="control-label" data-l10n-id="editSettingColumn_themeName"></label>
+                        <input type="text" spellcheck="true" class="form-control" id="theme_name" value="<%- name %>">
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="theme_description" class="control-label" data-l10n-id="editSettingColumn_themeDescription"></label>
+                        <textarea rows="3" class="form-control" id="theme_description"><%= description %></textarea>
+                        <div class="help-block" data-l10n-id="markdownAvailable"><a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Markdown"></a></div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="editSettingColumn_color"></label>
+                        <div class="color-buttons">
+                            <button type="button" class="btn btn-xs btn-color-selector green" data-color="green"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector turquoise" data-color="turquoise"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector blue" data-color="blue"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector purple" data-color="purple"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector red" data-color="red"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector brown" data-color="brown"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector orange" data-color="orange"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector yellow" data-color="yellow"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector white" data-color="white"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector gray" data-color="gray"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector anthracite" data-color="anthracite"><i class="fa fa-fw"></i></button>
+                            <button type="button" class="btn btn-xs btn-color-selector black" data-color="black"><i class="fa fa-fw"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="editSettingColumn_position"></label>
+                        <div class="radio">
+                            <input type="radio" name="theme_position" id="theme_position_keep_old" value="1" checked>
+                            <label for="theme_position_keep_old" data-l10n-id="editSettingColumn_keepOld"></label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="theme_position" id="theme_position_set_new" value="1">
+                            <label for="theme_position_set_new" data-l10n-id="editSettingColumn_setNew"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="editSettingColumn_geolocation"></label>
+                        <div class="checkbox">
+                            <input type="checkbox" id="theme_position_auto_center" value="1">
+                            <label for="theme_position_auto_center" data-l10n-id="editSettingColumn_autoGeolocateUser"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group append-xs-2 geocoder hide">
+                        <label class="control-label" data-l10n-id="editSettingColumn_geocoder"></label>
+                        <div class="radio photon hide">
+                            <input type="radio" name="theme_geocoder" id="theme_geocoder_photon" value="1" checked>
+                            <label for="theme_geocoder_photon" data-l10n-id="editSettingColumn_photon"></label>
+                        </div>
+                        <div class="radio nominatim hide">
+                            <input type="radio" name="theme_geocoder" id="theme_geocoder_nominatim" value="1">
+                            <label for="theme_geocoder_nominatim" data-l10n-id="editSettingColumn_nominatim"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="editSettingColumn_infoDisplay"></label>
+                        <div class="radio">
+                            <input type="radio" name="theme_info_display" id="theme_info_display_popup" value="1">
+                            <label for="theme_info_display_popup" data-l10n-id="editSettingColumn_popup"></label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="theme_info_display" id="theme_info_display_modal" value="1">
+                            <label for="theme_info_display_modal" data-l10n-id="editSettingColumn_modal"></label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="theme_info_display" id="theme_info_display_column" value="1">
+                            <label for="theme_info_display_column" data-l10n-id="editSettingColumn_column"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label for="theme_analytic_script" class="control-label" data-l10n-id="editSettingColumn_themeAnalytics"></label>
+                        <a tabindex="0" role="button" class="info_btn info_analytics_btn pull-right">
+                            <i class="fa fa-info-circle fa-lg"></i>
+                        </a>
+                        <textarea rows="3" class="form-control font-monospace" id="theme_analytic_script"><%= analyticScript %></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row sticky-footer">
+                <div class="col-xs-12">
+                    <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>
+                    <button type="submit" class="btn btn-primary pull-right" data-l10n-id="save"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

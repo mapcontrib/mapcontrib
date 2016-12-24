@@ -1,8 +1,9 @@
-node_modules
-src/upload
-src/public/assets
-src/public/files
-*bundle.*
+/node_modules
 npm-debug.log
-volumes
-local.yml
+
+/volumes
+/src
+/.nyc_output
+
+/config/local.yml
+*bundle.*
