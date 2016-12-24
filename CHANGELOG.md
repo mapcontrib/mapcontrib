@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+* Fix some font-size.
+
 ## 1.0.0
 
 * A brand new tag and preset handling, inluding iD presets.
