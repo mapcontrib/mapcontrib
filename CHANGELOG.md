@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+
+* Fix the popup contribution button route.
+
 ## 1.0.2
 
 * Fix an undefined variable on race condition.
