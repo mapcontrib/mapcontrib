@@ -190,11 +190,13 @@ export default Marionette.LayoutView.extend({
             nonOsmData: false,
         });
 
-        if (osmTags.length > 1) {
-            this._valueField.enableRemoveBtn();
-        }
-        else {
-            this._valueField.disableRemoveBtn();
+        if (this._valueField) {
+            if (osmTags.length > 1) {
+                this._valueField.enableRemoveBtn();
+            }
+            else {
+                this._valueField.disableRemoveBtn();
+            }
         }
     },
 
