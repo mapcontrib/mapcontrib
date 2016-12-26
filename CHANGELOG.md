@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2
+
+* Fix an undefined variable on race condition.
+
 ## 1.0.1
 
 * Fix some font-size.
