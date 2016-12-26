@@ -1129,7 +1129,7 @@ export default Marionette.LayoutView.extend({
             const osmType = feature.properties.type;
             const osmId = feature.properties.id;
             const editButton = this._document.createElement('a');
-            editButton.href = `contribute/edit/${osmType}/${osmId}`;
+            editButton.href = `#contribute/edit/${osmType}/${osmId}`;
 
             if ( !content ) {
                 globalWrapper.className = 'global_wrapper no_popup_content';
