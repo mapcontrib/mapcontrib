@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.0.4
+
+* Split the javascript files to optimize their load time.
+* Display a text input for check type fields when the set value is not yes or no.
+* Display a text input for combo type fields when they are empty.
+
 ## 1.0.3
 
 * Fix the popup contribution button route.
