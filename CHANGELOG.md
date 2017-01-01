@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.0.5
+
+* Try to improve the server session handling.
+
 # 1.0.4
 
 * Split the javascript files to optimize their load time.
