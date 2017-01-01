@@ -1,12 +1,19 @@
 
 const webpack = require('webpack');
+const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
 const extractCSS = new ExtractTextPlugin('../css/[name].bundle.css');
+const commonChunk = new CommonsChunkPlugin({
+    name: 'commons',
+    filename: 'commons.bundle.js',
+    chunks: ['home', 'theme'],
+});
 
 const plugins = [
     extractCSS,
+    commonChunk,
 ];
 
 if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {

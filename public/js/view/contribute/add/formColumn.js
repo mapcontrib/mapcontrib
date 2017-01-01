@@ -66,7 +66,7 @@ export default Marionette.LayoutView.extend({
         this._center = this.options.center;
 
         this._presetsHelper = new PresetsHelper(
-            this._theme,
+            this._theme.get('tags'),
             this._iDPresetsHelper
         );
 

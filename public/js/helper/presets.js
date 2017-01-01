@@ -1,8 +1,21 @@
 
+import CONST from 'const';
+import TextField from 'ui/form/fields/text';
+import EmailField from 'ui/form/fields/email';
+import TextareaField from 'ui/form/fields/textarea';
+import UrlField from 'ui/form/fields/url';
+import TelField from 'ui/form/fields/tel';
+import NumberField from 'ui/form/fields/number';
+import FileField from 'ui/form/fields/file';
+import CheckField from 'ui/form/fields/check';
+import DefaultCheckField from 'ui/form/fields/defaultCheck';
+import ComboField from 'ui/form/fields/combo';
+import TypeComboField from 'ui/form/fields/typeCombo';
+// import MultiComboField from 'ui/form/fields/multiCombo';
 
 export default class PresetsHelper {
-    constructor(theme, iDHelper) {
-        this._theme = theme;
+    constructor(customTags, iDHelper) {
+        this._customTags = customTags;
         this._iDHelper = iDHelper;
     }
 
@@ -12,8 +25,7 @@ export default class PresetsHelper {
             return false;
         }
 
-        const customTags = this._theme.get('tags');
-        let field = customTags.findWhere({ key: tag.key });
+        let field = this._customTags.findWhere({ key: tag.key });
 
         if (field) {
             tag.type = field.get('type');
@@ -71,6 +83,72 @@ export default class PresetsHelper {
                     );
                 }
             }
+        }
+    }
+
+    findTagType(key) {
+        const customTag = this._customTags.findWhere({ key });
+        const iDTag = this._iDHelper.getField(key);
+
+        if (customTag) {
+            return customTag.get('type');
+        }
+
+        if (iDTag) {
+            switch (iDTag.type) {
+                // If no custom tag is present to fill the combo options
+                case CONST.tagType.typeCombo:
+                case CONST.tagType.combo:
+                    return CONST.tagType.text;
+
+                default:
+                    return iDTag.type;
+            }
+        }
+
+        return CONST.tagType.text;
+    }
+
+    buildValueField(key, value, fieldOptions) {
+        let tagType = this.findTagType(key);
+
+        switch (tagType) {
+            case CONST.tagType.check:
+            case CONST.tagType.defaultCheck:
+                if (value && ['yes', 'no'].indexOf(value) === -1) {
+                    tagType = CONST.tagType.text;
+                }
+                break;
+            default:
+        }
+
+        switch (tagType) {
+            case CONST.tagType.text:
+                return new TextField( fieldOptions );
+            case CONST.tagType.email:
+                return new EmailField( fieldOptions );
+            case CONST.tagType.url:
+                return new UrlField( fieldOptions );
+            case CONST.tagType.textarea:
+                return new TextareaField( fieldOptions );
+            case CONST.tagType.tel:
+                return new TelField( fieldOptions );
+            case CONST.tagType.number:
+                return new NumberField( fieldOptions );
+            case CONST.tagType.file:
+                return new FileField( fieldOptions );
+            case CONST.tagType.check:
+                return new CheckField( fieldOptions );
+            case CONST.tagType.defaultCheck:
+                return new DefaultCheckField( fieldOptions );
+            case CONST.tagType.combo:
+                return new ComboField( fieldOptions );
+            case CONST.tagType.typeCombo:
+                return new TypeComboField( fieldOptions );
+            // case CONST.tagType.multiCombo:
+            //     return new MultiComboField( fieldOptions );
+            default:
+                return new TextField( fieldOptions );
         }
     }
 }
