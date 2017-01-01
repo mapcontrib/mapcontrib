@@ -81,7 +81,9 @@ database.connect((err, db) => {
 
     app.use(session({
         resave: true,
-        saveUninitialized: true,
+        rolling: true,
+        saveUninitialized: false,
+        unset: 'destroy',
         secret: config.get('salt'),
         store: new MongoStore({ db }),
     }));
