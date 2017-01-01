@@ -115,7 +115,18 @@ export default Marionette.LayoutView.extend({
             this._valueField = new TextField( fieldOptions );
         }
         else {
-            const tagType = this._findTagType(this.model.get('key'));
+            let tagType = this._findTagType(this.model.get('key'));
+            const value = this.model.get('value');
+
+            switch (tagType) {
+                case CONST.tagType.check:
+                case CONST.tagType.defaultCheck:
+                    if (value && ['yes', 'no'].indexOf(value) === -1) {
+                        tagType = CONST.tagType.text;
+                    }
+                    break;
+                default:
+            }
 
             switch (tagType) {
                 case CONST.tagType.text:
