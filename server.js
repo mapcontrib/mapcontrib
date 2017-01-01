@@ -86,6 +86,9 @@ database.connect((err, db) => {
         unset: 'destroy',
         secret: config.get('salt'),
         store: new MongoStore({ db }),
+        cookie: {
+            maxAge: 1000 * 3600 * 24 * 90,
+        },
     }));
 
     app.listen(port, () => {
