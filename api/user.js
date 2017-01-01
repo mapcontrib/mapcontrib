@@ -195,10 +195,13 @@ class Api {
     static logout(req, res) {
         req.logout();
 
-        delete req.session.user;
-        delete req.session.themes;
+        req.session.destroy((err) => {
+            if (err) {
+                return res.sendStatus(500);
+            }
 
-        res.status(200).send('OK');
+            return res.status(200).send('OK');
+        });
     }
 }
 

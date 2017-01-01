@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.0.6
+
+* Properly destroy the session when logging out.
+* Set the session cookie maxAge to 90 days.
+* Force the reload of the session when visiting the home and theme pages.
+
 # 1.0.5
 
 * Try to improve the server session handling.
