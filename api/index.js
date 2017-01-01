@@ -19,6 +19,18 @@ function isLoggedIn(req, res, next) {
     return res.sendStatus(401);
 }
 
+function reloadSession(req) {
+    return new Promise((resolve, reject) => {
+        req.session.reload((err) => {
+            if (err) {
+                return reject(err);
+            }
+
+            return resolve();
+        });
+    });
+}
+
 
 function onPromiseError(res, errorCode) {
     res.sendStatus(errorCode);
@@ -91,7 +103,9 @@ export default class Api {
             };
 
             if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
-                const promises = [];
+                const promises = [
+                    reloadSession(req),
+                ];
 
                 for (const fragment of clientConfig.highlightedThemes) {
                     promises.push(
@@ -100,7 +114,8 @@ export default class Api {
                 }
 
                 Promise.all(promises)
-                .then((themeObjects) => {
+                .then((promisesResults) => {
+                    const themeObjects = promisesResults.slice(1);
                     const highlightList = [];
 
                     for (const themeObject of themeObjects) {
@@ -132,6 +147,7 @@ export default class Api {
                 nonOsmDataApi.Api.findFromFragment(fragment),
                 osmCacheApi.Api.findFromFragment(fragment),
                 getiDPresets(CONST),
+                reloadSession(req),
             ];
 
             Promise.all( promises )
