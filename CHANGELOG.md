@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.0.7
+
+* Upgrade Passport & co.
+* Fix: When no session, the reload method returns an error.
+
 # 1.0.6
 
 * Properly destroy the session when logging out.
