@@ -20,13 +20,9 @@ function isLoggedIn(req, res, next) {
 }
 
 function reloadSession(req) {
-    return new Promise((resolve, reject) => {
-        req.session.reload((err) => {
-            if (err) {
-                return reject(err);
-            }
-
-            return resolve();
+    return new Promise((resolve) => {
+        req.session.reload(() => {
+            resolve();
         });
     });
 }
