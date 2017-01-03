@@ -70,7 +70,7 @@ export default Marionette.LayoutView.extend({
         let optionHtml = '';
 
         for (const option of options) {
-            const inputId = `${key}_${option}_${this.model.cid}`;
+            const inputId = this._buildId(key, option, this.model.cid);
             const optionLabel = `${option}`;
             let value = '';
 
@@ -102,6 +102,10 @@ export default Marionette.LayoutView.extend({
         return this;
     },
 
+    _buildId(key, option, cid) {
+        return `${key}_${option}_${cid}`.replace(/\W/g, '_');
+    },
+
     onSubmit(e) {
         e.preventDefault();
 
@@ -112,10 +116,17 @@ export default Marionette.LayoutView.extend({
             options: {},
         };
 
-        for (const option of options) {
-            const inputId = `${key}_${option}_${this.model.cid}`;
-            const value = this.el.querySelector(`#${inputId}`).value;
-            locale.options[option] = value;
+        switch (this.model.get('type')) {
+            case CONST.tagType.combo:
+            case CONST.tagType.typeCombo:
+            // case CONST.tagType.multiCombo:
+                for (const option of options) {
+                    const inputId = this._buildId(key, option, this.model.cid);
+                    const value = this.el.querySelector(`#${inputId}`).value;
+                    locale.options[option] = value;
+                }
+                break;
+            default:
         }
 
         const locales = this.model.get('locales');
