@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.0.9
+
+* Fix the tags translation progression calculation.
+
 # 1.0.8
 
 * Fix the tags translation edition column.
