@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.0.8
+
+* Fix the tags translation edition column.
+
 # 1.0.7
 
 * Upgrade Passport & co.
