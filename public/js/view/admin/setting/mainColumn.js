@@ -198,6 +198,8 @@ export default Marionette.ItemView.extend({
                     }
                 }
 
+                this._oldModel = this.model.clone();
+
                 this.close();
             },
             error: () => {
