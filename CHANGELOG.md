@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.0.10
+
+* Don't auto scroll at all on large screens.
+* Don't reset the theme model after the main settings column close.
+
 # 1.0.9
 
 * Fix the tags translation progression calculation.
