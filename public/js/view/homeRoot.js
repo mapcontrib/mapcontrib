@@ -108,7 +108,7 @@ export default Marionette.LayoutView.extend({
 
                 this.onThemesFetchSuccess(collection, response, options);
                 this._searchInput.trigger('search:success');
-                this._scrollToSearchInput();
+                this._checkScreenSizeAndScrollToSearchInput();
             },
             error: (collection, response, options) => {
                 this.onThemesFetchError(collection, response, options);
@@ -156,7 +156,7 @@ export default Marionette.LayoutView.extend({
     },
 
     showSearchPlaceholder() {
-        this._scrollToSearchInput();
+        this._checkScreenSizeAndScrollToSearchInput();
 
         this.ui.charactersLeftPlaceholderText.addClass('hide');
 
@@ -166,7 +166,7 @@ export default Marionette.LayoutView.extend({
     },
 
     showCharactersLeftPlaceholder(searchString) {
-        this._scrollToSearchInput();
+        this._checkScreenSizeAndScrollToSearchInput();
 
         const charactersLeft = 3 - searchString.length;
 
@@ -184,7 +184,7 @@ export default Marionette.LayoutView.extend({
     },
 
     showNoResultPlaceholder() {
-        this._scrollToSearchInput();
+        this._checkScreenSizeAndScrollToSearchInput();
 
         this.ui.searchResults.addClass('hide');
         this.ui.charactersLeftPlaceholder.addClass('hide');
