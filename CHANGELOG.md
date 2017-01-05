@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.0.11
+
+* Complete the Italian translation file.
+* Improve the ownership verification when modifying a theme.
+
 # 1.0.10
 
 * Don't auto scroll at all on large screens.

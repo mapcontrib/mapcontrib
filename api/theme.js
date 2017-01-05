@@ -354,12 +354,6 @@ class Api {
             return true;
         }
 
-        if ( !Api.isThemeOwner(req, res, req.params._id) ) {
-            res.sendStatus(401);
-
-            return true;
-        }
-
         Backbone.Relational.store.reset();
 
         const newJson = req.body;
@@ -402,13 +396,6 @@ class Api {
             return true;
         }
 
-        if ( !Api.isThemeOwner(req, res, req.params._id) ) {
-            res.sendStatus(401);
-
-            return true;
-        }
-
-
         const collection = options.database.collection('theme');
 
         collection.remove({
@@ -424,19 +411,6 @@ class Api {
 
             return res.send({});
         });
-
-        return true;
-    }
-
-
-    static isThemeOwner(req, res, themeId) {
-        if ( !req.session.user || !req.session.themes ) {
-            return false;
-        }
-
-        if ( req.session.themes.indexOf( themeId ) === -1 ) {
-            return false;
-        }
 
         return true;
     }

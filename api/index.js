@@ -1,5 +1,6 @@
 
 import fs from 'fs';
+import { ObjectID } from 'mongodb';
 import Backbone from 'backbone';
 import config from 'config';
 import userApi from './user';
@@ -11,80 +12,55 @@ import overPassCacheApi from './overPassCache';
 import ThemeModel from '../public/js/model/theme';
 
 
-function isLoggedIn(req, res, next) {
-    if ( req.isAuthenticated() ) {
-        return next();
-    }
-
-    return res.sendStatus(401);
-}
-
-function reloadSession(req) {
-    return new Promise((resolve) => {
-        req.session.reload(() => {
-            resolve();
-        });
-    });
-}
-
-
-function onPromiseError(res, errorCode) {
-    res.sendStatus(errorCode);
-}
-
-
-function getiDPresets(CONST) {
-    return new Promise((resolve, reject) => {
-        fs.readFile(CONST.iDPresetsPath, 'utf-8', (err, data) => {
-            if (err) {
-                return reject(err);
-            }
-
-            return resolve(JSON.parse(data));
-        });
-    });
-}
-
-
 export default class Api {
     init(app, db, CONST, packageJson) {
-        const options = {
+        this.options = {
             CONST,
             database: db,
             fileApi,
         };
 
-        userApi.setOptions( options );
-        themeApi.setOptions( options );
-        nonOsmDataApi.setOptions( options );
-        osmCacheApi.setOptions( options );
-        fileApi.setOptions( options );
+        userApi.setOptions( this.options );
+        themeApi.setOptions( this.options );
+        nonOsmDataApi.setOptions( this.options );
+        osmCacheApi.setOptions( this.options );
+        fileApi.setOptions( this.options );
         fileApi.initDirectories( app );
-        overPassCacheApi.setOptions( options );
+        overPassCacheApi.setOptions( this.options );
 
 
         app.get('/api/user/logout', userApi.Api.logout);
         // app.get('/api/user', userApi.Api.getAll);
         app.get('/api/user/:_id', userApi.Api.get);
-        app.post('/api/user', isLoggedIn, userApi.Api.post);
-        app.put('/api/user/:_id', isLoggedIn, userApi.Api.put);
-        // app.delete('/api/user/:_id', isLoggedIn, userApi.Api.delete);
+        app.post('/api/user', Api.isLoggedIn, userApi.Api.post);
+        app.put('/api/user/:_id', Api.isLoggedIn, userApi.Api.put);
+        // app.delete(
+        //     '/api/user/:_id',
+        //     Api.isLoggedIn,
+        //     this._isThemeOwner.bind(this),
+        //     userApi.Api.delete
+        // );
 
         app.get('/api/theme', themeApi.Api.getAll);
         app.get('/api/theme/:_id', themeApi.Api.get);
-        app.post('/api/theme', isLoggedIn, themeApi.Api.post);
-        app.put('/api/theme/:_id', isLoggedIn, themeApi.Api.put);
-        // app.delete('/api/theme/:_id', isLoggedIn, themeApi.Api.delete);
+        app.post('/api/theme', Api.isLoggedIn, themeApi.Api.post);
+        app.put('/api/theme/:_id', Api.isLoggedIn, this._isThemeOwner.bind(this), themeApi.Api.put);
+        // app.delete(
+        //     '/api/theme/:_id',
+        //     Api.isLoggedIn,
+        //     this._isThemeOwner.bind(this),
+        //     themeApi.Api.delete
+        // );
 
         app.get('/api/nonOsmData', nonOsmDataApi.Api.getAll);
         app.get('/api/nonOsmData/:_id', nonOsmDataApi.Api.get);
-        app.post('/api/nonOsmData', isLoggedIn, nonOsmDataApi.Api.post);
-        app.put('/api/nonOsmData/:_id', isLoggedIn, nonOsmDataApi.Api.put);
+        app.post('/api/nonOsmData', Api.isLoggedIn, nonOsmDataApi.Api.post);
+        app.put('/api/nonOsmData/:_id', Api.isLoggedIn, nonOsmDataApi.Api.put);
 
         app.get('/api/osmCache', osmCacheApi.Api.getAll);
         app.get('/api/osmCache/:_id', osmCacheApi.Api.get);
-        app.post('/api/osmCache', isLoggedIn, osmCacheApi.Api.post);
-        app.put('/api/osmCache/:_id', isLoggedIn, osmCacheApi.Api.put);
+        app.post('/api/osmCache', Api.isLoggedIn, osmCacheApi.Api.post);
+        app.put('/api/osmCache/:_id', Api.isLoggedIn, osmCacheApi.Api.put);
         app.delete('/api/osmCache/:_id', osmCacheApi.Api.delete);
 
 
@@ -100,7 +76,7 @@ export default class Api {
 
             if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
                 const promises = [
-                    reloadSession(req),
+                    Api.reloadSession(req),
                 ];
 
                 for (const fragment of clientConfig.highlightedThemes) {
@@ -122,7 +98,7 @@ export default class Api {
 
                     res.render('home', templateVars);
                 })
-                .catch( onPromiseError.bind(this, res) );
+                .catch( Api.onPromiseError.bind(this, res) );
             }
             else {
                 res.render('home', templateVars);
@@ -142,8 +118,8 @@ export default class Api {
                 themeApi.Api.findFromFragment(fragment),
                 nonOsmDataApi.Api.findFromFragment(fragment),
                 osmCacheApi.Api.findFromFragment(fragment),
-                getiDPresets(CONST),
-                reloadSession(req),
+                Api.getiDPresets(CONST),
+                Api.reloadSession(req),
             ];
 
             Promise.all( promises )
@@ -156,7 +132,7 @@ export default class Api {
 
                 res.render('theme', templateVars);
             })
-            .catch( onPromiseError.bind(this, res) );
+            .catch( Api.onPromiseError.bind(this, res) );
         });
 
 
@@ -177,15 +153,14 @@ export default class Api {
                     model.buildPath()
                 );
             })
-            .catch( onPromiseError.bind(this, res) );
+            .catch( Api.onPromiseError.bind(this, res) );
         });
 
 
         app.post('/api/file/shape', fileApi.Api.postShapeFile);
         app.post('/api/file/nonOsmData', fileApi.Api.postNonOsmDataFile);
 
-        app.get('/api/overPassCache/generate/:uuid', overPassCacheApi.Api.generate);
-
+        app.get('/api/overPassCache/generate/:uuid', Api.isLoggedIn, overPassCacheApi.Api.generate);
         app.get('/api/iDPresets/locale', (req, res) => {
             if (!req.query.locales || req.query.locales.length < 1) {
                 return res.sendStatus(400);
@@ -206,6 +181,75 @@ export default class Api {
             }
 
             return res.sendStatus(404);
+        });
+    }
+
+    static isLoggedIn(req, res, next) {
+        if ( req.isAuthenticated() ) {
+            return next();
+        }
+
+        return res.sendStatus(401);
+    }
+
+    _isThemeOwner(req, res, next) {
+        if ( !this.options.CONST.pattern.mongoId.test( req.params._id ) ) {
+            res.sendStatus(400);
+            return;
+        }
+
+        const collection = this.options.database.collection('theme');
+
+        collection.find({
+            _id: new ObjectID(req.params._id),
+        })
+        .toArray((err, results) => {
+            if (err) {
+                return res.sendStatus(500);
+            }
+
+            if (results.length === 0) {
+                return res.sendStatus(404);
+            }
+
+            const theme = results[0];
+            const userId = req.session.user._id.toString();
+
+            if ( theme.owners.indexOf(userId) !== -1 ) {
+                return next();
+            }
+
+            if ( theme.owners.indexOf('*') !== -1 ) {
+                return next();
+            }
+
+            return res.sendStatus(401);
+        });
+    }
+
+    static reloadSession(req) {
+        return new Promise((resolve) => {
+            req.session.reload(() => {
+                resolve();
+            });
+        });
+    }
+
+
+    static onPromiseError(res, errorCode) {
+        res.sendStatus(errorCode);
+    }
+
+
+    static getiDPresets(CONST) {
+        return new Promise((resolve, reject) => {
+            fs.readFile(CONST.iDPresetsPath, 'utf-8', (err, data) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                return resolve(JSON.parse(data));
+            });
         });
     }
 }
