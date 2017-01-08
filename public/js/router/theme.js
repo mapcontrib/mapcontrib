@@ -252,12 +252,14 @@ export default Backbone.Router.extend({
         if ( this._app.isLogged() ) {
             new UserColumn({
                 router: this,
+                app: this._app,
                 model: this._theme,
             }).open();
         }
         else {
             new VisitorColumn({
                 router: this,
+                app: this._app,
                 model: this._theme,
             }).open();
         }
