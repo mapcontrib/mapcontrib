@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.0.12
+
+* Set maximum number of tries when the OverPass cron is failing for too many requests.
+
 # 1.0.11
 
 * Complete the Italian translation file.
