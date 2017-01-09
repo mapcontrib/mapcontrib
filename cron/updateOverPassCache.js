@@ -59,7 +59,7 @@ export default class UpdateOverPassCache {
 
             const iteration = this._iterate.next();
 
-            return OverPassCache.process(
+            return this._cache.process(
                 iteration.value.theme,
                 iteration.value.layer,
                 ...this._callbacks
@@ -95,13 +95,13 @@ export default class UpdateOverPassCache {
         }
 
         return setTimeout(
-            OverPassCache.process.bind(
+            this._cache.process.bind(
                 this._cache,
                 iteration.value.theme,
                 iteration.value.layer,
                 ...this._callbacks
             ),
-            5 * 1000
+            CONST.overPassCron.secondsBetweenIterations * 1000
         );
     }
 
@@ -109,13 +109,13 @@ export default class UpdateOverPassCache {
         logger.debug('_retryIteration');
 
         setTimeout(
-            OverPassCache.process.bind(
+            this._cache.process.bind(
                 this._cache,
                 theme,
                 layer,
                 ...this._callbacks
             ),
-            60 * 1000
+            CONST.overPassCron.secondsBetweenIterationsRetries * 1000
         );
     }
 
