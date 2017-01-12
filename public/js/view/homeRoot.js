@@ -14,7 +14,6 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        createThemeButton: '.create_theme_btn',
         scrollTarget: '.scroll_target',
         searchResults: '#rg_search_results',
         noResultPlaceholder: '.no_result',
@@ -25,10 +24,6 @@ export default Marionette.LayoutView.extend({
     regions: {
         searchInput: '.rg_search_input',
         searchResults: '#rg_search_results',
-    },
-
-    events: {
-        'click @ui.createThemeButton': 'onClickCreateTheme',
     },
 
     initialize(options) {
@@ -80,15 +75,6 @@ export default Marionette.LayoutView.extend({
         window.requestAnimationFrame(() => {
             this.ui.scrollTarget[0].scrollIntoView({ behavior: 'smooth' });
         });
-    },
-
-    onClickCreateTheme() {
-        if (this._app.isLogged()) {
-            window.location.replace('/create_theme');
-        }
-        else {
-            this.displayLoginModal();
-        }
     },
 
     fetchSearchedThemes(searchString) {
