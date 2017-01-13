@@ -80,22 +80,20 @@
 
 .sticky-inner {
     overflow-y: auto;
-    padding-bottom: 20px;
-}
-
-.sticky-header + .sticky-inner {
-    padding-top: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-top: -30px;
 }
 
 .pop {
     .bordered-header {
-        margin-top: -20px;
-        padding-bottom: 20px;
+        margin-top: -30px;
+        padding-bottom: 30px;
     }
 
     .bordered-footer {
-        margin-bottom: -20px;
-        padding-top: 20px;
+        margin-bottom: -30px;
+        padding-top: 30px;
     }
 }
 
@@ -167,7 +165,9 @@ fieldset[disabled] .form-control {
         bottom: 0;
         left: 0;
         right: 0;
-        padding-top: 20px;
+        padding-top: 30px;
+        border-top-style: solid;
+        border-top-width: 1px;
         overflow: auto;
     }
 }
@@ -338,6 +338,10 @@ pre,
 
     &.pop {
         border-width: 4px;
+    }
+
+    .content {
+        border-top-color: @darkGray;
     }
 
     .close_btn,
@@ -709,6 +713,10 @@ pre,
 
     &.pop {
         border-width: 4px;
+    }
+
+    .content {
+        border-top-color: rgba(255, 255, 255, 0.4);
     }
 
     a {
