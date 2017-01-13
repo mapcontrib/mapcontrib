@@ -1,5 +1,12 @@
 # Changelog
 
+# 1.2.0
+
+* Display the user/visitor column on the home page.
+* Add some project links in it.
+* Remove the « Create theme » button from the home page as it is now in the new main menu.
+* Add borders to different widgets to ease the navigation.
+
 # 1.0.12
 
 * Set maximum number of tries when the OverPass cron is failing for too many requests.
