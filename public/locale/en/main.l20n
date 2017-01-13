@@ -7,6 +7,10 @@
 
 
 <mapcontrib "MapContrib">
+<mapcontribBlog "Project's blog">
+<wiki "Wiki">
+<reportBug "Report a bug">
+<sendFeedback "Send a feedback">
 <slogan "Thematic <a>OpenStreetMap</a> contribution">
 
 

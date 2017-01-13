@@ -6,6 +6,11 @@
 
 ![MapContrib](screenshot.png)
 
+## Informations
+
+* [Blog](https://blog.mapcontrib.xyz)
+* [Documentation](http://wiki.openstreetmap.org/wiki/FR:Mapcontrib)
+
 
 ## Contribution
 

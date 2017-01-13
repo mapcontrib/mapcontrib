@@ -21,10 +21,13 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        createThemeItem: '.create_theme_item',
+        blogLinks: '.blog_link',
         loginItem: '.login_item',
     },
 
     events: {
+        'click @ui.createThemeItem': 'onClickCreateTheme',
         'click @ui.loginItem': 'onClickLogin',
     },
 
@@ -35,6 +38,14 @@ export default Marionette.LayoutView.extend({
     onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
+    },
+
+    onRender() {
+        if (document.l10n.supportedLocales.length > 0 && document.l10n.supportedLocales[0] === 'fr') {
+            this.ui.blogLinks.each((index, element) => {
+                element.href = element.href.replace('blog.mapcontrib.xyz', 'blog.mapcontrib.xyz/fr');
+            });
+        }
     },
 
     open() {
@@ -49,9 +60,33 @@ export default Marionette.LayoutView.extend({
 
     onClickLogin() {
         // FIXME To have a real fail callback
-        const authSuccessCallback = this.model.buildPath();
-        const authFailCallback = this.model.buildPath();
+        let authSuccessCallback;
+        let authFailCallback;
 
+        if (this.model) {
+            authSuccessCallback = authFailCallback = this.model.buildPath();
+        }
+        else {
+            authSuccessCallback = authFailCallback = '/';
+        }
+
+        new LoginModalView({
+            authSuccessCallback,
+            authFailCallback,
+        }).open();
+    },
+
+    onClickCreateTheme() {
+        // FIXME To have a real fail callback
+        const authSuccessCallback = '/create_theme';
+        let authFailCallback;
+
+        if (this.model) {
+            authFailCallback = this.model.buildPath();
+        }
+        else {
+            authFailCallback = '/';
+        }
         new LoginModalView({
             authSuccessCallback,
             authFailCallback,

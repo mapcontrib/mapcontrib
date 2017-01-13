@@ -7,6 +7,10 @@
 
 
 <mapcontrib "MapContrib">
+<mapcontribBlog "Blog del progetto">
+<wiki "Wiki">
+<reportBug "Segnalare un bug">
+<sendFeedback "Manda un commento">
 <slogan "Contribuisci ad un tema di <a>OpenStreetMap</a>">
 
 
@@ -43,14 +47,14 @@
 
 
 
-<overPassCacheArchives "archivio cache di OverPass"> 
-<overPassCacheArchives_explanation "Questi POI sono nella tua cacche dei livelli OverPass ma saranno rimossi da OSM."> 
-<overPassCacheArchives_emptyStateTextArchived "Nessun POI archiviato"> 
-<overPassCacheArchives_emptyStateTextWaiting "Nessun POI in attesa"> 
+<overPassCacheArchives "archivio cache di OverPass">
+<overPassCacheArchives_explanation "Questi POI sono nella tua cacche dei livelli OverPass ma saranno rimossi da OSM.">
+<overPassCacheArchives_emptyStateTextArchived "Nessun POI archiviato">
+<overPassCacheArchives_emptyStateTextWaiting "Nessun POI in attesa">
 <seeArchives "Vedi i POI archiviati">
 <layers "Livelli">
 <layer "Livello">
-<translations "Traduzioni"> 
+<translations "Traduzioni">
 <presets "Tipo di Nodi">
 <presetCategories "Categorie di tipi di Nodi">
 <tags "Tags">
@@ -64,8 +68,8 @@
 <logout "Log out">
 <close "Chiudi">
 <save "Salva">
-<delete "Elimina"> 
-<archive "Archivia"> 
+<delete "Elimina">
+<archive "Archivia">
 <validate "Valida">
 <cancel "Elimina">
 <next "Prossimo">
@@ -87,23 +91,23 @@
 <name "Nome">
 <description "Descrizione">
 <type "Tipo">
-<locales "Traduzioni"> 
+<locales "Traduzioni">
 <key "Chiave">
-<textFields label:"Testo"> 
-<checkboxFields label:"Casella di controllo"> 
-<nonTextFields label:"Nessun testo"> 
+<textFields label:"Testo">
+<checkboxFields label:"Casella di controllo">
+<nonTextFields label:"Nessun testo">
 <comboFields label:"Selettore a cascata">
-<text "Testo"> 
+<text "Testo">
 <number "Numero">
-<email "Email"> 
-<tel "Numero di telefono"> 
-<url "Indirizzo web"> 
+<email "Email">
+<tel "Numero di telefono">
+<url "Indirizzo web">
 <textarea "Testo espanso">
 <checkbox "Casella di controllo">
-<checkField "Sì o no"> 
-<defaultCheckField "Sì o vuoto"> 
+<checkField "Sì o no">
+<defaultCheckField "Sì o vuoto">
 <comboField "Solo scelta">
-<typeComboField "Sì o solo scelta"> 
+<typeComboField "Sì o solo scelta">
 <multiComboField "Scelta multipla">
 <value "Valore">
 <defaultValue "Valore predefinito">
@@ -112,10 +116,10 @@
 <settings "Impostazioni">
 <mainSettings "Impostazioni generali">
 <tiles "Sfondi">
-<options "Opzioni"> 
+<options "Opzioni">
 <addAnOption "Aggiungere una opzione">
-<multiComboInfo1 "Completa il prefisso <em>{{ $prefix }}</em>"> 
-<multiComboInfo2 "Es: recycling:glass"> 
+<multiComboInfo1 "Completa il prefisso <em>{{ $prefix }}</em>">
+<multiComboInfo2 "Es: recycling:glass">
 
 
 /* Home */
@@ -219,21 +223,21 @@ Inseriscilo proprio qui!"> /
 <editLayerFormColumn_layerName "{{ name }}">
 <editLayerFormColumn_layerDescription "{{ description }}">
 <editLayerFormColumn_representationType "Rappresentazione">
-<editLayerFormColumn_clusterRepresentation "Punti raggruppabili"> 
-<editLayerFormColumn_heatRepresentation "Mappa di densità"> 
+<editLayerFormColumn_clusterRepresentation "Punti raggruppabili">
+<editLayerFormColumn_heatRepresentation "Mappa di densità">
 <editLayerFormColumn_visibility "Visibilità">
 <editLayerFormColumn_visible "Visibile agli utenti">
 <editLayerFormColumn_heatOptions "Mappa di densità">
-<editLayerFormColumn_heatMapPopoverTitle "Informazioni"> 
+<editLayerFormColumn_heatMapPopoverTitle "Informazioni">
 <editLayerFormColumn_heatMapPopoverContent "#### Maximum zoom
 
 Zoom level where the points reach maximum intensity.
 
 #### Radius
 
-Raggio per ciascuno punto del livello."> 
-<editLayerFormColumn_heatMinOpacity "Opacità minima"> 
-<editLayerFormColumn_heatMaxZoom "Zoom massimo"> 
+Raggio per ciascuno punto del livello.">
+<editLayerFormColumn_heatMinOpacity "Opacità minima">
+<editLayerFormColumn_heatMaxZoom "Zoom massimo">
 <editLayerFormColumn_heatMax "Intensità massima">
 <editLayerFormColumn_heatBlur "Quantità di sfocatura">
 <editLayerFormColumn_heatRadius "Raggio">
@@ -256,11 +260,11 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <editLayerFormColumn_cache "Cache">
 <editLayerFormColumn_cacheDescription "Questo sostituisce la richiesta live a OverPass.">
 <editLayerFormColumn_enableCache "Abilita la cache">
-<editLayerFormColumn_enableCacheArchive "Abilita l'archiviazione della cache"> 
+<editLayerFormColumn_enableCacheArchive "Abilita l'archiviazione della cache">
 <editLayerFormColumn_cachePopoverTitle "Limiti">
 <editLayerFormColumn_cachePopoverContent "I dati sono aggiornati quotidianamente dalla richiesta che richiede meno di 3 minuti e produce un file finale di dimensioni minori ad 1MB.">
 <editLayerFormColumn_cacheArchivePopoverTitle "Archiviazione cache">
-<editLayerFormColumn_cacheArchivePopoverContent "Consente agli amministratori del tema di decidere di mantenere o rimuovere definitivamente i POI OSM eliminati."> 
+<editLayerFormColumn_cacheArchivePopoverContent "Consente agli amministratori del tema di decidere di mantenere o rimuovere definitivamente i POI OSM eliminati.">
 <editLayerFormColumn_cacheDate "Ultimo aggiornamento: {{ $date }}.">
 <editLayerFormColumn_cacheErrorTimeout "<i></i> L´ultima cache di aggiornamento non è andata a buon fine a causa di tempo di esecuzione troppo lungo.">
 <editLayerFormColumn_cacheErrorMemory "<i></i> L´ultima cache di aggiornamento non è andata a buon fine a causa della generazione di un file troppo grande.">
@@ -348,8 +352,8 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 
 /* List group UI */
-<uiListGroup_placeholder "Clic sotto"> 
-<uiListGroup_placeholderNothingToTranslate "Nulla da tradurre"> 
+<uiListGroup_placeholder "Clic sotto">
+<uiListGroup_placeholderNothingToTranslate "Nulla da tradurre">
 
 
 /* Contribution form column */
