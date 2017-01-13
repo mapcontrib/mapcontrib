@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.2.1
+
+* Shuffle themes and layers before each OverPass cache generation.
+* Better timeout detection during the OverPass cache genration.
+* Fix the « out of memory » case in the OverPass cache generation.
+
 # 1.2.0
 
 * Display the user/visitor column on the home page.
