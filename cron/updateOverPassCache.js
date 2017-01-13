@@ -1,4 +1,5 @@
 
+import _ from 'underscore';
 import config from 'config';
 import logger from '../lib/logger';
 import Database from '../lib/database';
@@ -70,8 +71,12 @@ export default class UpdateOverPassCache {
     static* _iterateLayers(themes) {
         logger.debug('_iterateLayers');
 
-        for (const theme of themes) {
-            for (const layer of theme.layers) {
+        const shuffledThemes = _.shuffle(themes);
+
+        for (const theme of shuffledThemes) {
+            const shuffledLayers = _.shuffle(theme.layers);
+
+            for (const layer of shuffledLayers) {
                 if (layer.cache !== true) {
                     continue;
                 }
