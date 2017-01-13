@@ -1059,8 +1059,8 @@ export default Marionette.LayoutView.extend({
     updateLayerMinZoom(layerModel) {
         const overpassLayer = this._getOverPassLayer(layerModel);
 
-        if (overpassLayer.object) {
-            overpassLayer.object.options.minZoom = layerModel.get('minZoom');
+        if (overpassLayer && overpassLayer.options) {
+            overpassLayer.options.minZoom = layerModel.get('minZoom');
         }
 
         this.updateMinDataZoom();
