@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.2.2
+
+* Remove an unnecessary top border on the minimum zoom notification.
+
 # 1.2.1
 
 * Shuffle themes and layers before each OverPass cache generation.
