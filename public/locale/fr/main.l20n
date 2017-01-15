@@ -22,7 +22,8 @@
 <maxFileSize "Le poids ne doit pas dépasser {{ $maxFileSize }}">
 
 
-<buttonDescriptionTooltip title:"Lire la description">
+<buttonFavoriteTooltip "Marquer ce thème comme favoris">
+<buttonDescriptionTooltip "Lire la description">
 <buttonZoomInTooltip title:"Vue rapprochée">
 <buttonZoomOutTooltip title:"Vue éloignée">
 <buttonGeocodeTooltip title:"Trouver un lieu">

@@ -22,7 +22,8 @@
 <maxFileSize "The file size has to be lower than {{ $maxFileSize }}">
 
 
-<buttonDescriptionTooltip title:"Read the description">
+<buttonFavoriteTooltip "Bookmark this theme as favorite">
+<buttonDescriptionTooltip "Read the description">
 <buttonZoomInTooltip title:"Zoom in">
 <buttonZoomOutTooltip title:"Zoom out">
 <buttonGeocodeTooltip title:"Find a place">

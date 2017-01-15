@@ -19,6 +19,7 @@ export default Marionette.LayoutView.extend({
         titleWrapper: '#title',
         title: '#title .title_head',
         description: '#title .description',
+        favoriteButton: '#title .favorite_btn',
         descriptionButton: '#title .description_btn',
     },
 
@@ -56,7 +57,22 @@ export default Marionette.LayoutView.extend({
     },
 
     onShow() {
+        this.ui.favoriteButton.tooltip({
+            title: document.l10n.getSync('buttonFavoriteTooltip'),
+            container: 'body',
+            delay: {
+                show: CONST.tooltip.showDelay,
+                hide: CONST.tooltip.hideDelay,
+            },
+        })
+        .on('click', (e) => {
+            $(e.currentTarget)
+            .blur()
+            .tooltip('hide');
+        });
+
         this.ui.descriptionButton.tooltip({
+            title: document.l10n.getSync('buttonDescriptionTooltip'),
             container: 'body',
             delay: {
                 show: CONST.tooltip.showDelay,
