@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.2.3
+
+* Fix a margin in the preset selection column.
+
 # 1.2.2
 
 * Remove an unnecessary top border on the minimum zoom notification.
