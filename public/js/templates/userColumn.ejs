@@ -10,21 +10,43 @@
     <div class="container-fluid content">
         <div class="row">
             <div class="col-xs-12">
-                <div class="hide_on_home">
-                    <nav class="append-xs-2">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li role="presentation"><a href="/" data-l10n-id="goBackToHome"></a></li>
-                        </ul>
-                    </nav>
-                </div>
+                <nav class="go_back_to_home_nav hide append-xs-2">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation"><a href="/" data-l10n-id="goBackToHome"></a></li>
+                    </ul>
+                </nav>
                 <nav class="append-xs-2">
                     <ul class="nav nav-pills nav-stacked">
-                        <!--
-                        <li role="presentation"><a href="#" data-l10n-id="myThemes"></a></li>
-                        <li role="presentation"><a href="#" data-l10n-id="preferences"></a></li>
-                        -->
-                        <li role="presentation"><a href="/create_theme" data-l10n-id="createATheme"></a></li>
-                        <li role="presentation"><a href="#logout" data-l10n-id="logout" class="logout_item"></a></li>
+                        <li role="presentation">
+                            <a href="/create_theme">
+                                <div class="pull-right right_icon"><i class="fa fa-plus"></i></div>
+                                <span data-l10n-id="createATheme"></span>
+                            </a>
+                        </li>
+                        <li role="presentation" class="duplicate_item hide">
+                            <a href="#duplicate-theme">
+                                <div class="pull-right right_icon"><i class="fa fa-files-o"></i></div>
+                                <span data-l10n-id="duplicateTheme"></span>
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#my-favorites">
+                                <div class="pull-right right_icon"><i class="fa fa-star"></i></div>
+                                <span data-l10n-id="favorites"></span>
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#my-themes">
+                                <div class="pull-right right_icon"><i class="fa fa-map"></i></div>
+                                <span data-l10n-id="myThemes"></span>
+                            </a>
+                        </li>
+                        <li role="presentation" class="logout_item">
+                            <a href="#logout">
+                                <div class="pull-right right_icon"><i class="fa fa-sign-out"></i></div>
+                                <span data-l10n-id="logout"></span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <nav>

@@ -21,6 +21,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        goBackToHomeNav: '.go_back_to_home_nav',
         createThemeItem: '.create_theme_item',
         blogLinks: '.blog_link',
         loginItem: '.login_item',
@@ -45,6 +46,10 @@ export default Marionette.LayoutView.extend({
             this.ui.blogLinks.each((index, element) => {
                 element.href = element.href.replace('blog.mapcontrib.xyz', 'blog.mapcontrib.xyz/fr');
             });
+        }
+
+        if ( this._app.isThemePage() ) {
+            this.ui.goBackToHomeNav.removeClass('hide');
         }
     },
 

@@ -120,6 +120,9 @@
 <addAnOption "Aggiungere una opzione">
 <multiComboInfo1 "Completa il prefisso <em>{{ $prefix }}</em>">
 <multiComboInfo2 "Es: recycling:glass">
+<duplicateTheme "Create a theme based on this one"> /* FIXME */
+<favorites "Preferiti">
+<myThemes "I miei temi">
 
 
 /* Home */

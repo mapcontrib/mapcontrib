@@ -120,6 +120,9 @@
 <addAnOption "Ajouter une option">
 <multiComboInfo1 "Complètent le préfixe <em>{{ $prefix }}</em>">
 <multiComboInfo2 "Ex : recycling:glass">
+<duplicateTheme "Créer un thème à partir de celui-là">
+<favorites "Favoris">
+<myThemes "Mes thèmes">
 
 
 /* Home */

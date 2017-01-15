@@ -61,6 +61,8 @@ export default Marionette.Application.extend({
         Marionette.Behaviors.behaviorsLookup = Behaviors;
 
         this._isLogged = false;
+        this._isThemePage = false;
+        this._isHomePage = false;
         this._window = window;
         this._config = MAPCONTRIB.config;
         this._version = MAPCONTRIB.version;
@@ -104,6 +106,14 @@ export default Marionette.Application.extend({
                 data: { locales: document.l10n.supportedLocales },
                 success: this.onReceiveIDPresetsLocale.bind(this),
             });
+        }
+
+        const bodyClasses = window.document.body.className.split(' ');
+        if (bodyClasses.indexOf('page_home') > -1) {
+            this._isHomePage = true;
+        }
+        else if (bodyClasses.indexOf('page_theme') > -1) {
+            this._isThemePage = true;
         }
     },
 
@@ -149,6 +159,14 @@ export default Marionette.Application.extend({
 
     isLogged() {
         return this._isLogged;
+    },
+
+    isThemePage() {
+        return this._isThemePage;
+    },
+
+    isHomePage() {
+        return this._isHomePage;
     },
 
     onStart(Router) {

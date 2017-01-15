@@ -21,6 +21,8 @@ export default Marionette.LayoutView.extend({
     ui: {
         column: '.column',
         blogLinks: '.blog_link',
+        goBackToHomeNav: '.go_back_to_home_nav',
+        duplicateItem: '.duplicate_item',
         logoutItem: '.logout_item',
     },
 
@@ -43,6 +45,11 @@ export default Marionette.LayoutView.extend({
             this.ui.blogLinks.each((index, element) => {
                 element.href = element.href.replace('blog.mapcontrib.xyz', 'blog.mapcontrib.xyz/fr');
             });
+        }
+
+        if ( this._app.isThemePage() ) {
+            this.ui.goBackToHomeNav.removeClass('hide');
+            this.ui.duplicateItem.removeClass('hide');
         }
     },
 
