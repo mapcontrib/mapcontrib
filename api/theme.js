@@ -17,17 +17,6 @@ function setOptions(hash) {
     options = hash;
 }
 
-function addThemeInUserSession(session, theme) {
-    theme._id = theme._id.toString();
-
-    if (!session.themes) {
-        session.themes = [];
-    }
-
-    session.themes.push( theme._id );
-    return true;
-}
-
 
 class Api {
     static post(req, res) {
@@ -68,8 +57,6 @@ class Api {
                         }
 
                         const result = results.ops[0];
-
-                        addThemeInUserSession(session, result);
 
                         return resolve(result);
                     }
