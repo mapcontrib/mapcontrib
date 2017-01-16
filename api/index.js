@@ -96,6 +96,25 @@ export default class Api {
 
                     templateVars.highlightList = escape(JSON.stringify( highlightList ));
 
+                    if (req.session.user) {
+                        return themeApi.Api.findFromOwnerId(req.session.user._id);
+                    }
+
+                    return Promise.resolve([]);
+                })
+                .then((themes) => {
+                    const userThemes = [];
+
+                    for (const theme of themes) {
+                        userThemes.push({
+                            fragment: theme.fragment,
+                            name: theme.name,
+                            color: theme.color,
+                        });
+                    }
+
+                    templateVars.userThemes = escape(JSON.stringify( userThemes ));
+
                     res.render('home', templateVars);
                 })
                 .catch( Api.onPromiseError.bind(this, res) );
@@ -129,6 +148,25 @@ export default class Api {
                 templateVars.nonOsmData = escape(JSON.stringify( data[1] ));
                 templateVars.osmCache = escape(JSON.stringify( data[2] ));
                 templateVars.iDPresets = escape(JSON.stringify( data[3] ));
+
+                if (req.session.user) {
+                    return themeApi.Api.findFromOwnerId(req.session.user._id);
+                }
+
+                return Promise.resolve([]);
+            })
+            .then((themes) => {
+                const userThemes = [];
+
+                for (const theme of themes) {
+                    userThemes.push({
+                        fragment: theme.fragment,
+                        name: theme.name,
+                        color: theme.color,
+                    });
+                }
+
+                templateVars.userThemes = escape(JSON.stringify( userThemes ));
 
                 res.render('theme', templateVars);
             })
