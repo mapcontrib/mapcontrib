@@ -19,6 +19,7 @@ import 'leaflet/dist/leaflet.css';
 
 import CONST from 'const';
 import UserModel from 'model/user';
+import UserThemeCollection from 'collection/userTheme';
 import ThemeModel from 'model/theme';
 import NonOsmDataCollection from 'collection/nonOsmData';
 import OsmCacheCollection from 'collection/osmCache';
@@ -77,6 +78,12 @@ export default Marionette.Application.extend({
             );
         }
 
+        if (MAPCONTRIB.userThemes) {
+            this._userThemes = new UserThemeCollection(
+                JSON.parse(unescape( MAPCONTRIB.userThemes ))
+            );
+        }
+
         if (MAPCONTRIB.theme) {
             this._theme = new ThemeModel(
                 JSON.parse(unescape( MAPCONTRIB.theme ))
@@ -127,6 +134,10 @@ export default Marionette.Application.extend({
 
     getUser() {
         return this._user;
+    },
+
+    getUserThemes() {
+        return this._userThemes;
     },
 
     getConfig() {

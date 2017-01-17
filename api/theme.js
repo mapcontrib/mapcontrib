@@ -248,6 +248,16 @@ class Api {
         return true;
     }
 
+    static getUserThemes(req, res) {
+        Api.findFromUserSession(req.session.user)
+        .then((themes) => {
+            res.send(themes);
+        })
+        .catch((errorCode) => {
+            res.sendStatus(errorCode);
+        });
+    }
+
 
     static findFromFragment(fragment) {
         return new Promise((resolve, reject) => {
@@ -304,6 +314,36 @@ class Api {
                         result._id = result._id.toString();
                         return result;
                     })
+                );
+            });
+        });
+    }
+
+
+    static findFromUserSession(userSession) {
+        return new Promise((resolve, reject) => {
+            if ( !userSession ) {
+                resolve([]);
+                return;
+            }
+
+            const collection = options.database.collection('theme');
+
+            collection.find({
+                owners: userSession._id,
+            })
+            .toArray((err, results) => {
+                if (err) {
+                    reject(500);
+                    return;
+                }
+
+                resolve(
+                    results.map(theme => ({
+                        fragment: theme.fragment,
+                        name: theme.name,
+                        color: theme.color,
+                    }))
                 );
             });
         });

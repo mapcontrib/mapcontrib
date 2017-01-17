@@ -1,7 +1,8 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/userColumn.ejs';
+import template from 'templates/user/visitorColumn.ejs';
+import LoginModalView from 'view/loginModal';
 
 
 export default Marionette.LayoutView.extend({
@@ -20,14 +21,15 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
-        blogLinks: '.blog_link',
         goBackToHomeNav: '.go_back_to_home_nav',
-        duplicateItem: '.duplicate_item',
-        logoutItem: '.logout_item',
+        createThemeItem: '.create_theme_item',
+        blogLinks: '.blog_link',
+        loginItem: '.login_item',
     },
 
     events: {
-        'click @ui.logoutItem': 'close',
+        'click @ui.createThemeItem': 'onClickCreateTheme',
+        'click @ui.loginItem': 'onClickLogin',
     },
 
     initialize() {
@@ -49,7 +51,6 @@ export default Marionette.LayoutView.extend({
 
         if ( this._app.isThemePage() ) {
             this.ui.goBackToHomeNav.removeClass('hide');
-            this.ui.duplicateItem.removeClass('hide');
         }
     },
 
@@ -61,5 +62,40 @@ export default Marionette.LayoutView.extend({
     close() {
         this.triggerMethod('close');
         return this;
+    },
+
+    onClickLogin() {
+        // FIXME To have a real fail callback
+        let authSuccessCallback;
+        let authFailCallback;
+
+        if (this.model) {
+            authSuccessCallback = authFailCallback = this.model.buildPath();
+        }
+        else {
+            authSuccessCallback = authFailCallback = '/';
+        }
+
+        new LoginModalView({
+            authSuccessCallback,
+            authFailCallback,
+        }).open();
+    },
+
+    onClickCreateTheme() {
+        // FIXME To have a real fail callback
+        const authSuccessCallback = '/create_theme';
+        let authFailCallback;
+
+        if (this.model) {
+            authFailCallback = this.model.buildPath();
+        }
+        else {
+            authFailCallback = '/';
+        }
+        new LoginModalView({
+            authSuccessCallback,
+            authFailCallback,
+        }).open();
     },
 });

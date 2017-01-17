@@ -4,8 +4,8 @@ import Wreqr from 'backbone.wreqr';
 import CONST from 'const';
 
 import HomeRootView from 'view/homeRoot';
-import UserColumn from 'view/userColumn';
-import VisitorColumn from 'view/visitorColumn';
+import UserColumn from 'view/user/userColumn';
+import VisitorColumn from 'view/user/visitorColumn';
 import AboutModal from 'view/modal/about';
 
 

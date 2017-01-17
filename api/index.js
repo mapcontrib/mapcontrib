@@ -41,6 +41,8 @@ export default class Api {
         //     userApi.Api.delete
         // );
 
+        app.get('/api/userThemes', themeApi.Api.getUserThemes);
+
         app.get('/api/theme', themeApi.Api.getAll);
         app.get('/api/theme/:_id', themeApi.Api.get);
         app.post('/api/theme', Api.isLoggedIn, themeApi.Api.post);
@@ -81,13 +83,14 @@ export default class Api {
 
                 for (const fragment of clientConfig.highlightedThemes) {
                     promises.push(
-                        themeApi.Api.findFromFragment(fragment)
+                        themeApi.Api.findFromFragment(fragment),
+                        themeApi.Api.findFromUserSession(req.session.user),
                     );
                 }
 
                 Promise.all(promises)
-                .then((promisesResults) => {
-                    const themeObjects = promisesResults.slice(1);
+                .then((data) => {
+                    const themeObjects = escape(JSON.stringify( data[0] ));
                     const highlightList = [];
 
                     for (const themeObject of themeObjects) {
@@ -95,25 +98,7 @@ export default class Api {
                     }
 
                     templateVars.highlightList = escape(JSON.stringify( highlightList ));
-
-                    if (req.session.user) {
-                        return themeApi.Api.findFromOwnerId(req.session.user._id);
-                    }
-
-                    return Promise.resolve([]);
-                })
-                .then((themes) => {
-                    const userThemes = [];
-
-                    for (const theme of themes) {
-                        userThemes.push({
-                            fragment: theme.fragment,
-                            name: theme.name,
-                            color: theme.color,
-                        });
-                    }
-
-                    templateVars.userThemes = escape(JSON.stringify( userThemes ));
+                    templateVars.userThemes = escape(JSON.stringify( data[1] ));
 
                     res.render('home', templateVars);
                 })
@@ -135,6 +120,7 @@ export default class Api {
 
             const promises = [
                 themeApi.Api.findFromFragment(fragment),
+                themeApi.Api.findFromUserSession(req.session.user),
                 nonOsmDataApi.Api.findFromFragment(fragment),
                 osmCacheApi.Api.findFromFragment(fragment),
                 Api.getiDPresets(CONST),
@@ -145,28 +131,10 @@ export default class Api {
             .then((data) => {
                 templateVars.theme = escape(JSON.stringify( data[0] ));
                 templateVars.themeAnalyticScript = data[0].analyticScript;
-                templateVars.nonOsmData = escape(JSON.stringify( data[1] ));
-                templateVars.osmCache = escape(JSON.stringify( data[2] ));
-                templateVars.iDPresets = escape(JSON.stringify( data[3] ));
-
-                if (req.session.user) {
-                    return themeApi.Api.findFromOwnerId(req.session.user._id);
-                }
-
-                return Promise.resolve([]);
-            })
-            .then((themes) => {
-                const userThemes = [];
-
-                for (const theme of themes) {
-                    userThemes.push({
-                        fragment: theme.fragment,
-                        name: theme.name,
-                        color: theme.color,
-                    });
-                }
-
-                templateVars.userThemes = escape(JSON.stringify( userThemes ));
+                templateVars.userThemes = escape(JSON.stringify( data[1] ));
+                templateVars.nonOsmData = escape(JSON.stringify( data[2] ));
+                templateVars.osmCache = escape(JSON.stringify( data[3] ));
+                templateVars.iDPresets = escape(JSON.stringify( data[4] ));
 
                 res.render('theme', templateVars);
             })

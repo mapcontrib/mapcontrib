@@ -21,8 +21,8 @@ import InfoGpxLayerColumn from 'view/info/layer/gpxColumn';
 import InfoCsvLayerColumn from 'view/info/layer/csvColumn';
 import InfoGeoJsonLayerColumn from 'view/info/layer/geoJsonColumn';
 
-import UserColumn from 'view/userColumn';
-import VisitorColumn from 'view/visitorColumn';
+import UserColumn from 'view/user/userColumn';
+import VisitorColumn from 'view/user/visitorColumn';
 import LinkColumn from 'view/linkColumn';
 
 import TempLayerColumn from 'view/tempLayer/layerColumn';
