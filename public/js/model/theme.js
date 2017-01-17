@@ -52,6 +52,7 @@ export default Backbone.RelationalModel.extend({
             creationDate: new Date().toISOString(),
             modificationDate: new Date().toISOString(),
             userId: undefined,
+            fragment: undefined,
             name: 'MapContrib',
             description: '',
             color: 'blue',
