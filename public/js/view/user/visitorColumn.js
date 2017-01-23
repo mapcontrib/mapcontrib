@@ -3,6 +3,7 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/user/visitorColumn.ejs';
 import LoginModalView from 'view/loginModal';
+import ThemeCore from 'core/theme';
 
 
 export default Marionette.LayoutView.extend({
@@ -70,7 +71,10 @@ export default Marionette.LayoutView.extend({
         let authFailCallback;
 
         if (this.model) {
-            authSuccessCallback = authFailCallback = this.model.buildPath();
+            authSuccessCallback = authFailCallback = ThemeCore.buildPath(
+                this.model.get('fragment'),
+                this.model.get('name')
+            );
         }
         else {
             authSuccessCallback = authFailCallback = '/';
@@ -88,7 +92,10 @@ export default Marionette.LayoutView.extend({
         let authFailCallback;
 
         if (this.model) {
-            authFailCallback = this.model.buildPath();
+            authFailCallback = ThemeCore.buildPath(
+                this.model.get('fragment'),
+                this.model.get('name')
+            );
         }
         else {
             authFailCallback = '/';

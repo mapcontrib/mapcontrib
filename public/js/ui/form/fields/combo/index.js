@@ -79,6 +79,11 @@ export default Marionette.ItemView.extend({
     },
 
     setFocus() {
-        this.ui.select.focus();
+        setTimeout(
+            () => {
+                this.ui.input.focus();
+            },
+            200
+        );
     },
 });

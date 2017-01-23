@@ -82,6 +82,7 @@
 <editThatElement "Éditer cet élément">
 <loadingData title:"Certaines données sont en cours de chargement">
 <createATheme "Créer un thème">
+<search "Rechercher">
 <searchATheme "Rechercher un thème (3 caractères min.)">
 <aboutMapContrib "À propos de MapContrib">
 <invalidFile "Fichier non valide">

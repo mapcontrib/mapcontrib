@@ -4,6 +4,7 @@ import Marionette from 'backbone.marionette';
 import template from 'templates/admin/setting/mainColumn.ejs';
 import CONST from 'const';
 import MarkedHelper from 'helper/marked';
+import ThemeCore from 'core/theme';
 import 'ui/form/colorSelector/style.less';
 
 
@@ -151,7 +152,14 @@ export default Marionette.ItemView.extend({
         this.model.set('analyticScript', themeAnalyticScript);
         this.model.updateModificationDate();
 
-        window.history.pushState({}, themeName, this.model.buildPath());
+        window.history.pushState(
+            {},
+            themeName,
+            ThemeCore.buildPath(
+                this.model.get('fragment'),
+                this.model.get('name')
+            )
+        );
 
         this.model.set('autoCenter', false);
 

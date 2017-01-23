@@ -23,6 +23,7 @@ import InfoGeoJsonLayerColumn from 'view/info/layer/geoJsonColumn';
 
 import UserColumn from 'view/user/userColumn';
 import VisitorColumn from 'view/user/visitorColumn';
+import UserThemesColumn from 'view/user/userThemesColumn';
 import LinkColumn from 'view/linkColumn';
 
 import TempLayerColumn from 'view/tempLayer/layerColumn';
@@ -81,6 +82,7 @@ export default Backbone.Router.extend({
         'select/tile': 'routeSelectTile',
 
         user: 'routeUser',
+        'my-themes': 'routeUserThemes',
         link: 'routeLink',
 
         'temp/layer': 'routeTempLayer',
@@ -263,6 +265,19 @@ export default Backbone.Router.extend({
                 model: this._theme,
             }).open();
         }
+    },
+
+    routeUserThemes() {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new UserThemesColumn({
+            router: this,
+            app: this._app,
+            collection: this._app.getUserThemes(),
+        }).open();
     },
 
     routeAbout() {

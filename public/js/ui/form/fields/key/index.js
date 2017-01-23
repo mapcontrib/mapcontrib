@@ -129,7 +129,12 @@ export default Marionette.ItemView.extend({
 
     setFocus() {
         if (this.ui.key.focus) {
-            this.ui.key.focus();
+            setTimeout(
+                () => {
+                    this.ui.input.focus();
+                },
+                200
+            );
         }
     },
 });

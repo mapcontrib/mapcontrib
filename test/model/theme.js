@@ -21,22 +21,6 @@ describe('ThemeModel', () => {
         });
     });
 
-    describe('buildPath', () => {
-        it('Should return a complete path', () => {
-            const expected = '/t/a6g07ft-A_name_with_special_characterS_';
-
-            assert.strictEqual(theme.buildPath(), expected);
-        });
-    });
-
-    describe('buildWebLinkName', () => {
-        it('Should return a cleaned up name', () => {
-            const expected = 'A_name_with_special_characterS_';
-
-            assert.strictEqual(theme.buildWebLinkName(), expected);
-        });
-    });
-
     describe('isOwner', () => {
         it('Should be a owner by userId', () => {
             const user = new UserModel({ _id: '5d8e2fv4s65s8ze4sd8cv4v' });

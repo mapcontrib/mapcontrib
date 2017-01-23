@@ -82,6 +82,7 @@
 <editThatElement "Edit that element">
 <loadingData title:"Some data are being loaded">
 <createATheme "Create a theme">
+<search "Search">
 <searchATheme "Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
 <invalidFile "Invalid file">

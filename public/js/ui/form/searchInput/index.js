@@ -49,7 +49,12 @@ export default Marionette.LayoutView.extend({
     },
 
     setFocus() {
-        this.ui.input.focus();
+        setTimeout(
+            () => {
+                this.ui.input.focus();
+            },
+            200
+        );
     },
 
     onFocus() {

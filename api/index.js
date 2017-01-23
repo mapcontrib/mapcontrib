@@ -9,6 +9,7 @@ import nonOsmDataApi from './nonOsmData';
 import osmCacheApi from './osmCache';
 import fileApi from './file';
 import overPassCacheApi from './overPassCache';
+import ThemeCore from '../public/js/core/theme';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -156,7 +157,10 @@ export default class Api {
                 const model = new ThemeModel(theme);
 
                 res.redirect(
-                    model.buildPath()
+                    ThemeCore.buildPath(
+                        model.get('fragment'),
+                        model.get('name')
+                    )
                 );
             })
             .catch( Api.onPromiseError.bind(this, res) );

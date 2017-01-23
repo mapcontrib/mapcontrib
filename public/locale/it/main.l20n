@@ -82,6 +82,7 @@
 <editThatElement "Modifica questo oggetto">
 <loadingData title:"Alcuni dati saranno caricati">
 <createATheme "Crea un tema">
+<search "Cerca">
 <searchATheme "Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
 <invalidFile "File non valido">
