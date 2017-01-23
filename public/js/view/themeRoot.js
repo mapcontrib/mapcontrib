@@ -1187,7 +1187,7 @@ export default Marionette.LayoutView.extend({
         if ( !this._app.isLogged() ) {
             this.ui.userButton
             .removeClass('avatar')
-            .html('<i class="icon ion-happy-outline"></i>');
+            .html('<i class="icon ion-home"></i>');
         }
         else {
             const avatar = this._user.get('avatar');
