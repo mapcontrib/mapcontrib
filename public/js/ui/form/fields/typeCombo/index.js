@@ -2,6 +2,7 @@
 import Marionette from 'backbone.marionette';
 import Locale from 'core/locale';
 import template from './template.ejs';
+import WidgetUi from 'ui/widget';
 
 
 export default Marionette.ItemView.extend({
@@ -81,11 +82,6 @@ export default Marionette.ItemView.extend({
     },
 
     setFocus() {
-        setTimeout(
-            () => {
-                this.ui.select.focus();
-            },
-            200
-        );
+        WidgetUi.setFocus(this.ui.select);
     },
 });

@@ -5,6 +5,7 @@ import template from './template.ejs';
 import 'selectize';
 import 'selectize/dist/css/selectize.css';
 import 'selectize/dist/css/selectize.bootstrap3.css';
+import WidgetUi from 'ui/widget';
 
 
 export default Marionette.ItemView.extend({
@@ -118,11 +119,6 @@ export default Marionette.ItemView.extend({
     },
 
     setFocus() {
-        setTimeout(
-            () => {
-                this.ui.select.focus();
-            },
-            200
-        );
+        WidgetUi.setFocus(this.ui.select);
     },
 });
