@@ -55,10 +55,15 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        const defaultNavItems = this._buildNavItems(this.collection);
-
         this._themesNav = new NavPillsStackedListView();
-        this._themesNav.setItems(defaultNavItems);
+
+        this._defaultNavItems = this._buildNavItems(this.collection);
+        this._setDefaultNavItems = this._themesNav.setItems.bind(
+            this._themesNav,
+            this._defaultNavItems
+        );
+
+        this._setDefaultNavItems();
         this.getRegion('themesNav').show( this._themesNav );
 
 
@@ -69,8 +74,8 @@ export default Marionette.LayoutView.extend({
 
         this.getRegion('searchInput').show( this._searchInput );
         this._searchInput.setFocus();
-        this._searchInput.on('search', this._filterNavItems.bind(this, this.collection), this);
-        this._searchInput.on('empty', this._themesNav.setItems.bind(this._themesNav, defaultNavItems), this);
+        this._searchInput.on('search', this._filterNavItems.bind(this, this._defaultNavItems), this);
+        this._searchInput.on('empty', this._setDefaultNavItems, this);
     },
 
     _buildNavItems(collection) {
@@ -83,25 +88,13 @@ export default Marionette.LayoutView.extend({
         }));
     },
 
-    _buildSearchedNavItems(collection, searchString) {
-        const re = new RegExp(searchString, 'i');
-
-        return collection.models
-        .filter( theme => re.test(theme.get('name')) )
-        .map(theme => ({
-            label: Locale.getLocalized(theme, 'name'),
-            href: ThemeCore.buildPath(
-                theme.get('fragment'),
-                theme.get('name')
-            ),
-        }));
-    },
-
-    _filterNavItems(collection, searchString) {
+    _filterNavItems(defaultNavItems, searchString) {
         this._searchInput.trigger('search:success');
         this._hideNoResult();
 
-        const navItems = this._buildSearchedNavItems(collection, searchString);
+        const re = new RegExp(searchString, 'i');
+        const navItems = defaultNavItems.filter( item => re.test(item.label) );
+
         this._themesNav.setItems(navItems);
 
         if (navItems.length === 0) {
