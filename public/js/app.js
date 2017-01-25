@@ -18,6 +18,7 @@ import 'bootstrap-more/bootstrap-more.js';
 import 'leaflet/dist/leaflet.css';
 
 import CONST from 'const';
+import GlobalRouter from 'router/global';
 import UserModel from 'model/user';
 import UserThemeCollection from 'collection/userTheme';
 import ThemeModel from 'model/theme';
@@ -180,16 +181,24 @@ export default Marionette.Application.extend({
         return this._isHomePage;
     },
 
-    onStart(Router) {
+    onStart(options) {
+        const Router = options.router;
+        const RootView = options.rootView;
+
         if ( this._user.get('_id') ) {
             this._radio.vent.trigger('session:logged');
         }
 
+        this._globalRouter = new GlobalRouter(this);
         this._router = new Router(this);
 
         this._radio.reqres.setHandler('router', () => this._router);
 
         Backbone.history.start();
+
+        this.getRegion('root').show(
+            new RootView({ app: this })
+        );
     },
 
     onReceiveIDPresetsLocale(response) {
