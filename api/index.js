@@ -77,37 +77,41 @@ export default class Api {
                 analyticScript: config.get('analyticScript'),
             };
 
-            if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
-                const promises = [
-                    Api.reloadSession(req),
-                ];
+            const promises = [
+                themeApi.Api.findFromUserSession(req.session.user),
+                Api.reloadSession(req),
+            ];
 
+            const highlightPromises = [];
+
+            if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
                 for (const fragment of clientConfig.highlightedThemes) {
-                    promises.push(
-                        themeApi.Api.findFromFragment(fragment),
-                        themeApi.Api.findFromUserSession(req.session.user),
+                    highlightPromises.push(
+                        themeApi.Api.findFromFragment(fragment)
                     );
                 }
+            }
 
-                Promise.all(promises)
-                .then((data) => {
-                    const themeObjects = escape(JSON.stringify( data[0] ));
+            Promise.all(promises)
+            .then((data) => {
+                templateVars.userThemes = escape(JSON.stringify( data[0] ));
+
+                return Promise.all(highlightPromises);
+            })
+            .then((data) => {
+                if (data.length > 0) {
                     const highlightList = [];
 
-                    for (const themeObject of themeObjects) {
+                    for (const themeObject of data) {
                         highlightList.push(themeObject);
                     }
 
                     templateVars.highlightList = escape(JSON.stringify( highlightList ));
-                    templateVars.userThemes = escape(JSON.stringify( data[1] ));
+                }
 
-                    res.render('home', templateVars);
-                })
-                .catch( Api.onPromiseError.bind(this, res) );
-            }
-            else {
                 res.render('home', templateVars);
-            }
+            })
+            .catch( Api.onPromiseError.bind(this, res) );
         });
 
         app.get(/\/t\/(\w+)(-.*)?/, (req, res) => {
