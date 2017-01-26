@@ -350,6 +350,57 @@ class Api {
     }
 
 
+    static findFavoritesFromUserSession(userSession) {
+        return new Promise((resolve, reject) => {
+            if ( !userSession ) {
+                resolve([]);
+                return;
+            }
+
+            const userCollection = options.database.collection('user');
+            const themeCollection = options.database.collection('theme');
+
+            userCollection.find({
+                _id: new ObjectID(userSession._id),
+            })
+            .toArray((err, results) => {
+                if (err) {
+                    logger.error(err);
+                    reject(500);
+                    return;
+                }
+
+                const user = results[0];
+
+                if ( !user.favoriteThemes ) {
+                    user.favoriteThemes = [];
+                }
+
+                themeCollection.find({
+                    fragment: {
+                        $in: user.favoriteThemes,
+                    },
+                })
+                .toArray((err, results) => {
+                    if (err) {
+                        logger.error(err);
+                        reject(500);
+                        return;
+                    }
+
+                    resolve(
+                        results.map(theme => ({
+                            fragment: theme.fragment,
+                            name: theme.name,
+                            color: theme.color,
+                        }))
+                    );
+                });
+            });
+        });
+    }
+
+
     static findAllOwners() {
         return new Promise((resolve, reject) => {
             const collection = options.database.collection('theme');
