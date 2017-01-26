@@ -4,6 +4,7 @@ import path from 'path';
 import mkdirp from 'mkdirp';
 import express from 'express';
 import multer from 'multer';
+import logger from '../lib/logger';
 import config from 'config';
 import { basename } from '../public/js/core/utils';
 
@@ -67,6 +68,10 @@ function cleanThemeFiles(themeModel) {
     }
 
     fs.readdir(shapeDirectory, (err, fileList) => {
+        if (err) {
+            logger.error(err);
+        }
+
         for (const i in fileList) {
             if ({}.hasOwnProperty.call(fileList, i)) {
                 const file = fileList[i];
@@ -111,6 +116,7 @@ function uploadFile(req, res, file, directory) {
             fullPath,
             (err) => {
                 if (err) {
+                    logger.error(err);
                     return reject(err);
                 }
 

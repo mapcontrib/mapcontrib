@@ -1,4 +1,5 @@
 
+import logger from '../lib/logger';
 import { spawn } from 'child_process';
 
 
@@ -29,6 +30,7 @@ class Api {
         })
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 return res.sendStatus(500);
             }
 

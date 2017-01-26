@@ -3,6 +3,7 @@ import fs from 'fs';
 import { ObjectID } from 'mongodb';
 import Backbone from 'backbone';
 import config from 'config';
+import logger from '../lib/logger';
 import userApi from './user';
 import themeApi from './theme';
 import nonOsmDataApi from './nonOsmData';
@@ -194,7 +195,7 @@ export default class Api {
                     );
                 }
                 catch (e) {
-                    console.error(e);
+                    logger.error(e);
                 }
             }
 
@@ -223,6 +224,7 @@ export default class Api {
         })
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 return res.sendStatus(500);
             }
 
@@ -263,6 +265,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             fs.readFile(CONST.iDPresetsPath, 'utf-8', (err, data) => {
                 if (err) {
+                    logger.error(err);
                     return reject(err);
                 }
 

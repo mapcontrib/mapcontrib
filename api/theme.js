@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import Backbone from 'backbone';
 import Sifter from 'sifter';
 import { ObjectID } from 'mongodb';
+import logger from '../lib/logger';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -53,6 +54,7 @@ class Api {
                     { safe: true },
                     (err, results) => {
                         if (err) {
+                            logger.error(err);
                             return reject(500);
                         }
 
@@ -81,6 +83,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     return reject(500);
                 }
 
@@ -108,6 +111,7 @@ class Api {
         })
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -160,6 +164,7 @@ class Api {
         )
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -273,6 +278,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     reject(500);
                     return;
                 }
@@ -305,6 +311,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     reject(500);
                     return;
                 }
@@ -334,6 +341,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     reject(500);
                     return;
                 }
@@ -410,6 +418,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     reject(500);
                     return;
                 }
@@ -453,6 +462,7 @@ class Api {
         { safe: true },
         (err) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -482,6 +492,7 @@ class Api {
         { safe: true },
         (err) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
