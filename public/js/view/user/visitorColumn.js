@@ -69,11 +69,12 @@ export default Marionette.LayoutView.extend({
         // FIXME To have a real fail callback
         let authSuccessCallback;
         let authFailCallback;
+        const theme = this._app.getTheme();
 
-        if (this.model) {
+        if ( theme ) {
             authSuccessCallback = authFailCallback = ThemeCore.buildPath(
-                this.model.get('fragment'),
-                this.model.get('name')
+                theme.get('fragment'),
+                theme.get('name')
             );
         }
         else {
@@ -90,11 +91,12 @@ export default Marionette.LayoutView.extend({
         // FIXME To have a real fail callback
         const authSuccessCallback = '/create_theme';
         let authFailCallback;
+        const theme = this._app.getTheme();
 
-        if (this.model) {
+        if ( theme ) {
             authFailCallback = ThemeCore.buildPath(
-                this.model.get('fragment'),
-                this.model.get('name')
+                theme.get('fragment'),
+                theme.get('name')
             );
         }
         else {

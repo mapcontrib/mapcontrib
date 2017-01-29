@@ -21,6 +21,7 @@ export default Marionette.LayoutView.extend({
         title: '#title .title_head',
         description: '#title .description',
         favoriteButton: '#title .favorite_btn',
+        favoriteButtonIcon: '#title .favorite_btn .fa',
         descriptionButton: '#title .description_btn',
     },
 
@@ -33,25 +34,42 @@ export default Marionette.LayoutView.extend({
         this._radio = Wreqr.radio.channel('global');
 
         this._currentTitleColor = this.model.get('color');
+        this._app = this.options.app;
+        this._userFavoriteThemes = this.options.userFavoriteThemes;
 
         this.listenTo(this.model, 'change', this.setTitle);
         this.listenTo(this.model, 'change', this.setDescription);
 
         this._radio.commands.setHandler('ui:setTitleColor', this.commandSetTitleColor, this);
+        this._radio.vent.on('session:logged', this.render, this);
+        this._radio.vent.on('session:unlogged', this.render, this);
     },
 
     templateHelpers() {
         const name = Locale.getLocalized(this.model, 'name');
         const description = Locale.getLocalized(this.model, 'description');
+        let favoriteIconClass = 'fa-star-o';
+
+        if ( this._userFavoriteThemes.has(this.model) ) {
+            favoriteIconClass = 'fa-star';
+        }
 
         return {
             name,
+            favoriteIconClass,
             description: MarkedHelper.render( description || '' ),
         };
     },
 
     onRender() {
         this.setTitle();
+
+        if ( this._app.isLogged() ) {
+            this.ui.favoriteButton.removeClass('hide');
+        }
+        else {
+            this.ui.favoriteButton.addClass('hide');
+        }
 
         if ( this.model.get('description') ) {
             this.ui.descriptionButton.removeClass('hide');
@@ -146,6 +164,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickFavorite() {
+        this._userFavoriteThemes.toggle(this.model);
         this._favoriteTimeline.replay();
     },
 });

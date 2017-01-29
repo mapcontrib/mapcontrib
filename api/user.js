@@ -142,10 +142,10 @@ class Api {
             return true;
         }
 
-        delete (newJson._id);
+        newJson._id = new ObjectID(req.params._id);
 
         collection.updateOne({
-            _id: new ObjectID(req.params._id),
+            _id: newJson._id,
         },
         newJson,
         { safe: true },
@@ -156,6 +156,8 @@ class Api {
 
                 return true;
             }
+
+            req.session.user = newJson;
 
             return res.send({});
         });

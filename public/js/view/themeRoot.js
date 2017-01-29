@@ -252,7 +252,11 @@ export default Marionette.LayoutView.extend({
         this._zoomNotificationView = new ZoomNotificationView();
 
 
-        this.getRegion('mainTitle').show( new ThemeTitleView({ model: this.model }) );
+        this.getRegion('mainTitle').show( new ThemeTitleView({
+            model: this.model,
+            app: this._app,
+            userFavoriteThemes: this._app.getUserFavoriteThemes(),
+        }) );
         this.getRegion('geocodeWidget').show( this._geocodeWidgetView );
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 

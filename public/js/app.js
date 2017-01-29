@@ -21,6 +21,8 @@ import CONST from 'const';
 import GlobalRouter from 'router/global';
 import UserModel from 'model/user';
 import UserThemeCollection from 'collection/userTheme';
+import UserFavoriteThemes from 'core/userFavoriteThemes';
+import UserFavoriteThemesDataCollection from 'collection/userFavoriteThemesData';
 import ThemeModel from 'model/theme';
 import NonOsmDataCollection from 'collection/nonOsmData';
 import OsmCacheCollection from 'collection/osmCache';
@@ -85,6 +87,15 @@ export default Marionette.Application.extend({
             );
         }
 
+        if (MAPCONTRIB.userFavoriteThemesData) {
+            this._userFavoriteThemes = new UserFavoriteThemes(
+                this._user,
+                new UserFavoriteThemesDataCollection(
+                    JSON.parse(unescape( MAPCONTRIB.userFavoriteThemesData ))
+                )
+            );
+        }
+
         if (MAPCONTRIB.theme) {
             this._theme = new ThemeModel(
                 JSON.parse(unescape( MAPCONTRIB.theme ))
@@ -139,6 +150,10 @@ export default Marionette.Application.extend({
 
     getUserThemes() {
         return this._userThemes;
+    },
+
+    getUserFavoriteThemes() {
+        return this._userFavoriteThemes;
     },
 
     getConfig() {

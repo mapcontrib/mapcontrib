@@ -97,7 +97,7 @@ export default class Api {
             Promise.all(promises)
             .then((data) => {
                 templateVars.userThemes = escape(JSON.stringify( data[0] ));
-                templateVars.favoriteThemes = escape(JSON.stringify( data[1] ));
+                templateVars.userFavoriteThemesData = escape(JSON.stringify( data[1] ));
 
                 return Promise.all(highlightPromises);
             })
@@ -141,7 +141,7 @@ export default class Api {
                 templateVars.theme = escape(JSON.stringify( data[0] ));
                 templateVars.themeAnalyticScript = data[0].analyticScript;
                 templateVars.userThemes = escape(JSON.stringify( data[1] ));
-                templateVars.favoriteThemes = escape(JSON.stringify( data[2] ));
+                templateVars.userFavoriteThemesData = escape(JSON.stringify( data[2] ));
                 templateVars.nonOsmData = escape(JSON.stringify( data[3] ));
                 templateVars.osmCache = escape(JSON.stringify( data[4] ));
                 templateVars.iDPresets = escape(JSON.stringify( data[5] ));
