@@ -18,7 +18,11 @@ import 'bootstrap-more/bootstrap-more.js';
 import 'leaflet/dist/leaflet.css';
 
 import CONST from 'const';
+import GlobalRouter from 'router/global';
 import UserModel from 'model/user';
+import UserThemeCollection from 'collection/userTheme';
+import UserFavoriteThemes from 'core/userFavoriteThemes';
+import UserFavoriteThemesDataCollection from 'collection/userFavoriteThemesData';
 import ThemeModel from 'model/theme';
 import NonOsmDataCollection from 'collection/nonOsmData';
 import OsmCacheCollection from 'collection/osmCache';
@@ -61,6 +65,8 @@ export default Marionette.Application.extend({
         Marionette.Behaviors.behaviorsLookup = Behaviors;
 
         this._isLogged = false;
+        this._isThemePage = false;
+        this._isHomePage = false;
         this._window = window;
         this._config = MAPCONTRIB.config;
         this._version = MAPCONTRIB.version;
@@ -72,6 +78,21 @@ export default Marionette.Application.extend({
         if (MAPCONTRIB.user) {
             this._user = new UserModel(
                 JSON.parse(unescape( MAPCONTRIB.user ))
+            );
+        }
+
+        if (MAPCONTRIB.userThemes) {
+            this._userThemes = new UserThemeCollection(
+                JSON.parse(unescape( MAPCONTRIB.userThemes ))
+            );
+        }
+
+        if (MAPCONTRIB.userFavoriteThemesData) {
+            this._userFavoriteThemes = new UserFavoriteThemes(
+                this._user,
+                new UserFavoriteThemesDataCollection(
+                    JSON.parse(unescape( MAPCONTRIB.userFavoriteThemesData ))
+                )
             );
         }
 
@@ -105,6 +126,14 @@ export default Marionette.Application.extend({
                 success: this.onReceiveIDPresetsLocale.bind(this),
             });
         }
+
+        const bodyClasses = window.document.body.className.split(' ');
+        if (bodyClasses.indexOf('page_home') > -1) {
+            this._isHomePage = true;
+        }
+        else if (bodyClasses.indexOf('page_theme') > -1) {
+            this._isThemePage = true;
+        }
     },
 
     getWindow() {
@@ -117,6 +146,14 @@ export default Marionette.Application.extend({
 
     getUser() {
         return this._user;
+    },
+
+    getUserThemes() {
+        return this._userThemes;
+    },
+
+    getUserFavoriteThemes() {
+        return this._userFavoriteThemes;
     },
 
     getConfig() {
@@ -151,16 +188,32 @@ export default Marionette.Application.extend({
         return this._isLogged;
     },
 
-    onStart(Router) {
+    isThemePage() {
+        return this._isThemePage;
+    },
+
+    isHomePage() {
+        return this._isHomePage;
+    },
+
+    onStart(options) {
+        const Router = options.router;
+        const RootView = options.rootView;
+
         if ( this._user.get('_id') ) {
             this._radio.vent.trigger('session:logged');
         }
 
+        this._globalRouter = new GlobalRouter(this);
         this._router = new Router(this);
 
         this._radio.reqres.setHandler('router', () => this._router);
 
         Backbone.history.start();
+
+        this.getRegion('root').show(
+            new RootView({ app: this })
+        );
     },
 
     onReceiveIDPresetsLocale(response) {

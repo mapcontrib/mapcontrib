@@ -1,4 +1,5 @@
 
+import logger from '../lib/logger';
 import { ObjectID } from 'mongodb';
 import UserModel from '../public/js/model/user';
 
@@ -27,6 +28,7 @@ class Api {
 
         collection.insertOne(req.body, { safe: true }, (err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -71,6 +73,7 @@ class Api {
         })
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -98,6 +101,7 @@ class Api {
         collection.find()
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -138,19 +142,22 @@ class Api {
             return true;
         }
 
-        delete (newJson._id);
+        newJson._id = new ObjectID(req.params._id);
 
         collection.updateOne({
-            _id: new ObjectID(req.params._id),
+            _id: newJson._id,
         },
         newJson,
         { safe: true },
         (err) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
             }
+
+            req.session.user = newJson;
 
             return res.send({});
         });
@@ -181,6 +188,7 @@ class Api {
         { safe: true },
         (err) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -197,6 +205,7 @@ class Api {
 
         req.session.destroy((err) => {
             if (err) {
+                logger.error(err);
                 return res.sendStatus(500);
             }
 

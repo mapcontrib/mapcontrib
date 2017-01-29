@@ -1,0 +1,1 @@
+export FavoriteBurst from './favoriteBurst';

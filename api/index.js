@@ -3,12 +3,14 @@ import fs from 'fs';
 import { ObjectID } from 'mongodb';
 import Backbone from 'backbone';
 import config from 'config';
+import logger from '../lib/logger';
 import userApi from './user';
 import themeApi from './theme';
 import nonOsmDataApi from './nonOsmData';
 import osmCacheApi from './osmCache';
 import fileApi from './file';
 import overPassCacheApi from './overPassCache';
+import ThemeCore from '../public/js/core/theme';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -40,6 +42,8 @@ export default class Api {
         //     this._isThemeOwner.bind(this),
         //     userApi.Api.delete
         // );
+
+        app.get('/api/userThemes', themeApi.Api.getUserThemes);
 
         app.get('/api/theme', themeApi.Api.getAll);
         app.get('/api/theme/:_id', themeApi.Api.get);
@@ -74,35 +78,43 @@ export default class Api {
                 analyticScript: config.get('analyticScript'),
             };
 
-            if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
-                const promises = [
-                    Api.reloadSession(req),
-                ];
+            const promises = [
+                themeApi.Api.findFromUserSession(req.session.user),
+                themeApi.Api.findFavoritesFromUserSession(req.session.user),
+                Api.reloadSession(req),
+            ];
 
+            const highlightPromises = [];
+
+            if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
                 for (const fragment of clientConfig.highlightedThemes) {
-                    promises.push(
+                    highlightPromises.push(
                         themeApi.Api.findFromFragment(fragment)
                     );
                 }
+            }
 
-                Promise.all(promises)
-                .then((promisesResults) => {
-                    const themeObjects = promisesResults.slice(1);
+            Promise.all(promises)
+            .then((data) => {
+                templateVars.userThemes = escape(JSON.stringify( data[0] ));
+                templateVars.userFavoriteThemesData = escape(JSON.stringify( data[1] ));
+
+                return Promise.all(highlightPromises);
+            })
+            .then((data) => {
+                if (data.length > 0) {
                     const highlightList = [];
 
-                    for (const themeObject of themeObjects) {
+                    for (const themeObject of data) {
                         highlightList.push(themeObject);
                     }
 
                     templateVars.highlightList = escape(JSON.stringify( highlightList ));
+                }
 
-                    res.render('home', templateVars);
-                })
-                .catch( Api.onPromiseError.bind(this, res) );
-            }
-            else {
                 res.render('home', templateVars);
-            }
+            })
+            .catch( Api.onPromiseError.bind(this, res) );
         });
 
         app.get(/\/t\/(\w+)(-.*)?/, (req, res) => {
@@ -116,6 +128,8 @@ export default class Api {
 
             const promises = [
                 themeApi.Api.findFromFragment(fragment),
+                themeApi.Api.findFromUserSession(req.session.user),
+                themeApi.Api.findFavoritesFromUserSession(req.session.user),
                 nonOsmDataApi.Api.findFromFragment(fragment),
                 osmCacheApi.Api.findFromFragment(fragment),
                 Api.getiDPresets(CONST),
@@ -126,9 +140,11 @@ export default class Api {
             .then((data) => {
                 templateVars.theme = escape(JSON.stringify( data[0] ));
                 templateVars.themeAnalyticScript = data[0].analyticScript;
-                templateVars.nonOsmData = escape(JSON.stringify( data[1] ));
-                templateVars.osmCache = escape(JSON.stringify( data[2] ));
-                templateVars.iDPresets = escape(JSON.stringify( data[3] ));
+                templateVars.userThemes = escape(JSON.stringify( data[1] ));
+                templateVars.userFavoriteThemesData = escape(JSON.stringify( data[2] ));
+                templateVars.nonOsmData = escape(JSON.stringify( data[3] ));
+                templateVars.osmCache = escape(JSON.stringify( data[4] ));
+                templateVars.iDPresets = escape(JSON.stringify( data[5] ));
 
                 res.render('theme', templateVars);
             })
@@ -150,7 +166,10 @@ export default class Api {
                 const model = new ThemeModel(theme);
 
                 res.redirect(
-                    model.buildPath()
+                    ThemeCore.buildPath(
+                        model.get('fragment'),
+                        model.get('name')
+                    )
                 );
             })
             .catch( Api.onPromiseError.bind(this, res) );
@@ -176,7 +195,7 @@ export default class Api {
                     );
                 }
                 catch (e) {
-                    console.error(e);
+                    logger.error(e);
                 }
             }
 
@@ -205,6 +224,7 @@ export default class Api {
         })
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 return res.sendStatus(500);
             }
 
@@ -245,6 +265,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             fs.readFile(CONST.iDPresetsPath, 'utf-8', (err, data) => {
                 if (err) {
+                    logger.error(err);
                     return reject(err);
                 }
 

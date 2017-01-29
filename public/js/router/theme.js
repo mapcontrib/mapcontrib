@@ -1,5 +1,4 @@
 
-import $ from 'jquery';
 import Backbone from 'backbone';
 import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
@@ -9,10 +8,6 @@ import TagModel from 'model/tag';
 import PresetModel from 'model/preset';
 import PresetCategoryModel from 'model/presetCategory';
 
-import ThemeRootView from 'view/themeRoot';
-
-import AboutModal from 'view/modal/about';
-
 import SelectLayerColumn from 'view/select/layer/layerColumn';
 import SelectTileColumn from 'view/select/tileColumn';
 
@@ -21,8 +16,6 @@ import InfoGpxLayerColumn from 'view/info/layer/gpxColumn';
 import InfoCsvLayerColumn from 'view/info/layer/csvColumn';
 import InfoGeoJsonLayerColumn from 'view/info/layer/geoJsonColumn';
 
-import UserColumn from 'view/userColumn';
-import VisitorColumn from 'view/visitorColumn';
 import LinkColumn from 'view/linkColumn';
 
 import TempLayerColumn from 'view/tempLayer/layerColumn';
@@ -80,7 +73,6 @@ export default Backbone.Router.extend({
         'info/layer/:uuid': 'routeInfoLayer',
         'select/tile': 'routeSelectTile',
 
-        user: 'routeUser',
         link: 'routeLink',
 
         'temp/layer': 'routeTempLayer',
@@ -138,8 +130,6 @@ export default Backbone.Router.extend({
         'admin/locale/:locale/preset/edit/:uuid': 'routeAdminLocalePresetEdit',
         'admin/locale/:locale/preset/category/edit/:uuid': 'routeAdminLocalePresetCategoryEdit',
 
-        about: 'routeAbout',
-        logout: 'routeLogout',
         oups: 'routeOups',
     },
 
@@ -154,10 +144,6 @@ export default Backbone.Router.extend({
         this._tempLayerCollection = this._app.getTempLayerCollection();
         this._radio = Wreqr.radio.channel('global');
         this._previousRoute = '';
-
-        this._app.getRegion('root').show(
-            new ThemeRootView({ app: this._app })
-        );
 
         this.on('route', this._setPreviousRoute);
     },
@@ -177,21 +163,6 @@ export default Backbone.Router.extend({
     },
 
     routeOups() {
-    },
-
-    routeLogout() {
-        $.ajax({
-            type: 'GET',
-            url: `${CONST.apiPath}/user/logout`,
-            dataType: 'json',
-            context: this,
-            cache: false,
-            complete: () => {
-                this.navigate('');
-
-                this._radio.vent.trigger('session:unlogged');
-            },
-        });
     },
 
     routeMapPosition(zoom, lat, lng) {
@@ -245,32 +216,6 @@ export default Backbone.Router.extend({
         new SelectTileColumn({
             router: this,
             model: this._theme,
-        }).open();
-    },
-
-    routeUser() {
-        if ( this._app.isLogged() ) {
-            new UserColumn({
-                router: this,
-                app: this._app,
-                model: this._theme,
-            }).open();
-        }
-        else {
-            new VisitorColumn({
-                router: this,
-                app: this._app,
-                model: this._theme,
-            }).open();
-        }
-    },
-
-    routeAbout() {
-        const version = this._app.getVersion();
-
-        new AboutModal({
-            routeOnClose: this._previousRoute,
-            version,
         }).open();
     },
 

@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import Backbone from 'backbone';
 import Sifter from 'sifter';
 import { ObjectID } from 'mongodb';
+import logger from '../lib/logger';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -15,17 +16,6 @@ let options = {
 
 function setOptions(hash) {
     options = hash;
-}
-
-function addThemeInUserSession(session, theme) {
-    theme._id = theme._id.toString();
-
-    if (!session.themes) {
-        session.themes = [];
-    }
-
-    session.themes.push( theme._id );
-    return true;
 }
 
 
@@ -64,12 +54,11 @@ class Api {
                     { safe: true },
                     (err, results) => {
                         if (err) {
+                            logger.error(err);
                             return reject(500);
                         }
 
                         const result = results.ops[0];
-
-                        addThemeInUserSession(session, result);
 
                         return resolve(result);
                     }
@@ -94,6 +83,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     return reject(500);
                 }
 
@@ -121,6 +111,7 @@ class Api {
         })
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -173,6 +164,7 @@ class Api {
         )
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -261,6 +253,16 @@ class Api {
         return true;
     }
 
+    static getUserThemes(req, res) {
+        Api.findFromUserSession(req.session.user)
+        .then((themes) => {
+            res.send(themes);
+        })
+        .catch((errorCode) => {
+            res.sendStatus(errorCode);
+        });
+    }
+
 
     static findFromFragment(fragment) {
         return new Promise((resolve, reject) => {
@@ -276,6 +278,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     reject(500);
                     return;
                 }
@@ -308,6 +311,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     reject(500);
                     return;
                 }
@@ -323,6 +327,88 @@ class Api {
     }
 
 
+    static findFromUserSession(userSession) {
+        return new Promise((resolve, reject) => {
+            if ( !userSession ) {
+                resolve([]);
+                return;
+            }
+
+            const collection = options.database.collection('theme');
+
+            collection.find({
+                owners: userSession._id,
+            })
+            .toArray((err, results) => {
+                if (err) {
+                    logger.error(err);
+                    reject(500);
+                    return;
+                }
+
+                resolve(
+                    results.map(theme => ({
+                        fragment: theme.fragment,
+                        name: theme.name,
+                        color: theme.color,
+                    }))
+                );
+            });
+        });
+    }
+
+
+    static findFavoritesFromUserSession(userSession) {
+        return new Promise((resolve, reject) => {
+            if ( !userSession ) {
+                resolve([]);
+                return;
+            }
+
+            const userCollection = options.database.collection('user');
+            const themeCollection = options.database.collection('theme');
+
+            userCollection.find({
+                _id: new ObjectID(userSession._id),
+            })
+            .toArray((err, results) => {
+                if (err) {
+                    logger.error(err);
+                    reject(500);
+                    return;
+                }
+
+                const user = results[0];
+
+                if ( !user.favoriteThemes ) {
+                    user.favoriteThemes = [];
+                }
+
+                themeCollection.find({
+                    fragment: {
+                        $in: user.favoriteThemes,
+                    },
+                })
+                .toArray((err, results) => {
+                    if (err) {
+                        logger.error(err);
+                        reject(500);
+                        return;
+                    }
+
+                    resolve(
+                        results.map(theme => ({
+                            fragment: theme.fragment,
+                            name: theme.name,
+                            color: theme.color,
+                        }))
+                    );
+                });
+            });
+        });
+    }
+
+
     static findAllOwners() {
         return new Promise((resolve, reject) => {
             const collection = options.database.collection('theme');
@@ -332,6 +418,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     reject(500);
                     return;
                 }
@@ -375,6 +462,7 @@ class Api {
         { safe: true },
         (err) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -404,6 +492,7 @@ class Api {
         { safe: true },
         (err) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;

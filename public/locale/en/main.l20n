@@ -22,7 +22,8 @@
 <maxFileSize "The file size has to be lower than {{ $maxFileSize }}">
 
 
-<buttonDescriptionTooltip title:"Read the description">
+<buttonFavoriteTooltip "Bookmark this theme as favorite">
+<buttonDescriptionTooltip "Read the description">
 <buttonZoomInTooltip title:"Zoom in">
 <buttonZoomOutTooltip title:"Zoom out">
 <buttonGeocodeTooltip title:"Find a place">
@@ -81,6 +82,7 @@
 <editThatElement "Edit that element">
 <loadingData title:"Some data are being loaded">
 <createATheme "Create a theme">
+<search "Search">
 <searchATheme "Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
 <invalidFile "Invalid file">
@@ -120,6 +122,9 @@
 <addAnOption "Add an option">
 <multiComboInfo1 "Complete the <em>{{ $prefix }}</em> prefix">
 <multiComboInfo2 "Eg: recycling:glass">
+<duplicateTheme "Create a theme based on this one">
+<favorites "Favorites">
+<myThemes "My themes">
 
 
 /* Home */

@@ -1,8 +1,9 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/visitorColumn.ejs';
-import LoginModalView from './loginModal';
+import template from 'templates/user/visitorColumn.ejs';
+import LoginModalView from 'view/loginModal';
+import ThemeCore from 'core/theme';
 
 
 export default Marionette.LayoutView.extend({
@@ -21,6 +22,7 @@ export default Marionette.LayoutView.extend({
 
     ui: {
         column: '.column',
+        goBackToHomeNav: '.go_back_to_home_nav',
         createThemeItem: '.create_theme_item',
         blogLinks: '.blog_link',
         loginItem: '.login_item',
@@ -33,6 +35,7 @@ export default Marionette.LayoutView.extend({
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
+        this._app = this.options.app;
     },
 
     onBeforeOpen() {
@@ -45,6 +48,10 @@ export default Marionette.LayoutView.extend({
             this.ui.blogLinks.each((index, element) => {
                 element.href = element.href.replace('blog.mapcontrib.xyz', 'blog.mapcontrib.xyz/fr');
             });
+        }
+
+        if ( this._app.isThemePage() ) {
+            this.ui.goBackToHomeNav.removeClass('hide');
         }
     },
 
@@ -62,9 +69,13 @@ export default Marionette.LayoutView.extend({
         // FIXME To have a real fail callback
         let authSuccessCallback;
         let authFailCallback;
+        const theme = this._app.getTheme();
 
-        if (this.model) {
-            authSuccessCallback = authFailCallback = this.model.buildPath();
+        if ( theme ) {
+            authSuccessCallback = authFailCallback = ThemeCore.buildPath(
+                theme.get('fragment'),
+                theme.get('name')
+            );
         }
         else {
             authSuccessCallback = authFailCallback = '/';
@@ -80,9 +91,13 @@ export default Marionette.LayoutView.extend({
         // FIXME To have a real fail callback
         const authSuccessCallback = '/create_theme';
         let authFailCallback;
+        const theme = this._app.getTheme();
 
-        if (this.model) {
-            authFailCallback = this.model.buildPath();
+        if ( theme ) {
+            authFailCallback = ThemeCore.buildPath(
+                theme.get('fragment'),
+                theme.get('name')
+            );
         }
         else {
             authFailCallback = '/';

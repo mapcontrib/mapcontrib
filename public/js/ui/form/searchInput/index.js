@@ -2,6 +2,8 @@
 import Marionette from 'backbone.marionette';
 import template from './template.ejs';
 import './style.less';
+import WidgetUi from 'ui/widget';
+
 
 export default Marionette.LayoutView.extend({
     template,
@@ -49,7 +51,7 @@ export default Marionette.LayoutView.extend({
     },
 
     setFocus() {
-        this.ui.input.focus();
+        WidgetUi.setFocus(this.ui.input);
     },
 
     onFocus() {

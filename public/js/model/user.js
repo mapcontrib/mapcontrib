@@ -17,6 +17,9 @@ export default Backbone.Model.extend({
             avatar: undefined,
             token: undefined,
             tokenSecret: undefined,
+            favoriteThemes: [/*
+                'a7f8d9',
+            */],
         };
     },
 
