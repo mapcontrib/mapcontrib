@@ -1,4 +1,7 @@
 
+import UserFavoriteThemesDataCollection from 'collection/userFavoriteThemesData';
+
+
 export default class UserFavoriteThemes {
     constructor(user, favoriteThemesDataCollection) {
         this._user = user;
@@ -50,5 +53,20 @@ export default class UserFavoriteThemes {
         else {
             this.add(themeModel);
         }
+    }
+
+    getCollection() {
+        const models = this._user.get('favoriteThemes').map(
+            (fragment) => {
+                const model = this._favoriteThemesDataCollection.findWhere({ fragment });
+                return {
+                    fragment: model.get('fragment'),
+                    name: model.get('name'),
+                    color: model.get('color'),
+                };
+            }
+        );
+
+        return new UserFavoriteThemesDataCollection(models);
     }
 }
