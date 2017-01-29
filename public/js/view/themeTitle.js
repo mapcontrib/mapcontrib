@@ -64,19 +64,19 @@ export default Marionette.LayoutView.extend({
     },
 
     onShow() {
-        // this.ui.favoriteButton.tooltip({
-        //     title: document.l10n.getSync('buttonFavoriteTooltip'),
-        //     container: 'body',
-        //     delay: {
-        //         show: CONST.tooltip.showDelay,
-        //         hide: CONST.tooltip.hideDelay,
-        //     },
-        // })
-        // .on('click', (e) => {
-        //     $(e.currentTarget)
-        //     .blur()
-        //     .tooltip('hide');
-        // });
+        this.ui.favoriteButton.tooltip({
+            title: document.l10n.getSync('buttonFavoriteTooltip'),
+            container: 'body',
+            delay: {
+                show: CONST.tooltip.showDelay,
+                hide: CONST.tooltip.hideDelay,
+            },
+        })
+        .on('click', (e) => {
+            $(e.currentTarget)
+            .blur()
+            .tooltip('hide');
+        });
 
         this.ui.descriptionButton.tooltip({
             title: document.l10n.getSync('buttonDescriptionTooltip'),
