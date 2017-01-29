@@ -1,5 +1,6 @@
 
 import $ from 'jquery';
+import { Burst } from 'helper/animation';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from 'const';
@@ -25,6 +26,7 @@ export default Marionette.LayoutView.extend({
 
     events: {
         'click @ui.descriptionButton': 'onClickDescription',
+        'click @ui.favoriteButton': 'onClickFavorite',
     },
 
     initialize() {
@@ -54,22 +56,27 @@ export default Marionette.LayoutView.extend({
         if ( this.model.get('description') ) {
             this.ui.descriptionButton.removeClass('hide');
         }
+
+        this._favoriteTimeline = Burst.init(
+            this.ui.favoriteButton[0],
+            '.fa'
+        );
     },
 
     onShow() {
-        this.ui.favoriteButton.tooltip({
-            title: document.l10n.getSync('buttonFavoriteTooltip'),
-            container: 'body',
-            delay: {
-                show: CONST.tooltip.showDelay,
-                hide: CONST.tooltip.hideDelay,
-            },
-        })
-        .on('click', (e) => {
-            $(e.currentTarget)
-            .blur()
-            .tooltip('hide');
-        });
+        // this.ui.favoriteButton.tooltip({
+        //     title: document.l10n.getSync('buttonFavoriteTooltip'),
+        //     container: 'body',
+        //     delay: {
+        //         show: CONST.tooltip.showDelay,
+        //         hide: CONST.tooltip.hideDelay,
+        //     },
+        // })
+        // .on('click', (e) => {
+        //     $(e.currentTarget)
+        //     .blur()
+        //     .tooltip('hide');
+        // });
 
         this.ui.descriptionButton.tooltip({
             title: document.l10n.getSync('buttonDescriptionTooltip'),
@@ -136,5 +143,9 @@ export default Marionette.LayoutView.extend({
         this._radio.vent.trigger('widget:closeAll');
 
         this.ui.titleWrapper.toggleClass('open');
+    },
+
+    onClickFavorite() {
+        this._favoriteTimeline.replay();
     },
 });
