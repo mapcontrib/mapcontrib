@@ -1,1 +1,1 @@
-export Burst from './burst';
+export FavoriteBurst from './favoriteBurst';

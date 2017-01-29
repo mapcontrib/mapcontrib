@@ -2,7 +2,7 @@
 import mojs from 'mo-js';
 
 
-export default class Burst {
+export default class FavoriteBurst {
     static init(parentElement, childSelector) {
         const scaleCurve = mojs.easing.path('M0,100 L25,99.9999983 C26.2328835,75.0708847 19.7847843,0 100,0');
         const iconElement = parentElement.querySelector(childSelector);

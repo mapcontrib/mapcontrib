@@ -1,6 +1,6 @@
 
 import $ from 'jquery';
-import { Burst } from 'helper/animation';
+import { FavoriteBurst } from 'helper/animation';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from 'const';
@@ -57,7 +57,7 @@ export default Marionette.LayoutView.extend({
             this.ui.descriptionButton.removeClass('hide');
         }
 
-        this._favoriteTimeline = Burst.init(
+        this._favoriteTimeline = FavoriteBurst.init(
             this.ui.favoriteButton[0],
             '.fa'
         );
