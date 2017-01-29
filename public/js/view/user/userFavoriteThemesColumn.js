@@ -1,7 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/user/userThemesColumn.ejs';
+import template from 'templates/user/userFavoriteThemesColumn.ejs';
 import NavPillsStackedListView from 'ui/navPillsStacked';
 import SearchInput from 'ui/form/searchInput';
 import Locale from 'core/locale';

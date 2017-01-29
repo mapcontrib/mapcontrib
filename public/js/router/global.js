@@ -9,12 +9,14 @@ import AboutModal from 'view/modal/about';
 import UserColumn from 'view/user/userColumn';
 import VisitorColumn from 'view/user/visitorColumn';
 import UserThemesColumn from 'view/user/userThemesColumn';
+import UserFavoriteThemesColumn from 'view/user/userFavoriteThemesColumn';
 
 
 export default Backbone.Router.extend({
     routes: {
         user: 'routeUser',
         'my-themes': 'routeUserThemes',
+        'my-favorite-themes': 'routeUserFavoriteThemes',
 
         about: 'routeAbout',
         logout: 'routeLogout',
@@ -80,6 +82,19 @@ export default Backbone.Router.extend({
             router: this,
             app: this._app,
             collection: this._app.getUserThemes(),
+        }).open();
+    },
+
+    routeUserFavoriteThemes() {
+        if (!this._userIsLogged()) {
+            this.navigate('');
+            return;
+        }
+
+        new UserFavoriteThemesColumn({
+            router: this,
+            app: this._app,
+            collection: this._app.getUserFavoriteThemes().getCollection(),
         }).open();
     },
 
