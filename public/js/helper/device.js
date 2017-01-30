@@ -12,4 +12,15 @@ export default class Device {
 
         return false;
     }
+
+    isLargeScreen() {
+        if (
+            $(this._window).width() >= this._config.largeScreenMinWidth &&
+            $(this._window).height() >= this._config.largeScreenMinHeight
+        ) {
+            return true;
+        }
+
+        return false;
+    }
 }

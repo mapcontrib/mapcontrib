@@ -11,6 +11,7 @@ import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import Omnivore from 'leaflet-omnivore';
 import moment from 'moment-timezone';
+import DeviceHelper from 'helper/device';
 
 
 import LayerModel from 'model/layer';
@@ -104,6 +105,7 @@ export default Marionette.LayoutView.extend({
 
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
+        this._deviceHelper = new DeviceHelper(this._config, this._window);
 
         this._seenZoomNotification = false;
         this._minDataZoom = 0;
@@ -1401,19 +1403,8 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    isLargeScreen() {
-        if (
-            $(this._window).width() >= this._config.largeScreenMinWidth &&
-            $(this._window).height() >= this._config.largeScreenMinHeight
-        ) {
-            return true;
-        }
-
-        return false;
-    },
-
     onPopupOpen() {
-        if ( !this.isLargeScreen() ) {
+        if ( !this._deviceHelper.isLargeScreen() ) {
             this._geocodeWidgetView.close();
 
             this._zoomNotificationView.disappear();
@@ -1433,7 +1424,7 @@ export default Marionette.LayoutView.extend({
         if ( popupContent ) {
             let popupOptions;
 
-            if ( this.isLargeScreen() ) {
+            if ( this._deviceHelper.isLargeScreen() ) {
                 popupOptions = {
                     closeButton: false,
                     autoPanPaddingTopLeft: L.point(
