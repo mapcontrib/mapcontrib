@@ -144,6 +144,11 @@
 <aboutTextVersion "Cette instance de MapContrib utilise la version {{ $version }}.">
 
 
+/* Delete theme modal */
+<deleteThemeModal_text1 "Êtes-vous absolument certain de vouloir supprimer ce thème ?">
+<deleteThemeModal_text2 "J'veux dire, vraiment ?!">
+
+
 /* Login modal */
 <loginModal_explanation "Pour plus de simplicité, MapContrib a seulement besoin de se connecter à votre compte OpenStreetMap.">
 

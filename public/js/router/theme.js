@@ -8,6 +8,8 @@ import TagModel from 'model/tag';
 import PresetModel from 'model/preset';
 import PresetCategoryModel from 'model/presetCategory';
 
+import DeleteThemeModal from 'view/deleteThemeModal';
+
 import SelectLayerColumn from 'view/select/layer/layerColumn';
 import SelectTileColumn from 'view/select/tileColumn';
 
@@ -129,6 +131,8 @@ export default Backbone.Router.extend({
         'admin/locale/:locale/preset(/)(:categoryUuid)': 'routeAdminLocalePreset',
         'admin/locale/:locale/preset/edit/:uuid': 'routeAdminLocalePresetEdit',
         'admin/locale/:locale/preset/category/edit/:uuid': 'routeAdminLocalePresetCategoryEdit',
+
+        'delete-theme': 'routeDeleteTheme',
 
         oups: 'routeOups',
     },
@@ -1107,5 +1111,12 @@ export default Backbone.Router.extend({
         else {
             this.navigate(`admin/locale/${locale}/preset`, true);
         }
+    },
+
+    routeDeleteTheme() {
+        new DeleteThemeModal({
+            model: this._theme,
+            routeOnClose: this._previousRoute,
+        }).open();
     },
 });
