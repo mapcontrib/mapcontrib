@@ -61,6 +61,7 @@ export default Marionette.LayoutView.extend({
 
     onRender() {
         const presetSelectionView = new PresetSelectionView({
+            app: this.options.app,
             theme: this.options.theme,
             iDPresetsHelper: this.options.iDPresetsHelper,
             regions: {

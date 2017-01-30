@@ -46,10 +46,6 @@ export default Marionette.LayoutView.extend({
         this.off('search:error');
     },
 
-    onRender() {
-        this.setFocus();
-    },
-
     setFocus() {
         WidgetUi.setFocus(this.ui.input);
     },

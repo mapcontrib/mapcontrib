@@ -1,6 +1,7 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import DeviceHelper from 'helper/device';
 import template from 'templates/user/userFavoriteThemesColumn.ejs';
 import NavPillsStackedListView from 'ui/navPillsStacked';
 import SearchInput from 'ui/form/searchInput';
@@ -37,6 +38,9 @@ export default Marionette.LayoutView.extend({
     initialize() {
         this._radio = Wreqr.radio.channel('global');
         this._app = this.options.app;
+        this._window = this._app.getWindow();
+        this._config = this._app.getConfig();
+        this._deviceHelper = new DeviceHelper(this._config, this._window);
     },
 
     onBeforeOpen() {
@@ -68,7 +72,11 @@ export default Marionette.LayoutView.extend({
         });
 
         this.getRegion('searchInput').show( this._searchInput );
-        this._searchInput.setFocus();
+
+        if ( this._deviceHelper.isTallScreen() === true ) {
+            this._searchInput.setFocus();
+        }
+
         this._searchInput.on('search', this._filterNavItems.bind(this, this._defaultNavItems), this);
         this._searchInput.on('empty', this._setDefaultNavItems, this);
     },

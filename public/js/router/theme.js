@@ -359,6 +359,7 @@ export default Backbone.Router.extend({
         new ContributeAddPresetSelectionColumn({
             router: this,
             config: this._config,
+            app: this._app,
             theme: this._theme,
             center: { lat, lng },
             iDPresetsHelper: this._iDPresetsHelper,
@@ -440,6 +441,7 @@ export default Backbone.Router.extend({
         new ContributeEditPresetSelectionColumn({
             router: this,
             config: this._config,
+            app: this._app,
             theme: this._theme,
             osmId: parseInt(osmId, 10),
             osmType,

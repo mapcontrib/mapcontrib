@@ -1,5 +1,6 @@
 
 import Marionette from 'backbone.marionette';
+import DeviceHelper from 'helper/device';
 import LoginModalView from './loginModal';
 import ThemeCollection from 'collection/theme';
 import ThemeThumbList from 'ui/themeThumbList';
@@ -31,6 +32,7 @@ export default Marionette.LayoutView.extend({
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
         this._config = this._app.getConfig();
+        this._deviceHelper = new DeviceHelper(this._config, this._window);
 
         this.resetThemeCollection();
     },
@@ -44,11 +46,14 @@ export default Marionette.LayoutView.extend({
 
         this._searchInput.on('empty', this.resetThemeCollection, this);
         this._searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
-        this._searchInput.on('search', this.fetchSearchedThemes, this);
+        this._searchInput.on('searc h', this.fetchSearchedThemes, this);
         this._searchInput.on('search:before', this.showSearchPlaceholder, this);
         this._searchInput.on('focus', this._checkScreenSizeAndScrollToSearchInput, this);
         this._searchInput.on('keyup', this._checkScreenSizeAndScrollToSearchInput, this);
-        this._searchInput.setFocus();
+
+        if ( this._deviceHelper.isTallScreen() === true ) {
+            this._searchInput.setFocus();
+        }
 
         this.getRegion('searchResults').show(
             new ThemeThumbList({
@@ -57,16 +62,8 @@ export default Marionette.LayoutView.extend({
         );
     },
 
-    _isTallScreen() {
-        if ( $(this._window).height() >= this._config.largeScreenMinHeight ) {
-            return true;
-        }
-
-        return false;
-    },
-
     _checkScreenSizeAndScrollToSearchInput() {
-        if ( this._isTallScreen() === false ) {
+        if ( this._deviceHelper.isTallScreen() === false ) {
             this._scrollToSearchInput();
         }
     },
