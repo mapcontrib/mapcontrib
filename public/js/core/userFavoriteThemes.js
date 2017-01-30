@@ -56,8 +56,18 @@ export default class UserFavoriteThemes {
     }
 
     getCollection() {
-        const models = this._user.get('favoriteThemes').map(
-            (fragment) => {
+        const models = this._user.get('favoriteThemes')
+        .filter((fragment) => {
+                const model = this._favoriteThemesDataCollection.findWhere({ fragment });
+
+                if (model) {
+                    return true;
+                }
+
+                return false;
+            }
+        )
+        .map((fragment) => {
                 const model = this._favoriteThemesDataCollection.findWhere({ fragment });
                 return {
                     fragment: model.get('fragment'),
