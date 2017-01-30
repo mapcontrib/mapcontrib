@@ -125,6 +125,8 @@
 <duplicateTheme "Create a theme based on this one">
 <favorites "Favorites">
 <myThemes "My themes">
+<deleteThatTheme "Delete that theme">
+
 
 
 /* Home */

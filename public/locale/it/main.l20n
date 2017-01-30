@@ -125,6 +125,7 @@
 <duplicateTheme "Create a theme based on this one"> /* FIXME */
 <favorites "Preferiti">
 <myThemes "I miei temi">
+<deleteThatTheme "Delete that Theme"> /* FIXME */
 
 
 /* Home */
