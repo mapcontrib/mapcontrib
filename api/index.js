@@ -152,11 +152,7 @@ export default class Api {
         });
 
 
-        app.get('/create_theme', (req, res) => {
-            if (!req.session.user) {
-                res.sendStatus(401);
-            }
-
+        app.get('/create_theme', Api.isLoggedIn, (req, res) => {
             const userId = req.session.user._id.toString();
 
             themeApi.Api.createTheme(req.session, userId)
@@ -174,6 +170,8 @@ export default class Api {
             })
             .catch( Api.onPromiseError.bind(this, res) );
         });
+
+        app.get('/delete_theme/:fragment', Api.isLoggedIn, this._isThemeOwner.bind(this), themeApi.Api.deleteFromFragment);
 
 
         app.post('/api/file/shape', fileApi.Api.postShapeFile);
@@ -212,16 +210,29 @@ export default class Api {
     }
 
     _isThemeOwner(req, res, next) {
-        if ( !this.options.CONST.pattern.mongoId.test( req.params._id ) ) {
-            res.sendStatus(400);
-            return;
+        const question = {};
+
+        if (req.params._id) {
+            question._id = new ObjectID(req.params._id);
+
+            if ( !this.options.CONST.pattern.mongoId.test( req.params._id ) ) {
+                res.sendStatus(400);
+                return;
+            }
+        }
+
+        if (req.params.fragment) {
+            question.fragment = req.params.fragment;
+
+            if ( !this.options.CONST.pattern.fragment.test( req.params.fragment ) ) {
+                res.sendStatus(400);
+                return;
+            }
         }
 
         const collection = this.options.database.collection('theme');
 
-        collection.find({
-            _id: new ObjectID(req.params._id),
-        })
+        collection.find( question )
         .toArray((err, results) => {
             if (err) {
                 logger.error(err);

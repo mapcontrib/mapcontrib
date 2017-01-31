@@ -1,6 +1,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import rmdir from 'rmdir';
 import mkdirp from 'mkdirp';
 import express from 'express';
 import multer from 'multer';
@@ -42,6 +43,26 @@ function initDirectories(app) {
     app.use(
         multer({ dest: uploadDirectory })
     );
+}
+
+function deleteThemeDirectoryFromFragment(fragment) {
+    const directory = path.resolve(
+        publicDirectory,
+        'files',
+        'theme',
+        fragment
+    );
+
+    return new Promise((resolve, reject) => {
+        rmdir(directory, (err) => {
+            if (err) {
+                logger.error(err);
+                return reject(err);
+            }
+
+            return resolve();
+        });
+    });
 }
 
 
@@ -199,6 +220,7 @@ class Api {
 export default {
     setOptions,
     initDirectories,
+    deleteThemeDirectoryFromFragment,
     cleanThemeFiles,
     Api,
 };

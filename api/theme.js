@@ -503,6 +503,36 @@ class Api {
 
         return true;
     }
+
+
+    static deleteFromFragment(req, res) {
+        if ( !options.CONST.pattern.fragment.test( req.params.fragment ) ) {
+            res.sendStatus(400);
+
+            return true;
+        }
+
+        const collection = options.database.collection('theme');
+
+        collection.remove({
+            fragment: req.params.fragment,
+        },
+        { safe: true },
+        (err) => {
+            if (err) {
+                logger.error(err);
+                res.sendStatus(500);
+
+                return true;
+            }
+
+            options.fileApi.deleteThemeDirectoryFromFragment(req.params.fragment);
+
+            return res.redirect('/');
+        });
+
+        return true;
+    }
 }
 
 
