@@ -52,7 +52,7 @@ export default Marionette.LayoutView.extend({
 
         this._searchInput.on('empty', this.resetThemeCollection, this);
         this._searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
-        this._searchInput.on('searc h', this.fetchSearchedThemes, this);
+        this._searchInput.on('search', this.fetchSearchedThemes, this);
         this._searchInput.on('search:before', this.showSearchPlaceholder, this);
         this._searchInput.on('focus', this._checkScreenSizeAndScrollToSearchInput, this);
         this._searchInput.on('keyup', this._checkScreenSizeAndScrollToSearchInput, this);
