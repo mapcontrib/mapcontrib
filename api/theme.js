@@ -118,9 +118,7 @@ class Api {
             }
 
             if (results.length === 0) {
-                res.sendStatus(404);
-
-                return true;
+                return options.rootApi.sendPageNotFound(req, res);
             }
 
             const result = results[0];
@@ -152,7 +150,11 @@ class Api {
                 res.send(theme);
             })
             .catch((errorCode) => {
-                res.sendStatus(errorCode);
+                if (errorCode === 404) {
+                    return options.rootApi.sendPageNotFound(req, res);
+                }
+
+                return res.sendStatus(errorCode);
             });
 
             return true;

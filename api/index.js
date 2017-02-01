@@ -17,6 +17,7 @@ import ThemeModel from '../public/js/model/theme';
 export default class Api {
     init(app, db, CONST, packageJson) {
         this.options = {
+            rootApi: this,
             CONST,
             database: db,
             fileApi,
@@ -114,7 +115,7 @@ export default class Api {
 
                 res.render('home', templateVars);
             })
-            .catch( Api.onPromiseError.bind(this, res) );
+            .catch( Api.onPromiseError.bind(this, req, res) );
         });
 
         app.get(/\/t\/(\w+)(-.*)?/, (req, res) => {
@@ -148,7 +149,7 @@ export default class Api {
 
                 res.render('theme', templateVars);
             })
-            .catch( Api.onPromiseError.bind(this, res) );
+            .catch( Api.onPromiseError.bind(this, req, res) );
         });
 
 
@@ -168,7 +169,7 @@ export default class Api {
                     )
                 );
             })
-            .catch( Api.onPromiseError.bind(this, res) );
+            .catch( Api.onPromiseError.bind(this, req, res) );
         });
 
         app.get('/delete_theme/:fragment', Api.isLoggedIn, this._isThemeOwner.bind(this), themeApi.Api.deleteFromFragment);
@@ -200,13 +201,15 @@ export default class Api {
             return res.sendStatus(404);
         });
 
-        app.use((req, res) => {
-            const templateVars = {
-                analyticScript: config.get('analyticScript'),
-            };
+        app.use(Api.sendPageNotFound);
+    }
 
-            res.status(404).render('404', templateVars);
-        });
+    static sendPageNotFound(req, res) {
+        const templateVars = {
+            analyticScript: config.get('analyticScript'),
+        };
+
+        res.status(404).render('404', templateVars);
     }
 
     static isLoggedIn(req, res, next) {
@@ -275,8 +278,12 @@ export default class Api {
     }
 
 
-    static onPromiseError(res, errorCode) {
-        res.sendStatus(errorCode);
+    static onPromiseError(req, res, errorCode) {
+        if (errorCode === 404) {
+            return Api.sendPageNotFound(req, res);
+        }
+
+        return res.sendStatus(errorCode);
     }
 
 
