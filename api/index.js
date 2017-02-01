@@ -200,7 +200,7 @@ export default class Api {
             return res.sendStatus(404);
         });
 
-        app.get('*', (req, res) => {
+        app.use((req, res) => {
             const templateVars = {
                 analyticScript: config.get('analyticScript'),
             };
