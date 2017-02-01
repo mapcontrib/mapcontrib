@@ -9,7 +9,7 @@
 ## Informations
 
 * [Blog](https://blog.mapcontrib.xyz)
-* [Documentation](http://wiki.openstreetmap.org/wiki/FR:Mapcontrib)
+* [Documentation](http://wiki.openstreetmap.org/wiki/MapContrib)
 
 
 ## Contribution
