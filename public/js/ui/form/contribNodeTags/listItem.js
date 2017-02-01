@@ -122,7 +122,7 @@ export default Marionette.LayoutView.extend({
         }
 
         if (this.model.get('nonOsmData')) {
-            this._valueField.disableRemoveBtn();
+            this._valueField.enableRemoveBtn();
         }
     },
 
@@ -132,6 +132,7 @@ export default Marionette.LayoutView.extend({
         }
 
         if ( this.model.get('nonOsmData') ) {
+            this._valueField.enableRemoveBtn();
             return;
         }
 

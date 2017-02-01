@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.2.4
+
+* Enable the remove button on non-osm tags when contributing.
+
 # 1.2.3
 
 * Fix a margin in the preset selection column.
