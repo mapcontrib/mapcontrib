@@ -68,63 +68,66 @@ export default Marionette.Application.extend({
         this._isThemePage = false;
         this._isHomePage = false;
         this._window = window;
-        this._config = MAPCONTRIB.config;
-        this._version = MAPCONTRIB.version;
         this._tempLayerCollection = new LayerCollection();
-        this._user = new UserModel(
-            JSON.parse(unescape( MAPCONTRIB.user ))
-        );
 
-        if (MAPCONTRIB.user) {
+        if (window.MAPCONTRIB) {
+            this._config = MAPCONTRIB.config;
+            this._version = MAPCONTRIB.version;
             this._user = new UserModel(
                 JSON.parse(unescape( MAPCONTRIB.user ))
             );
-        }
 
-        if (MAPCONTRIB.userThemes) {
-            this._userThemes = new UserThemeCollection(
-                JSON.parse(unescape( MAPCONTRIB.userThemes ))
-            );
-        }
+            if (MAPCONTRIB.user) {
+                this._user = new UserModel(
+                    JSON.parse(unescape( MAPCONTRIB.user ))
+                );
+            }
 
-        if (MAPCONTRIB.userFavoriteThemesData) {
-            this._userFavoriteThemes = new UserFavoriteThemes(
-                this._user,
-                new UserFavoriteThemesDataCollection(
-                    JSON.parse(unescape( MAPCONTRIB.userFavoriteThemesData ))
-                )
-            );
-        }
+            if (MAPCONTRIB.userThemes) {
+                this._userThemes = new UserThemeCollection(
+                    JSON.parse(unescape( MAPCONTRIB.userThemes ))
+                );
+            }
 
-        if (MAPCONTRIB.theme) {
-            this._theme = new ThemeModel(
-                JSON.parse(unescape( MAPCONTRIB.theme ))
-            );
-        }
+            if (MAPCONTRIB.userFavoriteThemesData) {
+                this._userFavoriteThemes = new UserFavoriteThemes(
+                    this._user,
+                    new UserFavoriteThemesDataCollection(
+                        JSON.parse(unescape( MAPCONTRIB.userFavoriteThemesData ))
+                    )
+                );
+            }
 
-        if (MAPCONTRIB.nonOsmData) {
-            this._nonOsmData = new NonOsmDataCollection(
-                JSON.parse(unescape( MAPCONTRIB.nonOsmData ))
-            );
-        }
+            if (MAPCONTRIB.theme) {
+                this._theme = new ThemeModel(
+                    JSON.parse(unescape( MAPCONTRIB.theme ))
+                );
+            }
 
-        if (MAPCONTRIB.osmCache) {
-            this._osmCache = new OsmCacheCollection(
-                JSON.parse(unescape( MAPCONTRIB.osmCache ))
-            );
-        }
+            if (MAPCONTRIB.nonOsmData) {
+                this._nonOsmData = new NonOsmDataCollection(
+                    JSON.parse(unescape( MAPCONTRIB.nonOsmData ))
+                );
+            }
 
-        if (MAPCONTRIB.iDPresets) {
-            this._iDPresetsHelper = new IDPresetsHelper(
-                JSON.parse(unescape( MAPCONTRIB.iDPresets ))
-            );
+            if (MAPCONTRIB.osmCache) {
+                this._osmCache = new OsmCacheCollection(
+                    JSON.parse(unescape( MAPCONTRIB.osmCache ))
+                );
+            }
 
-            $.get({
-                async: false,
-                url: `${CONST.apiPath}/iDPresets/locale`,
-                data: { locales: document.l10n.supportedLocales },
-                success: this.onReceiveIDPresetsLocale.bind(this),
-            });
+            if (MAPCONTRIB.iDPresets) {
+                this._iDPresetsHelper = new IDPresetsHelper(
+                    JSON.parse(unescape( MAPCONTRIB.iDPresets ))
+                );
+
+                $.get({
+                    async: false,
+                    url: `${CONST.apiPath}/iDPresets/locale`,
+                    data: { locales: document.l10n.supportedLocales },
+                    success: this.onReceiveIDPresetsLocale.bind(this),
+                });
+            }
         }
 
         const bodyClasses = window.document.body.className.split(' ');
@@ -200,14 +203,16 @@ export default Marionette.Application.extend({
         const Router = options.router;
         const RootView = options.rootView;
 
-        if ( this._user.get('_id') ) {
+        if ( this._user && this._user.get('_id') ) {
             this._radio.vent.trigger('session:logged');
         }
 
         this._globalRouter = new GlobalRouter(this);
-        this._router = new Router(this);
 
-        this._radio.reqres.setHandler('router', () => this._router);
+        if (Router) {
+            this._router = new Router(this);
+            this._radio.reqres.setHandler('router', () => this._router);
+        }
 
         Backbone.history.start();
 

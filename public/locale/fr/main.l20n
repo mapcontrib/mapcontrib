@@ -126,6 +126,7 @@
 <favorites "Favoris">
 <myThemes "Mes thèmes">
 <deleteThatTheme "Supprimer ce thème">
+<pageNotFound_explanation "La page ou le thème que vous vouliez consulter n'existe pas ou plus...">
 
 
 /* Home */

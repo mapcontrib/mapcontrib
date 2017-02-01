@@ -126,6 +126,7 @@
 <favorites "Preferiti">
 <myThemes "I miei temi">
 <deleteThatTheme "Delete that Theme"> /* FIXME */
+<pageNotFound_explanation "The page or theme you wanted to see does not exist..."> /* FIXME */
 
 
 /* Home */

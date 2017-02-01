@@ -8,7 +8,7 @@ const extractCSS = new ExtractTextPlugin('../css/[name].bundle.css');
 const commonChunk = new CommonsChunkPlugin({
     name: 'commons',
     filename: 'commons.bundle.js',
-    chunks: ['home', 'theme'],
+    chunks: ['home', 'theme', '404'],
 });
 
 const plugins = [
@@ -44,6 +44,7 @@ module.exports = {
     entry: {
         home: './js/home',
         theme: './js/theme',
+        404: './js/404',
     },
     output: {
         path: path.resolve(__dirname, 'public', 'js'),

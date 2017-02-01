@@ -199,6 +199,14 @@ export default class Api {
 
             return res.sendStatus(404);
         });
+
+        app.get('*', (req, res) => {
+            const templateVars = {
+                analyticScript: config.get('analyticScript'),
+            };
+
+            res.status(404).render('404', templateVars);
+        });
     }
 
     static isLoggedIn(req, res, next) {
