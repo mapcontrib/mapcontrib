@@ -427,7 +427,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 /* Admin tag column */
 <adminTagColumn_title "Tags">
 <adminTagColumn_addTag "Add a tag">
-<adminTagColumn_description "Créez vos propres tags, pour remplacer un tag OSM existant ou le rendre uniquement disponible dans cette instance de MapContrib.">
+<adminTagColumn_description "Create your own tags, to replace an OSM tag or to make it only available in this MapContrib instance.">
 
 
 /* Admin presets column */
