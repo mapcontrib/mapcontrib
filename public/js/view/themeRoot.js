@@ -631,13 +631,14 @@ export default Marionette.LayoutView.extend({
 
     addOverPassLayer(layerModel, hiddenLayer) {
         const cache = layerModel.get('cache');
-        const cacheFilePath = layerModel.get('fileUri');
+        const cacheUpdateSuccess = layerModel.get('cacheUpdateSuccess');
+        const cacheBounds = layerModel.get('cacheBounds');
 
         const rootLayer = this._buildRootLayer(layerModel);
         this._setRootLayer(layerModel, rootLayer);
         this._map.addLayer( rootLayer );
 
-        if (cache && cacheFilePath) {
+        if (cache && cacheUpdateSuccess) {
             this.addOverPassCacheLayer(rootLayer, layerModel, hiddenLayer);
         }
 
@@ -647,8 +648,8 @@ export default Marionette.LayoutView.extend({
 
         const loadedBounds = [];
 
-        if (layerModel.get('cacheBounds')) {
-            loadedBounds.push(layerModel.get('cacheBounds'));
+        if (cache && cacheBounds) {
+            loadedBounds.push(cacheBounds);
         }
 
         const overPassLayer = new OverPassLayer({
@@ -1331,7 +1332,7 @@ export default Marionette.LayoutView.extend({
                     continue;
                 }
 
-                if ( layerModel.get('cache') === true && layerModel.get('fileUri') ) {
+                if ( layerModel.get('cache') === true && layerModel.get('cacheUpdateSuccess') ) {
                     continue;
                 }
 
