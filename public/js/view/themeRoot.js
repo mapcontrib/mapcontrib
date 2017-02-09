@@ -428,6 +428,8 @@ export default Marionette.LayoutView.extend({
         if ( autoCenter ) {
             this.onClickLocate();
         }
+
+        this._radio.vent.trigger('theme:rendered');
     },
 
     setMapPosition(zoom, lat, lng) {
