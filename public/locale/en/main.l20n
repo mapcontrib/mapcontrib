@@ -125,6 +125,7 @@
 <duplicateTheme "Create a theme based on this one">
 <favorites "Favorites">
 <myThemes "My themes">
+<duplicateThatTheme "Duplicate that theme">
 <deleteThatTheme "Delete that theme">
 <pageNotFound_explanation "The page or theme you wanted to see does not exist...">
 
@@ -144,6 +145,11 @@
 <aboutText3 "When using MapContrib, you accept to put your contributions <a>under the «&nbsp;ODbL&nbsp;» licence</a>, which grant to use and share those datas by quoting «&nbsp;the OSM contributors&nbsp;»</a>.">
 <aboutText4 "Kudos to several inspiring projects:">
 <aboutTextVersion "That MapContrib instance is using the {{ $version }} version.">
+
+
+/* Duplicate theme modal */
+<duplicateThemeModal_text1 "You're about to create a new theme by duplicating this one.">
+<duplicateThemeModal_text2 "After validation, you will be redirected to that new theme.">
 
 
 /* Delete theme modal */

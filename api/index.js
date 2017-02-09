@@ -154,9 +154,7 @@ export default class Api {
 
 
         app.get('/create_theme', Api.isLoggedIn, (req, res) => {
-            const userId = req.session.user._id.toString();
-
-            themeApi.Api.createTheme(req.session, userId)
+            themeApi.Api.createTheme(req.session.user)
             .then((theme) => {
                 Backbone.Relational.store.reset();
 
@@ -172,6 +170,7 @@ export default class Api {
             .catch( Api.onPromiseError.bind(this, req, res) );
         });
 
+        app.get('/duplicate_theme/:fragment', Api.isLoggedIn, themeApi.Api.duplicateFromFragment);
         app.get('/delete_theme/:fragment', Api.isLoggedIn, this._isThemeOwner.bind(this), themeApi.Api.deleteFromFragment);
 
 

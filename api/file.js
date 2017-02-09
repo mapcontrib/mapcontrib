@@ -1,8 +1,6 @@
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
-import rmdir from 'rmdir';
-import mkdirp from 'mkdirp';
 import express from 'express';
 import multer from 'multer';
 import logger from '../lib/logger';
@@ -26,11 +24,11 @@ function setOptions(hash) {
 
 function initDirectories(app) {
     if ( !fs.existsSync( config.get('dataDirectory') ) ) {
-        mkdirp.sync(config.get('dataDirectory'));
+        fs.mkdirpSync(config.get('dataDirectory'));
     }
 
     if ( !fs.existsSync( uploadDirectory ) ) {
-        mkdirp.sync(uploadDirectory);
+        fs.mkdirpSync(uploadDirectory);
     }
 
     app.use(
@@ -54,7 +52,34 @@ function deleteThemeDirectoryFromFragment(fragment) {
     );
 
     return new Promise((resolve, reject) => {
-        rmdir(directory, (err) => {
+        fs.remove(directory, (err) => {
+            if (err) {
+                logger.error(err);
+                return reject(err);
+            }
+
+            return resolve();
+        });
+    });
+}
+
+
+function duplicateFilesFromFragments(oldFragment, newFragment) {
+    const oldDirectory = path.resolve(
+        publicDirectory,
+        'files',
+        'theme',
+        oldFragment
+    );
+    const newDirectory = path.resolve(
+        publicDirectory,
+        'files',
+        'theme',
+        newFragment
+    );
+
+    return new Promise((resolve, reject) => {
+        fs.copy(oldDirectory, newDirectory, (err) => {
             if (err) {
                 logger.error(err);
                 return reject(err);
@@ -116,7 +141,7 @@ function uploadFile(req, res, file, directory) {
     let fullPath = `${fullDirectory}/${file.originalname}`;
 
     if ( !fs.existsSync( fullDirectory ) ) {
-        mkdirp.sync( fullDirectory );
+        fs.mkdirpSync( fullDirectory );
     }
 
     while (fs.existsSync(fullPath) === true) {
@@ -221,6 +246,7 @@ export default {
     setOptions,
     initDirectories,
     deleteThemeDirectoryFromFragment,
+    duplicateFilesFromFragments,
     cleanThemeFiles,
     Api,
 };

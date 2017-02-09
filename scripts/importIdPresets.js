@@ -2,9 +2,8 @@
  * Usage: npm run import-id-presets -- --dir DIR
  */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
-import mkdirp from 'mkdirp';
 import presetsBuilder from 'id-presets-builder';
 import argp from 'argp';
 import logger from '../lib/logger';
@@ -44,8 +43,8 @@ const iDPresetsDirectoryPath = path.join(iDDirectoryPath, 'data/presets');
 const iDLocalesDirectoryPath = path.join(iDDirectoryPath, 'dist/locales');
 
 logger.debug('final directories creation');
-mkdirp.sync(CONST.iDPresetsDirectoryPath);
-mkdirp.sync(CONST.iDLocalesDirectoryPath);
+fs.mkdirpSync(CONST.iDPresetsDirectoryPath);
+fs.mkdirpSync(CONST.iDLocalesDirectoryPath);
 
 
 logger.debug('old locale files purge');

@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import Sifter from 'sifter';
 import { ObjectID } from 'mongodb';
 import logger from '../lib/logger';
+import ThemeCore from '../public/js/core/theme';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -25,7 +26,7 @@ class Api {
             res.sendStatus(401);
         }
 
-        Api.createTheme( req.session, req.session.user._id.toString() )
+        Api.createTheme(req.session.user)
         .then((result) => {
             result._id = result._id.toString();
             res.send(result);
@@ -35,9 +36,14 @@ class Api {
         });
     }
 
-    static createTheme(session, userId) {
+    static createTheme(user) {
+        if ( !user ) {
+            return Promise.reject(401);
+        }
+
         Backbone.Relational.store.reset();
 
+        const userId = user._id.toString();
         const collection = options.database.collection('theme');
         const model = new ThemeModel({
             userId,
@@ -309,7 +315,10 @@ class Api {
             }
 
             collection.find({
-                owners: ownerId,
+                $or: [
+                    { owners: '*' },
+                    { owners: ownerId },
+                ],
             })
             .toArray((err, results) => {
                 if (err) {
@@ -339,7 +348,10 @@ class Api {
             const collection = options.database.collection('theme');
 
             collection.find({
-                owners: userSession._id,
+                $or: [
+                    { owners: '*' },
+                    { owners: userSession._id },
+                ],
             })
             .toArray((err, results) => {
                 if (err) {
@@ -501,6 +513,85 @@ class Api {
             }
 
             return res.send({});
+        });
+
+        return true;
+    }
+
+
+    static duplicateFromFragment(req, res) {
+        if ( !options.CONST.pattern.fragment.test( req.params.fragment ) ) {
+            return res.sendStatus(400);
+        }
+
+        if ( !req.session.user ) {
+            return res.sendStatus(401);
+        }
+
+        Api.findFromFragment(req.params.fragment)
+        .then((theme) => {
+            Backbone.Relational.store.reset();
+
+            const userId = req.session.user._id.toString();
+            const model = new ThemeModel({
+                ...theme,
+                userId,
+                owners: [ userId ],
+            });
+
+            model.get('presets').each((preset) => {
+                if ( !preset.get('parentUuid') ) {
+                    preset.unset('parentUuid');
+                }
+            });
+
+            model.get('presetCategories').each((presetCategory) => {
+                if ( !presetCategory.get('parentUuid') ) {
+                    presetCategory.unset('parentUuid');
+                }
+            });
+
+            Api.getNewFragment()
+            .then((fragment) => {
+                model.unset('_id');
+                model.set('fragment', fragment);
+
+                model.get('layers').each((layer) => {
+                    const fileUri = layer.get('fileUri');
+
+                    if ( fileUri ) {
+                        layer.set(
+                            'fileUri',
+                            fileUri.replace(`/${req.params.fragment}/`, `/${fragment}/`)
+                        );
+                    }
+                });
+
+                options.fileApi.duplicateFilesFromFragments(req.params.fragment, fragment);
+
+                const collection = options.database.collection('theme');
+
+                collection.insertOne(
+                    model.toJSON(),
+                    { safe: true },
+                    (err) => {
+                        if (err) {
+                            logger.error(err);
+                            return res.sendStatus(500);
+                        }
+
+                        return res.redirect(
+                            ThemeCore.buildPath(
+                                model.get('fragment'),
+                                model.get('name')
+                            )
+                        );
+                    }
+                );
+            });
+        })
+        .catch((errorCode) => {
+            res.sendStatus(errorCode);
         });
 
         return true;

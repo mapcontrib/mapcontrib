@@ -125,6 +125,7 @@
 <duplicateTheme "Create a theme based on this one"> /* FIXME */
 <favorites "Preferiti">
 <myThemes "I miei temi">
+<duplicateThatTheme "Duplicate that theme"> /* FIXME */
 <deleteThatTheme "Delete that Theme"> /* FIXME */
 <pageNotFound_explanation "The page or theme you wanted to see does not exist..."> /* FIXME */
 
@@ -143,6 +144,11 @@
 <aboutText3 "Nell´utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
 <aboutText4 "Kudos ad alcuni progetti ispiratori:">
 <aboutTextVersion "La versione di questa istanza MapContrib è la {{ $version }}.">
+
+
+/* Duplicate theme modal */
+<duplicateThemeModal_text1 "You're about to create a new theme by duplicating this one."> /* FIXME */
+<duplicateThemeModal_text2 "After validation, you will be redirected to that new theme."> /* FIXME */
 
 
 /* Delete theme modal */

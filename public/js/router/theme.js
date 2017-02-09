@@ -9,6 +9,7 @@ import PresetModel from 'model/preset';
 import PresetCategoryModel from 'model/presetCategory';
 
 import DeleteThemeModal from 'view/deleteThemeModal';
+import DuplicateThemeModal from 'view/duplicateThemeModal';
 
 import SelectLayerColumn from 'view/select/layer/layerColumn';
 import SelectTileColumn from 'view/select/tileColumn';
@@ -133,6 +134,7 @@ export default Backbone.Router.extend({
         'admin/locale/:locale/preset/category/edit/:uuid': 'routeAdminLocalePresetCategoryEdit',
 
         'delete-theme': 'routeDeleteTheme',
+        'duplicate-theme': 'routeDuplicateTheme',
 
         oups: 'routeOups',
     },
@@ -1115,6 +1117,13 @@ export default Backbone.Router.extend({
 
     routeDeleteTheme() {
         new DeleteThemeModal({
+            model: this._theme,
+            routeOnClose: this._previousRoute,
+        }).open();
+    },
+
+    routeDuplicateTheme() {
+        new DuplicateThemeModal({
             model: this._theme,
             routeOnClose: this._previousRoute,
         }).open();
