@@ -41,6 +41,8 @@ export default Marionette.LayoutView.extend({
         this._window = this._app.getWindow();
         this._config = this._app.getConfig();
         this._deviceHelper = new DeviceHelper(this._config, this._window);
+
+        this._radio.vent.on('favorite:change', this.onFavoritesChange, this);
     },
 
     onBeforeOpen() {
@@ -53,18 +55,26 @@ export default Marionette.LayoutView.extend({
         return this;
     },
 
+    onBeforeClose() {
+        this._radio.vent.off('favorite:change', this.onFavoritesChange);
+    },
+
     close() {
         this.triggerMethod('close');
         return this;
     },
 
+    onFavoritesChange(collection) {
+        const currentSearchString = this._currentSearchString;
+
+        this.collection = collection;
+
+        this._renderList();
+        this._filterNavItems( this._defaultNavItems, currentSearchString );
+    },
+
     onRender() {
-        this._themesNav = new NavPillsStackedListView();
-        this._defaultNavItems = this._buildNavItems(this.collection);
-
-        this._setDefaultNavItems();
-        this.getRegion('themesNav').show( this._themesNav );
-
+        this._renderList();
 
         this._searchInput = new SearchInput({
             charactersMin: 1,
@@ -81,6 +91,14 @@ export default Marionette.LayoutView.extend({
         this._searchInput.on('empty', this._setDefaultNavItems, this);
     },
 
+    _renderList() {
+        this._themesNav = new NavPillsStackedListView();
+        this._defaultNavItems = this._buildNavItems(this.collection);
+
+        this._setDefaultNavItems();
+        this.getRegion('themesNav').show( this._themesNav );
+    },
+
     _buildNavItems(collection) {
         return collection.models.map(theme => ({
             label: Locale.getLocalized(theme, 'name'),
@@ -92,12 +110,16 @@ export default Marionette.LayoutView.extend({
     },
 
     _setDefaultNavItems() {
+        this._currentSearchString = '';
+
         this._hideNoResult();
 
         this._themesNav.setItems( this._defaultNavItems );
     },
 
     _filterNavItems(defaultNavItems, searchString) {
+        this._currentSearchString = searchString;
+
         this._searchInput.trigger('search:success');
         this._hideNoResult();
 

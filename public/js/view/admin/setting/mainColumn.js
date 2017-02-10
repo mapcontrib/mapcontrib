@@ -54,6 +54,8 @@ export default Marionette.ItemView.extend({
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
+        this._app = this.options.app;
+        this._userFavoriteThemes = this.options.app.getUserFavoriteThemes();
 
         this._oldModel = this.model.clone();
     },
@@ -192,6 +194,15 @@ export default Marionette.ItemView.extend({
                     }
                 }
             }
+        }
+
+        if ( this._userFavoriteThemes.has(this.model) ) {
+            this._userFavoriteThemes.setThemeData(this.model);
+
+            this._radio.vent.trigger(
+                'favorite:change',
+                this._userFavoriteThemes.getCollection()
+            );
         }
 
 

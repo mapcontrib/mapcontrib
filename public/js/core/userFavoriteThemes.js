@@ -18,11 +18,20 @@ export default class UserFavoriteThemes {
         this._user.set('favoriteThemes', favorites);
         this._user.save();
 
-        this._favoriteThemesDataCollection.add({
-            fragment: themeModel.get('fragment'),
-            name: themeModel.get('name'),
-            color: themeModel.get('color'),
-        });
+        this.setThemeData(themeModel);
+    }
+
+    setThemeData(themeModel) {
+        this._favoriteThemesDataCollection.add(
+            {
+                fragment: themeModel.get('fragment'),
+                name: themeModel.get('name'),
+                color: themeModel.get('color'),
+            },
+            {
+                merge: true,
+            }
+        );
     }
 
     remove(themeModel) {

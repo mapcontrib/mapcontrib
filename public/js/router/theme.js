@@ -565,6 +565,7 @@ export default Backbone.Router.extend({
 
         new AdminSettingMainColumn({
             router: this,
+            app: this._app,
             model: this._theme,
         }).open();
     },

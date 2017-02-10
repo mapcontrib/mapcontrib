@@ -165,6 +165,12 @@ export default Marionette.LayoutView.extend({
 
     onClickFavorite() {
         this._userFavoriteThemes.toggle(this.model);
+
+        this._radio.vent.trigger(
+            'favorite:change',
+            this._app.getUserFavoriteThemes().getCollection()
+        );
+
         this._favoriteTimeline.replay();
     },
 });
