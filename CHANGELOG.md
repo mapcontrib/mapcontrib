@@ -1,5 +1,14 @@
 # Changelog
 
+# 1.4.0
+
+* Add the user own themes column.
+* Add the user favorite themes column.
+* Theme creators can now delete their themes.
+* Logged in visitors can create their own themes based on visited ones.
+* Add a proper 404 page (page not found fallback).
+* And as always, multiple bufixes and enhancement.
+
 # 1.2.4
 
 * Enable the remove button on non-osm tags when contributing.
