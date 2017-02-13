@@ -3466,9 +3466,9 @@ leaflet-omnivore@^0.3.2:
     topojson "1.6.26"
     wellknown "0.4.2"
 
-leaflet-overpass-layer@^2.2.0:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/leaflet-overpass-layer/-/leaflet-overpass-layer-2.4.1.tgz#4fefad06cb376ceadd85939445b306c1fa2adc46"
+leaflet-overpass-layer@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/leaflet-overpass-layer/-/leaflet-overpass-layer-2.5.1.tgz#6accf999ebe4818e5a8d6f797433849049dc80a2"
   dependencies:
     js-clipper "^1.0.1"
     leaflet "^1.0.1"
