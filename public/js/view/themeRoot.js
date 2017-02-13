@@ -675,6 +675,10 @@ export default Marionette.LayoutView.extend({
                     if ({}.hasOwnProperty.call(data.elements, i)) {
                         const e = data.elements[i];
 
+                        if ( !e.tags ) {
+                            continue;
+                        }
+
                         if ( this._overPassData.exists(e.type, e.id, layerModel.cid) ) {
                             continue;
                         }
