@@ -89,7 +89,6 @@ export default Marionette.ItemView.extend({
     },
 
     onClick(e) {
-        e.preventDefault();
         e.stopPropagation();
 
         const key = `mapState-${this._fragment}`;

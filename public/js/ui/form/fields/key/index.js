@@ -4,6 +4,7 @@ import CONST from 'const';
 import template from './template.ejs';
 import 'typeahead.js';
 import 'typeahead.js-bootstrap-css/typeaheadjs.css';
+import WidgetUi from 'ui/widget';
 
 
 export default Marionette.ItemView.extend({
@@ -128,8 +129,6 @@ export default Marionette.ItemView.extend({
     },
 
     setFocus() {
-        if (this.ui.key.focus) {
-            this.ui.key.focus();
-        }
+        WidgetUi.setFocus(this.ui.key);
     },
 });

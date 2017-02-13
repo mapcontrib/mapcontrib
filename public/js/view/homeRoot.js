@@ -1,5 +1,7 @@
 
 import Marionette from 'backbone.marionette';
+import { OsmFirework } from 'helper/animation';
+import DeviceHelper from 'helper/device';
 import LoginModalView from './loginModal';
 import ThemeCollection from 'collection/theme';
 import ThemeThumbList from 'ui/themeThumbList';
@@ -19,6 +21,7 @@ export default Marionette.LayoutView.extend({
         noResultPlaceholder: '.no_result',
         charactersLeftPlaceholder: '.characters_left',
         charactersLeftPlaceholderText: '.characters_left .text',
+        osmLink: '.openstreetmap',
     },
 
     regions: {
@@ -26,11 +29,16 @@ export default Marionette.LayoutView.extend({
         searchResults: '#rg_search_results',
     },
 
+    events: {
+        'mouseenter @ui.osmLink': 'onHoverOsmLink',
+    },
+
     initialize(options) {
         this._app = options.app;
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
         this._config = this._app.getConfig();
+        this._deviceHelper = new DeviceHelper(this._config, this._window);
 
         this.resetThemeCollection();
     },
@@ -48,7 +56,10 @@ export default Marionette.LayoutView.extend({
         this._searchInput.on('search:before', this.showSearchPlaceholder, this);
         this._searchInput.on('focus', this._checkScreenSizeAndScrollToSearchInput, this);
         this._searchInput.on('keyup', this._checkScreenSizeAndScrollToSearchInput, this);
-        this._searchInput.setFocus();
+
+        if ( this._deviceHelper.isTallScreen() === true ) {
+            this._searchInput.setFocus();
+        }
 
         this.getRegion('searchResults').show(
             new ThemeThumbList({
@@ -57,16 +68,12 @@ export default Marionette.LayoutView.extend({
         );
     },
 
-    _isTallScreen() {
-        if ( $(this._window).height() >= this._config.largeScreenMinHeight ) {
-            return true;
-        }
-
-        return false;
+    onShow() {
+        this._osmFireworkTimeline = OsmFirework.init( this.ui.osmLink[0] );
     },
 
     _checkScreenSizeAndScrollToSearchInput() {
-        if ( this._isTallScreen() === false ) {
+        if ( this._deviceHelper.isTallScreen() === false ) {
             this._scrollToSearchInput();
         }
     },
@@ -186,5 +193,9 @@ export default Marionette.LayoutView.extend({
     hidePlaceholders() {
         this.ui.charactersLeftPlaceholder.addClass('hide');
         this.ui.noResultPlaceholder.addClass('hide');
+    },
+
+    onHoverOsmLink() {
+        this._osmFireworkTimeline.replay();
     },
 });

@@ -22,7 +22,8 @@
 <maxFileSize "La dimensione del file deve essere inferiore a {{ $maxFileSize }}">
 
 
-<buttonDescriptionTooltip title:"Leggi la descrizione">
+<buttonFavoriteTooltip "Bookmark this theme as favorite"> /* FIXME */
+<buttonDescriptionTooltip "Leggi la descrizione">
 <buttonZoomInTooltip title:"Ingrandisci">
 <buttonZoomOutTooltip title:"Diminuisci">
 <buttonGeocodeTooltip title:"Trova un luogo">
@@ -81,6 +82,7 @@
 <editThatElement "Modifica questo oggetto">
 <loadingData title:"Alcuni dati saranno caricati">
 <createATheme "Crea un tema">
+<search "Cerca">
 <searchATheme "Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
 <invalidFile "File non valido">
@@ -120,6 +122,12 @@
 <addAnOption "Aggiungere una opzione">
 <multiComboInfo1 "Completa il prefisso <em>{{ $prefix }}</em>">
 <multiComboInfo2 "Es: recycling:glass">
+<duplicateTheme "Create a theme based on this one"> /* FIXME */
+<favorites "Preferiti">
+<myThemes "I miei temi">
+<duplicateThatTheme "Duplicate that theme"> /* FIXME */
+<deleteThatTheme "Delete that Theme"> /* FIXME */
+<pageNotFound_explanation "The page or theme you wanted to see does not exist..."> /* FIXME */
 
 
 /* Home */
@@ -136,6 +144,16 @@
 <aboutText3 "Nell´utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
 <aboutText4 "Kudos ad alcuni progetti ispiratori:">
 <aboutTextVersion "La versione di questa istanza MapContrib è la {{ $version }}.">
+
+
+/* Duplicate theme modal */
+<duplicateThemeModal_text1 "You're about to create a new theme by duplicating this one."> /* FIXME */
+<duplicateThemeModal_text2 "After validation, you will be redirected to that new theme."> /* FIXME */
+
+
+/* Delete theme modal */
+<deleteThemeModal_text1 "Are you absolutely sure you want to delete that theme?">
+<deleteThemeModal_text2 "I mean, really?!">
 
 
 /* Login modal */

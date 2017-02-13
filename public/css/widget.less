@@ -85,8 +85,14 @@
 .sticky-inner {
     overflow-y: auto;
     padding-top: 30px;
-    padding-bottom: 30px;
     margin-top: -30px;
+
+    // Because padding-bottom: 30px does not work...
+    &:after{
+        content: ' ';
+        display: block;
+        height: 30px;
+    }
 }
 
 .pop {

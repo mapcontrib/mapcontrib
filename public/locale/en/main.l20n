@@ -22,7 +22,8 @@
 <maxFileSize "The file size has to be lower than {{ $maxFileSize }}">
 
 
-<buttonDescriptionTooltip title:"Read the description">
+<buttonFavoriteTooltip "Bookmark this theme as favorite">
+<buttonDescriptionTooltip "Read the description">
 <buttonZoomInTooltip title:"Zoom in">
 <buttonZoomOutTooltip title:"Zoom out">
 <buttonGeocodeTooltip title:"Find a place">
@@ -81,6 +82,7 @@
 <editThatElement "Edit that element">
 <loadingData title:"Some data are being loaded">
 <createATheme "Create a theme">
+<search "Search">
 <searchATheme "Search a theme (3 characters min.)">
 <aboutMapContrib "About MapContrib">
 <invalidFile "Invalid file">
@@ -120,6 +122,13 @@
 <addAnOption "Add an option">
 <multiComboInfo1 "Complete the <em>{{ $prefix }}</em> prefix">
 <multiComboInfo2 "Eg: recycling:glass">
+<duplicateTheme "Create a theme based on this one">
+<favorites "Favorites">
+<myThemes "My themes">
+<duplicateThatTheme "Duplicate that theme">
+<deleteThatTheme "Delete that theme">
+<pageNotFound_explanation "The page or theme you wanted to see does not exist...">
+
 
 
 /* Home */
@@ -136,6 +145,16 @@
 <aboutText3 "When using MapContrib, you accept to put your contributions <a>under the «&nbsp;ODbL&nbsp;» licence</a>, which grant to use and share those datas by quoting «&nbsp;the OSM contributors&nbsp;»</a>.">
 <aboutText4 "Kudos to several inspiring projects:">
 <aboutTextVersion "That MapContrib instance is using the {{ $version }} version.">
+
+
+/* Duplicate theme modal */
+<duplicateThemeModal_text1 "You're about to create a new theme by duplicating this one.">
+<duplicateThemeModal_text2 "After validation, you will be redirected to that new theme.">
+
+
+/* Delete theme modal */
+<deleteThemeModal_text1 "Are you absolutely sure you want to delete that theme?">
+<deleteThemeModal_text2 "I mean, really?!">
 
 
 /* Login modal */
@@ -414,7 +433,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 /* Admin tag column */
 <adminTagColumn_title "Tags">
 <adminTagColumn_addTag "Add a tag">
-<adminTagColumn_description "Créez vos propres tags, pour remplacer un tag OSM existant ou le rendre uniquement disponible dans cette instance de MapContrib.">
+<adminTagColumn_description "Create your own tags, to replace an OSM tag or to make it only available in this MapContrib instance.">
 
 
 /* Admin presets column */

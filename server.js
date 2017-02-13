@@ -67,6 +67,11 @@ if (app.get('env') !== 'production') {
 }
 
 
+app.get('/theme-s8c2d4', (req, res) => {
+    res.redirect('/t/s8c2d4-MapContrib');
+});
+
+
 const database = new Database();
 const passport = new Passport();
 const api = new Api();
@@ -103,9 +108,4 @@ database.connect((err, db) => {
         api.init(app, db, CONST, packageJson);
     // })
     // .catch(throwError);
-});
-
-
-app.get('/theme-s8c2d4', (req, res) => {
-    res.redirect('/t/s8c2d4-MapContrib');
 });

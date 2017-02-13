@@ -1,7 +1,13 @@
 
 import App from './app';
 import Router from 'router/theme';
+import ThemeRootView from 'view/themeRoot';
 import '../css/theme.less';
 
 
-document.l10n.ready(() => new App(window).start(Router));
+document.l10n.ready(
+    () => new App(window).start({
+        router: Router,
+        rootView: ThemeRootView,
+    })
+);

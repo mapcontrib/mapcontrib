@@ -36,7 +36,7 @@ client:
     freeTagsContributionEnabled: true
 
     largeScreenMinWidth: 500
-    largeScreenMinHeight: 800
+    largeScreenMinHeight: 650
 
     shareIframeWidth: 100
     shareIframeWidthUnit: '%'

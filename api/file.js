@@ -1,9 +1,9 @@
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
-import mkdirp from 'mkdirp';
 import express from 'express';
 import multer from 'multer';
+import logger from '../lib/logger';
 import config from 'config';
 import { basename } from '../public/js/core/utils';
 
@@ -24,11 +24,11 @@ function setOptions(hash) {
 
 function initDirectories(app) {
     if ( !fs.existsSync( config.get('dataDirectory') ) ) {
-        mkdirp.sync(config.get('dataDirectory'));
+        fs.mkdirpSync(config.get('dataDirectory'));
     }
 
     if ( !fs.existsSync( uploadDirectory ) ) {
-        mkdirp.sync(uploadDirectory);
+        fs.mkdirpSync(uploadDirectory);
     }
 
     app.use(
@@ -41,6 +41,53 @@ function initDirectories(app) {
     app.use(
         multer({ dest: uploadDirectory })
     );
+}
+
+function deleteThemeDirectoryFromFragment(fragment) {
+    const directory = path.resolve(
+        publicDirectory,
+        'files',
+        'theme',
+        fragment
+    );
+
+    return new Promise((resolve, reject) => {
+        fs.remove(directory, (err) => {
+            if (err) {
+                logger.error(err);
+                return reject(err);
+            }
+
+            return resolve();
+        });
+    });
+}
+
+
+function duplicateFilesFromFragments(oldFragment, newFragment) {
+    const oldDirectory = path.resolve(
+        publicDirectory,
+        'files',
+        'theme',
+        oldFragment
+    );
+    const newDirectory = path.resolve(
+        publicDirectory,
+        'files',
+        'theme',
+        newFragment
+    );
+
+    return new Promise((resolve, reject) => {
+        fs.copy(oldDirectory, newDirectory, (err) => {
+            if (err) {
+                logger.error(err);
+                return reject(err);
+            }
+
+            return resolve();
+        });
+    });
 }
 
 
@@ -67,6 +114,10 @@ function cleanThemeFiles(themeModel) {
     }
 
     fs.readdir(shapeDirectory, (err, fileList) => {
+        if (err) {
+            logger.error(err);
+        }
+
         for (const i in fileList) {
             if ({}.hasOwnProperty.call(fileList, i)) {
                 const file = fileList[i];
@@ -90,7 +141,7 @@ function uploadFile(req, res, file, directory) {
     let fullPath = `${fullDirectory}/${file.originalname}`;
 
     if ( !fs.existsSync( fullDirectory ) ) {
-        mkdirp.sync( fullDirectory );
+        fs.mkdirpSync( fullDirectory );
     }
 
     while (fs.existsSync(fullPath) === true) {
@@ -111,6 +162,7 @@ function uploadFile(req, res, file, directory) {
             fullPath,
             (err) => {
                 if (err) {
+                    logger.error(err);
                     return reject(err);
                 }
 
@@ -193,6 +245,8 @@ class Api {
 export default {
     setOptions,
     initDirectories,
+    deleteThemeDirectoryFromFragment,
+    duplicateFilesFromFragments,
     cleanThemeFiles,
     Api,
 };

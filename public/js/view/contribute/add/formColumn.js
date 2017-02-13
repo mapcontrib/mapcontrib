@@ -56,7 +56,6 @@ export default Marionette.LayoutView.extend({
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
-        this._map = this._radio.reqres.request('map');
         this._config = this.options.config;
         this._theme = this.options.theme;
         this._iDPresetsHelper = this.options.iDPresetsHelper;
@@ -99,6 +98,11 @@ export default Marionette.LayoutView.extend({
         return L.marker(pos, { icon });
     },
 
+    _displayNewMarkerOnMap(map) {
+        this._layer = this._buildNewMarker( this._center );
+        map.addLayer( this._layer );
+    },
+
     onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
@@ -111,7 +115,8 @@ export default Marionette.LayoutView.extend({
 
     onBeforeClose() {
         if (!this._contributionSent) {
-            this._map.removeLayer( this._layer );
+            const map = this._radio.reqres.request('map');
+            map.removeLayer( this._layer );
         }
     },
 
@@ -121,8 +126,18 @@ export default Marionette.LayoutView.extend({
     },
 
     onRender() {
-        this._layer = this._buildNewMarker( this._center );
-        this._map.addLayer( this._layer );
+        const map = this._radio.reqres.request('map');
+
+        if (!map) {
+            this._radio.vent.on('theme:rendered', () => {
+                const map = this._radio.reqres.request('map');
+                this._displayNewMarkerOnMap(map);
+            });
+        }
+        else {
+            this._displayNewMarkerOnMap(map);
+        }
+
 
         this._tagList = new ContribNodeTagsListView({
             iDPresetsHelper: this.options.iDPresetsHelper,

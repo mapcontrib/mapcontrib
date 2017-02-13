@@ -3,18 +3,21 @@ import fs from 'fs';
 import { ObjectID } from 'mongodb';
 import Backbone from 'backbone';
 import config from 'config';
+import logger from '../lib/logger';
 import userApi from './user';
 import themeApi from './theme';
 import nonOsmDataApi from './nonOsmData';
 import osmCacheApi from './osmCache';
 import fileApi from './file';
 import overPassCacheApi from './overPassCache';
+import ThemeCore from '../public/js/core/theme';
 import ThemeModel from '../public/js/model/theme';
 
 
 export default class Api {
     init(app, db, CONST, packageJson) {
         this.options = {
+            rootApi: this,
             CONST,
             database: db,
             fileApi,
@@ -40,6 +43,8 @@ export default class Api {
         //     this._isThemeOwner.bind(this),
         //     userApi.Api.delete
         // );
+
+        app.get('/api/userThemes', themeApi.Api.getUserThemes);
 
         app.get('/api/theme', themeApi.Api.getAll);
         app.get('/api/theme/:_id', themeApi.Api.get);
@@ -74,35 +79,43 @@ export default class Api {
                 analyticScript: config.get('analyticScript'),
             };
 
-            if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
-                const promises = [
-                    Api.reloadSession(req),
-                ];
+            const promises = [
+                themeApi.Api.findFromUserSession(req.session.user),
+                themeApi.Api.findFavoritesFromUserSession(req.session.user),
+                Api.reloadSession(req),
+            ];
 
+            const highlightPromises = [];
+
+            if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
                 for (const fragment of clientConfig.highlightedThemes) {
-                    promises.push(
+                    highlightPromises.push(
                         themeApi.Api.findFromFragment(fragment)
                     );
                 }
+            }
 
-                Promise.all(promises)
-                .then((promisesResults) => {
-                    const themeObjects = promisesResults.slice(1);
+            Promise.all(promises)
+            .then((data) => {
+                templateVars.userThemes = escape(JSON.stringify( data[0] ));
+                templateVars.userFavoriteThemesData = escape(JSON.stringify( data[1] ));
+
+                return Promise.all(highlightPromises);
+            })
+            .then((data) => {
+                if (data.length > 0) {
                     const highlightList = [];
 
-                    for (const themeObject of themeObjects) {
+                    for (const themeObject of data) {
                         highlightList.push(themeObject);
                     }
 
                     templateVars.highlightList = escape(JSON.stringify( highlightList ));
+                }
 
-                    res.render('home', templateVars);
-                })
-                .catch( Api.onPromiseError.bind(this, res) );
-            }
-            else {
                 res.render('home', templateVars);
-            }
+            })
+            .catch( Api.onPromiseError.bind(this, req, res) );
         });
 
         app.get(/\/t\/(\w+)(-.*)?/, (req, res) => {
@@ -116,6 +129,8 @@ export default class Api {
 
             const promises = [
                 themeApi.Api.findFromFragment(fragment),
+                themeApi.Api.findFromUserSession(req.session.user),
+                themeApi.Api.findFavoritesFromUserSession(req.session.user),
                 nonOsmDataApi.Api.findFromFragment(fragment),
                 osmCacheApi.Api.findFromFragment(fragment),
                 Api.getiDPresets(CONST),
@@ -126,35 +141,37 @@ export default class Api {
             .then((data) => {
                 templateVars.theme = escape(JSON.stringify( data[0] ));
                 templateVars.themeAnalyticScript = data[0].analyticScript;
-                templateVars.nonOsmData = escape(JSON.stringify( data[1] ));
-                templateVars.osmCache = escape(JSON.stringify( data[2] ));
-                templateVars.iDPresets = escape(JSON.stringify( data[3] ));
+                templateVars.userThemes = escape(JSON.stringify( data[1] ));
+                templateVars.userFavoriteThemesData = escape(JSON.stringify( data[2] ));
+                templateVars.nonOsmData = escape(JSON.stringify( data[3] ));
+                templateVars.osmCache = escape(JSON.stringify( data[4] ));
+                templateVars.iDPresets = escape(JSON.stringify( data[5] ));
 
                 res.render('theme', templateVars);
             })
-            .catch( Api.onPromiseError.bind(this, res) );
+            .catch( Api.onPromiseError.bind(this, req, res) );
         });
 
 
-        app.get('/create_theme', (req, res) => {
-            if (!req.session.user) {
-                res.sendStatus(401);
-            }
-
-            const userId = req.session.user._id.toString();
-
-            themeApi.Api.createTheme(req.session, userId)
+        app.get('/create_theme', Api.isLoggedIn, (req, res) => {
+            themeApi.Api.createTheme(req.session.user)
             .then((theme) => {
                 Backbone.Relational.store.reset();
 
                 const model = new ThemeModel(theme);
 
                 res.redirect(
-                    model.buildPath()
+                    ThemeCore.buildPath(
+                        model.get('fragment'),
+                        model.get('name')
+                    )
                 );
             })
-            .catch( Api.onPromiseError.bind(this, res) );
+            .catch( Api.onPromiseError.bind(this, req, res) );
         });
+
+        app.get('/duplicate_theme/:fragment', Api.isLoggedIn, themeApi.Api.duplicateFromFragment);
+        app.get('/delete_theme/:fragment', Api.isLoggedIn, this._isThemeOwner.bind(this), themeApi.Api.deleteFromFragment);
 
 
         app.post('/api/file/shape', fileApi.Api.postShapeFile);
@@ -176,12 +193,22 @@ export default class Api {
                     );
                 }
                 catch (e) {
-                    console.error(e);
+                    logger.error(e);
                 }
             }
 
             return res.sendStatus(404);
         });
+
+        app.use(Api.sendPageNotFound);
+    }
+
+    static sendPageNotFound(req, res) {
+        const templateVars = {
+            analyticScript: config.get('analyticScript'),
+        };
+
+        res.status(404).render('404', templateVars);
     }
 
     static isLoggedIn(req, res, next) {
@@ -193,18 +220,32 @@ export default class Api {
     }
 
     _isThemeOwner(req, res, next) {
-        if ( !this.options.CONST.pattern.mongoId.test( req.params._id ) ) {
-            res.sendStatus(400);
-            return;
+        const question = {};
+
+        if (req.params._id) {
+            question._id = new ObjectID(req.params._id);
+
+            if ( !this.options.CONST.pattern.mongoId.test( req.params._id ) ) {
+                res.sendStatus(400);
+                return;
+            }
+        }
+
+        if (req.params.fragment) {
+            question.fragment = req.params.fragment;
+
+            if ( !this.options.CONST.pattern.fragment.test( req.params.fragment ) ) {
+                res.sendStatus(400);
+                return;
+            }
         }
 
         const collection = this.options.database.collection('theme');
 
-        collection.find({
-            _id: new ObjectID(req.params._id),
-        })
+        collection.find( question )
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 return res.sendStatus(500);
             }
 
@@ -236,8 +277,12 @@ export default class Api {
     }
 
 
-    static onPromiseError(res, errorCode) {
-        res.sendStatus(errorCode);
+    static onPromiseError(req, res, errorCode) {
+        if (errorCode === 404) {
+            return Api.sendPageNotFound(req, res);
+        }
+
+        return res.sendStatus(errorCode);
     }
 
 
@@ -245,6 +290,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             fs.readFile(CONST.iDPresetsPath, 'utf-8', (err, data) => {
                 if (err) {
+                    logger.error(err);
                     return reject(err);
                 }
 
