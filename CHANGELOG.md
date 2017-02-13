@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.4.1
+
+* Patch a Leaflet issue (https://github.com/Leaflet/Leaflet/issues/4578).
+* Fix an issue leading to load the map without any request.
+
 # 1.4.0
 
 * Add the user own themes column.
