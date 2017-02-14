@@ -67,7 +67,7 @@ export default {
 
     osm: {
         changesetCreatedBy: 'MapContrib {version}',
-        changesetComment: 'Test from MapContrib (developpement in progress)',
+        changesetComment: 'Contribution sent from the following MapContrib theme: {url}',
     },
 
     tooltip: {

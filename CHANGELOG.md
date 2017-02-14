@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.4.2
+
+* Update the screenshot for the 1.4 serie.
+* Update the changeset comment, MapContrib is not a prototype anymore.
+
 # 1.4.1
 
 * Patch a Leaflet issue (https://github.com/Leaflet/Leaflet/issues/4578).

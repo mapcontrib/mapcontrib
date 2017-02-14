@@ -13,6 +13,7 @@ import OsmCacheModel from 'model/osmCache';
 import PresetsHelper from 'helper/presets';
 import CONST from 'const';
 import InfoDisplay from 'core/infoDisplay';
+import ThemeCore from 'core/theme';
 
 
 export default Marionette.LayoutView.extend({
@@ -336,8 +337,17 @@ export default Marionette.LayoutView.extend({
         this._nonOsmDataModel.set('userId', this._user.get('osmId'));
         this._nonOsmDataModel.save();
 
+        const changesetComment = CONST.osm.changesetComment.replace(
+            '{url}',
+            ThemeCore.buildUrl(
+                window,
+                this._theme.get('fragment'),
+                this._theme.get('name')
+            )
+        );
+
         this._osmEdit.setChangesetCreatedBy(createdBy);
-        this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
+        this._osmEdit.setChangesetComment(changesetComment);
         this._osmEdit.setTimestamp();
         this._osmEdit.setTags( osmTags );
         this._osmEdit.setUid(this._user.get('osmId'));
