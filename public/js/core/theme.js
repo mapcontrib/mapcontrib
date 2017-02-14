@@ -43,4 +43,26 @@ export default class Theme {
 
         return basePath;
     }
+
+    /**
+     * Returns the theme url.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @pram {object} The browser's window object
+     * @pram {string} fragment
+     * @pram {string} name
+     * @return string
+     */
+    static buildUrl(window, fragment, name) {
+        const urlParts = [
+            window.location.protocol,
+            '//',
+            window.location.host,
+            this.buildPath(fragment, name),
+        ];
+
+        return urlParts.join('');
+    }
 }

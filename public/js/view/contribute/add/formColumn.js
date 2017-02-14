@@ -13,6 +13,7 @@ import PresetsHelper from 'helper/presets';
 import CONST from 'const';
 import MapUi from 'ui/map';
 import L from 'leaflet';
+import ThemeCore from 'core/theme';
 
 
 export default Marionette.LayoutView.extend({
@@ -237,8 +238,17 @@ export default Marionette.LayoutView.extend({
         this._nonOsmDataModel.set('themeFragment', this._theme.get('fragment'));
         this._nonOsmDataModel.set('tags', nonOsmTags);
 
+        const changesetComment = CONST.osm.changesetComment.replace(
+            '{url}',
+            ThemeCore.buildUrl(
+                window,
+                this._theme.get('fragment'),
+                this._theme.get('name')
+            )
+        );
+
         this._osmEdit.setChangesetCreatedBy(createdBy);
-        this._osmEdit.setChangesetComment(CONST.osm.changesetComment);
+        this._osmEdit.setChangesetComment(changesetComment);
         this._osmEdit.setType('node');
         this._osmEdit.setVersion(0);
         this._osmEdit.setTimestamp();
