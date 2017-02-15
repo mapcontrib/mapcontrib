@@ -122,12 +122,12 @@
 <addAnOption "Aggiungere una opzione">
 <multiComboInfo1 "Completa il prefisso <em>{{ $prefix }}</em>">
 <multiComboInfo2 "Es: recycling:glass">
-<duplicateTheme "Create a theme based on this one"> /* FIXME */
+<duplicateTheme "Crea un nuovo tema sulla base di questo">
 <favorites "Preferiti">
 <myThemes "I miei temi">
-<duplicateThatTheme "Duplicate that theme"> /* FIXME */
-<deleteThatTheme "Delete that Theme"> /* FIXME */
-<pageNotFound_explanation "The page or theme you wanted to see does not exist..."> /* FIXME */
+<duplicateThatTheme "Duplica questo tema"> 
+<deleteThatTheme "Elimina questo tema">
+<pageNotFound_explanation "La pagina o il tema che hai richiesto di vedere non esiste più ..."> 
 
 
 /* Home */
@@ -147,13 +147,13 @@
 
 
 /* Duplicate theme modal */
-<duplicateThemeModal_text1 "You're about to create a new theme by duplicating this one."> /* FIXME */
-<duplicateThemeModal_text2 "After validation, you will be redirected to that new theme."> /* FIXME */
+<duplicateThemeModal_text1 "Sta per creare un nuovo tema duplicando questo qui."> 
+<duplicateThemeModal_text2 "Dopo la validazione verrai rediretto a questo nuovo tema."> 
 
 
 /* Delete theme modal */
-<deleteThemeModal_text1 "Are you absolutely sure you want to delete that theme?">
-<deleteThemeModal_text2 "I mean, really?!">
+<deleteThemeModal_text1 "Si è veramente sicuri di voler cancellare questo tema?">
+<deleteThemeModal_text2 "Io intendo veramente?!">
 
 
 /* Login modal */
