@@ -176,7 +176,7 @@
 
 /* Tile column */
 <selectTileColumn_title "Sfondi">
-<selectTileColumn_displayMoreTiles "Display more backgrounds">
+<selectTileColumn_displayMoreTiles "Display more backgrounds"> /* FIXME */
 
 
 /* User column */
