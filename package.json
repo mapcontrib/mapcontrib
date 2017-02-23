@@ -32,6 +32,7 @@
     "test-n-coverage": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 nyc mocha --recursive --inline-diffs -- test",
     "pre-commit": "npm test && npm run lint",
     "update-overpass-cache": "babel-node cron/updateOverPassCache.js",
+    "clean-obsolete-layer-files": "babel-node cron/cleanObsoleteLayerFiles.js",
     "import-id-presets": "babel-node scripts/importIdPresets.js"
   },
   "moduleRoots": [
