@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.4.3
+
+* Update the italian translations.
+
 # 1.4.2
 
 * Update the screenshot for the 1.4 serie.
