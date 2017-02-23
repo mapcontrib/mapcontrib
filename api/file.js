@@ -91,44 +91,44 @@ function duplicateFilesFromFragments(oldFragment, newFragment) {
 }
 
 
-function cleanThemeFiles(themeModel) {
+function cleanObsoleteLayerFilesInThatDirectory(themeModel, directoryName) {
     const fragment = themeModel.get('fragment');
     const layers = themeModel.get('layers').models;
-    const shapeDirectory = path.resolve(
+    const directory = path.resolve(
         publicDirectory,
-        `files/theme/${fragment}/shape/`
+        `files/theme/${fragment}/${directoryName}/`
     );
-    const re = new RegExp(`^/files/theme/${fragment}/shape/`);
-    const themeFiles = [];
+    const re = new RegExp(`^/files/theme/${fragment}/${directoryName}/`);
+    const modelFiles = [];
 
-    for (const i in layers) {
-        if ({}.hasOwnProperty.call(layers, i)) {
-            const fileUri = layers[i].get('fileUri');
+    for (const layer of layers) {
+            const fileUri = layer.get('fileUri');
 
             if ( fileUri && re.test(fileUri) ) {
-                themeFiles.push(
+                modelFiles.push(
                     basename(fileUri)
                 );
             }
-        }
     }
 
-    fs.readdir(shapeDirectory, (err, fileList) => {
+    fs.readdir(directory, (err, directoryFiles) => {
         if (err) {
             logger.error(err);
         }
 
-        for (const i in fileList) {
-            if ({}.hasOwnProperty.call(fileList, i)) {
-                const file = fileList[i];
-                const filePath = path.resolve(shapeDirectory, file);
+        for (const file of directoryFiles) {
+            const filePath = path.resolve(directory, file);
 
-                if ( themeFiles.indexOf(file) === -1 ) {
-                    fs.unlink(filePath);
-                }
+            if ( modelFiles.indexOf(file) === -1 ) {
+                fs.unlink(filePath);
             }
         }
     });
+}
+
+function cleanObsoleteLayerFiles(themeModel) {
+    cleanObsoleteLayerFilesInThatDirectory(themeModel, 'shape');
+    cleanObsoleteLayerFilesInThatDirectory(themeModel, 'overPassCache');
 }
 
 
@@ -247,6 +247,6 @@ export default {
     initDirectories,
     deleteThemeDirectoryFromFragment,
     duplicateFilesFromFragments,
-    cleanThemeFiles,
+    cleanObsoleteLayerFiles,
     Api,
 };
