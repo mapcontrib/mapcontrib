@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.4.4
+
+* Automatically clean the OverPass cache files when layers are removed.
+
 # 1.4.3
 
 * Update the italian translations.
