@@ -177,6 +177,7 @@
 
 /* Tile column */
 <selectTileColumn_title "Backgrounds">
+<selectTileColumn_displayMoreTiles "Display more backgrounds">
 
 
 /* User column */

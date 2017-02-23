@@ -176,6 +176,7 @@
 
 /* Tile column */
 <selectTileColumn_title "Fonds de cartes">
+<selectTileColumn_displayMoreTiles "Afficher plus de fonds de carte">
 
 
 /* User column */
