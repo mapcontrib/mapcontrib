@@ -98,6 +98,14 @@ function cleanObsoleteLayerFilesInThatDirectory(themeModel, directoryName) {
         publicDirectory,
         `files/theme/${fragment}/${directoryName}/`
     );
+
+    try {
+        fs.statSync(directory);
+    }
+    catch (e) {
+        return false;
+    }
+
     const re = new RegExp(`^/files/theme/${fragment}/${directoryName}/`);
     const modelFiles = [];
 
@@ -111,9 +119,10 @@ function cleanObsoleteLayerFilesInThatDirectory(themeModel, directoryName) {
             }
     }
 
-    fs.readdir(directory, (err, directoryFiles) => {
+    return fs.readdir(directory, (err, directoryFiles) => {
         if (err) {
             logger.error(err);
+            return;
         }
 
         for (const file of directoryFiles) {
@@ -121,6 +130,7 @@ function cleanObsoleteLayerFilesInThatDirectory(themeModel, directoryName) {
 
             if ( modelFiles.indexOf(file) === -1 ) {
                 fs.unlink(filePath);
+                logger.info('The following obsolete file has been removed:', filePath);
             }
         }
     });

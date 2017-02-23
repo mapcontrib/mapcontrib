@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.4.5
+
+* Add a npm script to clean the obsolete layer files.
+
 # 1.4.4
 
 * Automatically clean the OverPass cache files when layers are removed.
