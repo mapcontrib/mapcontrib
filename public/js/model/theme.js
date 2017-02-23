@@ -55,7 +55,12 @@ export default Backbone.RelationalModel.extend({
             name: 'MapContrib',
             description: '',
             color: 'blue',
-            tiles: ['osm'],
+            tiles: [
+                'osm',
+                'mapboxStreetsSatellite',
+                'watercolor',
+                'osmMonochrome',
+            ],
             zoomLevel: 3,
             autoCenter: false,
             center: {
