@@ -482,7 +482,7 @@ class Api {
                 return true;
             }
 
-            options.fileApi.cleanThemeFiles(model);
+            options.fileApi.cleanObsoleteLayerFiles(model);
 
             return res.send({});
         });
