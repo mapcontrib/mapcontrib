@@ -57,7 +57,9 @@ export default Marionette.LayoutView.extend({
 
             tiles.push(...supplementalTiles);
         }
-        else {
+
+        const allTilesCount = Object.keys(CONST.map.tiles).length;
+        if (tiles.length !== allTilesCount) {
             this.ui.displayMore.removeClass('hide');
         }
 
