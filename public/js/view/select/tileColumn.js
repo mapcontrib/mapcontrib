@@ -47,7 +47,7 @@ export default Marionette.LayoutView.extend({
         let tile;
         let checked;
         let html = '';
-        const tiles = this.model.get('tiles');
+        const tiles = [ ...this.model.get('tiles') ];
 
         if (this._moreTilesDisplayed) {
             this.ui.displayMore.addClass('hide');
