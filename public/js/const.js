@@ -222,13 +222,6 @@ export default {
                 minZoom: 0,
                 maxZoom: 20,
             },
-            lyrk: {
-                name: 'Lyrk',
-                attribution: 'Tiles &copy; <a href="https://geodienste.lyrk.de/copyright" rel="noopener noreferrer" target="_blank">Lyrk</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a>',
-                urlTemplate: ['http://{s}.tiles.lyrk.org/ls/{z}/{x}/{y}?apikey=982c82cc765f42cf950a57de0d891076'],
-                minZoom: 0,
-                maxZoom: 18,
-            },
             hydda: {
                 name: 'Hydda',
                 attribution: 'Tiles &copy; <a href="http://openstreetmap.se" rel="noopener noreferrer" target="_blank">OpenStreetMap Sweden</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a>',
