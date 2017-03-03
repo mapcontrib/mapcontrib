@@ -12,7 +12,6 @@ import NonOsmDataModel from 'model/nonOsmData';
 import OsmCacheModel from 'model/osmCache';
 import PresetsHelper from 'helper/presets';
 import CONST from 'const';
-import InfoDisplay from 'core/infoDisplay';
 import ThemeCore from 'core/theme';
 
 
@@ -202,24 +201,6 @@ export default Marionette.LayoutView.extend({
             iDPresetsHelper: this.options.iDPresetsHelper,
             customTags: this.options.theme.get('tags'),
         });
-
-        const popupContent = this._layerModel.get('popupContent');
-        const popupTags = InfoDisplay.findTagsFromContent(popupContent);
-
-        if ( popupTags) {
-            for (const popupTag of popupTags) {
-                if (popupTag === 'id' || popupTag === 'type') {
-                    continue;
-                }
-
-                this._tagList.addTag(
-                    this._presetsHelper.hydrateTag({
-                        key: popupTag,
-                    })
-                );
-            }
-        }
-
 
         switch (this.options.presetType) {
             case 'custom':
