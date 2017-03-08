@@ -672,10 +672,6 @@ export default Marionette.LayoutView.extend({
                     if ({}.hasOwnProperty.call(data.elements, i)) {
                         const e = data.elements[i];
 
-                        if ( !e.tags ) {
-                            continue;
-                        }
-
                         if ( this._overPassData.exists(e.type, e.id, layerModel.cid) ) {
                             continue;
                         }
@@ -866,6 +862,16 @@ export default Marionette.LayoutView.extend({
                 osmId: id,
                 osmType: type,
             });
+
+            // Needed to avoid duplicate nodes when displaying ways from cache
+            // and OverPass at the same time
+            if (object.feature.geometry.type === 'Point') {
+                const tagsCount = Object.keys(object.feature.properties.tags).length;
+
+                if (tagsCount === 0) {
+                    continue;
+                }
+            }
 
             if ( this._markersWithoutLayers[longId] ) {
                 this._map.removeLayer( this._markersWithoutLayers[longId] );
