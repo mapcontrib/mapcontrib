@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.4.6
+
+* Fix a regression introduced in the 1.4.0 version when displaying ways.
+
 # 1.4.5
 
 * Add a npm script to clean the obsolete layer files.
