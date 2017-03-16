@@ -360,7 +360,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <uiFormNodeTags_key "Key">
 <uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Read-only key">
-<uiFormNodeTags_valueReadOnly "Read-only value">
+<uiFormNodeTags_valueReadOnly "Read-only and forced value">
 <uiFormNodeTags_nonOsmData "Do not send this tag to OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag not sent to OpenStreetMap">
 <uiFormNodeTags_textInput "Text input">

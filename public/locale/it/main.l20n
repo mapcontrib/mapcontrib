@@ -359,7 +359,7 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <uiFormNodeTags_key "Chiave">
 <uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
-<uiFormNodeTags_valueReadOnly "Valore in sola lettura">
+<uiFormNodeTags_valueReadOnly "Read-only and forced value"> /* FIXME */
 <uiFormNodeTags_nonOsmData "Non inviare questo tag a OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag non inviato a OpenStreetMap">
 <uiFormNodeTags_textInput "Testo di input">

@@ -36,6 +36,10 @@ export default Marionette.CollectionView.extend({
             const currentTag = this.collection.findWhere({ key: tag.key });
 
             if (currentTag) {
+                if (currentTag.get('valueReadOnly') === true) {
+                    return true;
+                }
+
                 currentTag.set(tag);
 
                 const child = this.children.findByModel(currentTag);
