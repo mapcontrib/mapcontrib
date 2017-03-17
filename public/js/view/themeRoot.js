@@ -865,7 +865,7 @@ export default Marionette.LayoutView.extend({
 
             // Needed to avoid duplicate nodes when displaying ways from cache
             // and OverPass at the same time
-            if (object.feature.geometry.type === 'Point') {
+            if (object.feature.geometry.type === 'Point' && object.feature.properties.tags) {
                 const tagsCount = Object.keys(object.feature.properties.tags).length;
 
                 if (tagsCount === 0) {
