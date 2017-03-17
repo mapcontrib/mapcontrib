@@ -25,10 +25,12 @@ export default Marionette.LayoutView.extend({
         descriptionSection: '.description_section',
         downloadBtn: '.download_btn',
         column: '.column',
+        backButton: '.back_btn',
     },
 
     events: {
         'click @ui.downloadBtn': 'onClickDownload',
+        'click @ui.backButton': '_onClickBack',
     },
 
     initialize() {
@@ -77,5 +79,9 @@ export default Marionette.LayoutView.extend({
         const fileName = `${layerName}.geojson`;
 
         LeafletHelper.downloadGeoJsonFromLayer(markerCluster, fileName);
+    },
+
+    _onClickBack() {
+        this.options.router.navigate('select/layer', true);
     },
 });

@@ -33,6 +33,11 @@ export default Marionette.LayoutView.extend({
         themesNav: '.rg_themes_nav',
         stickyInner: '.sticky-inner',
         noResult: '.no_result',
+        backButton: '.back_btn',
+    },
+
+    events: {
+        'click @ui.backButton': '_onClickBack',
     },
 
     initialize() {
@@ -117,5 +122,9 @@ export default Marionette.LayoutView.extend({
 
     _showNoResult() {
         this.ui.noResult.removeClass('hide');
+    },
+
+    _onClickBack() {
+        this.options.router.navigate('user', true);
     },
 });
