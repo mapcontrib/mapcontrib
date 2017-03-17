@@ -93,6 +93,7 @@ export default Marionette.LayoutView.extend({
 
     initialize(options) {
         this._app = options.app;
+        this._router = this._app.getRouter();
         this._user = this._app.getUser();
         this._config = this._app.getConfig();
 
@@ -1256,6 +1257,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickGeocode() {
+        this._router.navigate('');
         this._geocodeWidgetView.toggle();
     },
 

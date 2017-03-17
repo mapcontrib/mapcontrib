@@ -147,6 +147,10 @@ export default Marionette.Application.extend({
         return this._window.document;
     },
 
+    getRouter() {
+        return this._router;
+    },
+
     getUser() {
         return this._user;
     },
