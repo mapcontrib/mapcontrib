@@ -176,6 +176,7 @@
 
 /* Tile column */
 <selectTileColumn_title "Fonds de cartes">
+<selectTileColumn_displayMoreTiles "Afficher plus de fonds de carte">
 
 
 /* User column */
@@ -358,7 +359,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <uiFormNodeTags_key "Clef">
 <uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
-<uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
+<uiFormNodeTags_valueReadOnly "Valeur forcée et en lecture seule">
 <uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag non envoyé à OpenStreetMap">
 <uiFormNodeTags_textInput "Champs texte">

@@ -93,6 +93,7 @@ export default Marionette.LayoutView.extend({
 
     initialize(options) {
         this._app = options.app;
+        this._router = this._app.getRouter();
         this._user = this._app.getUser();
         this._config = this._app.getConfig();
 
@@ -436,29 +437,26 @@ export default Marionette.LayoutView.extend({
         this._map.setView([lat, lng], zoom);
     },
 
-    setTileLayer(oldId) {
-        let tiles = this.model.get('tiles');
-        let id = oldId;
+    setTileLayer(id) {
+        const tiles = Object.keys(CONST.map.tiles);
         const tileLayersGroup = L.layerGroup();
+        let newTileId = id;
 
-        if ( tiles.length === 0 ) {
-            tiles = ['osm'];
+        if ( !newTileId ) {
+            newTileId = this.model.get('tiles')[0];
         }
 
-        if ( !id ) {
-            id = tiles[0];
+        let tile = CONST.map.tiles[newTileId];
+
+        if (!tile) {
+            newTileId = tiles[0];
+            tile = CONST.map.tiles[tiles[0]];
         }
 
         if ( !this._currentTileId ) {
             this._currentTileId = tiles[0];
         }
         else if ( this._currentTileId === id ) {
-            return;
-        }
-
-        const tile = CONST.map.tiles[id];
-
-        if (!tile) {
             return;
         }
 
@@ -478,7 +476,7 @@ export default Marionette.LayoutView.extend({
             this._map.removeLayer( this._currentTileLayer );
         }
 
-        this._currentTileId = id;
+        this._currentTileId = newTileId;
         this._currentTileLayer = tileLayersGroup;
 
         this.updateMinDataZoom();
@@ -868,7 +866,7 @@ export default Marionette.LayoutView.extend({
 
             // Needed to avoid duplicate nodes when displaying ways from cache
             // and OverPass at the same time
-            if (object.feature.geometry.type === 'Point') {
+            if (object.feature.geometry.type === 'Point' && object.feature.properties.tags) {
                 const tagsCount = Object.keys(object.feature.properties.tags).length;
 
                 if (tagsCount === 0) {
@@ -1259,6 +1257,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickGeocode() {
+        this._router.navigate('');
         this._geocodeWidgetView.toggle();
     },
 

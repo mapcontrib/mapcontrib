@@ -123,8 +123,6 @@ export default Marionette.LayoutView.extend({
             success: () => {
                 this._oldModel = this.model.clone();
 
-                this._radio.commands.execute('map:setTileLayer', tiles[0]);
-
                 this.close();
             },
             error: () => {

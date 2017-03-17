@@ -125,9 +125,9 @@
 <duplicateTheme "Crea un nuovo tema sulla base di questo">
 <favorites "Preferiti">
 <myThemes "I miei temi">
-<duplicateThatTheme "Duplica questo tema"> 
+<duplicateThatTheme "Duplica questo tema">
 <deleteThatTheme "Elimina questo tema">
-<pageNotFound_explanation "La pagina o il tema che hai richiesto di vedere non esiste più ..."> 
+<pageNotFound_explanation "La pagina o il tema che hai richiesto di vedere non esiste più ...">
 
 
 /* Home */
@@ -147,8 +147,8 @@
 
 
 /* Duplicate theme modal */
-<duplicateThemeModal_text1 "Sta per creare un nuovo tema duplicando questo qui."> 
-<duplicateThemeModal_text2 "Dopo la validazione verrai rediretto a questo nuovo tema."> 
+<duplicateThemeModal_text1 "Sta per creare un nuovo tema duplicando questo qui.">
+<duplicateThemeModal_text2 "Dopo la validazione verrai rediretto a questo nuovo tema.">
 
 
 /* Delete theme modal */
@@ -176,6 +176,7 @@
 
 /* Tile column */
 <selectTileColumn_title "Sfondi">
+<selectTileColumn_displayMoreTiles "Display more backgrounds"> /* FIXME */
 
 
 /* User column */
@@ -358,7 +359,7 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <uiFormNodeTags_key "Chiave">
 <uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
-<uiFormNodeTags_valueReadOnly "Valore in sola lettura">
+<uiFormNodeTags_valueReadOnly "Read-only and forced value"> /* FIXME */
 <uiFormNodeTags_nonOsmData "Non inviare questo tag a OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag non inviato a OpenStreetMap">
 <uiFormNodeTags_textInput "Testo di input">

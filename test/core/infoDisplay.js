@@ -8,26 +8,6 @@ import LayerModel from 'model/layer';
 
 
 describe('InfoDisplay', () => {
-    describe('findTagsFromContent', () => {
-        it('Should return tag list', () => {
-            const expected = ['amenity', 'other_tag'];
-            const popupContent = 'This text contains the {amenity} tag and an {other_tag}.';
-
-            const result = InfoDisplay.findTagsFromContent(popupContent);
-
-            assert.deepEqual(result, expected);
-        });
-
-        it('Should return an empty tag list', () => {
-            const expected = [];
-            const popupContent = 'This text does not contain tags!';
-
-            const result = InfoDisplay.findTagsFromContent(popupContent);
-
-            assert.deepEqual(result, expected);
-        });
-    });
-
     describe('buildContent', () => {
         it('Should return an OverPass element\'s informations converted from Markdown to HTML', () => {
             const expected = `<h1 id="this-is-a-title">This is a title</h1>
