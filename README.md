@@ -52,7 +52,7 @@ Just wait a few seconds and rerun the up command.
 
 Then, you will have to initialize the database, in antoher terminal simply run:
 
-    $ docker-compose run node npm run init
+    $ docker-compose run --rm node npm run init
 
 ### Manual
 
