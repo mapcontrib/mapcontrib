@@ -3,7 +3,7 @@
 
 ## Translations
 
-We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
+We plan to use [Weblate](https://hosted.weblate.org) in the future, stay tuned.
 
 
 ## Code
