@@ -49,6 +49,8 @@ client:
 
     highlightedThemes:
 
+    customTiles:
+
     defaultGeocoder: photon
     availableGeocoders:
         - photon

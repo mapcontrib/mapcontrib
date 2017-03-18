@@ -438,7 +438,8 @@ export default Marionette.LayoutView.extend({
     },
 
     setTileLayer(id) {
-        const tiles = Object.keys(CONST.map.tiles);
+        const appTiles = this._app.getTiles();
+        const tilesName = Object.keys(appTiles);
         const tileLayersGroup = L.layerGroup();
         let newTileId = id;
 
@@ -446,15 +447,15 @@ export default Marionette.LayoutView.extend({
             newTileId = this.model.get('tiles')[0];
         }
 
-        let tile = CONST.map.tiles[newTileId];
+        let tile = appTiles[newTileId];
 
         if (!tile) {
-            newTileId = tiles[0];
-            tile = CONST.map.tiles[tiles[0]];
+            newTileId = tilesName[0];
+            tile = appTiles[tilesName[0]];
         }
 
         if ( !this._currentTileId ) {
-            this._currentTileId = tiles[0];
+            this._currentTileId = tilesName[0];
         }
         else if ( this._currentTileId === id ) {
             return;

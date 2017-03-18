@@ -1,7 +1,6 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import CONST from 'const';
 import template from 'templates/select/tile/tileColumn.ejs';
 import templateListItem from 'templates/select/tile/item.ejs';
 
@@ -34,6 +33,7 @@ export default Marionette.LayoutView.extend({
     },
 
     initialize() {
+        this._app = this.options.app;
         this._radio = Wreqr.radio.channel('global');
 
         this.listenTo(this.model, 'change:tiles', this.onChangeModelTiles);
@@ -48,17 +48,18 @@ export default Marionette.LayoutView.extend({
         let checked;
         let html = '';
         const tiles = [ ...this.model.get('tiles') ];
+        const appTiles = this._app.getTiles();
 
         if (this._moreTilesDisplayed) {
             this.ui.displayMore.addClass('hide');
 
-            const supplementalTiles = Object.keys(CONST.map.tiles)
+            const supplementalTiles = Object.keys(appTiles)
                 .filter(tile => tiles.indexOf(tile) === -1);
 
             tiles.push(...supplementalTiles);
         }
 
-        const allTilesCount = Object.keys(CONST.map.tiles).length;
+        const allTilesCount = Object.keys(appTiles).length;
         if (tiles.length !== allTilesCount) {
             this.ui.displayMore.removeClass('hide');
         }
@@ -71,7 +72,7 @@ export default Marionette.LayoutView.extend({
         }
 
         tiles.forEach((id) => {
-            tile = CONST.map.tiles[id];
+            tile = appTiles[id];
 
             if (!tile) {
                 return;

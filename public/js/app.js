@@ -77,6 +77,11 @@ export default Marionette.Application.extend({
                 JSON.parse(unescape( MAPCONTRIB.user ))
             );
 
+            this._tiles = {
+                ...this._config.customTiles,
+                ...CONST.map.tiles,
+            };
+
             if (MAPCONTRIB.user) {
                 this._user = new UserModel(
                     JSON.parse(unescape( MAPCONTRIB.user ))
@@ -173,6 +178,10 @@ export default Marionette.Application.extend({
 
     getTheme() {
         return this._theme;
+    },
+
+    getTiles() {
+        return this._tiles;
     },
 
     getTempLayerCollection() {

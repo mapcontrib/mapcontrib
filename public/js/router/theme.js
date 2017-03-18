@@ -221,6 +221,7 @@ export default Backbone.Router.extend({
     routeSelectTile() {
         new SelectTileColumn({
             router: this,
+            app: this._app,
             model: this._theme,
         }).open();
     },
@@ -578,6 +579,7 @@ export default Backbone.Router.extend({
 
         new AdminSettingTileColumn({
             router: this,
+            app: this._app,
             model: this._theme,
         }).open();
     },
