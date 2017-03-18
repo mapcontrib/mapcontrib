@@ -21,20 +21,28 @@ So thank you to make your pull requests on the `develop` branch instead of `mast
 
 Don't forget to run the Webpack based watcher by typing this command:
 
-    $ yarn run watch
+```
+$ yarn run watch
+```
 
 You can run the tests by runnning:
 
-    $ yarn test
+```
+$ yarn test
+```
 
 You can also debug your developments by using
 
-    $ yarn run debug
-    $ # To start the Node.js debugger
+```
+$ yarn run debug
+$ # To start the Node.js debugger
+```
 
 Or
 
-    $ DEBUG=* yarn start
-    $ # Works with Docker Compose too
+```
+$ DEBUG=* yarn start
+$ # Works with Docker Compose too
+```
 
 See [that great article](https://blog.risingstack.com/node-hero-node-js-debugging-tutorial) for more informations about debugging.
