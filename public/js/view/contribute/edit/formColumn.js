@@ -318,7 +318,8 @@ export default Marionette.LayoutView.extend({
         this._nonOsmDataModel.set('userId', this._user.get('osmId'));
         this._nonOsmDataModel.save();
 
-        const changesetComment = CONST.osm.changesetComment.replace(
+        const changesetAttribution = this._radio.reqres.request('changeset-attribution');
+        let changesetComment = CONST.osm.changesetComment.replace(
             '{url}',
             ThemeCore.buildUrl(
                 window,
@@ -326,6 +327,10 @@ export default Marionette.LayoutView.extend({
                 this._theme.get('name')
             )
         );
+
+        if (changesetAttribution) {
+            changesetComment += `\n\nTiles: ${changesetAttribution}`;
+        }
 
         this._osmEdit.setChangesetCreatedBy(createdBy);
         this._osmEdit.setChangesetComment(changesetComment);

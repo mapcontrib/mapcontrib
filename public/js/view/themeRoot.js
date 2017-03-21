@@ -150,6 +150,7 @@ export default Marionette.LayoutView.extend({
             },
             'map:markerCluster': layerModel => this._getRootLayer(layerModel),
             'edition-data': () => this._editionData,
+            'changeset-attribution': () => this.getTileChangesetAttribution(),
         });
 
         this._radio.commands.setHandlers({
@@ -435,6 +436,17 @@ export default Marionette.LayoutView.extend({
 
     setMapPosition(zoom, lat, lng) {
         this._map.setView([lat, lng], zoom);
+    },
+
+    getTileChangesetAttribution() {
+        const appTiles = this._app.getTiles();
+        const tile = appTiles[this._currentTileId];
+
+        if (tile) {
+            return tile.changesetAttribution || '';
+        }
+
+        return '';
     },
 
     setTileLayer(id) {
