@@ -11,6 +11,7 @@ import osmtogeojson from 'osmtogeojson';
 import OverPassLayer from 'leaflet-overpass-layer';
 import Omnivore from 'leaflet-omnivore';
 import moment from 'moment-timezone';
+import DeviceHelper from 'helper/device';
 
 
 import LayerModel from 'model/layer';
@@ -92,6 +93,7 @@ export default Marionette.LayoutView.extend({
 
     initialize(options) {
         this._app = options.app;
+        this._router = this._app.getRouter();
         this._user = this._app.getUser();
         this._config = this._app.getConfig();
 
@@ -104,6 +106,7 @@ export default Marionette.LayoutView.extend({
 
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
+        this._deviceHelper = new DeviceHelper(this._config, this._window);
 
         this._seenZoomNotification = false;
         this._minDataZoom = 0;
@@ -147,6 +150,7 @@ export default Marionette.LayoutView.extend({
             },
             'map:markerCluster': layerModel => this._getRootLayer(layerModel),
             'edition-data': () => this._editionData,
+            'changeset-attribution': () => this.getTileChangesetAttribution(),
         });
 
         this._radio.commands.setHandlers({
@@ -222,6 +226,10 @@ export default Marionette.LayoutView.extend({
             this.hideEditTools();
             this.updateAllLayerPopups();
         });
+
+        this._radio.vent.on('geocode:itemSelected', () => {
+            this._geolocation.stopPanning();
+        });
     },
 
     onRender() {
@@ -248,7 +256,11 @@ export default Marionette.LayoutView.extend({
         this._zoomNotificationView = new ZoomNotificationView();
 
 
-        this.getRegion('mainTitle').show( new ThemeTitleView({ model: this.model }) );
+        this.getRegion('mainTitle').show( new ThemeTitleView({
+            model: this.model,
+            app: this._app,
+            userFavoriteThemes: this._app.getUserFavoriteThemes(),
+        }) );
         this.getRegion('geocodeWidget').show( this._geocodeWidgetView );
         this.getRegion('zoomNotification').show( this._zoomNotificationView );
 
@@ -418,35 +430,46 @@ export default Marionette.LayoutView.extend({
         if ( autoCenter ) {
             this.onClickLocate();
         }
+
+        this._radio.vent.trigger('theme:rendered');
     },
 
     setMapPosition(zoom, lat, lng) {
         this._map.setView([lat, lng], zoom);
     },
 
-    setTileLayer(oldId) {
-        let tiles = this.model.get('tiles');
-        let id = oldId;
-        const tileLayersGroup = L.layerGroup();
+    getTileChangesetAttribution() {
+        const appTiles = this._app.getTiles();
+        const tile = appTiles[this._currentTileId];
 
-        if ( tiles.length === 0 ) {
-            tiles = ['osm'];
+        if (tile) {
+            return tile.changesetAttribution || '';
         }
 
-        if ( !id ) {
-            id = tiles[0];
+        return '';
+    },
+
+    setTileLayer(id) {
+        const appTiles = this._app.getTiles();
+        const tilesName = Object.keys(appTiles);
+        const tileLayersGroup = L.layerGroup();
+        let newTileId = id;
+
+        if ( !newTileId ) {
+            newTileId = this.model.get('tiles')[0];
+        }
+
+        let tile = appTiles[newTileId];
+
+        if (!tile) {
+            newTileId = tilesName[0];
+            tile = appTiles[tilesName[0]];
         }
 
         if ( !this._currentTileId ) {
-            this._currentTileId = tiles[0];
+            this._currentTileId = tilesName[0];
         }
         else if ( this._currentTileId === id ) {
-            return;
-        }
-
-        const tile = CONST.map.tiles[id];
-
-        if (!tile) {
             return;
         }
 
@@ -466,7 +489,7 @@ export default Marionette.LayoutView.extend({
             this._map.removeLayer( this._currentTileLayer );
         }
 
-        this._currentTileId = id;
+        this._currentTileId = newTileId;
         this._currentTileLayer = tileLayersGroup;
 
         this.updateMinDataZoom();
@@ -619,13 +642,14 @@ export default Marionette.LayoutView.extend({
 
     addOverPassLayer(layerModel, hiddenLayer) {
         const cache = layerModel.get('cache');
-        const cacheFilePath = layerModel.get('fileUri');
+        const cacheUpdateSuccess = layerModel.get('cacheUpdateSuccess');
+        const cacheBounds = layerModel.get('cacheBounds');
 
         const rootLayer = this._buildRootLayer(layerModel);
         this._setRootLayer(layerModel, rootLayer);
         this._map.addLayer( rootLayer );
 
-        if (cache && cacheFilePath) {
+        if (cache && cacheUpdateSuccess) {
             this.addOverPassCacheLayer(rootLayer, layerModel, hiddenLayer);
         }
 
@@ -635,8 +659,8 @@ export default Marionette.LayoutView.extend({
 
         const loadedBounds = [];
 
-        if (layerModel.get('cacheBounds')) {
-            loadedBounds.push(layerModel.get('cacheBounds'));
+        if (cache && cacheBounds) {
+            loadedBounds.push(cacheBounds);
         }
 
         const overPassLayer = new OverPassLayer({
@@ -805,19 +829,25 @@ export default Marionette.LayoutView.extend({
             layerModel.get('fileUri')
         )
         .on('ready', (layer) => {
-            layerModel.addObjects(layer.target._layers);
+            const deletedFeatures = L.geoJson(layerModel.get('cacheDeletedFeatures'));
+            const layers = {
+                ...deletedFeatures._layers,
+                ...layer.target._layers,
+            };
 
-            for (const index in layer.target._layers) {
-                if ({}.hasOwnProperty.call(layer.target._layers, index)) {
+            layerModel.addObjects(layers);
+
+            for (const index in layers) {
+                if ({}.hasOwnProperty.call(layers, index)) {
                     this._overPassData.save(
-                        layer.target._layers[index].feature.properties,
+                        layers[index].feature.properties,
                         layerModel.cid
                     );
                 }
             }
 
             this._customizeDataAndDisplay(
-                layer.target._layers,
+                layers,
                 rootLayer,
                 layerModel,
                 CONST.layerType.geojson,
@@ -846,6 +876,16 @@ export default Marionette.LayoutView.extend({
                 osmId: id,
                 osmType: type,
             });
+
+            // Needed to avoid duplicate nodes when displaying ways from cache
+            // and OverPass at the same time
+            if (object.feature.geometry.type === 'Point' && object.feature.properties.tags) {
+                const tagsCount = Object.keys(object.feature.properties.tags).length;
+
+                if (tagsCount === 0) {
+                    continue;
+                }
+            }
 
             if ( this._markersWithoutLayers[longId] ) {
                 this._map.removeLayer( this._markersWithoutLayers[longId] );
@@ -1049,8 +1089,8 @@ export default Marionette.LayoutView.extend({
     updateLayerMinZoom(layerModel) {
         const overpassLayer = this._getOverPassLayer(layerModel);
 
-        if (overpassLayer.object) {
-            overpassLayer.object.options.minZoom = layerModel.get('minZoom');
+        if (overpassLayer && overpassLayer.options) {
+            overpassLayer.options.minZoom = layerModel.get('minZoom');
         }
 
         this.updateMinDataZoom();
@@ -1119,7 +1159,7 @@ export default Marionette.LayoutView.extend({
             const osmType = feature.properties.type;
             const osmId = feature.properties.id;
             const editButton = this._document.createElement('a');
-            editButton.href = `contribute/edit/${osmType}/${osmId}`;
+            editButton.href = `#contribute/edit/${osmType}/${osmId}`;
 
             if ( !content ) {
                 globalWrapper.className = 'global_wrapper no_popup_content';
@@ -1177,7 +1217,7 @@ export default Marionette.LayoutView.extend({
         if ( !this._app.isLogged() ) {
             this.ui.userButton
             .removeClass('avatar')
-            .html('<i class="icon ion-happy-outline"></i>');
+            .html('<i class="icon ion-home"></i>');
         }
         else {
             const avatar = this._user.get('avatar');
@@ -1230,6 +1270,7 @@ export default Marionette.LayoutView.extend({
     },
 
     onClickGeocode() {
+        this._router.navigate('');
         this._geocodeWidgetView.toggle();
     },
 
@@ -1313,7 +1354,7 @@ export default Marionette.LayoutView.extend({
                     continue;
                 }
 
-                if ( layerModel.get('cache') === true && layerModel.get('fileUri') ) {
+                if ( layerModel.get('cache') === true && layerModel.get('cacheUpdateSuccess') ) {
                     continue;
                 }
 
@@ -1387,19 +1428,8 @@ export default Marionette.LayoutView.extend({
         }
     },
 
-    isLargeScreen() {
-        if (
-            $(this._window).width() >= this._config.largeScreenMinWidth &&
-            $(this._window).height() >= this._config.largeScreenMinHeight
-        ) {
-            return true;
-        }
-
-        return false;
-    },
-
     onPopupOpen() {
-        if ( !this.isLargeScreen() ) {
+        if ( !this._deviceHelper.isLargeScreen() ) {
             this._geocodeWidgetView.close();
 
             this._zoomNotificationView.disappear();
@@ -1419,7 +1449,7 @@ export default Marionette.LayoutView.extend({
         if ( popupContent ) {
             let popupOptions;
 
-            if ( this.isLargeScreen() ) {
+            if ( this._deviceHelper.isLargeScreen() ) {
                 popupOptions = {
                     closeButton: false,
                     autoPanPaddingTopLeft: L.point(

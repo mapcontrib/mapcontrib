@@ -43,14 +43,26 @@ export default class GeoUtils {
 
         return {
             _southWest: {
-                lat: e[0],
-                lng: s[1],
+                lat: GeoUtils.hasToBeInRange(e[0], -90, 90),
+                lng: GeoUtils.hasToBeInRange(s[1], -180, 180),
             },
             _northEast: {
-                lat: s[0],
-                lng: e[1],
+                lat: GeoUtils.hasToBeInRange(s[0], -90, 90),
+                lng: GeoUtils.hasToBeInRange(e[1], -180, 180),
             },
         };
+    }
+
+    static hasToBeInRange(value, min, max) {
+        if (value < min) {
+            return min;
+        }
+
+        if (value > max) {
+            return max;
+        }
+
+        return value;
     }
 }
 /* eslint-enable */

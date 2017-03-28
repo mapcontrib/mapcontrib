@@ -1,30 +1,21 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/userColumn.ejs';
+import template from 'templates/duplicateThemeModal.ejs';
 
 
 export default Marionette.LayoutView.extend({
     template,
 
-    behaviors() {
-        return {
-            l20n: {},
-            column: {
-                appendToBody: true,
-                destroyOnClose: true,
-                routeOnClose: this.options.previousRoute,
-            },
-        };
+    behaviors: {
+        l20n: {},
+        modal: {
+            appendToBody: true,
+        },
     },
 
     ui: {
-        column: '.column',
-        logoutItem: '.logout_item',
-    },
-
-    events: {
-        'click @ui.logoutItem': 'close',
+        modal: '#duplicate_theme_modal',
     },
 
     initialize() {

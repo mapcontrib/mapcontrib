@@ -3,6 +3,8 @@ import crypto from 'crypto';
 import Backbone from 'backbone';
 import Sifter from 'sifter';
 import { ObjectID } from 'mongodb';
+import logger from '../lib/logger';
+import ThemeCore from '../public/js/core/theme';
 import ThemeModel from '../public/js/model/theme';
 
 
@@ -17,17 +19,6 @@ function setOptions(hash) {
     options = hash;
 }
 
-function addThemeInUserSession(session, theme) {
-    theme._id = theme._id.toString();
-
-    if (!session.themes) {
-        session.themes = [];
-    }
-
-    session.themes.push( theme._id );
-    return true;
-}
-
 
 class Api {
     static post(req, res) {
@@ -35,7 +26,7 @@ class Api {
             res.sendStatus(401);
         }
 
-        Api.createTheme( req.session, req.session.user._id.toString() )
+        Api.createTheme(req.session.user)
         .then((result) => {
             result._id = result._id.toString();
             res.send(result);
@@ -45,9 +36,14 @@ class Api {
         });
     }
 
-    static createTheme(session, userId) {
+    static createTheme(user) {
+        if ( !user ) {
+            return Promise.reject(401);
+        }
+
         Backbone.Relational.store.reset();
 
+        const userId = user._id.toString();
         const collection = options.database.collection('theme');
         const model = new ThemeModel({
             userId,
@@ -64,12 +60,11 @@ class Api {
                     { safe: true },
                     (err, results) => {
                         if (err) {
+                            logger.error(err);
                             return reject(500);
                         }
 
                         const result = results.ops[0];
-
-                        addThemeInUserSession(session, result);
 
                         return resolve(result);
                     }
@@ -94,6 +89,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     return reject(500);
                 }
 
@@ -121,15 +117,14 @@ class Api {
         })
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
             }
 
             if (results.length === 0) {
-                res.sendStatus(404);
-
-                return true;
+                return options.rootApi.sendPageNotFound(req, res);
             }
 
             const result = results[0];
@@ -161,7 +156,11 @@ class Api {
                 res.send(theme);
             })
             .catch((errorCode) => {
-                res.sendStatus(errorCode);
+                if (errorCode === 404) {
+                    return options.rootApi.sendPageNotFound(req, res);
+                }
+
+                return res.sendStatus(errorCode);
             });
 
             return true;
@@ -173,6 +172,7 @@ class Api {
         )
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -261,6 +261,16 @@ class Api {
         return true;
     }
 
+    static getUserThemes(req, res) {
+        Api.findFromUserSession(req.session.user)
+        .then((themes) => {
+            res.send(themes);
+        })
+        .catch((errorCode) => {
+            res.sendStatus(errorCode);
+        });
+    }
+
 
     static findFromFragment(fragment) {
         return new Promise((resolve, reject) => {
@@ -276,6 +286,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     reject(500);
                     return;
                 }
@@ -305,12 +316,123 @@ class Api {
 
             collection.find({
                 $or: [
-                    { owners: ownerId },
                     { owners: '*' },
+                    { owners: ownerId },
                 ],
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
+                    reject(500);
+                    return;
+                }
+
+                resolve(
+                    results.map((result) => {
+                        result._id = result._id.toString();
+                        return result;
+                    })
+                );
+            });
+        });
+    }
+
+
+    static findFromUserSession(userSession) {
+        return new Promise((resolve, reject) => {
+            if ( !userSession ) {
+                resolve([]);
+                return;
+            }
+
+            const collection = options.database.collection('theme');
+
+            collection.find({
+                $or: [
+                    { owners: '*' },
+                    { owners: userSession._id },
+                ],
+            })
+            .toArray((err, results) => {
+                if (err) {
+                    logger.error(err);
+                    reject(500);
+                    return;
+                }
+
+                resolve(
+                    results.map(theme => ({
+                        fragment: theme.fragment,
+                        name: theme.name,
+                        color: theme.color,
+                    }))
+                );
+            });
+        });
+    }
+
+
+    static findFavoritesFromUserSession(userSession) {
+        return new Promise((resolve, reject) => {
+            if ( !userSession ) {
+                resolve([]);
+                return;
+            }
+
+            const userCollection = options.database.collection('user');
+            const themeCollection = options.database.collection('theme');
+
+            userCollection.find({
+                _id: new ObjectID(userSession._id),
+            })
+            .toArray((err, results) => {
+                if (err) {
+                    logger.error(err);
+                    reject(500);
+                    return;
+                }
+
+                const user = results[0];
+
+                if ( !user.favoriteThemes ) {
+                    user.favoriteThemes = [];
+                }
+
+                themeCollection.find({
+                    fragment: {
+                        $in: user.favoriteThemes,
+                    },
+                })
+                .toArray((err, results) => {
+                    if (err) {
+                        logger.error(err);
+                        reject(500);
+                        return;
+                    }
+
+                    resolve(
+                        results.map(theme => ({
+                            fragment: theme.fragment,
+                            name: theme.name,
+                            color: theme.color,
+                        }))
+                    );
+                });
+            });
+        });
+    }
+
+
+    static findAllOwners() {
+        return new Promise((resolve, reject) => {
+            const collection = options.database.collection('theme');
+
+            collection.find({
+                owners: '*',
+            })
+            .toArray((err, results) => {
+                if (err) {
+                    logger.error(err);
                     reject(500);
                     return;
                 }
@@ -329,12 +451,6 @@ class Api {
     static put(req, res) {
         if ( !options.CONST.pattern.mongoId.test( req.params._id ) ) {
             res.sendStatus(400);
-
-            return true;
-        }
-
-        if ( !Api.isThemeOwner(req, res, req.params._id) ) {
-            res.sendStatus(401);
 
             return true;
         }
@@ -360,12 +476,13 @@ class Api {
         { safe: true },
         (err) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
             }
 
-            options.fileApi.cleanThemeFiles(model);
+            options.fileApi.cleanObsoleteLayerFiles(model);
 
             return res.send({});
         });
@@ -381,13 +498,6 @@ class Api {
             return true;
         }
 
-        if ( !Api.isThemeOwner(req, res, req.params._id) ) {
-            res.sendStatus(401);
-
-            return true;
-        }
-
-
         const collection = options.database.collection('theme');
 
         collection.remove({
@@ -396,6 +506,7 @@ class Api {
         { safe: true },
         (err) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -408,14 +519,110 @@ class Api {
     }
 
 
-    static isThemeOwner(req, res, themeId) {
-        if ( !req.session.user || !req.session.themes ) {
-            return false;
+    static duplicateFromFragment(req, res) {
+        if ( !options.CONST.pattern.fragment.test( req.params.fragment ) ) {
+            return res.sendStatus(400);
         }
 
-        if ( req.session.themes.indexOf( themeId ) === -1 ) {
-            return false;
+        if ( !req.session.user ) {
+            return res.sendStatus(401);
         }
+
+        Api.findFromFragment(req.params.fragment)
+        .then((theme) => {
+            Backbone.Relational.store.reset();
+
+            const userId = req.session.user._id.toString();
+            const model = new ThemeModel({
+                ...theme,
+                userId,
+                owners: [ userId ],
+            });
+
+            model.get('presets').each((preset) => {
+                if ( !preset.get('parentUuid') ) {
+                    preset.unset('parentUuid');
+                }
+            });
+
+            model.get('presetCategories').each((presetCategory) => {
+                if ( !presetCategory.get('parentUuid') ) {
+                    presetCategory.unset('parentUuid');
+                }
+            });
+
+            Api.getNewFragment()
+            .then((fragment) => {
+                model.unset('_id');
+                model.set('fragment', fragment);
+
+                model.get('layers').each((layer) => {
+                    const fileUri = layer.get('fileUri');
+
+                    if ( fileUri ) {
+                        layer.set(
+                            'fileUri',
+                            fileUri.replace(`/${req.params.fragment}/`, `/${fragment}/`)
+                        );
+                    }
+                });
+
+                options.fileApi.duplicateFilesFromFragments(req.params.fragment, fragment);
+
+                const collection = options.database.collection('theme');
+
+                collection.insertOne(
+                    model.toJSON(),
+                    { safe: true },
+                    (err) => {
+                        if (err) {
+                            logger.error(err);
+                            return res.sendStatus(500);
+                        }
+
+                        return res.redirect(
+                            ThemeCore.buildPath(
+                                model.get('fragment'),
+                                model.get('name')
+                            )
+                        );
+                    }
+                );
+            });
+        })
+        .catch((errorCode) => {
+            res.sendStatus(errorCode);
+        });
+
+        return true;
+    }
+
+
+    static deleteFromFragment(req, res) {
+        if ( !options.CONST.pattern.fragment.test( req.params.fragment ) ) {
+            res.sendStatus(400);
+
+            return true;
+        }
+
+        const collection = options.database.collection('theme');
+
+        collection.remove({
+            fragment: req.params.fragment,
+        },
+        { safe: true },
+        (err) => {
+            if (err) {
+                logger.error(err);
+                res.sendStatus(500);
+
+                return true;
+            }
+
+            options.fileApi.deleteThemeDirectoryFromFragment(req.params.fragment);
+
+            return res.redirect('/');
+        });
 
         return true;
     }

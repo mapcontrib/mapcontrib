@@ -1,5 +1,7 @@
 
 import Marionette from 'backbone.marionette';
+import { OsmFirework } from 'helper/animation';
+import DeviceHelper from 'helper/device';
 import LoginModalView from './loginModal';
 import ThemeCollection from 'collection/theme';
 import ThemeThumbList from 'ui/themeThumbList';
@@ -14,12 +16,12 @@ export default Marionette.LayoutView.extend({
     },
 
     ui: {
-        createThemeButton: '.create_theme_btn',
         scrollTarget: '.scroll_target',
         searchResults: '#rg_search_results',
         noResultPlaceholder: '.no_result',
         charactersLeftPlaceholder: '.characters_left',
         charactersLeftPlaceholderText: '.characters_left .text',
+        osmLink: '.openstreetmap',
     },
 
     regions: {
@@ -28,13 +30,15 @@ export default Marionette.LayoutView.extend({
     },
 
     events: {
-        'click @ui.createThemeButton': 'onClickCreateTheme',
+        'mouseenter @ui.osmLink': 'onHoverOsmLink',
     },
 
     initialize(options) {
         this._app = options.app;
         this._window = this._app.getWindow();
         this._document = this._app.getDocument();
+        this._config = this._app.getConfig();
+        this._deviceHelper = new DeviceHelper(this._config, this._window);
 
         this.resetThemeCollection();
     },
@@ -49,9 +53,13 @@ export default Marionette.LayoutView.extend({
         this._searchInput.on('empty', this.resetThemeCollection, this);
         this._searchInput.on('notEnoughCharacters', this.showCharactersLeftPlaceholder, this);
         this._searchInput.on('search', this.fetchSearchedThemes, this);
-        this._searchInput.on('focus', this._scrollToSearchInput, this);
-        this._searchInput.on('keyup', this._scrollToSearchInput, this);
-        this._searchInput.setFocus();
+        this._searchInput.on('search:before', this.showSearchPlaceholder, this);
+        this._searchInput.on('focus', this._checkScreenSizeAndScrollToSearchInput, this);
+        this._searchInput.on('keyup', this._checkScreenSizeAndScrollToSearchInput, this);
+
+        if ( this._deviceHelper.isTallScreen() === true ) {
+            this._searchInput.setFocus();
+        }
 
         this.getRegion('searchResults').show(
             new ThemeThumbList({
@@ -60,22 +68,25 @@ export default Marionette.LayoutView.extend({
         );
     },
 
+    onShow() {
+        this._osmFireworkTimeline = OsmFirework.init( this.ui.osmLink[0] );
+    },
+
+    _checkScreenSizeAndScrollToSearchInput() {
+        if ( this._deviceHelper.isTallScreen() === false ) {
+            this._scrollToSearchInput();
+        }
+    },
+
     _scrollToSearchInput() {
         window.requestAnimationFrame(() => {
             this.ui.scrollTarget[0].scrollIntoView({ behavior: 'smooth' });
         });
     },
 
-    onClickCreateTheme() {
-        if (this._app.isLogged()) {
-            window.location.replace('/create_theme');
-        }
-        else {
-            this.displayLoginModal();
-        }
-    },
-
     fetchSearchedThemes(searchString) {
+        const startTime = this._lastQueryStartTime = new Date().getTime();
+
         this.collection.fetch({
             reset: true,
             merge: false,
@@ -84,9 +95,13 @@ export default Marionette.LayoutView.extend({
                 hasLayer: true,
             },
             success: (collection, response, options) => {
+                if (startTime !== this._lastQueryStartTime) {
+                    return;
+                }
+
                 this.onThemesFetchSuccess(collection, response, options);
                 this._searchInput.trigger('search:success');
-                this._scrollToSearchInput();
+                this._checkScreenSizeAndScrollToSearchInput();
             },
             error: (collection, response, options) => {
                 this.onThemesFetchError(collection, response, options);
@@ -109,15 +124,20 @@ export default Marionette.LayoutView.extend({
     },
 
     resetThemeCollection() {
-        this.collection = new ThemeCollection();
+        let themes = [];
 
         if (MAPCONTRIB.highlightList) {
-            this.collection.add(
-                JSON.parse(unescape( MAPCONTRIB.highlightList ))
-            );
+            themes = JSON.parse(unescape( MAPCONTRIB.highlightList ));
         }
 
-        this.render();
+        if (!this.collection) {
+            this.collection = new ThemeCollection(themes);
+            this.render();
+        }
+        else {
+            this.collection.reset(themes);
+        }
+
         this.showResults();
     },
 
@@ -128,8 +148,18 @@ export default Marionette.LayoutView.extend({
         }).open();
     },
 
+    showSearchPlaceholder() {
+        this._checkScreenSizeAndScrollToSearchInput();
+
+        this.ui.charactersLeftPlaceholderText.addClass('hide');
+
+        this.ui.noResultPlaceholder.addClass('hide');
+        this.ui.searchResults.addClass('hide');
+        this.ui.charactersLeftPlaceholder.removeClass('hide');
+    },
+
     showCharactersLeftPlaceholder(searchString) {
-        this._scrollToSearchInput();
+        this._checkScreenSizeAndScrollToSearchInput();
 
         const charactersLeft = 3 - searchString.length;
 
@@ -138,7 +168,8 @@ export default Marionette.LayoutView.extend({
                 'home_charactersLeft',
                 { n: charactersLeft }
             )
-        );
+        )
+        .removeClass('hide');
 
         this.ui.noResultPlaceholder.addClass('hide');
         this.ui.searchResults.addClass('hide');
@@ -146,7 +177,7 @@ export default Marionette.LayoutView.extend({
     },
 
     showNoResultPlaceholder() {
-        this._scrollToSearchInput();
+        this._checkScreenSizeAndScrollToSearchInput();
 
         this.ui.searchResults.addClass('hide');
         this.ui.charactersLeftPlaceholder.addClass('hide');
@@ -162,5 +193,9 @@ export default Marionette.LayoutView.extend({
     hidePlaceholders() {
         this.ui.charactersLeftPlaceholder.addClass('hide');
         this.ui.noResultPlaceholder.addClass('hide');
+    },
+
+    onHoverOsmLink() {
+        this._osmFireworkTimeline.replay();
     },
 });

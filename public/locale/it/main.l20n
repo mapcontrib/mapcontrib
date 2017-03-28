@@ -7,6 +7,10 @@
 
 
 <mapcontrib "MapContrib">
+<mapcontribBlog "Blog del progetto">
+<wiki "Wiki">
+<reportBug "Segnalare un bug">
+<sendFeedback "Manda un commento">
 <slogan "Contribuisci ad un tema di <a>OpenStreetMap</a>">
 
 
@@ -18,7 +22,8 @@
 <maxFileSize "La dimensione del file deve essere inferiore a {{ $maxFileSize }}">
 
 
-<buttonDescriptionTooltip title:"Leggi la descrizione">
+<buttonFavoriteTooltip "Bookmark this theme as favorite"> /* FIXME */
+<buttonDescriptionTooltip "Leggi la descrizione">
 <buttonZoomInTooltip title:"Ingrandisci">
 <buttonZoomOutTooltip title:"Diminuisci">
 <buttonGeocodeTooltip title:"Trova un luogo">
@@ -43,10 +48,16 @@
 
 
 
-<layers "Livello">
-<translations "Translations"> /* FIXME */
+<overPassCacheArchives "archivio cache di OverPass">
+<overPassCacheArchives_explanation "Questi POI sono nella tua cacche dei livelli OverPass ma saranno rimossi da OSM.">
+<overPassCacheArchives_emptyStateTextArchived "Nessun POI archiviato">
+<overPassCacheArchives_emptyStateTextWaiting "Nessun POI in attesa">
+<seeArchives "Vedi i POI archiviati">
+<layers "Livelli">
+<layer "Livello">
+<translations "Traduzioni">
 <presets "Tipo di Nodi">
-<presetCategories "Nodes types categories"> /* FIXME */
+<presetCategories "Categorie di tipi di Nodi">
 <tags "Tags">
 <goBackToHome "Ritorno alla home">
 <about "Info {{ mapcontrib }}">
@@ -54,10 +65,12 @@
 <preferences "Preferenze">
 <edit "Modifica">
 <login "Log in">
-<loginOrSubscribe "Log in oppure iscriviti">
+<loginOrSubscribe "Login oppure iscriviti">
 <logout "Log out">
 <close "Chiudi">
 <save "Salva">
+<delete "Elimina">
+<archive "Archivia">
 <validate "Valida">
 <cancel "Elimina">
 <next "Prossimo">
@@ -69,45 +82,52 @@
 <editThatElement "Modifica questo oggetto">
 <loadingData title:"Alcuni dati saranno caricati">
 <createATheme "Crea un tema">
+<search "Cerca">
 <searchATheme "Cerca un tema (min. 3 caratteri)">
 <aboutMapContrib "Informazioni su MapContrib">
 <invalidFile "File non valido">
 <currentFile "FIle attuale: <a>{{ $file }}</a>">
 <file "File">
-<fileNotFound "File not found"> /* FIXME */
+<fileNotFound "File non trovato">
 <noResult "Nessun risultato">
 <name "Nome">
 <description "Descrizione">
 <type "Tipo">
-<locales "Translations"> /* FIXME */
+<locales "Traduzioni">
 <key "Chiave">
-<textFields label:"Text"> /* FIXME */
-<checkboxFields label:"Checkboxes"> /* FIXME */
-<nonTextFields label:"Non text"> /* FIXME */
-<comboFields label:"Dropdown"> /* FIXME */
-<text "Text"> /* FIXME */
-<number "Number"> /* FIXME */
-<email "Email"> /* FIXME */
-<tel "Phone number"> /* FIXME */
-<url "Web address"> /* FIXME */
-<textarea "Big text"> /* FIXME */
-<checkbox "Checkbox"> /* FIXME */
-<checkField "Yes or no"> /* FIXME */
-<defaultCheckField "Yes or empty"> /* FIXME */
-<comboField "Only choice"> /* FIXME */
-<typeComboField "Yes or only choice"> /* FIXME */
-<multiComboField "Multi-choice"> /* FIXME */
+<textFields label:"Testo">
+<checkboxFields label:"Casella di controllo">
+<nonTextFields label:"Nessun testo">
+<comboFields label:"Selettore a cascata">
+<text "Testo">
+<number "Numero">
+<email "Email">
+<tel "Numero di telefono">
+<url "Indirizzo web">
+<textarea "Testo espanso">
+<checkbox "Casella di controllo">
+<checkField "Sì o no">
+<defaultCheckField "Sì o vuoto">
+<comboField "Solo scelta">
+<typeComboField "Sì o solo scelta">
+<multiComboField "Scelta multipla">
 <value "Valore">
-<defaultValue "Default value"> /* FIXME */
+<defaultValue "Valore predefinito">
 <yes "Si">
 <no "No">
 <settings "Impostazioni">
 <mainSettings "Impostazioni generali">
 <tiles "Sfondi">
-<options "Options"> /* FIXME */
-<addAnOption "Add an option"> /* FIXME */
-<multiComboInfo1 "Complete the <em>{{ $prefix }}</em> prefix"> /* FIXME */
-<multiComboInfo2 "Eg: recycling:glass"> /* FIXME */
+<options "Opzioni">
+<addAnOption "Aggiungere una opzione">
+<multiComboInfo1 "Completa il prefisso <em>{{ $prefix }}</em>">
+<multiComboInfo2 "Es: recycling:glass">
+<duplicateTheme "Crea un nuovo tema sulla base di questo">
+<favorites "Preferiti">
+<myThemes "I miei temi">
+<duplicateThatTheme "Duplica questo tema">
+<deleteThatTheme "Elimina questo tema">
+<pageNotFound_explanation "La pagina o il tema che hai richiesto di vedere non esiste più ...">
 
 
 /* Home */
@@ -124,6 +144,16 @@
 <aboutText3 "Nell´utilizzare MapContrib, tu stai accettando di distribuire i tuoi contributi <a>con la licenza «&nbsp;ODbL&nbsp;»</a>, attraverso cui dai il permesso di usare e condividere questi dati con la dicitura «&nbsp;the OSM contributors&nbsp;»</a>.">
 <aboutText4 "Kudos ad alcuni progetti ispiratori:">
 <aboutTextVersion "La versione di questa istanza MapContrib è la {{ $version }}.">
+
+
+/* Duplicate theme modal */
+<duplicateThemeModal_text1 "Sta per creare un nuovo tema duplicando questo qui.">
+<duplicateThemeModal_text2 "Dopo la validazione verrai rediretto a questo nuovo tema.">
+
+
+/* Delete theme modal */
+<deleteThemeModal_text1 "Si è veramente sicuri di voler cancellare questo tema?">
+<deleteThemeModal_text2 "Io intendo veramente?!">
 
 
 /* Login modal */
@@ -146,6 +176,7 @@
 
 /* Tile column */
 <selectTileColumn_title "Sfondi">
+<selectTileColumn_displayMoreTiles "Display more backgrounds"> /* FIXME */
 
 
 /* User column */
@@ -159,7 +190,7 @@
 /* Contribution column */
 <contribColumn_title "Aggiungi un nodo">
 <contribColumn_description "Scegli il tipo di nodo">
-<contribColumn_searchAPreset "Search a type of node"> /* FIXME */
+<contribColumn_searchAPreset "Cerca un tipo di nodo">
 <contribColumn_freeAddition "Aggiunta libera di tag">
 <contribColumn_addTag "Aggiungi un tag">
 
@@ -210,25 +241,25 @@ Inseriscilo proprio qui!"> /
 <editLayerFormColumn_title "Modifica livello">
 <editLayerFormColumn_layerName "{{ name }}">
 <editLayerFormColumn_layerDescription "{{ description }}">
-<editLayerFormColumn_representationType "Representation"> /* FIXME */
-<editLayerFormColumn_clusterRepresentation "Groupable points"> /* FIXME */
-<editLayerFormColumn_heatRepresentation "Heat map"> /* FIXME */
+<editLayerFormColumn_representationType "Rappresentazione">
+<editLayerFormColumn_clusterRepresentation "Punti raggruppabili">
+<editLayerFormColumn_heatRepresentation "Mappa di densità">
 <editLayerFormColumn_visibility "Visibilità">
 <editLayerFormColumn_visible "Visibile agli utenti">
-<editLayerFormColumn_heatOptions "Heat map"> /* FIXME */
-<editLayerFormColumn_heatMapPopoverTitle "Informations"> /* FIXME */
+<editLayerFormColumn_heatOptions "Mappa di densità">
+<editLayerFormColumn_heatMapPopoverTitle "Informazioni">
 <editLayerFormColumn_heatMapPopoverContent "#### Maximum zoom
 
 Zoom level where the points reach maximum intensity.
 
 #### Radius
 
-Radius of each point of the layer."> /* FIXME */
-<editLayerFormColumn_heatMinOpacity "Minimum opacity"> /* FIXME */
-<editLayerFormColumn_heatMaxZoom "Maximum zoom"> /* FIXME */
-<editLayerFormColumn_heatMax "Maximum intensity"> /* FIXME */
-<editLayerFormColumn_heatBlur "Amount of blur"> /* FIXME */
-<editLayerFormColumn_heatRadius "Radius"> /* FIXME */
+Raggio per ciascuno punto del livello.">
+<editLayerFormColumn_heatMinOpacity "Opacità minima">
+<editLayerFormColumn_heatMaxZoom "Zoom massimo">
+<editLayerFormColumn_heatMax "Intensità massima">
+<editLayerFormColumn_heatBlur "Quantità di sfocatura">
+<editLayerFormColumn_heatRadius "Raggio">
 <editLayerFormColumn_layerZoomLevel "Zoom minimo">
 <editLayerFormColumn_currentMapZoom "La mappa fa attualmente uso del livello di zoom {{ $currentMapZoom }}">
 <editLayerFormColumn_overPassPopoverTitle "Area di selezione">
@@ -248,8 +279,11 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <editLayerFormColumn_cache "Cache">
 <editLayerFormColumn_cacheDescription "Questo sostituisce la richiesta live a OverPass.">
 <editLayerFormColumn_enableCache "Abilita la cache">
+<editLayerFormColumn_enableCacheArchive "Abilita l'archiviazione della cache">
 <editLayerFormColumn_cachePopoverTitle "Limiti">
-<editLayerFormColumn_cachePopoverContent "I dati sono aggiornati quotidianamente dalla richiesta, eseguita sull´intero pianeta, che richiede meno di 3 minuti e produce un file finale di dimensioni minori ad 1MB.">
+<editLayerFormColumn_cachePopoverContent "I dati sono aggiornati quotidianamente dalla richiesta che richiede meno di 3 minuti e produce un file finale di dimensioni minori ad 1MB.">
+<editLayerFormColumn_cacheArchivePopoverTitle "Archiviazione cache">
+<editLayerFormColumn_cacheArchivePopoverContent "Consente agli amministratori del tema di decidere di mantenere o rimuovere definitivamente i POI OSM eliminati.">
 <editLayerFormColumn_cacheDate "Ultimo aggiornamento: {{ $date }}.">
 <editLayerFormColumn_cacheErrorTimeout "<i></i> L´ultima cache di aggiornamento non è andata a buon fine a causa di tempo di esecuzione troppo lungo.">
 <editLayerFormColumn_cacheErrorMemory "<i></i> L´ultima cache di aggiornamento non è andata a buon fine a causa della generazione di un file troppo grande.">
@@ -325,20 +359,20 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <uiFormNodeTags_key "Chiave">
 <uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Chiave in sola lettura">
-<uiFormNodeTags_valueReadOnly "Valore in sola lettura">
+<uiFormNodeTags_valueReadOnly "Read-only and forced value"> /* FIXME */
 <uiFormNodeTags_nonOsmData "Non inviare questo tag a OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag non inviato a OpenStreetMap">
 <uiFormNodeTags_textInput "Testo di input">
 <uiFormNodeTags_fileInput "File di input">
-<uiFormNodeTags_displayRawTag "Display the raw OSM tag"> /* FIXME */
+<uiFormNodeTags_displayRawTag "Visualizza il tag OSM grezzo">
 
 /* Color selector UI */
 <uiColorSelector_label "Colore">
 
 
 /* List group UI */
-<uiListGroup_placeholder "Click below"> /* FIXME */
-<uiListGroup_placeholderNothingToTranslate "Nothing to translate"> /* FIXME */
+<uiListGroup_placeholder "Clic sotto">
+<uiListGroup_placeholderNothingToTranslate "Nulla da tradurre">
 
 
 /* Contribution form column */
@@ -398,13 +432,13 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 /* Admin tag column */
 <adminTagColumn_title "Tags">
 <adminTagColumn_addTag "Aggiungi un tag">
-<adminTagColumn_description "Créez vos propres tags, pour remplacer un tag OSM existant ou le rendre uniquement disponible dans cette instance de MapContrib.">
+<adminTagColumn_description "Crea i tuoi tag, per sostituire un tag OSM esistente o renderli disponibili solo nel caso MapContrib.">
 
 
 /* Admin presets column */
 <adminPresetColumn_title "Tipo di nodi">
 <adminPresetColumn_addPreset "Aggiungere un tipo di nodo">
-<adminPresetColumn_addPresetCategory "Add a category"> /* FIXME */
+<adminPresetColumn_addPresetCategory "Aggiungi una categoria">
 
 
 /* Admin edit presets column */
@@ -413,4 +447,4 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 
 /* Admin edit preset categories column */
-<adminPresetCategoryColumn_title "Category"> /* FIXME */
+<adminPresetCategoryColumn_title "Categoria">

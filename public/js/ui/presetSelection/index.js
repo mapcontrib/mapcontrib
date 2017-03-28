@@ -1,5 +1,6 @@
 
 import Marionette from 'backbone.marionette';
+import DeviceHelper from 'helper/device';
 import NavPillsStackedListView from 'ui/navPillsStacked';
 import SearchInput from 'ui/form/searchInput';
 import Locale from 'core/locale';
@@ -15,6 +16,10 @@ export default Marionette.LayoutView.extend({
     },
 
     initialize() {
+        this._app = this.options.app;
+        this._window = this._app.getWindow();
+        this._config = this._app.getConfig();
+        this._deviceHelper = new DeviceHelper(this._config, this._window);
         this._presets = this.options.theme.get('presets');
         this._presetCategories = this.options.theme.get('presetCategories');
         this._iDPresetsHelper = this.options.iDPresetsHelper;
@@ -122,7 +127,11 @@ export default Marionette.LayoutView.extend({
         });
 
         this.options.regions.searchInput.show( this._searchInput );
-        this._searchInput.setFocus();
+
+        if ( this._deviceHelper.isTallScreen() === true ) {
+            this._searchInput.setFocus();
+        }
+
         this._searchInput.on('search', this.trigger.bind(this, 'search'), this);
         this._searchInput.on('search', this._filterPresets, this);
         this._searchInput.on('empty', this.trigger.bind(this, 'empty'), this);

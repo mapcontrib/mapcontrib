@@ -1,25 +1,23 @@
 
 import Backbone from 'backbone';
 import Wreqr from 'backbone.wreqr';
-import HomeRootView from 'view/homeRoot';
 
 
 export default Backbone.Router.extend({
     routes: {
-        '': 'routeDefault',
-        oups: 'routeDefault',
-
-        logout: 'routeLogout',
+        oups: 'routeOups',
     },
 
     initialize(app) {
         this._app = app;
+        this._config = app.getConfig();
+        this._user = app.getUser();
         this._radio = Wreqr.radio.channel('global');
+        this._previousRoute = '';
+
+        this.on('route', this._setPreviousRoute);
     },
 
-    routeDefault() {
-        this._app.getRegion('root').show(
-            new HomeRootView({ app: this._app })
-        );
+    routeOups() {
     },
 });

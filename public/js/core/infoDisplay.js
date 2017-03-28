@@ -7,31 +7,6 @@ export default class InfoDisplay {
      * @author Guillaume AMAT
      * @static
      * @access public
-     * @param {string} content - A popup content.
-     * @returns {Array}
-     */
-    static findTagsFromContent(content) {
-        const re = new RegExp('{(.*?)}', 'g');
-        const matches = content.match(re);
-        const tags = [];
-
-        if (!matches) {
-            return [];
-        }
-
-        for (const rawTag of matches) {
-            tags.push(
-                rawTag.replace( /\{(.*?)\}/g, '$1' )
-            );
-        }
-
-        return tags;
-    }
-
-    /**
-     * @author Guillaume AMAT
-     * @static
-     * @access public
      * @param {object} layerModel - Element's layer.
      * @param {object} feature - Element's geoJson representation.
      * @param {array} nonOsmTags - Non OSM tags related to the OSM element.

@@ -4,6 +4,7 @@ import Marionette from 'backbone.marionette';
 import template from 'templates/admin/setting/mainColumn.ejs';
 import CONST from 'const';
 import MarkedHelper from 'helper/marked';
+import ThemeCore from 'core/theme';
 import 'ui/form/colorSelector/style.less';
 
 
@@ -53,6 +54,8 @@ export default Marionette.ItemView.extend({
 
     initialize() {
         this._radio = Wreqr.radio.channel('global');
+        this._app = this.options.app;
+        this._userFavoriteThemes = this.options.app.getUserFavoriteThemes();
 
         this._oldModel = this.model.clone();
     },
@@ -151,7 +154,14 @@ export default Marionette.ItemView.extend({
         this.model.set('analyticScript', themeAnalyticScript);
         this.model.updateModificationDate();
 
-        window.history.pushState({}, themeName, this.model.buildPath());
+        window.history.pushState(
+            {},
+            themeName,
+            ThemeCore.buildPath(
+                this.model.get('fragment'),
+                this.model.get('name')
+            )
+        );
 
         this.model.set('autoCenter', false);
 
@@ -186,6 +196,15 @@ export default Marionette.ItemView.extend({
             }
         }
 
+        if ( this._userFavoriteThemes.has(this.model) ) {
+            this._userFavoriteThemes.setThemeData(this.model);
+
+            this._radio.vent.trigger(
+                'favorite:change',
+                this._userFavoriteThemes.getCollection()
+            );
+        }
+
 
         this.model.save({}, {
             success: () => {
@@ -197,6 +216,8 @@ export default Marionette.ItemView.extend({
                         this._radio.commands.execute('map:unbindAllPopups');
                     }
                 }
+
+                this._oldModel = this.model.clone();
 
                 this.close();
             },

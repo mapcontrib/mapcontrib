@@ -4,6 +4,7 @@ import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/link/linkColumn.ejs';
 import templateIframe from 'templates/link/iframe.ejs';
+import ThemeCore from 'core/theme';
 
 
 export default Marionette.LayoutView.extend({
@@ -129,7 +130,10 @@ export default Marionette.LayoutView.extend({
     getUrl() {
         const protocol = window.location.protocol;
         const host = window.location.host;
-        const path = this.model.buildPath();
+        const path = ThemeCore.buildPath(
+            this.model.get('fragment'),
+            this.model.get('name')
+        );
 
         return `${protocol}//${host}${path}`;
     },

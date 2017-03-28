@@ -3,7 +3,7 @@
 
 ## Translations
 
-We plan to use [Transifex](http://www.transifex.com) in the future, stay tuned.
+We plan to use [Weblate](https://hosted.weblate.org) in the future, stay tuned.
 
 
 ## Code
@@ -21,20 +21,28 @@ So thank you to make your pull requests on the `develop` branch instead of `mast
 
 Don't forget to run the Webpack based watcher by typing this command:
 
-    $ npm run watch
+```
+$ yarn run watch
+```
 
 You can run the tests by runnning:
 
-    $ npm test
+```
+$ yarn test
+```
 
 You can also debug your developments by using
 
-    $ npm run debug
-    $ # To start the Node.js debugger
+```
+$ yarn run debug
+$ # To start the Node.js debugger
+```
 
 Or
 
-    $ DEBUG=* npm start
-    $ # Works with Docker Compose too
+```
+$ DEBUG=* yarn start
+$ # Works with Docker Compose too
+```
 
 See [that great article](https://blog.risingstack.com/node-hero-node-js-debugging-tutorial) for more informations about debugging.

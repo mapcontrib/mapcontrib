@@ -52,6 +52,10 @@
     flex-direction: column;
 }
 
+.sticky-header {
+    margin-bottom: 30px;
+}
+
 .sticky-header,
 .sticky-footer {
     margin-left: -15px;
@@ -80,22 +84,26 @@
 
 .sticky-inner {
     overflow-y: auto;
-    padding-bottom: 20px;
-}
+    padding-top: 30px;
+    margin-top: -30px;
 
-.sticky-header + .sticky-inner {
-    padding-top: 20px;
+    // Because padding-bottom: 30px does not work...
+    &:after{
+        content: ' ';
+        display: block;
+        height: 30px;
+    }
 }
 
 .pop {
     .bordered-header {
-        margin-top: -20px;
-        padding-bottom: 20px;
+        margin-top: -30px;
+        padding-bottom: 30px;
     }
 
     .bordered-footer {
-        margin-bottom: -20px;
-        padding-top: 20px;
+        margin-bottom: -30px;
+        padding-top: 30px;
     }
 }
 
@@ -167,7 +175,9 @@ fieldset[disabled] .form-control {
         bottom: 0;
         left: 0;
         right: 0;
-        padding-top: 20px;
+        padding-top: 30px;
+        border-top-style: solid;
+        border-top-width: 1px;
         overflow: auto;
     }
 }
@@ -303,6 +313,50 @@ pre,
 .lightStyle(@color1, @color2, @color3, @color4, @color5) {
     background: @color3;
     color: @anthracite;
+
+    border-width: 0;
+    border-style: solid;
+    border-color: @darkGray;
+
+    &.column,
+    &.notification {
+        &.left {
+            border-right-width: 4px;
+        }
+
+        &.right {
+            border-left-width: 4px;
+        }
+    }
+
+    &.notification {
+        border-top-width: 4px;
+    }
+
+    &#zoom_notification {
+        border-width: 0;
+    }
+
+    &.contextual {
+        border-left-width: 4px;
+        border-right-width: 4px;
+
+        &.top {
+            border-bottom-width: 4px;
+        }
+
+        &.bottom {
+            border-top-width: 4px;
+        }
+    }
+
+    &.pop {
+        border-width: 4px;
+    }
+
+    .content {
+        border-top-color: @darkGray;
+    }
 
     .close_btn,
     .back_btn {
@@ -638,6 +692,46 @@ pre,
 .darkStyle(@color1, @color2, @color3, @color4, @color5) {
     color: #fff;
     background: @color3;
+
+    border-width: 0;
+    border-style: solid;
+    border-color: @color5;
+
+    &.column,
+    &.notification {
+        &.left {
+            border-right-width: 4px;
+        }
+
+        &.right {
+            border-left-width: 4px;
+        }
+    }
+
+    &.notification {
+        border-top-width: 4px;
+    }
+
+    &.contextual {
+        border-left-width: 4px;
+        border-right-width: 4px;
+
+        &.top {
+            border-bottom-width: 4px;
+        }
+
+        &.bottom {
+            border-top-width: 4px;
+        }
+    }
+
+    &.pop {
+        border-width: 4px;
+    }
+
+    .content {
+        border-top-color: rgba(255, 255, 255, 0.4);
+    }
 
     a {
         color: #fff;

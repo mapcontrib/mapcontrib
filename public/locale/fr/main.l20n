@@ -7,6 +7,10 @@
 
 
 <mapcontrib "MapContrib">
+<mapcontribBlog "Blog du projet">
+<wiki "Wiki">
+<reportBug "Signaler un bug">
+<sendFeedback "Contacter l'équipe">
 <slogan "Contribution thématique à <a>OpenStreetMap</a>">
 
 
@@ -18,7 +22,8 @@
 <maxFileSize "Le poids ne doit pas dépasser {{ $maxFileSize }}">
 
 
-<buttonDescriptionTooltip title:"Lire la description">
+<buttonFavoriteTooltip "Marquer ce thème comme favoris">
+<buttonDescriptionTooltip "Lire la description">
 <buttonZoomInTooltip title:"Vue rapprochée">
 <buttonZoomOutTooltip title:"Vue éloignée">
 <buttonGeocodeTooltip title:"Trouver un lieu">
@@ -43,7 +48,13 @@
 
 
 
+<overPassCacheArchives "Archives du cache OverPass">
+<overPassCacheArchives_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été supprimés d'OSM.">
+<overPassCacheArchives_emptyStateTextArchived "Aucun POI archivés">
+<overPassCacheArchives_emptyStateTextWaiting "Aucun POI en attente">
+<seeArchives "Voir les POI archivés">
 <layers "Couches">
+<layer "Couche">
 <translations "Traductions">
 <presets "Types de nœuds">
 <presetCategories "Catégories de types de nœuds">
@@ -58,6 +69,8 @@
 <logout "Se déconnecter">
 <close "Fermer">
 <save "Enregistrer">
+<delete "Supprimer">
+<archive "Archiver">
 <validate "Valider">
 <cancel "Annuler">
 <next "Suivant">
@@ -69,6 +82,7 @@
 <editThatElement "Éditer cet élément">
 <loadingData title:"Certaines données sont en cours de chargement">
 <createATheme "Créer un thème">
+<search "Rechercher">
 <searchATheme "Rechercher un thème (3 caractères min.)">
 <aboutMapContrib "À propos de MapContrib">
 <invalidFile "Fichier non valide">
@@ -108,6 +122,12 @@
 <addAnOption "Ajouter une option">
 <multiComboInfo1 "Complètent le préfixe <em>{{ $prefix }}</em>">
 <multiComboInfo2 "Ex : recycling:glass">
+<duplicateTheme "Créer un thème à partir de celui-là">
+<favorites "Favoris">
+<myThemes "Mes thèmes">
+<duplicateThatTheme "Dupliquer ce thème">
+<deleteThatTheme "Supprimer ce thème">
+<pageNotFound_explanation "La page ou le thème que vous vouliez consulter n'existe pas ou plus...">
 
 
 /* Home */
@@ -124,6 +144,16 @@
 <aboutText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbL&nbsp;»</a>, permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
 <aboutText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
 <aboutTextVersion "Cette instance de MapContrib utilise la version {{ $version }}.">
+
+
+/* Duplicate theme modal */
+<duplicateThemeModal_text1 "Vous êtes sur le point de créer un nouveau thème en dupliquant celui-ci.">
+<duplicateThemeModal_text2 "Après validation, vous serez redirigé vers ce nouveau thème.">
+
+
+/* Delete theme modal */
+<deleteThemeModal_text1 "Êtes-vous absolument certain de vouloir supprimer ce thème ?">
+<deleteThemeModal_text2 "J'veux dire, vraiment ?!">
 
 
 /* Login modal */
@@ -146,6 +176,7 @@
 
 /* Tile column */
 <selectTileColumn_title "Fonds de cartes">
+<selectTileColumn_displayMoreTiles "Afficher plus de fonds de carte">
 
 
 /* User column */
@@ -248,8 +279,11 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <editLayerFormColumn_cache "Cache">
 <editLayerFormColumn_cacheDescription "Il se substitue à la requête OverPass temps réél.">
 <editLayerFormColumn_enableCache "Activer le cache">
+<editLayerFormColumn_enableCacheArchive "Activer l'archivage du cache">
 <editLayerFormColumn_cachePopoverTitle "Limitations">
-<editLayerFormColumn_cachePopoverContent "Les informations sont mises à jour quotidiennement à condition que la requête exécutée sur l'ensemble du globe ne mette pas plus de 3 minutes et que le fichier final ne fasse pas plus d'1 Mo.">
+<editLayerFormColumn_cachePopoverContent "Les informations sont mises à jour quotidiennement à condition que la requête ne mette pas plus de 3 minutes et que le fichier final ne fasse pas plus d'1 Mo.">
+<editLayerFormColumn_cacheArchivePopoverTitle "Archivage de cache">
+<editLayerFormColumn_cacheArchivePopoverContent "Il permet aux administrateurs de thème de décider de garder ou de supprimer définitivement les POI supprimés d'OSM.">
 <editLayerFormColumn_cacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
 <editLayerFormColumn_cacheErrorTimeout "<i></i> La dernière mise à jour du cache a échoué en raison d'un temps d'exécution trop important.">
 <editLayerFormColumn_cacheErrorMemory "<i></i> La dernière mise à jour du cache a échoué en raison d'un poids de fichier final trop important.">
@@ -325,7 +359,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <uiFormNodeTags_key "Clef">
 <uiFormNodeTags_value placeholder:"{{ value }}">
 <uiFormNodeTags_keyReadOnly "Clef en lecture seule">
-<uiFormNodeTags_valueReadOnly "Valeur en lecture seule">
+<uiFormNodeTags_valueReadOnly "Valeur forcée et en lecture seule">
 <uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
 <uiFormNodeTags_nonOsmContributionWarning "Tag non envoyé à OpenStreetMap">
 <uiFormNodeTags_textInput "Champs texte">

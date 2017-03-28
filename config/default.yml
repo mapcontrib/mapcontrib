@@ -11,6 +11,7 @@ mongodb:
     host: localhost
     port: 27017
     database: mapcontrib
+    poolSize: 1
 
 dataDirectory: public/files
 
@@ -29,12 +30,13 @@ client:
     overPassTimeout: 120000 # Milliseconds
     overPassCacheEnabled: true
     overPassCacheFileSize: 1048576
+    overPassCacheArchiveEnabled: false
 
     taginfoServiceHost: https://taginfo.openstreetmap.org/
     freeTagsContributionEnabled: true
 
-    largeScreenMinWidth: 400
-    largeScreenMinHeight: 500
+    largeScreenMinWidth: 500
+    largeScreenMinHeight: 650
 
     shareIframeWidth: 100
     shareIframeWidthUnit: '%'
@@ -46,6 +48,8 @@ client:
     newPoiMarkerColor: yellow
 
     highlightedThemes:
+
+    customTiles:
 
     defaultGeocoder: photon
     availableGeocoders:

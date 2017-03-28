@@ -61,7 +61,7 @@ export default Marionette.CollectionView.extend({
     },
 
     className() {
-        const classes = ['list-group'];
+        const classes = ['list-group', 'append-xs-none'];
 
         if (this.options.reorderable) {
             classes.push('reorderable');
