@@ -165,30 +165,40 @@ class Init {
 }
 
 
-inquirer.prompt( questions ).then((answers) => {
-    logger.info();
+function start() {
+    const database = new Database();
 
-    if (answers.areYouSure === true) {
-        const database = new Database();
+    database.connect((err, db) => {
+        if (err) throw err;
 
-        database.connect((err, db) => {
-            if (err) throw err;
+        const init = new Init(db);
 
-            const init = new Init(db);
+        logger.info('Initialization started');
 
-            logger.info('Initialization started');
+        init.cleanDatabase()
+        .then( init.fillDatabase.bind(init), throwError)
+        .then( init.createIndexes.bind(init), throwError)
+        .then(() => {
+            logger.info('Initialization finished');
+            db.close();
+        })
+        .catch(throwError);
+    });
+}
 
-            init.cleanDatabase()
-            .then( init.fillDatabase.bind(init), throwError)
-            .then( init.createIndexes.bind(init), throwError)
-            .then(() => {
-                logger.info('Initialization finished');
-                db.close();
-            })
-            .catch(throwError);
-        });
-    }
-    else {
-        logger.info('Initialization aborted');
-    }
-});
+
+if (process.argv[2] && process.argv[2] === '-y') {
+    start();
+}
+else {
+    inquirer.prompt( questions ).then((answers) => {
+        logger.info();
+
+        if (answers.areYouSure === true) {
+            start();
+        }
+        else {
+            logger.info('Initialization aborted');
+        }
+    });
+}
