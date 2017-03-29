@@ -52,13 +52,6 @@ $ docker-compose up
 MongoDB is rather slow to create the database files the first time... The Node.js container will surely break.
 Just wait a few seconds and rerun the up command.
 
-#### Initial data
-
-Then, you will have to initialize the database, in antoher terminal simply run:
-
-```
-$ docker-compose run --rm node npm run init
-```
 
 ### Manual
 
@@ -68,14 +61,6 @@ You can create your own configuration file by picking some sections from the `co
 
 For example, MapContrib uses MongoDB to store data. By default, it will try to connect to a localhost running MongoDB.
 If you want to use a MongoDB server on another host/port/whatever, create a `config/local.yml` file by picking the mongodb section of the `config/default.yml` file and adapt the configuration.
-
-#### Initial data
-
-To initialize the database the first time, run:
-
-```
-$ npm run init
-```
 
 #### Launch
 
