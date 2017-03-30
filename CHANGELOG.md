@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.6.1
+
+* Raise the payload limit to 50mb until I figure it more cleanly...
+
 # 1.6.0
 
 * The OSM monochrome, Watercolor and Mapbox street satellite tiles are now enabled by default.
