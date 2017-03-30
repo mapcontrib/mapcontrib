@@ -3,12 +3,27 @@
 @import 'app.less';
 
 
+#rg_root {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    & > div {
+        /* In order to scroll when focusing the search input */
+        min-height: 160%;
+    }
+}
+
+.menu_btn {
+    margin-left: 6px;
+}
 
 .main_header .logo {
     height: 34px;
 }
 
 .main_header h1 a.openstreetmap {
+    position: relative; // Needed for the fireworks
     text-decoration: none;
 
     &:hover,

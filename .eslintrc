@@ -39,5 +39,6 @@
         "no-param-reassign": 0,
         "import/imports-first": 0,
         "no-case-declarations": 0,
+        "no-shadow": 0,
     }
 }

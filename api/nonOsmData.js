@@ -1,4 +1,5 @@
 
+import logger from '../lib/logger';
 import { ObjectID } from 'mongodb';
 import NonOsmDataModel from '../public/js/model/nonOsmData';
 
@@ -33,6 +34,7 @@ class Api {
             { safe: true },
             (err, results) => {
                 if (err) {
+                    logger.error(err);
                     return res.sendStatus(500);
                 }
 
@@ -60,6 +62,7 @@ class Api {
         })
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -103,6 +106,7 @@ class Api {
         )
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;
@@ -134,6 +138,7 @@ class Api {
             })
             .toArray((err, results) => {
                 if (err) {
+                    logger.error(err);
                     return reject(500);
                 }
 
@@ -174,6 +179,7 @@ class Api {
         { safe: true },
         (err) => {
             if (err) {
+                logger.error(err);
                 res.sendStatus(500);
 
                 return true;

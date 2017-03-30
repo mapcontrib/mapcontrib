@@ -52,7 +52,7 @@ export default class OverPassHelper {
         let overPassRequest = '';
         const requestSplit = request
         .trim()
-        .replace(/\[(out|timeout):\w+\]/g, '')
+        .replace(/\[(out|timeout):\w+]/g, '')
         .replace(/\/\*(.|[\r\n])*?\*\//gm, '')
         .replace(/\/\/.*/gm, '')
         .split(';');

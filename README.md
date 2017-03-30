@@ -6,6 +6,11 @@
 
 ![MapContrib](screenshot.png)
 
+## Informations
+
+* [Blog](https://blog.mapcontrib.xyz)
+* [Documentation](http://wiki.openstreetmap.org/wiki/MapContrib)
+
 
 ## Contribution
 
@@ -14,11 +19,13 @@ Informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUT
 
 ## Installation
 
-    $ git clone https://github.com/MapContrib/MapContrib.git
-    $ cd MapContrib
-    $ npm install
-    $ npm run build
-    $ npm test
+```
+$ git clone https://github.com/MapContrib/MapContrib.git
+$ cd MapContrib
+$ yarn install
+$ yarn run build
+$ yarn test
+```
 
 It will install all the dependancies and test the code.
 
@@ -38,16 +45,13 @@ By default the application will be available at [http://localhost:8080](http://l
 
 To launch the Node.js based server.
 
-    $ docker-compose up
+```
+$ docker-compose up
+```
 
 MongoDB is rather slow to create the database files the first time... The Node.js container will surely break.
 Just wait a few seconds and rerun the up command.
 
-#### Initial data
-
-Then, you will have to initialize the database, in antoher terminal simply run:
-
-    $ docker-compose run node npm run init
 
 ### Manual
 
@@ -58,18 +62,13 @@ You can create your own configuration file by picking some sections from the `co
 For example, MapContrib uses MongoDB to store data. By default, it will try to connect to a localhost running MongoDB.
 If you want to use a MongoDB server on another host/port/whatever, create a `config/local.yml` file by picking the mongodb section of the `config/default.yml` file and adapt the configuration.
 
-#### Initial data
-
-To initialize the database the first time, run:
-
-    $ npm run init
-
 #### Launch
 
 To launch the Node.js based server.
 
-    $ npm start
-
+```
+$ npm start
+```
 
 ## Thanks
 

@@ -44,6 +44,8 @@ export default Backbone.RelationalModel.extend({
             cacheUpdateDate: undefined,
             cacheUpdateError: undefined,
             cacheBounds: undefined,
+            cacheArchive: false,
+            cacheDeletedFeatures: [],
 
             locales: {/*
                 fr: {
@@ -106,6 +108,18 @@ export default Backbone.RelationalModel.extend({
 
     getObjects() {
         return this._geoJsonObjects;
+    },
+
+    getArchivedDeletedPois() {
+        return this.get('cacheDeletedFeatures').filter(
+            feature => feature.isArchived === true
+        );
+    },
+
+    getWaitingDeletedPois() {
+        return this.get('cacheDeletedFeatures').filter(
+            feature => feature.isArchived !== true
+        );
     },
 
     getLocaleCompletion(localeCode) {

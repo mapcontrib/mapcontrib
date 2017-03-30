@@ -9,7 +9,7 @@ export default class Geolocation {
      * @param {object} map - A Leaflet map.
      */
     constructor(map) {
-        this._isDragged = false;
+        this._isMovedByUserAction = false;
         this._isLocateInProgress = false;
         this._hasHeadingMarker = false;
         this._lastAutomaticZoom = null;
@@ -27,7 +27,7 @@ export default class Geolocation {
             this.stopLocate();
         }
 
-        this._isDragged = false;
+        this._isMovedByUserAction = false;
         this._isLocateInProgress = true;
         this._lastAutomaticZoom = null;
 
@@ -57,6 +57,16 @@ export default class Geolocation {
         this._map.stopLocate();
         this._removeEventListeners();
         this._removeMarker();
+    }
+
+    /**
+     * Stops the automatic panning of the map.
+     *
+     * @author Guillaume AMAT
+     * @access public
+     */
+    stopPanning() {
+        this._isMovedByUserAction = true;
     }
 
     /**
@@ -165,7 +175,7 @@ export default class Geolocation {
             fillOpacity: 1,
         });
 
-        if (this._isDragged === false) {
+        if (this._isMovedByUserAction === false) {
             let zoom = this._map.getZoom();
 
             if (!this._lastAutomaticZoom || this._lastAutomaticZoom === zoom) {
@@ -211,7 +221,7 @@ export default class Geolocation {
      * @access private
      */
     _onDragStart() {
-        this._isDragged = true;
+        this._isMovedByUserAction = true;
     }
 
     /**

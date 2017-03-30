@@ -1,9 +1,9 @@
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
-import mkdirp from 'mkdirp';
 import express from 'express';
 import multer from 'multer';
+import logger from '../lib/logger';
 import config from 'config';
 import { basename } from '../public/js/core/utils';
 
@@ -24,11 +24,11 @@ function setOptions(hash) {
 
 function initDirectories(app) {
     if ( !fs.existsSync( config.get('dataDirectory') ) ) {
-        mkdirp.sync(config.get('dataDirectory'));
+        fs.mkdirpSync(config.get('dataDirectory'));
     }
 
     if ( !fs.existsSync( uploadDirectory ) ) {
-        mkdirp.sync(uploadDirectory);
+        fs.mkdirpSync(uploadDirectory);
     }
 
     app.use(
@@ -43,41 +43,102 @@ function initDirectories(app) {
     );
 }
 
+function deleteThemeDirectoryFromFragment(fragment) {
+    const directory = path.resolve(
+        publicDirectory,
+        'files',
+        'theme',
+        fragment
+    );
 
-function cleanThemeFiles(themeModel) {
+    return new Promise((resolve, reject) => {
+        fs.remove(directory, (err) => {
+            if (err) {
+                logger.error(err);
+                return reject(err);
+            }
+
+            return resolve();
+        });
+    });
+}
+
+
+function duplicateFilesFromFragments(oldFragment, newFragment) {
+    const oldDirectory = path.resolve(
+        publicDirectory,
+        'files',
+        'theme',
+        oldFragment
+    );
+    const newDirectory = path.resolve(
+        publicDirectory,
+        'files',
+        'theme',
+        newFragment
+    );
+
+    return new Promise((resolve, reject) => {
+        fs.copy(oldDirectory, newDirectory, (err) => {
+            if (err) {
+                logger.error(err);
+                return reject(err);
+            }
+
+            return resolve();
+        });
+    });
+}
+
+
+function cleanObsoleteLayerFilesInThatDirectory(themeModel, directoryName) {
     const fragment = themeModel.get('fragment');
     const layers = themeModel.get('layers').models;
-    const shapeDirectory = path.resolve(
+    const directory = path.resolve(
         publicDirectory,
-        `files/theme/${fragment}/shape/`
+        `files/theme/${fragment}/${directoryName}/`
     );
-    const re = new RegExp(`^/files/theme/${fragment}/shape/`);
-    const themeFiles = [];
 
-    for (const i in layers) {
-        if ({}.hasOwnProperty.call(layers, i)) {
-            const fileUri = layers[i].get('fileUri');
+    try {
+        fs.statSync(directory);
+    }
+    catch (e) {
+        return false;
+    }
+
+    const re = new RegExp(`^/files/theme/${fragment}/${directoryName}/`);
+    const modelFiles = [];
+
+    for (const layer of layers) {
+            const fileUri = layer.get('fileUri');
 
             if ( fileUri && re.test(fileUri) ) {
-                themeFiles.push(
+                modelFiles.push(
                     basename(fileUri)
                 );
             }
-        }
     }
 
-    fs.readdir(shapeDirectory, (err, fileList) => {
-        for (const i in fileList) {
-            if ({}.hasOwnProperty.call(fileList, i)) {
-                const file = fileList[i];
-                const filePath = path.resolve(shapeDirectory, file);
+    return fs.readdir(directory, (err, directoryFiles) => {
+        if (err) {
+            logger.error(err);
+            return;
+        }
 
-                if ( themeFiles.indexOf(file) === -1 ) {
-                    fs.unlink(filePath);
-                }
+        for (const file of directoryFiles) {
+            const filePath = path.resolve(directory, file);
+
+            if ( modelFiles.indexOf(file) === -1 ) {
+                fs.unlink(filePath);
+                logger.info('The following obsolete file has been removed:', filePath);
             }
         }
     });
+}
+
+function cleanObsoleteLayerFiles(themeModel) {
+    cleanObsoleteLayerFilesInThatDirectory(themeModel, 'shape');
+    cleanObsoleteLayerFilesInThatDirectory(themeModel, 'overPassCache');
 }
 
 
@@ -90,7 +151,7 @@ function uploadFile(req, res, file, directory) {
     let fullPath = `${fullDirectory}/${file.originalname}`;
 
     if ( !fs.existsSync( fullDirectory ) ) {
-        mkdirp.sync( fullDirectory );
+        fs.mkdirpSync( fullDirectory );
     }
 
     while (fs.existsSync(fullPath) === true) {
@@ -111,6 +172,7 @@ function uploadFile(req, res, file, directory) {
             fullPath,
             (err) => {
                 if (err) {
+                    logger.error(err);
                     return reject(err);
                 }
 
@@ -193,6 +255,8 @@ class Api {
 export default {
     setOptions,
     initDirectories,
-    cleanThemeFiles,
+    deleteThemeDirectoryFromFragment,
+    duplicateFilesFromFragments,
+    cleanObsoleteLayerFiles,
     Api,
 };

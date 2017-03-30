@@ -1,10 +1,11 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import leafletControlGeocoder from 'leaflet-control-geocoder';
+import leafletControlGeocoder from 'leaflet-control-geocoder/src';
 import template from 'templates/geocodeWidget.ejs';
 import templateResultItem from 'templates/geocodeResultItem.ejs';
 import CONST from 'const';
+import WidgetUi from 'ui/widget';
 
 
 export default Marionette.LayoutView.extend({
@@ -51,7 +52,7 @@ export default Marionette.LayoutView.extend({
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
 
         this.ui.widget.one('transitionend', () => {
-            this.ui.query.focus();
+            WidgetUi.setFocus(this.ui.query);
         });
     },
 
@@ -151,6 +152,7 @@ export default Marionette.LayoutView.extend({
 
     onGeocodeResultClick(result) {
         this._radio.commands.execute('map:fitBounds', result.bbox);
+        this._radio.vent.trigger('geocode:itemSelected');
 
         this.close();
     },

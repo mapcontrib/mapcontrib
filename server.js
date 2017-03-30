@@ -37,7 +37,6 @@ if (!config.get('client.oauthSecret')) {
 }
 
 
-const MongoStore = connectMongo(session);
 const app = express();
 
 
@@ -56,19 +55,8 @@ app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'views'));
 app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: config.get('salt'),
-    store: new MongoStore({
-        host: config.get('mongodb.host'),
-        port: config.get('mongodb.port'),
-        db: config.get('mongodb.database'),
-    }),
-}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.set('port', config.get('server.port'));
 app.use(morgan('dev'));
@@ -77,6 +65,11 @@ app.use(methodOverride());
 if (app.get('env') !== 'production') {
     app.use(errorHandler());
 }
+
+
+app.get('/theme-s8c2d4', (req, res) => {
+    res.redirect('/t/s8c2d4-MapContrib');
+});
 
 
 const database = new Database();
@@ -88,6 +81,25 @@ database.connect((err, db) => {
         throw err;
     }
 
+    const MongoStore = connectMongo(session);
+    const port = app.get('port');
+
+    app.use(session({
+        resave: true,
+        rolling: true,
+        saveUninitialized: false,
+        unset: 'destroy',
+        secret: config.get('salt'),
+        store: new MongoStore({ db }),
+        cookie: {
+            maxAge: 1000 * 3600 * 24 * 90,
+        },
+    }));
+
+    app.listen(port, () => {
+        logger.info(`MapContrib ${packageJson.version} is up on the port ${port}`);
+    });
+
     // const migrate = new Migrate(db, CONST);
     //
     // migrate.start()
@@ -96,16 +108,4 @@ database.connect((err, db) => {
         api.init(app, db, CONST, packageJson);
     // })
     // .catch(throwError);
-});
-
-
-app.get('/theme-s8c2d4', (req, res) => {
-    res.redirect('/t/s8c2d4-MapContrib');
-});
-
-
-const port = app.get('port');
-
-app.listen(port, () => {
-    logger.info(`MapContrib ${packageJson.version} is up on the port ${port}`);
 });

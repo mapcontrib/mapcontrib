@@ -1,4 +1,5 @@
 
+import logger from '../lib/logger';
 import { spawn } from 'child_process';
 
 
@@ -29,6 +30,7 @@ class Api {
         })
         .toArray((err, results) => {
             if (err) {
+                logger.error(err);
                 return res.sendStatus(500);
             }
 
@@ -37,10 +39,6 @@ class Api {
             }
 
             const theme = results[0];
-
-            if ( !Api.isThemeOwner(req, theme._id.toString()) ) {
-                return res.sendStatus(401);
-            }
 
             for (const i in theme.layers) {
                 if ({}.hasOwnProperty.call(theme.layers, i)) {
@@ -56,19 +54,6 @@ class Api {
 
             return res.sendStatus(404);
         });
-
-        return true;
-    }
-
-
-    static isThemeOwner(req, themeId) {
-        if ( !req.session.user || !req.session.themes ) {
-            return false;
-        }
-
-        if ( req.session.themes.indexOf( themeId ) === -1 ) {
-            return false;
-        }
 
         return true;
     }

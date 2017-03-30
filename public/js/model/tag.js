@@ -51,7 +51,7 @@ export default Backbone.RelationalModel.extend({
         const options = this.get('options');
         const locale = this.get('locales')[localeCode];
         const data = {
-            items: this.localizedAttributes.length + options.length,
+            items: this.localizedAttributes.length,
             completed: 0,
         };
 
@@ -66,6 +66,8 @@ export default Backbone.RelationalModel.extend({
         }
 
         if (this.isComboField()) {
+            data.items += options.length;
+
             for (const option of options) {
                 if (locale.options && locale.options[option]) {
                     data.completed += 1;

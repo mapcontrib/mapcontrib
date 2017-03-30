@@ -10,8 +10,8 @@ node:
     environment:
         - NODE_CONFIG={"mongodb":{"host":"mongo"}}
         - DEBUG
-    ports:
-        - "8080:8080"
+    expose:
+        - "8080"
     links:
         - mongo
     volumes:

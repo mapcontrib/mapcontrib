@@ -39,6 +39,39 @@ describe('Utils', () => {
         });
     });
 
+    describe('formatBytes', () => {
+        it('Should format a file size', () => {
+            assert.equal(
+                utils.formatBytes(0),
+                '0 Byte'
+            );
+            assert.equal(
+                utils.formatBytes(12345),
+                '12.056 KB'
+            );
+            assert.equal(
+                utils.formatBytes(12345, 2),
+                '12.056 KB'
+            );
+            assert.equal(
+                utils.formatBytes(456789123, 0),
+                '435.6 MB'
+            );
+            assert.equal(
+                utils.formatBytes(456789123, 1),
+                '435.63 MB'
+            );
+            assert.equal(
+                utils.formatBytes(456789123, 2),
+                '435.628 MB'
+            );
+            assert.equal(
+                utils.formatBytes(456789123, 4),
+                '435.62805 MB'
+            );
+        });
+    });
+
     describe('uuid', () => {
         it('Should return a well formed uniq ID', () => {
             const expectedType = 'string';

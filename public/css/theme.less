@@ -11,6 +11,15 @@ html, body {
 }
 
 
+/*
+    TODO: Remove that dirty patch when the following issue is fixed:
+    https://github.com/Leaflet/Leaflet/issues/4578
+*/
+.leaflet-fade-anim .leaflet-tile,
+.leaflet-zoom-anim .leaflet-zoom-animated {
+    will-change: auto;
+}
+
 
 #main_map {
     position: fixed;
@@ -88,7 +97,7 @@ html, body {
         position: relative;
         left: 50%;
         transform: translate(-50%, 0);
-        font-size: 16px;
+        font-size: 17px;
         line-height: @titleHeight;
         margin: 0;
         max-width: 100%;
@@ -98,11 +107,20 @@ html, body {
         transition: all ease-out .3s;
     }
 
+    .favorite_btn,
     .description_btn {
         position: fixed;
         top: 0;
-        right: 0;
         padding: 3px 12px 5px 12px;
+        font-size: 15px;
+    }
+
+    .favorite_btn {
+        left: 0;
+    }
+
+    .description_btn {
+        right: 0;
     }
 
     .description {
@@ -371,4 +389,12 @@ body.contribution_cross_visible {
 
 .valign-top {
     vertical-align: top;
+}
+
+
+.checkbox,
+.radio {
+    .info_btn {
+        line-height: 18px;
+    }
 }

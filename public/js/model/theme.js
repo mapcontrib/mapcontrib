@@ -1,7 +1,6 @@
 
 import Backbone from 'backbone';
 import 'backbone-relational';
-import Diacritics from 'diacritic';
 import CONST from '../const';
 
 import LayerCollection from '../collection/layer';
@@ -52,10 +51,16 @@ export default Backbone.RelationalModel.extend({
             creationDate: new Date().toISOString(),
             modificationDate: new Date().toISOString(),
             userId: undefined,
+            fragment: undefined,
             name: 'MapContrib',
             description: '',
             color: 'blue',
-            tiles: ['osm'],
+            tiles: [
+                'osm',
+                'mapboxStreetsSatellite',
+                'watercolor',
+                'osmMonochrome',
+            ],
             zoomLevel: 3,
             autoCenter: false,
             center: {
@@ -137,43 +142,6 @@ export default Backbone.RelationalModel.extend({
         }
 
         return false;
-    },
-
-    /**
-     * Returns a URL-friendly name of the theme.
-     *
-     * @author Guillaume AMAT
-     * @access public
-     * @return string
-     */
-    buildWebLinkName() {
-        let name = this.get('name') || '';
-
-        name = Diacritics.clean(name);
-        name = name.replace(/-/g, '_');
-        name = name.replace(/ /g, '_');
-        name = name.replace(/_{2,}/g, '_');
-        name = name.replace(/[^a-zA-Z0-9_]/g, '');
-
-        return name;
-    },
-
-    /**
-     * Returns the theme path.
-     *
-     * @author Guillaume AMAT
-     * @access public
-     * @return string
-     */
-    buildPath() {
-        const basePath = `/t/${this.get('fragment')}`;
-        const webName = this.buildWebLinkName();
-
-        if (webName) {
-            return `${basePath}-${webName}`;
-        }
-
-        return basePath;
     },
 
     getLocaleCompletion(localeCode) {

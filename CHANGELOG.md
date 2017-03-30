@@ -1,5 +1,145 @@
 # Changelog
 
+# 1.6.1
+
+* Raise the payload limit to 50mb until I figure it more cleanly...
+
+# 1.6.0
+
+* The OSM monochrome, Watercolor and Mapbox street satellite tiles are now enabled by default.
+* All the tiles are always available when clicking on a « display more » button in the tile selection column.
+* The tags displayed in features popup content are no longer put on top of the contribution form.
+* Read-only preset tag values overwrite existing tag values in the contribution form, the checkbox label has been changed to reflect the new behavior.
+* Add some back buttons to columns.
+* And as always, multiple bufixes and enhancement.
+
+# 1.4.6
+
+* Fix a regression introduced in the 1.4.0 version when displaying ways.
+
+# 1.4.5
+
+* Add a npm script to clean the obsolete layer files.
+
+# 1.4.4
+
+* Automatically clean the OverPass cache files when layers are removed.
+
+# 1.4.3
+
+* Update the italian translations.
+
+# 1.4.2
+
+* Update the screenshot for the 1.4 serie.
+* Update the changeset comment, MapContrib is not a prototype anymore.
+
+# 1.4.1
+
+* Patch a Leaflet issue (https://github.com/Leaflet/Leaflet/issues/4578).
+* Fix an issue leading to load the map without any request.
+
+# 1.4.0
+
+* Add the user own themes column.
+* Add the user favorite themes column.
+* Theme creators can now delete their themes.
+* Logged in visitors can create their own themes based on visited ones.
+* Add a proper 404 page (page not found fallback).
+* And as always, multiple bufixes and enhancement.
+
+# 1.2.4
+
+* Enable the remove button on non-osm tags when contributing.
+
+# 1.2.3
+
+* Fix a margin in the preset selection column.
+
+# 1.2.2
+
+* Remove an unnecessary top border on the minimum zoom notification.
+
+# 1.2.1
+
+* Shuffle themes and layers before each OverPass cache generation.
+* Better timeout detection during the OverPass cache genration.
+* Fix the « out of memory » case in the OverPass cache generation.
+
+# 1.2.0
+
+* Display the user/visitor column on the home page.
+* Add some project links in it.
+* Remove the « Create theme » button from the home page as it is now in the new main menu.
+* Add borders to different widgets to ease the navigation.
+
+# 1.0.12
+
+* Set maximum number of tries when the OverPass cron is failing for too many requests.
+
+# 1.0.11
+
+* Complete the Italian translation file.
+* Improve the ownership verification when modifying a theme.
+
+# 1.0.10
+
+* Don't auto scroll at all on large screens.
+* Don't reset the theme model after the main settings column close.
+
+# 1.0.9
+
+* Fix the tags translation progression calculation.
+
+# 1.0.8
+
+* Fix the tags translation edition column.
+
+# 1.0.7
+
+* Upgrade Passport & co.
+* Fix: When no session, the reload method returns an error.
+
+# 1.0.6
+
+* Properly destroy the session when logging out.
+* Set the session cookie maxAge to 90 days.
+* Force the reload of the session when visiting the home and theme pages.
+
+# 1.0.5
+
+* Try to improve the server session handling.
+
+# 1.0.4
+
+* Split the javascript files to optimize their load time.
+* Display a text input for check type fields when the set value is not yes or no.
+* Display a text input for combo type fields when they are empty.
+
+## 1.0.3
+
+* Fix the popup contribution button route.
+
+## 1.0.2
+
+* Fix an undefined variable on race condition.
+
+## 1.0.1
+
+* Fix some font-size.
+
+## 1.0.0
+
+* A brand new tag and preset handling, inluding iD presets.
+* The administrator can ask to not delete POI from the OverPass cache system if they are deleted from OSM (see cache archiving).
+* Heat maps can be created with point based layers.
+* The administrator can now force the use of https on his instance.
+* The columns are a bit larger.
+* Titles and zoom level are a bit bigger too.
+* Change a Mongo request in order to be compatible with Mongo 2.x.
+* Upgrade to Leaflet 1.0.1.
+* And as always, multiple bufixes and enhancement.
+
 ## 0.12.17
 
 * Fix duplicate elements when the layer cache is enabled.

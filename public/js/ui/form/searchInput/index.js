@@ -2,6 +2,8 @@
 import Marionette from 'backbone.marionette';
 import template from './template.ejs';
 import './style.less';
+import WidgetUi from 'ui/widget';
+
 
 export default Marionette.LayoutView.extend({
     template,
@@ -44,12 +46,8 @@ export default Marionette.LayoutView.extend({
         this.off('search:error');
     },
 
-    onRender() {
-        this.setFocus();
-    },
-
     setFocus() {
-        this.ui.input.focus();
+        WidgetUi.setFocus(this.ui.input);
     },
 
     onFocus() {
@@ -79,6 +77,7 @@ export default Marionette.LayoutView.extend({
             this.trigger('notEnoughCharacters', searchString);
         }
         else {
+            this.trigger('search:before', searchString);
             this.showSpinner();
 
             this._timeout = setTimeout(

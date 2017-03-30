@@ -9,7 +9,10 @@
 @import 'shape.less';
 @import 'spinner.less';
 
-
+html, body {
+    height: 100%;
+    margin: 0;
+}
 
 @keyframes appear {
     0% {
@@ -75,6 +78,10 @@
 img {
     max-width: 100%;
     height: auto;
+}
+
+.tooltip-inner {
+    border-radius: 0;
 }
 
 .vertical-align-top {
@@ -169,4 +176,16 @@ img {
 #login_modal .pop {
     width: 500px;
     min-width: auto;
+}
+
+#delete_theme_modal .icon {
+    font-size: 120px;
+    line-height: 120px;
+    color: @lightRed;
+}
+
+#duplicate_theme_modal .fa {
+    font-size: 100px;
+    line-height: 100px;
+    color: @lightAnthracite;
 }

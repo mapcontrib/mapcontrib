@@ -1,7 +1,6 @@
 
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import CONST from 'const';
 import template from 'templates/admin/setting/tile/tileColumn.ejs';
 import templateListItem from 'templates/admin/setting/tile/listItem.ejs';
 
@@ -33,6 +32,7 @@ export default Marionette.LayoutView.extend({
     },
 
     initialize() {
+        this._app = this.options.app;
         this._radio = Wreqr.radio.channel('global');
 
         this._oldModel = this.model.clone();
@@ -58,10 +58,11 @@ export default Marionette.LayoutView.extend({
         let html = '';
         let maxZoom = '';
         const tiles = this.model.get('tiles');
+        const appTiles = this._app.getTiles();
 
-        for (const id in CONST.map.tiles) {
-            if ({}.hasOwnProperty.call(CONST.map.tiles, id)) {
-                tile = CONST.map.tiles[id];
+        for (const id in appTiles) {
+            if ({}.hasOwnProperty.call(appTiles, id)) {
+                tile = appTiles[id];
 
                 if (!tile) {
                     continue;
@@ -122,8 +123,6 @@ export default Marionette.LayoutView.extend({
         this.model.save({}, {
             success: () => {
                 this._oldModel = this.model.clone();
-
-                this._radio.commands.execute('map:setTileLayer', tiles[0]);
 
                 this.close();
             },

@@ -1,5 +1,4 @@
 
-import $ from 'jquery';
 import Backbone from 'backbone';
 import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
@@ -9,9 +8,8 @@ import TagModel from 'model/tag';
 import PresetModel from 'model/preset';
 import PresetCategoryModel from 'model/presetCategory';
 
-import ThemeRootView from 'view/themeRoot';
-
-import AboutModal from 'view/modal/about';
+import DeleteThemeModal from 'view/deleteThemeModal';
+import DuplicateThemeModal from 'view/duplicateThemeModal';
 
 import SelectLayerColumn from 'view/select/layer/layerColumn';
 import SelectTileColumn from 'view/select/tileColumn';
@@ -21,8 +19,6 @@ import InfoGpxLayerColumn from 'view/info/layer/gpxColumn';
 import InfoCsvLayerColumn from 'view/info/layer/csvColumn';
 import InfoGeoJsonLayerColumn from 'view/info/layer/geoJsonColumn';
 
-import UserColumn from 'view/userColumn';
-import VisitorColumn from 'view/visitorColumn';
 import LinkColumn from 'view/linkColumn';
 
 import TempLayerColumn from 'view/tempLayer/layerColumn';
@@ -42,6 +38,9 @@ import ContributeEditFormColumn from 'view/contribute/edit/formColumn';
 import AdminSettingMenuColumn from 'view/admin/setting/menuColumn';
 import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
 import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
+import AdminSettingCacheArchiveColumn from 'view/admin/setting/cacheArchive/mainColumn';
+import AdminSettingCacheArchiveSeeArchivesColumn from 'view/admin/setting/cacheArchive/archiveColumn';
+import AdminSettingCacheArchiveDetailColumn from 'view/admin/setting/cacheArchive/detailColumn';
 
 import AdminLayerColumn from 'view/admin/layer/layerColumn';
 import AdminLayerAddMenuColumn from 'view/admin/layer/addMenuColumn';
@@ -77,7 +76,6 @@ export default Backbone.Router.extend({
         'info/layer/:uuid': 'routeInfoLayer',
         'select/tile': 'routeSelectTile',
 
-        user: 'routeUser',
         link: 'routeLink',
 
         'temp/layer': 'routeTempLayer',
@@ -102,6 +100,9 @@ export default Backbone.Router.extend({
         'admin/setting': 'routeAdminSettingMenu',
         'admin/setting/main': 'routeAdminSettingMain',
         'admin/setting/tile': 'routeAdminSettingTile',
+        'admin/setting/cache-archive': 'routeAdminSettingCacheArchive',
+        'admin/setting/cache-archive/archives': 'routeAdminSettingCacheArchiveSeeArchives',
+        'admin/setting/cache-archive/:layerUuid/*osmId': 'routeAdminSettingCacheArchiveDetail',
 
         'admin/layer': 'routeAdminLayer',
         'admin/layer/new': 'routeAdminLayerNew',
@@ -132,8 +133,9 @@ export default Backbone.Router.extend({
         'admin/locale/:locale/preset/edit/:uuid': 'routeAdminLocalePresetEdit',
         'admin/locale/:locale/preset/category/edit/:uuid': 'routeAdminLocalePresetCategoryEdit',
 
-        about: 'routeAbout',
-        logout: 'routeLogout',
+        'delete-theme': 'routeDeleteTheme',
+        'duplicate-theme': 'routeDuplicateTheme',
+
         oups: 'routeOups',
     },
 
@@ -148,10 +150,6 @@ export default Backbone.Router.extend({
         this._tempLayerCollection = this._app.getTempLayerCollection();
         this._radio = Wreqr.radio.channel('global');
         this._previousRoute = '';
-
-        this._app.getRegion('root').show(
-            new ThemeRootView({ app: this._app })
-        );
 
         this.on('route', this._setPreviousRoute);
     },
@@ -171,20 +169,6 @@ export default Backbone.Router.extend({
     },
 
     routeOups() {
-    },
-
-    routeLogout() {
-        $.ajax({
-            type: 'GET',
-            url: `${CONST.apiPath}/user/logout`,
-            dataType: 'json',
-            context: this,
-            complete: () => {
-                this.navigate('');
-
-                this._radio.vent.trigger('session:unlogged');
-            },
-        });
     },
 
     routeMapPosition(zoom, lat, lng) {
@@ -237,31 +221,8 @@ export default Backbone.Router.extend({
     routeSelectTile() {
         new SelectTileColumn({
             router: this,
+            app: this._app,
             model: this._theme,
-        }).open();
-    },
-
-    routeUser() {
-        if ( this._app.isLogged() ) {
-            new UserColumn({
-                router: this,
-                model: this._theme,
-            }).open();
-        }
-        else {
-            new VisitorColumn({
-                router: this,
-                model: this._theme,
-            }).open();
-        }
-    },
-
-    routeAbout() {
-        const version = this._app.getVersion();
-
-        new AboutModal({
-            routeOnClose: this._previousRoute,
-            version,
         }).open();
     },
 
@@ -274,11 +235,6 @@ export default Backbone.Router.extend({
 
 
     routeTempLayer() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerColumn({
             router: this,
             collection: this._tempLayerCollection,
@@ -287,11 +243,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNew() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerAddMenuColumn({
             router: this,
             model: this._theme,
@@ -301,11 +252,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNewOverPass() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerEditOverPassColumn({
             router: this,
             theme: this._theme,
@@ -320,11 +266,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNewGpx() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerEditGpxColumn({
             router: this,
             theme: this._theme,
@@ -339,11 +280,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNewCsv() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerEditCsvColumn({
             router: this,
             theme: this._theme,
@@ -358,11 +294,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerNewGeoJson() {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         new TempLayerEditGeoJsonColumn({
             router: this,
             theme: this._theme,
@@ -377,11 +308,6 @@ export default Backbone.Router.extend({
     },
 
     routeTempLayerEdit(uuid) {
-        if (!this._userIsOwnerOfTheme()) {
-            this.navigate('');
-            return;
-        }
-
         const model = this._tempLayerCollection.findWhere({ uuid });
 
         if (model) {
@@ -440,6 +366,7 @@ export default Backbone.Router.extend({
         new ContributeAddPresetSelectionColumn({
             router: this,
             config: this._config,
+            app: this._app,
             theme: this._theme,
             center: { lat, lng },
             iDPresetsHelper: this._iDPresetsHelper,
@@ -521,6 +448,7 @@ export default Backbone.Router.extend({
         new ContributeEditPresetSelectionColumn({
             router: this,
             config: this._config,
+            app: this._app,
             theme: this._theme,
             osmId: parseInt(osmId, 10),
             osmType,
@@ -626,6 +554,7 @@ export default Backbone.Router.extend({
         new AdminSettingMenuColumn({
             router: this,
             model: this._theme,
+            config: this._config,
         }).open();
     },
 
@@ -637,6 +566,7 @@ export default Backbone.Router.extend({
 
         new AdminSettingMainColumn({
             router: this,
+            app: this._app,
             model: this._theme,
         }).open();
     },
@@ -649,7 +579,68 @@ export default Backbone.Router.extend({
 
         new AdminSettingTileColumn({
             router: this,
+            app: this._app,
             model: this._theme,
+        }).open();
+    },
+
+    routeAdminSettingCacheArchive() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminSettingCacheArchiveColumn({
+            router: this,
+            model: this._theme,
+        }).open();
+    },
+
+    routeAdminSettingCacheArchiveSeeArchives() {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminSettingCacheArchiveSeeArchivesColumn({
+            router: this,
+            model: this._theme,
+            routeOnClose: 'admin/setting/cache-archive',
+            triggerRouteOnClose: true,
+        }).open();
+    },
+
+    routeAdminSettingCacheArchiveDetail(layerUuid, osmId) {
+        if (!this._userIsOwnerOfTheme()) {
+            this.navigate('');
+            return;
+        }
+
+        const layerModel = this._theme.get('layers').findWhere({
+            uuid: layerUuid,
+        });
+
+        if (!layerModel) {
+            this.navigate('');
+            return;
+        }
+
+        const features = layerModel.get('cacheDeletedFeatures').filter(
+            feature => feature.id === osmId
+        );
+
+        if (features.length === 0) {
+            this.navigate('');
+            return;
+        }
+
+        new AdminSettingCacheArchiveDetailColumn({
+            router: this,
+            theme: this._theme,
+            model: layerModel,
+            deletedFeature: features[0],
+            routeOnClose: this._previousRoute,
+            triggerRouteOnClose: true,
         }).open();
     },
 
@@ -1125,5 +1116,19 @@ export default Backbone.Router.extend({
         else {
             this.navigate(`admin/locale/${locale}/preset`, true);
         }
+    },
+
+    routeDeleteTheme() {
+        new DeleteThemeModal({
+            model: this._theme,
+            routeOnClose: this._previousRoute,
+        }).open();
+    },
+
+    routeDuplicateTheme() {
+        new DuplicateThemeModal({
+            model: this._theme,
+            routeOnClose: this._previousRoute,
+        }).open();
     },
 });

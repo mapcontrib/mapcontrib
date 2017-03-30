@@ -4,6 +4,7 @@ import MapUi from 'ui/map';
 import GeoUtils from 'core/geoUtils';
 import listItemTemplate from './listItem.ejs';
 import Locale from 'core/locale';
+import ThemeCore from 'core/theme';
 
 
 export default Marionette.ItemView.extend({
@@ -27,7 +28,10 @@ export default Marionette.ItemView.extend({
 
         return {
             name,
-            href: this.model.buildPath(),
+            href: ThemeCore.buildPath(
+                this.model.get('fragment'),
+                this.model.get('name')
+            ),
             z: zoomLevel,
             x1: pos[0],
             y1: pos[1],
