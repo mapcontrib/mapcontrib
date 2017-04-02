@@ -1,10 +1,10 @@
 [![Build Status](https://api.travis-ci.org/MapContrib/MapContrib.svg?branch=develop)](http://travis-ci.org/MapContrib/MapContrib)
 
-# ![MapContrib](logo.png)
+# ![MapContrib](https://github.com/MapContrib/MapContrib/raw/master/logo.png)
 
 > Thematic OpenStreetMap contribution
 
-[![MapContrib](screenshot.png)](https://www.mapcontrib.xyz)
+[![MapContrib](https://github.com/MapContrib/MapContrib/raw/master/screenshot.png)](https://www.mapcontrib.xyz)
 
 
 ## Links
