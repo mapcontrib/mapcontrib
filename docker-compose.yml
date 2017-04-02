@@ -1,20 +1,22 @@
-mongo:
-    image: mongo:2.6.11
-    expose:
-        - "27017"
-    volumes:
-        - ./volumes/mongo:/data/db
+version: '2'
+services:
+    mongo:
+        image: mongo:2.6.11
+        expose:
+            - "27017"
+        volumes:
+            - ./volumes/mongo:/data/db
 
-node:
-    image: node:6-slim
-    environment:
-        - NODE_CONFIG={"mongodb":{"host":"mongo"}}
-        - DEBUG
-    expose:
-        - "8080"
-    links:
-        - mongo
-    volumes:
-        - ./:/data
-    working_dir: /data
-    command: npm run start-from-docker
+    node:
+        image: node:6-slim
+        environment:
+            - NODE_CONFIG={"mongodb":{"host":"mongo"}}
+            - DEBUG
+        expose:
+            - "8080"
+        volumes:
+            - ./:/data
+        working_dir: /data
+        command: npm run start-from-docker
+        depends_on:
+          - mongo
