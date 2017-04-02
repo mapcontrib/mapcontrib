@@ -4,12 +4,15 @@
 
 > Thematic OpenStreetMap contribution
 
-![MapContrib](screenshot.png)
+[![MapContrib](screenshot.png)](https://www.mapcontrib.xyz)
 
-## Informations
 
+## Links
+
+* [MapContrib main instance](https://mapcontrib.xyz)
 * [Blog](https://blog.mapcontrib.xyz)
 * [Documentation](http://wiki.openstreetmap.org/wiki/MapContrib)
+* [Technical documentation](https://github.com/MapContrib/MapContrib/wiki)
 
 
 ## Contribution
@@ -19,56 +22,11 @@ Informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUT
 
 ## Installation
 
-```
-$ git clone https://github.com/MapContrib/MapContrib.git
-$ cd MapContrib
-$ yarn install
-$ yarn run build
-$ yarn test
-```
+Both installation methods are explained in the technical wiki:
 
-It will install all the dependancies and test the code.
+* [Install MapContrib with the Docker image](https://github.com/MapContrib/MapContrib/wiki/Install-MapContrib-with-the-Docker-image)
+* [Install MapContrib with source files](https://github.com/MapContrib/MapContrib/wiki/Install-MapContrib-with-source-files)
 
-
-## OpenStreetMap tokens
-
-In order to let the users log in, you have to register a new app on [osm.org](https://openstreetmap.org). When done, you will have two tokens to put in a new `config/local.yml` file (manual copy of `config/default.yml`).
-
-
-## Launch the server
-
-By default the application will be available at [http://localhost:8080](http://localhost:8080).
-
-### Docker Compose
-
-#### Launch
-
-To launch the Node.js based server.
-
-```
-$ docker-compose up
-```
-
-MongoDB is rather slow to create the database files the first time... The Node.js container will surely break.
-Just wait a few seconds and rerun the up command.
-
-
-### Manual
-
-#### Configuration
-
-You can create your own configuration file by picking some sections from the `config/default.yml` file.
-
-For example, MapContrib uses MongoDB to store data. By default, it will try to connect to a localhost running MongoDB.
-If you want to use a MongoDB server on another host/port/whatever, create a `config/local.yml` file by picking the mongodb section of the `config/default.yml` file and adapt the configuration.
-
-#### Launch
-
-To launch the Node.js based server.
-
-```
-$ npm start
-```
 
 ## Thanks
 
