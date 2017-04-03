@@ -1,3 +1,5 @@
+[![GitHub release](https://img.shields.io/github/release/MapContrib/MapContrib.svg)](https://github.com/MapContrib/MapContrib/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://api.travis-ci.org/MapContrib/MapContrib.svg?branch=develop)](http://travis-ci.org/MapContrib/MapContrib)
 
 # ![MapContrib](https://github.com/MapContrib/MapContrib/raw/master/logo.png)
