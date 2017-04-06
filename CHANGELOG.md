@@ -1,5 +1,13 @@
 # Changelog
 
+# 1.7.1
+
+* Move to Docker Cloud for automated Docker image build.
+* Add a link to the official Docker image to the README (useful links section).
+* Add a script to build local Docker images.
+* Set the production port to 80.
+
+
 # 1.7.0
 
 * An official MapContrib Docker image is now available on the Docker Hub!
