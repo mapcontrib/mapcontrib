@@ -9,10 +9,11 @@
 [![MapContrib](https://github.com/MapContrib/MapContrib/raw/master/screenshot.png)](https://www.mapcontrib.xyz)
 
 
-## Links
+## Useful links
 
 * [MapContrib main instance](https://mapcontrib.xyz)
 * [Blog](https://blog.mapcontrib.xyz)
+* [Docker official image](https://hub.docker.com/r/mapcontrib/mapcontrib/)
 * [Documentation](http://wiki.openstreetmap.org/wiki/MapContrib)
 * [Technical documentation](https://github.com/MapContrib/MapContrib/wiki)
 
