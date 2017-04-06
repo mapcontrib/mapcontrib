@@ -7,3 +7,5 @@ npm-debug.log
 
 /config/local.yml
 *bundle.*
+
+docker-compose.override.yml

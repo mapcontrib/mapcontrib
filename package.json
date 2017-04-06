@@ -1,6 +1,6 @@
 {
   "description": "MapContrib",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "license": "MIT",
   "author": {
     "name": "Guillaume AMAT",
@@ -21,7 +21,6 @@
     "npm": "^3.10.8"
   },
   "scripts": {
-    "init": "babel-node init.js",
     "start": "cross-env NODE_ENV=production babel-node server.js",
     "debug": "babel-node debug server.js",
     "start-from-docker": "babel-node server.js",
