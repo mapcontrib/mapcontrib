@@ -2,6 +2,8 @@ FROM node:5
 
 RUN apt-get update && apt-get -y install mongodb mongodb-server mongodb-clients
 
+RUN ls -l /
+WORKDIR /app
 RUN npm install
 RUN npm run build
 
