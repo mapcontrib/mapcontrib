@@ -4,15 +4,6 @@ logLevel: warn
 
 salt: '/m<gkZCXr44_={Zr/=64]ojGhAL;m/q>*@";[Eo,8C<Lht^`WiC$WSP4R,a]eozd~aTG^7'
 
-server:
-    port: 8080
-
-mongodb:
-    host: localhost
-    port: 27017
-    database: mapcontrib
-    poolSize: 1
-
 dataDirectory: public/files
 
 analyticScript: >
@@ -20,6 +11,15 @@ analyticScript: >
 
 forceHttps: false
 
+
+mongodb:
+    host: localhost
+    port: 27017
+    database: mapcontrib
+    poolSize: 1
+
+server:
+    port: 8080
 
 client:
     oauthEndPoint: https://api.openstreetmap.org
