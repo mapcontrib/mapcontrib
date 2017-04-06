@@ -13,12 +13,11 @@ RUN mv MapContrib-master /mapcontrib
 WORKDIR /mapcontrib
 RUN npm install
 RUN npm run build
+RUN chmod +x docker/entrypoint.sh
 
 
 EXPOSE 80
 VOLUME ./public/files
 
 
-COPY /mapcontrib/docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-CMD ["/entrypoint.sh"]
+CMD ["/mapcontrib/docker/entrypoint.sh"]
