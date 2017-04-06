@@ -2,8 +2,9 @@ FROM node:5
 
 RUN apt-get update && apt-get -y install mongodb mongodb-server mongodb-clients
 
-RUN ls -l /
-WORKDIR /app
+ADD . /mapcontrib
+RUN ls -l /mapcontrib
+WORKDIR /mapcontrib
 RUN npm install
 RUN npm run build
 
