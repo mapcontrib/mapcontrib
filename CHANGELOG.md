@@ -1,12 +1,16 @@
 # Changelog
 
+# 1.7.2
+
+* Remove the production config.
+* Fix the Dockerfile volumes.
+
 # 1.7.1
 
 * Move to Docker Cloud for automated Docker image build.
 * Add a link to the official Docker image to the README (useful links section).
 * Add a script to build local Docker images.
 * Set the production port to 80.
-
 
 # 1.7.0
 
