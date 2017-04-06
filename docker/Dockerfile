@@ -19,6 +19,6 @@ EXPOSE 80
 VOLUME ./public/files
 
 
-COPY docker/entrypoint.sh /entrypoint.sh
+COPY /mapcontrib/docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 CMD ["/entrypoint.sh"]
