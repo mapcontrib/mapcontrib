@@ -1,24 +1,17 @@
 FROM node:5
 
-
 RUN apt-get update && apt-get -y install mongodb mongodb-server mongodb-clients
 
-
-WORKDIR /tmp
-ADD https://github.com/MapContrib/MapContrib/archive/master.tar.gz .
-RUN tar -zxf master.tar.gz
-RUN mv MapContrib-master /mapcontrib
-
+ADD . /mapcontrib
 
 WORKDIR /mapcontrib
 RUN npm install
 RUN npm run build
 
-
-EXPOSE 80
-VOLUME ./public/files
-
-
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+EXPOSE 80
+VOLUME public/files
+
 CMD ["/entrypoint.sh"]
