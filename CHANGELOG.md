@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.7.3
+
+* Update the italian translations (thanks @napo!)
+* Fix the theme localization feature.
+
 # 1.7.2
 
 * Remove the production config.
