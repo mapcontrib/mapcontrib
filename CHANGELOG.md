@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.7.5
+
+* Use fs.move instead of fs.rename to fix Docker related issue when moving a file accross fs devices.
+
 # 1.7.4
 
 * Migrate the Docker image base from node:5 to node:6-slim.
