@@ -21,6 +21,8 @@ export default class InfoDisplay {
             return '';
         }
 
+        content = MarkedHelper.render(content);
+
         if ( layerModel.get('type') === CONST.layerType.overpass) {
             data = feature.properties.tags;
         }
@@ -63,6 +65,6 @@ export default class InfoDisplay {
 
         content = content.replace( /\{(.*?)\}/g, '' );
 
-        return MarkedHelper.render(content);
+        return content;
     }
 }

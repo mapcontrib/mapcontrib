@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.7.6
+
+* Fix a conflict between Markdown and OSM elements attributes in some cases.
+
 # 1.7.5
 
 * Use fs.move instead of fs.rename to fix Docker related issue when moving a file accross fs devices.
