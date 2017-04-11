@@ -167,7 +167,7 @@ function uploadFile(req, res, file, directory) {
     }
 
     return new Promise((resolve, reject) => {
-        fs.rename(
+        fs.move(
             file.path,
             fullPath,
             (err) => {
