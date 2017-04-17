@@ -3,6 +3,7 @@
 # 1.7.7
 
 * Display the localized version of the popup content.
+* Sort the users theme by creation date.
 
 # 1.7.6
 
