@@ -48,6 +48,7 @@
 
 
 
+<osmId "Identifiant OSM">
 <overPassCacheArchives "Archives du cache OverPass">
 <overPassCacheArchives_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été supprimés d'OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Aucun POI archivés">
