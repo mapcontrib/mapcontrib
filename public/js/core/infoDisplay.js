@@ -1,5 +1,6 @@
 
 import MarkedHelper from 'helper/marked';
+import Locale from 'core/locale';
 import CONST from 'const';
 
 export default class InfoDisplay {
@@ -14,7 +15,7 @@ export default class InfoDisplay {
      * @returns {string}
      */
     static buildContent(layerModel, feature, nonOsmTags) {
-        let content = layerModel.get('popupContent');
+        let content = Locale.getLocalized(layerModel, 'popupContent');
         let data;
 
         if ( !content ) {

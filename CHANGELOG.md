@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.7.7
+
+* Display the localized version of the popup content.
+* Sort the users theme by creation date.
+
 # 1.7.6
 
 * Fix a conflict between Markdown and OSM elements attributes in some cases.

@@ -353,6 +353,7 @@ class Api {
                     { owners: userSession._id },
                 ],
             })
+            .sort({ creationDate: -1 })
             .toArray((err, results) => {
                 if (err) {
                     logger.error(err);
