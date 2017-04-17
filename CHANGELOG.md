@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.7.8
+
+* Display the OSM ID of the archived elements in the archive column.
+
 # 1.7.7
 
 * Display the localized version of the popup content.

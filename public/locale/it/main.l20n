@@ -22,7 +22,7 @@
 <maxFileSize "La dimensione del file deve essere inferiore a {{ $maxFileSize }}">
 
 
-<buttonFavoriteTooltip "Aggiungi questo tema fra i favoriti nel segnalibro"> 
+<buttonFavoriteTooltip "Aggiungi questo tema fra i favoriti nel segnalibro">
 <buttonDescriptionTooltip "Leggi la descrizione">
 <buttonZoomInTooltip title:"Ingrandisci">
 <buttonZoomOutTooltip title:"Diminuisci">
@@ -48,6 +48,7 @@
 
 
 
+<osmId "OSM ID"> /* FIXME */
 <overPassCacheArchives "archivio cache di OverPass">
 <overPassCacheArchives_explanation "Questi POI sono nella tua cacche dei livelli OverPass ma saranno rimossi da OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Nessun POI archiviato">
@@ -176,7 +177,7 @@
 
 /* Tile column */
 <selectTileColumn_title "Sfondi">
-<selectTileColumn_displayMoreTiles "Visualliza altri sfondi"> 
+<selectTileColumn_displayMoreTiles "Visualliza altri sfondi">
 
 /* User column */
 <userColumn_title "Il mio account">
