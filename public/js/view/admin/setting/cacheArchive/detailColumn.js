@@ -35,6 +35,12 @@ export default Marionette.LayoutView.extend({
         this._radio = Wreqr.radio.channel('global');
     },
 
+    templateHelpers() {
+        return {
+            osmId: this.options.deletedFeature.id,
+        };
+    },
+
     onBeforeOpen() {
         this._radio.vent.trigger('column:closeAll', [ this.cid ]);
         this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
