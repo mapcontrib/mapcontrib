@@ -7,7 +7,7 @@ import format from 'math.format';
 
 export default class Locale {
     static getLocale() {
-        let locale = currentLocale().substr(0, 2);
+        let locale = currentLocale({ fallbackLocale: 'en' }).substr(0, 2);
 
         if (CONST.availableLocales.indexOf(locale) === -1) {
             locale = 'en';
