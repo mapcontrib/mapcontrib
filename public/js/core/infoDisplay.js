@@ -14,7 +14,7 @@ export default class InfoDisplay {
      * @param {boolean} feature - Is the user logged?
      * @returns {string}
      */
-    static buildContent(layerModel, feature, nonOsmTags) {
+    static buildContent(themeModel, layerModel, feature, nonOsmTags) {
         let content = Locale.getLocalized(layerModel, 'popupContent');
         let data;
 
@@ -44,24 +44,31 @@ export default class InfoDisplay {
             feature.properties.type
         );
 
-        for (const i in nonOsmTags) {
-            if ({}.hasOwnProperty.call(nonOsmTags, i)) {
-                const tag = nonOsmTags[i];
+        for (const i of Object.keys(nonOsmTags)) {
+            const tag = nonOsmTags[i];
+            const localizedValue = Locale.findLocalizedTagValue(
+                themeModel.get('tags').models,
+                tag.key,
+                tag.value
+            );
 
-                content = content.replace(
-                    new RegExp(`{${tag.key}}`, 'g'),
-                    tag.value
-                );
-            }
+            content = content.replace(
+                new RegExp(`{${tag.key}}`, 'g'),
+                localizedValue
+            );
         }
 
-        for (const k in data) {
-            if ({}.hasOwnProperty.call(data, k)) {
-                content = content.replace(
-                    new RegExp(`{${k}}`, 'g'),
-                    data[k]
-                );
-            }
+        for (const k of Object.keys(data)) {
+            const localizedValue = Locale.findLocalizedTagValue(
+                themeModel.get('tags').models,
+                k,
+                data[k]
+            );
+
+            content = content.replace(
+                new RegExp(`{${k}}`, 'g'),
+                localizedValue
+            );
         }
 
         content = content.replace( /\{(.*?)\}/g, '' );
