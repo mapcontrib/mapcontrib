@@ -150,7 +150,7 @@ export default class Locale {
     static findLocalizedTagValue(customTags, key, optionName) {
         const options = Locale.findLocalizedOptions(customTags, key);
 
-        return options[optionName] ? options[optionName] : optionName;
+        return options[optionName] || optionName;
     }
 
     static findLocalizedOptions(customTags, key) {
