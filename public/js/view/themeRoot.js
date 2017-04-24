@@ -161,9 +161,7 @@ export default Marionette.LayoutView.extend({
                 this.model.updateModificationDate();
                 this.model.save();
             },
-            'map:position': (zoom, lat, lng) => {
-                this.setMapPosition( zoom, lat, lng );
-            },
+            'map:position': (zoom, lat, lng) => this.setMapPosition( zoom, lat, lng ),
             'map:setTileLayer': (tileId) => {
                 this.setTileLayer( tileId );
             },
@@ -435,7 +433,10 @@ export default Marionette.LayoutView.extend({
     },
 
     setMapPosition(zoom, lat, lng) {
-        this._map.setView([lat, lng], zoom);
+        if (this._map) {
+            return this._map.setView([lat, lng], zoom);
+        }
+        return false;
     },
 
     getTileChangesetAttribution() {
