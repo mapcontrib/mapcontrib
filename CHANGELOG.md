@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.7.9
+
+* Invert the tiles load order.
+* Quick fix in the theme loading when setting the position by the url.
+
 # 1.7.8
 
 * Display the OSM ID of the archived elements in the archive column.
