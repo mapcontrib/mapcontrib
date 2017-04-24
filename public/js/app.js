@@ -78,8 +78,8 @@ export default Marionette.Application.extend({
             );
 
             this._tiles = {
-                ...this._config.customTiles,
                 ...CONST.map.tiles,
+                ...this._config.customTiles,
             };
 
             if (MAPCONTRIB.user) {
