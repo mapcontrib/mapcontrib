@@ -147,6 +147,22 @@ export default class Locale {
         return model.get(attributeName);
     }
 
+    static findLocalizedTagValue(customTags, key, optionName) {
+        const options = Locale.findLocalizedOptions(customTags, key);
+
+        return options[optionName] || optionName;
+    }
+
+    static findLocalizedOptions(customTags, key) {
+        for (const customTag of customTags) {
+            if (customTag.get('key') === key) {
+                return Locale.getLocalizedOptions(customTag);
+            }
+        }
+
+        return {};
+    }
+
     static getLocalizedOptions(model) {
         const locale = Locale.getLocale();
         const options = model.get('options');

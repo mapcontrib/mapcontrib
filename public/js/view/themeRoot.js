@@ -1135,6 +1135,7 @@ export default Marionette.LayoutView.extend({
             osmType: feature.properties.type,
         });
         const content = InfoDisplay.buildContent(
+            this.model,
             layerModel,
             feature,
             nonOsmData ? nonOsmData.get('tags') : [],
@@ -1526,6 +1527,7 @@ export default Marionette.LayoutView.extend({
             osmType: layer.feature.properties.type,
         });
         const content = InfoDisplay.buildContent(
+            this.model,
             layer._layerModel,
             layer.feature,
             nonOsmData ? nonOsmData.get('tags') : [],
