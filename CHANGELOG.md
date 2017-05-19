@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.7.10
+
+* Display the localized version of the tag value in popup content.
+
+
 # 1.7.9
 
 * Invert the tiles load order.
