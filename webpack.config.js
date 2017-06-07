@@ -123,6 +123,18 @@ module.exports = {
                 exclude: /img/,
                 loader: 'file?mimetype=image/svg+xml&name=../assets/[name].[ext]',
             },
+            {
+                test: require.resolve('jquery'),
+                loader: 'expose-loader?$!expose-loader?jQuery',
+            },
+            {
+                test: require.resolve('underscore'),
+                loader: 'expose-loader?_',
+            },
+            {
+                test: require.resolve('leaflet'),
+                loader: 'expose-loader?L',
+            },
         ],
     },
 };

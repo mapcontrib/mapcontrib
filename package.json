@@ -1,6 +1,6 @@
 {
   "description": "MapContrib",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "license": "MIT",
   "author": {
     "name": "Guillaume AMAT",
@@ -78,6 +78,7 @@
     "ejs-loader": "^0.2.1",
     "errorhandler": "^1.1.1",
     "exports-loader": "^0.6.3",
+    "expose-loader": "^0.7.3",
     "express": "^4.8.0",
     "express-https-redirect": "^1.0.0",
     "express-session": "^1.7.2",
