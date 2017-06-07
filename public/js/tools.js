@@ -3,7 +3,8 @@ import $ from 'jquery';
 import _ from 'underscore';
 
 
-window.jQuery = window.$ = $;
+window.jQuery = $;
+window.$ = $;
 window._ = _;
 
 

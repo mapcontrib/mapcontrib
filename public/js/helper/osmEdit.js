@@ -396,7 +396,7 @@ export default class OsmEdit {
                         for (const i in ndElements) {
                             if ({}.hasOwnProperty.call(ndElements, i)) {
                                 this._element.nodes.push(
-                                    ndElements[i].getAttribute('ref'),
+                                    ndElements[i].getAttribute('ref')
                                 );
                             }
                         }

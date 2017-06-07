@@ -5,7 +5,7 @@ import ContribNodeTagsListView from 'ui/form/contribNodeTags';
 import ContributionErrorNotificationView from 'view/contributionErrorNotification';
 import template from 'templates/contribute/add/formColumn.ejs';
 import osmAuth from 'osm-auth';
-import OsmEditHelper from 'helper/osmEdit.js';
+import OsmEditHelper from 'helper/osmEdit';
 import LayerModel from 'model/layer';
 import NonOsmDataModel from 'model/nonOsmData';
 import OsmCacheModel from 'model/osmCache';

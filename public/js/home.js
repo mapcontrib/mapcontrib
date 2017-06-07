@@ -1,7 +1,7 @@
 
-import App from './app';
 import Router from 'router/home';
 import HomeRootView from 'view/homeRoot';
+import App from './app';
 import '../css/home.less';
 
 

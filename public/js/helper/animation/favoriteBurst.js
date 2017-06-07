@@ -45,7 +45,8 @@ export default class FavoriteBurst {
             },
             onUpdate: (progress) => {
                 const scaleProgress = scaleCurve(progress);
-                iconElement.style.WebkitTransform = iconElement.style.transform = `scale3d(${scaleProgress}, ${scaleProgress}, 1)`;
+                iconElement.style.WebkitTransform = `scale3d(${scaleProgress}, ${scaleProgress}, 1)`;
+                iconElement.style.transform = iconElement.style.WebkitTransform;
             },
         });
 

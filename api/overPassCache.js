@@ -1,6 +1,6 @@
 
-import logger from '../lib/logger';
 import { spawn } from 'child_process';
+import logger from '../lib/logger';
 
 
 let options = {

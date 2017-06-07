@@ -1,6 +1,6 @@
 
-import logger from '../lib/logger';
 import { ObjectID } from 'mongodb';
+import logger from '../lib/logger';
 import NonOsmDataModel from '../public/js/model/nonOsmData';
 
 

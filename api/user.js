@@ -1,6 +1,6 @@
 
-import logger from '../lib/logger';
 import { ObjectID } from 'mongodb';
+import logger from '../lib/logger';
 import UserModel from '../public/js/model/user';
 
 

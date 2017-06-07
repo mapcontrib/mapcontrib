@@ -7,7 +7,7 @@ import ContributionErrorNotificationView from 'view/contributionErrorNotificatio
 import ContributeAddPositionContextual from 'view/contribute/edit/positionContextual';
 import template from 'templates/contribute/edit/formColumn.ejs';
 import osmAuth from 'osm-auth';
-import OsmEditHelper from 'helper/osmEdit.js';
+import OsmEditHelper from 'helper/osmEdit';
 import NonOsmDataModel from 'model/nonOsmData';
 import OsmCacheModel from 'model/osmCache';
 import PresetsHelper from 'helper/presets';
@@ -176,7 +176,7 @@ export default Marionette.LayoutView.extend({
             if ( this._osmEdit.getType() === 'node' ) {
                 this._oldLatLng = L.latLng(
                     this._osmEdit.getLatitude(),
-                    this._osmEdit.getLongitude(),
+                    this._osmEdit.getLongitude()
                 );
                 this.ui.moveSection.removeClass('hide');
             }

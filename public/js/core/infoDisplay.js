@@ -37,32 +37,32 @@ export default class InfoDisplay {
         if (feature.properties.id) {
             content = content.replace(
                 new RegExp('{id}', 'g'),
-                feature.properties.id,
+                feature.properties.id
             );
         }
 
         if (feature.properties.type) {
             content = content.replace(
                 new RegExp('{@?type}', 'g'),
-                feature.properties.type,
+                feature.properties.type
             );
         }
 
         if (feature.id) {
             content = content.replace(
                 new RegExp('{@id}', 'g'),
-                feature.id,
+                feature.id
             );
         }
 
         content = content.replace(
             new RegExp('{@lat}', 'g'),
-            feature.geometry.coordinates[1],
+            feature.geometry.coordinates[1]
         );
 
         content = content.replace(
             new RegExp('{@(lon|lng)}', 'g'),
-            feature.geometry.coordinates[0],
+            feature.geometry.coordinates[0]
         );
 
         for (const i of Object.keys(nonOsmTags)) {
@@ -70,12 +70,12 @@ export default class InfoDisplay {
             const localizedValue = Locale.findLocalizedTagValue(
                 themeModel.get('tags').models,
                 tag.key,
-                tag.value,
+                tag.value
             );
 
             content = content.replace(
                 new RegExp(`{${tag.key}}`, 'g'),
-                localizedValue,
+                localizedValue
             );
         }
 
@@ -83,12 +83,12 @@ export default class InfoDisplay {
             const localizedValue = Locale.findLocalizedTagValue(
                 themeModel.get('tags').models,
                 k,
-                data[k],
+                data[k]
             );
 
             content = content.replace(
                 new RegExp(`{${k}}`, 'g'),
-                localizedValue,
+                localizedValue
             );
         }
 
