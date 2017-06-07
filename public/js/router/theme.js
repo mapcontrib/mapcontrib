@@ -172,12 +172,7 @@ export default Backbone.Router.extend({
     },
 
     routeMapPosition(zoom, lat, lng) {
-        const setPosition = () => this._radio.commands.execute('map:position', zoom, lat, lng);
-
-        if (setPosition() === false) {
-            this._radio.vent.on('theme:rendered', setPosition);
-        }
-
+        this._radio.commands.execute('map:position', zoom, lat, lng);
         this.navigate('');
     },
 
