@@ -1,12 +1,4 @@
 
-import $ from 'jquery';
-import _ from 'underscore';
-
-
-window.jQuery = $;
-window.$ = $;
-window._ = _;
-
 
 // Don't drop breaklines when using $.val()
 // http://api.jquery.com/val/
