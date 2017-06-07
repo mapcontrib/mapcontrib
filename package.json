@@ -1,6 +1,6 @@
 {
   "description": "MapContrib",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "license": "MIT",
   "author": {
     "name": "Guillaume AMAT",
@@ -49,7 +49,6 @@
   "dependencies": {
     "argp": "^1.0.4",
     "awesome-bootstrap-checkbox": "^0.3.7",
-    "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
