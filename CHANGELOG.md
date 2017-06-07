@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.8.2
+
+* Select the first tile when no tiles are set in the local storage.
+* Fix issues with global scoped frameworks.
+
 # 1.8.1
 
 * Remove babel from the dependencies.
