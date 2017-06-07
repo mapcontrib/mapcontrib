@@ -92,7 +92,10 @@ export default Marionette.LayoutView.extend({
                 thumbnailHtml += `<img class="tile_2" src="${urlTemplate2}" alt="" />`;
             }
 
-            if ( this._selectedInStorage && this._selectedInStorage === id ) {
+            if ( !this._selectedInStorage && id === tiles[0] ) {
+                checked = ' checked';
+            }
+            else if ( this._selectedInStorage && this._selectedInStorage === id ) {
                 checked = ' checked';
             }
             else {
