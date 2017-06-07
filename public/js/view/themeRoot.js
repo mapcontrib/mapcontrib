@@ -297,6 +297,11 @@ export default Marionette.LayoutView.extend({
             hiddenLayers = storageMapState.hiddenLayers || [];
         }
 
+        if (this._initialCenter && this._initialZoom) {
+            center = this._initialCenter;
+            zoomLevel = this._initialZoom;
+        }
+
         this.ui.toolbarButtons.tooltip({
             container: 'body',
             delay: {
@@ -434,9 +439,12 @@ export default Marionette.LayoutView.extend({
 
     setMapPosition(zoom, lat, lng) {
         if (this._map) {
-            return this._map.setView([lat, lng], zoom);
+            this._map.setView([lat, lng], zoom);
+            return;
         }
-        return false;
+
+        this._initialCenter = { lat, lng };
+        this._initialZoom = zoom;
     },
 
     getTileChangesetAttribution() {

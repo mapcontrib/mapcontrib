@@ -72,13 +72,15 @@ export default Marionette.LayoutView.extend({
         const theme = this._app.getTheme();
 
         if ( theme ) {
-            authSuccessCallback = authFailCallback = ThemeCore.buildPath(
+            authSuccessCallback = ThemeCore.buildPath(
                 theme.get('fragment'),
                 theme.get('name')
             );
+            authFailCallback = authSuccessCallback;
         }
         else {
-            authSuccessCallback = authFailCallback = '/';
+            authSuccessCallback = '/';
+            authFailCallback = authSuccessCallback;
         }
 
         new LoginModalView({

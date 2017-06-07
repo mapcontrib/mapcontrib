@@ -85,7 +85,8 @@ export default Marionette.LayoutView.extend({
     },
 
     fetchSearchedThemes(searchString) {
-        const startTime = this._lastQueryStartTime = new Date().getTime();
+        const startTime = new Date().getTime();
+        this._lastQueryStartTime = startTime;
 
         this.collection.fetch({
             reset: true,

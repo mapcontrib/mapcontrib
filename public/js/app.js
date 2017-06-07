@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 import 'babel-polyfill';
 import './tools';
 import 'jquery-form';
@@ -29,6 +29,7 @@ import OsmCacheCollection from 'collection/osmCache';
 import LayerCollection from 'collection/layer';
 import Behaviors from './behavior';
 import IDPresetsHelper from 'helper/iDPresets';
+/* eslint-enable */
 
 
 export default Marionette.Application.extend({

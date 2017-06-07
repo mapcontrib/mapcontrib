@@ -3,8 +3,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import express from 'express';
 import multer from 'multer';
-import logger from '../lib/logger';
 import config from 'config';
+import logger from '../lib/logger';
 import { basename } from '../public/js/core/utils';
 
 

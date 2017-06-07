@@ -1,6 +1,6 @@
 
-import logger from '../lib/logger';
 import { ObjectID } from 'mongodb';
+import logger from '../lib/logger';
 import OsmCacheModel from '../public/js/model/osmCache';
 
 

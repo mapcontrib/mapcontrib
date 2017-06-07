@@ -1,7 +1,7 @@
 
-import App from './app';
 import Router from 'router/theme';
 import ThemeRootView from 'view/themeRoot';
+import App from './app';
 import '../css/theme.less';
 
 

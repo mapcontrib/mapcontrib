@@ -34,14 +34,35 @@ export default class InfoDisplay {
             data = feature.properties;
         }
 
+        if (feature.properties.id) {
+            content = content.replace(
+                new RegExp('{id}', 'g'),
+                feature.properties.id
+            );
+        }
+
+        if (feature.properties.type) {
+            content = content.replace(
+                new RegExp('{@?type}', 'g'),
+                feature.properties.type
+            );
+        }
+
+        if (feature.id) {
+            content = content.replace(
+                new RegExp('{@id}', 'g'),
+                feature.id
+            );
+        }
+
         content = content.replace(
-            new RegExp('{id}', 'g'),
-            feature.properties.id
+            new RegExp('{@lat}', 'g'),
+            feature.geometry.coordinates[1]
         );
 
         content = content.replace(
-            new RegExp('{type}', 'g'),
-            feature.properties.type
+            new RegExp('{@(lon|lng)}', 'g'),
+            feature.geometry.coordinates[0]
         );
 
         for (const i of Object.keys(nonOsmTags)) {
