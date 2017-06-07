@@ -22,6 +22,12 @@ describe('InfoDisplay', () => {
 And this *is* **{amenity}** and {other}.`,
             });
             const feature = {
+                geometry: {
+                    coordinates: [
+                        44.5,
+                        -0.6,
+                    ],
+                },
                 properties: {
                     tags: {
                         amenity: 'recycling',
@@ -46,6 +52,12 @@ And this *is* **{amenity}** and {other}.`,
 And this *is* {amenity} and **{other}**.`,
             });
             const feature = {
+                geometry: {
+                    coordinates: [
+                        44.5,
+                        -0.6,
+                    ],
+                },
                 properties: {
                     other: 'stuff',
                 },
@@ -68,6 +80,12 @@ And this *is* {amenity} and **{other}**.`,
 And this *is* {amenity} and **{other}**.`,
             });
             const feature = {
+                geometry: {
+                    coordinates: [
+                        44.5,
+                        -0.6,
+                    ],
+                },
                 properties: {
                     tags: {
                         other: 'stuff',
@@ -88,6 +106,12 @@ And this *is* {amenity} and **{other}**.`,
                 popupContent: '',
             });
             const feature = {
+                geometry: {
+                    coordinates: [
+                        44.5,
+                        -0.6,
+                    ],
+                },
                 properties: {
                     tags: {
                         amenity: 'recycling',
