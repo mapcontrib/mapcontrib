@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.8.1
+
+* Remove babel from the dependencies.
+
 # 1.8.0
 
 * New meta tags for content display {@id}, {@type}, {@lat}, {@lon}, {@lng}.
