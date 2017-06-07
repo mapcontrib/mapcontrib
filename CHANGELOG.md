@@ -1,9 +1,14 @@
 # Changelog
 
+# 1.8.0
+
+* New meta tags for content display {@id}, {@type}, {@lat}, {@lon}, {@lng}.
+* Fix the map positionning when the position is given in the url.
+* Upgrade Babel* and Eslint*.
+
 # 1.7.10
 
 * Display the localized version of the tag value in popup content.
-
 
 # 1.7.9
 
