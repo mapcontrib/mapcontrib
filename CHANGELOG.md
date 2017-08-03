@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.8.3
+
+* Add the Thunderforest API key to tiles.
+
 # 1.8.2
 
 * Select the first tile when no tiles are set in the local storage.

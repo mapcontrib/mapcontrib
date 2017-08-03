@@ -169,7 +169,7 @@ export default {
             osmOutdoors: {
                 name: 'OSM Outdoors',
                 attribution: 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" rel="noopener noreferrer" target="_blank">Gravitystorm</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a>',
-                urlTemplate: ['https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png'],
+                urlTemplate: ['https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=ef27143f76a7437ca80ab9c0b19e0f49'],
                 minZoom: 0,
                 maxZoom: 20,
             },
@@ -183,7 +183,7 @@ export default {
             landscape: {
                 name: 'Landscape',
                 attribution: 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" rel="noopener noreferrer" target="_blank">Gravitystorm</a> - Data <a href="http://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a>',
-                urlTemplate: ['http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png'],
+                urlTemplate: ['https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=ef27143f76a7437ca80ab9c0b19e0f49'],
                 minZoom: 0,
                 maxZoom: 20,
             },
@@ -197,7 +197,7 @@ export default {
             transport: {
                 name: 'Transport',
                 attribution: 'Tiles &copy; <a href="http://www.thunderforest.com/outdoors" rel="noopener noreferrer" target="_blank">Gravitystorm</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a>',
-                urlTemplate: ['http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png'],
+                urlTemplate: ['https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=ef27143f76a7437ca80ab9c0b19e0f49'],
                 minZoom: 0,
                 maxZoom: 20,
             },
@@ -211,7 +211,7 @@ export default {
             openCycleMap: {
                 name: 'OpenCycleMap',
                 attribution: 'Tiles &copy; <a href="http://www.opencyclemap.org" rel="noopener noreferrer" target="_blank">OpenCycleMap</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a>',
-                urlTemplate: ['http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png'],
+                urlTemplate: ['https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=ef27143f76a7437ca80ab9c0b19e0f49'],
                 minZoom: 0,
                 maxZoom: 20,
             },
