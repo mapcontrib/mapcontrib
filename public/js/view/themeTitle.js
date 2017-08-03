@@ -1,6 +1,5 @@
 
 import $ from 'jquery';
-import { FavoriteBurst } from 'helper/animation';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import CONST from 'const';
@@ -74,11 +73,6 @@ export default Marionette.LayoutView.extend({
         if ( this.model.get('description') ) {
             this.ui.descriptionButton.removeClass('hide');
         }
-
-        this._favoriteTimeline = FavoriteBurst.init(
-            this.ui.favoriteButton[0],
-            '.fa'
-        );
     },
 
     onShow() {
@@ -171,6 +165,7 @@ export default Marionette.LayoutView.extend({
             this._app.getUserFavoriteThemes().getCollection()
         );
 
-        this._favoriteTimeline.replay();
+        this.ui.favoriteButton.find('i')
+            .toggleClass('fa-star fa-star-o');
     },
 });

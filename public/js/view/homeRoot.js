@@ -1,6 +1,5 @@
 
 import Marionette from 'backbone.marionette';
-import { OsmFirework } from 'helper/animation';
 import DeviceHelper from 'helper/device';
 import LoginModalView from './loginModal';
 import ThemeCollection from 'collection/theme';
@@ -66,10 +65,6 @@ export default Marionette.LayoutView.extend({
                 collection: this.collection,
             })
         );
-    },
-
-    onShow() {
-        this._osmFireworkTimeline = OsmFirework.init( this.ui.osmLink[0] );
     },
 
     _checkScreenSizeAndScrollToSearchInput() {
@@ -194,9 +189,5 @@ export default Marionette.LayoutView.extend({
     hidePlaceholders() {
         this.ui.charactersLeftPlaceholder.addClass('hide');
         this.ui.noResultPlaceholder.addClass('hide');
-    },
-
-    onHoverOsmLink() {
-        this._osmFireworkTimeline.replay();
     },
 });

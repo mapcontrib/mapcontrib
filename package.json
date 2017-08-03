@@ -113,7 +113,6 @@
     "marked": "^0.3.5",
     "math.format": "^1.0.2",
     "method-override": "^2.1.2",
-    "mo-js": "^0.288.1",
     "mocha": "^2.4.5",
     "moment-timezone": "^0.5.4",
     "mongodb": "^2.1.14",
