@@ -2,3 +2,4 @@
 
 * Remove the Fira font.
 * Remove the mo-js module.
+* Remove the useless moment.js locales.

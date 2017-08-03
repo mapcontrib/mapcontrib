@@ -14,6 +14,7 @@ const commonChunk = new CommonsChunkPlugin({
 const plugins = [
     extractCSS,
     commonChunk,
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /fr|en|es|it/),
 ];
 
 if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
