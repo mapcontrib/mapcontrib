@@ -1,4 +1,3 @@
-
 import Marionette from 'backbone.marionette';
 import CONST from 'const';
 import template from './template.ejs';
@@ -6,129 +5,128 @@ import 'typeahead.js';
 import 'typeahead.js-bootstrap-css/typeaheadjs.css';
 import WidgetUi from 'ui/widget';
 
-
 export default Marionette.ItemView.extend({
-    template,
+  template,
 
-    ui: {
-        key: '.key',
-        tagInfoBtn: '.tag_info_btn',
-    },
+  ui: {
+    key: '.key',
+    tagInfoBtn: '.tag_info_btn'
+  },
 
-    events: {
-        'keydown @ui.key': '_onKeyDown',
-    },
+  events: {
+    'keydown @ui.key': '_onKeyDown'
+  },
 
-    templateHelpers() {
-        const key = this.model.get('key');
-        let label = this.options.customTags.getLocalizedTypeaheadFieldLabel(key);
+  templateHelpers() {
+    const key = this.model.get('key');
+    let label = this.options.customTags.getLocalizedTypeaheadFieldLabel(key);
 
-        if (!label) {
-            label = this.options.iDPresetsHelper.getLocalizedTypeaheadFieldLabel(key);
+    if (!label) {
+      label = this.options.iDPresetsHelper.getLocalizedTypeaheadFieldLabel(key);
+    }
+
+    if (!label) {
+      label = key;
+    }
+
+    return {
+      label,
+      placeholder: document.l10n.getSync('key')
+    };
+  },
+
+  onRender() {
+    this.renderTagInfo();
+
+    this._proposedFields = [
+      ...this.options.customTags.getFieldsForTypeahead(),
+      ...this.options.iDPresetsHelper.getFieldsForTypeahead()
+    ];
+
+    this.ui.key
+      .typeahead(
+        {
+          hint: true,
+          highlight: true,
+          minLength: 1
+        },
+        {
+          name: 'fields',
+          source: this._substringMatcher(this._proposedFields),
+          display: 'label',
+          limit: 10
         }
+      )
+      .on('typeahead:change', (e, key) => {
+        this._updateKey(key.trim());
+      });
+  },
 
-        if (!label) {
-            label = key;
-        }
+  _substringMatcher(proposedFields) {
+    return function findMatches(query, callback) {
+      try {
+        const substrRegex = new RegExp(query, 'i');
 
-        return {
-            label,
-            placeholder: document.l10n.getSync('key'),
-        };
-    },
+        const matches = proposedFields.filter(field => {
+          if (substrRegex.test(field.label)) {
+            return true;
+          }
 
-    onRender() {
-        this.renderTagInfo();
+          if (substrRegex.test(field.key)) {
+            return true;
+          }
 
-        this._proposedFields = [
-            ...this.options.customTags.getFieldsForTypeahead(),
-            ...this.options.iDPresetsHelper.getFieldsForTypeahead(),
-        ];
-
-        this.ui.key.typeahead(
-            {
-                hint: true,
-                highlight: true,
-                minLength: 1,
-            },
-            {
-                name: 'fields',
-                source: this._substringMatcher(this._proposedFields),
-                display: 'label',
-                limit: 10,
-            }
-        )
-        .on('typeahead:change', (e, key) => {
-            this._updateKey(key.trim());
+          return false;
         });
-    },
 
-    _substringMatcher(proposedFields) {
-        return function findMatches(query, callback) {
-            try {
-                const substrRegex = new RegExp(query, 'i');
+        callback(matches);
+      } catch (e) {
+        callback([]);
+      }
+    };
+  },
 
-                const matches = proposedFields.filter((field) => {
-                    if (substrRegex.test(field.label)) {
-                        return true;
-                    }
+  renderTagInfo() {
+    const key = this.model.get('key');
+    const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
 
-                    if (substrRegex.test(field.key)) {
-                        return true;
-                    }
+    this.ui.tagInfoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
+  },
 
-                    return false;
-                });
+  _onKeyDown() {
+    this._updateKey(this.ui.key.val().trim());
+  },
 
-                callback(matches);
-            }
-            catch (e) {
-                callback([]);
-            }
-        };
-    },
+  _updateKey(key) {
+    let isProposedField = false;
 
-    renderTagInfo() {
-        const key = this.model.get('key');
-        const taginfoServiceHost = MAPCONTRIB.config.taginfoServiceHost;
+    for (const field of this._proposedFields) {
+      if (key.toLowerCase() === field.label.toLowerCase()) {
+        this.model.set('key', field.key);
+        this.model.set('type', field.type);
+        isProposedField = true;
+      }
+    }
 
-        this.ui.tagInfoBtn.attr('href', `${taginfoServiceHost}/keys/${key}`);
-    },
+    if (isProposedField === false) {
+      this.model.set('key', key);
+      this.model.set('type', CONST.tagType.text);
+    }
 
-    _onKeyDown() {
-        this._updateKey(this.ui.key.val().trim());
-    },
+    this.trigger('change', this.model.get('key'));
 
-    _updateKey(key) {
-        let isProposedField = false;
+    this.renderTagInfo();
+  },
 
-        for (const field of this._proposedFields) {
-            if (key.toLowerCase() === field.label.toLowerCase()) {
-                this.model.set('key', field.key);
-                this.model.set('type', field.type);
-                isProposedField = true;
-            }
-        }
+  enable() {
+    this.ui.key.prop('disabled', false);
+  },
 
-        if (isProposedField === false) {
-            this.model.set('key', key);
-            this.model.set('type', CONST.tagType.text);
-        }
+  disable() {
+    this.ui.key.prop('disabled', true);
+  },
 
-        this.trigger('change', this.model.get('key'));
-
-        this.renderTagInfo();
-    },
-
-    enable() {
-        this.ui.key.prop('disabled', false);
-    },
-
-    disable() {
-        this.ui.key.prop('disabled', true);
-    },
-
-    setFocus() {
-        WidgetUi.setFocus(this.ui.key);
-    },
+  setFocus() {
+    WidgetUi.setFocus(this.ui.key);
+  }
 });

@@ -28,10 +28,17 @@
     "watch": "webpack -w --progress",
     "lint": "eslint .",
     "test": "cross-env NODE_ENV=test jest",
-    "pre-commit": "npm test && npm run lint",
     "update-overpass-cache": "babel-node cron/updateOverPassCache.js",
     "clean-obsolete-layer-files": "babel-node cron/cleanObsoleteLayerFiles.js",
-    "import-id-presets": "babel-node scripts/importIdPresets.js"
+    "import-id-presets": "babel-node scripts/importIdPresets.js",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "{src,public}/**/*.{js,jsx,json,css,less,scss}": [
+      "prettier --single-quote --write",
+      "npm test",
+      "git add"
+    ]
   },
   "moduleRoots": [
     "public/js"
@@ -40,12 +47,17 @@
     "babel-eslint": "^7.2.3",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
+    "eslint-config-prettier": "^2.3.0",
     "eslint-import-resolver-webpack": "^0.8.1",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jest": "^20.0.3",
     "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-react": "^7.0.1",
-    "jest": "^20.0.4"
+    "husky": "^0.14.3",
+    "jest": "^20.0.4",
+    "lint-staged": "^4.0.3",
+    "prettier": "^1.5.3"
   },
   "dependencies": {
     "argp": "^1.0.4",

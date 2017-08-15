@@ -1,4 +1,3 @@
-
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import DeviceHelper from 'helper/device';
@@ -8,123 +7,122 @@ import SearchInput from 'ui/form/searchInput';
 import Locale from 'core/locale';
 import ThemeCore from 'core/theme';
 
-
 export default Marionette.LayoutView.extend({
-    template,
+  template,
 
-    behaviors() {
-        return {
-            l20n: {},
-            column: {
-                appendToBody: true,
-                destroyOnClose: true,
-                routeOnClose: this.options.previousRoute,
-            },
-        };
-    },
+  behaviors() {
+    return {
+      l20n: {},
+      column: {
+        appendToBody: true,
+        destroyOnClose: true,
+        routeOnClose: this.options.previousRoute
+      }
+    };
+  },
 
-    regions: {
-        searchInput: '.rg_search_input',
-        themesNav: '.rg_themes_nav',
-    },
+  regions: {
+    searchInput: '.rg_search_input',
+    themesNav: '.rg_themes_nav'
+  },
 
-    ui: {
-        column: '.column',
-        themesNav: '.rg_themes_nav',
-        stickyInner: '.sticky-inner',
-        noResult: '.no_result',
-        backButton: '.back_btn',
-    },
+  ui: {
+    column: '.column',
+    themesNav: '.rg_themes_nav',
+    stickyInner: '.sticky-inner',
+    noResult: '.no_result',
+    backButton: '.back_btn'
+  },
 
-    events: {
-        'click @ui.backButton': '_onClickBack',
-    },
+  events: {
+    'click @ui.backButton': '_onClickBack'
+  },
 
-    initialize() {
-        this._radio = Wreqr.radio.channel('global');
-        this._app = this.options.app;
-        this._window = this._app.getWindow();
-        this._config = this._app.getConfig();
-        this._deviceHelper = new DeviceHelper(this._config, this._window);
-    },
+  initialize() {
+    this._radio = Wreqr.radio.channel('global');
+    this._app = this.options.app;
+    this._window = this._app.getWindow();
+    this._config = this._app.getConfig();
+    this._deviceHelper = new DeviceHelper(this._config, this._window);
+  },
 
-    onBeforeOpen() {
-        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
-        this._radio.vent.trigger('widget:closeAll', [ this.cid ]);
-    },
+  onBeforeOpen() {
+    this._radio.vent.trigger('column:closeAll', [this.cid]);
+    this._radio.vent.trigger('widget:closeAll', [this.cid]);
+  },
 
-    open() {
-        this.triggerMethod('open');
-        return this;
-    },
+  open() {
+    this.triggerMethod('open');
+    return this;
+  },
 
-    close() {
-        this.triggerMethod('close');
-        return this;
-    },
+  close() {
+    this.triggerMethod('close');
+    return this;
+  },
 
-    onRender() {
-        this._themesNav = new NavPillsStackedListView();
-        this._defaultNavItems = this._buildNavItems(this.collection);
+  onRender() {
+    this._themesNav = new NavPillsStackedListView();
+    this._defaultNavItems = this._buildNavItems(this.collection);
 
-        this._setDefaultNavItems();
-        this.getRegion('themesNav').show( this._themesNav );
+    this._setDefaultNavItems();
+    this.getRegion('themesNav').show(this._themesNav);
 
+    this._searchInput = new SearchInput({
+      charactersMin: 1,
+      placeholder: document.l10n.getSync('search')
+    });
 
-        this._searchInput = new SearchInput({
-            charactersMin: 1,
-            placeholder: document.l10n.getSync('search'),
-        });
+    this.getRegion('searchInput').show(this._searchInput);
 
-        this.getRegion('searchInput').show( this._searchInput );
+    if (this._deviceHelper.isTallScreen() === true) {
+      this._searchInput.setFocus();
+    }
 
-        if ( this._deviceHelper.isTallScreen() === true ) {
-            this._searchInput.setFocus();
-        }
+    this._searchInput.on(
+      'search',
+      this._filterNavItems.bind(this, this._defaultNavItems),
+      this
+    );
+    this._searchInput.on('empty', this._setDefaultNavItems, this);
+  },
 
-        this._searchInput.on('search', this._filterNavItems.bind(this, this._defaultNavItems), this);
-        this._searchInput.on('empty', this._setDefaultNavItems, this);
-    },
+  _buildNavItems(collection) {
+    return collection.models.map(theme => ({
+      label: Locale.getLocalized(theme, 'name'),
+      href: ThemeCore.buildPath(theme.get('fragment'), theme.get('name'))
+    }));
+  },
 
-    _buildNavItems(collection) {
-        return collection.models.map(theme => ({
-            label: Locale.getLocalized(theme, 'name'),
-            href: ThemeCore.buildPath(
-                theme.get('fragment'),
-                theme.get('name')
-            ),
-        }));
-    },
+  _setDefaultNavItems() {
+    this._hideNoResult();
 
-    _setDefaultNavItems() {
-        this._hideNoResult();
+    this._themesNav.setItems(this._defaultNavItems);
+  },
 
-        this._themesNav.setItems( this._defaultNavItems );
-    },
+  _filterNavItems(defaultNavItems, searchString) {
+    this._searchInput.trigger('search:success');
+    this._hideNoResult();
 
-    _filterNavItems(defaultNavItems, searchString) {
-        this._searchInput.trigger('search:success');
-        this._hideNoResult();
+    const re = new RegExp(searchString, 'i');
+    const navItems = defaultNavItems.filter(item => re.test(item.label));
 
-        const re = new RegExp(searchString, 'i');
-        const navItems = defaultNavItems.filter( item => re.test(item.label) );
+    this._themesNav.setItems(navItems);
 
-        this._themesNav.setItems(navItems);
+    if (navItems.length === 0) {
+      this._showNoResult();
+    }
+  },
 
-        if (navItems.length === 0) {
-            this._showNoResult();
-        }
-    },
+  _hideNoResult() {
+    this.ui.noResult.addClass('hide');
+  },
 
-    _hideNoResult() {
-        this.ui.noResult.addClass('hide');
-    },
+  _showNoResult() {
+    this.ui.noResult.removeClass('hide');
+  },
 
-    _showNoResult() {
-        this.ui.noResult.removeClass('hide');
-    },
-
-    _onClickBack() {
-        this.options.router.navigate('user', true);
-    },
+  _onClickBack() {
+    this.options.router.navigate('user', true);
+  }
 });

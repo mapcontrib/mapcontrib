@@ -1,84 +1,81 @@
-
 @import '../../../../css/variable.less';
 
-
 .btn-color-selector {
-    position: relative;
-    color: #fff;
-    width: 30px;
-    height: 20px;
-    padding: 0;
-    margin-bottom: 4px;
-    border-color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  color: #fff;
+  width: 30px;
+  height: 20px;
+  padding: 0;
+  margin-bottom: 4px;
+  border-color: rgba(255, 255, 255, 0.8);
 
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active {
+    color: #fff;
+  }
+
+  &.white,
+  &.gray,
+  &.yellow {
+    color: @anthracite;
 
     &:hover,
     &:focus,
     &.focus,
     &:active,
     &.active {
-        color: #fff;
+      color: @anthracite;
     }
+  }
 
-    &.white,
-    &.gray,
-    &.yellow {
-        color: @anthracite;
+  &.green {
+    background-color: @green;
+  }
 
-        &:hover,
-        &:focus,
-        &.focus,
-        &:active,
-        &.active {
-            color: @anthracite;
-        }
-    }
+  &.yellow {
+    background-color: @yellow;
+  }
 
-    &.green {
-        background-color: @green;
-    }
+  &.orange {
+    background-color: @orange;
+  }
 
-    &.yellow {
-        background-color: @yellow;
-    }
+  &.brown {
+    background-color: @brown;
+  }
 
-    &.orange {
-        background-color: @orange;
-    }
+  &.red {
+    background-color: @red;
+  }
 
-    &.brown {
-        background-color: @brown;
-    }
+  &.purple {
+    background-color: @purple;
+  }
 
-    &.red {
-        background-color: @red;
-    }
+  &.blue {
+    background-color: @blue;
+  }
 
-    &.purple {
-        background-color: @purple;
-    }
+  &.turquoise {
+    background-color: @turquoise;
+  }
 
-    &.blue {
-        background-color: @blue;
-    }
+  &.white {
+    background-color: @white;
+  }
 
-    &.turquoise {
-        background-color: @turquoise;
-    }
+  &.gray {
+    background-color: @darkGray;
+  }
 
-    &.white {
-        background-color: @white;
-    }
+  &.anthracite {
+    background-color: @anthracite;
+  }
 
-    &.gray {
-        background-color: @darkGray;
-    }
-
-    &.anthracite {
-        background-color: @anthracite;
-    }
-
-    &.black {
-        background-color: @black;
-    }
+  &.black {
+    background-color: @black;
+  }
 }

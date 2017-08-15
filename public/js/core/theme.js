@@ -1,8 +1,7 @@
-
 import Diacritics from 'diacritic';
 
 export default class Theme {
-    /**
+  /**
      * Returns a URL-friendly name of the theme.
      *
      * @author Guillaume AMAT
@@ -11,19 +10,19 @@ export default class Theme {
      * @param {string} nameArg
      * @return string
      */
-    static buildWebLinkName(nameArg) {
-        let name = nameArg || '';
+  static buildWebLinkName(nameArg) {
+    let name = nameArg || '';
 
-        name = Diacritics.clean(name);
-        name = name.replace(/-/g, '_');
-        name = name.replace(/ /g, '_');
-        name = name.replace(/_{2,}/g, '_');
-        name = name.replace(/[^a-zA-Z0-9_]/g, '');
+    name = Diacritics.clean(name);
+    name = name.replace(/-/g, '_');
+    name = name.replace(/ /g, '_');
+    name = name.replace(/_{2,}/g, '_');
+    name = name.replace(/[^a-zA-Z0-9_]/g, '');
 
-        return name;
-    }
+    return name;
+  }
 
-    /**
+  /**
      * Returns the theme path.
      *
      * @author Guillaume AMAT
@@ -33,18 +32,18 @@ export default class Theme {
      * @pram {string} name
      * @return string
      */
-    static buildPath(fragment, name) {
-        const basePath = `/t/${fragment}`;
-        const webName = this.buildWebLinkName(name);
+  static buildPath(fragment, name) {
+    const basePath = `/t/${fragment}`;
+    const webName = this.buildWebLinkName(name);
 
-        if (webName) {
-            return `${basePath}-${webName}`;
-        }
-
-        return basePath;
+    if (webName) {
+      return `${basePath}-${webName}`;
     }
 
-    /**
+    return basePath;
+  }
+
+  /**
      * Returns the theme url.
      *
      * @author Guillaume AMAT
@@ -55,14 +54,14 @@ export default class Theme {
      * @pram {string} name
      * @return string
      */
-    static buildUrl(window, fragment, name) {
-        const urlParts = [
-            window.location.protocol,
-            '//',
-            window.location.host,
-            this.buildPath(fragment, name),
-        ];
+  static buildUrl(window, fragment, name) {
+    const urlParts = [
+      window.location.protocol,
+      '//',
+      window.location.host,
+      this.buildPath(fragment, name)
+    ];
 
-        return urlParts.join('');
-    }
+    return urlParts.join('');
+  }
 }

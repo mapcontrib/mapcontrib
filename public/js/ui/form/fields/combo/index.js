@@ -1,85 +1,78 @@
-
 import Marionette from 'backbone.marionette';
 import Locale from 'core/locale';
 import template from './template.ejs';
 import WidgetUi from 'ui/widget';
 
-
 export default Marionette.ItemView.extend({
-    template,
+  template,
 
-    behaviors() {
-        return {
-            l20n: {},
-        };
-    },
+  behaviors() {
+    return {
+      l20n: {}
+    };
+  },
 
-    ui: {
-        select: '.form-control',
-        removeBtn: '.remove_btn',
-    },
+  ui: {
+    select: '.form-control',
+    removeBtn: '.remove_btn'
+  },
 
-    events: {
-        'change @ui.select': '_onChangeSelect',
-        'click @ui.removeBtn': 'onClickRemoveBtn',
-    },
+  events: {
+    'change @ui.select': '_onChangeSelect',
+    'click @ui.removeBtn': 'onClickRemoveBtn'
+  },
 
-    onRender() {
-        const options = this._findTagOptions();
-        let html = '<option value=""></option>';
+  onRender() {
+    const options = this._findTagOptions();
+    let html = '<option value=""></option>';
 
-        for (const value in options) {
-            if ({}.hasOwnProperty.call(options, value)) {
-                html += `<option value="${value}">${options[value]}</option>`;
-            }
-        }
+    for (const value in options) {
+      if ({}.hasOwnProperty.call(options, value)) {
+        html += `<option value="${value}">${options[value]}</option>`;
+      }
+    }
 
-        this.ui.select.html(html);
+    this.ui.select.html(html);
 
-        this.ui.select.val(
-            this.model.get('value')
-        );
-    },
+    this.ui.select.val(this.model.get('value'));
+  },
 
-    _findTagOptions() {
-        const key = this.model.get('key');
-        const customTag = this.options.customTags.findWhere({ key });
+  _findTagOptions() {
+    const key = this.model.get('key');
+    const customTag = this.options.customTags.findWhere({ key });
 
-        if (customTag) {
-            return Locale.getLocalizedOptions(customTag);
-        }
+    if (customTag) {
+      return Locale.getLocalizedOptions(customTag);
+    }
 
-        return [];
-    },
+    return [];
+  },
 
-    _onChangeSelect() {
-        this.model.set(
-            'value',
-            this.ui.select.val()
-        );
-    },
+  _onChangeSelect() {
+    this.model.set('value', this.ui.select.val());
+  },
 
-    onClickRemoveBtn() {
-        this.model.destroy();
-    },
+  onClickRemoveBtn() {
+    this.model.destroy();
+  },
 
-    enable() {
-        this.ui.select.prop('disabled', false);
-    },
+  enable() {
+    this.ui.select.prop('disabled', false);
+  },
 
-    disable() {
-        this.ui.select.prop('disabled', true);
-    },
+  disable() {
+    this.ui.select.prop('disabled', true);
+  },
 
-    enableRemoveBtn() {
-        this.ui.removeBtn.prop('disabled', false);
-    },
+  enableRemoveBtn() {
+    this.ui.removeBtn.prop('disabled', false);
+  },
 
-    disableRemoveBtn() {
-        this.ui.removeBtn.prop('disabled', true);
-    },
+  disableRemoveBtn() {
+    this.ui.removeBtn.prop('disabled', true);
+  },
 
-    setFocus() {
-        WidgetUi.setFocus(this.ui.input);
-    },
+  setFocus() {
+    WidgetUi.setFocus(this.ui.input);
+  }
 });

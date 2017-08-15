@@ -1,11 +1,9 @@
-
 import Marionette from 'backbone.marionette';
 import ThemeThumbListItemView from './listItem';
 import './style.less';
 
-
 export default Marionette.CollectionView.extend({
-    childView: ThemeThumbListItemView,
+  childView: ThemeThumbListItemView,
 
-    className: 'row',
+  className: 'row'
 });

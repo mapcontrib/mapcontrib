@@ -1,4 +1,3 @@
-
 import path from 'path';
 
 import ejs from 'ejs';
@@ -25,31 +24,27 @@ import Database from './lib/database';
 import Api from './api';
 import Passport from './lib/passport';
 
-
 const CONST = { ...SERVER_CONST, ...PUBLIC_CONST };
 
 if (!config.get('client.oauthConsumerKey')) {
-    throw new Error('Error: client.oauthConsumerKey is not configured');
+  throw new Error('Error: client.oauthConsumerKey is not configured');
 }
 
 if (!config.get('client.oauthSecret')) {
-    throw new Error('Error: client.oauthSecret is not configured');
+  throw new Error('Error: client.oauthSecret is not configured');
 }
-
 
 const app = express();
 
-
 if (config.get('forceHttps') === true) {
-    app.use('/', httpsRedirect());
+  app.use('/', httpsRedirect());
 }
-
 
 app.use(compression());
 app.use(
-    helmet({
-        frameguard: false,
-    })
+  helmet({
+    frameguard: false
+  })
 );
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
@@ -63,49 +58,49 @@ app.use(morgan('dev'));
 app.use(methodOverride());
 
 if (app.get('env') !== 'production') {
-    app.use(errorHandler());
+  app.use(errorHandler());
 }
 
-
 app.get('/theme-s8c2d4', (req, res) => {
-    res.redirect('/t/s8c2d4-MapContrib');
+  res.redirect('/t/s8c2d4-MapContrib');
 });
-
 
 const database = new Database();
 const passport = new Passport();
 const api = new Api();
 
 database.connect((err, db) => {
-    if (err) {
-        throw err;
-    }
+  if (err) {
+    throw err;
+  }
 
-    const MongoStore = connectMongo(session);
-    const port = app.get('port');
+  const MongoStore = connectMongo(session);
+  const port = app.get('port');
 
-    app.use(session({
-        resave: true,
-        rolling: true,
-        saveUninitialized: false,
-        unset: 'destroy',
-        secret: config.get('salt'),
-        store: new MongoStore({ db }),
-        cookie: {
-            maxAge: 1000 * 3600 * 24 * 90,
-        },
-    }));
+  app.use(
+    session({
+      resave: true,
+      rolling: true,
+      saveUninitialized: false,
+      unset: 'destroy',
+      secret: config.get('salt'),
+      store: new MongoStore({ db }),
+      cookie: {
+        maxAge: 1000 * 3600 * 24 * 90
+      }
+    })
+  );
 
-    app.listen(port, () => {
-        logger.info(`MapContrib ${packageJson.version} is up on the port ${port}`);
-    });
+  app.listen(port, () => {
+    logger.info(`MapContrib ${packageJson.version} is up on the port ${port}`);
+  });
 
-    // const migrate = new Migrate(db, CONST);
-    //
-    // migrate.start()
-    // .then(() => {
-        passport.init(app, db, config);
-        api.init(app, db, CONST, packageJson);
-    // })
-    // .catch(throwError);
+  // const migrate = new Migrate(db, CONST);
+  //
+  // migrate.start()
+  // .then(() => {
+  passport.init(app, db, config);
+  api.init(app, db, CONST, packageJson);
+  // })
+  // .catch(throwError);
 });

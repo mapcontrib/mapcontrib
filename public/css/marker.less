@@ -1,4 +1,3 @@
-
 @markerGreenLight: #8ae234;
 @markerGreenDark: #4e9a06;
 
@@ -32,257 +31,252 @@
 @markerBrownLight: #e9b96e;
 @markerBrownDark: #8f5902;
 
-
-
 .btn-marker-color {
-    position: relative;
+  position: relative;
+  color: #fff;
+  padding: 0;
+
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active {
     color: #fff;
-    padding: 0;
+  }
+
+  &.white,
+  &.gray,
+  &.yellow {
+    color: @markerDarkGrayDark;
 
     &:hover,
     &:focus,
     &.focus,
     &:active,
     &.active {
-        color: #fff;
+      color: @markerDarkGrayDark;
     }
+  }
 
-    &.white,
-    &.gray,
-    &.yellow {
-        color: @markerDarkGrayDark;
-
-        &:hover,
-        &:focus,
-        &.focus,
-        &:active,
-        &.active {
-            color: @markerDarkGrayDark;
-        }
-    }
-
-    & > div {
-        height: 20px;
-        border-style: solid;
-        border-width: 0 15px;
-
-        .fa {
-            position: absolute;
-            top: 4px;
-            left: 8px;
-        }
-    }
-
-    &.green > div {
-        border-left-color: @markerGreenLight;
-        border-right-color: @markerGreenDark;
-    }
-
-    &.yellow > div {
-        border-left-color: @markerYellowLight;
-        border-right-color: @markerYellowDark;
-    }
-
-    &.orange > div {
-        border-left-color: @markerOrangeLight;
-        border-right-color: @markerOrangeDark;
-    }
-
-    &.red > div {
-        border-left-color: @markerRedLight;
-        border-right-color: @markerRedDark;
-    }
-
-    &.purple > div {
-        border-left-color: @markerPurpleLight;
-        border-right-color: @markerPurpleDark;
-    }
-
-    &.blue > div {
-        border-left-color: @markerBlueLight;
-        border-right-color: @markerBlueDark;
-    }
-
-    &.white > div {
-        border-left-color: @markerWhiteLight;
-        border-right-color: @markerWhiteDark;
-    }
-
-    &.gray > div {
-        border-left-color: @markerGrayLight;
-        border-right-color: @markerGrayDark;
-    }
-
-    &.dark-gray > div {
-        border-left-color: @markerDarkGrayLight;
-        border-right-color: @markerDarkGrayDark;
-    }
-
-    &.black > div {
-        border-left-color: @markerBlackLight;
-        border-right-color: @markerBlackDark;
-    }
-
-    &.brown > div {
-        border-left-color: @markerBrownLight;
-        border-right-color: @markerBrownDark;
-    }
-}
-
-
-.marker {
-    display: inline-block;
-    cursor: default;
-    line-height: 0;
+  & > div {
+    height: 20px;
+    border-style: solid;
+    border-width: 0 15px;
 
     .fa {
-        position: absolute;
-        font-size: 19px;
+      position: absolute;
+      top: 4px;
+      left: 8px;
+    }
+  }
+
+  &.green > div {
+    border-left-color: @markerGreenLight;
+    border-right-color: @markerGreenDark;
+  }
+
+  &.yellow > div {
+    border-left-color: @markerYellowLight;
+    border-right-color: @markerYellowDark;
+  }
+
+  &.orange > div {
+    border-left-color: @markerOrangeLight;
+    border-right-color: @markerOrangeDark;
+  }
+
+  &.red > div {
+    border-left-color: @markerRedLight;
+    border-right-color: @markerRedDark;
+  }
+
+  &.purple > div {
+    border-left-color: @markerPurpleLight;
+    border-right-color: @markerPurpleDark;
+  }
+
+  &.blue > div {
+    border-left-color: @markerBlueLight;
+    border-right-color: @markerBlueDark;
+  }
+
+  &.white > div {
+    border-left-color: @markerWhiteLight;
+    border-right-color: @markerWhiteDark;
+  }
+
+  &.gray > div {
+    border-left-color: @markerGrayLight;
+    border-right-color: @markerGrayDark;
+  }
+
+  &.dark-gray > div {
+    border-left-color: @markerDarkGrayLight;
+    border-right-color: @markerDarkGrayDark;
+  }
+
+  &.black > div {
+    border-left-color: @markerBlackLight;
+    border-right-color: @markerBlackDark;
+  }
+
+  &.brown > div {
+    border-left-color: @markerBrownLight;
+    border-right-color: @markerBrownDark;
+  }
+}
+
+.marker {
+  display: inline-block;
+  cursor: default;
+  line-height: 0;
+
+  .fa {
+    position: absolute;
+    font-size: 19px;
+  }
+
+  .external-icon {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    max-width: 24px !important;
+    max-height: 24px !important;
+  }
+
+  &.yellow {
+    .fa {
+      color: @markerYellowDark;
     }
 
-    .external-icon {
-        position: absolute;
-        top: 6px;
-        left: 50%;
-        transform: translate(-50%, 0);
-        max-width: 24px !important;
-        max-height: 24px !important;
+    #colorized,
+    #colorized * {
+      fill: @markerYellowLight !important;
+    }
+  }
+
+  &.orange {
+    .fa {
+      color: @markerOrangeDark;
     }
 
-    &.yellow {
-        .fa {
-            color: @markerYellowDark;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerOrangeLight !important;
+    }
+  }
 
-        #colorized,
-        #colorized * {
-            fill: @markerYellowLight !important;
-        }
+  &.green {
+    .fa {
+      color: @markerGreenDark;
     }
 
-    &.orange {
-        .fa {
-            color: @markerOrangeDark;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerGreenLight !important;
+    }
+  }
 
-        #colorized,
-        #colorized * {
-            fill: @markerOrangeLight !important;
-        }
+  &.blue {
+    .fa {
+      color: @markerBlueDark;
     }
 
-    &.green {
-        .fa {
-            color: @markerGreenDark;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerBlueLight !important;
+    }
+  }
 
-        #colorized,
-        #colorized * {
-            fill: @markerGreenLight !important;
-        }
+  &.purple {
+    .fa {
+      color: @markerPurpleDark;
     }
 
-    &.blue {
-        .fa {
-            color: @markerBlueDark;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerPurpleLight !important;
+    }
+  }
 
-        #colorized,
-        #colorized * {
-            fill: @markerBlueLight !important;
-        }
+  &.brown {
+    .fa {
+      color: @markerBrownDark;
     }
 
-    &.purple {
-        .fa {
-            color: @markerPurpleDark;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerBrownLight !important;
+    }
+  }
 
-        #colorized,
-        #colorized * {
-            fill: @markerPurpleLight !important;
-        }
+  &.red {
+    .fa {
+      color: @markerRedDark;
     }
 
-    &.brown {
-        .fa {
-            color: @markerBrownDark;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerRedLight !important;
+    }
+  }
 
-        #colorized,
-        #colorized * {
-            fill: @markerBrownLight !important;
-        }
+  &.white {
+    .fa {
+      color: @markerWhiteDark;
     }
 
-    &.red {
-        .fa {
-            color: @markerRedDark;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerWhiteLight !important;
+    }
+  }
 
-        #colorized,
-        #colorized * {
-            fill: @markerRedLight !important;
-        }
+  &.gray {
+    .fa {
+      color: @markerGrayDark;
     }
 
-    &.white {
-        .fa {
-            color: @markerWhiteDark;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerGrayLight !important;
+    }
+  }
 
-        #colorized,
-        #colorized * {
-            fill: @markerWhiteLight !important;
-        }
+  &.dark-gray {
+    .fa {
+      color: @markerDarkGrayDark;
     }
 
-    &.gray {
-        .fa {
-            color: @markerGrayDark;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerDarkGrayLight !important;
+    }
+  }
 
-        #colorized,
-        #colorized * {
-            fill: @markerGrayLight !important;
-        }
+  &.black {
+    .fa {
+      color: @markerBlackLight;
     }
 
-    &.dark-gray {
-        .fa {
-            color: @markerDarkGrayDark;
-        }
-
-        #colorized,
-        #colorized * {
-            fill: @markerDarkGrayLight !important;
-        }
+    #colorized,
+    #colorized * {
+      fill: @markerBlackDark !important;
     }
-
-    &.black {
-        .fa {
-            color: @markerBlackLight;
-        }
-
-        #colorized,
-        #colorized * {
-            fill: @markerBlackDark !important;
-        }
-    }
+  }
 }
 
 .leaflet-container .marker {
-    display: block;
-    cursor: pointer;
+  display: block;
+  cursor: pointer;
 }
-
-
 
 .marker-1,
 .marker-2,
 .marker-3 {
-    .fa {
-        top: 9px;
-        left: 6px;
-    }
+  .fa {
+    top: 9px;
+    left: 6px;
+  }
 }

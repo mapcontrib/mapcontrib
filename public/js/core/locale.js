@@ -1,184 +1,185 @@
-
 import currentLocale from 'current-locale';
 import langs from 'langs';
 import format from 'math.format';
 import CONST from '../const';
 
-
 export default class Locale {
-    static getLocale() {
-        let locale = currentLocale({ fallbackLocale: 'en' }).substr(0, 2);
+  static getLocale() {
+    let locale = currentLocale({ fallbackLocale: 'en' }).substr(0, 2);
 
-        if (CONST.availableLocales.indexOf(locale) === -1) {
-            locale = 'en';
-        }
-
-        return locale;
+    if (CONST.availableLocales.indexOf(locale) === -1) {
+      locale = 'en';
     }
 
-    static buildLocalesCompletion(themeModel) {
-        const localesCompletion = [];
+    return locale;
+  }
 
-        for (const localeCode of CONST.availableLocales) {
-            const isoInfos = langs.where('1', localeCode);
+  static buildLocalesCompletion(themeModel) {
+    const localesCompletion = [];
 
-            const layers = themeModel.get('layers');
-            const presets = themeModel.get('presets');
-            const presetCategories = themeModel.get('presetCategories');
-            const tags = themeModel.get('tags');
+    for (const localeCode of CONST.availableLocales) {
+      const isoInfos = langs.where('1', localeCode);
 
-            const localeCompletions = [
-                themeModel.getLocaleCompletion(localeCode),
-                Locale._buildLocaleCompletionFromCollection(layers, localeCode),
-                Locale._buildLocaleCompletionFromCollection(presets, localeCode),
-                Locale._buildLocaleCompletionFromCollection(presetCategories, localeCode),
-                Locale._buildLocaleCompletionFromCollection(tags, localeCode),
-            ];
+      const layers = themeModel.get('layers');
+      const presets = themeModel.get('presets');
+      const presetCategories = themeModel.get('presetCategories');
+      const tags = themeModel.get('tags');
 
-            /* eslint-disable no-unused-vars */
-            let itemsCount = 0;
-            let completedItemsCount = 0;
-            /* eslint-enable */
-            for (const localeCompletion of localeCompletions) {
-                itemsCount += localeCompletion.items;
-                completedItemsCount += localeCompletion.completed;
-            }
+      const localeCompletions = [
+        themeModel.getLocaleCompletion(localeCode),
+        Locale._buildLocaleCompletionFromCollection(layers, localeCode),
+        Locale._buildLocaleCompletionFromCollection(presets, localeCode),
+        Locale._buildLocaleCompletionFromCollection(
+          presetCategories,
+          localeCode
+        ),
+        Locale._buildLocaleCompletionFromCollection(tags, localeCode)
+      ];
 
-            const totalCompletion = format(
-                (completedItemsCount / itemsCount) * 100,
-                {
-                    floor: 1,
-                    ifInfinity: 0,
-                }
-            );
+      /* eslint-disable no-unused-vars */
+      let itemsCount = 0;
+      let completedItemsCount = 0;
+      /* eslint-enable */
+      for (const localeCompletion of localeCompletions) {
+        itemsCount += localeCompletion.items;
+        completedItemsCount += localeCompletion.completed;
+      }
 
-            localesCompletion.push({
-                code: localeCode,
-                label: isoInfos.name,
-                description: isoInfos.local,
-                completion: totalCompletion,
-            });
-        }
+      const totalCompletion = format(completedItemsCount / itemsCount * 100, {
+        floor: 1,
+        ifInfinity: 0
+      });
 
-        return localesCompletion;
+      localesCompletion.push({
+        code: localeCode,
+        label: isoInfos.name,
+        description: isoInfos.local,
+        completion: totalCompletion
+      });
     }
 
-    static buildItemsLocaleCompletion(themeModel, localeCode) {
-        const layers = themeModel.get('layers');
-        const presets = themeModel.get('presets');
-        const presetCategories = themeModel.get('presetCategories');
-        const tags = themeModel.get('tags');
+    return localesCompletion;
+  }
 
-        const presetData = Locale._buildLocaleCompletionFromCollection(presets, localeCode);
-        const categoriesData = Locale._buildLocaleCompletionFromCollection(
-            presetCategories,
-            localeCode
-        );
+  static buildItemsLocaleCompletion(themeModel, localeCode) {
+    const layers = themeModel.get('layers');
+    const presets = themeModel.get('presets');
+    const presetCategories = themeModel.get('presetCategories');
+    const tags = themeModel.get('tags');
 
-        const localesCompletion = [
-            {
-                id: 'theme',
-                label: document.l10n.getSync('mainSettings'),
-                data: themeModel.getLocaleCompletion(localeCode),
-            },
-            {
-                id: 'layer',
-                label: document.l10n.getSync('layers'),
-                data: Locale._buildLocaleCompletionFromCollection(layers, localeCode),
-            },
-            {
-                id: 'tag',
-                label: document.l10n.getSync('tags'),
-                data: Locale._buildLocaleCompletionFromCollection(tags, localeCode),
-            },
-            {
-                id: 'preset',
-                label: document.l10n.getSync('presets'),
-                data: {
-                    items: presetData.items + categoriesData.items,
-                    completed: presetData.completed + categoriesData.completed,
-                },
-            },
-        ];
+    const presetData = Locale._buildLocaleCompletionFromCollection(
+      presets,
+      localeCode
+    );
+    const categoriesData = Locale._buildLocaleCompletionFromCollection(
+      presetCategories,
+      localeCode
+    );
 
-        for (const locale of localesCompletion) {
-            locale.completion = format(
-                (locale.data.completed / locale.data.items) * 100,
-                {
-                    floor: 1,
-                    ifInfinity: 0,
-                }
-            );
+    const localesCompletion = [
+      {
+        id: 'theme',
+        label: document.l10n.getSync('mainSettings'),
+        data: themeModel.getLocaleCompletion(localeCode)
+      },
+      {
+        id: 'layer',
+        label: document.l10n.getSync('layers'),
+        data: Locale._buildLocaleCompletionFromCollection(layers, localeCode)
+      },
+      {
+        id: 'tag',
+        label: document.l10n.getSync('tags'),
+        data: Locale._buildLocaleCompletionFromCollection(tags, localeCode)
+      },
+      {
+        id: 'preset',
+        label: document.l10n.getSync('presets'),
+        data: {
+          items: presetData.items + categoriesData.items,
+          completed: presetData.completed + categoriesData.completed
         }
+      }
+    ];
 
-        return localesCompletion;
+    for (const locale of localesCompletion) {
+      locale.completion = format(
+        locale.data.completed / locale.data.items * 100,
+        {
+          floor: 1,
+          ifInfinity: 0
+        }
+      );
     }
 
-    static _buildLocaleCompletionFromCollection(collection, localeCode) {
-        const data = {
-            items: 0,
-            completed: 0,
-        };
+    return localesCompletion;
+  }
 
-        for (const model of collection.models) {
-            const { items, completed } = model.getLocaleCompletion(localeCode);
+  static _buildLocaleCompletionFromCollection(collection, localeCode) {
+    const data = {
+      items: 0,
+      completed: 0
+    };
 
-            data.items += items;
-            data.completed += completed;
-        }
+    for (const model of collection.models) {
+      const { items, completed } = model.getLocaleCompletion(localeCode);
 
-        return data;
+      data.items += items;
+      data.completed += completed;
     }
 
-    static getLocalized(model, attributeName) {
-        const locale = Locale.getLocale();
-        const modelLocales = model.get('locales');
+    return data;
+  }
 
-        if (!modelLocales || !modelLocales[locale]) {
-            return model.get(attributeName);
-        }
+  static getLocalized(model, attributeName) {
+    const locale = Locale.getLocale();
+    const modelLocales = model.get('locales');
 
-        const attributes = modelLocales[locale];
-
-        if (attributes && attributes[attributeName]) {
-            return attributes[attributeName];
-        }
-
-        return model.get(attributeName);
+    if (!modelLocales || !modelLocales[locale]) {
+      return model.get(attributeName);
     }
 
-    static findLocalizedTagValue(customTags, key, optionName) {
-        const options = Locale.findLocalizedOptions(customTags, key);
+    const attributes = modelLocales[locale];
 
-        return options[optionName] || optionName;
+    if (attributes && attributes[attributeName]) {
+      return attributes[attributeName];
     }
 
-    static findLocalizedOptions(customTags, key) {
-        for (const customTag of customTags) {
-            if (customTag.get('key') === key) {
-                return Locale.getLocalizedOptions(customTag);
-            }
-        }
+    return model.get(attributeName);
+  }
 
-        return {};
+  static findLocalizedTagValue(customTags, key, optionName) {
+    const options = Locale.findLocalizedOptions(customTags, key);
+
+    return options[optionName] || optionName;
+  }
+
+  static findLocalizedOptions(customTags, key) {
+    for (const customTag of customTags) {
+      if (customTag.get('key') === key) {
+        return Locale.getLocalizedOptions(customTag);
+      }
     }
 
-    static getLocalizedOptions(model) {
-        const locale = Locale.getLocale();
-        const options = model.get('options');
-        const attributes = model.get('locales')[locale];
-        let localizedOptions = {};
+    return {};
+  }
 
-        if (attributes && attributes.options) {
-            localizedOptions = attributes.options;
-        }
+  static getLocalizedOptions(model) {
+    const locale = Locale.getLocale();
+    const options = model.get('options');
+    const attributes = model.get('locales')[locale];
+    let localizedOptions = {};
 
-        for (const option of options) {
-            if (!localizedOptions[option]) {
-                localizedOptions[option] = option;
-            }
-        }
-
-        return localizedOptions;
+    if (attributes && attributes.options) {
+      localizedOptions = attributes.options;
     }
+
+    for (const option of options) {
+      if (!localizedOptions[option]) {
+        localizedOptions[option] = option;
+      }
+    }
+
+    return localizedOptions;
+  }
 }

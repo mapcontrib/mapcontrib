@@ -1,32 +1,32 @@
 /* Effect strongly inspired by http://tympanus.net/Development/ClickEffects */
 .ui-map-geolocation-marker::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -20px 0 0 -20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    opacity: 0;
-    pointer-events: none;
-    border: 2px solid rgba(34, 176, 223, 1);
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -20px 0 0 -20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  border: 2px solid rgba(34, 176, 223, 1);
 }
 
 .ui-map-geolocation-marker::after {
-    animation: anim-effect-jelena 8s ease-out forwards;
-    animation-iteration-count: infinite;
-    animation-delay: 2s;
+  animation: anim-effect-jelena 8s ease-out forwards;
+  animation-iteration-count: infinite;
+  animation-delay: 2s;
 }
 
 @keyframes anim-effect-jelena {
-    0% {
-        opacity: 1;
-        transform: scale3d(0.5, 0.5, 1);
-    }
+  0% {
+    opacity: 1;
+    transform: scale3d(0.5, 0.5, 1);
+  }
 
-    5% {
-        opacity: 0;
-        transform: scale3d(1.2, 1.2, 1);
-    }
+  5% {
+    opacity: 0;
+    transform: scale3d(1.2, 1.2, 1);
+  }
 }

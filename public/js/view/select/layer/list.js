@@ -1,22 +1,25 @@
-
 import Marionette from 'backbone.marionette';
 import SelectLayerListItem from './item';
 
-
 export default Marionette.CollectionView.extend({
-    childView: SelectLayerListItem,
+  childView: SelectLayerListItem,
 
-    childViewOptions() {
-        return {
-            router: this.options.router,
-        };
-    },
+  childViewOptions() {
+    return {
+      router: this.options.router
+    };
+  },
 
-    className: 'list-group',
+  className: 'list-group',
 
-    addChild(child, ChildView, index) {
-        if ( child.isVisible() ) {
-            Marionette.CollectionView.prototype.addChild.call(this, child, ChildView, index);
-        }
-    },
+  addChild(child, ChildView, index) {
+    if (child.isVisible()) {
+      Marionette.CollectionView.prototype.addChild.call(
+        this,
+        child,
+        ChildView,
+        index
+      );
+    }
+  }
 });

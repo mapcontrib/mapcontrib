@@ -1,119 +1,117 @@
-
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 
-
 export default Marionette.Behavior.extend({
-    defaults() {
-        return {
-            destroyOnClose: false,
-        };
-    },
+  defaults() {
+    return {
+      destroyOnClose: false
+    };
+  },
 
-    ui: {
-        closeBtn: '.close_btn',
-    },
+  ui: {
+    closeBtn: '.close_btn'
+  },
 
-    events: {
-        'click @ui.closeBtn': 'onClickClose',
-        keyup: 'onKeyUp',
-    },
+  events: {
+    'click @ui.closeBtn': 'onClickClose',
+    keyup: 'onKeyUp'
+  },
 
-    initialize() {
-        this._radio = Wreqr.radio.channel('global');
+  initialize() {
+    this._radio = Wreqr.radio.channel('global');
 
-        this.listenTo(this._radio.vent, 'contextual:closeAll', this.onCloseAll);
-        this.listenTo(this._radio.vent, 'column:closeAll', this.onCloseAll);
+    this.listenTo(this._radio.vent, 'contextual:closeAll', this.onCloseAll);
+    this.listenTo(this._radio.vent, 'column:closeAll', this.onCloseAll);
 
-        this._isOpened = false;
-    },
+    this._isOpened = false;
+  },
 
-    onRender() {
-        document.body.appendChild( this.el );
-        this.ui.contextual.attr('tabindex', 0);
-    },
+  onRender() {
+    document.body.appendChild(this.el);
+    this.ui.contextual.attr('tabindex', 0);
+  },
 
-    onDestroy() {
-        this.stopListening(this._radio.vent, 'contextual:closeAll');
-    },
+  onDestroy() {
+    this.stopListening(this._radio.vent, 'contextual:closeAll');
+  },
 
-    onToggle() {
-        if ( this._isOpened ) {
-            this.onClose();
-        }
-        else {
-            this.onOpen();
-        }
-    },
+  onToggle() {
+    if (this._isOpened) {
+      this.onClose();
+    } else {
+      this.onOpen();
+    }
+  },
 
-    onOpen() {
-        this._isOpened = true;
+  onOpen() {
+    this._isOpened = true;
 
-        if (this.view.onBeforeOpen) {
-            this.view.onBeforeOpen();
-        }
+    if (this.view.onBeforeOpen) {
+      this.view.onBeforeOpen();
+    }
 
-        window.requestAnimationFrame(() => {
-            this.ui.contextual.addClass('open').focus();
+    window.requestAnimationFrame(() => {
+      this.ui.contextual.addClass('open').focus();
 
-            if (this.view.onAfterOpen) {
-                this.view.onAfterOpen();
-            }
-        });
-    },
+      if (this.view.onAfterOpen) {
+        this.view.onAfterOpen();
+      }
+    });
+  },
 
-    onClose() {
-        const mapElement = this._radio.reqres.request('map')._container;
+  onClose() {
+    const mapElement = this._radio.reqres.request('map')._container;
 
-        $(mapElement).focus();
+    $(mapElement).focus();
 
-        this._close();
-    },
+    this._close();
+  },
 
-    onCloseAll(excludedViews) {
-        if ( !excludedViews ) {
-            return this._close();
-        }
+  onCloseAll(excludedViews) {
+    if (!excludedViews) {
+      return this._close();
+    }
 
-        if ( excludedViews.indexOf(this.view.cid) === -1 ) {
-            return this._close();
-        }
+    if (excludedViews.indexOf(this.view.cid) === -1) {
+      return this._close();
+    }
 
-        return true;
-    },
+    return true;
+  },
 
-    onClickClose() {
+  onClickClose() {
+    this.onClose();
+  },
+
+  onKeyUp(e) {
+    switch (e.keyCode) {
+      case 27:
         this.onClose();
-    },
+        break;
+      default:
+    }
+  },
 
-    onKeyUp(e) {
-        switch (e.keyCode) {
-            case 27:
-                this.onClose();
-                break;
-            default:
-        }
-    },
+  _close() {
+    this._isOpened = false;
 
-    _close() {
-        this._isOpened = false;
+    if (this.view.onBeforeClose) {
+      this.view.onBeforeClose();
+    }
 
-        if (this.view.onBeforeClose) {
-            this.view.onBeforeClose();
-        }
+    window.requestAnimationFrame(() => {
+      this.ui.contextual
+        .on('transitionend', () => {
+          if (this.view.onAfterClose) {
+            this.view.onAfterClose();
+          }
 
-        window.requestAnimationFrame(() => {
-            this.ui.contextual.on('transitionend', () => {
-                if (this.view.onAfterClose) {
-                    this.view.onAfterClose();
-                }
-
-                if ( this.options.destroyOnClose ) {
-                    this.view.destroy();
-                }
-            })
-            .removeClass('open');
-        });
-    },
+          if (this.options.destroyOnClose) {
+            this.view.destroy();
+          }
+        })
+        .removeClass('open');
+    });
+  }
 });
