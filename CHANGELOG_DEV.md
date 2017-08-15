@@ -4,3 +4,4 @@
 * Remove the mo-js module.
 * Remove the useless moment.js locales.
 * Upgrade Node.js 8.
+* Migrate from Mocha to Jest.

@@ -1,13 +1,11 @@
 
 import 'babel-polyfill';
-import assert from 'assert';
-
-import OsmEditHelper from 'helper/osmEdit';
+import OsmEditHelper from './osmEdit';
 
 
 describe('OsmEditHelper', () => {
     describe('_buildChangesetXML', () => {
-        it('Should return a serialized changeset XML', () => {
+        test('Should return a serialized changeset XML', () => {
             const expected = '<osm><changeset><tag k="created_by" v="a string"/><tag k="comment" v="another string"/></changeset></osm>';
 
             const osmEdit = new OsmEditHelper();
@@ -17,12 +15,12 @@ describe('OsmEditHelper', () => {
 
             const returnedXml = osmEdit._buildChangesetXml();
 
-            assert.strictEqual(returnedXml, expected);
+            expect(returnedXml).toBe(expected);
         });
     });
 
     describe('_buildXml', () => {
-        it('Should return a serialized node XML', () => {
+        test('Should return a serialized node XML', () => {
             const expected = '<osm><node version="0" lat="42.3" lon="0.2" uid="3569284" timestamp="2016-03-24T12:21:30.546Z" display_name="Walter White" changeset="85964251"><tag k="a key" v="a value"/><tag k="another key" v="another value"/></node></osm>';
 
             const osmEdit = new OsmEditHelper();
@@ -42,10 +40,10 @@ describe('OsmEditHelper', () => {
 
             const returnedXml = osmEdit._buildXml(85964251);
 
-            assert.strictEqual(returnedXml, expected);
+            expect(returnedXml).toBe(expected);
         });
 
-        it('Should return a serialized way XML', () => {
+        test('Should return a serialized way XML', () => {
             const expected = '<osm><way version="0" lat="42.3" lon="0.2" uid="3569284" timestamp="2016-03-24T12:21:30.546Z" display_name="Walter White" changeset="85964251"><tag k="a key" v="a value"/><tag k="another key" v="another value"/><nd ref="1"/><nd ref="37"/><nd ref="6"/></way></osm>';
 
             const osmEdit = new OsmEditHelper();
@@ -66,10 +64,10 @@ describe('OsmEditHelper', () => {
 
             const returnedXml = osmEdit._buildXml(85964251);
 
-            assert.strictEqual(returnedXml, expected);
+            expect(returnedXml).toBe(expected);
         });
 
-        it('Should return a serialized relation XML', () => {
+        test('Should return a serialized relation XML', () => {
             const expected = '<osm><relation version="0" lat="42.3" lon="0.2" uid="3569284" timestamp="2016-03-24T12:21:30.546Z" display_name="Walter White" changeset="85964251"><tag k="a key" v="a value"/><tag k="another key" v="another value"/><member type="relation" ref="1745069"/></relation></osm>';
 
             const osmEdit = new OsmEditHelper();
@@ -94,12 +92,12 @@ describe('OsmEditHelper', () => {
 
             const returnedXml = osmEdit._buildXml(85964251);
 
-            assert.strictEqual(returnedXml, expected);
+            expect(returnedXml).toBe(expected);
         });
     });
 
     describe('getOverPassElement', () => {
-        it('Should return an OverPass version of the OSM node', () => {
+        test('Should return an OverPass version of the OSM node', () => {
             const expected = {
                 display_name: 'Walter White',
                 lat: 42.3,
@@ -131,10 +129,10 @@ describe('OsmEditHelper', () => {
 
             const returnedObject = osmEdit.getOverPassElement();
 
-            assert.deepEqual(returnedObject, expected);
+            expect(returnedObject).toEqual(expected);
         });
 
-        it('Should return an OverPass version of the OSM way', () => {
+        test('Should return an OverPass version of the OSM way', () => {
             const expected = {
                 display_name: 'Walter White',
                 lat: 42.3,
@@ -168,10 +166,10 @@ describe('OsmEditHelper', () => {
 
             const returnedObject = osmEdit.getOverPassElement();
 
-            assert.deepEqual(returnedObject, expected);
+            expect(returnedObject).toEqual(expected);
         });
 
-        it('Should return an OverPass version of the OSM relation', () => {
+        test('Should return an OverPass version of the OSM relation', () => {
             const expected = {
                 display_name: 'Walter White',
                 lat: 42.3,
@@ -215,12 +213,12 @@ describe('OsmEditHelper', () => {
 
             const returnedObject = osmEdit.getOverPassElement();
 
-            assert.deepEqual(returnedObject, expected);
+            expect(returnedObject).toEqual(expected);
         });
     });
 
     describe('getElement', () => {
-        it('Should return the OSM node', () => {
+        test('Should return the OSM node', () => {
             const expected = {
                 type: 'node',
                 attributes: {
@@ -260,10 +258,10 @@ describe('OsmEditHelper', () => {
 
             const returnedObject = osmEdit.getElement();
 
-            assert.deepEqual(returnedObject, expected);
+            expect(returnedObject).toEqual(expected);
         });
 
-        it('Should return the OSM way', () => {
+        test('Should return the OSM way', () => {
             const expected = {
                 type: 'way',
                 attributes: {
@@ -305,10 +303,10 @@ describe('OsmEditHelper', () => {
 
             const returnedObject = osmEdit.getElement();
 
-            assert.deepEqual(returnedObject, expected);
+            expect(returnedObject).toEqual(expected);
         });
 
-        it('Should return the OSM relation', () => {
+        test('Should return the OSM relation', () => {
             const expected = {
                 type: 'relation',
                 attributes: {
@@ -360,129 +358,138 @@ describe('OsmEditHelper', () => {
 
             const returnedObject = osmEdit.getElement();
 
-            assert.deepEqual(returnedObject, expected);
+            expect(returnedObject).toEqual(expected);
         });
     });
 
 
     describe('hydrateOverPassObject', () => {
-        it('Should return an OverPass object hydrated with an OSM node\'s attributes', () => {
-            const expected = {
-                display_name: 'Walter White',
-                lat: 42.3,
-                lon: 0.2,
-                tags: {
-                    'a key': 'a value',
-                    'another key': 'another value',
-                },
-                timestamp: '2016-03-24T12:21:30.546Z',
-                type: 'node',
-                uid: 3569284,
-                version: 0,
-            };
-
-            const osmEdit = new OsmEditHelper();
-
-            osmEdit.setType('node');
-            osmEdit.setVersion(0);
-            osmEdit.setLatitude(42.3);
-            osmEdit.setLongitude(0.2);
-            osmEdit.setUid(3569284);
-            osmEdit.setTimestamp('2016-03-24T12:21:30.546Z');
-            osmEdit.setDisplayName('Walter White');
-            osmEdit.setTags({
-                'a key': 'a value',
-                'another key': 'another value',
-            });
-
-
-            const returnedObject = osmEdit.hydrateOverPassObject({});
-
-            assert.deepEqual(returnedObject, expected);
-        });
-
-        it('Should return an OverPass object hydrated with an OSM way\'s attributes', () => {
-            const expected = {
-                display_name: 'Walter White',
-                lat: 42.3,
-                lon: 0.2,
-                tags: {
-                    'a key': 'a value',
-                    'another key': 'another value',
-                },
-                nodes: [1, 37, 6],
-                timestamp: '2016-03-24T12:21:30.546Z',
-                type: 'way',
-                uid: 3569284,
-                version: 0,
-            };
-
-            const osmEdit = new OsmEditHelper();
-
-            osmEdit.setType('way');
-            osmEdit.setVersion(0);
-            osmEdit.setLatitude(42.3);
-            osmEdit.setLongitude(0.2);
-            osmEdit.setUid(3569284);
-            osmEdit.setTimestamp('2016-03-24T12:21:30.546Z');
-            osmEdit.setDisplayName('Walter White');
-            osmEdit.setTags({
-                'a key': 'a value',
-                'another key': 'another value',
-            });
-            osmEdit.setNodes([1, 37, 6]);
-
-
-            const returnedObject = osmEdit.hydrateOverPassObject({});
-
-            assert.deepEqual(returnedObject, expected);
-        });
-
-        it('Should return an OverPass object hydrated with an OSM relation\'s attributes', () => {
-            const expected = {
-                display_name: 'Walter White',
-                lat: 42.3,
-                lon: 0.2,
-                tags: {
-                    'a key': 'a value',
-                    'another key': 'another value',
-                },
-                members: [
-                    {
-                        type: 'relation',
-                        ref: 1745069,
-                        role: '',
+        test(
+            'Should return an OverPass object hydrated with an OSM node\'s attributes',
+            () => {
+                const expected = {
+                    display_name: 'Walter White',
+                    lat: 42.3,
+                    lon: 0.2,
+                    tags: {
+                        'a key': 'a value',
+                        'another key': 'another value',
                     },
-                ],
-                timestamp: '2016-03-24T12:21:30.546Z',
-                type: 'relation',
-                uid: 3569284,
-                version: 0,
-            };
+                    timestamp: '2016-03-24T12:21:30.546Z',
+                    type: 'node',
+                    uid: 3569284,
+                    version: 0,
+                };
 
-            const osmEdit = new OsmEditHelper();
+                const osmEdit = new OsmEditHelper();
 
-            osmEdit.setType('relation');
-            osmEdit.setVersion(0);
-            osmEdit.setLatitude(42.3);
-            osmEdit.setLongitude(0.2);
-            osmEdit.setUid(3569284);
-            osmEdit.setTimestamp('2016-03-24T12:21:30.546Z');
-            osmEdit.setDisplayName('Walter White');
-            osmEdit.setTags({
-                'a key': 'a value',
-                'another key': 'another value',
-            });
-            osmEdit.setMembers([{
-                type: 'relation',
-                ref: 1745069,
-                role: '',
-            }]);
+                osmEdit.setType('node');
+                osmEdit.setVersion(0);
+                osmEdit.setLatitude(42.3);
+                osmEdit.setLongitude(0.2);
+                osmEdit.setUid(3569284);
+                osmEdit.setTimestamp('2016-03-24T12:21:30.546Z');
+                osmEdit.setDisplayName('Walter White');
+                osmEdit.setTags({
+                    'a key': 'a value',
+                    'another key': 'another value',
+                });
 
 
-            const returnedObject = osmEdit.hydrateOverPassObject({});
+                const returnedObject = osmEdit.hydrateOverPassObject({});
 
-            assert.deepEqual(returnedObject, expected);
-        });
+                expect(returnedObject).toEqual(expected);
+            }
+        );
+
+        test(
+            'Should return an OverPass object hydrated with an OSM way\'s attributes',
+            () => {
+                const expected = {
+                    display_name: 'Walter White',
+                    lat: 42.3,
+                    lon: 0.2,
+                    tags: {
+                        'a key': 'a value',
+                        'another key': 'another value',
+                    },
+                    nodes: [1, 37, 6],
+                    timestamp: '2016-03-24T12:21:30.546Z',
+                    type: 'way',
+                    uid: 3569284,
+                    version: 0,
+                };
+
+                const osmEdit = new OsmEditHelper();
+
+                osmEdit.setType('way');
+                osmEdit.setVersion(0);
+                osmEdit.setLatitude(42.3);
+                osmEdit.setLongitude(0.2);
+                osmEdit.setUid(3569284);
+                osmEdit.setTimestamp('2016-03-24T12:21:30.546Z');
+                osmEdit.setDisplayName('Walter White');
+                osmEdit.setTags({
+                    'a key': 'a value',
+                    'another key': 'another value',
+                });
+                osmEdit.setNodes([1, 37, 6]);
+
+
+                const returnedObject = osmEdit.hydrateOverPassObject({});
+
+                expect(returnedObject).toEqual(expected);
+            }
+        );
+
+        test(
+            'Should return an OverPass object hydrated with an OSM relation\'s attributes',
+            () => {
+                const expected = {
+                    display_name: 'Walter White',
+                    lat: 42.3,
+                    lon: 0.2,
+                    tags: {
+                        'a key': 'a value',
+                        'another key': 'another value',
+                    },
+                    members: [
+                        {
+                            type: 'relation',
+                            ref: 1745069,
+                            role: '',
+                        },
+                    ],
+                    timestamp: '2016-03-24T12:21:30.546Z',
+                    type: 'relation',
+                    uid: 3569284,
+                    version: 0,
+                };
+
+                const osmEdit = new OsmEditHelper();
+
+                osmEdit.setType('relation');
+                osmEdit.setVersion(0);
+                osmEdit.setLatitude(42.3);
+                osmEdit.setLongitude(0.2);
+                osmEdit.setUid(3569284);
+                osmEdit.setTimestamp('2016-03-24T12:21:30.546Z');
+                osmEdit.setDisplayName('Walter White');
+                osmEdit.setTags({
+                    'a key': 'a value',
+                    'another key': 'another value',
+                });
+                osmEdit.setMembers([{
+                    type: 'relation',
+                    ref: 1745069,
+                    role: '',
+                }]);
+
+
+                const returnedObject = osmEdit.hydrateOverPassObject({});
+
+                expect(returnedObject).toEqual(expected);
+            }
+        );
     });
 });

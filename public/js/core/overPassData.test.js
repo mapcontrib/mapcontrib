@@ -1,13 +1,12 @@
 
 import 'babel-polyfill';
-import assert from 'assert';
 
-import OverPassData from 'core/overPassData';
+import OverPassData from './overPassData';
 
 
 describe('OverPassData', () => {
     describe('exists', () => {
-        it('Should tell if an element exists', () => {
+        test('Should tell if an element exists', () => {
             const osmNode = {
                 type: 'node',
                 id: '1234',
@@ -21,31 +20,31 @@ describe('OverPassData', () => {
             const overPassData = new OverPassData();
 
             let nodeExists = overPassData.exists(osmNode.type, osmNode.id);
-            assert.strictEqual(nodeExists, false);
+            expect(nodeExists).toBe(false);
 
             let wayExists = overPassData.exists(osmWay.type, osmWay.id);
-            assert.strictEqual(wayExists, false);
+            expect(wayExists).toBe(false);
 
             overPassData.save(osmNode);
 
             nodeExists = overPassData.exists(osmNode.type, osmNode.id);
-            assert.strictEqual(nodeExists, true);
+            expect(nodeExists).toBe(true);
 
             wayExists = overPassData.exists(osmWay.type, osmWay.id);
-            assert.strictEqual(wayExists, false);
+            expect(wayExists).toBe(false);
 
             overPassData.save(osmWay);
 
             nodeExists = overPassData.exists(osmNode.type, osmNode.id);
-            assert.strictEqual(nodeExists, true);
+            expect(nodeExists).toBe(true);
 
             wayExists = overPassData.exists(osmWay.type, osmWay.id);
-            assert.strictEqual(wayExists, true);
+            expect(wayExists).toBe(true);
         });
     });
 
     describe('get', () => {
-        it('Should return a saved element', () => {
+        test('Should return a saved element', () => {
             const osmNode = {
                 type: 'node',
                 id: '1234',
@@ -60,18 +59,18 @@ describe('OverPassData', () => {
             overPassData.save(osmNode);
 
             let node = overPassData.get(osmNode.type, osmNode.id);
-            assert.deepEqual(node, osmNode);
+            expect(node).toEqual(osmNode);
 
             let way = overPassData.get(osmWay.type, osmWay.id);
-            assert.strictEqual(way, undefined);
+            expect(way).toBe(undefined);
 
             overPassData.save(osmWay);
 
             node = overPassData.get(osmNode.type, osmNode.id);
-            assert.deepEqual(node, osmNode);
+            expect(node).toEqual(osmNode);
 
             way = overPassData.get(osmWay.type, osmWay.id);
-            assert.deepEqual(way, osmWay);
+            expect(way).toEqual(osmWay);
         });
     });
 });

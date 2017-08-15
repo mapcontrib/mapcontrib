@@ -4,11 +4,15 @@
         "classes": true
     },
     "plugins": [
-        "import"
+        "import",
+        "jest"
     ],
     "extends": "airbnb",
     "settings": {
         "import/resolver": "webpack"
+    },
+    "env": {
+        "jest/globals": true
     },
     "globals": {
         "window": true,
