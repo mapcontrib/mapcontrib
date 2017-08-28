@@ -1,5 +1,6 @@
 {
-  "description": "MapContrib",
+  "name": "mapcontrib",
+  "description": "MapContrib, Thematic OpenStreetMap contribution.",
   "version": "1.8.3",
   "license": "MIT",
   "author": {
