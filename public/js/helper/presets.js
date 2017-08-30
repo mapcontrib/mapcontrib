@@ -5,6 +5,7 @@ import TextareaField from 'ui/form/fields/textarea';
 import UrlField from 'ui/form/fields/url';
 import TelField from 'ui/form/fields/tel';
 import NumberField from 'ui/form/fields/number';
+import OpeningHoursField from 'ui/form/fields/openingHours';
 import FileField from 'ui/form/fields/file';
 import CheckField from 'ui/form/fields/check';
 import DefaultCheckField from 'ui/form/fields/defaultCheck';
@@ -119,6 +120,9 @@ export default class PresetsHelper {
 
     switch (tagType) {
       case CONST.tagType.text:
+        if (key === 'opening_hours') {
+          return new OpeningHoursField(fieldOptions);
+        }
         return new TextField(fieldOptions);
       case CONST.tagType.email:
         return new EmailField(fieldOptions);
