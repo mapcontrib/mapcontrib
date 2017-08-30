@@ -8,3 +8,4 @@
 * Migrate from Mocha to Jest.
 * Add Prettier, Husky and Lint-staged to automatically lint and format the source files.
 * Rename the repository and the organization from MapContrib to mapcontrib.
+
