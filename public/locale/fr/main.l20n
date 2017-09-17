@@ -119,6 +119,7 @@
 <settings "Configuration">
 <mainSettings "Configuration générale">
 <tiles "Fonds de carte">
+<administrators "Administrateurs">
 <options "Options">
 <addAnOption "Ajouter une option">
 <multiComboInfo1 "Complètent le préfixe <em>{{ $prefix }}</em>">
@@ -310,6 +311,11 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 /* Edit tiles column */
 <editTileColumn_title "Fonds de carte">
 <editTileColumn_maxZoom "Zoom maximum&nbsp;: {{ $maxZoom }}">
+
+
+/* Edit administrators column */
+<editAdministratorColumn_title "Administrateurs">
+<editAdministratorColumn_addAdministrator "Ajouter un administrateur">
 
 
 /* Edit POI column */
