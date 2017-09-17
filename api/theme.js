@@ -44,10 +44,11 @@ class Api {
         Backbone.Relational.store.reset();
 
         const userId = user._id.toString();
+        const osmId = user.osmId.toString();
         const collection = options.database.collection('theme');
         const model = new ThemeModel({
             userId,
-            owners: [ userId ],
+            owners: [ osmId ],
         });
 
         return new Promise((resolve, reject) => {
@@ -350,7 +351,8 @@ class Api {
             collection.find({
                 $or: [
                     { owners: '*' },
-                    { owners: userSession._id },
+                    { owners: userSession._id.toString() },
+                    { owners: userSession.osmId.toString() },
                 ],
             })
             .sort({ creationDate: -1 })
@@ -534,10 +536,11 @@ class Api {
             Backbone.Relational.store.reset();
 
             const userId = req.session.user._id.toString();
+            const osmId = req.session.user.osmId.toString();
             const model = new ThemeModel({
                 ...theme,
                 userId,
-                owners: [ userId ],
+                owners: [ osmId ],
             });
 
             model.get('presets').each((preset) => {

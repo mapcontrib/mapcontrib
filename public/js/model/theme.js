@@ -117,8 +117,9 @@ export default Backbone.RelationalModel.extend({
      */
   isOwner(userModel) {
     const userId = userModel.get('_id');
+    const osmId = userModel.get('osmId');
 
-    if (!userId) {
+    if (!userId && !osmId) {
       return false;
     }
 
@@ -127,6 +128,10 @@ export default Backbone.RelationalModel.extend({
     }
 
     if (this.get('owners').indexOf(userId) > -1) {
+      return true;
+    }
+
+    if (this.get('owners').indexOf(osmId) > -1) {
       return true;
     }
 

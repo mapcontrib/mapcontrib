@@ -255,8 +255,13 @@ export default class Api {
 
             const theme = results[0];
             const userId = req.session.user._id.toString();
+            const osmId = req.session.user.osmId.toString();
 
             if ( theme.owners.indexOf(userId) !== -1 ) {
+                return next();
+            }
+
+            if ( theme.owners.indexOf(osmId) !== -1 ) {
                 return next();
             }
 
