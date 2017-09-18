@@ -144,14 +144,34 @@ export default class Api {
       ];
 
       Promise.all(promises)
-        .then(data => {
-          templateVars.theme = escape(JSON.stringify(data[0]));
-          templateVars.themeAnalyticScript = data[0].analyticScript;
+        .then(async data => {
+          const theme = data[0];
+
+          templateVars.theme = escape(JSON.stringify(theme));
+          templateVars.themeAnalyticScript = theme.analyticScript;
           templateVars.userThemes = escape(JSON.stringify(data[1]));
           templateVars.userFavoriteThemesData = escape(JSON.stringify(data[2]));
           templateVars.nonOsmData = escape(JSON.stringify(data[3]));
           templateVars.osmCache = escape(JSON.stringify(data[4]));
           templateVars.iDPresets = escape(JSON.stringify(data[5]));
+
+          if (req.session.user) {
+            const userId = req.session.user._id.toString();
+            const osmId = req.session.user.osmId.toString();
+
+            if (ThemeCore.isThemeOwner(theme, userId, osmId) === true) {
+              templateVars.owners = JSON.stringify(
+                await userApi.Api.findFromIds(
+                  req,
+                  res,
+                  theme.owners,
+                  theme.osmOwners
+                )
+              );
+            }
+          } else {
+            templateVars.owners = '[]';
+          }
 
           res.render('theme', templateVars);
         })
@@ -268,19 +288,7 @@ export default class Api {
       const userId = req.session.user._id.toString();
       const osmId = req.session.user.osmId.toString();
 
-      if (theme.owners.indexOf(userId) !== -1) {
-        return next();
-      }
-
-      if (theme.owners.indexOf('*') !== -1) {
-        return next();
-      }
-
-      if (theme.osmOwners.indexOf(osmId) !== -1) {
-        return next();
-      }
-
-      if (theme.osmOwners.indexOf('*') !== -1) {
+      if (themeLib.isThemeOwner(theme, userId, osmId) === true) {
         return next();
       }
 

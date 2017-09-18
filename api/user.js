@@ -87,6 +87,49 @@ class Api {
     return true;
   }
 
+  static findFromIds(req, res, _ids, osmIds) {
+    const collection = options.database.collection('user');
+    let filteredIds = [];
+    let filteredOsmIds = [];
+
+    if (_ids) {
+      filteredIds = _ids.filter(_id => options.CONST.pattern.mongoId.test(_id));
+    }
+
+    if (osmIds) {
+      filteredOsmIds = osmIds.filter(osmId =>
+        options.CONST.pattern.integer.test(osmId)
+      );
+    }
+
+    return new Promise((resolve, reject) => {
+      collection
+        .find({
+          $or: [
+            { _id: { $in: filteredIds.map(_id => new ObjectID(_id)) } },
+            { osmId: { $in: filteredOsmIds } }
+          ]
+        })
+        .toArray((err, results) => {
+          if (err) {
+            logger.error(err);
+            res.sendStatus(500);
+
+            reject();
+          }
+
+          resolve(
+            results.map(result => ({
+              _id: result._id.toString(),
+              osmId: result.osmId,
+              displayName: result.displayName,
+              avatar: result.avatar
+            }))
+          );
+        });
+    });
+  }
+
   static getAll(req, res) {
     const collection = options.database.collection('user');
 
