@@ -314,7 +314,8 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* Edit administrators column */
 <editAdministratorColumn_title "Administrators">/* FIXME */
-<editAdministratorColumn_addAdministrator "Add an administrator">
+<editAdministratorColumn_description "You can give administration rights to any OSM user who did at least one OSM contribution since his account creation.">/* FIXME */
+<editAdministratorColumn_addAdministrator "Add an administrator">/* FIXME */
 
 
 /* Edit POI data column */
