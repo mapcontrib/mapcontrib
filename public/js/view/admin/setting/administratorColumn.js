@@ -1,11 +1,10 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import ListGroup from 'ui/listGroup';
 import template from 'templates/admin/setting/administrator/administratorColumn.ejs';
-// import templateListItem from 'templates/admin/setting/administrator/listItem.ejs';
 
 export default Marionette.LayoutView.extend({
   template,
-  // templateListItem,
 
   behaviors() {
     return {
@@ -18,14 +17,31 @@ export default Marionette.LayoutView.extend({
     };
   },
 
+  regions: {
+    list: '.rg_list'
+  },
+
   ui: {
-    column: '.column',
-    administratorList: '.administrator_list'
+    column: '.column'
   },
 
   initialize() {
-    this._app = this.options.app;
     this._radio = Wreqr.radio.channel('global');
+  },
+
+  onRender() {
+    const listGroup = new ListGroup({
+      collection: [],
+      labelAttribute: 'key',
+      reorderable: false,
+      removeable: true,
+      navigable: false,
+      placeholder: document.l10n.getSync('uiListGroup_placeholder')
+    });
+
+    this.listenTo(listGroup, 'item:remove', this._onRemove);
+
+    this.getRegion('list').show(listGroup);
   },
 
   onBeforeOpen() {
@@ -43,5 +59,10 @@ export default Marionette.LayoutView.extend({
     return this;
   },
 
-  onRender() {}
+  _onRemove(model, e) {
+    e.preventDefault();
+
+    model.destroy();
+    this.model.save();
+  }
 });

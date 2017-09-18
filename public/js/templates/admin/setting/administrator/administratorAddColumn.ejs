@@ -1,0 +1,46 @@
+<section class="column right orange">
+    <header>
+        <button type="button" class="btn btn-link btn-lg pull-right close_btn">
+            <i class="fa fa-close"></i>
+        </button>
+
+        <h2 data-l10n-id="editAdministratorColumn_title"></h2>
+    </header>
+
+    <form>
+        <div class="container-fluid content sticky">
+            <div class="row sticky-inner">
+                <div class="col-xs-12">
+                    <div class="form-group append-xs-2">
+                        <label for="tag_key" class="control-label" data-l10n-id="key"></label>
+                        <input type="text" spellcheck="false" class="form-control" id="tag_key" value="<%- key %>">
+                    </div>
+
+                    <div class="form-group append-xs-2">
+                        <label class="control-label" data-l10n-id="type"></label>
+                        <div class="rg_type"></div>
+                    </div>
+
+                    <section class="combo_section hide">
+                        <div class="form-group append-xs-1">
+                            <label class="control-label" data-l10n-id="options"></label>
+                            <p class="multi_combo_info multi_combo_info_1 hide"></p>
+                            <p class="multi_combo_info hide" data-l10n-id="multiComboInfo2"></p>
+                            <div class="rg_combo_options"></div>
+                        </div>
+                        <div class="form-group append-xs-2">
+                            <button type="button" class="btn btn-primary add_option_btn" data-l10n-id="addAnOption"></button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="row sticky-footer">
+                <div class="col-xs-12">
+                    <button type="reset" class="btn btn-default" data-l10n-id="cancel"></button>
+                    <button type="submit" class="btn btn-primary pull-right" data-l10n-id="save"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
