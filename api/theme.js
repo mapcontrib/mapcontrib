@@ -44,7 +44,7 @@ class Api {
     const collection = options.database.collection('theme');
     const model = new ThemeModel({
       userId,
-      owners: [osmId]
+      osmOwners: [osmId]
     });
 
     return new Promise((resolve, reject) => {
@@ -94,7 +94,10 @@ class Api {
   }
 
   static get(req, res) {
-    if (!req.params._id || !options.CONST.pattern.mongoId.test(req.params._id)) {
+    if (
+      !req.params._id ||
+      !options.CONST.pattern.mongoId.test(req.params._id)
+    ) {
       res.sendStatus(400);
 
       return true;
@@ -185,18 +188,26 @@ class Api {
             for (const locale in layer.locales) {
               if ({}.hasOwnProperty.call(layer.locales, locale)) {
                 localefields.push(
-                  [layer.locales[locale].name, layer.locales[locale].description].join(' ')
+                  [
+                    layer.locales[locale].name,
+                    layer.locales[locale].description
+                  ].join(' ')
                 );
               }
             }
 
-            layerfields.push([layer.name, layer.description, layer.overpassRequest].join(' '));
+            layerfields.push(
+              [layer.name, layer.description, layer.overpassRequest].join(' ')
+            );
           }
 
           for (const locale in theme.locales) {
             if ({}.hasOwnProperty.call(theme.locales, locale)) {
               localefields.push(
-                [theme.locales[locale].name, theme.locales[locale].description].join(' ')
+                [
+                  theme.locales[locale].name,
+                  theme.locales[locale].description
+                ].join(' ')
               );
             }
           }
@@ -284,7 +295,12 @@ class Api {
 
       collection
         .find({
-          $or: [{ owners: '*' }, { owners: ownerId }]
+          $or: [
+            { owners: '*' },
+            { owners: ownerId },
+            { osmOwners: '*' },
+            { osmOwners: ownerId }
+          ]
         })
         .toArray((err, results) => {
           if (err) {
@@ -317,7 +333,8 @@ class Api {
           $or: [
             { owners: '*' },
             { owners: userSession._id.toString() },
-            { owners: userSession.osmId.toString() }
+            { osmOwners: '*' },
+            { osmOwners: userSession.osmId.toString() }
           ]
         })
         .sort({ creationDate: -1 })
@@ -397,7 +414,7 @@ class Api {
 
       collection
         .find({
-          owners: '*'
+          $or: [{ owners: '*' }, { osmOwners: '*' }]
         })
         .toArray((err, results) => {
           if (err) {
@@ -507,7 +524,7 @@ class Api {
         const model = new ThemeModel({
           ...theme,
           userId,
-          owners: [osmId]
+          osmOwners: [osmId]
         });
 
         model.get('presets').each(preset => {
@@ -530,11 +547,17 @@ class Api {
             const fileUri = layer.get('fileUri');
 
             if (fileUri) {
-              layer.set('fileUri', fileUri.replace(`/${req.params.fragment}/`, `/${fragment}/`));
+              layer.set(
+                'fileUri',
+                fileUri.replace(`/${req.params.fragment}/`, `/${fragment}/`)
+              );
             }
           });
 
-          options.fileApi.duplicateFilesFromFragments(req.params.fragment, fragment);
+          options.fileApi.duplicateFilesFromFragments(
+            req.params.fragment,
+            fragment
+          );
 
           const collection = options.database.collection('theme');
 
@@ -544,7 +567,9 @@ class Api {
               return res.sendStatus(500);
             }
 
-            return res.redirect(ThemeCore.buildPath(model.get('fragment'), model.get('name')));
+            return res.redirect(
+              ThemeCore.buildPath(model.get('fragment'), model.get('name'))
+            );
           });
         });
       })

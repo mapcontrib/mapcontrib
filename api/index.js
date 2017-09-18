@@ -46,7 +46,12 @@ export default class Api {
     app.get('/api/theme', themeApi.Api.getAll);
     app.get('/api/theme/:_id', themeApi.Api.get);
     app.post('/api/theme', Api.isLoggedIn, themeApi.Api.post);
-    app.put('/api/theme/:_id', Api.isLoggedIn, this._isThemeOwner.bind(this), themeApi.Api.put);
+    app.put(
+      '/api/theme/:_id',
+      Api.isLoggedIn,
+      this._isThemeOwner.bind(this),
+      themeApi.Api.put
+    );
     // app.delete(
     //     '/api/theme/:_id',
     //     Api.isLoggedIn,
@@ -68,7 +73,9 @@ export default class Api {
     app.get('/', (req, res) => {
       const clientConfig = config.get('client');
       const templateVars = {
-        user: req.session.user ? escape(JSON.stringify(req.session.user)) : '{}',
+        user: req.session.user
+          ? escape(JSON.stringify(req.session.user))
+          : '{}',
         config: JSON.stringify(clientConfig),
         highlightList: '[]',
         version: packageJson.version,
@@ -83,7 +90,10 @@ export default class Api {
 
       const highlightPromises = [];
 
-      if (clientConfig.highlightedThemes && clientConfig.highlightedThemes.length > 0) {
+      if (
+        clientConfig.highlightedThemes &&
+        clientConfig.highlightedThemes.length > 0
+      ) {
         for (const fragment of clientConfig.highlightedThemes) {
           highlightPromises.push(themeApi.Api.findFromFragment(fragment));
         }
@@ -115,7 +125,9 @@ export default class Api {
     app.get(/\/t\/(\w+)(-.*)?/, (req, res) => {
       const fragment = req.params['0'];
       const templateVars = {
-        user: req.session.user ? escape(JSON.stringify(req.session.user)) : '{}',
+        user: req.session.user
+          ? escape(JSON.stringify(req.session.user))
+          : '{}',
         config: JSON.stringify(config.get('client')),
         version: packageJson.version,
         analyticScript: config.get('analyticScript')
@@ -154,12 +166,18 @@ export default class Api {
 
           const model = new ThemeModel(theme);
 
-          res.redirect(ThemeCore.buildPath(model.get('fragment'), model.get('name')));
+          res.redirect(
+            ThemeCore.buildPath(model.get('fragment'), model.get('name'))
+          );
         })
         .catch(Api.onPromiseError.bind(this, req, res));
     });
 
-    app.get('/duplicate_theme/:fragment', Api.isLoggedIn, themeApi.Api.duplicateFromFragment);
+    app.get(
+      '/duplicate_theme/:fragment',
+      Api.isLoggedIn,
+      themeApi.Api.duplicateFromFragment
+    );
     app.get(
       '/delete_theme/:fragment',
       Api.isLoggedIn,
@@ -170,7 +188,11 @@ export default class Api {
     app.post('/api/file/shape', fileApi.Api.postShapeFile);
     app.post('/api/file/nonOsmData', fileApi.Api.postNonOsmDataFile);
 
-    app.get('/api/overPassCache/generate/:uuid', Api.isLoggedIn, overPassCacheApi.Api.generate);
+    app.get(
+      '/api/overPassCache/generate/:uuid',
+      Api.isLoggedIn,
+      overPassCacheApi.Api.generate
+    );
     app.get('/api/iDPresets/locale', (req, res) => {
       if (!req.query.locales || req.query.locales.length < 1) {
         return res.sendStatus(400);
@@ -250,11 +272,15 @@ export default class Api {
         return next();
       }
 
-      if (theme.owners.indexOf(osmId) !== -1) {
+      if (theme.owners.indexOf('*') !== -1) {
         return next();
       }
 
-      if (theme.owners.indexOf('*') !== -1) {
+      if (theme.osmOwners.indexOf(osmId) !== -1) {
+        return next();
+      }
+
+      if (theme.osmOwners.indexOf('*') !== -1) {
         return next();
       }
 

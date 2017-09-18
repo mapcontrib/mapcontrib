@@ -131,11 +131,15 @@ export default Backbone.RelationalModel.extend({
       return true;
     }
 
-    if (this.get('owners').indexOf(osmId) > -1) {
+    if (this.get('owners').indexOf('*') > -1) {
       return true;
     }
 
-    if (this.get('owners').indexOf('*') > -1) {
+    if (this.get('osmOwners').indexOf(osmId) > -1) {
+      return true;
+    }
+
+    if (this.get('osmOwners').indexOf('*') > -1) {
       return true;
     }
 
