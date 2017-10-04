@@ -1,7 +1,6 @@
 import { DOMParser } from 'xmldom';
 
 function buildWhosthatEndPoint(argParams = {}) {
-  const whosthatEndPoint = 'http://whosthat.osmz.ru/whosthat.php';
   const defaultParams = {
     q: '',
     action: 'names'
@@ -16,7 +15,7 @@ function buildWhosthatEndPoint(argParams = {}) {
 
   const queryString = searchParams.toString();
 
-  return `${whosthatEndPoint}?${queryString}`;
+  return `/whosthat-proxy/?${queryString}`;
 }
 
 export function findUsersFromDisplayName(displayName) {

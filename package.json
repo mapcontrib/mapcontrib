@@ -127,6 +127,7 @@
     "mongodb": "^2.1.14",
     "morgan": "^1.2.2",
     "multer": "^0.1.8",
+    "node-fetch": "^1.7.3",
     "osm-auth": "^0.2.8",
     "osmtogeojson": "^2.2.11",
     "passport": "^0.3.2",

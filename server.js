@@ -1,5 +1,5 @@
 import path from 'path';
-
+import fetch from 'node-fetch';
 import ejs from 'ejs';
 import express from 'express';
 import compression from 'compression';
@@ -63,6 +63,20 @@ if (app.get('env') !== 'production') {
 
 app.get('/theme-s8c2d4', (req, res) => {
   res.redirect('/t/s8c2d4-MapContrib');
+});
+
+app.get('/whosthat-proxy', (req, res) => {
+  const searchParams = [];
+
+  for (const paramName of Object.keys(req.query)) {
+    searchParams.push(`${paramName}=${req.query[paramName]}`);
+  }
+
+  const queryString = searchParams.join('&');
+
+  fetch(`http://whosthat.osmz.ru/whosthat.php?${queryString}`)
+    .then(response => response.text())
+    .then(text => res.send(text));
 });
 
 const database = new Database();
