@@ -24,10 +24,12 @@ import UserThemeCollection from 'collection/userTheme';
 import UserFavoriteThemes from 'core/userFavoriteThemes';
 import UserFavoriteThemesDataCollection from 'collection/userFavoriteThemesData';
 import ThemeModel from 'model/theme';
+import OwnerCollection from 'collection/owner';
 import NonOsmDataCollection from 'collection/nonOsmData';
 import OsmCacheCollection from 'collection/osmCache';
 import LayerCollection from 'collection/layer';
 import Behaviors from './behavior';
+import { getUserInfoFromId } from 'helper/osmUsers';
 import IDPresetsHelper from 'helper/iDPresets';
 /* eslint-enable */
 
@@ -101,6 +103,26 @@ export default Marionette.Application.extend({
         this._theme = new ThemeModel(JSON.parse(unescape(MAPCONTRIB.theme)));
       }
 
+      if (MAPCONTRIB.owners) {
+        this._owners = new OwnerCollection(
+          JSON.parse(unescape(MAPCONTRIB.owners))
+        );
+      }
+
+      if (MAPCONTRIB.unknownOwners) {
+        const unknownOwners = JSON.parse(unescape(MAPCONTRIB.unknownOwners));
+
+        unknownOwners.map(osmUserId => {
+          getUserInfoFromId(osmUserId).then(userInfos => {
+            this._owners.add({
+              osmId: userInfos.id,
+              displayName: userInfos.displayName,
+              avatar: userInfos.avatar
+            });
+          });
+        });
+      }
+
       if (MAPCONTRIB.nonOsmData) {
         this._nonOsmData = new NonOsmDataCollection(
           JSON.parse(unescape(MAPCONTRIB.nonOsmData))
@@ -153,6 +175,10 @@ export default Marionette.Application.extend({
 
   getUserThemes() {
     return this._userThemes;
+  },
+
+  getOwners() {
+    return this._owners;
   },
 
   getUserFavoriteThemes() {

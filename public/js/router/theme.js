@@ -592,7 +592,9 @@ export default Backbone.Router.extend({
     new AdminSettingAdministratorColumn({
       router: this,
       app: this._app,
-      model: this._theme
+      model: this._theme,
+      collection: this._app.getOwners(),
+      user: this._app.getUser()
     }).open();
   },
 
@@ -605,7 +607,8 @@ export default Backbone.Router.extend({
     new AdminSettingAdministratorAddColumn({
       router: this,
       app: this._app,
-      model: this._theme
+      model: this._theme,
+      collection: this._app.getOwners()
     }).open();
   },
 

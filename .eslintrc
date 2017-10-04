@@ -1,13 +1,19 @@
 {
     "parser": "babel-eslint",
     "ecmaFeatures": {
-        "classes": true
+        "classes": true,
+        "es6": true,
+        "browser": true,
+        "node": true,
     },
     "plugins": [
         "import",
         "jest"
     ],
-    "extends": "prettier",
+    "extends": [
+      "prettier",
+      "eslint:recommended"
+    ],
     "settings": {
         "import/resolver": "webpack"
     },

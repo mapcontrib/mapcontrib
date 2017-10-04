@@ -31,8 +31,8 @@ export default Marionette.LayoutView.extend({
 
   onRender() {
     const listGroup = new ListGroup({
-      collection: [],
-      labelAttribute: 'key',
+      collection: this.collection,
+      labelAttribute: 'displayName',
       reorderable: false,
       removeable: true,
       navigable: false,
@@ -62,7 +62,28 @@ export default Marionette.LayoutView.extend({
   _onRemove(model, e) {
     e.preventDefault();
 
-    model.destroy();
+    const removedId = model.get('_id');
+    const removedOsmId = model.get('osmId');
+
+    if (this.options.user.get('_id') === removedId) {
+      return false;
+    }
+
+    if (this.options.user.get('osmId') === removedOsmId) {
+      return false;
+    }
+
+    const owners = this.model
+      .get('owners')
+      .filter(ownerId => ownerId !== removedId);
+    const osmOwners = this.model
+      .get('osmOwners')
+      .filter(osmOwnerId => osmOwnerId !== removedOsmId);
+
+    this.model.set('owners', owners);
+    this.model.set('osmOwners', osmOwners);
+
+    this.collection.remove(this.collection.findWhere({ osmId: removedOsmId }));
     this.model.save();
   }
 });

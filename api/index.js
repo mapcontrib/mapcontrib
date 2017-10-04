@@ -160,14 +160,21 @@ export default class Api {
             const osmId = req.session.user.osmId.toString();
 
             if (ThemeCore.isThemeOwner(theme, userId, osmId) === true) {
-              templateVars.owners = JSON.stringify(
-                await userApi.Api.findFromIds(
-                  req,
-                  res,
-                  theme.owners,
-                  theme.osmOwners
-                )
+              const knownOwners = await userApi.Api.findFromIds(
+                req,
+                res,
+                theme.owners,
+                theme.osmOwners
               );
+              const unknownOwners = theme.osmOwners.filter(
+                osmOwnerId =>
+                  !knownOwners.find(
+                    knownOwner => knownOwner.osmId === osmOwnerId
+                  )
+              );
+
+              templateVars.owners = JSON.stringify(knownOwners);
+              templateVars.unknownOwners = JSON.stringify(unknownOwners);
             }
           } else {
             templateVars.owners = '[]';
@@ -288,7 +295,7 @@ export default class Api {
       const userId = req.session.user._id.toString();
       const osmId = req.session.user.osmId.toString();
 
-      if (themeLib.isThemeOwner(theme, userId, osmId) === true) {
+      if (ThemeCore.isThemeOwner(theme, userId, osmId) === true) {
         return next();
       }
 

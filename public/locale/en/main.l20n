@@ -318,6 +318,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <editAdministratorColumn_title "Administrators">
 <editAdministratorColumn_description "You can give administration rights to any OSM user who did at least one OSM contribution since his account creation.">
 <editAdministratorColumn_addAdministrator "Add an administrator">
+<editAdministratorColumn_typeDisplayName "Type an OSM contributor name">
 
 
 /* Edit POI data column */

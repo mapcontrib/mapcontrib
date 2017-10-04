@@ -1,9 +1,10 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import CONST from 'const';
-import template from 'templates/admin/tag/tagEditColumn.ejs';
-import TagType from 'ui/form/tagType';
-import ComboFieldOptions from 'ui/form/comboFieldOptions';
+import template from 'templates/admin/setting/administrator/administratorAddColumn.ejs';
+import SearchInput from 'ui/form/searchInput';
+import DeviceHelper from 'helper/device';
+import { findUsersFromDisplayName, getUserInfoFromId } from 'helper/osmUsers';
+import NavPillsStackedListView from 'ui/navPillsStacked';
 
 export default Marionette.LayoutView.extend({
   template,
@@ -22,48 +23,29 @@ export default Marionette.LayoutView.extend({
 
   ui: {
     column: '.column',
-    tagKey: '#tag_key',
-    multiComboInfo1: '.multi_combo_info_1',
-    multiComboInfo: '.multi_combo_info',
-    keyPrefix: '.key_prefix',
-    comboSection: '.combo_section',
-    addOptionButton: '.add_option_btn'
+    noResultPlaceholder: '.placeholder_no_result',
+    searchResults: '.rg_search_results'
   },
 
   events: {
-    'click @ui.addOptionButton': '_onClickAddOption',
-    'change @ui.tagKey': '_onChangeTagKey',
     submit: '_onSubmit',
     reset: '_onReset'
   },
 
   regions: {
-    type: '.rg_type',
-    comboOptions: '.rg_combo_options'
+    searchInput: '.rg_search_input',
+    searchResults: '.rg_search_results'
   },
 
   initialize() {
+    this._app = this.options.app;
     this._radio = Wreqr.radio.channel('global');
+    this._window = this._app.getWindow();
+    this._document = this._app.getDocument();
+    this._config = this._app.getConfig();
+    this._deviceHelper = new DeviceHelper(this._config, this._window);
 
-    this._oldModel = this.model.clone();
-  },
-
-  onRender() {
-    this._tagType = new TagType({
-      value: this.model.get('type')
-    });
-
-    this._tagType.on('change', this._onChangeTagType, this);
-
-    this.getRegion('type').show(this._tagType);
-
-    this._comboOptions = new ComboFieldOptions({
-      options: this.model.get('options')
-    });
-    this.getRegion('comboOptions').show(this._comboOptions);
-
-    this._onChangeTagKey();
-    this._onChangeTagType();
+    this._searchResults = [];
   },
 
   onBeforeOpen() {
@@ -81,73 +63,96 @@ export default Marionette.LayoutView.extend({
     return this;
   },
 
-  _onSubmit(e) {
-    e.preventDefault();
+  onRender() {
+    this._searchInput = new SearchInput();
 
-    const tagKey = this.ui.tagKey.val().trim();
-    const tagType = this._tagType.getValue();
-    const tagOptions = this._comboOptions.getOptions();
+    this.getRegion('searchInput').show(this._searchInput);
 
-    this.model.set('key', tagKey);
-    this.model.set('type', tagType);
-    this.model.set('options', tagOptions);
+    this._searchInput.on('empty', this._resetResults, this);
+    this._searchInput.on('search', this._fetchOsmContributors, this);
 
-    if (this.options.isNew) {
-      this.options.theme.get('tags').add(this.model);
+    if (this._deviceHelper.isTallScreen() === true) {
+      this._searchInput.setFocus();
     }
 
-    this.model.updateModificationDate();
-    this.options.theme.updateModificationDate();
-    this.options.theme.save(
-      {},
-      {
-        success: () => {
-          this.close();
-        },
+    this._navItems = new NavPillsStackedListView();
+    this.showResults();
 
-        error: () => {
-          // FIXME
-          console.error('nok');
+    this.getRegion('searchResults').show(this._navItems);
+  },
+
+  _fetchOsmContributors(searchString) {
+    const startTime = new Date().getTime();
+    this._lastQueryStartTime = startTime;
+
+    findUsersFromDisplayName(searchString)
+      .then(osmContributors => {
+        if (startTime !== this._lastQueryStartTime) {
+          return;
         }
-      }
-    );
+
+        this._onOsmContributorsFetchSuccess(osmContributors);
+        this._searchInput.trigger('search:success');
+      })
+      .catch(() => {
+        this._onOsmContributorsFetchError();
+        this._searchInput.trigger('search:error');
+      });
   },
 
-  _onReset() {
-    this.close();
-  },
-
-  _onChangeTagType() {
-    const tagType = this._tagType.getValue();
-
-    this.ui.multiComboInfo.addClass('hide');
-
-    switch (tagType) {
-      case CONST.tagType.combo:
-        this.ui.comboSection.removeClass('hide');
-        break;
-      case CONST.tagType.typeCombo:
-        this.ui.comboSection.removeClass('hide');
-        break;
-      case CONST.tagType.multiCombo:
-        this.ui.multiComboInfo.removeClass('hide');
-        this.ui.comboSection.removeClass('hide');
-        break;
-      default:
-        this.ui.comboSection.addClass('hide');
+  _onOsmContributorsFetchSuccess(osmContributors) {
+    if (osmContributors.length === 0) {
+      this.showNoResultPlaceholder();
+    } else {
+      this._searchResults = osmContributors;
+      this.showResults();
     }
   },
 
-  _onClickAddOption() {
-    this._comboOptions.addOption();
+  _onOsmContributorsFetchError() {
+    this.showNoResultPlaceholder();
   },
 
-  _onChangeTagKey() {
-    const key = this.ui.tagKey.val();
-    const prefix = `${key}:`;
+  _resetResults() {
+    this._searchResults = [];
+    this.showResults();
+  },
 
-    this.ui.multiComboInfo1.html(
-      document.l10n.getSync('multiComboInfo1', { prefix })
-    );
+  showNoResultPlaceholder() {
+    this.ui.searchResults.addClass('hide');
+    this.ui.noResultPlaceholder.removeClass('hide');
+  },
+
+  showResults() {
+    const navItems = this._searchResults.map(osmContributor => ({
+      label: osmContributor.displayName,
+      callback: () => this._onClickOsmContributor(osmContributor)
+    }));
+    this._navItems.setItems(navItems);
+
+    this.ui.noResultPlaceholder.addClass('hide');
+    this.ui.searchResults.removeClass('hide');
+  },
+
+  _onClickOsmContributor(osmContributor) {
+    this.model.set('osmOwners', [
+      ...this.model.get('osmOwners'),
+      osmContributor.id
+    ]);
+
+    getUserInfoFromId(osmContributor.id).then(userInfos => {
+      this.collection.add({
+        osmId: userInfos.id,
+        displayName: userInfos.displayName,
+        avatar: userInfos.avatar
+      });
+
+      this.model.save();
+      this.options.router.navigate('admin/setting/administrator', true);
+    });
+  },
+
+  hidePlaceholders() {
+    this.ui.noResultPlaceholder.addClass('hide');
   }
 });
