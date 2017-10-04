@@ -89,12 +89,14 @@ export default class Theme {
       return true;
     }
 
-    if (theme.osmOwners.indexOf(osmId) !== -1) {
-      return true;
-    }
+    if (theme.osmOwners) {
+      if (theme.osmOwners.indexOf(osmId) !== -1) {
+        return true;
+      }
 
-    if (theme.osmOwners.indexOf('*') !== -1) {
-      return true;
+      if (theme.osmOwners.indexOf('*') !== -1) {
+        return true;
+      }
     }
 
     return false;
