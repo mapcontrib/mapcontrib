@@ -119,6 +119,7 @@
 <settings "Settings">
 <mainSettings "Main settings">
 <tiles "Backgrounds">
+<administrators "Administrators">
 <options "Options">
 <addAnOption "Add an option">
 <multiComboInfo1 "Complete the <em>{{ $prefix }}</em> prefix">
@@ -311,6 +312,13 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 /* Edit tiles column */
 <editTileColumn_title "Backgrounds">
 <editTileColumn_maxZoom "Maximum zoom: {{ $maxZoom }}">
+
+
+/* Edit administrators column */
+<editAdministratorColumn_title "Administrators">
+<editAdministratorColumn_description "You can give administration rights to any OSM user who did at least one OSM contribution since his account creation.">
+<editAdministratorColumn_addAdministrator "Add an administrator">
+<editAdministratorColumn_typeDisplayName "Type an OSM contributor name">
 
 
 /* Edit POI data column */

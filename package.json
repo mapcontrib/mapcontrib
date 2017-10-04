@@ -34,7 +34,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "{src,public}/**/*.{js,jsx,json,css,less,scss}": [
+    "{api,cron,lib,public,scripts}/**/*.{js,jsx,json,css,less,scss}": [
       "prettier --single-quote --write",
       "npm test",
       "git add"

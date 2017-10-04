@@ -8,7 +8,7 @@ export default class Theme {
      * @static
      * @access public
      * @param {string} nameArg
-     * @return string
+     * @return {string}
      */
   static buildWebLinkName(nameArg) {
     let name = nameArg || '';
@@ -28,9 +28,9 @@ export default class Theme {
      * @author Guillaume AMAT
      * @static
      * @access public
-     * @pram {string} fragment
-     * @pram {string} name
-     * @return string
+     * @param {string} fragment
+     * @param {string} name
+     * @return {string}
      */
   static buildPath(fragment, name) {
     const basePath = `/t/${fragment}`;
@@ -49,10 +49,10 @@ export default class Theme {
      * @author Guillaume AMAT
      * @static
      * @access public
-     * @pram {object} The browser's window object
-     * @pram {string} fragment
-     * @pram {string} name
-     * @return string
+     * @param {object} window - The browser's window object
+     * @param {string} fragment
+     * @param {string} name
+     * @return {string}
      */
   static buildUrl(window, fragment, name) {
     const urlParts = [
@@ -63,5 +63,40 @@ export default class Theme {
     ];
 
     return urlParts.join('');
+  }
+
+  /**
+     * Tells if a user is the owner of the theme.
+     *
+     * @author Guillaume AMAT
+     * @static
+     * @access public
+     * @param {object} theme - The theme
+     * @param {string} userId
+     * @param {string} osmId
+     * @return {boolean}
+     */
+  static isThemeOwner(theme, userId, osmId) {
+    if (theme.userId === userId) {
+      return true;
+    }
+
+    if (theme.owners.indexOf(userId) !== -1) {
+      return true;
+    }
+
+    if (theme.owners.indexOf('*') !== -1) {
+      return true;
+    }
+
+    if (theme.osmOwners.indexOf(osmId) !== -1) {
+      return true;
+    }
+
+    if (theme.osmOwners.indexOf('*') !== -1) {
+      return true;
+    }
+
+    return false;
   }
 }

@@ -2,6 +2,8 @@ import Backbone from 'backbone';
 import 'backbone-relational';
 import CONST from '../const';
 
+import ThemeCore from 'core/theme';
+
 import LayerCollection from '../collection/layer';
 import PresetCollection from '../collection/preset';
 import PresetCategoryCollection from '../collection/presetCategory';
@@ -61,6 +63,7 @@ export default Backbone.RelationalModel.extend({
         lng: 1.58
       },
       owners: [],
+      osmOwners: [],
       geocoder: undefined,
       infoDisplay: CONST.infoDisplay.column,
       analyticScript: '',
@@ -117,24 +120,13 @@ export default Backbone.RelationalModel.extend({
      */
   isOwner(userModel) {
     const userId = userModel.get('_id');
+    const osmId = userModel.get('osmId');
 
-    if (!userId) {
+    if (!userId && !osmId) {
       return false;
     }
 
-    if (this.get('userId') === userId) {
-      return true;
-    }
-
-    if (this.get('owners').indexOf(userId) > -1) {
-      return true;
-    }
-
-    if (this.get('owners').indexOf('*') > -1) {
-      return true;
-    }
-
-    return false;
+    return ThemeCore.isThemeOwner(this.toJSON(), userId, osmId);
   },
 
   getLocaleCompletion(localeCode) {

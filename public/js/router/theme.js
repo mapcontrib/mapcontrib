@@ -37,6 +37,8 @@ import ContributeEditFormColumn from 'view/contribute/edit/formColumn';
 import AdminSettingMenuColumn from 'view/admin/setting/menuColumn';
 import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
 import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
+import AdminSettingAdministratorColumn from 'view/admin/setting/administratorColumn';
+import AdminSettingAdministratorAddColumn from 'view/admin/setting/administratorAddColumn';
 import AdminSettingCacheArchiveColumn from 'view/admin/setting/cacheArchive/mainColumn';
 import AdminSettingCacheArchiveSeeArchivesColumn from 'view/admin/setting/cacheArchive/archiveColumn';
 import AdminSettingCacheArchiveDetailColumn from 'view/admin/setting/cacheArchive/detailColumn';
@@ -99,6 +101,8 @@ export default Backbone.Router.extend({
     'admin/setting': 'routeAdminSettingMenu',
     'admin/setting/main': 'routeAdminSettingMain',
     'admin/setting/tile': 'routeAdminSettingTile',
+    'admin/setting/administrator': 'routeAdminSettingAdministrator',
+    'admin/setting/administrator/new': 'routeAdminSettingAdministratorAdd',
     'admin/setting/cache-archive': 'routeAdminSettingCacheArchive',
     'admin/setting/cache-archive/archives':
       'routeAdminSettingCacheArchiveSeeArchives',
@@ -576,6 +580,35 @@ export default Backbone.Router.extend({
       router: this,
       app: this._app,
       model: this._theme
+    }).open();
+  },
+
+  routeAdminSettingAdministrator() {
+    if (!this._userIsOwnerOfTheme()) {
+      this.navigate('');
+      return;
+    }
+
+    new AdminSettingAdministratorColumn({
+      router: this,
+      app: this._app,
+      model: this._theme,
+      collection: this._app.getOwners(),
+      user: this._app.getUser()
+    }).open();
+  },
+
+  routeAdminSettingAdministratorAdd() {
+    if (!this._userIsOwnerOfTheme()) {
+      this.navigate('');
+      return;
+    }
+
+    new AdminSettingAdministratorAddColumn({
+      router: this,
+      app: this._app,
+      model: this._theme,
+      collection: this._app.getOwners()
     }).open();
   },
 
