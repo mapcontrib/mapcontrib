@@ -146,6 +146,8 @@ export default class Api {
       Promise.all(promises)
         .then(async data => {
           const theme = data[0];
+          let owners = [];
+          let unknownOwners = [];
 
           templateVars.theme = escape(JSON.stringify(theme));
           templateVars.themeAnalyticScript = theme.analyticScript;
@@ -160,29 +162,24 @@ export default class Api {
             const osmId = req.session.user.osmId.toString();
 
             if (ThemeCore.isThemeOwner(theme, userId, osmId) === true) {
-              const knownOwners = await userApi.Api.findFromIds(
+              const owners = await userApi.Api.findFromIds(
                 req,
                 res,
                 theme.owners,
                 theme.osmOwners
               );
-              let unknownOwners = [];
 
               if (theme.osmOwners) {
                 unknownOwners = theme.osmOwners.filter(
                   osmOwnerId =>
-                    !knownOwners.find(
-                      knownOwner => knownOwner.osmId === osmOwnerId
-                    )
+                    !owners.find(owner => owner.osmId === osmOwnerId)
                 );
               }
-
-              templateVars.owners = JSON.stringify(knownOwners);
-              templateVars.unknownOwners = JSON.stringify(unknownOwners);
             }
-          } else {
-            templateVars.owners = '[]';
           }
+
+          templateVars.owners = JSON.stringify(owners);
+          templateVars.unknownOwners = JSON.stringify(unknownOwners);
 
           res.render('theme', templateVars);
         })
