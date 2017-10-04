@@ -166,12 +166,16 @@ export default class Api {
                 theme.owners,
                 theme.osmOwners
               );
-              const unknownOwners = theme.osmOwners.filter(
-                osmOwnerId =>
-                  !knownOwners.find(
-                    knownOwner => knownOwner.osmId === osmOwnerId
-                  )
-              );
+              let unknownOwners = [];
+
+              if (theme.osmOwners) {
+                unknownOwners = theme.osmOwners.filter(
+                  osmOwnerId =>
+                    !knownOwners.find(
+                      knownOwner => knownOwner.osmId === osmOwnerId
+                    )
+                );
+              }
 
               templateVars.owners = JSON.stringify(knownOwners);
               templateVars.unknownOwners = JSON.stringify(unknownOwners);
