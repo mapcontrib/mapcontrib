@@ -162,7 +162,7 @@ export default class Api {
             const osmId = req.session.user.osmId.toString();
 
             if (ThemeCore.isThemeOwner(theme, userId, osmId) === true) {
-              const owners = await userApi.Api.findFromIds(
+              owners = await userApi.Api.findFromIds(
                 req,
                 res,
                 theme.owners,
