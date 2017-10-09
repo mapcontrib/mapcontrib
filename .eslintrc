@@ -1,40 +1,25 @@
 {
     "parser": "babel-eslint",
-    "ecmaFeatures": {
-        "classes": true,
-        "es6": true,
-        "browser": true,
-        "node": true,
-    },
     "plugins": [
         "import",
         "jest"
     ],
     "extends": [
-      "prettier",
-      "eslint:recommended"
+        "eslint:recommended",
+        "prettier"
     ],
     "settings": {
         "import/resolver": "webpack"
     },
     "env": {
-        "jest/globals": true
+        "es6": true,
+        "browser": true,
+        "node": true,
+        "jest": true
     },
     "globals": {
-        "window": true,
-        "document": true,
         "MAPCONTRIB": true,
         "$": true,
-        "localStorage": true,
-        "sessionStorage": true,
-        "XMLHttpRequest": true,
-        "File": true,
-        "FileList": true,
-        "FileReader": true,
-        "Blob": true,
-        "describe": true,
-        "it": true,
         "L": true,
-        "before": true,
     }
 }
