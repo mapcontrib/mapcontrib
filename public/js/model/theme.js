@@ -82,6 +82,10 @@ export default Backbone.RelationalModel.extend({
   localizedAttributes: ['name', 'description'],
 
   initialize() {
+    if (Array.isArray(this.get('locales'))) {
+      this.set('locales', {});
+    }
+
     if (!this.get('geocoder')) {
       if (typeof window !== 'undefined' && typeof MAPCONTRIB !== 'undefined') {
         this.set('geocoder', CONST.geocoder[MAPCONTRIB.config.defaultGeocoder]);

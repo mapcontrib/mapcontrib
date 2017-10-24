@@ -27,6 +27,10 @@ export default Backbone.RelationalModel.extend({
     if (!this.get('uuid')) {
       this.set('uuid', uuid());
     }
+
+    if (Array.isArray(this.get('locales'))) {
+      this.set('locales', {});
+    }
   },
 
   updateModificationDate() {
