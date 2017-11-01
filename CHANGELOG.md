@@ -1,5 +1,17 @@
 # Changelog
 
+# 1.9.0
+
+* Add the possibility to give administrator access to your theme to others OSM contributors.
+* On opening_hours fields, add a button to open the YoHours application.
+* Remove the Fira font.
+* Remove the mo-js module.
+* Remove the useless moment.js locales.
+* Upgrade to Node.js 8.
+* Migrate from Mocha to Jest.
+* Add Prettier, Husky and Lint-staged to automatically lint and format the source files.
+* Rename the repository and the organization from MapContrib to mapcontrib.
+
 # 1.8.3
 
 * Add the Thunderforest API key to tiles.
