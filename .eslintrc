@@ -1,51 +1,25 @@
 {
     "parser": "babel-eslint",
-    "ecmaFeatures": {
-        "classes": true
-    },
     "plugins": [
-        "import"
+        "import",
+        "jest"
     ],
-    "extends": "airbnb",
+    "extends": [
+        "eslint:recommended",
+        "prettier"
+    ],
     "settings": {
         "import/resolver": "webpack"
     },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true,
+        "jest": true
+    },
     "globals": {
-        "window": true,
-        "document": true,
         "MAPCONTRIB": true,
         "$": true,
-        "localStorage": true,
-        "sessionStorage": true,
-        "XMLHttpRequest": true,
-        "File": true,
-        "FileList": true,
-        "FileReader": true,
-        "Blob": true,
-        "describe": true,
-        "it": true,
         "L": true,
-        "before": true,
-    },
-    "rules": {
-        "indent": [0, 4],
-        "no-underscore-dangle": 0,
-        "array-bracket-spacing": 0,
-        "no-console": [2, { allow: ["warn", "error"] }],
-        "space-in-parens": 0,
-        "no-continue": 0,
-        "no-restricted-syntax": [0, "FunctionExpression", "WithStatement"],
-        "brace-style": [2, "stroustrup"],
-        "no-param-reassign": 0,
-        "import/first": 0,
-        "no-case-declarations": 0,
-        "no-shadow": 0,
-        "comma-dangle": ["error", {
-            "arrays": "always-multiline",
-            "objects": "always-multiline",
-            "imports": "always-multiline",
-            "exports": "always-multiline",
-            "functions": "never",
-        }]
     }
 }

@@ -1,12 +1,12 @@
-[![GitHub release](https://img.shields.io/github/release/MapContrib/MapContrib.svg)](https://github.com/MapContrib/MapContrib/releases)
+[![GitHub release](https://img.shields.io/github/release/mapcontrib/mapcontrib.svg)](https://github.com/mapcontrib/mapcontrib/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://api.travis-ci.org/MapContrib/MapContrib.svg?branch=develop)](http://travis-ci.org/MapContrib/MapContrib)
+[![Build Status](https://api.travis-ci.org/mapcontrib/mapcontrib.svg?branch=develop)](http://travis-ci.org/mapcontrib/mapcontrib)
 
-# ![MapContrib](https://github.com/MapContrib/MapContrib/raw/master/logo.png)
+# ![MapContrib](https://github.com/mapcontrib/mapcontrib/raw/master/logo.png)
 
 > Thematic OpenStreetMap contribution
 
-[![MapContrib](https://github.com/MapContrib/MapContrib/raw/master/screenshot.png)](https://www.mapcontrib.xyz)
+[![MapContrib](https://github.com/mapcontrib/mapcontrib/raw/master/screenshot.png)](https://www.mapcontrib.xyz)
 
 
 ## Useful links
@@ -15,7 +15,7 @@
 * [Blog](https://blog.mapcontrib.xyz)
 * [Docker official image](https://hub.docker.com/r/mapcontrib/mapcontrib/)
 * [Documentation](http://wiki.openstreetmap.org/wiki/MapContrib)
-* [Technical documentation](https://github.com/MapContrib/MapContrib/wiki)
+* [Technical documentation](https://github.com/mapcontrib/mapcontrib/wiki)
 
 
 ## Contribution
@@ -27,8 +27,8 @@ Informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUT
 
 Both installation methods are explained in the technical wiki:
 
-* [Install MapContrib with the Docker image](https://github.com/MapContrib/MapContrib/wiki/Install-MapContrib-with-the-Docker-image)
-* [Install MapContrib with source files](https://github.com/MapContrib/MapContrib/wiki/Install-MapContrib-with-source-files)
+* [Install MapContrib with the Docker image](https://github.com/mapcontrib/mapcontrib/wiki/Install-MapContrib-with-the-Docker-image)
+* [Install MapContrib with source files](https://github.com/mapcontrib/mapcontrib/wiki/Install-MapContrib-with-source-files)
 
 
 ## Thanks

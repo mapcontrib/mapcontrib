@@ -1,18 +1,16 @@
-
 import Backbone from 'backbone';
 import CONST from '../const';
 
-
 export default Backbone.Model.extend({
-    idAttribute: 'fragment',
+  idAttribute: 'fragment',
 
-    urlRoot: `${CONST.apiPath}/userTheme`,
+  urlRoot: `${CONST.apiPath}/userTheme`,
 
-    defaults() {
-        return {
-            fragment: undefined,
-            name: undefined,
-            color: undefined,
-        };
-    },
+  defaults() {
+    return {
+      fragment: undefined,
+      name: undefined,
+      color: undefined
+    };
+  }
 });

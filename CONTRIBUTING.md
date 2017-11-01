@@ -22,26 +22,26 @@ So thank you to make your pull requests on the `develop` branch instead of `mast
 Don't forget to run the Webpack based watcher by typing this command:
 
 ```
-$ yarn run watch
+$ npm run watch
 ```
 
 You can run the tests by runnning:
 
 ```
-$ yarn test
+$ npm test
 ```
 
 You can also debug your developments by using
 
 ```
-$ yarn run debug
+$ npm run debug
 $ # To start the Node.js debugger
 ```
 
 Or
 
 ```
-$ DEBUG=* yarn start
+$ DEBUG=* npm start
 $ # Works with Docker Compose too
 ```
 

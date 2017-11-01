@@ -1,5 +1,17 @@
 # Changelog
 
+# 1.9.0
+
+* Add the possibility to give administrator access to your theme to others OSM contributors.
+* On opening_hours fields, add a button to open the YoHours application.
+* Remove the Fira font.
+* Remove the mo-js module.
+* Remove the useless moment.js locales.
+* Upgrade to Node.js 8.
+* Migrate from Mocha to Jest.
+* Add Prettier, Husky and Lint-staged to automatically lint and format the source files.
+* Rename the repository and the organization from MapContrib to mapcontrib.
+
 # 1.8.3
 
 * Add the Thunderforest API key to tiles.
@@ -70,7 +82,7 @@
 
 * An official MapContrib Docker image is now available on the Docker Hub!
 * Upgrade the Docker Compose file to version 2.
-* Allow the instance administrator to add custom tiles in its configuration ([see the wiki](https://github.com/MapContrib/MapContrib/wiki/Add-custom-tiles)).
+* Allow the instance administrator to add custom tiles in its configuration ([see the wiki](https://github.com/mapcontrib/mapcontrib/wiki/Add-custom-tiles)).
 * All the tiles can now put an automatic attribution in the contribution changesets.
 * And as always, multiple bufixes and enhancement.
 

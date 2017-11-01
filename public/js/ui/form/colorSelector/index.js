@@ -1,49 +1,44 @@
-
 import Marionette from 'backbone.marionette';
 import template from './template.ejs';
 import './style.less';
 
-
 export default Marionette.LayoutView.extend({
-    template,
+  template,
 
-    className: 'form-group',
+  className: 'form-group',
 
-    ui: {
-        colorButtons: '.color-buttons .btn',
-    },
+  ui: {
+    colorButtons: '.color-buttons .btn'
+  },
 
-    events: {
-        'click @ui.colorButtons': '_onClickColorButtons',
-    },
+  events: {
+    'click @ui.colorButtons': '_onClickColorButtons'
+  },
 
-    initialize() {
-        this._color = this.options.color;
-        this.render();
-    },
+  initialize() {
+    this._color = this.options.color;
+    this.render();
+  },
 
-    onRender() {
-        if (this._color) {
-            this._checkColor(this._color);
-        }
-    },
+  onRender() {
+    if (this._color) {
+      this._checkColor(this._color);
+    }
+  },
 
-    getSelectedColor() {
-        return this._color;
-    },
+  getSelectedColor() {
+    return this._color;
+  },
 
-    _checkColor(color) {
-        this.ui.colorButtons
-        .filter( `.${color}` )
-        .find('i')
-        .addClass('fa-check');
-    },
+  _checkColor(color) {
+    this.ui.colorButtons.filter(`.${color}`).find('i').addClass('fa-check');
+  },
 
-    _onClickColorButtons(e) {
-        $('i', this.ui.colorButtons).removeClass('fa-check');
+  _onClickColorButtons(e) {
+    $('i', this.ui.colorButtons).removeClass('fa-check');
 
-        e.currentTarget.querySelector('i').classList.add('fa-check');
+    e.currentTarget.querySelector('i').classList.add('fa-check');
 
-        this._color = e.currentTarget.dataset.color;
-    },
+    this._color = e.currentTarget.dataset.color;
+  }
 });

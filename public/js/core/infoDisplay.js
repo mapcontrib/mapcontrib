@@ -1,10 +1,9 @@
-
 import MarkedHelper from 'helper/marked';
 import Locale from 'core/locale';
 import CONST from 'const';
 
 export default class InfoDisplay {
-    /**
+  /**
      * @author Guillaume AMAT
      * @static
      * @access public
@@ -14,86 +13,75 @@ export default class InfoDisplay {
      * @param {boolean} feature - Is the user logged?
      * @returns {string}
      */
-    static buildContent(themeModel, layerModel, feature, nonOsmTags) {
-        let content = Locale.getLocalized(layerModel, 'popupContent');
-        let data;
+  static buildContent(themeModel, layerModel, feature, nonOsmTags) {
+    let content = Locale.getLocalized(layerModel, 'popupContent');
+    let data;
 
-        if ( !content ) {
-            return '';
-        }
-
-        content = MarkedHelper.render(content);
-
-        if ( layerModel.get('type') === CONST.layerType.overpass) {
-            data = feature.properties.tags;
-        }
-        else if ( feature.properties.tags ) {
-            data = feature.properties.tags;
-        }
-        else {
-            data = feature.properties;
-        }
-
-        if (feature.properties.id) {
-            content = content.replace(
-                new RegExp('{id}', 'g'),
-                feature.properties.id
-            );
-        }
-
-        if (feature.properties.type) {
-            content = content.replace(
-                new RegExp('{@?type}', 'g'),
-                feature.properties.type
-            );
-        }
-
-        if (feature.id) {
-            content = content.replace(
-                new RegExp('{@id}', 'g'),
-                feature.id
-            );
-        }
-
-        content = content.replace(
-            new RegExp('{@lat}', 'g'),
-            feature.geometry.coordinates[1]
-        );
-
-        content = content.replace(
-            new RegExp('{@(lon|lng)}', 'g'),
-            feature.geometry.coordinates[0]
-        );
-
-        for (const i of Object.keys(nonOsmTags)) {
-            const tag = nonOsmTags[i];
-            const localizedValue = Locale.findLocalizedTagValue(
-                themeModel.get('tags').models,
-                tag.key,
-                tag.value
-            );
-
-            content = content.replace(
-                new RegExp(`{${tag.key}}`, 'g'),
-                localizedValue
-            );
-        }
-
-        for (const k of Object.keys(data)) {
-            const localizedValue = Locale.findLocalizedTagValue(
-                themeModel.get('tags').models,
-                k,
-                data[k]
-            );
-
-            content = content.replace(
-                new RegExp(`{${k}}`, 'g'),
-                localizedValue
-            );
-        }
-
-        content = content.replace( /\{(.*?)\}/g, '' );
-
-        return content;
+    if (!content) {
+      return '';
     }
+
+    content = MarkedHelper.render(content);
+
+    if (layerModel.get('type') === CONST.layerType.overpass) {
+      data = feature.properties.tags;
+    } else if (feature.properties.tags) {
+      data = feature.properties.tags;
+    } else {
+      data = feature.properties;
+    }
+
+    if (feature.properties.id) {
+      content = content.replace(new RegExp('{id}', 'g'), feature.properties.id);
+    }
+
+    if (feature.properties.type) {
+      content = content.replace(
+        new RegExp('{@?type}', 'g'),
+        feature.properties.type
+      );
+    }
+
+    if (feature.id) {
+      content = content.replace(new RegExp('{@id}', 'g'), feature.id);
+    }
+
+    content = content.replace(
+      new RegExp('{@lat}', 'g'),
+      feature.geometry.coordinates[1]
+    );
+
+    content = content.replace(
+      new RegExp('{@(lon|lng)}', 'g'),
+      feature.geometry.coordinates[0]
+    );
+
+    for (const i of Object.keys(nonOsmTags)) {
+      const tag = nonOsmTags[i];
+      const localizedValue = Locale.findLocalizedTagValue(
+        themeModel.get('tags').models,
+        tag.key,
+        tag.value
+      );
+
+      content = content.replace(
+        new RegExp(`{${tag.key}}`, 'g'),
+        localizedValue
+      );
+    }
+
+    for (const k of Object.keys(data)) {
+      const localizedValue = Locale.findLocalizedTagValue(
+        themeModel.get('tags').models,
+        k,
+        data[k]
+      );
+
+      content = content.replace(new RegExp(`{${k}}`, 'g'), localizedValue);
+    }
+
+    content = content.replace(/\{(.*?)\}/g, '');
+
+    return content;
+  }
 }

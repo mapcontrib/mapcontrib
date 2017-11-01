@@ -1,11 +1,10 @@
-
 import Marionette from 'backbone.marionette';
 import template from 'templates/404Root.ejs';
 
 export default Marionette.LayoutView.extend({
-    template,
+  template,
 
-    behaviors: {
-        l20n: {},
-    },
+  behaviors: {
+    l20n: {}
+  }
 });

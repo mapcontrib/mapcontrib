@@ -1,4 +1,4 @@
-FROM node:6-slim
+FROM node:8-slim
 
 RUN apt-get update && apt-get -y install mongodb mongodb-server mongodb-clients
 

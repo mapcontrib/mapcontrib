@@ -1,4 +1,3 @@
-
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import leafletControlGeocoder from 'leaflet-control-geocoder/src';
@@ -7,266 +6,246 @@ import templateResultItem from 'templates/geocodeResultItem.ejs';
 import CONST from 'const';
 import WidgetUi from 'ui/widget';
 
-
 export default Marionette.LayoutView.extend({
-    template,
-    templateResultItem,
+  template,
+  templateResultItem,
 
-    behaviors: {
-        l20n: {},
-        widget: {},
-    },
+  behaviors: {
+    l20n: {},
+    widget: {}
+  },
 
-    ui: {
-        widget: '#geocode_widget',
-        query: 'input',
-        resultList: '.results',
-    },
+  ui: {
+    widget: '#geocode_widget',
+    query: 'input',
+    resultList: '.results'
+  },
 
-    events: {
-        'keyup @ui.query': 'onKeyUpQuery',
-        'keydown @ui.query': 'onKeyDownQuery',
-    },
+  events: {
+    'keyup @ui.query': 'onKeyUpQuery',
+    'keydown @ui.query': 'onKeyDownQuery'
+  },
 
-    initialize() {
-        this._radio = Wreqr.radio.channel('global');
+  initialize() {
+    this._radio = Wreqr.radio.channel('global');
 
-        this.on('open', this.onOpen);
-    },
+    this.on('open', this.onOpen);
+  },
 
-    open() {
-        this.triggerMethod('open');
-        return this;
-    },
+  open() {
+    this.triggerMethod('open');
+    return this;
+  },
 
-    close() {
-        this.triggerMethod('close');
-        return this;
-    },
+  close() {
+    this.triggerMethod('close');
+    return this;
+  },
 
-    toggle() {
-        this.triggerMethod('toggle');
-    },
+  toggle() {
+    this.triggerMethod('toggle');
+  },
 
-    onAfterOpen() {
-        this._radio.vent.trigger('column:closeAll', [ this.cid ]);
+  onAfterOpen() {
+    this._radio.vent.trigger('column:closeAll', [this.cid]);
 
-        this.ui.widget.one('transitionend', () => {
-            WidgetUi.setFocus(this.ui.query);
-        });
-    },
+    this.ui.widget.one('transitionend', () => {
+      WidgetUi.setFocus(this.ui.query);
+    });
+  },
 
-    onKeyUpQuery() {
-        if ( this._queryInterval ) {
-            clearInterval(this._queryInterval);
-        }
+  onKeyUpQuery() {
+    if (this._queryInterval) {
+      clearInterval(this._queryInterval);
+    }
 
-        const query = this.ui.query.val();
+    const query = this.ui.query.val();
 
-        if ( this._lastQuery && this._lastQuery === query ) {
-            return false;
-        }
+    if (this._lastQuery && this._lastQuery === query) {
+      return false;
+    }
 
-        this._queryInterval = setTimeout(() => {
-            this.geocode( query );
-        }, 350);
+    this._queryInterval = setTimeout(() => {
+      this.geocode(query);
+    }, 350);
 
-        return true;
-    },
+    return true;
+  },
 
-    onKeyDownQuery(e) {
-        if ( [9, 13, 38, 40].indexOf(e.keyCode) > -1 ) {
-            e.preventDefault();
-        }
+  onKeyDownQuery(e) {
+    if ([9, 13, 38, 40].indexOf(e.keyCode) > -1) {
+      e.preventDefault();
+    }
 
-        switch ( e.keyCode ) {
-            case 27:
-                this.close();
-                break;
-
-            case 40: // Down arrow
-            case 9: // Tab
-                this.activeNextResult();
-                break;
-
-            case 38: // Up arrow
-                this.activePreviousResult();
-                break;
-
-            case 13: // Enter
-                this.visitResult();
-                break;
-            default:
-        }
-    },
-
-    geocode(query) {
-        const elements = [];
-
-        this._lastQuery = query;
-        this._lastQueryStartTime = new Date().getTime();
-
-        if ( !query ) {
-            this.ui.resultList.empty();
-
-            return;
-        }
-
-        this.options.icon.addClass('hide');
-        this.options.spinner.removeClass('hide');
-
-        const geocoder = this._buildGeocoder();
-        geocoder.geocode(
-            query,
-            this._onGeocodeComplete.bind(this, this._lastQueryStartTime, elements)
-        );
-    },
-
-    _onGeocodeComplete(startTime, elements, results) {
-        if (startTime !== this._lastQueryStartTime) {
-            return;
-        }
-
-        let i = 0;
-
-        for (const result of results) {
-            elements.push(
-                $( this.templateResultItem(
-                    this._buildGeocodeResultName(result)
-                ))
-                .on('click', this.onGeocodeResultClick.bind(this, result))
-            );
-
-            i += 1;
-
-            if (i === 5) {
-                break;
-            }
-        }
-
-        this.ui.resultList.html( elements );
-
-        this.options.spinner.addClass('hide');
-        this.options.icon.removeClass('hide');
-    },
-
-    onGeocodeResultClick(result) {
-        this._radio.commands.execute('map:fitBounds', result.bbox);
-        this._radio.vent.trigger('geocode:itemSelected');
-
+    switch (e.keyCode) {
+      case 27:
         this.close();
-    },
+        break;
 
-    _buildGeocodeResultName(result) {
-        const details = [];
+      case 40: // Down arrow
+      case 9: // Tab
+        this.activeNextResult();
+        break;
 
-        switch ( this.model.get('geocoder') ) {
-            case CONST.geocoder.nominatim:
-                const splittedResult = result.name.split(', ');
+      case 38: // Up arrow
+        this.activePreviousResult();
+        break;
 
-                return {
-                    name: splittedResult.shift(),
-                    detail: splittedResult.join(', '),
-                };
+      case 13: // Enter
+        this.visitResult();
+        break;
+      default:
+    }
+  },
 
-            case CONST.geocoder.photon:
-                if (result.properties.city) {
-                    details.push( result.properties.city );
-                }
+  geocode(query) {
+    const elements = [];
 
-                if (result.properties.country) {
-                    details.push( result.properties.country );
-                }
+    this._lastQuery = query;
+    this._lastQueryStartTime = new Date().getTime();
 
-                if (result.properties.state) {
-                    details.push( result.properties.state );
-                }
+    if (!query) {
+      this.ui.resultList.empty();
 
-                return {
-                    name: result.name,
-                    detail: details.join(', '),
-                };
+      return;
+    }
 
-            default:
-                return false;
+    this.options.icon.addClass('hide');
+    this.options.spinner.removeClass('hide');
+
+    const geocoder = this._buildGeocoder();
+    geocoder.geocode(
+      query,
+      this._onGeocodeComplete.bind(this, this._lastQueryStartTime, elements)
+    );
+  },
+
+  _onGeocodeComplete(startTime, elements, results) {
+    if (startTime !== this._lastQueryStartTime) {
+      return;
+    }
+
+    let i = 0;
+
+    for (const result of results) {
+      elements.push(
+        $(this.templateResultItem(this._buildGeocodeResultName(result))).on(
+          'click',
+          this.onGeocodeResultClick.bind(this, result)
+        )
+      );
+
+      i += 1;
+
+      if (i === 5) {
+        break;
+      }
+    }
+
+    this.ui.resultList.html(elements);
+
+    this.options.spinner.addClass('hide');
+    this.options.icon.removeClass('hide');
+  },
+
+  onGeocodeResultClick(result) {
+    this._radio.commands.execute('map:fitBounds', result.bbox);
+    this._radio.vent.trigger('geocode:itemSelected');
+
+    this.close();
+  },
+
+  _buildGeocodeResultName(result) {
+    const details = [];
+
+    switch (this.model.get('geocoder')) {
+      case CONST.geocoder.nominatim:
+        const splittedResult = result.name.split(', ');
+
+        return {
+          name: splittedResult.shift(),
+          detail: splittedResult.join(', ')
+        };
+
+      case CONST.geocoder.photon:
+        if (result.properties.city) {
+          details.push(result.properties.city);
         }
-    },
 
-    activeNextResult() {
-        const current = this.ui.resultList.find('.active');
-
-        if ( !current.length ) {
-            this.ui.resultList
-            .children()
-            .first()
-            .addClass('active');
+        if (result.properties.country) {
+          details.push(result.properties.country);
         }
-        else {
-            current
-            .removeClass('active')
-            .next()
-            .addClass('active');
+
+        if (result.properties.state) {
+          details.push(result.properties.state);
         }
-    },
 
-    activePreviousResult() {
-        const current = this.ui.resultList.find('.active');
+        return {
+          name: result.name,
+          detail: details.join(', ')
+        };
 
-        if ( !current.length ) {
-            this.ui.resultList
-            .children()
-            .last()
-            .addClass('active');
-        }
-        else {
-            current
-            .removeClass('active')
-            .prev()
-            .addClass('active');
-        }
-    },
+      default:
+        return false;
+    }
+  },
 
-    visitResult() {
-        const current = this.ui.resultList.find('.active');
+  activeNextResult() {
+    const current = this.ui.resultList.find('.active');
 
-        if ( !current.length ) {
-            this.ui.resultList
-            .children()
-            .first()
-            .addClass('active')
-            .click();
-        }
-        else {
-            current.click();
-        }
-    },
+    if (!current.length) {
+      this.ui.resultList.children().first().addClass('active');
+    } else {
+      current.removeClass('active').next().addClass('active');
+    }
+  },
 
-    _buildGeocoder() {
-        const lang = document.l10n.supportedLocales[0];
+  activePreviousResult() {
+    const current = this.ui.resultList.find('.active');
 
-        switch ( this.model.get('geocoder') ) {
-            case CONST.geocoder.nominatim:
-                const bounds = this._radio.reqres.request('map:currentBounds');
-                const left = bounds._southWest.lng;
-                const top = bounds._northEast.lat;
-                const right = bounds._northEast.lng;
-                const bottom = bounds._southWest.lat;
+    if (!current.length) {
+      this.ui.resultList.children().last().addClass('active');
+    } else {
+      current.removeClass('active').prev().addClass('active');
+    }
+  },
 
-                return leafletControlGeocoder.nominatim({
-                    geocodingQueryParams: {
-                        viewbox: `${left},${top},${right},${bottom}`,
-                        'accept-language': lang,
-                    },
-                });
-            default:
-                const { lat, lng } = this._radio.reqres.request('map:currentCenter');
-                return leafletControlGeocoder.photon({
-                    geocodingQueryParams: {
-                        lat,
-                        lon: lng,
-                        lang,
-                    },
-                });
-        }
-    },
+  visitResult() {
+    const current = this.ui.resultList.find('.active');
+
+    if (!current.length) {
+      this.ui.resultList.children().first().addClass('active').click();
+    } else {
+      current.click();
+    }
+  },
+
+  _buildGeocoder() {
+    const lang = document.l10n.supportedLocales[0];
+
+    switch (this.model.get('geocoder')) {
+      case CONST.geocoder.nominatim:
+        const bounds = this._radio.reqres.request('map:currentBounds');
+        const left = bounds._southWest.lng;
+        const top = bounds._northEast.lat;
+        const right = bounds._northEast.lng;
+        const bottom = bounds._southWest.lat;
+
+        return leafletControlGeocoder.nominatim({
+          geocodingQueryParams: {
+            viewbox: `${left},${top},${right},${bottom}`,
+            'accept-language': lang
+          }
+        });
+      default:
+        const { lat, lng } = this._radio.reqres.request('map:currentCenter');
+        return leafletControlGeocoder.photon({
+          geocodingQueryParams: {
+            lat,
+            lon: lng,
+            lang
+          }
+        });
+    }
+  }
 });

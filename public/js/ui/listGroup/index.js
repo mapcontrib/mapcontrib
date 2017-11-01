@@ -1,4 +1,3 @@
-
 import Marionette from 'backbone.marionette';
 import 'jquery-ui/sortable';
 import 'jquery-ui-touch-punch';
@@ -6,121 +5,120 @@ import EmptyView from './empty';
 import ItemView from './item';
 import './style.less';
 
-
 export default Marionette.CollectionView.extend({
-    emptyView: EmptyView,
-    childView: ItemView,
+  emptyView: EmptyView,
+  childView: ItemView,
 
-    defaultOptions: {
-        placeholder: '',
-        removeable: false,
-        reorderable: false,
-        navigable: false,
-        progression: undefined,
-        getProgression: undefined,
-        getLeftIcon: () => '',
-        getRightIcon: () => '',
-    },
+  defaultOptions: {
+    placeholder: '',
+    removeable: false,
+    reorderable: false,
+    navigable: false,
+    progression: undefined,
+    getProgression: undefined,
+    getLeftIcon: () => '',
+    getRightIcon: () => ''
+  },
 
-    emptyViewOptions() {
-        return {
-            placeholder: this.options.placeholder,
-        };
-    },
+  emptyViewOptions() {
+    return {
+      placeholder: this.options.placeholder
+    };
+  },
 
-    childViewOptions() {
-        return {
-            labelAttribute: this.options.labelAttribute,
-            reorderable: this.options.reorderable,
-            navigable: this.options.navigable,
-            removeable: this.options.removeable,
-            progression: this.options.progression,
-            getProgression: (model) => {
-                if (this.options.getProgression) {
-                    return this.options.getProgression(model);
-                }
-
-                return undefined;
-            },
-            getLeftIcon: model => this.options.getLeftIcon(model),
-            getRightIcon: model => this.options.getRightIcon(model),
-        };
-    },
-
-    childEvents: {
-        select: 'onSelectItem',
-        navigate: 'onNavigateItem',
-        remove: 'onRemoveItem',
-    },
-
-    initialize(options) {
-        this.options = {
-            ...this.defaultOptions,
-            ...options,
-        };
-    },
-
-    className() {
-        const classes = ['list-group', 'append-xs-none'];
-
-        if (this.options.reorderable) {
-            classes.push('reorderable');
+  childViewOptions() {
+    return {
+      labelAttribute: this.options.labelAttribute,
+      reorderable: this.options.reorderable,
+      navigable: this.options.navigable,
+      removeable: this.options.removeable,
+      progression: this.options.progression,
+      getProgression: model => {
+        if (this.options.getProgression) {
+          return this.options.getProgression(model);
         }
 
-        if (this.options.navigable) {
-            classes.push('navigable');
-        }
+        return undefined;
+      },
+      getLeftIcon: model => this.options.getLeftIcon(model),
+      getRightIcon: model => this.options.getRightIcon(model)
+    };
+  },
 
-        if (this.options.removeable) {
-            classes.push('removeable');
-        }
+  childEvents: {
+    select: 'onSelectItem',
+    navigate: 'onNavigateItem',
+    remove: 'onRemoveItem'
+  },
 
-        return classes.join(' ');
-    },
+  initialize(options) {
+    this.options = {
+      ...this.defaultOptions,
+      ...options
+    };
+  },
 
-    onRender() {
-        if (this.options.reorderable) {
-            this.$el.sortable({
-                axis: 'y',
-                items: '.list-group-item',
-                handle: '.reorder_icon',
-                update: () => this.onDnD(),
-            });
-        }
-    },
+  className() {
+    const classes = ['list-group', 'append-xs-none'];
 
-    onDnD() {
-        let i = 0;
-        const sortedIdList = this.$el.sortable('toArray');
+    if (this.options.reorderable) {
+      classes.push('reorderable');
+    }
 
-        for (const id of sortedIdList) {
-            const model = this.collection.filter(
-                item => item.cid === id.replace('item-', '')
-            )[0];
+    if (this.options.navigable) {
+      classes.push('navigable');
+    }
 
-            model.set({ order: i });
+    if (this.options.removeable) {
+      classes.push('removeable');
+    }
 
-            i += 1;
-        }
+    return classes.join(' ');
+  },
 
-        this.collection.sort();
+  onRender() {
+    if (this.options.reorderable) {
+      this.$el.sortable({
+        axis: 'y',
+        items: '.list-group-item',
+        handle: '.reorder_icon',
+        update: () => this.onDnD()
+      });
+    }
+  },
 
-        this.trigger('reorder');
-    },
+  onDnD() {
+    let i = 0;
+    const sortedIdList = this.$el.sortable('toArray');
 
-    onRemoveItem(child, model, e) {
-        this.trigger('item:remove', model, e);
-    },
+    for (const id of sortedIdList) {
+      const model = this.collection.filter(
+        item => item.cid === id.replace('item-', '')
+      )[0];
 
-    onSelectItem(child, model, e) {
-        this.trigger('item:select', model, e);
-    },
+      model.set({ order: i });
 
-    onNavigateItem(child, model, e) {
-        this.trigger('item:navigate', model, e);
-    },
+      i += 1;
+    }
 
-    countItems() {
-        return this.collection.length;
-    },
+    this.collection.sort();
+
+    this.trigger('reorder');
+  },
+
+  onRemoveItem(child, model, e) {
+    this.trigger('item:remove', model, e);
+  },
+
+  onSelectItem(child, model, e) {
+    this.trigger('item:select', model, e);
+  },
+
+  onNavigateItem(child, model, e) {
+    this.trigger('item:navigate', model, e);
+  },
+
+  countItems() {
+    return this.collection.length;
+  }
 });

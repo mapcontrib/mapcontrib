@@ -1,14 +1,12 @@
-
 import Marionette from 'backbone.marionette';
 import template from './empty.ejs';
 
-
 export default Marionette.ItemView.extend({
-    template,
+  template,
 
-    templateHelpers() {
-        return {
-            placeholder: this.options.placeholder,
-        };
-    },
+  templateHelpers() {
+    return {
+      placeholder: this.options.placeholder
+    };
+  }
 });

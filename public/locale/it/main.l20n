@@ -119,6 +119,7 @@
 <settings "Impostazioni">
 <mainSettings "Impostazioni generali">
 <tiles "Sfondi">
+<administrators "Administrators"> /* FIXME */
 <options "Opzioni">
 <addAnOption "Aggiungere una opzione">
 <multiComboInfo1 "Completa il prefisso <em>{{ $prefix }}</em>">
@@ -309,6 +310,13 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 /* Edit tiles column */
 <editTileColumn_title "Sfondi">
 <editTileColumn_maxZoom "Zoom massimo: {{ $maxZoom }}">
+
+
+/* Edit administrators column */
+<editAdministratorColumn_title "Administrators">/* FIXME */
+<editAdministratorColumn_description "You can give administration rights to any OSM user who did at least one OSM contribution since his account creation.">/* FIXME */
+<editAdministratorColumn_addAdministrator "Add an administrator">/* FIXME */
+<editAdministratorColumn_typeDisplayName "Type an OSM contributor name">/* FIXME */
 
 
 /* Edit POI data column */

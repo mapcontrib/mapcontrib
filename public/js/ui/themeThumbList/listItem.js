@@ -1,4 +1,3 @@
-
 import Marionette from 'backbone.marionette';
 import MapUi from 'ui/map';
 import GeoUtils from 'core/geoUtils';
@@ -6,61 +5,60 @@ import listItemTemplate from './listItem.ejs';
 import Locale from 'core/locale';
 import ThemeCore from 'core/theme';
 
-
 export default Marionette.ItemView.extend({
-    template: listItemTemplate,
+  template: listItemTemplate,
 
-    className: 'col-xs-12 col-sm-4 col-lg-3 append-xs-1',
+  className: 'col-xs-12 col-sm-4 col-lg-3 append-xs-1',
 
-    ui: {
-        layersContainer: '.ui-theme-thumb-layers',
-    },
+  ui: {
+    layersContainer: '.ui-theme-thumb-layers'
+  },
 
-    templateHelpers() {
-        const name = Locale.getLocalized(this.model, 'name');
-        const zoomLevel = this.model.get('zoomLevel');
-        const mapCenter = this.model.get('center');
-        const pos = GeoUtils.zoomLatLngToXY(
-            zoomLevel,
-            mapCenter.lat,
-            mapCenter.lng
-        );
+  templateHelpers() {
+    const name = Locale.getLocalized(this.model, 'name');
+    const zoomLevel = this.model.get('zoomLevel');
+    const mapCenter = this.model.get('center');
+    const pos = GeoUtils.zoomLatLngToXY(
+      zoomLevel,
+      mapCenter.lat,
+      mapCenter.lng
+    );
 
-        return {
-            name,
-            href: ThemeCore.buildPath(
-                this.model.get('fragment'),
-                this.model.get('name')
-            ),
-            z: zoomLevel,
-            x1: pos[0],
-            y1: pos[1],
-            x2: pos[0] + 1,
-            y2: pos[1],
-            x3: pos[0] + 2,
-            y3: pos[1],
-        };
-    },
+    return {
+      name,
+      href: ThemeCore.buildPath(
+        this.model.get('fragment'),
+        this.model.get('name')
+      ),
+      z: zoomLevel,
+      x1: pos[0],
+      y1: pos[1],
+      x2: pos[0] + 1,
+      y2: pos[1],
+      x3: pos[0] + 2,
+      y3: pos[1]
+    };
+  },
 
-    onRender() {
-        const layers = this.model.get('layers');
+  onRender() {
+    const layers = this.model.get('layers');
 
-        if (layers) {
-            let i = 0;
+    if (layers) {
+      let i = 0;
 
-            for (const layer of layers.models) {
-                const iconElement = document.createElement('div');
-                iconElement.innerHTML = MapUi.buildLayerHtmlIcon( layer );
-                iconElement.classList.add(`ui-theme-thumb-layer-${i}`);
+      for (const layer of layers.models) {
+        const iconElement = document.createElement('div');
+        iconElement.innerHTML = MapUi.buildLayerHtmlIcon(layer);
+        iconElement.classList.add(`ui-theme-thumb-layer-${i}`);
 
-                this.ui.layersContainer.append(iconElement);
+        this.ui.layersContainer.append(iconElement);
 
-                i += 1;
+        i += 1;
 
-                if (i === 3) {
-                    break;
-                }
-            }
+        if (i === 3) {
+          break;
         }
-    },
+      }
+    }
+  }
 });
