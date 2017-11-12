@@ -48,7 +48,7 @@
 
 
 
-<osmId "OSM ID"> /* FIXME */
+<osmId "OSM ID"> 
 <overPassCacheArchives "archivio cache di OverPass">
 <overPassCacheArchives_explanation "Questi POI sono nella tua cacche dei livelli OverPass ma saranno rimossi da OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Nessun POI archiviato">
@@ -119,7 +119,7 @@
 <settings "Impostazioni">
 <mainSettings "Impostazioni generali">
 <tiles "Sfondi">
-<administrators "Administrators"> /* FIXME */
+<administrators "Amministratori">
 <options "Opzioni">
 <addAnOption "Aggiungere una opzione">
 <multiComboInfo1 "Completa il prefisso <em>{{ $prefix }}</em>">
@@ -313,10 +313,10 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 
 /* Edit administrators column */
-<editAdministratorColumn_title "Administrators">/* FIXME */
-<editAdministratorColumn_description "You can give administration rights to any OSM user who did at least one OSM contribution since his account creation.">/* FIXME */
-<editAdministratorColumn_addAdministrator "Add an administrator">/* FIXME */
-<editAdministratorColumn_typeDisplayName "Type an OSM contributor name">/* FIXME */
+<editAdministratorColumn_title "Amministratori">
+<editAdministratorColumn_description "YÈ possibile dare diritti di amministratore a qualsiasi utente OSM che ha almeno una volta contribuito a OSM">
+<editAdministratorColumn_addAdministrator "Aggiungi un amministratore">
+<editAdministratorColumn_typeDisplayName "Inseriesci il nome di un contributore OSM">
 
 
 /* Edit POI data column */
