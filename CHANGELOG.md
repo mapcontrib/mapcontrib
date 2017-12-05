@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.9.1
+
+* Upgrade jQuery UI to the 1.12.x version (security fix included).
+
 # 1.9.0
 
 * Add the possibility to give administrator access to your theme to others OSM contributors.
