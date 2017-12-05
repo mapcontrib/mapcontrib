@@ -1,5 +1,5 @@
 import Marionette from 'backbone.marionette';
-import 'jquery-ui/sortable';
+import 'jquery-ui/ui/widgets/sortable';
 import 'jquery-ui-touch-punch';
 import EmptyView from './empty';
 import ItemView from './item';
