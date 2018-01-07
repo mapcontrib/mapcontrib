@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.9.2
+
+* Add a link to the repository in the about modal.
+* Upgrade marked to the latest version (0.3.9).
+
 # 1.9.1
 
 * Upgrade jQuery UI to the 1.12.x version (security fix included).
