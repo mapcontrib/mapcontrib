@@ -35,7 +35,6 @@ if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
 
 module.exports = {
   devtool: 'source-map',
-  debug: true,
   plugins,
   context: path.resolve(__dirname, 'public'),
   entry: {
@@ -61,10 +60,10 @@ module.exports = {
     }
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /public\/js\/.*\.js$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/
       },
       {
@@ -73,56 +72,57 @@ module.exports = {
         // d3-dsv depends on fs, which is not available in a web context
         // So... There...
         test: /node_modules\/dsv/,
-        loader: 'transform?brfs'
+        loader: 'transform-loader?brfs'
       },
       {
         test: /\.css$/,
-        loader: extractCSS.extract(['css'])
+        loader: extractCSS.extract(['css-loader'])
       },
       {
         test: /\.less$/,
-        loader: extractCSS.extract(['css', 'less'])
+        loader: extractCSS.extract(['css-loader', 'less-loader'])
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json-loader'
       },
       {
         test: /\.svg$/,
-        loader: 'raw'
+        include: /img/,
+        loader: 'raw-loader'
       },
       {
         test: /\.ejs$/,
-        loader: 'ejs'
+        loader: 'ejs-loader'
       },
       {
         test: /\.png$/,
-        loader: 'file?name=../assets/[name].[ext]'
+        loader: 'file-loader?name=../assets/[name].[ext]'
       },
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
         loader:
-          'file?mimetype=application/font-woff&name=../assets/[name].[ext]'
+          'file-loader?mimetype=application/font-woff&name=../assets/[name].[ext]'
       },
       {
         test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
         loader:
-          'file?mimetype=application/font-woff2&name=../assets/[name].[ext]'
+          'file-loader?mimetype=application/font-woff2&name=../assets/[name].[ext]'
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         loader:
-          'file?mimetype=application/octet-stream&name=../assets/[name].[ext]'
+          'file-loader?mimetype=application/octet-stream&name=../assets/[name].[ext]'
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader:
-          'file?mimetype=application/vnd.ms-fontobject&name=../assets/[name].[ext]'
+          'file-loader?mimetype=application/vnd.ms-fontobject&name=../assets/[name].[ext]'
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         exclude: /img/,
-        loader: 'file?mimetype=image/svg+xml&name=../assets/[name].[ext]'
+        loader: 'file-loader?mimetype=image/svg+xml&name=../assets/[name].[ext]'
       },
       {
         test: require.resolve('jquery'),
