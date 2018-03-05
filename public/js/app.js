@@ -9,7 +9,7 @@ import '../lib/l20n.min.js';
 import SmoothScrollPolyfill from 'smoothscroll-polyfill';
 
 import 'ionicons/css/ionicons.css';
-import 'font-awesome-webpack';
+import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap-webpack';
 import 'awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css';
 import 'bootstrap-filestyle';
