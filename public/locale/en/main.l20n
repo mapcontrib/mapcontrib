@@ -221,6 +221,10 @@
 <editSettingColumn_keepOld "Keep old parameters">
 <editSettingColumn_setNew "Set the new ones">
 <editSettingColumn_autoGeolocateUser "Automatically geolocate the user">
+<editSettingColumn_movementConstraints "Movement constraints">
+<editSettingColumn_minimumZoom "Minimum zoom">
+<editSettingColumn_maximumZoom "Maximum zoom">
+<editSettingColumn_movementRadius "Movement radius">
 <editSettingColumn_geocoder "Geocoder">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">

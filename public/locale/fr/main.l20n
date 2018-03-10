@@ -220,6 +220,10 @@
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
 <editSettingColumn_autoGeolocateUser "Géolocaliser automatiquement l'utilisateur">
+<editSettingColumn_movementConstraints "Constraintes de mouvement">
+<editSettingColumn_minimumZoom "Zoom minimum">
+<editSettingColumn_maximumZoom "Zoom maximum">
+<editSettingColumn_movementRadius "Rayon de déplacement">
 <editSettingColumn_geocoder "Géocodeur">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">

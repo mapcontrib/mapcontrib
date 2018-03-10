@@ -48,7 +48,7 @@
 
 
 
-<osmId "OSM ID"> 
+<osmId "OSM ID">
 <overPassCacheArchives "archivio cache di OverPass">
 <overPassCacheArchives_explanation "Questi POI sono nella tua cacche dei livelli OverPass ma saranno rimossi da OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Nessun POI archiviato">
@@ -219,6 +219,10 @@
 <editSettingColumn_keepOld "Mantieni i vecchi parametri">
 <editSettingColumn_setNew "Impostare i nuovi">
 <editSettingColumn_autoGeolocateUser "Geolocalizza in automatico l´utente">
+<editSettingColumn_movementConstraints "Movement constraints"> /* FIXME */
+<editSettingColumn_minimumZoom "Minimum zoom"> /* FIXME */
+<editSettingColumn_maximumZoom "Maximum zoom"> /* FIXME */
+<editSettingColumn_movementRadius "Movement radius"> /* FIXME */
 <editSettingColumn_geocoder "Geocoder">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">
