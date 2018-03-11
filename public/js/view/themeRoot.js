@@ -325,9 +325,7 @@ export default Marionette.LayoutView.extend({
       });
 
     this._map = L.map(this.ui.map[0], {
-      zoomControl: false,
-      minZoom: minZoomLevel,
-      maxZoom: maxZoomLevel
+      zoomControl: false
     });
 
     if (movementRadius) {
@@ -1268,11 +1266,21 @@ export default Marionette.LayoutView.extend({
   },
 
   onClickZoomIn() {
-    this._map.zoomIn();
+    const maxZoomLevel = this.model.get('maxZoomLevel');
+    const currentZoom = this._map.getZoom();
+
+    if (currentZoom < maxZoomLevel) {
+      this._map.zoomIn();
+    }
   },
 
   onClickZoomOut() {
-    this._map.zoomOut();
+    const minZoomLevel = this.model.get('minZoomLevel');
+    const currentZoom = this._map.getZoom();
+
+    if (currentZoom > minZoomLevel) {
+      this._map.zoomOut();
+    }
   },
 
   onClickGeocode() {

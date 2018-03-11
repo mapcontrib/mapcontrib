@@ -232,9 +232,6 @@ export default Marionette.ItemView.extend({
             map.setZoom(themeMaximumZoom, { animate: true });
           }
 
-          map.setMinZoom(themeMinimumZoom);
-          map.setMaxZoom(themeMaximumZoom);
-
           if (themeMovementRadius) {
             MapUi.lockMovementFromCenterAndRadius(
               map,
