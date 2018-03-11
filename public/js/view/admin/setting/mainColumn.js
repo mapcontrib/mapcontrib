@@ -223,6 +223,17 @@ export default Marionette.ItemView.extend({
             }
           }
 
+          const currentZoom = map.getZoom();
+
+          if (currentZoom < themeMinimumZoom) {
+            map.setZoom(themeMinimumZoom, { animate: true });
+          } else if (currentZoom > themeMaximumZoom) {
+            map.setZoom(themeMaximumZoom, { animate: true });
+          }
+
+          map.setMinZoom(themeMinimumZoom);
+          map.setMaxZoom(themeMaximumZoom);
+
           this._oldModel = this.model.clone();
 
           this.close();

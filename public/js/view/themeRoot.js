@@ -283,6 +283,8 @@ export default Marionette.LayoutView.extend({
     const fragment = this.model.get('fragment');
     let center = this.model.get('center');
     let zoomLevel = this.model.get('zoomLevel');
+    const minZoomLevel = this.model.get('minZoomLevel');
+    const maxZoomLevel = this.model.get('maxZoomLevel');
     let hiddenLayers = [];
     let storageMapState = localStorage.getItem(`mapState-${fragment}`);
 
@@ -298,6 +300,14 @@ export default Marionette.LayoutView.extend({
       zoomLevel = this._initialZoom;
     }
 
+    if (zoomLevel < minZoomLevel) {
+      zoomLevel = minZoomLevel;
+    } else if (zoomLevel > maxZoomLevel) {
+      zoomLevel = maxZoomLevel;
+    }
+
+    this.ui.toolbarZoomLevel.text(zoomLevel);
+
     this.ui.toolbarButtons
       .tooltip({
         container: 'body',
@@ -307,10 +317,16 @@ export default Marionette.LayoutView.extend({
         }
       })
       .on('click', e => {
-        $(e.currentTarget).blur().tooltip('hide');
+        $(e.currentTarget)
+          .blur()
+          .tooltip('hide');
       });
 
-    this._map = L.map(this.ui.map[0], { zoomControl: false });
+    this._map = L.map(this.ui.map[0], {
+      zoomControl: false,
+      minZoom: minZoomLevel,
+      maxZoom: maxZoomLevel
+    });
 
     this.ui.map.focus();
 
