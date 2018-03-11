@@ -281,10 +281,12 @@ export default Marionette.LayoutView.extend({
   onShow() {
     const autoCenter = this.model.get('autoCenter');
     const fragment = this.model.get('fragment');
-    let center = this.model.get('center');
+    const themeCenter = this.model.get('center');
+    let center = themeCenter;
     let zoomLevel = this.model.get('zoomLevel');
     const minZoomLevel = this.model.get('minZoomLevel');
     const maxZoomLevel = this.model.get('maxZoomLevel');
+    const movementRadius = this.model.get('movementRadius');
     let hiddenLayers = [];
     let storageMapState = localStorage.getItem(`mapState-${fragment}`);
 
@@ -327,6 +329,15 @@ export default Marionette.LayoutView.extend({
       minZoom: minZoomLevel,
       maxZoom: maxZoomLevel
     });
+
+    if (movementRadius) {
+      MapUi.lockMovementFromCenterAndRadius(
+        this._map,
+        themeCenter.lat,
+        themeCenter.lng,
+        movementRadius
+      );
+    }
 
     this.ui.map.focus();
 

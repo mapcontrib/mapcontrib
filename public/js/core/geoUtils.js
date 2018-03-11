@@ -3,7 +3,7 @@
 /* eslint-disable */
 export default class GeoUtils {
   static earthRadius = 6371;
-  static earthDiameter = GeoUtils.earthRadius * Math.PI;
+  static earthDiameter = GeoUtils.earthRadius * 2;
   static earthPerimeter = GeoUtils.earthDiameter * Math.PI;
 
   static zoomXYToLatLng(z, x, y) {
@@ -78,8 +78,8 @@ export default class GeoUtils {
    * @return {number}
    */
   static kilometersToLatitudeDegrees(kilometers) {
-    const oneLatitudeDegree = 111.32;
-    return kilometers / oneLatitudeDegree;
+    const oneLatitudeDegreeInKilometers = 111.32;
+    return kilometers / oneLatitudeDegreeInKilometers;
   }
 
   /**
@@ -90,9 +90,9 @@ export default class GeoUtils {
    * @return {number}
    */
   static kilometersToLongitudeDegrees(kilometers, latitude) {
-    const oneLongitudeDegree =
-      GeoUtils.earthPerimeter * Math.cos(GeoUtils.toRadian(latitude)) / 360;
-    return kilometers / oneLongitudeDegree;
+    const oneLongitudeDegreeInKilometers =
+      GeoUtils.earthPerimeter * Math.cos(GeoUtils.toRadian(latitude)) / 360.0;
+    return kilometers / oneLongitudeDegreeInKilometers;
   }
 
   /**

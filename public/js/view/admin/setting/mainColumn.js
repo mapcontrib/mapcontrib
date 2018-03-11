@@ -4,6 +4,7 @@ import template from 'templates/admin/setting/mainColumn.ejs';
 import CONST from 'const';
 import MarkedHelper from 'helper/marked';
 import ThemeCore from 'core/theme';
+import MapUi from 'ui/map';
 import 'ui/form/colorSelector/style.less';
 
 export default Marionette.ItemView.extend({
@@ -233,6 +234,17 @@ export default Marionette.ItemView.extend({
 
           map.setMinZoom(themeMinimumZoom);
           map.setMaxZoom(themeMaximumZoom);
+
+          if (themeMovementRadius) {
+            MapUi.lockMovementFromCenterAndRadius(
+              map,
+              this.model.get('center').lat,
+              this.model.get('center').lng,
+              themeMovementRadius
+            );
+          } else {
+            map.setMaxBounds(null);
+          }
 
           this._oldModel = this.model.clone();
 

@@ -1,14 +1,40 @@
 import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
+import L from 'leaflet';
+import GeoUtils from 'core/geoUtils';
 
 export default class MapUi {
   /**
-     * Displays the contribution cross.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     */
+   * Lock the movement on the map.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {L.Map} map
+   * @param {number} lat
+   * @param {number} lon
+   * @param {number} movementRadius
+   */
+  static lockMovementFromCenterAndRadius(map, lat, lon, movementRadius) {
+    const corner1 = L.latLng(
+      lat - GeoUtils.kilometersToLatitudeDegrees(movementRadius),
+      lon - GeoUtils.kilometersToLongitudeDegrees(movementRadius, lat)
+    );
+    const corner2 = L.latLng(
+      lat + GeoUtils.kilometersToLatitudeDegrees(movementRadius),
+      lon + GeoUtils.kilometersToLongitudeDegrees(movementRadius, lat)
+    );
+    const bounds = L.latLngBounds(corner1, corner2);
+    map.setMaxBounds(bounds);
+  }
+
+  /**
+   * Displays the contribution cross.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   */
   static showContributionCross() {
     document.body.classList.add('contribution_cross_visible');
     document
@@ -17,12 +43,12 @@ export default class MapUi {
   }
 
   /**
-     * Hides the contribution cross.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     */
+   * Hides the contribution cross.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   */
   static hideContributionCross() {
     document.body.classList.remove('contribution_cross_visible');
     document
@@ -31,27 +57,27 @@ export default class MapUi {
   }
 
   /**
-     * Returns the POI layer Leaflet icon.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} layerModel - Model of the POI layer which we request its icon.
-     * @return {object} - A Leaflet divIcon.
-     */
+   * Returns the POI layer Leaflet icon.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {string} layerModel - Model of the POI layer which we request its icon.
+   * @return {object} - A Leaflet divIcon.
+   */
   static buildLayerIcon(layerModel) {
     return L.divIcon(MapUi.buildMarkerLayerIconOptions(layerModel));
   }
 
   /**
-     * Returns the POI layer HTML icon.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} layerModel - Model of the POI layer which we request its icon.
-     * @return {string} - The HTML tags of the icon.
-     */
+   * Returns the POI layer HTML icon.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {string} layerModel - Model of the POI layer which we request its icon.
+   * @return {string} - The HTML tags of the icon.
+   */
   static buildLayerHtmlIcon(layerModel) {
     const markerShape = layerModel.get('markerShape');
     const iconColor = layerModel.get('markerColor');
@@ -62,14 +88,14 @@ export default class MapUi {
   }
 
   /**
-     * Returns the POI layer icon options.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} layerModel - Model of the POI layer which we request its icon.
-     * @return {object} - The icon options.
-     */
+   * Returns the POI layer icon options.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {string} layerModel - Model of the POI layer which we request its icon.
+   * @return {object} - The icon options.
+   */
   static buildMarkerLayerIconOptions(layerModel) {
     const markerShape = layerModel.get('markerShape');
     const markerIcon = layerModel.get('markerIcon');
@@ -98,14 +124,14 @@ export default class MapUi {
   }
 
   /**
-     * Returns the layer polyline options.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} layerModel - Model of the polyline's POI layer.
-     * @return {object} - The polyline options.
-     */
+   * Returns the layer polyline options.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {string} layerModel - Model of the polyline's POI layer.
+   * @return {object} - The polyline options.
+   */
   static buildLayerPolylineStyle(layerModel) {
     let color = layerModel.get('markerColor');
 
@@ -120,14 +146,14 @@ export default class MapUi {
   }
 
   /**
-     * Returns the layer polygon options.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} layerModel - Model of the polygon's POI layer.
-     * @return {object} - The polygon options.
-     */
+   * Returns the layer polygon options.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {string} layerModel - Model of the polygon's POI layer.
+   * @return {object} - The polygon options.
+   */
   static buildLayerPolygonStyle(layerModel) {
     let color = layerModel.get('markerColor');
 
@@ -142,14 +168,14 @@ export default class MapUi {
   }
 
   /**
-     * Returns a marker cluster built for a layer model.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} layerModel.
-     * @return {object} - The marker cluster layer.
-     */
+   * Returns a marker cluster built for a layer model.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {string} layerModel.
+   * @return {object} - The marker cluster layer.
+   */
   static buildMarkerClusterLayer(layerModel) {
     return L.markerClusterGroup({
       polygonOptions: CONST.map.markerCLusterPolygonOptions,
@@ -170,14 +196,14 @@ export default class MapUi {
   }
 
   /**
-     * Returns a heat layer built for a layer model.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} layerModel.
-     * @return {object} - The heat layer.
-     */
+   * Returns a heat layer built for a layer model.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {string} layerModel.
+   * @return {object} - The heat layer.
+   */
   static buildHeatLayer(layerModel) {
     const heatLayer = L.heatLayer([], MapUi.buildHeatLayerOptions(layerModel));
 
@@ -196,14 +222,14 @@ export default class MapUi {
   }
 
   /**
-     * Returns the heat layer options.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} layerModel.
-     * @return {object} - The heat layer.
-     */
+   * Returns the heat layer options.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {string} layerModel.
+   * @return {object} - The heat layer.
+   */
   static buildHeatLayerOptions(layerModel) {
     const options = {
       minOpacity: layerModel.get('heatMinOpacity'),
@@ -217,15 +243,15 @@ export default class MapUi {
   }
 
   /**
-     * Checks if the layer's display has to be updated.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {object} layerModel.
-     * @param {object} olderLayerModel.
-     * @param {boolean} isNew.
-     */
+   * Checks if the layer's display has to be updated.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {object} layerModel.
+   * @param {object} olderLayerModel.
+   * @param {boolean} isNew.
+   */
   static updateLayerDisplayFromOlderModel(layerModel, oldLayerModel, isNew) {
     const radio = Wreqr.radio.channel('global');
 
@@ -247,14 +273,14 @@ export default class MapUi {
   }
 
   /**
-     * Checks if the layer's display has to be updated.
-     *
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {object} layerModel.
-     * @param {object} olderLayerModel.
-     */
+   * Checks if the layer's display has to be updated.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {object} layerModel.
+   * @param {object} olderLayerModel.
+   */
   static updateLayerStyleFromOlderModel(layerModel, oldLayerModel) {
     const radio = Wreqr.radio.channel('global');
     let updateRepresentation = false;

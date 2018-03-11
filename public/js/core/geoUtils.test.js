@@ -57,10 +57,10 @@ describe('GeoUtils', () => {
       const result3 = GeoUtils.kilometersToLongitudeDegrees(2345, 75);
       const result4 = GeoUtils.kilometersToLongitudeDegrees(1, 88);
 
-      expect(result1).toBe(13.425732731260641);
-      expect(result2).toBe(14.58518407687495);
-      expect(result3).toBe(51.87304792791651);
-      expect(result4).toBe(0.16404990619942084);
+      expect(result1).toBe(21.08909165879423);
+      expect(result2).toBe(22.910353573582587);
+      expect(result3).toBe(81.48199314482687);
+      expect(result4).toBe(0.2576889900690976);
     });
   });
 
