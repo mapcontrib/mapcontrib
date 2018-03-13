@@ -186,7 +186,7 @@ export default Marionette.LayoutView.extend({
         this.renderTags(osmEdit.getTags());
       })
       .catch(err => {
-        console.error('FIXME', err);
+        console.error('FIXME', err); // eslint-disable-line
       });
   },
 
@@ -370,7 +370,7 @@ export default Marionette.LayoutView.extend({
         this.triggerMethod('closeAndDestroy');
       })
       .catch(err => {
-        console.error(err);
+        console.error(err); // eslint-disable-line
 
         this.ui.footerButtons.prop('disabled', false);
 

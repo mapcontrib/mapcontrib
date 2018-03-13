@@ -2,10 +2,10 @@ import { DOMImplementation, XMLSerializer } from 'xmldom';
 
 export default class OsmEdit {
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {object} osmAuth - Instance of osm-auth.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {object} osmAuth - Instance of osm-auth.
+   */
   constructor(osmAuth) {
     this._auth = osmAuth;
     this._changesetCreatedBy = null;
@@ -28,28 +28,28 @@ export default class OsmEdit {
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {object} element.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {object} element.
+   */
   setElement(element) {
     this._element = element;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {object}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {object}
+   */
   getElement() {
     return OsmEdit._buildCleanedElement(this._element);
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {object}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {object}
+   */
   getOverPassElement() {
     const element = {
       type: this._element.type,
@@ -71,118 +71,118 @@ export default class OsmEdit {
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string} changesetCreatedBy - Application used to send datas (in the changeset).
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {string} changesetCreatedBy - Application used to send datas (in the changeset).
+   */
   setChangesetCreatedBy(changesetCreatedBy) {
     this._changesetCreatedBy = changesetCreatedBy;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {string}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {string}
+   */
   getChangesetCreatedBy() {
     return this._changesetCreatedBy;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string} changesetComment - Comment used in the changeset.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {string} changesetComment - Comment used in the changeset.
+   */
   setChangesetComment(changesetComment) {
     this._changesetComment = changesetComment;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {string}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {string}
+   */
   getChangesetComment() {
     return this._changesetComment;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {array} nodes - List of nodes' id.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {array} nodes - List of nodes' id.
+   */
   setNodes(nodes) {
     this._element.nodes = nodes;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {array}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {array}
+   */
   getNodes() {
     return this._element.nodes;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {array} members - List of members objects.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {array} members - List of members objects.
+   */
   setMembers(members) {
     this._element.members = members;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {array}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {array}
+   */
   getMembers() {
     return this._element.members;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {number} lat - Node's latitude.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {number} lat - Node's latitude.
+   */
   setLatitude(lat) {
     this._element.attributes.lat = lat;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {number}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {number}
+   */
   getLatitude() {
     return this._element.attributes.lat;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {number} lon - Node's longitude.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {number} lon - Node's longitude.
+   */
   setLongitude(lon) {
     this._element.attributes.lon = lon;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {number}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {number}
+   */
   getLongitude() {
     return this._element.attributes.lon;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {array} tags - Node's tags.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {array} tags - Node's tags.
+   */
   setTags(tags) {
     this._element.tags = [];
 
@@ -197,10 +197,10 @@ export default class OsmEdit {
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {array}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {array}
+   */
   getTags() {
     const tags = {};
 
@@ -212,64 +212,64 @@ export default class OsmEdit {
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string|number} uid - UID of the node's editor.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {string|number} uid - UID of the node's editor.
+   */
   setUid(uid) {
     this._element.attributes.uid = uid;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {string|number}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {string|number}
+   */
   getUid() {
     return this._element.attributes.uid;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string} type - Element's type.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {string} type - Element's type.
+   */
   setType(type) {
     this._element.type = type;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {string}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {string}
+   */
   getType() {
     return this._element.type;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string|number} id - Element's ID.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {string|number} id - Element's ID.
+   */
   setId(id) {
     this._element.attributes.id = id;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {string|number}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {string|number}
+   */
   getId() {
     return this._element.attributes.id;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string} timestamp - Timestamp of the node creation.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {string} timestamp - Timestamp of the node creation.
+   */
   setTimestamp(timestamp) {
     if (!timestamp) {
       this._element.attributes.timestamp = new Date().toISOString();
@@ -279,59 +279,59 @@ export default class OsmEdit {
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {string}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {string}
+   */
   getTimestamp() {
     return this._element.attributes.timestamp;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string|number} version - Element's version.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {string|number} version - Element's version.
+   */
   setVersion(version) {
     this._element.attributes.version = version;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {string|number}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {string|number}
+   */
   getVersion() {
     return this._element.attributes.version;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string} displayName - Display name of the node's editor.
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @param {string} displayName - Display name of the node's editor.
+   */
   setDisplayName(displayName) {
     this._element.attributes.display_name = displayName;
   }
 
   /**
-     * @author Guillaume AMAT
-     * @access public
-     * @return {string}
-     */
+   * @author Guillaume AMAT
+   * @access public
+   * @return {string}
+   */
   getDisplayName() {
     return this._element.attributes.display_name;
   }
 
   /**
-     * Fetch an element from OSM.
-     *
-     * @author Guillaume AMAT
-     * @access public
-     * @param {string} type - Element's type.
-     * @param {string|number} id - Element's ID.
-     * @return {promise}
-     */
+   * Fetch an element from OSM.
+   *
+   * @author Guillaume AMAT
+   * @access public
+   * @param {string} type - Element's type.
+   * @param {string|number} id - Element's ID.
+   * @return {promise}
+   */
   fetch(type, id) {
     if (!type) {
       type = this._element.type;
@@ -347,7 +347,7 @@ export default class OsmEdit {
         dataType: 'xml',
         url: `https://api.openstreetmap.org/api/0.6/${type}/${id}`,
         error: (jqXHR, textStatus, errorThrown) => {
-          console.error(`ERROR on fetch element: ${errorThrown}`);
+          console.error(`ERROR on fetch element: ${errorThrown}`); // eslint-disable-line
           return reject(errorThrown);
         },
         success: xml => {
@@ -418,12 +418,12 @@ export default class OsmEdit {
   }
 
   /**
-     * Sends the node to OSM.
-     *
-     * @author Guillaume AMAT
-     * @access public
-     * @return {promise}
-     */
+   * Sends the node to OSM.
+   *
+   * @author Guillaume AMAT
+   * @access public
+   * @return {promise}
+   */
   send() {
     return new Promise((resolve, reject) => {
       this._getChangesetId()
@@ -445,12 +445,12 @@ export default class OsmEdit {
   }
 
   /**
-     * Builds a changeset XML.
-     *
-     * @author Guillaume AMAT
-     * @access private
-     * @return {string} - The changeset XML.
-     */
+   * Builds a changeset XML.
+   *
+   * @author Guillaume AMAT
+   * @access private
+   * @return {string} - The changeset XML.
+   */
   _buildChangesetXml() {
     const xml = new DOMImplementation().createDocument('', '', null);
     const osmElement = xml.createElement('osm');
@@ -473,13 +473,13 @@ export default class OsmEdit {
   }
 
   /**
-     * Builds a node XML.
-     *
-     * @author Guillaume AMAT
-     * @access private
-     * @param {number} changesetId - The changeset ID used during the call to OSM.
-     * @return {string} - The node XML.
-     */
+   * Builds a node XML.
+   *
+   * @author Guillaume AMAT
+   * @access private
+   * @param {number} changesetId - The changeset ID used during the call to OSM.
+   * @return {string} - The node XML.
+   */
   _buildXml(changesetId) {
     const xml = new DOMImplementation().createDocument('', '', null);
     const osmElement = xml.createElement('osm');
@@ -534,12 +534,12 @@ export default class OsmEdit {
   }
 
   /**
-     * Asks OSM to create a changeset and return its ID.
-     *
-     * @author Guillaume AMAT
-     * @access private
-     * @return {promise}
-     */
+   * Asks OSM to create a changeset and return its ID.
+   *
+   * @author Guillaume AMAT
+   * @access private
+   * @return {promise}
+   */
   _createChangeset() {
     const changesetXml = this._buildChangesetXml(
       this._changesetCreatedBy,
@@ -560,7 +560,7 @@ export default class OsmEdit {
         },
         (err, changesetId) => {
           if (err) {
-            console.error(`ERROR on put changeset: ${err.response}`);
+            console.error(`ERROR on put changeset: ${err.response}`); // eslint-disable-line
             return reject(err);
           }
 
@@ -571,13 +571,13 @@ export default class OsmEdit {
   }
 
   /**
-     * Checks if a given changeset is still opened at OSM.
-     *
-     * @author Guillaume AMAT
-     * @access private
-     * @param {number} changesetId - The changeset ID used during the call to OSM.
-     * @return {promise}
-     */
+   * Checks if a given changeset is still opened at OSM.
+   *
+   * @author Guillaume AMAT
+   * @access private
+   * @param {number} changesetId - The changeset ID used during the call to OSM.
+   * @return {promise}
+   */
   _isChangesetStillOpen(changesetId) {
     return new Promise((resolve, reject) => {
       this._auth.xhr(
@@ -610,12 +610,12 @@ export default class OsmEdit {
   }
 
   /**
-     * Gets a changeset ID from an old one or a creation.
-     *
-     * @author Guillaume AMAT
-     * @access private
-     * @return {promise}
-     */
+   * Gets a changeset ID from an old one or a creation.
+   *
+   * @author Guillaume AMAT
+   * @access private
+   * @return {promise}
+   */
   _getChangesetId() {
     const changesetId = parseInt(
       sessionStorage.getItem('osmEdit-changesetId'),
@@ -645,13 +645,13 @@ export default class OsmEdit {
   }
 
   /**
-      * Sends the node xml to OSM.
-      *
-      * @author Guillaume AMAT
-      * @access private
-      * @param {number} changesetId - The changeset ID to use during the sending.
-      * @return {promise}
-      */
+   * Sends the node xml to OSM.
+   *
+   * @author Guillaume AMAT
+   * @access private
+   * @param {number} changesetId - The changeset ID to use during the sending.
+   * @return {promise}
+   */
   _sendXml(changesetId) {
     const method = 'PUT';
     const xml = this._buildXml(changesetId);
@@ -686,13 +686,13 @@ export default class OsmEdit {
   }
 
   /**
-      * Puts the OsmEdit informations in an OverPass object.
-      *
-      * @author Guillaume AMAT
-      * @access public
-      * @param {object} overPassObject.
-      * @return {object}
-      */
+   * Puts the OsmEdit informations in an OverPass object.
+   *
+   * @author Guillaume AMAT
+   * @access public
+   * @param {object} overPassObject.
+   * @return {object}
+   */
   hydrateOverPassObject(overPassObject) {
     delete overPassObject.user;
 
@@ -722,13 +722,13 @@ export default class OsmEdit {
   }
 
   /**
-     * Removes the nodes and/or members attributes from the element when needed.
-     *
-     * @author Guillaume AMAT
-     * @access private
-     * @param {object} element - An OverPass or OSM element.
-     * @return {object}
-     */
+   * Removes the nodes and/or members attributes from the element when needed.
+   *
+   * @author Guillaume AMAT
+   * @access private
+   * @param {object} element - An OverPass or OSM element.
+   * @return {object}
+   */
   static _buildCleanedElement(element) {
     const cleanedElement = { ...element };
 

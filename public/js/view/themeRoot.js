@@ -284,8 +284,6 @@ export default Marionette.LayoutView.extend({
     const themeCenter = this.model.get('center');
     let center = themeCenter;
     let zoomLevel = this.model.get('zoomLevel');
-    const minZoomLevel = this.model.get('minZoomLevel');
-    const maxZoomLevel = this.model.get('maxZoomLevel');
     const movementRadius = this.model.get('movementRadius');
     let hiddenLayers = [];
     let storageMapState = localStorage.getItem(`mapState-${fragment}`);
