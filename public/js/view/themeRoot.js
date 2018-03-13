@@ -302,11 +302,7 @@ export default Marionette.LayoutView.extend({
       zoomLevel = this._initialZoom;
     }
 
-    if (zoomLevel < minZoomLevel) {
-      zoomLevel = minZoomLevel;
-    } else if (zoomLevel > maxZoomLevel) {
-      zoomLevel = maxZoomLevel;
-    }
+    zoomLevel = MapUi.buildZoomLevelFromLockOptions(zoomLevel, this.model);
 
     this.ui.toolbarZoomLevel.text(zoomLevel);
 
@@ -464,13 +460,19 @@ export default Marionette.LayoutView.extend({
   },
 
   setMapPosition(zoom, lat, lng) {
+    const zoomLevel = MapUi.buildZoomLevelFromLockOptions(
+      zoomLevel,
+      this.model
+    );
+    const position = MapUi.buildPositionFromLockOptions(lat, lng, this.model);
+
     if (this._map) {
-      this._map.setView([lat, lng], zoom);
+      this._map.setView(position, zoom);
       return;
     }
 
-    this._initialCenter = { lat, lng };
-    this._initialZoom = zoom;
+    this._initialCenter = position;
+    this._initialZoom = zoomLevel;
   },
 
   getTileChangesetAttribution() {
@@ -1416,11 +1418,21 @@ export default Marionette.LayoutView.extend({
   },
 
   setPosition(latLng, zoomLevel) {
-    this._map.setView(latLng, zoomLevel, { animate: true });
+    this._map.setView(
+      MapUi.buildPositionFromLockOptions(latLng.lat, latLng.lng, this.model),
+      MapUi.buildZoomLevelFromLockOptions(zoomLevel, this.model),
+      { animate: true }
+    );
   },
 
   fitBounds(latLngBounds) {
-    this._map.fitBounds(latLngBounds, { animate: true });
+    this._map.fitBounds(
+      MapUi.buildBoundsFromLockOptions(latLngBounds, this.model),
+      {
+        animate: true,
+        maxZoom: this.model.get('maxZoomLevel')
+      }
+    );
   },
 
   onKeyDown(e) {

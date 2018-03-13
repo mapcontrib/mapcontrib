@@ -5,7 +5,104 @@ import GeoUtils from 'core/geoUtils';
 
 export default class MapUi {
   /**
-   * Lock the movement on the map.
+   * Return a zoom level that fits with the lock options.
+   * @param  {number} zoomLevel
+   * @param  {object} themeModel
+   * @return {number}
+   */
+  static buildZoomLevelFromLockOptions(zoomLevel, themeModel) {
+    const minZoomLevel = themeModel.get('minZoomLevel');
+    const maxZoomLevel = themeModel.get('maxZoomLevel');
+
+    if (zoomLevel < minZoomLevel) {
+      return minZoomLevel;
+    } else if (zoomLevel > maxZoomLevel) {
+      return maxZoomLevel;
+    } else {
+      return zoomLevel;
+    }
+  }
+
+  /**
+   * Return a position that fits with the lock options.
+   * @param  {number} lat
+   * @param  {number} lon
+   * @param  {object} themeModel
+   * @return {L.LatLng}
+   */
+  static buildPositionFromLockOptions(lat, lon, themeModel) {
+    const movementRadius = themeModel.get('movementRadius');
+    const position = new L.LatLng(lat, lon);
+
+    if (!movementRadius) {
+      return position;
+    }
+
+    const themeCenter = themeModel.get('center');
+    const lockedBounds = MapUi.buildBoundsFromCenterAndRadius(
+      themeCenter.lat,
+      themeCenter.lng,
+      movementRadius
+    );
+
+    if (lockedBounds.contains(position)) {
+      return position;
+    }
+
+    return new L.LatLng(themeCenter.lat, themeCenter.lng);
+  }
+
+  /**
+   * Return some bounds that fits with the lock options.
+   * @param  {L.LatLng} bounds
+   * @param  {object} themeModel
+   * @return {L.LatLng}
+   */
+  static buildBoundsFromLockOptions(bounds, themeModel) {
+    const movementRadius = themeModel.get('movementRadius');
+
+    if (!movementRadius) {
+      return bounds;
+    }
+
+    const themeCenter = themeModel.get('center');
+    const lockedBounds = MapUi.buildBoundsFromCenterAndRadius(
+      themeCenter.lat,
+      themeCenter.lng,
+      movementRadius
+    );
+
+    if (lockedBounds.contains(bounds)) {
+      return bounds;
+    }
+
+    return lockedBounds;
+  }
+
+  /**
+   * Build some bounds from a position and a radius.
+   *
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {number} lat
+   * @param {number} lon
+   * @param {number} radius
+   */
+  static buildBoundsFromCenterAndRadius(lat, lon, radius) {
+    const corner1 = L.latLng(
+      lat - GeoUtils.kilometersToLatitudeDegrees(radius),
+      lon - GeoUtils.kilometersToLongitudeDegrees(radius, lat)
+    );
+    const corner2 = L.latLng(
+      lat + GeoUtils.kilometersToLatitudeDegrees(radius),
+      lon + GeoUtils.kilometersToLongitudeDegrees(radius, lat)
+    );
+    return L.latLngBounds(corner1, corner2);
+  }
+
+  /**
+   * Lock the movements on the map.
    *
    * @author Guillaume AMAT
    * @static
@@ -16,15 +113,11 @@ export default class MapUi {
    * @param {number} movementRadius
    */
   static lockMovementFromCenterAndRadius(map, lat, lon, movementRadius) {
-    const corner1 = L.latLng(
-      lat - GeoUtils.kilometersToLatitudeDegrees(movementRadius),
-      lon - GeoUtils.kilometersToLongitudeDegrees(movementRadius, lat)
+    const bounds = MapUi.buildBoundsFromCenterAndRadius(
+      lat,
+      lon,
+      movementRadius
     );
-    const corner2 = L.latLng(
-      lat + GeoUtils.kilometersToLatitudeDegrees(movementRadius),
-      lon + GeoUtils.kilometersToLongitudeDegrees(movementRadius, lat)
-    );
-    const bounds = L.latLngBounds(corner1, corner2);
     map.setMaxBounds(bounds);
   }
 
