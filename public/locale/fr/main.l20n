@@ -195,6 +195,7 @@
 <contribColumn_searchAPreset "Rechercher un type de nœud">
 <contribColumn_freeAddition "Ajout de tags libre">
 <contribColumn_addTag "Ajouter un tag">
+<contribColumn_removePoi "Supprimer le nœud">
 
 
 /* Link column */

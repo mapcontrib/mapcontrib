@@ -196,6 +196,7 @@
 <contribColumn_searchAPreset "Search a type of node">
 <contribColumn_freeAddition "Free tags addition">
 <contribColumn_addTag "Add a tag">
+<contribColumn_removePoi "Delete the node">
 
 
 /* Link column */

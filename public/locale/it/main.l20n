@@ -194,6 +194,7 @@
 <contribColumn_searchAPreset "Cerca un tipo di nodo">
 <contribColumn_freeAddition "Aggiunta libera di tag">
 <contribColumn_addTag "Aggiungi un tag">
+<contribColumn_removePoi "Delete the node"> /* FIXME */
 
 
 /* Link column */
