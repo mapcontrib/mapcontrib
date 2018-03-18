@@ -4,6 +4,7 @@ import L from 'leaflet';
 import ContribNodeTagsListView from 'ui/form/contribNodeTags';
 import ContributionErrorNotificationView from 'view/contributionErrorNotification';
 import ContributeAddPositionContextual from 'view/contribute/edit/positionContextual';
+import ContributionDeleteConfirmationModal from 'view/contribute/delete/confirmationModal';
 import template from 'templates/contribute/edit/formColumn.ejs';
 import osmAuth from 'osm-auth';
 import OsmEditHelper from 'helper/osmEdit';
@@ -40,12 +41,14 @@ export default Marionette.LayoutView.extend({
     form: 'form',
     content: '.content',
     addBtn: '.add_btn',
+    deleteBtn: '.delete_btn',
     footerButtons: '.sticky-footer button'
   },
 
   events: {
     'click @ui.addBtn': 'onClickAddBtn',
     'click @ui.moveBtn': 'onClickMove',
+    'click @ui.deleteBtn': 'onClickDelete',
     'click @ui.closeBtn': 'onClickClose',
     submit: 'onSubmit'
   },
@@ -396,6 +399,15 @@ export default Marionette.LayoutView.extend({
     }).open();
 
     this.close(true);
+  },
+
+  onClickDelete(e) {
+    e.preventDefault();
+
+    new ContributionDeleteConfirmationModal({
+      layer: this.options.layer,
+      formColumnView: this
+    }).open();
   },
 
   onClickClose(e) {

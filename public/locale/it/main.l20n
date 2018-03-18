@@ -194,7 +194,14 @@
 <contribColumn_searchAPreset "Cerca un tipo di nodo">
 <contribColumn_freeAddition "Aggiunta libera di tag">
 <contribColumn_addTag "Aggiungi un tag">
-<contribColumn_removePoi "Delete the node"> /* FIXME */
+<contribColumn_deletePoi "Delete the node"> /* FIXME */
+
+
+/* Contribution delete modal */
+<contribDeleteModal_title "Delete a node"> /* FIXME */
+<contribDeleteModal_text1 "Warning, You are about to delete an entire node from the OpenStreetMap database."> /* FIXME */
+<contribDeleteModal_text2 "Are you sure you want to do that?"> /* FIXME */
+<contribDeleteModal_confirmTheDeletion "I confirm I want to delete that node"> /* FIXME */
 
 
 /* Link column */
