@@ -377,6 +377,12 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <contributionErrorNotification_retry "Retry to send">
 
 
+/* Deletion error notification */
+<deletionErrorNotification_title "Deletion failed">
+<deletionErrorNotification_content "An error occured during the send of your deletion demand.">
+<deletionErrorNotification_retry "Retry to delete">
+
+
 /* Node tag field UI */
 <uiFormNodeTags_key "Key">
 <uiFormNodeTags_value placeholder:"{{ value }}">

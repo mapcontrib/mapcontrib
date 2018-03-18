@@ -375,6 +375,12 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 <contributionErrorNotification_retry "Riprova ad inviare">
 
 
+/* Deletion error notification */
+<deletionErrorNotification_title "Deletion failed"> /* FIXME */
+<deletionErrorNotification_content "An error occured during the send of your deletion demand."> /* FIXME */
+<deletionErrorNotification_retry "Retry to delete"> /* FIXME */
+
+
 /* Node tag field UI */
 <uiFormNodeTags_key "Chiave">
 <uiFormNodeTags_value placeholder:"{{ value }}">

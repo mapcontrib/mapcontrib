@@ -196,6 +196,9 @@ export default Marionette.LayoutView.extend({
       'map:updatePoiPopup': (layerModel, node) => {
         this.updatePoiPopup(layerModel, node);
       },
+      'map:removePoi': (layerModel, node) => {
+        this.removePoi(layerModel, node);
+      },
       'map:setPosition': (latLng, zoomLevel) => {
         this.setPosition(latLng, zoomLevel);
       },
@@ -210,6 +213,9 @@ export default Marionette.LayoutView.extend({
       },
       saveOverPassData: (overPassElement, layerModel) => {
         this._overPassData.save(overPassElement, layerModel.cid);
+      },
+      removeOverPassData: (overPassElement, layerModel) => {
+        this._overPassData.remove(overPassElement, layerModel.cid);
       }
     });
 
@@ -1129,6 +1135,20 @@ export default Marionette.LayoutView.extend({
             })
           );
         }
+      }
+    }
+  },
+
+  removePoi(layerModel, overPassElement) {
+    const rootLayer = this._getRootLayer(layerModel);
+    const layers = rootLayer.getLayers();
+    const osmId = `${overPassElement.type}/${overPassElement.id}`;
+
+    for (const layer of layers) {
+      if (layer.feature.id === osmId) {
+        layer.removeFrom(rootLayer);
+        layer.removeFrom(this._map);
+        layer.remove();
       }
     }
   },

@@ -70,7 +70,6 @@ export default Marionette.LayoutView.extend({
     this._osmCache = this.options.osmCache;
     this._user = this.options.user;
     this._layer = this.options.layer;
-    this._layer = this.options.layer;
     this._layerModel = this.options.layerModel;
 
     this._contributionSent = false;
@@ -405,8 +404,17 @@ export default Marionette.LayoutView.extend({
     e.preventDefault();
 
     new ContributionDeleteConfirmationModal({
-      layer: this.options.layer,
-      formColumnView: this
+      routeOnClose: window.location.hash,
+      config: this._config,
+      theme: this._theme,
+      iDPresetsHelper: this._iDPresetsHelper,
+      nonOsmData: this._nonOsmData,
+      osmCache: this._osmCache,
+      user: this._user,
+      layer: this._layer,
+      layerModel: this._layerModel,
+      osmType: this.options.osmType,
+      osmId: this.options.osmId
     }).open();
   },
 
