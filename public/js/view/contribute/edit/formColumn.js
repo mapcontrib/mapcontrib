@@ -4,6 +4,7 @@ import L from 'leaflet';
 import ContribNodeTagsListView from 'ui/form/contribNodeTags';
 import ContributionErrorNotificationView from 'view/contributionErrorNotification';
 import ContributeAddPositionContextual from 'view/contribute/edit/positionContextual';
+import ContributionDeleteConfirmationModal from 'view/contribute/delete/confirmationModal';
 import template from 'templates/contribute/edit/formColumn.ejs';
 import osmAuth from 'osm-auth';
 import OsmEditHelper from 'helper/osmEdit';
@@ -40,12 +41,14 @@ export default Marionette.LayoutView.extend({
     form: 'form',
     content: '.content',
     addBtn: '.add_btn',
+    deleteBtn: '.delete_btn',
     footerButtons: '.sticky-footer button'
   },
 
   events: {
     'click @ui.addBtn': 'onClickAddBtn',
     'click @ui.moveBtn': 'onClickMove',
+    'click @ui.deleteBtn': 'onClickDelete',
     'click @ui.closeBtn': 'onClickClose',
     submit: 'onSubmit'
   },
@@ -66,7 +69,6 @@ export default Marionette.LayoutView.extend({
     this._nonOsmData = this.options.nonOsmData;
     this._osmCache = this.options.osmCache;
     this._user = this.options.user;
-    this._layer = this.options.layer;
     this._layer = this.options.layer;
     this._layerModel = this.options.layerModel;
 
@@ -396,6 +398,24 @@ export default Marionette.LayoutView.extend({
     }).open();
 
     this.close(true);
+  },
+
+  onClickDelete(e) {
+    e.preventDefault();
+
+    new ContributionDeleteConfirmationModal({
+      routeOnClose: window.location.hash,
+      config: this._config,
+      theme: this._theme,
+      iDPresetsHelper: this._iDPresetsHelper,
+      nonOsmData: this._nonOsmData,
+      osmCache: this._osmCache,
+      user: this._user,
+      layer: this._layer,
+      layerModel: this._layerModel,
+      osmType: this.options.osmType,
+      osmId: this.options.osmId
+    }).open();
   },
 
   onClickClose(e) {

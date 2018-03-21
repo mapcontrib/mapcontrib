@@ -445,6 +445,33 @@ export default class OsmEdit {
   }
 
   /**
+   * Deletes the node from the OSM database
+   *
+   * @author Guillaume AMAT
+   * @access public
+   * @return {promise}
+   */
+  delete() {
+    return new Promise((resolve, reject) => {
+      this._getChangesetId()
+        .then(
+          changesetId => this._sendXml(changesetId, true),
+          err => {
+            reject(err);
+          }
+        )
+        .then(
+          response => {
+            resolve(response);
+          },
+          err => {
+            reject(err);
+          }
+        );
+    });
+  }
+
+  /**
    * Builds a changeset XML.
    *
    * @author Guillaume AMAT
@@ -650,10 +677,11 @@ export default class OsmEdit {
    * @author Guillaume AMAT
    * @access private
    * @param {number} changesetId - The changeset ID to use during the sending.
+   * @param {boolean} isDeletion - Is the request a deletion demand?
    * @return {promise}
    */
-  _sendXml(changesetId) {
-    const method = 'PUT';
+  _sendXml(changesetId, isDeletion = false) {
+    const method = isDeletion ? 'DELETE' : 'PUT';
     const xml = this._buildXml(changesetId);
     let path = `/api/0.6/${this._element.type}/create`;
 

@@ -196,6 +196,14 @@
 <contribColumn_searchAPreset "Search a type of node">
 <contribColumn_freeAddition "Free tags addition">
 <contribColumn_addTag "Add a tag">
+<contribColumn_deletePoi "Delete the node">
+
+
+/* Contribution delete modal */
+<contribDeleteModal_title "Delete a node">
+<contribDeleteModal_text1 "Warning, You are about to delete an entire node from the OpenStreetMap database.">
+<contribDeleteModal_text2 "Are you sure you want to do that?">
+<contribDeleteModal_confirmTheDeletion "I confirm I want to delete that node">
 
 
 /* Link column */
@@ -367,6 +375,12 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <contributionErrorNotification_title "Contribution failed">
 <contributionErrorNotification_content "An error occured during the send of your contribution.">
 <contributionErrorNotification_retry "Retry to send">
+
+
+/* Deletion error notification */
+<deletionErrorNotification_title "Deletion failed">
+<deletionErrorNotification_content "An error occured during the send of your deletion demand.">
+<deletionErrorNotification_retry "Retry to delete">
 
 
 /* Node tag field UI */

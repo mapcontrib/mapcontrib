@@ -195,6 +195,14 @@
 <contribColumn_searchAPreset "Rechercher un type de nœud">
 <contribColumn_freeAddition "Ajout de tags libre">
 <contribColumn_addTag "Ajouter un tag">
+<contribColumn_deletePoi "Supprimer le nœud">
+
+
+/* Contribution delete modal */
+<contribDeleteModal_title "Supprimer un nœud">
+<contribDeleteModal_text1 "Attention, vous êtes sur le point de supprimer un nœud entier de la base de données d'OpenStreetMap.">
+<contribDeleteModal_text2 "Êtes-vous certain de vouloir réaliser cette action ?">
+<contribDeleteModal_confirmTheDeletion "Je confirme vouloir supprimer ce nœud">
 
 
 /* Link column */
@@ -366,6 +374,12 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <contributionErrorNotification_title "Contribution échouée">
 <contributionErrorNotification_content "Une erreur est survenue lors de l'envoi de votre contribution.">
 <contributionErrorNotification_retry "Retenter l'envoi">
+
+
+/* Deletion error notification */
+<deletionErrorNotification_title "Suppression échouée">
+<deletionErrorNotification_content "Une erreur est survenue lors de la demande de suppression.">
+<deletionErrorNotification_retry "Retenter la suppression">
 
 
 /* Node tag field UI */
