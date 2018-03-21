@@ -140,23 +140,19 @@ export default Marionette.LayoutView.extend({
   },
 
   getUrl() {
-    const protocol = window.location.protocol;
-    const host = window.location.host;
-    const path = ThemeCore.buildPath(
+    return ThemeCore.buildUrl(
+      window,
       this.model.get('fragment'),
       this.model.get('name')
     );
-
-    return `${protocol}//${host}${path}`;
   },
 
   getUrlWithPosition() {
     const map = this._radio.reqres.request('map');
-    const zoom = map.getZoom();
-    const { lat, lng } = map.getCenter();
+    const positionHash = ThemeCore.buildMapPositionHash(map);
     const url = this.getUrl();
 
-    return `${url}#position/${zoom}/${lat}/${lng}`;
+    return `${url}${positionHash}`;
   },
 
   getLinkUrl() {

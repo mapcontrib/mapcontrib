@@ -15,6 +15,7 @@ import DeviceHelper from 'helper/device';
 import LayerModel from 'model/layer';
 
 import MapUi from 'ui/map';
+import ThemeCore from 'core/theme';
 import Geolocation from 'core/geolocation';
 import OverPassData from 'core/overPassData';
 import InfoDisplay from 'core/infoDisplay';
@@ -958,7 +959,13 @@ export default Marionette.LayoutView.extend({
           this._bindPopupTo(object, popupContent);
         }
 
-        object.on('click', this._displayInfo, this);
+        const zoom = this._map.getZoom();
+        const positionHash = ThemeCore.buildLayerPositionHash(zoom, object);
+
+        object.on('click', event => {
+          this._router.navigate(positionHash);
+          this._displayInfo(event);
+        });
 
         switch (object.feature.geometry.type) {
           case 'Point':
