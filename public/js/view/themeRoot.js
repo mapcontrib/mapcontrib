@@ -472,15 +472,17 @@ export default Marionette.LayoutView.extend({
   },
 
   onLayerAddEvent(event) {
+    const layer = event.layer;
+
     if (
-      !event.layer.feature ||
+      !layer.feature ||
       !this._initialCenter ||
-      this._seenLinkedPoiDetails
+      this._seenLinkedPoiDetails ||
+      !layer.getLatLng
     ) {
       return;
     }
 
-    const layer = event.layer;
     const layerPosition = layer.getLatLng();
 
     if (
