@@ -105,6 +105,7 @@ export default Marionette.LayoutView.extend({
     this._document = this._app.getDocument();
     this._deviceHelper = new DeviceHelper(this._config, this._window);
 
+    this._seenLinkedPoiDetails = false;
     this._seenZoomNotification = false;
     this._minDataZoom = 0;
     this._poiLoadingSpool = [];
@@ -333,6 +334,8 @@ export default Marionette.LayoutView.extend({
       maxZoom: maxZoomLevel
     });
 
+    this._map.on('layeradd', event => this.onLayerAddEvent(event));
+
     if (movementRadius) {
       MapUi.lockMovementFromCenterAndRadius(
         this._map,
@@ -468,6 +471,33 @@ export default Marionette.LayoutView.extend({
     this._radio.vent.trigger('theme:rendered');
   },
 
+  onLayerAddEvent(event) {
+    if (
+      !event.layer.feature ||
+      !this._initialCenter ||
+      this._seenLinkedPoiDetails
+    ) {
+      return;
+    }
+
+    const layer = event.layer;
+    const layerPosition = layer.getLatLng();
+
+    if (
+      layerPosition.lat === this._initialCenter.lat &&
+      layerPosition.lng === this._initialCenter.lng
+    ) {
+      this._seenLinkedPoiDetails = true;
+      this._map.setView(this._initialCenter, this._initialZoom);
+
+      if (layer._popup) {
+        layer.openPopup();
+      } else {
+        this._displayInfo({ target: layer });
+      }
+    }
+  },
+
   setMapPosition(zoom, lat, lng) {
     const zoomLevel = MapUi.buildZoomLevelFromLockOptions(
       zoomLevel,
@@ -475,13 +505,12 @@ export default Marionette.LayoutView.extend({
     );
     const position = MapUi.buildPositionFromLockOptions(lat, lng, this.model);
 
-    if (this._map) {
-      this._map.setView(position, zoom);
-      return;
-    }
-
     this._initialCenter = position;
     this._initialZoom = zoomLevel;
+
+    if (this._map) {
+      this._map.setView(position, zoom);
+    }
   },
 
   getTileChangesetAttribution() {
