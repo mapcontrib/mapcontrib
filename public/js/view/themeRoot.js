@@ -990,14 +990,6 @@ export default Marionette.LayoutView.extend({
           this._bindPopupTo(object, popupContent);
         }
 
-        const zoom = this._map.getZoom();
-        const positionHash = ThemeCore.buildLayerPositionHash(zoom, object);
-
-        object.on('click', event => {
-          this._router.navigate(positionHash);
-          this._displayInfo(event);
-        });
-
         switch (object.feature.geometry.type) {
           case 'Point':
           case 'MultiPoint':
@@ -1018,6 +1010,14 @@ export default Marionette.LayoutView.extend({
       }
 
       rootLayer.addLayer(object);
+
+      const zoom = this._map.getZoom();
+      const positionHash = ThemeCore.buildLayerPositionHash(zoom, object);
+
+      object.on('click', event => {
+        this._router.navigate(positionHash);
+        this._displayInfo(event);
+      });
     }
 
     this._setRootLayer(layerModel, rootLayer);

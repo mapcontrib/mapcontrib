@@ -91,9 +91,15 @@ export default class Theme {
    * @return {string}
    */
   static buildLayerPositionHash(zoom, layer) {
-    const { lat, lng } = layer.getLatLng();
-
-    return `#position/${zoom}/${lat}/${lng}`;
+    if (layer.getLatLng) {
+      const { lat, lng } = layer.getLatLng();
+      return `#position/${zoom}/${lat}/${lng}`;
+    } else if (layer.getCenter) {
+      const { lat, lng } = layer.getCenter();
+      return `#position/${zoom}/${lat}/${lng}`;
+    } else {
+      return '#';
+    }
   }
 
   /**
