@@ -1633,7 +1633,8 @@ export default Marionette.LayoutView.extend({
           layerModel: layer._layerModel,
           content,
           editRoute,
-          isLogged
+          isLogged,
+          config: this._config
         }).open();
         break;
 
@@ -1643,7 +1644,8 @@ export default Marionette.LayoutView.extend({
           layerModel: layer._layerModel,
           content,
           editRoute,
-          isLogged
+          isLogged,
+          config: this._config
         }).open();
         break;
       default:

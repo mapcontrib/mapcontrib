@@ -1,5 +1,6 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import InfoDisplay from 'core/infoDisplay';
 import template from 'templates/infoDisplayColumn.ejs';
 import CONST from 'const';
 
@@ -38,8 +39,11 @@ export default Marionette.LayoutView.extend({
 
   onRender() {
     const layerModel = this.options.layerModel;
+    const layer = this.options.layer;
+    const osmType = layer.feature.properties.type;
+    const osmId = layer.feature.properties.id;
 
-    this.ui.content.append(this.options.content);
+    this.ui.content.html(this.options.content);
 
     if (
       this.options.isLogged &&
@@ -49,6 +53,19 @@ export default Marionette.LayoutView.extend({
     } else {
       this.ui.prependStickyFooter.removeClass('sticky-inner');
     }
+
+    InfoDisplay.buildDirectRelationsList(
+      document,
+      this.options.config.overPassEndPoint,
+      osmType,
+      osmId
+    ).then(ul => {
+      this.$el
+        .find('.relations')
+        .removeClass('hide')
+        .find('.list')
+        .append(ul);
+    });
   },
 
   open() {

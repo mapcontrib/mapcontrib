@@ -444,6 +444,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 /* Info display column */
 <infoDisplayColumn_title "Détails">
+<infoDisplayColumn_relationsTitle "Cet élément fait partie de&nbsp;:">
 
 
 /* Temporary layers column */

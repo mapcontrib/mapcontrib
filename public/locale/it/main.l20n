@@ -443,7 +443,7 @@ Esempio : `\{pippo\}` sarà sostituito dal valore del tag dell'elemento *pippo*.
 
 /* Info display column */
 <infoDisplayColumn_title "Dettagli">
-
+<infoDisplayColumn_relationsTitle "This element is part of:"> /* FIXME */
 
 /* Temporary layers column */
 <tempLayerListColumn_title "Livelli temporanei">
