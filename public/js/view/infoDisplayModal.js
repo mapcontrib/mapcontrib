@@ -56,11 +56,13 @@ export default Marionette.LayoutView.extend({
       osmType,
       osmId
     ).then(ul => {
-      this.$el
-        .find('.relations')
-        .removeClass('hide')
-        .find('.list')
-        .append(ul);
+      if (ul.childElementCount > 0) {
+        this.$el
+          .find('.relations')
+          .removeClass('hide')
+          .find('.list')
+          .append(ul);
+      }
     });
   },
 
