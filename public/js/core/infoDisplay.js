@@ -119,7 +119,13 @@ export default class InfoDisplay {
 
         for (const relation of response.elements) {
           const li = document.createElement('li');
-          li.innerHTML = `<li>${relation.tags.name}</li>`;
+          li.innerHTML = `
+            <li>
+              <a href="https://www.openstreetmap.org/${osmType}/${osmId}" target="_blank" rel="noopener noreferrer">
+                ${relation.tags.name}
+              </a>
+            </li>
+          `;
           ul.appendChild(li);
         }
 
