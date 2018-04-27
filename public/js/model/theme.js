@@ -57,6 +57,9 @@ export default Backbone.RelationalModel.extend({
       color: 'blue',
       tiles: ['osm', 'mapboxStreetsSatellite', 'watercolor', 'osmMonochrome'],
       zoomLevel: 3,
+      minZoomLevel: 0,
+      maxZoomLevel: 22,
+      movementRadius: null,
       autoCenter: false,
       center: {
         lat: 33.57,
@@ -115,13 +118,13 @@ export default Backbone.RelationalModel.extend({
   },
 
   /**
-     * Check if a user is owner of this theme.
-     *
-     * @author Guillaume AMAT
-     * @access public
-     * @param {object} userModel - A user model
-     * @return boolean
-     */
+   * Check if a user is owner of this theme.
+   *
+   * @author Guillaume AMAT
+   * @access public
+   * @param {object} userModel - A user model
+   * @return boolean
+   */
   isOwner(userModel) {
     const userId = userModel.get('_id');
     const osmId = userModel.get('osmId');

@@ -157,11 +157,10 @@ export default Marionette.LayoutView.extend({
 
   _buildGeocodeResultName(result) {
     const details = [];
+    const splittedResult = result.name.split(', ');
 
     switch (this.model.get('geocoder')) {
       case CONST.geocoder.nominatim:
-        const splittedResult = result.name.split(', ');
-
         return {
           name: splittedResult.shift(),
           detail: splittedResult.join(', ')
@@ -194,9 +193,15 @@ export default Marionette.LayoutView.extend({
     const current = this.ui.resultList.find('.active');
 
     if (!current.length) {
-      this.ui.resultList.children().first().addClass('active');
+      this.ui.resultList
+        .children()
+        .first()
+        .addClass('active');
     } else {
-      current.removeClass('active').next().addClass('active');
+      current
+        .removeClass('active')
+        .next()
+        .addClass('active');
     }
   },
 
@@ -204,9 +209,15 @@ export default Marionette.LayoutView.extend({
     const current = this.ui.resultList.find('.active');
 
     if (!current.length) {
-      this.ui.resultList.children().last().addClass('active');
+      this.ui.resultList
+        .children()
+        .last()
+        .addClass('active');
     } else {
-      current.removeClass('active').prev().addClass('active');
+      current
+        .removeClass('active')
+        .prev()
+        .addClass('active');
     }
   },
 
@@ -214,7 +225,11 @@ export default Marionette.LayoutView.extend({
     const current = this.ui.resultList.find('.active');
 
     if (!current.length) {
-      this.ui.resultList.children().first().addClass('active').click();
+      this.ui.resultList
+        .children()
+        .first()
+        .addClass('active')
+        .click();
     } else {
       current.click();
     }
@@ -222,15 +237,15 @@ export default Marionette.LayoutView.extend({
 
   _buildGeocoder() {
     const lang = document.l10n.supportedLocales[0];
+    const bounds = this._radio.reqres.request('map:currentBounds');
+    const left = bounds._southWest.lng;
+    const top = bounds._northEast.lat;
+    const right = bounds._northEast.lng;
+    const bottom = bounds._southWest.lat;
+    const { lat, lng } = this._radio.reqres.request('map:currentCenter');
 
     switch (this.model.get('geocoder')) {
       case CONST.geocoder.nominatim:
-        const bounds = this._radio.reqres.request('map:currentBounds');
-        const left = bounds._southWest.lng;
-        const top = bounds._northEast.lat;
-        const right = bounds._northEast.lng;
-        const bottom = bounds._southWest.lat;
-
         return leafletControlGeocoder.nominatim({
           geocodingQueryParams: {
             viewbox: `${left},${top},${right},${bottom}`,
@@ -238,7 +253,6 @@ export default Marionette.LayoutView.extend({
           }
         });
       default:
-        const { lat, lng } = this._radio.reqres.request('map:currentCenter');
         return leafletControlGeocoder.photon({
           geocodingQueryParams: {
             lat,

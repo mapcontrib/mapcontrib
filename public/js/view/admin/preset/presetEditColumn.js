@@ -86,7 +86,7 @@ export default Marionette.LayoutView.extend({
 
         error: () => {
           // FIXME
-          console.error('nok');
+          console.error('nok'); // eslint-disable-line
         }
       }
     );

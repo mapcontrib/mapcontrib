@@ -9,7 +9,7 @@ import '../lib/l20n.min.js';
 import SmoothScrollPolyfill from 'smoothscroll-polyfill';
 
 import 'ionicons/css/ionicons.css';
-import 'font-awesome-webpack';
+import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap-webpack';
 import 'awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css';
 import 'bootstrap-filestyle';
@@ -40,11 +40,11 @@ export default Marionette.Application.extend({
 
   initialize(window) {
     window.document.l10n.addEventListener('error', err => {
-      console.error(`L20n: ${err}`);
+      console.error(`L20n: ${err}`); // eslint-disable-line
     });
 
     window.document.l10n.addEventListener('warning', err => {
-      console.warn(`L20n: ${err}`);
+      console.warn(`L20n: ${err}`); // eslint-disable-line
     });
 
     SmoothScrollPolyfill.polyfill();

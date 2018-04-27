@@ -15,6 +15,7 @@ import DeviceHelper from 'helper/device';
 import LayerModel from 'model/layer';
 
 import MapUi from 'ui/map';
+import ThemeCore from 'core/theme';
 import Geolocation from 'core/geolocation';
 import OverPassData from 'core/overPassData';
 import InfoDisplay from 'core/infoDisplay';
@@ -104,6 +105,7 @@ export default Marionette.LayoutView.extend({
     this._document = this._app.getDocument();
     this._deviceHelper = new DeviceHelper(this._config, this._window);
 
+    this._seenLinkedPoiDetails = false;
     this._seenZoomNotification = false;
     this._minDataZoom = 0;
     this._poiLoadingSpool = [];
@@ -196,6 +198,9 @@ export default Marionette.LayoutView.extend({
       'map:updatePoiPopup': (layerModel, node) => {
         this.updatePoiPopup(layerModel, node);
       },
+      'map:removePoi': (layerModel, node) => {
+        this.removePoi(layerModel, node);
+      },
       'map:setPosition': (latLng, zoomLevel) => {
         this.setPosition(latLng, zoomLevel);
       },
@@ -210,6 +215,9 @@ export default Marionette.LayoutView.extend({
       },
       saveOverPassData: (overPassElement, layerModel) => {
         this._overPassData.save(overPassElement, layerModel.cid);
+      },
+      removeOverPassData: (overPassElement, layerModel) => {
+        this._overPassData.remove(overPassElement, layerModel.cid);
       }
     });
 
@@ -281,8 +289,12 @@ export default Marionette.LayoutView.extend({
   onShow() {
     const autoCenter = this.model.get('autoCenter');
     const fragment = this.model.get('fragment');
-    let center = this.model.get('center');
+    const themeCenter = this.model.get('center');
+    let center = themeCenter;
     let zoomLevel = this.model.get('zoomLevel');
+    const minZoomLevel = this.model.get('minZoomLevel');
+    const maxZoomLevel = this.model.get('maxZoomLevel');
+    const movementRadius = this.model.get('movementRadius');
     let hiddenLayers = [];
     let storageMapState = localStorage.getItem(`mapState-${fragment}`);
 
@@ -298,6 +310,10 @@ export default Marionette.LayoutView.extend({
       zoomLevel = this._initialZoom;
     }
 
+    zoomLevel = MapUi.buildZoomLevelFromLockOptions(zoomLevel, this.model);
+
+    this.ui.toolbarZoomLevel.text(zoomLevel);
+
     this.ui.toolbarButtons
       .tooltip({
         container: 'body',
@@ -307,10 +323,27 @@ export default Marionette.LayoutView.extend({
         }
       })
       .on('click', e => {
-        $(e.currentTarget).blur().tooltip('hide');
+        $(e.currentTarget)
+          .blur()
+          .tooltip('hide');
       });
 
-    this._map = L.map(this.ui.map[0], { zoomControl: false });
+    this._map = L.map(this.ui.map[0], {
+      zoomControl: false,
+      minZoom: minZoomLevel,
+      maxZoom: maxZoomLevel
+    });
+
+    this._map.on('layeradd', event => this.onLayerAddEvent(event));
+
+    if (movementRadius) {
+      MapUi.lockMovementFromCenterAndRadius(
+        this._map,
+        themeCenter.lat,
+        themeCenter.lng,
+        movementRadius
+      );
+    }
 
     this.ui.map.focus();
 
@@ -438,14 +471,48 @@ export default Marionette.LayoutView.extend({
     this._radio.vent.trigger('theme:rendered');
   },
 
-  setMapPosition(zoom, lat, lng) {
-    if (this._map) {
-      this._map.setView([lat, lng], zoom);
+  onLayerAddEvent(event) {
+    const layer = event.layer;
+
+    if (
+      !layer.feature ||
+      !this._initialCenter ||
+      this._seenLinkedPoiDetails ||
+      !layer.getLatLng
+    ) {
       return;
     }
 
-    this._initialCenter = { lat, lng };
-    this._initialZoom = zoom;
+    const layerPosition = layer.getLatLng();
+
+    if (
+      layerPosition.lat === this._initialCenter.lat &&
+      layerPosition.lng === this._initialCenter.lng
+    ) {
+      this._seenLinkedPoiDetails = true;
+      this._map.setView(this._initialCenter, this._initialZoom);
+
+      if (layer._popup) {
+        layer.openPopup();
+      } else {
+        this._displayInfo({ target: layer });
+      }
+    }
+  },
+
+  setMapPosition(zoom, lat, lng) {
+    const zoomLevel = MapUi.buildZoomLevelFromLockOptions(
+      zoomLevel,
+      this.model
+    );
+    const position = MapUi.buildPositionFromLockOptions(lat, lng, this.model);
+
+    this._initialCenter = position;
+    this._initialZoom = zoomLevel;
+
+    if (this._map) {
+      this._map.setView(position, zoom);
+    }
   },
 
   getTileChangesetAttribution() {
@@ -923,8 +990,6 @@ export default Marionette.LayoutView.extend({
           this._bindPopupTo(object, popupContent);
         }
 
-        object.on('click', this._displayInfo, this);
-
         switch (object.feature.geometry.type) {
           case 'Point':
           case 'MultiPoint':
@@ -945,6 +1010,14 @@ export default Marionette.LayoutView.extend({
       }
 
       rootLayer.addLayer(object);
+
+      const zoom = this._map.getZoom();
+      const positionHash = ThemeCore.buildLayerPositionHash(zoom, object);
+
+      object.on('click', event => {
+        this._router.navigate(positionHash);
+        this._displayInfo(event);
+      });
     }
 
     this._setRootLayer(layerModel, rootLayer);
@@ -1108,6 +1181,20 @@ export default Marionette.LayoutView.extend({
     }
   },
 
+  removePoi(layerModel, overPassElement) {
+    const rootLayer = this._getRootLayer(layerModel);
+    const layers = rootLayer.getLayers();
+    const osmId = `${overPassElement.type}/${overPassElement.id}`;
+
+    for (const layer of layers) {
+      if (layer.feature.id === osmId) {
+        layer.removeFrom(rootLayer);
+        layer.removeFrom(this._map);
+        layer.remove();
+      }
+    }
+  },
+
   _buildLayerPopupContent(layer, layerModel, feature) {
     const isLogged = this._app.isLogged();
     const nonOsmData = this._nonOsmData.findWhere({
@@ -1241,11 +1328,21 @@ export default Marionette.LayoutView.extend({
   },
 
   onClickZoomIn() {
-    this._map.zoomIn();
+    const maxZoomLevel = this.model.get('maxZoomLevel');
+    const currentZoom = this._map.getZoom();
+
+    if (currentZoom < maxZoomLevel) {
+      this._map.zoomIn();
+    }
   },
 
   onClickZoomOut() {
-    this._map.zoomOut();
+    const minZoomLevel = this.model.get('minZoomLevel');
+    const currentZoom = this._map.getZoom();
+
+    if (currentZoom > minZoomLevel) {
+      this._map.zoomOut();
+    }
   },
 
   onClickGeocode() {
@@ -1381,11 +1478,21 @@ export default Marionette.LayoutView.extend({
   },
 
   setPosition(latLng, zoomLevel) {
-    this._map.setView(latLng, zoomLevel, { animate: true });
+    this._map.setView(
+      MapUi.buildPositionFromLockOptions(latLng.lat, latLng.lng, this.model),
+      MapUi.buildZoomLevelFromLockOptions(zoomLevel, this.model),
+      { animate: true }
+    );
   },
 
   fitBounds(latLngBounds) {
-    this._map.fitBounds(latLngBounds, { animate: true });
+    this._map.fitBounds(
+      MapUi.buildBoundsFromLockOptions(latLngBounds, this.model),
+      {
+        animate: true,
+        maxZoom: this.model.get('maxZoomLevel')
+      }
+    );
   },
 
   onKeyDown(e) {
@@ -1526,7 +1633,8 @@ export default Marionette.LayoutView.extend({
           layerModel: layer._layerModel,
           content,
           editRoute,
-          isLogged
+          isLogged,
+          config: this._config
         }).open();
         break;
 
@@ -1536,7 +1644,8 @@ export default Marionette.LayoutView.extend({
           layerModel: layer._layerModel,
           content,
           editRoute,
-          isLogged
+          isLogged,
+          config: this._config
         }).open();
         break;
       default:

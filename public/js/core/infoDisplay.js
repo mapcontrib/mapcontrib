@@ -4,15 +4,15 @@ import CONST from 'const';
 
 export default class InfoDisplay {
   /**
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {object} layerModel - Element's layer.
-     * @param {object} feature - Element's geoJson representation.
-     * @param {array} nonOsmTags - Non OSM tags related to the OSM element.
-     * @param {boolean} feature - Is the user logged?
-     * @returns {string}
-     */
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {object} layerModel - Element's layer.
+   * @param {object} feature - Element's geoJson representation.
+   * @param {array} nonOsmTags - Non OSM tags related to the OSM element.
+   * @param {boolean} feature - Is the user logged?
+   * @returns {string}
+   */
   static buildContent(themeModel, layerModel, feature, nonOsmTags) {
     let content = Locale.getLocalized(layerModel, 'popupContent');
     let data;
@@ -83,5 +83,54 @@ export default class InfoDisplay {
     content = content.replace(/\{(.*?)\}/g, '');
 
     return content;
+  }
+
+  /**
+   * Queries Overpass to fetch the direct relations of an OSM element
+   * @param {string} endpoint - Overpass endpoint
+   * @param {string} osmType
+   * @param {string} osmId
+   * @return {Promise}
+   */
+  static fetchDirectRelations(endpoint, osmType, osmId) {
+    const relationsQuery = `
+      [out:json];
+      ${osmType}(${osmId});
+      rel(bn);
+      out tags;
+    `;
+    const url = `${endpoint}/interpreter?data=${encodeURI(relationsQuery)}`;
+
+    return fetch(url, { method: 'GET' }).then(response => response.json());
+  }
+
+  /**
+   * Queries Overpass to fetch the direct relations of an OSM element
+   * Returns an html list of those relations
+   * @param {string} endpoint - Overpass endpoint
+   * @param {string} osmType
+   * @param {string} osmId
+   * @return {object}
+   */
+  static buildDirectRelationsList(document, endpoint, osmType, osmId) {
+    return InfoDisplay.fetchDirectRelations(endpoint, osmType, osmId).then(
+      response => {
+        const ul = document.createElement('ul');
+
+        for (const relation of response.elements) {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <li>
+              <a href="https://www.openstreetmap.org/${osmType}/${osmId}" target="_blank" rel="noopener noreferrer">
+                ${relation.tags.name}
+              </a>
+            </li>
+          `;
+          ul.appendChild(li);
+        }
+
+        return ul;
+      }
+    );
   }
 }

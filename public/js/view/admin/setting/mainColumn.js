@@ -4,6 +4,7 @@ import template from 'templates/admin/setting/mainColumn.ejs';
 import CONST from 'const';
 import MarkedHelper from 'helper/marked';
 import ThemeCore from 'core/theme';
+import MapUi from 'ui/map';
 import 'ui/form/colorSelector/style.less';
 
 export default Marionette.ItemView.extend({
@@ -29,6 +30,9 @@ export default Marionette.ItemView.extend({
     themePositionKeepOld: '#theme_position_keep_old',
     themePositionSetNew: '#theme_position_set_new',
     themePositionAutoCenter: '#theme_position_auto_center',
+    themeMinimumZoom: '#theme_minimum_zoom',
+    themeMaximumZoom: '#theme_maximum_zoom',
+    themeMovementRadius: '#theme_movement_radius',
     geocoderSection: '.geocoder',
     photonSection: '.photon',
     nominatimSection: '.nominatim',
@@ -62,7 +66,10 @@ export default Marionette.ItemView.extend({
     const config = MAPCONTRIB.config;
     const color = this.model.get('color');
 
-    this.ui.colorButtons.filter(`.${color}`).find('i').addClass('fa-check');
+    this.ui.colorButtons
+      .filter(`.${color}`)
+      .find('i')
+      .addClass('fa-check');
 
     if (config.availableGeocoders.length > 1) {
       this.ui.geocoderSection.removeClass('hide');
@@ -143,10 +150,16 @@ export default Marionette.ItemView.extend({
     const themeName = this.ui.themeName.val();
     const themeDescription = this.ui.themeDescription.val();
     const themeAnalyticScript = this.ui.themeAnalyticScript.val();
+    const themeMinimumZoom = this.ui.themeMinimumZoom.val();
+    const themeMaximumZoom = this.ui.themeMaximumZoom.val();
+    const themeMovementRadius = this.ui.themeMovementRadius.val();
 
     this.model.set('name', themeName);
     this.model.set('description', themeDescription);
     this.model.set('analyticScript', themeAnalyticScript);
+    this.model.set('minZoomLevel', themeMinimumZoom);
+    this.model.set('maxZoomLevel', themeMaximumZoom);
+    this.model.set('movementRadius', themeMovementRadius);
     this.model.updateModificationDate();
 
     window.history.pushState(
@@ -211,13 +224,32 @@ export default Marionette.ItemView.extend({
             }
           }
 
+          const currentZoom = map.getZoom();
+
+          if (currentZoom < themeMinimumZoom) {
+            map.setZoom(themeMinimumZoom, { animate: true });
+          } else if (currentZoom > themeMaximumZoom) {
+            map.setZoom(themeMaximumZoom, { animate: true });
+          }
+
+          if (themeMovementRadius) {
+            MapUi.lockMovementFromCenterAndRadius(
+              map,
+              this.model.get('center').lat,
+              this.model.get('center').lng,
+              themeMovementRadius
+            );
+          } else {
+            map.setMaxBounds(null);
+          }
+
           this._oldModel = this.model.clone();
 
           this.close();
         },
         error: () => {
           // FIXME
-          console.error('nok');
+          console.error('nok'); // eslint-disable-line
         }
       }
     );

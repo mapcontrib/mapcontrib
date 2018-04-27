@@ -1,5 +1,6 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import InfoDisplay from 'core/infoDisplay';
 import template from 'templates/infoDisplayModal.ejs';
 import CONST from 'const';
 
@@ -36,6 +37,9 @@ export default Marionette.LayoutView.extend({
 
   onRender() {
     const layerModel = this.options.layerModel;
+    const layer = this.options.layer;
+    const osmType = layer.feature.properties.type;
+    const osmId = layer.feature.properties.id;
 
     this.ui.content.append(this.options.content);
 
@@ -45,6 +49,21 @@ export default Marionette.LayoutView.extend({
     ) {
       this.ui.footer.removeClass('hide');
     }
+
+    InfoDisplay.buildDirectRelationsList(
+      document,
+      this.options.config.overPassEndPoint,
+      osmType,
+      osmId
+    ).then(ul => {
+      if (ul.childElementCount > 0) {
+        this.$el
+          .find('.relations')
+          .removeClass('hide')
+          .find('.list')
+          .append(ul);
+      }
+    });
   },
 
   open() {

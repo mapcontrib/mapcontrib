@@ -1,14 +1,23 @@
 {
-    "presets": [
-        "es2015",
-        "stage-0"
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current",
+          "browsers": "> 1%"
+        },
+        "useBuiltIns": true
+      }
     ],
-    "plugins": [
-        [
-            "babel-plugin-webpack-alias",
-            {
-                "config": "./webpack.config.js"
-            }
-        ]
+    "stage-0"
+  ],
+  "plugins": [
+    [
+      "babel-plugin-webpack-alias",
+      {
+        "config": "./webpack.config.js"
+      }
     ]
+  ]
 }

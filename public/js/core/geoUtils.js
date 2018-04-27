@@ -2,11 +2,15 @@
 
 /* eslint-disable */
 export default class GeoUtils {
+  static earthRadius = 6371;
+  static earthDiameter = GeoUtils.earthRadius * 2;
+  static earthPerimeter = GeoUtils.earthDiameter * Math.PI;
+
   static zoomXYToLatLng(z, x, y) {
-    let n = Math.pow(2.0, z),
-      lonDeg = x / n * 360.0 - 180.0,
-      latRad = Math.atan(GeoUtils._sinh(Math.PI * (1 - 2 * y / n))),
-      latDeg = latRad * 180.0 / Math.PI;
+    const n = Math.pow(2.0, z);
+    const lonDeg = x / n * 360.0 - 180.0;
+    const latRad = Math.atan(GeoUtils._sinh(Math.PI * (1 - 2 * y / n)));
+    const latDeg = GeoUtils.toDegree(latRad);
     return [latDeg, lonDeg];
   }
 
@@ -16,13 +20,13 @@ export default class GeoUtils {
   }
 
   static zoomLatLngToFloatXY(z, lat, lng) {
-    let n = Math.pow(2.0, z),
-      latRad = lat / 180.0 * Math.PI,
-      y =
-        (1.0 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) /
-        2.0 *
-        n,
-      x = (lng + 180.0) / 360.0 * n;
+    const n = Math.pow(2.0, z);
+    const latRad = GeoUtils.toRadian(lat);
+    const y =
+      (1.0 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) /
+      2.0 *
+      n;
+    const x = (lng + 180.0) / 360.0 * n;
     return [x, y];
   }
 
@@ -66,6 +70,70 @@ export default class GeoUtils {
     }
 
     return value;
+  }
+
+  /**
+   * Convert a number of kilometers into a number of latitude degrees.
+   * @param {number} kilometers
+   * @return {number}
+   */
+  static kilometersToLatitudeDegrees(kilometers) {
+    const oneLatitudeDegreeInKilometers = 111.32;
+    return kilometers / oneLatitudeDegreeInKilometers;
+  }
+
+  /**
+   * Convert a number of kilometers into a number of longitude degrees.
+   * Also, to calculate a longitude, you have to base it on a latitude position.
+   * @param {number} kilometers
+   * @param {number} latitude
+   * @return {number}
+   */
+  static kilometersToLongitudeDegrees(kilometers, latitude) {
+    const oneLongitudeDegreeInKilometers =
+      GeoUtils.earthPerimeter * Math.cos(GeoUtils.toRadian(latitude)) / 360.0;
+    return kilometers / oneLongitudeDegreeInKilometers;
+  }
+
+  /**
+   * Calculate the distance in kilometers between to coordinates.
+   * @param {number} lat1
+   * @param {number} lon1
+   * @param {number} lat2
+   * @param {number} lon2
+   * @return {number}
+   */
+  static calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = GeoUtils.earthRadius; // km
+    const dLat = GeoUtils.toRadian(lat2 - lat1);
+    const dLon = GeoUtils.toRadian(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(GeoUtils.toRadian(lat1)) *
+        Math.cos(GeoUtils.toRadian(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c;
+    return d;
+  }
+
+  /**
+   * Convert degrees into radians.
+   * @param {number} degree
+   * @return {number}
+   */
+  static toRadian(degree) {
+    return degree * Math.PI / 180.0;
+  }
+
+  /**
+   * Convert radians into degrees.
+   * @param {number} radian
+   * @return {number}
+   */
+  static toDegree(radian) {
+    return radian * 180.0 / Math.PI;
   }
 }
 /* eslint-enable */

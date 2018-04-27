@@ -196,6 +196,14 @@
 <contribColumn_searchAPreset "Search a type of node">
 <contribColumn_freeAddition "Free tags addition">
 <contribColumn_addTag "Add a tag">
+<contribColumn_deletePoi "Delete the node">
+
+
+/* Contribution delete modal */
+<contribDeleteModal_title "Delete a node">
+<contribDeleteModal_text1 "Warning, You are about to delete an entire node from the OpenStreetMap database.">
+<contribDeleteModal_text2 "Are you sure you want to do that?">
+<contribDeleteModal_confirmTheDeletion "I confirm I want to delete that node">
 
 
 /* Link column */
@@ -221,6 +229,10 @@
 <editSettingColumn_keepOld "Keep old parameters">
 <editSettingColumn_setNew "Set the new ones">
 <editSettingColumn_autoGeolocateUser "Automatically geolocate the user">
+<editSettingColumn_movementConstraints "Movement constraints">
+<editSettingColumn_minimumZoom "Minimum zoom">
+<editSettingColumn_maximumZoom "Maximum zoom">
+<editSettingColumn_movementRadius "Movement radius">
 <editSettingColumn_geocoder "Geocoder">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">
@@ -365,6 +377,12 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 <contributionErrorNotification_retry "Retry to send">
 
 
+/* Deletion error notification */
+<deletionErrorNotification_title "Deletion failed">
+<deletionErrorNotification_content "An error occured during the send of your deletion demand.">
+<deletionErrorNotification_retry "Retry to delete">
+
+
 /* Node tag field UI */
 <uiFormNodeTags_key "Key">
 <uiFormNodeTags_value placeholder:"{{ value }}">
@@ -427,6 +445,7 @@ Example : `\{foo\}` will be replaced by the value of the *foo* element's tag.">
 
 /* Info display column */
 <infoDisplayColumn_title "Details">
+<infoDisplayColumn_relationsTitle "This element is part of:">
 
 
 /* Temporary layers column */

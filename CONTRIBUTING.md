@@ -46,3 +46,17 @@ $ # Works with Docker Compose too
 ```
 
 See [that great article](https://blog.risingstack.com/node-hero-node-js-debugging-tutorial) for more informations about debugging.
+
+
+
+## Release
+
+```
+$ git checkout develop
+$ npm version patch -m "release: %s"
+$ git checkout master
+$ git merge develop
+$ git push origin master
+```
+
+`npm version` tests the code and builds it. Then it upgrades the package version number according to the used keyword (patch, minor or major) and commits the modifications in Git (with a proper version tag). Finally, it pushes it to repository with the tag.

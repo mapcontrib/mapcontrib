@@ -373,7 +373,7 @@ export default Marionette.ItemView.extend({
         },
         error: () => {
           // FIXME
-          console.error('nok');
+          console.error('nok'); // eslint-disable-line
           this.enableSubmitButton();
         }
       }

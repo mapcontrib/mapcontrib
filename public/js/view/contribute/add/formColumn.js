@@ -293,7 +293,7 @@ export default Marionette.LayoutView.extend({
         this.close();
       })
       .catch(err => {
-        console.error(err);
+        console.error(err); // eslint-disable-line
 
         this.ui.footerButtons.prop('disabled', false);
 

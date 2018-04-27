@@ -41,4 +41,56 @@ describe('GeoUtils', () => {
       expect(result).toBe(expected);
     });
   });
+
+  describe('kilometersToLatitudeDegrees', () => {
+    test('Should return the valid latitude', () => {
+      const result = GeoUtils.kilometersToLatitudeDegrees(2345);
+
+      expect(result).toBe(21.065397053539346);
+    });
+  });
+
+  describe('kilometersToLongitudeDegrees', () => {
+    test('Should return the valid longitude', () => {
+      const result1 = GeoUtils.kilometersToLongitudeDegrees(2345, 0);
+      const result2 = GeoUtils.kilometersToLongitudeDegrees(2345, 23);
+      const result3 = GeoUtils.kilometersToLongitudeDegrees(2345, 75);
+      const result4 = GeoUtils.kilometersToLongitudeDegrees(1, 88);
+
+      expect(result1).toBe(21.08909165879423);
+      expect(result2).toBe(22.910353573582587);
+      expect(result3).toBe(81.48199314482687);
+      expect(result4).toBe(0.2576889900690976);
+    });
+  });
+
+  describe('calculateDistance', () => {
+    test('Should return the valid distance', () => {
+      const result1 = GeoUtils.calculateDistance(10, 10, 20, 20);
+      const result2 = GeoUtils.calculateDistance(45, 10, 45, 20);
+
+      expect(result1).toBe(1544.7575610296099);
+      expect(result2).toBe(785.7672208422621);
+    });
+  });
+
+  describe('toRadian', () => {
+    test('Should return the valid radian', () => {
+      const result1 = GeoUtils.toRadian(13);
+      const result2 = GeoUtils.toRadian(77);
+
+      expect(result1).toBe(0.22689280275926285);
+      expect(result2).toBe(1.3439035240356338);
+    });
+  });
+
+  describe('toDegree', () => {
+    test('Should return the valid angle', () => {
+      const result1 = GeoUtils.toDegree(0.5);
+      const result2 = GeoUtils.toDegree(0.77);
+
+      expect(result1).toBe(28.64788975654116);
+      expect(result2).toBe(44.11775022507339);
+    });
+  });
 });
