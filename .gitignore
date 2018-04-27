@@ -4,6 +4,7 @@ npm-debug.log
 /volumes
 /src
 /.nyc_output
+/coverage
 
 /config/local.yml
 *bundle.*
