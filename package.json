@@ -32,7 +32,9 @@
     "update-overpass-cache": "babel-node cron/updateOverPassCache.js",
     "clean-obsolete-layer-files": "babel-node cron/cleanObsoleteLayerFiles.js",
     "import-id-presets": "babel-node scripts/importIdPresets.js",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "preversion": "npm run test-ci && npm run build",
+    "postversion": "git push && git push --tags"
   },
   "lint-staged": {
     "{api,cron,lib,public,scripts}/**/*.{js,jsx,json,css,less,scss}": [
