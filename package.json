@@ -28,6 +28,9 @@
     "build": "cross-env NODE_ENV=production webpack --progress",
     "watch": "webpack -w --progress",
     "test": "cross-env NODE_ENV=test jest",
+    "test-ci": "npm test -- --ci --coverage",
+    "test-watch": "npm run test -- --coverage --watch",
+    "test-prettier": "prettier --single-quote --list-different 'src/**/*.{js,jsx,json,css,less}'",
     "lint": "eslint {api,cron,lib,public,scripts}",
     "update-overpass-cache": "babel-node cron/updateOverPassCache.js",
     "clean-obsolete-layer-files": "babel-node cron/cleanObsoleteLayerFiles.js",
@@ -44,6 +47,16 @@
     ],
     "{api,cron,lib,public,scripts}/**/*.{js,jsx}": [
       "eslint"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "{api,cron,lib,public,scripts}/**/*.{js,jsx}",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov"
     ]
   },
   "moduleRoots": [
