@@ -63,7 +63,7 @@ body {
   }
 
   .leaflet-marker-pane .leaflet-marker-icon {
-    transition: opacity ease-out .1s;
+    transition: opacity ease-out 0.1s;
   }
 
   .leaflet-marker-pane.in_contribution .leaflet-marker-icon {
@@ -85,7 +85,7 @@ body {
   right: 0;
   height: @titleHeight;
 
-  transition: all ease-out .3s;
+  transition: all ease-out 0.3s;
 
   .title_head {
     display: inline-block;
@@ -99,7 +99,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: all ease-out .3s;
+    transition: all ease-out 0.3s;
   }
 
   .favorite_btn,
@@ -121,7 +121,7 @@ body {
   .description {
     display: none;
     margin-top: 60px;
-    animation-duration: .4s;
+    animation-duration: 0.4s;
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
   }
@@ -153,13 +153,9 @@ body {
   .marker,
   .shape {
     pointer-events: none;
-    margin-top: -5px;
+    margin-top: -11px;
     margin-right: -8px;
-    transform: scale(.9);
-
-    svg {
-      height: 30px;
-    }
+    transform: scale(0.7);
 
     .fa {
       top: 7px;
@@ -285,7 +281,8 @@ body {
   }
 }
 
-@geocodeWidgetTop: @titleHeight + (@toolbarBtnSize * 2) + @bootstrapMoreTinyAppend;
+@geocodeWidgetTop: @titleHeight + (@toolbarBtnSize * 2) +
+  @bootstrapMoreTinyAppend;
 @geocodeResultItemHeight: 60px;
 
 #geocode_widget {
@@ -296,7 +293,7 @@ body {
   padding-left: @toolbarBtnSize;
   width: 500px;
   max-width: 100%;
-  transition: transform ease-out .2s;
+  transition: transform ease-out 0.2s;
   transform: translate(-100%, 0);
 
   input {
@@ -315,7 +312,7 @@ body {
     right: 0;
     margin: 0;
     overflow: auto;
-    transition: all ease-out .2s;
+    transition: all ease-out 0.2s;
 
     .list-group-item {
       border-color: @gray #fff;
@@ -356,7 +353,7 @@ body.contribution_cross_visible {
 
 .contribution_cross {
   opacity: 0;
-  transition: opacity ease-out .2s;
+  transition: opacity ease-out 0.2s;
   position: fixed;
   z-index: @contributionCrossZIndex;
   top: 50%;
