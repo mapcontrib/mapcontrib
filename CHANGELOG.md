@@ -1,6 +1,11 @@
 # Changelog
 
-# 1.10.0
+## 1.10.1
+
+* Fix the external images position in the markers.
+* Fix the headings in the CHANGELOG.md file
+
+## 1.10.0
 
 * Upgrade the dependencies.
 * Add some missing italian translations.
@@ -9,16 +14,16 @@
 * Display elements direct relations in column and modal.
 * Opened column/modal/popup have their proper shareable URL.
 
-# 1.9.2
+## 1.9.2
 
 * Add a link to the repository in the about modal.
 * Upgrade marked to the latest version (0.3.9).
 
-# 1.9.1
+## 1.9.1
 
 * Upgrade jQuery UI to the 1.12.x version (security fix included).
 
-# 1.9.0
+## 1.9.0
 
 * Add the possibility to give administrator access to your theme to others OSM contributors.
 * On opening_hours fields, add a button to open the YoHours application.
@@ -30,73 +35,73 @@
 * Add Prettier, Husky and Lint-staged to automatically lint and format the source files.
 * Rename the repository and the organization from MapContrib to mapcontrib.
 
-# 1.8.3
+## 1.8.3
 
 * Add the Thunderforest API key to tiles.
 
-# 1.8.2
+## 1.8.2
 
 * Select the first tile when no tiles are set in the local storage.
 * Fix issues with global scoped frameworks.
 
-# 1.8.1
+## 1.8.1
 
 * Remove babel from the dependencies.
 
-# 1.8.0
+## 1.8.0
 
 * New meta tags for content display {@id}, {@type}, {@lat}, {@lon}, {@lng}.
 * Fix the map positionning when the position is given in the url.
 * Upgrade Babel* and Eslint*.
 
-# 1.7.10
+## 1.7.10
 
 * Display the localized version of the tag value in popup content.
 
-# 1.7.9
+## 1.7.9
 
 * Invert the tiles load order.
 * Quick fix in the theme loading when setting the position by the url.
 
-# 1.7.8
+## 1.7.8
 
 * Display the OSM ID of the archived elements in the archive column.
 
-# 1.7.7
+## 1.7.7
 
 * Display the localized version of the popup content.
 * Sort the users theme by creation date.
 
-# 1.7.6
+## 1.7.6
 
 * Fix a conflict between Markdown and OSM elements attributes in some cases.
 
-# 1.7.5
+## 1.7.5
 
 * Use fs.move instead of fs.rename to fix Docker related issue when moving a file accross fs devices.
 
-# 1.7.4
+## 1.7.4
 
 * Migrate the Docker image base from node:5 to node:6-slim.
 
-# 1.7.3
+## 1.7.3
 
 * Update the italian translations (thanks @napo!)
 * Fix the theme localization feature.
 
-# 1.7.2
+## 1.7.2
 
 * Remove the production config.
 * Fix the Dockerfile volumes.
 
-# 1.7.1
+## 1.7.1
 
 * Move to Docker Cloud for automated Docker image build.
 * Add a link to the official Docker image to the README (useful links section).
 * Add a script to build local Docker images.
 * Set the production port to 80.
 
-# 1.7.0
+## 1.7.0
 
 * An official MapContrib Docker image is now available on the Docker Hub!
 * Upgrade the Docker Compose file to version 2.
@@ -104,11 +109,11 @@
 * All the tiles can now put an automatic attribution in the contribution changesets.
 * And as always, multiple bufixes and enhancement.
 
-# 1.6.1
+## 1.6.1
 
 * Raise the payload limit to 50mb until I figure it more cleanly...
 
-# 1.6.0
+## 1.6.0
 
 * The OSM monochrome, Watercolor and Mapbox street satellite tiles are now enabled by default.
 * All the tiles are always available when clicking on a « display more » button in the tile selection column.
@@ -117,33 +122,33 @@
 * Add some back buttons to columns.
 * And as always, multiple bufixes and enhancement.
 
-# 1.4.6
+## 1.4.6
 
 * Fix a regression introduced in the 1.4.0 version when displaying ways.
 
-# 1.4.5
+## 1.4.5
 
 * Add a npm script to clean the obsolete layer files.
 
-# 1.4.4
+## 1.4.4
 
 * Automatically clean the OverPass cache files when layers are removed.
 
-# 1.4.3
+## 1.4.3
 
 * Update the italian translations.
 
-# 1.4.2
+## 1.4.2
 
 * Update the screenshot for the 1.4 serie.
 * Update the changeset comment, MapContrib is not a prototype anymore.
 
-# 1.4.1
+## 1.4.1
 
 * Patch a Leaflet issue (https://github.com/Leaflet/Leaflet/issues/4578).
 * Fix an issue leading to load the map without any request.
 
-# 1.4.0
+## 1.4.0
 
 * Add the user own themes column.
 * Add the user favorite themes column.
@@ -152,69 +157,69 @@
 * Add a proper 404 page (page not found fallback).
 * And as always, multiple bufixes and enhancement.
 
-# 1.2.4
+## 1.2.4
 
 * Enable the remove button on non-osm tags when contributing.
 
-# 1.2.3
+## 1.2.3
 
 * Fix a margin in the preset selection column.
 
-# 1.2.2
+## 1.2.2
 
 * Remove an unnecessary top border on the minimum zoom notification.
 
-# 1.2.1
+## 1.2.1
 
 * Shuffle themes and layers before each OverPass cache generation.
 * Better timeout detection during the OverPass cache genration.
 * Fix the « out of memory » case in the OverPass cache generation.
 
-# 1.2.0
+## 1.2.0
 
 * Display the user/visitor column on the home page.
 * Add some project links in it.
 * Remove the « Create theme » button from the home page as it is now in the new main menu.
 * Add borders to different widgets to ease the navigation.
 
-# 1.0.12
+## 1.0.12
 
 * Set maximum number of tries when the OverPass cron is failing for too many requests.
 
-# 1.0.11
+## 1.0.11
 
 * Complete the Italian translation file.
 * Improve the ownership verification when modifying a theme.
 
-# 1.0.10
+## 1.0.10
 
 * Don't auto scroll at all on large screens.
 * Don't reset the theme model after the main settings column close.
 
-# 1.0.9
+## 1.0.9
 
 * Fix the tags translation progression calculation.
 
-# 1.0.8
+## 1.0.8
 
 * Fix the tags translation edition column.
 
-# 1.0.7
+## 1.0.7
 
 * Upgrade Passport & co.
 * Fix: When no session, the reload method returns an error.
 
-# 1.0.6
+## 1.0.6
 
 * Properly destroy the session when logging out.
 * Set the session cookie maxAge to 90 days.
 * Force the reload of the session when visiting the home and theme pages.
 
-# 1.0.5
+## 1.0.5
 
 * Try to improve the server session handling.
 
-# 1.0.4
+## 1.0.4
 
 * Split the javascript files to optimize their load time.
 * Display a text input for check type fields when the set value is not yes or no.
