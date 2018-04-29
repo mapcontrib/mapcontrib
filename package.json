@@ -51,7 +51,8 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "{api,cron,lib,public,scripts}/**/*.{js,jsx}",
+      "{api,cron,lib,public,scripts}/**/*.js",
+      "!{api,cron,lib,public,scripts}/**/*.bundle.js",
       "!<rootDir>/node_modules/"
     ],
     "coverageReporters": [
