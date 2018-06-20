@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.2
+
+* Fix the markers icon position in the layer admin column.
+* Fix an error when trying to display GeoJSON files.
+
 ## 1.10.1
 
 * Fix the external images position in the markers.
