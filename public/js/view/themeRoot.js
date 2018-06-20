@@ -922,6 +922,12 @@ export default Marionette.LayoutView.extend({
     const polygonStyle = MapUi.buildLayerPolygonStyle(layerModel);
     const polylineStyle = MapUi.buildLayerPolylineStyle(layerModel);
 
+    this._setRootLayer(layerModel, rootLayer);
+
+    if (!hiddenLayer) {
+      this.showLayer(layerModel);
+    }
+
     for (const i in objects) {
       if (!{}.hasOwnProperty.call(objects, i)) {
         continue;
@@ -1018,12 +1024,6 @@ export default Marionette.LayoutView.extend({
         this._router.navigate(positionHash);
         this._displayInfo(event);
       });
-    }
-
-    this._setRootLayer(layerModel, rootLayer);
-
-    if (!hiddenLayer) {
-      this.showLayer(layerModel);
     }
   },
 
