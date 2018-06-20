@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.3
+
+* Fix the management of min/max zoom levels of tiles.
+
 ## 1.10.2
 
 * Fix the markers icon position in the layer admin column.
