@@ -13,9 +13,9 @@ describe('MarkedHelper', () => {
 
     test('Should return a link with target _blank', () => {
       const expected =
-        '<p>This is a <a href="http://mapcontrib.xyz" rel="noopener noreferrer" target="_blank">link</a>.</p>\n';
+        '<p>This is a <a title="Title of the link" href="http://mapcontrib.xyz" target="_blank" rel="noopener noreferrer">link</a>.</p>\n';
       const result = MarkedHelper.render(
-        'This is a [link](http://mapcontrib.xyz).'
+        'This is a [link](http://mapcontrib.xyz "Title of the link").'
       );
 
       expect(expected).toBe(result);

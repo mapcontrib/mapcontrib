@@ -1,32 +1,30 @@
+import dompurify from 'dompurify';
 import marked from 'marked';
 
-const renderer = new marked.Renderer();
-
-renderer.link = (href, title, text) => {
-  const attributesList = [
-    `href="${href}"`,
-    'rel="noopener noreferrer"',
-    'target="_blank"'
-  ];
-
-  if (title) {
-    attributesList.push(`title="${title}"`);
+dompurify.addHook('afterSanitizeAttributes', function(node) {
+  // set all elements owning target to target=_blank
+  if ('target' in node) {
+    node.setAttribute('target', '_blank');
+    node.setAttribute('rel', 'noopener noreferrer');
   }
-
-  const attributes = attributesList.join(' ');
-
-  return `<a ${attributes}>${text}</a>`;
-};
+  // set non-HTML/MathML links to xlink:show=new
+  if (
+    !node.hasAttribute('target') &&
+    (node.hasAttribute('xlink:href') || node.hasAttribute('href'))
+  ) {
+    node.setAttribute('xlink:show', 'new');
+  }
+});
 
 export default class MarkedHelper {
   /**
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {string} markdown - A markdown string to transform into HTML.
-     * @returns {string}
-     */
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {string} markdown - A markdown string to transform into HTML.
+   * @returns {string}
+   */
   static render(markdownString) {
-    return marked(markdownString, { renderer });
+    return dompurify.sanitize(marked(markdownString));
   }
 }
