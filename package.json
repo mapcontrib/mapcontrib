@@ -1,7 +1,7 @@
 {
   "name": "mapcontrib",
   "description": "MapContrib, Thematic OpenStreetMap contribution.",
-  "version": "1.10.3",
+  "version": "1.11.0",
   "license": "MIT",
   "author": {
     "name": "Guillaume AMAT",
