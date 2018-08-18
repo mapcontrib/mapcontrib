@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.0
+
+* Secure Markdown and analytic fields from XSS attacks. The former analytics scripts will not work anymore, please use image based analytics instead.
+
 ## 1.10.3
 
 * Fix the management of min/max zoom levels of tiles.

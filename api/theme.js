@@ -3,6 +3,7 @@ import Backbone from 'backbone';
 import Sifter from 'sifter';
 import { ObjectID } from 'mongodb';
 import logger from '../lib/logger';
+import sanitizer from '../lib/sanitizer';
 import ThemeCore from '../public/js/core/theme';
 import ThemeModel from '../public/js/model/theme';
 
@@ -445,6 +446,8 @@ class Api {
     const newJson = req.body;
     const collection = options.database.collection('theme');
     const model = new ThemeModel(newJson);
+
+    model.set('analyticScript', sanitizer(model.get('analyticScript')));
 
     if (!model.isValid()) {
       res.sendStatus(400);

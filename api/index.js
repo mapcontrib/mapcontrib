@@ -3,6 +3,7 @@ import { ObjectID } from 'mongodb';
 import Backbone from 'backbone';
 import config from 'config';
 import logger from '../lib/logger';
+import sanitizer from '../lib/sanitizer';
 import userApi from './user';
 import themeApi from './theme';
 import nonOsmDataApi from './nonOsmData';
@@ -150,7 +151,7 @@ export default class Api {
           let unknownOwners = [];
 
           templateVars.theme = escape(JSON.stringify(theme));
-          templateVars.themeAnalyticScript = theme.analyticScript;
+          templateVars.themeAnalyticScript = sanitizer(theme.analyticScript);
           templateVars.userThemes = escape(JSON.stringify(data[1]));
           templateVars.userFavoriteThemesData = escape(JSON.stringify(data[2]));
           templateVars.nonOsmData = escape(JSON.stringify(data[3]));
@@ -187,8 +188,7 @@ export default class Api {
     });
 
     app.get('/create_theme', Api.isLoggedIn, (req, res) => {
-      themeApi.Api
-        .createTheme(req.session.user)
+      themeApi.Api.createTheme(req.session.user)
         .then(theme => {
           Backbone.Relational.store.reset();
 
