@@ -4,6 +4,7 @@ import ejs from 'ejs';
 import express from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
+import cors from 'cors';
 import morgan from 'morgan';
 import methodOverride from 'method-override';
 import session from 'express-session';
@@ -45,7 +46,8 @@ app.use(
   helmet({
     frameguard: false
   })
-);
+  );
+app.use(cors());
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'views'));
