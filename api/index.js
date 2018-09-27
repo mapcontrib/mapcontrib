@@ -45,6 +45,7 @@ export default class Api {
     app.get('/api/userThemes', themeApi.Api.getUserThemes);
 
     app.get('/api/theme', themeApi.Api.getAll);
+    app.get('/api/theme/:fragment(\\w{6})', themeApi.Api.getFromFragment);
     app.get('/api/theme/:_id', themeApi.Api.get);
     app.post('/api/theme', Api.isLoggedIn, themeApi.Api.post);
     app.put(
