@@ -131,6 +131,43 @@ class Api {
     return true;
   }
 
+  static getFromFragment(req, res) {
+    if (
+      !req.params.fragment ||
+      !options.CONST.pattern.fragment.test(req.params.fragment)
+    ) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    const collection = options.database.collection('theme');
+
+    collection
+      .find({
+        fragment: req.params.fragment
+      })
+      .toArray((err, results) => {
+        if (err) {
+          logger.error(err);
+          res.sendStatus(500);
+
+          return true;
+        }
+
+        if (results.length === 0) {
+          return options.rootApi.sendPageNotFound(req, res);
+        }
+
+        const result = results[0];
+        result._id = result._id.toString();
+
+        return res.send(result);
+      });
+
+    return true;
+  }
+
   static getAll(req, res) {
     const collection = options.database.collection('theme');
     const filters = {};
