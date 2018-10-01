@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.0
+
+* Add an API route to fetch themes from their fragment.
+* Add CORS headers to the server.
+
 ## 1.11.0
 
 * Secure Markdown and analytic fields from XSS attacks. The former analytics scripts will not work anymore, please use image based analytics instead.
