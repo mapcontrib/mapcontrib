@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 
 const extractCSS = new ExtractTextPlugin('../css/[name].bundle.css');
@@ -17,17 +18,17 @@ const plugins = [
 ];
 
 if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-  plugins.push(new webpack.optimize.DedupePlugin());
-
   plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      mangle: true,
-      output: {
-        comments: false
-      },
-      compress: {
-        warnings: false
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        minimize: true,
+        mangle: true,
+        output: {
+          comments: false
+        },
+        compress: {
+          warnings: false
+        }
       }
     })
   );
