@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.1
+
+* Fix the runtime by removing UglifyJS for now.
+
 ## 1.12.0
 
 * Add an API route to fetch themes from their fragment.
