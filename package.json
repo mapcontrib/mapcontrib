@@ -161,6 +161,7 @@
     "passport-openstreetmap": "^0.1.2",
     "progressbar.js": "^1.0.1",
     "raw-loader": "^0.5.1",
+    "reinvented-color-wheel": "^0.1.5",
     "request": "^2.83.0",
     "selectize": "^0.12.4",
     "serve-static": "^1.13.2",
