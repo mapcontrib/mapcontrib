@@ -1,6 +1,9 @@
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import 'reinvented-color-wheel/css/reinvented-color-wheel.min.css';
+import ReinventedColorWheel from 'reinvented-color-wheel';
+
 import CONST from 'const';
 import template from 'templates/admin/layer/editMarkerModal.ejs';
 
@@ -20,6 +23,7 @@ export default Marionette.ItemView.extend({
   ui: {
     modal: '.pop_modal',
     colorButtons: '.color-buttons .btn',
+    customColorButton: '#customColorBtn',
     shapeButtons: '.shape-buttons .btn',
     iconTypeTabs: '.marker_icon_type_tab',
     iconTypeLibraryTab: '#iconTypeLibraryTab',
@@ -55,11 +59,17 @@ export default Marionette.ItemView.extend({
   onRender() {
     const markerColor = this.model.get('markerColor');
     const markerShape = this.model.get('markerShape');
+    let initialColorWheelValues = [0, 50, 50];
 
-    this.ui.colorButtons
-      .filter(`.${markerColor}`)
-      .find('i')
-      .addClass('fa-check');
+    if (typeof markerColor === 'string') {
+      this.ui.colorButtons
+        .filter(`.${markerColor}`)
+        .find('i')
+        .addClass('fa-check');
+    } else {
+      const { h, s, l } = markerColor;
+      initialColorWheelValues = [h, s, l];
+    }
 
     this.ui.shapeButtons.filter(`.${markerShape}`).addClass('active');
 
@@ -76,6 +86,27 @@ export default Marionette.ItemView.extend({
     }
 
     this.updateIconPreview();
+
+    setTimeout(() => {
+      new ReinventedColorWheel({
+        appendTo: this.ui.customColorButton[0],
+        hsl: initialColorWheelValues,
+        wheelDiameter: 150,
+        wheelThickness: 15,
+        wheelReflectsSaturation: false,
+        onChange: instance => {
+          $('i', this.ui.colorButtons).removeClass('fa-check');
+
+          const color = {
+            h: instance.hsl[0],
+            s: instance.hsl[1],
+            l: instance.hsl[2]
+          };
+
+          this.model.set('markerColor', color);
+        }
+      });
+    }, 0);
   },
 
   open() {

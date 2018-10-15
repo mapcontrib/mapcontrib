@@ -2,6 +2,7 @@ import CONST from 'const';
 import Wreqr from 'backbone.wreqr';
 import L from 'leaflet';
 import GeoUtils from 'core/geoUtils';
+import { buildSecondaryColor, replaceFillInSvg } from 'helper/markerColor';
 
 export default class MapUi {
   /**
@@ -177,7 +178,13 @@ export default class MapUi {
     const className = CONST.map.markers[markerShape].className;
     const iconHtml = MapUi.buildMarkerLayerIconOptions(layerModel).html;
 
-    return `<div class="${className} ${iconColor}">${iconHtml}</div>`;
+    if (typeof iconColor === 'string') {
+      return `<div class="${className} ${iconColor}">${iconHtml}</div>`;
+    } else {
+      const html = replaceFillInSvg(iconHtml, iconColor);
+
+      return `<div class="${className}">${html}</div>`;
+    }
   }
 
   /**
@@ -196,8 +203,16 @@ export default class MapUi {
     const markerIconUrl = layerModel.get('markerIconUrl');
     const markerColor = layerModel.get('markerColor');
     const iconOptions = { ...CONST.map.markers[markerShape] };
+    let style = [];
 
-    iconOptions.className += ` ${markerColor}`;
+    if (typeof markerColor !== 'string') {
+      const { h, s, l } = buildSecondaryColor(markerColor);
+      style.push(`color: hsl(${h}, ${s}%, ${l}%)`);
+
+      iconOptions.html = replaceFillInSvg(iconOptions.html, markerColor);
+    } else {
+      iconOptions.className += ` ${markerColor}`;
+    }
 
     switch (markerIconType) {
       case CONST.map.markerIconType.external:
@@ -209,7 +224,9 @@ export default class MapUi {
       default:
       case CONST.map.markerIconType.library:
         if (markerIcon) {
-          iconOptions.html += `<i class="fa fa-${markerIcon} fa-fw"></i>`;
+          iconOptions.html += `<i class="fa fa-${markerIcon} fa-fw" style="${style.join(
+            ';'
+          )}"></i>`;
         }
     }
 
@@ -232,10 +249,19 @@ export default class MapUi {
       color = 'anthracite';
     }
 
-    return {
-      ...CONST.map.wayPolylineOptions,
-      ...{ color: CONST.colors[color] }
-    };
+    if (typeof color !== 'string') {
+      const { h, s, l } = color;
+
+      return {
+        ...CONST.map.wayPolylineOptions,
+        ...{ color: `hsl(${h}, ${s}%, ${l}%)` }
+      };
+    } else {
+      return {
+        ...CONST.map.wayPolylineOptions,
+        ...{ color: CONST.colors[color] }
+      };
+    }
   }
 
   /**
@@ -254,10 +280,19 @@ export default class MapUi {
       color = 'anthracite';
     }
 
-    return {
-      ...CONST.map.wayPolygonOptions,
-      ...{ color: CONST.colors[color] }
-    };
+    if (typeof color !== 'string') {
+      const { h, s, l } = color;
+
+      return {
+        ...CONST.map.wayPolygonOptions,
+        ...{ color: `hsl(${h}, ${s}%, ${l}%)` }
+      };
+    } else {
+      return {
+        ...CONST.map.wayPolygonOptions,
+        ...{ color: CONST.colors[color] }
+      };
+    }
   }
 
   /**
@@ -281,9 +316,23 @@ export default class MapUi {
         const count = cluster.getChildCount();
         const color = layerModel.get('markerColor');
 
-        return L.divIcon({
-          html: `<div class="marker-cluster ${color}">${count}</div>`
-        });
+        if (typeof color !== 'string') {
+          const secondaryColor = buildSecondaryColor(color);
+          const { h, s, l } = color;
+          const { h: h2, s: s2, l: l2 } = secondaryColor;
+          const style = [
+            `color: hsl(${h2}, ${s2}%, ${l2}%)`,
+            `background-color: hsl(${h}, ${s}%, ${l}%)`
+          ];
+
+          return L.divIcon({
+            html: `<div class="marker-cluster" style="${style}>${count}</div>`
+          });
+        } else {
+          return L.divIcon({
+            html: `<div class="marker-cluster ${color}">${count}</div>`
+          });
+        }
       }
     });
   }
