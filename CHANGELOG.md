@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.2
+
+* Respect the max/min zoom level when the user zoom yb scrolling.
+
 ## 1.12.1
 
 * Fix the runtime by removing UglifyJS for now.
