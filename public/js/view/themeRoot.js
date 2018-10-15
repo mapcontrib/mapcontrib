@@ -528,6 +528,8 @@ export default Marionette.LayoutView.extend({
 
   setTileLayer(id) {
     const currentZoom = this._map.getZoom();
+    const maxZoomLevel = this.model.get('maxZoomLevel');
+    const minZoomLevel = this.model.get('minZoomLevel');
     const appTiles = this._app.getTiles();
     const tilesName = Object.keys(appTiles);
     const tileLayersGroup = L.layerGroup();
@@ -577,6 +579,18 @@ export default Marionette.LayoutView.extend({
 
     if (currentZoom < tile.minZoom) {
       this._map.setZoom(tile.minZoom);
+    }
+
+    if (maxZoomLevel > tile.maxZoom) {
+      this._map.setMaxZoom(tile.maxZoom);
+    } else {
+      this._map.setMaxZoom(maxZoomLevel);
+    }
+
+    if (minZoomLevel < tile.minZoom) {
+      this._map.setMinZoom(tile.minZoom);
+    } else {
+      this._map.setMinZoom(minZoomLevel);
     }
 
     this.updateMinDataZoom();

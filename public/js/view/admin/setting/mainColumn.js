@@ -228,8 +228,10 @@ export default Marionette.ItemView.extend({
 
           if (currentZoom < themeMinimumZoom) {
             map.setZoom(themeMinimumZoom, { animate: true });
+            map.setMinZoom(themeMinimumZoom);
           } else if (currentZoom > themeMaximumZoom) {
             map.setZoom(themeMaximumZoom, { animate: true });
+            map.setMaxZoom(themeMaximumZoom);
           }
 
           if (themeMovementRadius) {
