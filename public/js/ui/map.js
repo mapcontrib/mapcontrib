@@ -326,7 +326,9 @@ export default class MapUi {
           ];
 
           return L.divIcon({
-            html: `<div class="marker-cluster" style="${style}>${count}</div>`
+            html: `<div class="marker-cluster" style="${style.join(
+              ';'
+            )}">${count}</div>`
           });
         } else {
           return L.divIcon({

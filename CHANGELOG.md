@@ -1,8 +1,13 @@
 # Changelog
 
+## 1.12.3
+
+* Display the custom colored marker clusters.
+
 ## 1.12.2
 
 * Respect the max/min zoom level when the user zoom yb scrolling.
+* A color picker is available to let the theme administrators choose marker custom colors.
 
 ## 1.12.1
 
