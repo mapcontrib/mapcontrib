@@ -39,6 +39,7 @@
 <buttonLoginTooltip title:"{{ login }}">
 <buttonUserTooltip title:"Il mio account">
 <buttonLinkTooltip title:"Condividi">
+<buttonContrib "Aggiungi dati mancanti">
 <buttonContribTooltip title:"Aggiungi dati mancanti">
 <buttonTempLayerTooltip title:"Aggiungere un livello temporaneo">
 <buttonEditSettingTooltip title:"{{ settings }}">
@@ -228,6 +229,8 @@
 <editSettingColumn_color "Colore">
 <editSettingColumn_position "Posizione">
 <editSettingColumn_geolocation "Geolocalizzazione">
+<editSettingColumn_contribution "Contribution"> /* FIXME */
+<editSettingColumn_displayHighlightedContributionBtn "Highlight the data addition button"> /* FIXME */
 <editSettingColumn_keepOld "Mantieni i vecchi parametri">
 <editSettingColumn_setNew "Impostare i nuovi">
 <editSettingColumn_autoGeolocateUser "Geolocalizza in automatico l´utente">

@@ -2,7 +2,7 @@
   position: fixed;
   top: @titleHeight;
   width: @toolbarBtnSize;
-  transition: transform ease-out .2s;
+  transition: transform ease-out 0.2s;
 
   &.left {
     left: 0;
@@ -169,7 +169,23 @@
     }
 
     .fa-commenting-o {
-      transform: scale(.9);
+      transform: scale(0.9);
     }
+  }
+}
+
+.contribute_highlight_btn {
+  position: fixed;
+  z-index: @leftToolbarZIndex;
+  bottom: 0;
+  right: 0;
+  padding: 12px 14px;
+  border-radius: 0;
+  color: #fff;
+  background: @red;
+
+  &:hover,
+  &:focus {
+    color: #fff;
   }
 }

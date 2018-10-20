@@ -67,6 +67,7 @@ export default Marionette.LayoutView.extend({
     userToolbar: '#user_toolbar',
     userButton: '#user_toolbar .user_btn',
     contribButton: '#contrib_toolbar .contrib_btn',
+    contribHighlightedButton: '.contribute_highlight_btn',
 
     editToolbar: '#edit_toolbar'
   },
@@ -158,6 +159,12 @@ export default Marionette.LayoutView.extend({
       'theme:save': () => {
         this.model.updateModificationDate();
         this.model.save();
+      },
+      'theme:showContribButton': () => {
+        this.showContribButton();
+      },
+      'theme:hideContribButton': () => {
+        this.hideContribButton();
       },
       'map:position': (zoom, lat, lng) => this.setMapPosition(zoom, lat, lng),
       'map:setTileLayer': tileId => {
@@ -331,6 +338,7 @@ export default Marionette.LayoutView.extend({
 
     this._map = L.map(this.ui.map[0], {
       zoomControl: false,
+      attributionControl: false,
       minZoom: minZoomLevel,
       maxZoom: maxZoomLevel
     });
@@ -388,8 +396,14 @@ export default Marionette.LayoutView.extend({
     }
 
     L.control
+      .attribution({
+        position: 'bottomleft'
+      })
+      .addTo(this._map);
+
+    L.control
       .scale({
-        position: 'bottomright'
+        position: 'bottomleft'
       })
       .addTo(this._map);
 
@@ -1353,10 +1367,17 @@ export default Marionette.LayoutView.extend({
   },
 
   showContribButton() {
-    this.ui.contribButton.removeClass('hide');
+    if (this.model.get('displayHighlightedContributionBtn') === true) {
+      this.ui.contribHighlightedButton.removeClass('hide');
+      this.ui.contribButton.addClass('hide');
+    } else {
+      this.ui.contribButton.removeClass('hide');
+      this.ui.contribHighlightedButton.addClass('hide');
+    }
   },
 
   hideContribButton() {
+    this.ui.contribHighlightedButton.addClass('hide');
     this.ui.contribButton.addClass('hide');
   },
 

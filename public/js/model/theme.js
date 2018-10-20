@@ -69,6 +69,7 @@ export default Backbone.RelationalModel.extend({
       osmOwners: [],
       geocoder: undefined,
       infoDisplay: CONST.infoDisplay.column,
+      displayHighlightedContributionBtn: false,
       analyticScript: '',
 
       locales: {

@@ -39,6 +39,7 @@
 <buttonLoginTooltip title:"{{ login }}">
 <buttonUserTooltip title:"My account">
 <buttonLinkTooltip title:"Share">
+<buttonContrib "Add missing data">
 <buttonContribTooltip title:"Add missing data">
 <buttonTempLayerTooltip title:"Add a temporary layer">
 <buttonEditSettingTooltip title:"{{ settings }}">
@@ -230,6 +231,8 @@
 <editSettingColumn_color "Color">
 <editSettingColumn_position "Location">
 <editSettingColumn_geolocation "Geolocation">
+<editSettingColumn_contribution "Contribution">
+<editSettingColumn_displayHighlightedContributionBtn "Highlight the data addition button">
 <editSettingColumn_keepOld "Keep old parameters">
 <editSettingColumn_setNew "Set the new ones">
 <editSettingColumn_autoGeolocateUser "Automatically geolocate the user">
