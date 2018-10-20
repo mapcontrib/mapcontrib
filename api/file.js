@@ -48,8 +48,18 @@ function deleteThemeDirectoryFromFragment(fragment) {
 }
 
 function duplicateFilesFromFragments(oldFragment, newFragment) {
-  const oldDirectory = path.resolve(publicDirectory, 'files', 'theme', oldFragment);
-  const newDirectory = path.resolve(publicDirectory, 'files', 'theme', newFragment);
+  const oldDirectory = path.resolve(
+    publicDirectory,
+    'files',
+    'theme',
+    oldFragment
+  );
+  const newDirectory = path.resolve(
+    publicDirectory,
+    'files',
+    'theme',
+    newFragment
+  );
 
   return new Promise((resolve, reject) => {
     fs.copy(oldDirectory, newDirectory, err => {
@@ -66,7 +76,10 @@ function duplicateFilesFromFragments(oldFragment, newFragment) {
 function cleanObsoleteLayerFilesInThatDirectory(themeModel, directoryName) {
   const fragment = themeModel.get('fragment');
   const layers = themeModel.get('layers').models;
-  const directory = path.resolve(publicDirectory, `files/theme/${fragment}/${directoryName}/`);
+  const directory = path.resolve(
+    publicDirectory,
+    `files/theme/${fragment}/${directoryName}/`
+  );
 
   try {
     fs.statSync(directory);
@@ -107,20 +120,26 @@ function cleanObsoleteLayerFiles(themeModel) {
   cleanObsoleteLayerFilesInThatDirectory(themeModel, 'overPassCache');
 }
 
-function uploadFile(req, res, file, directory) {
+function uploadFile(req, res, file, directory, osmId, tagName) {
   file.originalname = file.originalname.toLowerCase();
 
   let i = 2;
-  let publicPath = `/files/${directory}/${file.originalname}`;
   const fullDirectory = `${config.get('dataDirectory')}/${directory}`;
+  let publicPath = `/files/${directory}/${file.originalname}`;
+  let baseName = path.basename(file.originalname, `.${file.extension}`);
   let fullPath = `${fullDirectory}/${file.originalname}`;
+
+  if (osmId && tagName) {
+    baseName = `${osmId}_${tagName}`;
+    publicPath = `/files/${directory}/${baseName}.${file.extension}`;
+    fullPath = `${fullDirectory}/${baseName}.${file.extension}`;
+  }
 
   if (!fs.existsSync(fullDirectory)) {
     fs.mkdirpSync(fullDirectory);
   }
 
   while (fs.existsSync(fullPath) === true) {
-    const baseName = path.basename(file.originalname, `.${file.extension}`);
     const fileName = `${baseName}_${i}.${file.extension}`;
 
     publicPath = `/files/${directory}/${fileName}`;
@@ -163,7 +182,9 @@ class Api {
           return res.sendStatus(415);
         }
 
-        promises.push(uploadFile(req, res, req.files[field], `theme/${fragment}/shape`));
+        promises.push(
+          uploadFile(req, res, req.files[field], `theme/${fragment}/shape`)
+        );
       }
     }
 
@@ -178,11 +199,13 @@ class Api {
 
   static postNonOsmDataFile(req, res) {
     const fragment = req.query.fragment;
+    const osmId = req.query.osmId;
     const promises = [];
 
     for (const field in req.files) {
       if ({}.hasOwnProperty.call(req.files, field)) {
         const file = req.files[field];
+        const tagName = field.replace(/^fileInput_\w+_(.*)$/g, '$1');
         const fileSize = file.size / 1024;
         const maxFileSize = config.get('client.uploadMaxNonOsmDataFileSize');
 
@@ -190,7 +213,16 @@ class Api {
           return res.status(413).send({ fileInput: field });
         }
 
-        promises.push(uploadFile(req, res, req.files[field], `theme/${fragment}/nonOsmData`));
+        promises.push(
+          uploadFile(
+            req,
+            res,
+            req.files[field],
+            `theme/${fragment}/nonOsmData`,
+            osmId,
+            tagName
+          )
+        );
       }
     }
 

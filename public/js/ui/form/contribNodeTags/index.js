@@ -123,7 +123,10 @@ export default Marionette.CollectionView.extend({
     for (const i in this.children._views) {
       if ({}.hasOwnProperty.call(this.children._views, i)) {
         const view = this.children._views[i];
-        const modelId = response.fileInput.replace('fileInput_', '');
+        const modelId = response.fileInput.replace(
+          /^fileInput_(\w+)_.*$/g,
+          '$1'
+        );
 
         if (view.model.cid === modelId) {
           view.showErrorFeedback();
@@ -145,7 +148,7 @@ export default Marionette.CollectionView.extend({
   setFilesPathFromApiResponse(apiResponse) {
     for (const file of apiResponse) {
       const key = Object.keys(file)[0];
-      const modelId = key.replace('fileInput_', '');
+      const modelId = key.replace(/^fileInput_(\w+)_.*$/g, '$1');
       const path = file[key];
 
       for (const i in this.children._views) {

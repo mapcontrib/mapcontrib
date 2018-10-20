@@ -54,9 +54,13 @@ export default Marionette.LayoutView.extend({
   },
 
   templateHelpers() {
+    const { osmType: type, osmId: id } = this.options;
+    const osmId = `${type}-${id}`;
+
     return {
       fragment: this._theme.get('fragment'),
-      apiPath: `${CONST.apiPath}/file/nonOsmData`
+      apiPath: `${CONST.apiPath}/file/nonOsmData`,
+      osmId
     };
   },
 
