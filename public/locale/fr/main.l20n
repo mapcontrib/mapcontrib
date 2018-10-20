@@ -12,7 +12,9 @@
 <reportBug "Signaler un bug">
 <sendFeedback "Contacter l'équipe">
 <slogan "Contribution thématique à <a>OpenStreetMap</a>">
-
+<inviteToContribute1 "Ce élément provient de la base de données géographique ouverte appelée <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
+<inviteToContribute2 "Si les informations affichées sont erronnées ou incomplètes vous pouvez les corriger en cliquant sur le bouton ci-dessous.">
+<inviteToContribute3 "Vous améliorerez OpenStreetMap et tous les utilisateurs en bénéficieront en quelques minutes.">
 
 <pageTitle "{{ mapcontrib }}">
 <pageTitleWithMapName "{{ $map.name }} - {{ mapcontrib }}">
@@ -80,7 +82,8 @@
 <customize "Personnaliser">
 <letsGo "C'est parti">
 <empty "Vide">
-<editThatElement "Éditer cet élément">
+<editThatElement "Modifier l'élément">
+<connectToEditThatElement "Se connecter pour modifier l'élément">
 <loadingData title:"Certaines données sont en cours de chargement">
 <createATheme "Créer un thème">
 <search "Rechercher">

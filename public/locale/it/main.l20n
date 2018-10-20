@@ -12,6 +12,9 @@
 <reportBug "Segnalare un bug">
 <sendFeedback "Manda un commento">
 <slogan "Contribuisci ad un tema di <a>OpenStreetMap</a>">
+<inviteToContribute1 "That element comes from the open and geographical database called <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
+<inviteToContribute2 "If the displayed informations are incorrect or incomplete you can fix it by clicking on the button below.">
+<inviteToContribute3 "You will improve OpenStreetMap and all the users will benefit from it in a few minutes."> /* FIXME */
 
 
 <pageTitle "{{ mapcontrib }}">
@@ -81,6 +84,7 @@
 <letsGo "Comincia">
 <empty "Vuoto">
 <editThatElement "Modifica questo oggetto">
+<connectToEditThatElement "Connect to edit the element"> /* FIXME */
 <loadingData title:"Alcuni dati saranno caricati">
 <createATheme "Crea un tema">
 <search "Cerca">

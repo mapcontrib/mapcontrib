@@ -35,6 +35,7 @@ import OverPassErrorNotificationView from './overPassErrorNotification';
 import CsvErrorNotificationView from './csvErrorNotification';
 import GeoJsonErrorNotificationView from './geoJsonErrorNotification';
 import GpxErrorNotificationView from './gpxErrorNotification';
+import LoginModalView from './loginModal';
 
 export default Marionette.LayoutView.extend({
   template,
@@ -1220,6 +1221,29 @@ export default Marionette.LayoutView.extend({
     }
   },
 
+  _openLoginModal() {
+    // FIXME To have a real fail callback
+    let authSuccessCallback;
+    let authFailCallback;
+    const theme = this._app.getTheme();
+
+    if (theme) {
+      authSuccessCallback = ThemeCore.buildPath(
+        theme.get('fragment'),
+        theme.get('name')
+      );
+      authFailCallback = authSuccessCallback;
+    } else {
+      authSuccessCallback = '/';
+      authFailCallback = authSuccessCallback;
+    }
+
+    new LoginModalView({
+      authSuccessCallback,
+      authFailCallback
+    }).open();
+  },
+
   _buildLayerPopupContent(layer, layerModel, feature) {
     const isLogged = this._app.isLogged();
     const nonOsmData = this._nonOsmData.findWhere({
@@ -1235,46 +1259,38 @@ export default Marionette.LayoutView.extend({
       isLogged
     );
 
-    if (!content) {
-      return '';
-    }
-
-    if (!content && !isLogged) {
-      return '';
-    }
-
     if (layerModel.get('type') !== CONST.layerType.overpass) {
       return content;
     }
 
     const globalWrapper = this._document.createElement('div');
+    globalWrapper.className = 'colored white';
     globalWrapper.innerHTML = content;
 
-    if (isLogged) {
-      const osmType = feature.properties.type;
-      const osmId = feature.properties.id;
-      const editButton = this._document.createElement('a');
-      editButton.href = `#contribute/edit/${osmType}/${osmId}`;
+    const osmType = feature.properties.type;
+    const osmId = feature.properties.id;
+    const editButton = this._document.createElement('a');
+    editButton.href = `#contribute/edit/${osmType}/${osmId}`;
+    editButton.className = 'btn btn-primary btn-block btn-sm edit_btn';
 
-      if (!content) {
-        globalWrapper.className = 'global_wrapper no_popup_content';
-        editButton.className = 'btn btn-link edit_btn';
-        editButton.innerHTML = this._document.l10n.getSync('editThatElement');
-      } else {
-        globalWrapper.className = 'global_wrapper has_popup_content';
-        editButton.className = 'btn btn-default btn-sm edit_btn';
-        editButton.innerHTML = '<i class="fa fa-pencil"></i>';
+    if (isLogged) {
+      editButton.innerHTML = document.l10n.getSync('editThatElement');
+    } else {
+      editButton.innerHTML = document.l10n.getSync('connectToEditThatElement');
+    }
+
+    globalWrapper.appendChild(editButton);
+
+    $(editButton).on('click', () => {
+      if (!this._app.isLogged()) {
+        return this._openLoginModal();
       }
 
-      globalWrapper.appendChild(editButton);
-
-      $(editButton).on('click', () => {
-        this._radio.commands.execute('set:edition-data', {
-          layer,
-          layerModel
-        });
+      this._radio.commands.execute('set:edition-data', {
+        layer,
+        layerModel
       });
-    }
+    });
 
     return globalWrapper;
   },
@@ -1647,15 +1663,7 @@ export default Marionette.LayoutView.extend({
     const osmId = layer.feature.properties.id;
     const editRoute = `contribute/edit/${osmType}/${osmId}`;
 
-    if (!content) {
-      return false;
-    }
-
-    if (!content && layerType !== CONST.layerType.overpass) {
-      return false;
-    }
-
-    if (!content && !isLogged) {
+    if (layerType !== CONST.layerType.overpass) {
       return false;
     }
 
@@ -1667,7 +1675,8 @@ export default Marionette.LayoutView.extend({
           content,
           editRoute,
           isLogged,
-          config: this._config
+          config: this._config,
+          app: this._app
         }).open();
         break;
 
@@ -1678,7 +1687,8 @@ export default Marionette.LayoutView.extend({
           content,
           editRoute,
           isLogged,
-          config: this._config
+          config: this._config,
+          app: this._app
         }).open();
         break;
       default:

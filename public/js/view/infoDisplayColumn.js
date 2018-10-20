@@ -3,6 +3,8 @@ import Marionette from 'backbone.marionette';
 import InfoDisplay from 'core/infoDisplay';
 import template from 'templates/infoDisplayColumn.ejs';
 import CONST from 'const';
+import LoginModalView from 'view/loginModal';
+import ThemeCore from 'core/theme';
 
 export default Marionette.LayoutView.extend({
   template,
@@ -32,8 +34,17 @@ export default Marionette.LayoutView.extend({
   },
 
   templateHelpers() {
+    let editButtonLabel = '';
+
+    if (this.options.isLogged) {
+      editButtonLabel = 'editThatElement';
+    } else {
+      editButtonLabel = 'connectToEditThatElement';
+    }
+
     return {
-      editRoute: this.options.editRoute
+      editRoute: this.options.editRoute,
+      editButtonLabel
     };
   },
 
@@ -45,10 +56,7 @@ export default Marionette.LayoutView.extend({
 
     this.ui.content.html(this.options.content);
 
-    if (
-      this.options.isLogged &&
-      layerModel.get('type') === CONST.layerType.overpass
-    ) {
+    if (layerModel.get('type') === CONST.layerType.overpass) {
       this.ui.footer.removeClass('hide');
     } else {
       this.ui.prependStickyFooter.removeClass('sticky-inner');
@@ -86,10 +94,37 @@ export default Marionette.LayoutView.extend({
   },
 
   _onClickEdit() {
+    if (!this.options.isLogged) {
+      return this.openLoginModal();
+    }
+
     this._radio.commands.execute('set:edition-data', {
       layer: this.options.layer,
       layerModel: this.options.layerModel
     });
     this.close();
+  },
+
+  openLoginModal() {
+    // FIXME To have a real fail callback
+    let authSuccessCallback;
+    let authFailCallback;
+    const theme = this.options.app.getTheme();
+
+    if (theme) {
+      authSuccessCallback = ThemeCore.buildPath(
+        theme.get('fragment'),
+        theme.get('name')
+      );
+      authFailCallback = authSuccessCallback;
+    } else {
+      authSuccessCallback = '/';
+      authFailCallback = authSuccessCallback;
+    }
+
+    new LoginModalView({
+      authSuccessCallback,
+      authFailCallback
+    }).open();
   }
 });
