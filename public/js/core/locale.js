@@ -45,7 +45,7 @@ export default class Locale {
         completedItemsCount += localeCompletion.completed;
       }
 
-      const totalCompletion = format(completedItemsCount / itemsCount * 100, {
+      const totalCompletion = format((completedItemsCount / itemsCount) * 100, {
         floor: 1,
         ifInfinity: 0
       });
@@ -104,7 +104,7 @@ export default class Locale {
 
     for (const locale of localesCompletion) {
       locale.completion = format(
-        locale.data.completed / locale.data.items * 100,
+        (locale.data.completed / locale.data.items) * 100,
         {
           floor: 1,
           ifInfinity: 0
@@ -150,8 +150,13 @@ export default class Locale {
 
   static findLocalizedTagValue(customTags, key, optionName) {
     const options = Locale.findLocalizedOptions(customTags, key);
+    const localizedValue = options[optionName] || optionName;
 
-    return options[optionName] || optionName;
+    if (['yes', 'no'].includes(localizedValue)) {
+      return document.l10n.getSync(localizedValue);
+    }
+
+    return localizedValue;
   }
 
   static findLocalizedOptions(customTags, key) {
