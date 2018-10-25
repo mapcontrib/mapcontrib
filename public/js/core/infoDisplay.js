@@ -17,6 +17,16 @@ export default class InfoDisplay {
     let content = Locale.getLocalized(layerModel, 'popupContent');
     let data;
 
+    if (!content && layerModel.get('type') === CONST.layerType.overpass) {
+      const inviteToContribute1 = document.l10n.getSync('inviteToContribute1');
+      const inviteToContribute2 = document.l10n.getSync('inviteToContribute2');
+      const inviteToContribute3 = document.l10n.getSync('inviteToContribute3');
+
+      return `<p>${inviteToContribute1}</p>
+      <p>${inviteToContribute2}</p>
+      <p>${inviteToContribute3}</p>`;
+    }
+
     if (!content) {
       return '';
     }

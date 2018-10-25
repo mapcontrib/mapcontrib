@@ -12,7 +12,9 @@
 <reportBug "Signaler un bug">
 <sendFeedback "Contacter l'équipe">
 <slogan "Contribution thématique à <a>OpenStreetMap</a>">
-
+<inviteToContribute1 "Ce élément provient de la base de données géographique ouverte appelée <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
+<inviteToContribute2 "Si les informations affichées sont erronnées ou incomplètes vous pouvez les corriger en cliquant sur le bouton ci-dessous.">
+<inviteToContribute3 "Vous améliorerez OpenStreetMap et tous les utilisateurs en bénéficieront en quelques minutes.">
 
 <pageTitle "{{ mapcontrib }}">
 <pageTitleWithMapName "{{ $map.name }} - {{ mapcontrib }}">
@@ -36,6 +38,7 @@
 <buttonLoginTooltip title:"{{ login }}">
 <buttonUserTooltip title:"Mon compte">
 <buttonLinkTooltip title:"Partager">
+<buttonContrib "Ajouter une donnée manquante">
 <buttonContribTooltip title:"Ajouter une donnée manquante">
 <buttonTempLayerTooltip title:"Ajouter une couche temporaire">
 <buttonEditSettingTooltip title:"{{ settings }}">
@@ -80,7 +83,8 @@
 <customize "Personnaliser">
 <letsGo "C'est parti">
 <empty "Vide">
-<editThatElement "Éditer cet élément">
+<editThatElement "Modifier l'élément">
+<connectToEditThatElement "Se connecter pour modifier l'élément">
 <loadingData title:"Certaines données sont en cours de chargement">
 <createATheme "Créer un thème">
 <search "Rechercher">
@@ -114,6 +118,8 @@
 <multiComboField "Multi-choix">
 <value "Valeur">
 <defaultValue "Valeur par défaut">
+<tagValue placeholder:"Valeur du tag">
+<tagValueTranslation placeholder:"Traduction de la valeur">
 <yes "Oui">
 <no "Non">
 <settings "Configuration">
@@ -121,6 +127,7 @@
 <tiles "Fonds de carte">
 <administrators "Administrateurs">
 <options "Options">
+<addValueToTranslate "Ajouter une valeur à traduire">
 <addAnOption "Ajouter une option">
 <multiComboInfo1 "Complètent le préfixe <em>{{ $prefix }}</em>">
 <multiComboInfo2 "Ex : recycling:glass">
@@ -225,6 +232,8 @@
 <editSettingColumn_color "Couleur">
 <editSettingColumn_position "Positionnement">
 <editSettingColumn_geolocation "Géolocalisation">
+<editSettingColumn_contribution "Contribution">
+<editSettingColumn_displayHighlightedContributionBtn "Mettre en avant le bouton de d'ajout de donnée">
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
 <editSettingColumn_autoGeolocateUser "Géolocaliser automatiquement l'utilisateur">

@@ -18,7 +18,8 @@ export default Backbone.RelationalModel.extend({
         /*
                 fr: {
                     key: '',
-                    options: [],
+                    options: {},
+                    values: {},
                 }
             */
       }

@@ -45,7 +45,7 @@ export default class Locale {
         completedItemsCount += localeCompletion.completed;
       }
 
-      const totalCompletion = format(completedItemsCount / itemsCount * 100, {
+      const totalCompletion = format((completedItemsCount / itemsCount) * 100, {
         floor: 1,
         ifInfinity: 0
       });
@@ -104,7 +104,7 @@ export default class Locale {
 
     for (const locale of localesCompletion) {
       locale.completion = format(
-        locale.data.completed / locale.data.items * 100,
+        (locale.data.completed / locale.data.items) * 100,
         {
           floor: 1,
           ifInfinity: 0
@@ -150,14 +150,31 @@ export default class Locale {
 
   static findLocalizedTagValue(customTags, key, optionName) {
     const options = Locale.findLocalizedOptions(customTags, key);
+    const values = Locale.findLocalizedValues(customTags, key);
+    const localizedValue =
+      options[optionName] || values[optionName] || optionName;
 
-    return options[optionName] || optionName;
+    if (['yes', 'no'].includes(localizedValue)) {
+      return document.l10n.getSync(localizedValue);
+    }
+
+    return localizedValue;
   }
 
   static findLocalizedOptions(customTags, key) {
     for (const customTag of customTags) {
       if (customTag.get('key') === key) {
         return Locale.getLocalizedOptions(customTag);
+      }
+    }
+
+    return {};
+  }
+
+  static findLocalizedValues(customTags, key) {
+    for (const customTag of customTags) {
+      if (customTag.get('key') === key) {
+        return Locale.getLocalizedValues(customTag);
       }
     }
 
@@ -181,5 +198,12 @@ export default class Locale {
     }
 
     return localizedOptions;
+  }
+
+  static getLocalizedValues(model) {
+    const locale = Locale.getLocale();
+    const { values } = model.get('locales')[locale] || { values: {} };
+
+    return values;
   }
 }

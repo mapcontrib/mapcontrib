@@ -33,6 +33,7 @@ export default Marionette.ItemView.extend({
     themeMinimumZoom: '#theme_minimum_zoom',
     themeMaximumZoom: '#theme_maximum_zoom',
     themeMovementRadius: '#theme_movement_radius',
+    displayHighlightedContributionBtn: '#display_verbose_contribution_add_btn',
     geocoderSection: '.geocoder',
     photonSection: '.photon',
     nominatimSection: '.nominatim',
@@ -95,6 +96,10 @@ export default Marionette.ItemView.extend({
       this.ui.themePositionAutoCenter.prop('checked', true);
     }
 
+    if (this.model.get('displayHighlightedContributionBtn') === true) {
+      this.ui.displayHighlightedContributionBtn.prop('checked', true);
+    }
+
     switch (this.model.get('infoDisplay')) {
       case CONST.infoDisplay.modal:
         this.ui.themeInfoDisplayModal.prop('checked', true);
@@ -153,6 +158,9 @@ export default Marionette.ItemView.extend({
     const themeMinimumZoom = this.ui.themeMinimumZoom.val();
     const themeMaximumZoom = this.ui.themeMaximumZoom.val();
     const themeMovementRadius = this.ui.themeMovementRadius.val();
+    const displayHighlightedContributionBtn = this.ui.displayHighlightedContributionBtn.prop(
+      'checked'
+    );
 
     this.model.set('name', themeName);
     this.model.set('description', themeDescription);
@@ -160,6 +168,10 @@ export default Marionette.ItemView.extend({
     this.model.set('minZoomLevel', themeMinimumZoom);
     this.model.set('maxZoomLevel', themeMaximumZoom);
     this.model.set('movementRadius', themeMovementRadius);
+    this.model.set(
+      'displayHighlightedContributionBtn',
+      displayHighlightedContributionBtn
+    );
     this.model.updateModificationDate();
 
     window.history.pushState(
@@ -223,6 +235,8 @@ export default Marionette.ItemView.extend({
               this._radio.commands.execute('map:unbindAllPopups');
             }
           }
+
+          this._radio.commands.execute('theme:showContribButton');
 
           const currentZoom = map.getZoom();
 

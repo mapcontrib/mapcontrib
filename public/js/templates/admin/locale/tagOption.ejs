@@ -1,4 +1,10 @@
 <div class="form-group append-xs-2">
-    <label for="<%- id %>" class="control-label"><%- label %></label>
-    <input id="<%- id %>" type="text" spellcheck="false" class="form-control" value="<%- value %>">
+    <div class="row">
+        <div class="col-xs-5">
+            <input type="text" disabled="disabled" class="form-control" value="<%- label %>" />
+        </div>
+        <div class="col-xs-7">
+            <input id="<%- id %>" type="text" spellcheck="false" class="form-control" value="<%- value %>" />
+        </div>
+    </div>
 </div>
