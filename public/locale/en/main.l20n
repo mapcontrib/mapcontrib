@@ -119,6 +119,8 @@
 <multiComboField "Multi-choice">
 <value "Valeur">
 <defaultValue "Default value">
+<tagValue placeholder:"Tag value">
+<tagValueTranslation placeholder:"Value translation">
 <yes "Yes">
 <no "No">
 <settings "Settings">
@@ -126,6 +128,7 @@
 <tiles "Backgrounds">
 <administrators "Administrators">
 <options "Options">
+<addValueToTranslate "Add a value to translate">
 <addAnOption "Add an option">
 <multiComboInfo1 "Complete the <em>{{ $prefix }}</em> prefix">
 <multiComboInfo2 "Eg: recycling:glass">

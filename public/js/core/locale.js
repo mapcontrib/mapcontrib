@@ -150,7 +150,9 @@ export default class Locale {
 
   static findLocalizedTagValue(customTags, key, optionName) {
     const options = Locale.findLocalizedOptions(customTags, key);
-    const localizedValue = options[optionName] || optionName;
+    const values = Locale.findLocalizedValues(customTags, key);
+    const localizedValue =
+      options[optionName] || values[optionName] || optionName;
 
     if (['yes', 'no'].includes(localizedValue)) {
       return document.l10n.getSync(localizedValue);
@@ -163,6 +165,16 @@ export default class Locale {
     for (const customTag of customTags) {
       if (customTag.get('key') === key) {
         return Locale.getLocalizedOptions(customTag);
+      }
+    }
+
+    return {};
+  }
+
+  static findLocalizedValues(customTags, key) {
+    for (const customTag of customTags) {
+      if (customTag.get('key') === key) {
+        return Locale.getLocalizedValues(customTag);
       }
     }
 
@@ -186,5 +198,12 @@ export default class Locale {
     }
 
     return localizedOptions;
+  }
+
+  static getLocalizedValues(model) {
+    const locale = Locale.getLocale();
+    const { values } = model.get('locales')[locale] || { values: {} };
+
+    return values;
   }
 }

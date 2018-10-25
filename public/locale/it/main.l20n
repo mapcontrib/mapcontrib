@@ -119,6 +119,8 @@
 <multiComboField "Scelta multipla">
 <value "Valore">
 <defaultValue "Valore predefinito">
+<tagValue placeholder:"Tag value"> /* FIXME */
+<tagValueTranslation placeholder:"Value translation"> /* FIXME */
 <yes "Si">
 <no "No">
 <settings "Impostazioni">
@@ -126,6 +128,7 @@
 <tiles "Sfondi">
 <administrators "Amministratori">
 <options "Opzioni">
+<addValueToTranslate "Add a value to translate"> /* FIXME */
 <addAnOption "Aggiungere una opzione">
 <multiComboInfo1 "Completa il prefisso <em>{{ $prefix }}</em>">
 <multiComboInfo2 "Es: recycling:glass">

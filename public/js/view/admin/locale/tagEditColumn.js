@@ -3,10 +3,12 @@ import Marionette from 'backbone.marionette';
 import CONST from 'const';
 import template from 'templates/admin/locale/tagEditColumn.ejs';
 import templateOption from 'templates/admin/locale/tagOption.ejs';
+import templateValue from 'templates/admin/locale/tagValue.ejs';
 
 export default Marionette.LayoutView.extend({
   template,
   templateOption,
+  templateValue,
 
   behaviors() {
     return {
@@ -23,10 +25,16 @@ export default Marionette.LayoutView.extend({
   ui: {
     column: '.column',
     tagKey: '#tag_key',
-    optionsSection: '.options_section'
+    addValueBtn: '.add_value_btn',
+    removeValueBtn: '.remove_value_btn',
+    optionsSection: '.options_section',
+    valuesWrapper: '.values_wrapper',
+    valuesSection: '.values_section'
   },
 
   events: {
+    'click @ui.addValueBtn': 'onClickAddValueBtn',
+    'click @ui.removeValueBtn': 'onClickRemoveValueBtn',
     submit: 'onSubmit',
     reset: 'onReset'
   },
@@ -58,6 +66,7 @@ export default Marionette.LayoutView.extend({
         this._renderOptions();
         break;
       default:
+        this._renderValues();
     }
   },
 
@@ -69,7 +78,7 @@ export default Marionette.LayoutView.extend({
 
     for (const option of options) {
       const inputId = this._buildId(key, option, this.model.cid);
-      const optionLabel = `${option}`;
+      const optionLabel = option;
       let value = '';
 
       // if (this.model.get('type') === CONST.tagType.multiCombo) {
@@ -90,6 +99,30 @@ export default Marionette.LayoutView.extend({
     this.ui.optionsSection.html(optionHtml);
   },
 
+  _renderValues() {
+    const { values } = this.model.get('locales')[this.options.locale] || {
+      values: {}
+    };
+    let valueHtml = '';
+
+    for (const label of Object.keys(values)) {
+      valueHtml += this.templateValue({
+        label,
+        value: values[label]
+      });
+    }
+
+    if (!valueHtml) {
+      valueHtml += this.templateValue({
+        label: '',
+        value: ''
+      });
+    }
+
+    this.ui.valuesSection.html(valueHtml);
+    this.ui.valuesWrapper.removeClass('hide');
+  },
+
   open() {
     this.triggerMethod('open');
     return this;
@@ -104,14 +137,34 @@ export default Marionette.LayoutView.extend({
     return `${key}_${option}_${cid}`.replace(/\W/g, '_');
   },
 
+  onClickAddValueBtn() {
+    this.ui.valuesSection.append(
+      this.templateValue({
+        label: '',
+        value: ''
+      })
+    );
+
+    document.l10n.localizeNode(this.ui.valuesSection[0]);
+    this.bindUIElements();
+  },
+
+  onClickRemoveValueBtn(e) {
+    $(e.target)
+      .parents('.form-group')
+      .remove();
+  },
+
   onSubmit(e) {
     e.preventDefault();
 
     const key = this.model.get('key');
     const options = this.model.get('options');
+    const locales = this.model.get('locales');
     const locale = {
       key: this.ui.tagKey.val().trim(),
-      options: {}
+      options: {},
+      values: {}
     };
 
     switch (this.model.get('type')) {
@@ -125,11 +178,17 @@ export default Marionette.LayoutView.extend({
         }
         break;
       default:
+        this.ui.valuesSection.find('.value_group').map((index, group) => {
+          const label = group.querySelector('.value_label').value;
+          const value = group.querySelector('.value_value').value;
+
+          if (label) {
+            locale.values[label] = value;
+          }
+        });
     }
 
-    const locales = this.model.get('locales');
     locales[this.options.locale] = locale;
-
     this.model.set('locales', locales);
 
     this.model.updateModificationDate();
