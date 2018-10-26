@@ -152,7 +152,9 @@ export default class Locale {
     const options = Locale.findLocalizedOptions(customTags, key);
     const values = Locale.findLocalizedValues(customTags, key);
     const localizedValue =
-      options[optionName] || values[optionName] || optionName;
+      (options && options[optionName]) ||
+      (values && values[optionName]) ||
+      optionName;
 
     if (['yes', 'no'].includes(localizedValue)) {
       return document.l10n.getSync(localizedValue);
