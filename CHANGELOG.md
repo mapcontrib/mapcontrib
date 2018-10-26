@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.3
+
+* Fix a translation issue when no tag values are translated.
+
 ## 1.13.2
 
 * Don't replace spaces by underscrores in tag value options.
