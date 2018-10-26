@@ -26,7 +26,7 @@ export default Marionette.LayoutView.extend({
 
   _onChangeInputValue() {
     const oldValue = this.ui.inputValue.val();
-    const value = oldValue.trim().replace(' ', '_');
+    const value = oldValue.trim();
     this.model.set('value', value);
 
     if (oldValue !== value) {
