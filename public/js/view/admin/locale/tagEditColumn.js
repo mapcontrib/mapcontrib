@@ -105,11 +105,13 @@ export default Marionette.LayoutView.extend({
     };
     let valueHtml = '';
 
-    for (const label of Object.keys(values)) {
-      valueHtml += this.templateValue({
-        label,
-        value: values[label]
-      });
+    if (values) {
+      for (const label of Object.keys(values)) {
+        valueHtml += this.templateValue({
+          label,
+          value: values[label]
+        });
+      }
     }
 
     if (!valueHtml) {
