@@ -1,3 +1,4 @@
 # Changelog of the current development version
 
 * Fix a typo in the french strings.
+* Add some new marker shapes and refresh the old ones.

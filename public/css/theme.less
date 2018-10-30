@@ -135,14 +135,27 @@ body {
   .marker,
   .shape {
     pointer-events: none;
-    margin-top: -11px;
+    margin-top: -15px;
     margin-right: -8px;
     transform: scale(0.7);
+    float: right;
 
     .fa {
-      top: 9px;
-      left: 7px;
+      top: 13px;
+      left: 14px;
       font-size: 17px;
+    }
+
+    &.marker-basic-circle,
+    &.marker-basic-diamond,
+    &.marker-basic-square,
+    &.marker-basic-left-triangle,
+    &.marker-basic-up-triangle,
+    &.marker-basic-right-triangle,
+    &.marker-basic-down-triangle {
+      .fa {
+        display: none;
+      }
     }
   }
 }
