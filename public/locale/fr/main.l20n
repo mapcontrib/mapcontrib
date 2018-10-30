@@ -233,7 +233,7 @@
 <editSettingColumn_position "Positionnement">
 <editSettingColumn_geolocation "Géolocalisation">
 <editSettingColumn_contribution "Contribution">
-<editSettingColumn_displayHighlightedContributionBtn "Mettre en avant le bouton de d'ajout de donnée">
+<editSettingColumn_displayHighlightedContributionBtn "Mettre en avant le bouton d'ajout de donnée">
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
 <editSettingColumn_autoGeolocateUser "Géolocaliser automatiquement l'utilisateur">
