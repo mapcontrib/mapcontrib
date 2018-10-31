@@ -119,21 +119,21 @@ export default {
     markers: {
       marker1: {
         iconSize: [50, 50],
-        iconAnchor: [18, 40],
+        iconAnchor: [25, 43],
         popupAnchor: [0, -36],
         className: 'marker marker-1',
         html: marker1
       },
       marker2: {
         iconSize: [50, 50],
-        iconAnchor: [18, 40],
+        iconAnchor: [25, 43],
         popupAnchor: [0, -36],
         className: 'marker marker-2',
         html: marker2
       },
       marker3: {
         iconSize: [50, 50],
-        iconAnchor: [18, 40],
+        iconAnchor: [25, 43],
         popupAnchor: [0, -36],
         className: 'marker marker-3',
         html: marker3
