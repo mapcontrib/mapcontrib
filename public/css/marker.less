@@ -270,7 +270,16 @@
 
 .leaflet-container .marker {
   display: block;
-  cursor: pointer;
+  pointer-events: none;
+
+  svg {
+    pointer-events: none;
+
+    & > * {
+      cursor: pointer;
+      pointer-events: auto;
+    }
+  }
 }
 
 .marker-1,
