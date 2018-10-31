@@ -12,7 +12,7 @@
 <reportBug "Signaler un bug">
 <sendFeedback "Contacter l'équipe">
 <slogan "Contribution thématique à <a>OpenStreetMap</a>">
-<inviteToContribute1 "Ce élément provient de la base de données géographique ouverte appelée <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
+<inviteToContribute1 "Cet élément provient de la base de données géographique ouverte appelée <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
 <inviteToContribute2 "Si les informations affichées sont erronnées ou incomplètes vous pouvez les corriger en cliquant sur le bouton ci-dessous.">
 <inviteToContribute3 "Vous améliorerez OpenStreetMap et tous les utilisateurs en bénéficieront en quelques minutes.">
 
