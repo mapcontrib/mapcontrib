@@ -4,3 +4,4 @@
 * Add some new marker shapes and refresh the old ones.
 * Disable the email type input too let contributors set multiple email addresses.
 * Precisely set the clickable area of the markers.
+* In the cache element detail column, display the element id within a link to the osm.org element.

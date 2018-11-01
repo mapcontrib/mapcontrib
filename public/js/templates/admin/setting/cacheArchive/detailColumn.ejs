@@ -15,7 +15,11 @@
                     <p class="append-xs-2"><%- name %></p>
 
                     <h4 data-l10n-id="osmId"></h4>
-                    <p class="append-xs-2"><%- osmId %></p>
+                    <p class="append-xs-2">
+                        <a target="_blank" rel="noopener noreferrer" href="https://www.openstreetmap.org/<%- osmId %>">
+                            <%- osmId %>
+                        </a>
+                    </p>
 
                     <h4 data-l10n-id="tags"></h4>
                     <table class="table table-bordered">
