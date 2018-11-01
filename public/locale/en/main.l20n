@@ -57,6 +57,7 @@
 <overPassCacheArchives_explanation "The following POI are in your OverPass layers cache but have been removed from OSM.">
 <overPassCacheArchives_emptyStateTextArchived "No archived POI">
 <overPassCacheArchives_emptyStateTextWaiting "No POI waiting">
+<overPassCacheArchives_zoomOnElement "Zoom on the element">
 <seeArchives "See the archived POI">
 <layers "Layers">
 <layer "Layer">

@@ -1,6 +1,13 @@
 let marker1 = '';
 let marker2 = '';
 let marker3 = '';
+let markerBasicCircle = '';
+let markerBasicDiamond = '';
+let markerBasicDownTriangle = '';
+let markerBasicLeftTriangle = '';
+let markerBasicRightTriangle = '';
+let markerBasicUpTriangle = '';
+let markerBasicSquare = '';
 let shape = '';
 
 if (typeof window !== 'undefined') {
@@ -8,6 +15,13 @@ if (typeof window !== 'undefined') {
   marker1 = require('../img/markers/1.svg');
   marker2 = require('../img/markers/2.svg');
   marker3 = require('../img/markers/3.svg');
+  markerBasicCircle = require('../img/markers/basicCircle.svg');
+  markerBasicDiamond = require('../img/markers/basicDiamond.svg');
+  markerBasicDownTriangle = require('../img/markers/basicDownTriangle.svg');
+  markerBasicLeftTriangle = require('../img/markers/basicLeftTriangle.svg');
+  markerBasicRightTriangle = require('../img/markers/basicRightTriangle.svg');
+  markerBasicUpTriangle = require('../img/markers/basicUpTriangle.svg');
+  markerBasicSquare = require('../img/markers/basicSquare.svg');
   shape = require('../img/shape.svg');
   /* eslint-enable */
 }
@@ -104,25 +118,74 @@ export default {
 
     markers: {
       marker1: {
-        iconSize: [36, 42],
-        iconAnchor: [18, 40],
+        iconSize: [50, 50],
+        iconAnchor: [25, 43],
         popupAnchor: [0, -36],
         className: 'marker marker-1',
         html: marker1
       },
       marker2: {
-        iconSize: [36, 42],
-        iconAnchor: [18, 40],
+        iconSize: [50, 50],
+        iconAnchor: [25, 43],
         popupAnchor: [0, -36],
         className: 'marker marker-2',
         html: marker2
       },
       marker3: {
-        iconSize: [36, 42],
-        iconAnchor: [18, 40],
+        iconSize: [50, 50],
+        iconAnchor: [25, 43],
         popupAnchor: [0, -36],
         className: 'marker marker-3',
         html: marker3
+      },
+      markerBasicCircle: {
+        iconSize: [50, 50],
+        iconAnchor: [25, 25],
+        popupAnchor: [0, -8],
+        className: 'marker marker-basic-circle',
+        html: markerBasicCircle
+      },
+      markerBasicDiamond: {
+        iconSize: [50, 50],
+        iconAnchor: [25, 25],
+        popupAnchor: [0, -8],
+        className: 'marker marker-basic-diamond',
+        html: markerBasicDiamond
+      },
+      markerBasicSquare: {
+        iconSize: [50, 50],
+        iconAnchor: [25, 25],
+        popupAnchor: [0, -8],
+        className: 'marker marker-basic-square',
+        html: markerBasicSquare
+      },
+      markerBasicDownTriangle: {
+        iconSize: [50, 50],
+        iconAnchor: [25, 25],
+        popupAnchor: [0, -8],
+        className: 'marker marker-basic-down-triangle',
+        html: markerBasicDownTriangle
+      },
+      markerBasicLeftTriangle: {
+        iconSize: [50, 50],
+        iconAnchor: [25, 25],
+        popupAnchor: [0, -8],
+        className: 'marker marker-basic-left-triangle',
+        html: markerBasicLeftTriangle
+      },
+      markerBasicRightTriangle: {
+        iconSize: [50, 50],
+        iconAnchor: [25, 25],
+        popupAnchor: [0, -8],
+        className: 'marker marker-basic-right-triangle',
+        html: markerBasicRightTriangle
+      },
+      markerBasicUpTriangle: {
+        iconSize: [50, 50],
+        iconAnchor: [25, 25],
+        popupAnchor: [0, -8],
+        className: 'marker marker-basic-up-triangle',
+        html: markerBasicUpTriangle
       }
     },
 

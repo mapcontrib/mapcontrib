@@ -57,6 +57,7 @@
 <overPassCacheArchives_explanation "Questi POI sono nella tua cacche dei livelli OverPass ma saranno rimossi da OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Nessun POI archiviato">
 <overPassCacheArchives_emptyStateTextWaiting "Nessun POI in attesa">
+<overPassCacheArchives_zoomOnElement "Zoom on the element"> /* FIXME */
 <seeArchives "Vedi i POI archiviati">
 <layers "Livelli">
 <layer "Livello">

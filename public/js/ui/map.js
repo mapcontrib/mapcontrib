@@ -81,6 +81,43 @@ export default class MapUi {
   }
 
   /**
+   * Convert a coordinates array into a proper L.LatLngBounds
+   * @param  {array} coordinates
+   * @return {L.LatLngBounds}
+   */
+  static buildBoundsFromCoordinates(coordinates) {
+    let latLngList = [];
+
+    if (typeof coordinates[0] !== 'number') {
+      latLngList = coordinates.reduce(
+        (accumulator, value) => [
+          ...accumulator,
+          ...value.map(lngLat => ({ lat: lngLat[1], lng: lngLat[0] }))
+        ],
+        []
+      );
+    } else {
+      latLngList = [
+        {
+          lat: coordinates[1],
+          lng: coordinates[0]
+        }
+      ];
+    }
+
+    return MapUi.buildBoundsFromLatLngList(latLngList);
+  }
+
+  /**
+   * Convert an array of {lat, lng} into proper L.LatLngBounds
+   * @param  {array} latLngList
+   * @return {L.LatLngBounds}
+   */
+  static buildBoundsFromLatLngList(latLngList) {
+    return L.latLngBounds(latLngList.map(latLng => L.latLng(latLng)));
+  }
+
+  /**
    * Build some bounds from a position and a radius.
    *
    * @author Guillaume AMAT

@@ -1,6 +1,7 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
 import template from 'templates/admin/setting/cacheArchive/detailColumn.ejs';
+import MapUi from 'ui/map';
 
 export default Marionette.LayoutView.extend({
   template,
@@ -20,11 +21,13 @@ export default Marionette.LayoutView.extend({
   ui: {
     column: '.column',
     tableBody: 'table tbody',
+    zoomBtn: '.zoom_btn',
     archiveBtn: '.archive_btn',
     deleteBtn: '.delete_btn'
   },
 
   events: {
+    'click @ui.zoomBtn': '_onClickZoom',
     'click @ui.archiveBtn': '_onClickArchive',
     'click @ui.deleteBtn': '_onClickDelete'
   },
@@ -70,6 +73,18 @@ export default Marionette.LayoutView.extend({
     if (isArchived) {
       this.ui.archiveBtn.hide();
       this.ui.deleteBtn.addClass('btn-block');
+    }
+  },
+
+  _onClickZoom() {
+    if (
+      this.options.deletedFeature.geometry &&
+      this.options.deletedFeature.geometry.coordinates
+    ) {
+      const bounds = MapUi.buildBoundsFromCoordinates(
+        this.options.deletedFeature.geometry.coordinates
+      );
+      this._radio.commands.execute('map:fitBounds', bounds);
     }
   },
 

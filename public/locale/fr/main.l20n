@@ -12,7 +12,7 @@
 <reportBug "Signaler un bug">
 <sendFeedback "Contacter l'équipe">
 <slogan "Contribution thématique à <a>OpenStreetMap</a>">
-<inviteToContribute1 "Ce élément provient de la base de données géographique ouverte appelée <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
+<inviteToContribute1 "Cet élément provient de la base de données géographique ouverte appelée <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
 <inviteToContribute2 "Si les informations affichées sont erronnées ou incomplètes vous pouvez les corriger en cliquant sur le bouton ci-dessous.">
 <inviteToContribute3 "Vous améliorerez OpenStreetMap et tous les utilisateurs en bénéficieront en quelques minutes.">
 
@@ -56,6 +56,7 @@
 <overPassCacheArchives_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été supprimés d'OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Aucun POI archivés">
 <overPassCacheArchives_emptyStateTextWaiting "Aucun POI en attente">
+<overPassCacheArchives_zoomOnElement "Zoomer sur l'élément">
 <seeArchives "Voir les POI archivés">
 <layers "Couches">
 <layer "Couche">
@@ -233,11 +234,11 @@
 <editSettingColumn_position "Positionnement">
 <editSettingColumn_geolocation "Géolocalisation">
 <editSettingColumn_contribution "Contribution">
-<editSettingColumn_displayHighlightedContributionBtn "Mettre en avant le bouton de d'ajout de donnée">
+<editSettingColumn_displayHighlightedContributionBtn "Mettre en avant le bouton d'ajout de donnée">
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
 <editSettingColumn_autoGeolocateUser "Géolocaliser automatiquement l'utilisateur">
-<editSettingColumn_movementConstraints "Constraintes de mouvement">
+<editSettingColumn_movementConstraints "Contraintes de mouvement">
 <editSettingColumn_minimumZoom "Zoom minimum">
 <editSettingColumn_maximumZoom "Zoom maximum">
 <editSettingColumn_movementRadius "Rayon de déplacement">
@@ -336,7 +337,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 /* Edit administrators column */
 <editAdministratorColumn_title "Administrateurs">
-<editAdministratorColumn_description "Vous pouvez donner les droits d'administration à n'importe quel utilisateur OSM qui aurait fait au moins une contribution à OSM depuis la création de son compte.">
+<editAdministratorColumn_description "Vous pouvez donner les droits d'administration à n'importe quel utilisateur OSM qui a déjà fait au moins une contribution à OSM depuis la création de son compte.">
 <editAdministratorColumn_addAdministrator "Ajouter un administrateur">
 <editAdministratorColumn_typeDisplayName "Saisissez un nom de contributeur OSM">
 
