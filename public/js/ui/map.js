@@ -389,7 +389,7 @@ export default class MapUi {
     const heatLayer = L.heatLayer([], MapUi.buildHeatLayerOptions(layerModel));
 
     heatLayer.addLayer = layer => {
-      if (layer.feature.geometry.type === 'Point') {
+      if (layer.feature.geometry && layer.feature.geometry.type === 'Point') {
         heatLayer.addLatLng(
           L.latLng(
             layer.feature.geometry.coordinates[1],

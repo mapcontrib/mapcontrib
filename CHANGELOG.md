@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.1
+
+* Secure the calls to the geometry.
+
 ## 1.15.0
 
 * Fix the external marker icons position.
