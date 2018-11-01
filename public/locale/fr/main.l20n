@@ -237,7 +237,7 @@
 <editSettingColumn_keepOld "Garder les paramètres configurés">
 <editSettingColumn_setNew "Enregistrer les paramètres actuels">
 <editSettingColumn_autoGeolocateUser "Géolocaliser automatiquement l'utilisateur">
-<editSettingColumn_movementConstraints "Constraintes de mouvement">
+<editSettingColumn_movementConstraints "Contraintes de mouvement">
 <editSettingColumn_minimumZoom "Zoom minimum">
 <editSettingColumn_maximumZoom "Zoom maximum">
 <editSettingColumn_movementRadius "Rayon de déplacement">
@@ -336,7 +336,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 /* Edit administrators column */
 <editAdministratorColumn_title "Administrateurs">
-<editAdministratorColumn_description "Vous pouvez donner les droits d'administration à n'importe quel utilisateur OSM qui aurait fait au moins une contribution à OSM depuis la création de son compte.">
+<editAdministratorColumn_description "Vous pouvez donner les droits d'administration à n'importe quel utilisateur OSM qui a déjà fait au moins une contribution à OSM depuis la création de son compte.">
 <editAdministratorColumn_addAdministrator "Ajouter un administrateur">
 <editAdministratorColumn_typeDisplayName "Saisissez un nom de contributeur OSM">
 
