@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.15.0
+
+* Fix the external marker icons position.
+* Add an input field to fill custom hexadecimal marker color.
+
 ## 1.14.0
 
 * Fix typos in the french strings.
