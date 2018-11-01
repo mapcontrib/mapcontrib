@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
+import colorConvert from 'color-convert';
 import 'reinvented-color-wheel/css/reinvented-color-wheel.min.css';
 import ReinventedColorWheel from 'reinvented-color-wheel';
 
@@ -23,7 +24,8 @@ export default Marionette.ItemView.extend({
   ui: {
     modal: '.pop_modal',
     colorButtons: '.color-buttons .btn',
-    customColorButton: '#customColorBtn',
+    customColorWheel: '#customColorWheel',
+    customColorHexa: '.custom-color-hexa',
     shapeButtons: '.shape-buttons .btn',
     iconTypeTabs: '.marker_icon_type_tab',
     iconTypeLibraryTab: '#iconTypeLibraryTab',
@@ -45,6 +47,8 @@ export default Marionette.ItemView.extend({
     'blur @ui.iconNameInput': 'onChangeIconName',
     'keyup @ui.iconUrlInput': 'onChangeIconUrl',
     'blur @ui.iconUrlInput': 'onChangeIconUrl',
+    'keyup @ui.customColorHexa': 'onKeyUpHexaColor',
+    'blur @ui.customColorHexa': 'onBlurHexaColor',
 
     submit: 'onSubmit',
     reset: 'onReset'
@@ -54,6 +58,21 @@ export default Marionette.ItemView.extend({
     this._radio = Wreqr.radio.channel('global');
 
     this._oldModel = this.model.clone();
+  },
+
+  templateHelpers() {
+    const markerColor = this.model.get('markerColor');
+    let customColorHexaValue = '';
+
+    if (typeof markerColor !== 'string') {
+      const { h, s, l } = markerColor;
+      const hexaColor = colorConvert.hsl.hex(h, s, l);
+      customColorHexaValue = `#${hexaColor}`;
+    }
+
+    return {
+      customColorHexaValue
+    };
   },
 
   onRender() {
@@ -88,10 +107,10 @@ export default Marionette.ItemView.extend({
     this.updateIconPreview();
 
     setTimeout(() => {
-      new ReinventedColorWheel({
-        appendTo: this.ui.customColorButton[0],
+      this._customColorWheel = new ReinventedColorWheel({
+        appendTo: this.ui.customColorWheel[0],
         hsl: initialColorWheelValues,
-        wheelDiameter: 150,
+        wheelDiameter: 140,
         wheelThickness: 15,
         wheelReflectsSaturation: false,
         onChange: instance => {
@@ -102,6 +121,9 @@ export default Marionette.ItemView.extend({
             s: instance.hsl[1],
             l: instance.hsl[2]
           };
+
+          const hexaColor = colorConvert.hsl.hex(color.h, color.s, color.l);
+          this.ui.customColorHexa.val(`#${hexaColor}`);
 
           this.model.set('markerColor', color);
         }
@@ -135,6 +157,8 @@ export default Marionette.ItemView.extend({
     $('i', this.ui.colorButtons).removeClass('fa-check');
 
     e.currentTarget.querySelector('i').classList.add('fa-check');
+
+    this.ui.customColorHexa.val('');
 
     this.model.set('markerColor', e.currentTarget.dataset.color);
   },
@@ -175,5 +199,18 @@ export default Marionette.ItemView.extend({
     this.ui.iconTypeExternalForm.removeClass('hide');
 
     this.model.set('markerIconType', CONST.map.markerIconType.external);
+  },
+
+  onKeyUpHexaColor() {
+    const hexaColor = this.ui.customColorHexa.val();
+
+    if (/^#?[a-zA-Z0-9]{6}$/.test(hexaColor)) {
+      this._customColorWheel.hex = `#${hexaColor.replace(/#/g, '')}`;
+    }
+  },
+
+  onBlurHexaColor() {
+    const hexaColor = this.ui.customColorHexa.val();
+    this._customColorWheel.hex = `#${hexaColor.replace(/#/g, '')}`;
   }
 });

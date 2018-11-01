@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.15.0
+
+* Fix the external marker icons position.
+* Add an input field to fill custom hexadecimal marker color.
+
+## 1.14.0
+
+* Fix typos in the french strings.
+* Add some new marker shapes and refresh the old ones.
+* Disable the email type input too let contributors set multiple email addresses.
+* Precisely set the clickable area of the markers.
+* In the cache element detail column, display the element id within a link to the osm.org element.
+* In the cache element detail column, display a button to zoom on the element.
+
 ## 1.13.3
 
 * Fix a translation issue when no tag values are translated.

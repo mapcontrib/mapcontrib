@@ -1,7 +1,7 @@
 {
   "name": "mapcontrib",
   "description": "MapContrib, Thematic OpenStreetMap contribution.",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "license": "MIT",
   "author": {
     "name": "Guillaume AMAT",
@@ -101,6 +101,7 @@
     "bootstrap-more": "^0.4.12",
     "bootstrap-webpack": "0.0.6",
     "brfs": "^1.5.0",
+    "color-convert": "^1.9.3",
     "compression": "^1.7.2",
     "config": "^1.30.0",
     "connect-mongo": "^2.0.1",
@@ -161,7 +162,7 @@
     "passport-openstreetmap": "^0.1.2",
     "progressbar.js": "^1.0.1",
     "raw-loader": "^0.5.1",
-    "reinvented-color-wheel": "^0.1.5",
+    "reinvented-color-wheel": "^0.2.3",
     "request": "^2.83.0",
     "selectize": "^0.12.4",
     "serve-static": "^1.13.2",
