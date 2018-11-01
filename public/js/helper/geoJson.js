@@ -1,11 +1,11 @@
 export default class GeoJsonHelper {
   /**
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {object} object.
-     * @returns {number}
-     */
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {object} object.
+   * @returns {number}
+   */
   static findOsmId(object) {
     if (!object.properties) {
       return false;
@@ -19,12 +19,12 @@ export default class GeoJsonHelper {
   }
 
   /**
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {object} object.
-     * @returns {string}
-     */
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {object} object.
+   * @returns {string}
+   */
   static findOsmType(object) {
     if (!object.properties) {
       return false;
@@ -38,12 +38,12 @@ export default class GeoJsonHelper {
   }
 
   /**
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {object} object.
-     * @returns {number}
-     */
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {object} object.
+   * @returns {number}
+   */
   static findOsmVersion(object) {
     if (!object.properties) {
       return false;
@@ -61,17 +61,21 @@ export default class GeoJsonHelper {
   }
 
   /**
-     * @author Guillaume AMAT
-     * @static
-     * @access public
-     * @param {object} feature.
-     * @param {object} overPassElement.
-     * @returns {object}
-     */
+   * @author Guillaume AMAT
+   * @static
+   * @access public
+   * @param {object} feature.
+   * @param {object} overPassElement.
+   * @returns {object}
+   */
   static hydrateFeatureFromOverPassElement(feature, overPassElement) {
     const hydratedFeature = { ...feature };
 
     if (feature.properties.type === 'node') {
+      if (!hydratedFeature.geometry) {
+        hydratedFeature.geometry = {};
+      }
+
       hydratedFeature.geometry.coordinates = [
         overPassElement.lat,
         overPassElement.lon

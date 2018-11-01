@@ -58,12 +58,12 @@ export default class InfoDisplay {
 
     content = content.replace(
       new RegExp('{@lat}', 'g'),
-      feature.geometry.coordinates[1]
+      feature.geometry ? feature.geometry.coordinates[1] : ''
     );
 
     content = content.replace(
       new RegExp('{@(lon|lng)}', 'g'),
-      feature.geometry.coordinates[0]
+      feature.geometry ? feature.geometry.coordinates[0] : ''
     );
 
     for (const i of Object.keys(nonOsmTags)) {

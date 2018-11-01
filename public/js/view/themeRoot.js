@@ -987,6 +987,7 @@ export default Marionette.LayoutView.extend({
       // Needed to avoid duplicate nodes when displaying ways from cache
       // and OverPass at the same time
       if (
+        object.feature.geometry &&
         object.feature.geometry.type === 'Point' &&
         object.feature.properties.tags
       ) {
@@ -1010,7 +1011,10 @@ export default Marionette.LayoutView.extend({
             osmCacheModel.get('overPassElement')
           );
 
-          if (object.feature.geometry.type === 'Point') {
+          if (
+            object.feature.geometry &&
+            object.feature.geometry.type === 'Point'
+          ) {
             object.setLatLng(
               L.latLng([
                 object.feature.geometry.coordinates[0],
@@ -1036,22 +1040,24 @@ export default Marionette.LayoutView.extend({
           this._bindPopupTo(object, popupContent);
         }
 
-        switch (object.feature.geometry.type) {
-          case 'Point':
-          case 'MultiPoint':
-            object.setIcon(icon);
-            break;
-          case 'LineString':
-          case 'MultiLineString':
-            object.setStyle(polylineStyle);
-            break;
-          case 'Polygon':
-          case 'MultiPolygon':
-            object.setStyle(polygonStyle);
-            break;
-          default:
-            object.setIcon(icon);
-            break;
+        if (object.feature.geometry) {
+          switch (object.feature.geometry.type) {
+            case 'Point':
+            case 'MultiPoint':
+              object.setIcon(icon);
+              break;
+            case 'LineString':
+            case 'MultiLineString':
+              object.setStyle(polylineStyle);
+              break;
+            case 'Polygon':
+            case 'MultiPolygon':
+              object.setStyle(polygonStyle);
+              break;
+            default:
+              object.setIcon(icon);
+              break;
+          }
         }
       }
 
