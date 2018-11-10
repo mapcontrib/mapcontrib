@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.2
+
+* Fix the tag values translation order.
+
 ## 1.15.1
 
 * Secure the calls to the geometry.
