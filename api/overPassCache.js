@@ -1,5 +1,6 @@
 import { spawn } from 'child_process';
 import logger from '../lib/logger';
+import OverPassCache from '../lib/overPassCache';
 
 let options = {
   CONST: undefined,
@@ -50,6 +51,41 @@ class Api {
         }
 
         return res.sendStatus(404);
+      });
+
+    return true;
+  }
+
+  static cleanThemeCache(req, res) {
+    if (!options.CONST.pattern.fragment.test(req.params.fragment)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    const collection = options.database.collection('theme');
+
+    collection
+      .find({
+        fragment: req.params.fragment
+      })
+      .toArray((err, results) => {
+        if (err) {
+          logger.error(err);
+          return res.sendStatus(500);
+        }
+
+        if (results.length === 0) {
+          return res.sendStatus(404);
+        }
+
+        const theme = results[0];
+
+        theme.layers.forEach(layer =>
+          OverPassCache._deleteCacheFile(theme.fragment, layer.uuid)
+        );
+
+        return res.sendStatus(200);
       });
 
     return true;

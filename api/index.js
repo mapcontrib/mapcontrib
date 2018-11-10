@@ -222,6 +222,13 @@ export default class Api {
       Api.isLoggedIn,
       overPassCacheApi.Api.generate
     );
+
+    app.get(
+      '/api/overPassCache/cleanThemeCache/:fragment',
+      Api.isLoggedIn,
+      overPassCacheApi.Api.cleanThemeCache
+    );
+
     app.get('/api/iDPresets/locale', (req, res) => {
       if (!req.query.locales || req.query.locales.length < 1) {
         return res.sendStatus(400);
