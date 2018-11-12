@@ -638,7 +638,7 @@ export default Backbone.Router.extend({
     }).open();
   },
 
-  routeAdminSettingCacheArchiveDetail(layerUuid, osmId) {
+  async routeAdminSettingCacheArchiveDetail(layerUuid, osmId) {
     if (!this._userIsOwnerOfTheme()) {
       this.navigate('');
       return;
@@ -653,11 +653,16 @@ export default Backbone.Router.extend({
       return;
     }
 
-    const features = layerModel
-      .get('cacheDeletedFeatures')
-      .filter(feature => feature.id === osmId);
+    const deletedFeatures = await layerModel.getDeletedFeatures(
+      this._theme.get('fragment')
+    );
+    const archivedFeatures = await layerModel.getArchivedFeatures(
+      this._theme.get('fragment')
+    );
+    const features = [...deletedFeatures, ...archivedFeatures];
+    const feature = features.find(feature => feature.id === osmId);
 
-    if (features.length === 0) {
+    if (!feature) {
       this.navigate('');
       return;
     }
@@ -666,8 +671,8 @@ export default Backbone.Router.extend({
       router: this,
       theme: this._theme,
       model: layerModel,
-      deletedFeature: features[0],
-      routeOnClose: this._previousRoute,
+      deletedFeature: feature,
+      routeOnClose: 'admin/setting/cache-archive',
       triggerRouteOnClose: true
     }).open();
   },

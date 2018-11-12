@@ -89,26 +89,14 @@ export default Marionette.LayoutView.extend({
   },
 
   _onClickArchive() {
-    const features = this.model.get('cacheDeletedFeatures').map(feature => {
-      if (feature.id === this.options.deletedFeature.id) {
-        feature.isArchived = true;
-      }
-
-      return feature;
-    });
-
-    this.model.set('cacheDeletedFeatures', features);
-    this.options.theme.save();
+    const fragment = this.options.theme.get('fragment');
+    this.model.archiveFeature(fragment, this.options.deletedFeature);
     this.close();
   },
 
   _onClickDelete() {
-    const features = this.model
-      .get('cacheDeletedFeatures')
-      .filter(feature => feature.id !== this.options.deletedFeature.id);
-
-    this.model.set('cacheDeletedFeatures', features);
-    this.options.theme.save();
+    const fragment = this.options.theme.get('fragment');
+    this.model.deleteFeature(fragment, this.options.deletedFeature);
     this.close();
   }
 });

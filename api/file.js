@@ -100,6 +100,7 @@ function cleanObsoleteLayerFilesInThatDirectory(themeModel, directoryName) {
 
       if (cacheRe.test(fileUriBaseName)) {
         const layerUuid = layer.get('uuid');
+        modelFiles.push(`${layerUuid}-archived.json`);
         modelFiles.push(`${layerUuid}-modified.json`);
         modelFiles.push(`${layerUuid}-deleted.json`);
       }

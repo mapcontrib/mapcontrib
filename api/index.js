@@ -229,6 +229,18 @@ export default class Api {
       overPassCacheApi.Api.cleanThemeCache
     );
 
+    app.get(
+      '/api/overPassCache/deleteFeature/:fragment/:layerUuid/:featureType/:featureId',
+      Api.isLoggedIn,
+      overPassCacheApi.Api.deleteFeature
+    );
+
+    app.get(
+      '/api/overPassCache/archiveFeature/:fragment/:layerUuid/:featureType/:featureId',
+      Api.isLoggedIn,
+      overPassCacheApi.Api.archiveFeature
+    );
+
     app.get('/api/iDPresets/locale', (req, res) => {
       if (!req.query.locales || req.query.locales.length < 1) {
         return res.sendStatus(400);

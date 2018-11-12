@@ -43,7 +43,6 @@ export default Backbone.RelationalModel.extend({
       cacheUpdateError: undefined,
       cacheBounds: undefined,
       cacheArchive: false,
-      cacheDeletedFeatures: [],
 
       locales: {
         /*
@@ -60,6 +59,13 @@ export default Backbone.RelationalModel.extend({
 
   // GeoJSON objects displayed on the map
   _geoJsonObjects: {},
+
+  _isArchivedFeaturesFetched: false,
+  _isDeletedFeaturesFetched: false,
+  _isModifiedFeaturesFetched: false,
+  _archivedFeatures: [],
+  _deletedFeatures: [],
+  _modifiedFeatures: [],
 
   initialize() {
     this._radio = Wreqr.radio.channel('global');
@@ -78,11 +84,11 @@ export default Backbone.RelationalModel.extend({
   },
 
   /**
-     * Tells if the layer is visible.
-     *
-     * @author Guillaume AMAT
-     * @return boolean
-     */
+   * Tells if the layer is visible.
+   *
+   * @author Guillaume AMAT
+   * @return boolean
+   */
   isVisible() {
     const isOwner = this._radio.reqres.request('user:isOwner');
 
@@ -94,11 +100,11 @@ export default Backbone.RelationalModel.extend({
   },
 
   /**
-     * Merges the objects with the current displayed GeoJSON objects.
-     *
-     * @author Guillaume AMAT
-     * @param {object} objects - GeoJSON objects
-     */
+   * Merges the objects with the current displayed GeoJSON objects.
+   *
+   * @author Guillaume AMAT
+   * @param {object} objects - GeoJSON objects
+   */
   addObjects(objects) {
     this._geoJsonObjects = {
       ...this._geoJsonObjects,
@@ -110,16 +116,81 @@ export default Backbone.RelationalModel.extend({
     return this._geoJsonObjects;
   },
 
-  getArchivedDeletedPois() {
-    return this.get('cacheDeletedFeatures').filter(
-      feature => feature.isArchived === true
+  async getModifiedFeatures(fragment) {
+    if (this._isModifiedFeaturesFetched) {
+      return this._modifiedFeatures;
+    }
+
+    const archiveFileUrl = `/files/theme/${fragment}/overPassCache/${this.get(
+      'uuid'
+    )}-modified.json`;
+
+    this._isModifiedFeaturesFetched = true;
+    this._modifiedFeatures = await fetch(archiveFileUrl)
+      .then(res => res.json())
+      .catch(() => []);
+
+    return this._modifiedFeatures;
+  },
+
+  async getDeletedFeatures(fragment) {
+    if (this._isDeletedFeaturesFetched) {
+      return this._deletedFeatures;
+    }
+
+    const archiveFileUrl = `/files/theme/${fragment}/overPassCache/${this.get(
+      'uuid'
+    )}-deleted.json`;
+
+    this._isDeletedFeaturesFetched = true;
+    this._deletedFeatures = await fetch(archiveFileUrl)
+      .then(res => res.json())
+      .catch(() => []);
+
+    return this._deletedFeatures;
+  },
+
+  async getArchivedFeatures(fragment) {
+    if (this._isArchivedFeaturesFetched) {
+      return this._archivedFeatures;
+    }
+
+    const archiveFileUrl = `/files/theme/${fragment}/overPassCache/${this.get(
+      'uuid'
+    )}-archived.json`;
+
+    this._isArchivedFeaturesFetched = true;
+    this._archivedFeatures = await fetch(archiveFileUrl)
+      .then(res => res.json())
+      .catch(() => []);
+
+    return this._archivedFeatures;
+  },
+
+  deleteFeature(fragment, feature) {
+    this._deletedFeatures = this._deletedFeatures.filter(
+      f => f.id !== feature.id
+    );
+
+    const uuid = this.get('uuid');
+    fetch(
+      `${CONST.apiPath}/overPassCache/deleteFeature/${fragment}/${uuid}/${
+        feature.id
+      }`
     );
   },
 
-  getWaitingDeletedPois() {
-    return this.get('cacheDeletedFeatures').filter(
-      feature => feature.isArchived !== true
+  archiveFeature(fragment, feature) {
+    this._archivedFeatures.push(feature);
+
+    const uuid = this.get('uuid');
+    fetch(
+      `${CONST.apiPath}/overPassCache/archiveFeature/${fragment}/${uuid}/${
+        feature.id
+      }`
     );
+
+    this.deleteFeature(fragment, feature);
   },
 
   getLocaleCompletion(localeCode) {

@@ -46,8 +46,8 @@ export default Marionette.LayoutView.extend({
     return this;
   },
 
-  onRender() {
-    const items = this._buildItems();
+  async onRender() {
+    const items = await this._buildItems();
 
     if (items.length > 0) {
       this.ui.emptyState.hide();
@@ -57,13 +57,14 @@ export default Marionette.LayoutView.extend({
     this.getRegion('list').show(navPillsStackedList);
   },
 
-  _buildItems() {
+  async _buildItems() {
     const items = [];
     const layers = this.model.get('layers').models;
+    const fragment = this.model.get('fragment');
 
     for (const layerModel of layers) {
       const uuid = layerModel.get('uuid');
-      const deletedFeatures = layerModel.getWaitingDeletedPois();
+      const deletedFeatures = await layerModel.getDeletedFeatures(fragment);
       const rightIcon = MapUi.buildLayerHtmlIcon(layerModel);
 
       for (const feature of deletedFeatures) {
@@ -75,6 +76,6 @@ export default Marionette.LayoutView.extend({
       }
     }
 
-    return items;
+    return Promise.resolve(items);
   }
 });

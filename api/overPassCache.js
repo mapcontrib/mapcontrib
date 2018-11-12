@@ -90,6 +90,72 @@ class Api {
 
     return true;
   }
+
+  static deleteFeature(req, res) {
+    if (!options.CONST.pattern.fragment.test(req.params.fragment)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    if (!options.CONST.pattern.uuid.test(req.params.layerUuid)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    const featureId = req.params.featureType + '/' + req.params.featureId;
+
+    if (!options.CONST.pattern.osmId.test(featureId)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    OverPassCache._deleteFeatureInCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId
+    );
+
+    return res.sendStatus(200);
+  }
+
+  static archiveFeature(req, res) {
+    if (!options.CONST.pattern.fragment.test(req.params.fragment)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    if (!options.CONST.pattern.uuid.test(req.params.layerUuid)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    const featureId = req.params.featureType + '/' + req.params.featureId;
+
+    if (!options.CONST.pattern.osmId.test(featureId)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    OverPassCache._archiveFeatureInCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId
+    );
+
+    OverPassCache._deleteFeatureInCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId
+    );
+
+    return res.sendStatus(200);
+  }
 }
 
 export default {
