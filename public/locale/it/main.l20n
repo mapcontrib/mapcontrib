@@ -53,6 +53,10 @@
 
 
 <osmId "OSM ID">
+<overPassCacheModifications "OverPass cache modifications"> /* FIXME */
+<overPassCacheModifications_explanation "The following POI are in your OverPass layers cache but have been modified in OSM."> /* FIXME */
+<overPassCacheModifications_emptyStateTextWaiting "No modified POI"> /* FIXME */
+<overPassCacheModifications_zoomOnElement "Zoom on the element"> /* FIXME */
 <overPassCacheArchives "archivio cache di OverPass">
 <overPassCacheArchives_explanation "Questi POI sono nella tua cacche dei livelli OverPass ma saranno rimossi da OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Nessun POI archiviato">

@@ -39,6 +39,8 @@ import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
 import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
 import AdminSettingAdministratorColumn from 'view/admin/setting/administratorColumn';
 import AdminSettingAdministratorAddColumn from 'view/admin/setting/administratorAddColumn';
+import AdminSettingCacheModificationColumn from 'view/admin/setting/cacheModification/mainColumn';
+import AdminSettingCacheModificationDetailColumn from 'view/admin/setting/cacheModification/detailColumn';
 import AdminSettingCacheArchiveColumn from 'view/admin/setting/cacheArchive/mainColumn';
 import AdminSettingCacheArchiveSeeArchivesColumn from 'view/admin/setting/cacheArchive/archiveColumn';
 import AdminSettingCacheArchiveDetailColumn from 'view/admin/setting/cacheArchive/detailColumn';
@@ -103,6 +105,9 @@ export default Backbone.Router.extend({
     'admin/setting/tile': 'routeAdminSettingTile',
     'admin/setting/administrator': 'routeAdminSettingAdministrator',
     'admin/setting/administrator/new': 'routeAdminSettingAdministratorAdd',
+    'admin/setting/cache-modification': 'routeAdminSettingCacheModification',
+    'admin/setting/cache-modification/:layerUuid/*osmId':
+      'routeAdminSettingCacheModificationDetail',
     'admin/setting/cache-archive': 'routeAdminSettingCacheArchive',
     'admin/setting/cache-archive/archives':
       'routeAdminSettingCacheArchiveSeeArchives',
@@ -609,6 +614,53 @@ export default Backbone.Router.extend({
       app: this._app,
       model: this._theme,
       collection: this._app.getOwners()
+    }).open();
+  },
+
+  routeAdminSettingCacheModification() {
+    if (!this._userIsOwnerOfTheme()) {
+      this.navigate('');
+      return;
+    }
+
+    new AdminSettingCacheModificationColumn({
+      router: this,
+      model: this._theme
+    }).open();
+  },
+
+  async routeAdminSettingCacheModificationDetail(layerUuid, osmId) {
+    if (!this._userIsOwnerOfTheme()) {
+      this.navigate('');
+      return;
+    }
+
+    const layerModel = this._theme.get('layers').findWhere({
+      uuid: layerUuid
+    });
+
+    if (!layerModel) {
+      this.navigate('');
+      return;
+    }
+
+    const modifiedFeatures = await layerModel.getModifiedFeatures(
+      this._theme.get('fragment')
+    );
+    const feature = modifiedFeatures.find(feature => feature.id === osmId);
+
+    if (!feature) {
+      this.navigate('');
+      return;
+    }
+
+    new AdminSettingCacheModificationDetailColumn({
+      router: this,
+      theme: this._theme,
+      model: layerModel,
+      deletedFeature: feature,
+      routeOnClose: 'admin/setting/cache-modification',
+      triggerRouteOnClose: true
     }).open();
   },
 

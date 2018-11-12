@@ -53,6 +53,10 @@
 
 
 <osmId "OSM ID">
+<overPassCacheModifications "OverPass cache modifications">
+<overPassCacheModifications_explanation "The following POI are in your OverPass layers cache but have been modified in OSM.">
+<overPassCacheModifications_emptyStateTextWaiting "No modified POI">
+<overPassCacheModifications_zoomOnElement "Zoom on the element">
 <overPassCacheArchives "OverPass cache archives">
 <overPassCacheArchives_explanation "The following POI are in your OverPass layers cache but have been removed from OSM.">
 <overPassCacheArchives_emptyStateTextArchived "No archived POI">
