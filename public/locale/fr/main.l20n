@@ -56,6 +56,9 @@
 <overPassCacheModifications_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été modifiés dans OSM.">
 <overPassCacheModifications_emptyStateTextWaiting "Aucun POI modifiés">
 <overPassCacheModifications_zoomOnElement "Zoomer sur l'élément">
+<overPassCacheModifications_dates "Dates">
+<overPassCacheModifications_cacheDate "Élement en cache">
+<overPassCacheModifications_modificationDate "Élément modifié">
 <overPassCacheArchives "Archives du cache OverPass">
 <overPassCacheArchives_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été supprimés d'OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Aucun POI archivés">

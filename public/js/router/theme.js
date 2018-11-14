@@ -644,12 +644,19 @@ export default Backbone.Router.extend({
       return;
     }
 
+    const { features: cachedFeatures } = await layerModel.getCachedFeatures(
+      this._theme.get('fragment')
+    );
+
     const modifiedFeatures = await layerModel.getModifiedFeatures(
       this._theme.get('fragment')
     );
-    const feature = modifiedFeatures.find(feature => feature.id === osmId);
+    const cachedFeature = cachedFeatures.find(feature => feature.id === osmId);
+    const modifiedFeature = modifiedFeatures.find(
+      feature => feature.id === osmId
+    );
 
-    if (!feature) {
+    if (!cachedFeature || !modifiedFeature) {
       this.navigate('');
       return;
     }
@@ -658,7 +665,8 @@ export default Backbone.Router.extend({
       router: this,
       theme: this._theme,
       model: layerModel,
-      deletedFeature: feature,
+      cachedFeature,
+      modifiedFeature,
       routeOnClose: 'admin/setting/cache-modification',
       triggerRouteOnClose: true
     }).open();

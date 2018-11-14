@@ -60,9 +60,11 @@ export default Backbone.RelationalModel.extend({
   // GeoJSON objects displayed on the map
   _geoJsonObjects: {},
 
+  _isCachedFeaturesFetched: false,
   _isArchivedFeaturesFetched: false,
   _isDeletedFeaturesFetched: false,
   _isModifiedFeaturesFetched: false,
+  _cachedFeatures: [],
   _archivedFeatures: [],
   _deletedFeatures: [],
   _modifiedFeatures: [],
@@ -114,6 +116,23 @@ export default Backbone.RelationalModel.extend({
 
   getObjects() {
     return this._geoJsonObjects;
+  },
+
+  async getCachedFeatures(fragment) {
+    if (this._isCachedFeaturesFetched) {
+      return this._cachedFeatures;
+    }
+
+    const archiveFileUrl = `/files/theme/${fragment}/overPassCache/${this.get(
+      'uuid'
+    )}.geojson`;
+
+    this._isCachedFeaturesFetched = true;
+    this._cachedFeatures = await fetch(archiveFileUrl)
+      .then(res => res.json())
+      .catch(() => []);
+
+    return this._cachedFeatures;
   },
 
   async getModifiedFeatures(fragment) {
