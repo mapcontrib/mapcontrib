@@ -185,7 +185,10 @@ function migrateCacheDataModel(db) {
 
         results.map(theme => {
           theme.layers.map(layer => {
-            if (layer.cacheDeletedFeatures) {
+            if (
+              layer.cacheDeletedFeatures &&
+              layer.cacheDeletedFeatures.length > 0
+            ) {
               OverPassCache._saveDeletedFeatures(
                 theme.fragment,
                 layer.uuid,
