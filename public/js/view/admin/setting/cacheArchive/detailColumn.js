@@ -90,13 +90,20 @@ export default Marionette.LayoutView.extend({
 
   _onClickArchive() {
     const fragment = this.options.theme.get('fragment');
-    this.model.archiveFeature(fragment, this.options.deletedFeature);
+    this.model.archiveFeatureFromDeletedCache(
+      fragment,
+      this.options.deletedFeature
+    );
     this.close();
   },
 
   _onClickDelete() {
     const fragment = this.options.theme.get('fragment');
-    this.model.deleteFeature(fragment, this.options.deletedFeature);
+    this.model.removeDeletedFeature(
+      fragment,
+      this.options.deletedFeature,
+      true
+    );
     this.close();
   }
 });

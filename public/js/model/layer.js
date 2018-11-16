@@ -186,30 +186,85 @@ export default Backbone.RelationalModel.extend({
     return this._archivedFeatures;
   },
 
-  deleteFeature(fragment, feature) {
+  removeDeletedFeature(fragment, feature, callApi) {
     this._deletedFeatures = this._deletedFeatures.filter(
       f => f.id !== feature.id
     );
 
-    const uuid = this.get('uuid');
-    fetch(
-      `${CONST.apiPath}/overPassCache/deleteFeature/${fragment}/${uuid}/${
-        feature.id
-      }`
-    );
+    if (callApi) {
+      const uuid = this.get('uuid');
+      fetch(
+        `${
+          CONST.apiPath
+        }/overPassCache/removeDeletedFeature/${fragment}/${uuid}/${feature.id}`
+      );
+    }
   },
 
-  archiveFeature(fragment, feature) {
+  removeModifiedFeature(fragment, feature, callApi) {
+    this._modifiedFeatures = this._modifiedFeatures.filter(
+      f => f.id !== feature.id
+    );
+
+    if (callApi) {
+      const uuid = this.get('uuid');
+      fetch(
+        `${
+          CONST.apiPath
+        }/overPassCache/removeModifiedFeature/${fragment}/${uuid}/${feature.id}`
+      );
+    }
+  },
+
+  mergeModifiedFeature(fragment, feature, callApi) {
+    this._modifiedFeatures = this._modifiedFeatures.filter(
+      f => f.id !== feature.id
+    );
+
+    this._cachedFeatures.features = this._cachedFeatures.features.filter(
+      f => f.id !== feature.id
+    );
+
+    this._cachedFeatures.features.push(feature);
+
+    if (callApi) {
+      const uuid = this.get('uuid');
+      fetch(
+        `${
+          CONST.apiPath
+        }/overPassCache/mergeModifiedFeature/${fragment}/${uuid}/${feature.id}`
+      );
+    }
+  },
+
+  archiveFeatureFromDeletedCache(fragment, feature) {
     this._archivedFeatures.push(feature);
 
     const uuid = this.get('uuid');
     fetch(
-      `${CONST.apiPath}/overPassCache/archiveFeature/${fragment}/${uuid}/${
+      `${
+        CONST.apiPath
+      }/overPassCache/archiveFeatureFromDeletedCache/${fragment}/${uuid}/${
         feature.id
       }`
     );
 
-    this.deleteFeature(fragment, feature);
+    this.removeDeletedFeature(fragment, feature);
+  },
+
+  archiveFeatureFromModifiedCache(fragment, feature) {
+    this._archivedFeatures.push(feature);
+
+    const uuid = this.get('uuid');
+    fetch(
+      `${
+        CONST.apiPath
+      }/overPassCache/archiveFeatureFromModifiedCache/${fragment}/${uuid}/${
+        feature.id
+      }`
+    );
+
+    this.removeModifiedFeature(fragment, feature);
   },
 
   getLocaleCompletion(localeCode) {

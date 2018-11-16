@@ -665,6 +665,8 @@ export default Backbone.Router.extend({
       router: this,
       theme: this._theme,
       model: layerModel,
+      config: this._config,
+      user: this._user,
       cachedFeature,
       modifiedFeature,
       routeOnClose: 'admin/setting/cache-modification',

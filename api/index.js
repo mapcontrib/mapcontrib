@@ -230,15 +230,27 @@ export default class Api {
     );
 
     app.get(
-      '/api/overPassCache/deleteFeature/:fragment/:layerUuid/:featureType/:featureId',
+      '/api/overPassCache/removeDeletedFeature/:fragment/:layerUuid/:featureType/:featureId',
       Api.isLoggedIn,
-      overPassCacheApi.Api.deleteFeature
+      overPassCacheApi.Api.removeDeletedFeature
     );
 
     app.get(
-      '/api/overPassCache/archiveFeature/:fragment/:layerUuid/:featureType/:featureId',
+      '/api/overPassCache/mergeModifiedFeature/:fragment/:layerUuid/:featureType/:featureId',
       Api.isLoggedIn,
-      overPassCacheApi.Api.archiveFeature
+      overPassCacheApi.Api.mergeModifiedFeature
+    );
+
+    app.get(
+      '/api/overPassCache/archiveFeatureFromDeletedCache/:fragment/:layerUuid/:featureType/:featureId',
+      Api.isLoggedIn,
+      overPassCacheApi.Api.archiveFeatureFromDeletedCache
+    );
+
+    app.get(
+      '/api/overPassCache/archiveFeatureFromModifiedCache/:fragment/:layerUuid/:featureType/:featureId',
+      Api.isLoggedIn,
+      overPassCacheApi.Api.archiveFeatureFromModifiedCache
     );
 
     app.get('/api/iDPresets/locale', (req, res) => {

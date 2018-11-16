@@ -59,7 +59,7 @@
 <overPassCacheModifications_zoomOnElement "Zoom on the element">
 <overPassCacheModifications_dates "Dates">
 <overPassCacheModifications_cacheDate "Cache element">
-<overPassCacheModifications_modificationDate "Modified element">
+<overPassCacheModifications_modificationDate "OSM modified element">
 <overPassCacheArchives "OverPass cache archives">
 <overPassCacheArchives_explanation "The following POI are in your OverPass layers cache but have been removed from OSM.">
 <overPassCacheArchives_emptyStateTextArchived "No archived POI">
@@ -80,6 +80,9 @@
 <login "Log in">
 <loginOrSubscribe "Log in or subscribe">
 <logout "Log out">
+<refuseAndArchive "Refuse the modifications and archive">
+<validateAndCache "Validate the modifications and cache">
+<sendNewVersionToOsm "Send new version to OSM">
 <close "Close">
 <save "Save">
 <delete "Delete">

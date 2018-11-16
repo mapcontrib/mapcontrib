@@ -59,7 +59,7 @@
 <overPassCacheModifications_zoomOnElement "Zoom on the element"> /* FIXME */
 <overPassCacheModifications_dates "Dates"> /* FIXME */
 <overPassCacheModifications_cacheDate "Cache element"> /* FIXME */
-<overPassCacheModifications_modificationDate "Modified element"> /* FIXME */
+<overPassCacheModifications_modificationDate "OSM modified element"> /* FIXME */
 <overPassCacheArchives "archivio cache di OverPass">
 <overPassCacheArchives_explanation "Questi POI sono nella tua cacche dei livelli OverPass ma saranno rimossi da OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Nessun POI archiviato">
@@ -80,6 +80,9 @@
 <login "Log in">
 <loginOrSubscribe "Login oppure iscriviti">
 <logout "Log out">
+<refuseAndArchive "Refuse the modifications and archive"> /* FIXME */
+<validateAndCache "Validate the modifications and cache"> /* FIXME */
+<sendNewVersionToOsm "Send new version to OSM"> /* FIXME */
 <close "Chiudi">
 <save "Salva">
 <delete "Elimina">

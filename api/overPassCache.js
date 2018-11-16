@@ -91,7 +91,7 @@ class Api {
     return true;
   }
 
-  static deleteFeature(req, res) {
+  static removeDeletedFeature(req, res) {
     if (!options.CONST.pattern.fragment.test(req.params.fragment)) {
       res.sendStatus(400);
 
@@ -112,7 +112,7 @@ class Api {
       return true;
     }
 
-    OverPassCache._deleteFeatureInCacheFile(
+    OverPassCache._removeDeletedFeatureFromCacheFile(
       req.params.fragment,
       req.params.layerUuid,
       featureId
@@ -121,7 +121,67 @@ class Api {
     return res.sendStatus(200);
   }
 
-  static archiveFeature(req, res) {
+  static removeModifiedFeature(req, res) {
+    if (!options.CONST.pattern.fragment.test(req.params.fragment)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    if (!options.CONST.pattern.uuid.test(req.params.layerUuid)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    const featureId = req.params.featureType + '/' + req.params.featureId;
+
+    if (!options.CONST.pattern.osmId.test(featureId)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    OverPassCache._removeModifiedFeatureFromCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId
+    );
+
+    return res.sendStatus(200);
+  }
+
+  static mergeModifiedFeature(req, res) {
+    if (!options.CONST.pattern.fragment.test(req.params.fragment)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    if (!options.CONST.pattern.uuid.test(req.params.layerUuid)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    const featureId = req.params.featureType + '/' + req.params.featureId;
+
+    if (!options.CONST.pattern.osmId.test(featureId)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    OverPassCache._mergeModifiedFeatureInCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId
+    );
+
+    return res.sendStatus(200);
+  }
+
+  static archiveFeatureFromDeletedCache(req, res) {
     if (!options.CONST.pattern.fragment.test(req.params.fragment)) {
       res.sendStatus(400);
 
@@ -145,10 +205,72 @@ class Api {
     OverPassCache._archiveFeatureInCacheFile(
       req.params.fragment,
       req.params.layerUuid,
+      featureId,
+      'deleted'
+    );
+
+    OverPassCache._removeDeletedFeatureFromCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
       featureId
     );
 
-    OverPassCache._deleteFeatureInCacheFile(
+    OverPassCache._removeModifiedFeatureFromCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId
+    );
+
+    OverPassCache._removeFeatureFromCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId
+    );
+
+    return res.sendStatus(200);
+  }
+
+  static archiveFeatureFromModifiedCache(req, res) {
+    if (!options.CONST.pattern.fragment.test(req.params.fragment)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    if (!options.CONST.pattern.uuid.test(req.params.layerUuid)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    const featureId = req.params.featureType + '/' + req.params.featureId;
+
+    if (!options.CONST.pattern.osmId.test(featureId)) {
+      res.sendStatus(400);
+
+      return true;
+    }
+
+    OverPassCache._archiveFeatureInCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId,
+      'modified'
+    );
+
+    OverPassCache._removeDeletedFeatureFromCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId
+    );
+
+    OverPassCache._removeModifiedFeatureFromCacheFile(
+      req.params.fragment,
+      req.params.layerUuid,
+      featureId
+    );
+
+    OverPassCache._removeFeatureFromCacheFile(
       req.params.fragment,
       req.params.layerUuid,
       featureId
