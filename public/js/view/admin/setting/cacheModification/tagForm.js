@@ -85,7 +85,7 @@ export default class TagForm extends Component {
 
                 if (cached === modified) {
                   return (
-                    <div>
+                    <div class="append-xs-2">
                       <h5>{key}</h5>
                       <p>{cached}</p>
                     </div>
@@ -95,7 +95,7 @@ export default class TagForm extends Component {
                 const cachedRadioId = `${key}_cached`;
                 const modifiedRadioId = `${key}_modified`;
                 return (
-                  <div>
+                  <div class="append-xs-2">
                     <h5>{key}</h5>
                     <div class="radio">
                       <input
