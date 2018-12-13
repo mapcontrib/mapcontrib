@@ -68,6 +68,8 @@
 <seeArchives "Vedi i POI archiviati">
 <layers "Livelli">
 <layer "Livello">
+<by "by"> /* FIXME */
+<version "version"> /* FIXME */
 <translations "Traduzioni">
 <presets "Tipo di Nodi">
 <presetCategories "Categorie di tipi di Nodi">

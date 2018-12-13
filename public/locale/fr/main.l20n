@@ -67,6 +67,8 @@
 <seeArchives "Voir les POI archivés">
 <layers "Couches">
 <layer "Couche">
+<by "par">
+<version "version">
 <translations "Traductions">
 <presets "Types de nœuds">
 <presetCategories "Catégories de types de nœuds">

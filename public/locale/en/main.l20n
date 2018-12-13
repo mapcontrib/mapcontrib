@@ -68,6 +68,8 @@
 <seeArchives "See the archived POI">
 <layers "Layers">
 <layer "Layer">
+<by "by">
+<version "version">
 <translations "Translations">
 <presets "Nodes types">
 <presetCategories "Nodes types categories">

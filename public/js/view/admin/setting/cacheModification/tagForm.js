@@ -29,7 +29,7 @@ export default class TagForm extends Component {
   }
 
   render() {
-    const { l10n, layer, osmId, diffObject } = this.props;
+    const { l10n, layer, osmId, diffObject, feature } = this.props;
     const layerName = layer.get('name');
     const Empty = <em>{l10n.getSync('empty')}</em>;
 
@@ -50,7 +50,7 @@ export default class TagForm extends Component {
               <p class="append-xs-2">{layerName}</p>
 
               <h4>{l10n.getSync('osmId')}</h4>
-              <p class="append-xs-2">
+              <p>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
@@ -67,6 +67,11 @@ export default class TagForm extends Component {
                   OSM Deep History
                 </a>
                 )
+              </p>
+              <p class="append-xs-2">
+                {l10n.getSync('version').ucfirst()}{' '}
+                {feature.properties.meta.version} {l10n.getSync('by')}{' '}
+                {feature.properties.meta.user}
               </p>
 
               <h4>{l10n.getSync('overPassCacheModifications_dates')}</h4>
