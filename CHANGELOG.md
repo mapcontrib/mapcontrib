@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.0
+
+* Enhance the cache archive by letting the administrators know that a cached element has been modified in OSM. They can refuse or validate the modification. They also can send a new version of the element to OSM by mixing the two versions.
+
 ## 1.15.2
 
 * Fix the tag values translation order.
