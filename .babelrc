@@ -18,6 +18,7 @@
       {
         "config": "./webpack.config.js"
       }
-    ]
+    ],
+    ["transform-react-jsx", { "pragma":"h" }]
   ]
 }

@@ -23,8 +23,7 @@ export default class UpdateOverPassCache {
       this._nextIteration.bind(this),
       this._retryIteration.bind(this),
       this._setLayerStateSuccess.bind(this),
-      this._setLayerStateError.bind(this),
-      this._setLayerDeletedFeatures.bind(this)
+      this._setLayerStateError.bind(this)
     ];
   }
 
@@ -55,7 +54,11 @@ export default class UpdateOverPassCache {
 
       const iteration = this._iterate.next();
 
-      return this._cache.process(iteration.value.theme, iteration.value.layer, ...this._callbacks);
+      return this._cache.process(
+        iteration.value.theme,
+        iteration.value.layer,
+        ...this._callbacks
+      );
     });
   }
 
@@ -161,37 +164,6 @@ export default class UpdateOverPassCache {
     });
   }
 
-  _setLayerDeletedFeatures(theme, layer, deletedFeatures) {
-    logger.debug('_setLayerDeletedFeatures');
-
-    if (!layer.cacheDeletedFeatures) {
-      layer.cacheDeletedFeatures = [];
-    }
-
-    return new Promise(resolve => {
-      if (deletedFeatures.length === 0) {
-        resolve();
-      }
-
-      layer.cacheDeletedFeatures.push(...deletedFeatures);
-
-      this._themeCollection.updateOne(
-        {
-          _id: theme._id,
-          'layers.uuid': layer.uuid
-        },
-        {
-          $set: {
-            'layers.$.cacheDeletedFeatures': layer.cacheDeletedFeatures
-          }
-        },
-        () => {
-          resolve();
-        }
-      );
-    });
-  }
-
   _end() {
     logger.info('Update of the OverPass cache finished');
 
@@ -199,11 +171,57 @@ export default class UpdateOverPassCache {
   }
 }
 
-database.connect((err, db) => {
+function migrateCacheDataModel(db) {
+  return new Promise(resolve => {
+    db.collection('theme')
+      .find({
+        layers: { $exists: true }
+      })
+      .toArray((err, results) => {
+        if (err) {
+          logger.error(err);
+          return;
+        }
+
+        results.map(theme => {
+          theme.layers.map(layer => {
+            if (
+              layer.cacheDeletedFeatures &&
+              layer.cacheDeletedFeatures.length > 0
+            ) {
+              OverPassCache._saveDeletedFeatures(
+                theme.fragment,
+                layer.uuid,
+                layer.cacheDeletedFeatures
+              );
+            }
+          });
+        });
+
+        db.collection('theme').update(
+          {
+            layers: { $exists: true }
+          },
+          {
+            $unset: {
+              'layers.$.cacheDeletedFeatures': 1
+            }
+          },
+          { multi: true }
+        );
+
+        resolve();
+      });
+  });
+}
+
+database.connect(async (err, db) => {
   if (err) throw err;
 
   const cache = new OverPassCache(db);
   const cron = new UpdateOverPassCache(db, cache);
+
+  await migrateCacheDataModel(db);
 
   logger.info('Update of the OverPass cache started');
 

@@ -1,6 +1,6 @@
 import Wreqr from 'backbone.wreqr';
 import Marionette from 'backbone.marionette';
-import template from 'templates/admin/setting/cacheArchive/mainColumn.ejs';
+import template from 'templates/admin/setting/cacheModification/mainColumn.ejs';
 import MapUi from 'ui/map';
 import NavPillsStackedListView from 'ui/navPillsStacked';
 
@@ -64,14 +64,14 @@ export default Marionette.LayoutView.extend({
 
     for (const layerModel of layers) {
       const uuid = layerModel.get('uuid');
-      const deletedFeatures = await layerModel.getDeletedFeatures(fragment);
+      const deletedFeatures = await layerModel.getModifiedFeatures(fragment);
       const rightIcon = MapUi.buildLayerHtmlIcon(layerModel);
 
       for (const feature of deletedFeatures) {
         items.push({
           label: feature.properties.tags.name || feature.id,
           rightIcon,
-          href: `#admin/setting/cache-archive/${uuid}/${feature.id}`
+          href: `#admin/setting/cache-modification/${uuid}/${feature.id}`
         });
       }
     }

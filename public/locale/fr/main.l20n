@@ -52,6 +52,13 @@
 
 
 <osmId "Identifiant OSM">
+<overPassCacheModifications "Modifications du cache OverPass">
+<overPassCacheModifications_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été modifiés dans OSM.">
+<overPassCacheModifications_emptyStateTextWaiting "Aucun POI modifiés">
+<overPassCacheModifications_zoomOnElement "Zoomer sur l'élément">
+<overPassCacheModifications_dates "Dates">
+<overPassCacheModifications_cacheDate "Élement en cache">
+<overPassCacheModifications_modificationDate "Élément modifié dans OSM">
 <overPassCacheArchives "Archives du cache OverPass">
 <overPassCacheArchives_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été supprimés d'OSM.">
 <overPassCacheArchives_emptyStateTextArchived "Aucun POI archivés">
@@ -60,6 +67,8 @@
 <seeArchives "Voir les POI archivés">
 <layers "Couches">
 <layer "Couche">
+<by "par">
+<version "version">
 <translations "Traductions">
 <presets "Types de nœuds">
 <presetCategories "Catégories de types de nœuds">
@@ -72,6 +81,9 @@
 <login "Se connecter">
 <loginOrSubscribe "Se connecter ou créer un compte">
 <logout "Se déconnecter">
+<refuseAndArchive "Refuser les modifications et archiver">
+<validateAndCache "Valider les modifications et mettre en cache">
+<sendNewVersionToOsm "Envoyer nouvelle version à OSM">
 <close "Fermer">
 <save "Enregistrer">
 <delete "Supprimer">
@@ -301,7 +313,7 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 <editLayerFormColumn_geoJsonFile "Fichier GeoJSON">
 <editLayerFormColumn_browse "Parcourir">
 <editLayerFormColumn_cache "Cache">
-<editLayerFormColumn_cacheDescription "Il se substitue à la requête OverPass temps réél.">
+<editLayerFormColumn_cacheDescription "Il se substitue à la requête OverPass temps réel.">
 <editLayerFormColumn_enableCache "Activer le cache">
 <editLayerFormColumn_enableCacheArchive "Activer l'archivage du cache">
 <editLayerFormColumn_cachePopoverTitle "Limitations">

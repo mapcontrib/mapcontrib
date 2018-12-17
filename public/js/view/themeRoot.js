@@ -923,12 +923,29 @@ export default Marionette.LayoutView.extend({
   },
 
   addOverPassCacheLayer(rootLayer, layerModel, hiddenLayer) {
-    Omnivore.geojson(layerModel.get('fileUri')).on('ready', layer => {
-      const deletedFeatures = L.geoJson(layerModel.get('cacheDeletedFeatures'));
-      const layers = {
-        ...deletedFeatures._layers,
-        ...layer.target._layers
-      };
+    const fragment = this.model.get('fragment');
+
+    Omnivore.geojson(layerModel.get('fileUri')).on('ready', async layer => {
+      let layers = {};
+
+      if (layerModel.get('cacheArchive')) {
+        const deletedFeatures = L.geoJson(
+          await layerModel.getDeletedFeatures(fragment)
+        );
+        const archivedFeatures = L.geoJson(
+          await layerModel.getArchivedFeatures(fragment)
+        );
+
+        layers = {
+          ...deletedFeatures._layers,
+          ...archivedFeatures._layers,
+          ...layer.target._layers
+        };
+      } else {
+        layers = {
+          ...layer.target._layers
+        };
+      }
 
       layerModel.addObjects(layers);
 

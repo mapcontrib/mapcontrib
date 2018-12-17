@@ -39,6 +39,8 @@ import AdminSettingMainColumn from 'view/admin/setting/mainColumn';
 import AdminSettingTileColumn from 'view/admin/setting/tileColumn';
 import AdminSettingAdministratorColumn from 'view/admin/setting/administratorColumn';
 import AdminSettingAdministratorAddColumn from 'view/admin/setting/administratorAddColumn';
+import AdminSettingCacheModificationColumn from 'view/admin/setting/cacheModification/mainColumn';
+import AdminSettingCacheModificationDetailColumn from 'view/admin/setting/cacheModification/detailColumn';
 import AdminSettingCacheArchiveColumn from 'view/admin/setting/cacheArchive/mainColumn';
 import AdminSettingCacheArchiveSeeArchivesColumn from 'view/admin/setting/cacheArchive/archiveColumn';
 import AdminSettingCacheArchiveDetailColumn from 'view/admin/setting/cacheArchive/detailColumn';
@@ -103,6 +105,9 @@ export default Backbone.Router.extend({
     'admin/setting/tile': 'routeAdminSettingTile',
     'admin/setting/administrator': 'routeAdminSettingAdministrator',
     'admin/setting/administrator/new': 'routeAdminSettingAdministratorAdd',
+    'admin/setting/cache-modification': 'routeAdminSettingCacheModification',
+    'admin/setting/cache-modification/:layerUuid/*osmId':
+      'routeAdminSettingCacheModificationDetail',
     'admin/setting/cache-archive': 'routeAdminSettingCacheArchive',
     'admin/setting/cache-archive/archives':
       'routeAdminSettingCacheArchiveSeeArchives',
@@ -612,6 +617,63 @@ export default Backbone.Router.extend({
     }).open();
   },
 
+  routeAdminSettingCacheModification() {
+    if (!this._userIsOwnerOfTheme()) {
+      this.navigate('');
+      return;
+    }
+
+    new AdminSettingCacheModificationColumn({
+      router: this,
+      model: this._theme
+    }).open();
+  },
+
+  async routeAdminSettingCacheModificationDetail(layerUuid, osmId) {
+    if (!this._userIsOwnerOfTheme()) {
+      this.navigate('');
+      return;
+    }
+
+    const layerModel = this._theme.get('layers').findWhere({
+      uuid: layerUuid
+    });
+
+    if (!layerModel) {
+      this.navigate('');
+      return;
+    }
+
+    const { features: cachedFeatures } = await layerModel.getCachedFeatures(
+      this._theme.get('fragment')
+    );
+
+    const modifiedFeatures = await layerModel.getModifiedFeatures(
+      this._theme.get('fragment')
+    );
+    const cachedFeature = cachedFeatures.find(feature => feature.id === osmId);
+    const modifiedFeature = modifiedFeatures.find(
+      feature => feature.id === osmId
+    );
+
+    if (!cachedFeature || !modifiedFeature) {
+      this.navigate('');
+      return;
+    }
+
+    new AdminSettingCacheModificationDetailColumn({
+      router: this,
+      theme: this._theme,
+      model: layerModel,
+      config: this._config,
+      user: this._user,
+      cachedFeature,
+      modifiedFeature,
+      routeOnClose: 'admin/setting/cache-modification',
+      triggerRouteOnClose: true
+    }).open();
+  },
+
   routeAdminSettingCacheArchive() {
     if (!this._userIsOwnerOfTheme()) {
       this.navigate('');
@@ -638,7 +700,7 @@ export default Backbone.Router.extend({
     }).open();
   },
 
-  routeAdminSettingCacheArchiveDetail(layerUuid, osmId) {
+  async routeAdminSettingCacheArchiveDetail(layerUuid, osmId) {
     if (!this._userIsOwnerOfTheme()) {
       this.navigate('');
       return;
@@ -653,11 +715,16 @@ export default Backbone.Router.extend({
       return;
     }
 
-    const features = layerModel
-      .get('cacheDeletedFeatures')
-      .filter(feature => feature.id === osmId);
+    const deletedFeatures = await layerModel.getDeletedFeatures(
+      this._theme.get('fragment')
+    );
+    const archivedFeatures = await layerModel.getArchivedFeatures(
+      this._theme.get('fragment')
+    );
+    const features = [...deletedFeatures, ...archivedFeatures];
+    const feature = features.find(feature => feature.id === osmId);
 
-    if (features.length === 0) {
+    if (!feature) {
       this.navigate('');
       return;
     }
@@ -666,8 +733,8 @@ export default Backbone.Router.extend({
       router: this,
       theme: this._theme,
       model: layerModel,
-      deletedFeature: features[0],
-      routeOnClose: this._previousRoute,
+      deletedFeature: feature,
+      routeOnClose: 'admin/setting/cache-archive',
       triggerRouteOnClose: true
     }).open();
   },

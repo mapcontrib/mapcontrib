@@ -88,13 +88,22 @@ function cleanObsoleteLayerFilesInThatDirectory(themeModel, directoryName) {
   }
 
   const re = new RegExp(`^/files/theme/${fragment}/${directoryName}/`);
+  const cacheRe = /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}.geojson$/;
   const modelFiles = [];
 
   for (const layer of layers) {
     const fileUri = layer.get('fileUri');
 
     if (fileUri && re.test(fileUri)) {
-      modelFiles.push(basename(fileUri));
+      const fileUriBaseName = basename(fileUri);
+      modelFiles.push(fileUriBaseName);
+
+      if (cacheRe.test(fileUriBaseName)) {
+        const layerUuid = layer.get('uuid');
+        modelFiles.push(`${layerUuid}-archived.json`);
+        modelFiles.push(`${layerUuid}-modified.json`);
+        modelFiles.push(`${layerUuid}-deleted.json`);
+      }
     }
   }
 

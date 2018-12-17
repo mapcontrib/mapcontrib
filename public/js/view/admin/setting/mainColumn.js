@@ -236,6 +236,22 @@ export default Marionette.ItemView.extend({
             }
           }
 
+          if (
+            this.model.get('center').lat !== this._oldModel.get('center').lat ||
+            this.model.get('center').lng !== this._oldModel.get('center').lng ||
+            this.model.get('zoomLevel') !== this._oldModel.get('zoomLevel')
+          ) {
+            const xhr = new XMLHttpRequest();
+            xhr.open(
+              'GET',
+              `${CONST.apiPath}/overPassCache/cleanThemeCache/${this.model.get(
+                'fragment'
+              )}`,
+              true
+            );
+            xhr.send();
+          }
+
           this._radio.commands.execute('theme:showContribButton');
 
           const currentZoom = map.getZoom();
