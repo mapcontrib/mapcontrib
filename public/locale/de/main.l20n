@@ -1,3 +1,4 @@
+
 <plural($n) {
 
     $n == 0 ? "zero" :
@@ -7,439 +8,439 @@
 
 
 <mapcontrib "MapContrib">
-<mapcontribBlog "Blog du projet">
+<mapcontribBlog "Blog des Projekts">
 <wiki "Wiki">
-<reportBug "Signaler un bug">
-<sendFeedback "Contacter l'équipe">
+<reportBug "einen Fehler melden">
+<sendFeedback "das Team kontaktieren">
 <slogan "Contribution thématique à <a>OpenStreetMap</a>">
-<inviteToContribute1 "Cet élément provient de la base de données géographique ouverte appelée <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
-<inviteToContribute2 "Si les informations affichées sont erronnées ou incomplètes vous pouvez les corriger en cliquant sur le bouton ci-dessous.">
-<inviteToContribute3 "Vous améliorerez OpenStreetMap et tous les utilisateurs en bénéficieront en quelques minutes.">
+<inviteToContribute1 "Dieses Element kommt aus der offenen geographischen Datenbank genannt <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
+<inviteToContribute2 "Wenn die angezeigten Informationen fehlerhaft oder unvollständig sind, können Sie sie korrigieren, in dem Sie auf den Button darüber klicken.">
+<inviteToContribute3 "Sie werden OpenStreetMap verbessern und alle Nutzer profitieren davon in wenigen Minuten.">
 
 <pageTitle "{{ mapcontrib }}">
 <pageTitleWithMapName "{{ $map.name }} - {{ mapcontrib }}">
 
 
-<markdownAvailable "Format <a>Markdown</a> disponible">
-<maxFileSize "Le poids ne doit pas dépasser {{ $maxFileSize }}">
+<markdownAvailable "Format <a>Markdown</a> verfügbar">
+<maxFileSize "Die Dateigröβe darf {{ $maxFileSize }} nicht überschreiten">
 
 
-<buttonFavoriteTooltip "Marquer ce thème comme favoris">
-<buttonDescriptionTooltip "Lire la description">
-<buttonZoomInTooltip title:"Vue rapprochée">
-<buttonZoomOutTooltip title:"Vue éloignée">
-<buttonGeocodeTooltip title:"Trouver un lieu">
-<buttonLocateTooltip title:"Afficher mon emplacement">
-<buttonLocateWaitTooltip title:"Annuler la recherche de mon emplacement">
-<buttonExpandScreenTooltip title:"Passer en plein écran">
-<buttonCompressScreenTooltip title:"Quitter le plein écran">
-<buttonLayerTooltip title:"Affichage des couches">
-<buttonTileTooltip title:"Affichage des fonds de carte">
+<buttonFavoriteTooltip "Dieses Thema als Favorit markieren">
+<buttonDescriptionTooltip "Die Beschreibung lesen">
+<buttonZoomInTooltip title:"Hineinzoomen">
+<buttonZoomOutTooltip title:"Herauszoomen">
+<buttonGeocodeTooltip title:"Einen Ort finden">
+<buttonLocateTooltip title:"Meinen Standort anzeigen">
+<buttonLocateWaitTooltip title:"Standortsuche aufheben">
+<buttonExpandScreenTooltip title:"Vollbildmodus">
+<buttonCompressScreenTooltip title:"Vollbildmodus beenden">
+<buttonLayerTooltip title:"Anzeige der Layer">
+<buttonTileTooltip title:"Anzeige der Kartenhintergründe">
 <buttonLoginTooltip title:"{{ login }}">
-<buttonUserTooltip title:"Mon compte">
-<buttonLinkTooltip title:"Partager">
-<buttonContrib "Ajouter une donnée manquante">
-<buttonContribTooltip title:"Ajouter une donnée manquante">
-<buttonTempLayerTooltip title:"Ajouter une couche temporaire">
+<buttonUserTooltip title:"Mein Konto">
+<buttonLinkTooltip title:"Teilen">
+<buttonContrib "Fehlende Daten hinzufügen">
+<buttonContribTooltip title:"Fehlende Daten hinzufügen">
+<buttonTempLayerTooltip title:"Einen temporären Layer hinzufügen">
 <buttonEditSettingTooltip title:"{{ settings }}">
 <buttonEditLayerTooltip title:"{{ layers }}">
 <buttonEditLocaleTooltip title:"{{ translations }}">
 <buttonEditPresetTooltip title:"{{ presets }}">
 <buttonEditTagTooltip title:"{{ tags }}">
-<buttonHelpTooltip title:"Aide">
+<buttonHelpTooltip title:"Hilfe">
 
 
 
 
-<osmId "Identifiant OSM">
-<overPassCacheModifications "Modifications du cache OverPass">
-<overPassCacheModifications_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été modifiés dans OSM.">
-<overPassCacheModifications_emptyStateTextWaiting "Aucun POI modifiés">
-<overPassCacheModifications_zoomOnElement "Zoomer sur l'élément">
-<overPassCacheModifications_dates "Dates">
-<overPassCacheModifications_cacheDate "Élement en cache">
-<overPassCacheModifications_modificationDate "Élément modifié dans OSM">
-<overPassCacheArchives "Archives du cache OverPass">
-<overPassCacheArchives_explanation "Les POI suivants sont présents dans le cache de vos couches OverPass mais ont été supprimés d'OSM.">
-<overPassCacheArchives_emptyStateTextArchived "Aucun POI archivés">
-<overPassCacheArchives_emptyStateTextWaiting "Aucun POI en attente">
-<overPassCacheArchives_zoomOnElement "Zoomer sur l'élément">
-<seeArchives "Voir les POI archivés">
-<layers "Couches">
-<layer "Couche">
-<by "par">
-<version "version">
-<translations "Traductions">
-<presets "Types de nœuds">
-<presetCategories "Catégories de types de nœuds">
+<osmId "Benutzername OSM">
+<overPassCacheModifications "Änderung des cache OverPass">
+<overPassCacheModifications_explanation "Die folgenden POI sind im Zwischenspeicher Ihrer OverPass-Layer, aber wurden in OSM modifiziert.">
+<overPassCacheModifications_emptyStateTextWaiting "Kein POI modifiziert">
+<overPassCacheModifications_zoomOnElement "Auf das Element zoomen">
+<overPassCacheModifications_dates "Daten">
+<overPassCacheModifications_cacheDate "Element im cache">
+<overPassCacheModifications_modificationDate "In OSM modifiziert">
+<overPassCacheArchives "Archiv des cache OverPass">
+<overPassCacheArchives_explanation "Die folgenden POI sind im Zwischenspeicher Ihrer OverPass-Layer, aber wurden in OSM gelöscht.">
+<overPassCacheArchives_emptyStateTextArchived "Kein POI archiviert">
+<overPassCacheArchives_emptyStateTextWaiting "Kein POI in der Warteschleife">
+<overPassCacheArchives_zoomOnElement "Auf das Element zoomen">
+<seeArchives "Die archivierten POI anzeigen">
+<layers "Layers">
+<layer "Layer">
+<by "durch">
+<version "Version">
+<translations "Übersetzungen">
+<presets "Typ Knoten">
+<presetCategories "Kategorien von Knoten-Typen">
 <tags "Tags">
-<goBackToHome "Revenir à l'accueil">
+<goBackToHome "Zurück zur Startseite">
 <about "À propos de {{ mapcontrib }}">
-<myThemes "Mes thèmes">
-<preferences "Préférences">
-<edit "Édition">
-<login "Se connecter">
-<loginOrSubscribe "Se connecter ou créer un compte">
-<logout "Se déconnecter">
-<refuseAndArchive "Refuser les modifications et archiver">
-<validateAndCache "Valider les modifications et mettre en cache">
-<sendNewVersionToOsm "Envoyer nouvelle version à OSM">
-<close "Fermer">
-<save "Enregistrer">
-<delete "Supprimer">
-<archive "Archiver">
-<validate "Valider">
-<cancel "Annuler">
-<next "Suivant">
-<previous "Précédent">
-<back "Retour">
-<customize "Personnaliser">
-<letsGo "C'est parti">
-<empty "Vide">
-<editThatElement "Modifier l'élément">
-<connectToEditThatElement "Se connecter pour modifier l'élément">
-<loadingData title:"Certaines données sont en cours de chargement">
-<createATheme "Créer un thème">
-<search "Rechercher">
-<searchATheme "Rechercher un thème (3 caractères min.)">
-<aboutMapContrib "À propos de MapContrib">
-<invalidFile "Fichier non valide">
-<currentFile "Fichier actuel : <a>{{ $file }}</a>">
-<file "Fichier">
-<fileNotFound "Fichier introuvable">
-<noResult "Aucun résultat">
-<name "Nom">
-<description "Description">
-<type "Type">
-<locales "Traductions">
-<key "Clef">
-<textFields label:"Texte">
-<checkboxFields label:"Cases à cocher">
-<nonTextFields label:"Non texte">
-<comboFields label:"Liste déroulante">
-<text "Texte">
-<number "Nombre">
+<myThemes "Meine Themen">
+<preferences "Präferenzen">
+<edit "Bearbeiten">
+<login "Login">
+<loginOrSubscribe "Anmelden oder ein Konto erstellen">
+<logout "Logout">
+<refuseAndArchive "Änderungen ablehnen und archivieren">
+<validateAndCache "Änderungen validieren und zwischenspeichern">
+<sendNewVersionToOsm "Neue Version an OSM schicken">
+<close "Schlieβen">
+<save "Speichern">
+<delete "Löschen">
+<archive "Archivieren">
+<validate "Validieren">
+<cancel "Abbrechen">
+<next "Nächstes">
+<previous "Vorheriges">
+<back "Zurück">
+<customize "Personnalisieren">
+<letsGo "Los geht's">
+<empty "Leer">
+<editThatElement "Element modifizieren">
+<connectToEditThatElement "Anmelden, um das Element zu bearbeiten">
+<loadingData title:"Einige Daten werden gerade hochgeladen">
+<createATheme "Ein Thema anlegen">
+<search "Suchen">
+<searchATheme "Ein Thema suchen (min. 3 Buchstaben)">
+<aboutMapContrib "Über MapContrib">
+<invalidFile "ungültige Datei">
+<currentFile "Aktuelle Datei : <a>{{ $file }}</a>">
+<file "Datei">
+<fileNotFound "Datei nicht gefunden">
+<noResult "Kein Ergebnis">
+<name "Name">
+<description "Beschreibung">
+<type "Typ">
+<locales "Übersetzungen">
+<key "Schlüssel">
+<textFields label:"Text">
+<checkboxFields label:"Anzukreuzende Kästchen">
+<nonTextFields label:"Kein Text">
+<comboFields label:"Dropdown-Liste">
+<text "Text">
+<number "Zahl">
 <email "E-mail">
-<tel "Numéro de téléphone">
-<url "Adresse web">
-<textarea "Grand texte">
-<checkbox "Case à cocher">
-<checkField "Oui ou non">
-<defaultCheckField "Oui ou vide">
-<comboField "Choix unique">
-<typeComboField "Oui ou choix unique">
-<multiComboField "Multi-choix">
-<value "Valeur">
-<defaultValue "Valeur par défaut">
-<tagValue placeholder:"Valeur du tag">
-<tagValueTranslation placeholder:"Traduction de la valeur">
-<yes "Oui">
-<no "Non">
-<settings "Configuration">
-<mainSettings "Configuration générale">
-<tiles "Fonds de carte">
-<administrators "Administrateurs">
-<options "Options">
-<addValueToTranslate "Ajouter une valeur à traduire">
-<addAnOption "Ajouter une option">
-<multiComboInfo1 "Complètent le préfixe <em>{{ $prefix }}</em>">
-<multiComboInfo2 "Ex : recycling:glass">
-<duplicateTheme "Créer un thème à partir de celui-là">
-<favorites "Favoris">
-<myThemes "Mes thèmes">
-<duplicateThatTheme "Dupliquer ce thème">
-<deleteThatTheme "Supprimer ce thème">
-<pageNotFound_explanation "La page ou le thème que vous vouliez consulter n'existe pas ou plus...">
+<tel "Telefonnummer">
+<url "Internetadresse">
+<textarea "Textfeld">
+<checkbox "Checkbox">
+<checkField "Ja oder nein">
+<defaultCheckField "Ja oder leer">
+<comboField "einzelne Antwort">
+<typeComboField "Ja oder einzelne Antwort">
+<multiComboField "Multiple-choice">
+<value "Wert">
+<defaultValue "Default-Wert">
+<tagValue placeholder:"Wert des tags">
+<tagValueTranslation placeholder:"Übersetzung des Wertes">
+<yes "Ja">
+<no "Nein">
+<settings "Einstellungen">
+<mainSettings "generelle Einstellungen">
+<tiles "Kartenhintergründe">
+<administrators "Administratoren">
+<options "Optionen">
+<addValueToTranslate "zu übersetzender Wert">
+<addAnOption "Option hinzufügen">
+<multiComboInfo1 "Prefix <em>{{ $prefix }}</em> vervollständigen">
+<multiComboInfo2 "Bsp. : recycling:glass">
+<duplicateTheme "Davon ausgehend ein Thema erstellen">
+<favorites "Favoriten">
+<myThemes "Meine Themen">
+<duplicateThatTheme "Dieses Thema duplizieren">
+<deleteThatTheme "Dieses Thema löschen">
+<pageNotFound_explanation "Die Seite oder das Thema, das Sie aufrufen wollten, existiert nicht (mehr)...">
 
 
 /* Home */
 <home_charactersLeft[plural($n)] {
-  one: "Saisissez encore 1 caractère",
-  many: "Saisissez encore {{ $n }} caractères"
+  one: "Geben Sie noch einen Buchstaben ein",
+  many: "Geben Sie noch {{ $n }} Buchstaben"
 }>
 
 
 /* About */
-<aboutTitle "À propos">
-<aboutText1 "MapContrib est un <a>logiciel libre</a> développé avec le soutien du Département de la Gironde, dans le cadre d'un appel à projets «&nbsp;Déchets et Numériques&nbsp;».">
-<aboutText2 "MapContrib vise à faciliter la connaissance des équipements liés aux déchets en les référençant au sein de la base de données cartographiques libre <a>OpenStreetMap</a>.">
-<aboutText3 "Par l'utilisation de MapContrib, vous acceptez de mettre vos contributions <a>sous licence «&nbsp;ODbL&nbsp;»</a>, permettant la ré-utilisation et le partage de ses données en citant la source «&nbsp;Contributeurs OSM&nbsp;»</a>.">
-<aboutText4 "Des clins d'œils à plusieurs projets inspirants&nbsp;:">
-<aboutTextVersion "Cette instance de MapContrib utilise la version {{ $version }}.">
+<aboutTitle "A propos">
+<aboutText1 "MapContrib ist eine <a>freie Software</a>, die mit Unterstützung des Département de la Gironde entwickelt wurde, im Rahmen eines Projektaufrufs zu «&nbsp;Déchets et Numériques&nbsp;».">
+<aboutText2 "MapContrib möchte die Kenntnisse über die Anlagen zur Mülltrennung verbessern, indem es sie in der freien kartographischen Datenbank <a>OpenStreetMap</a> referenziert.">
+<aboutText3 "Durch die Nutzung von MapContrib akzeptieren Sie, dass Ihre Einträge <a>lizenziert «&nbsp;ODbL&nbsp;»</a>, werden, so dass sie unter Nennung der Quelle <a>«&nbsp;Contributeurs OSM&nbsp;»</a> wiederverwendet und geteilt werden können.">
+<aboutText4 "Ein kleiner Einblick in andere inspirierende Projekte:">
+<aboutTextVersion "Diese Anwendung von MapContrib verwendet die Version {{ $version }}.">
 
 
 /* Duplicate theme modal */
-<duplicateThemeModal_text1 "Vous êtes sur le point de créer un nouveau thème en dupliquant celui-ci.">
-<duplicateThemeModal_text2 "Après validation, vous serez redirigé vers ce nouveau thème.">
+<duplicateThemeModal_text1 "Sie sind dabei ein neues Thema zu erstellen, indem Sie dieses duplizieren.">
+<duplicateThemeModal_text2 "Nach der Validierung werden Sie zu diesem neuen Thema weitergeleitet.">
 
 
 /* Delete theme modal */
-<deleteThemeModal_text1 "Êtes-vous absolument certain de vouloir supprimer ce thème ?">
-<deleteThemeModal_text2 "J'veux dire, vraiment ?!">
+<deleteThemeModal_text1 "Sind Sie ganz sicher, dass Sie dieses Thema löschen möchten?">
+<deleteThemeModal_text2 "Ganz, ganz sicher ?!">
 
 
 /* Login modal */
-<loginModal_explanation "Pour plus de simplicité, MapContrib a seulement besoin de se connecter à votre compte OpenStreetMap.">
+<loginModal_explanation "Der Einfachheit halber muss sich MapContrib nur mit Ihrem OpenStreetMap-Zugang verbinden.">
 
 
 /* Geocode widget */
-<geocodeWidget_queryInput placeholder:"Ville, code postal, ...">
+<geocodeWidget_queryInput placeholder:"Stadt, PLZ, ...">
 
 
 /* Layers column */
-<selectLayerColumn_title "Couches">
-<selectLayerColumn_explanation "Sélectionnez les couches que vous voulez voir sur la carte.">
+<selectLayerColumn_title "Layer">
+<selectLayerColumn_explanation "Wählen Sie die Layer, die Sie auf der Karte sehen möchten.">
 <selectLayerColumn_needToZoom[plural($n)] {
-  one: "Pour voir ces données, vous devez zoomer une fois.",
-  many: "Pour voir ces données, vous devez zoomer {{ $n }} fois."
+  one: "Um diese Daten sehen zu können, müssen Sie einmal zoomen.",
+  many: "Um diese Daten sehen zu können, müssen Sie {{ $n }} zoomen."
 }>
-<selectLayerColumn_downloadData "Télécharger les données visibles">
+<selectLayerColumn_downloadData "Sichtbare Daten herunterladen">
 
 
 /* Tile column */
-<selectTileColumn_title "Fonds de cartes">
-<selectTileColumn_displayMoreTiles "Afficher plus de fonds de carte">
+<selectTileColumn_title "Kartenhintergrund">
+<selectTileColumn_displayMoreTiles "Mehr Kartenhintergründe anzeigen">
 
 
 /* User column */
-<userColumn_title "Mon compte">
+<userColumn_title "Mein Konto">
 
 
 /* Visitor column */
-<visitorColumn_title "Salut !">
+<visitorColumn_title "Hallo !">
 
 
 /* Contribution column */
-<contribColumn_title "Ajouter un nœud">
-<contribColumn_description "Sélectionnez un type de nœud">
-<contribColumn_searchAPreset "Rechercher un type de nœud">
-<contribColumn_freeAddition "Ajout de tags libre">
-<contribColumn_addTag "Ajouter un tag">
-<contribColumn_deletePoi "Supprimer le nœud">
+<contribColumn_title "Einen Knoten hinzufügen">
+<contribColumn_description "Wählen Sie den Typ des Knotens">
+<contribColumn_searchAPreset "Einen Knoten-Typ suchen">
+<contribColumn_freeAddition "Einen freien tag hinzufügen">
+<contribColumn_addTag "Einen tag hinzufügen">
+<contribColumn_deletePoi "Den Knoten löschen">
 
 
 /* Contribution delete modal */
-<contribDeleteModal_title "Supprimer un nœud">
-<contribDeleteModal_text1 "Attention, vous êtes sur le point de supprimer un nœud entier de la base de données d'OpenStreetMap.">
-<contribDeleteModal_text2 "Êtes-vous certain de vouloir réaliser cette action ?">
-<contribDeleteModal_confirmTheDeletion "Je confirme vouloir supprimer ce nœud">
+<contribDeleteModal_title "Einen Knoten löschen">
+<contribDeleteModal_text1 "Achtung, Sie sind dabei, einen Knoten in der Datenbank von OpenStreetMap zu löschen.">
+<contribDeleteModal_text2 "Sind Sie sicher, dass Sie diese Aktion durchführen möchten?">
+<contribDeleteModal_confirmTheDeletion "Ich bestätige, dass ich diesen Knoten löschen möchte">
 
 
 /* Link column */
-<linkColumn_title "Partager">
-<linkColumn_linkTitle "Lien direct">
-<linkColumn_linkIncludePosition "Inclure la position actuelle">
-<linkColumn_integrationTitle "Intégré dans votre site">
-<linkColumn_iframeIncludePosition "Inclure la position actuelle">
-<linkColumn_seeBigger "Voir en plus grand">
-<linkColumn_width "Largeur">
-<linkColumn_height "Hauteur">
-<linkColumn_percentage "Pourcentage">
+<linkColumn_title "Teilen">
+<linkColumn_linkTitle "Direkter Link">
+<linkColumn_linkIncludePosition "Aktuellen Standort einfügen">
+<linkColumn_integrationTitle "In Ihre Seite integriert">
+<linkColumn_iframeIncludePosition "Aktuellen Standort einfügen">
+<linkColumn_seeBigger "Größer anzeigen">
+<linkColumn_width "Breite">
+<linkColumn_height "Höhe">
+<linkColumn_percentage "Prozente">
 <linkColumn_pixel "Pixel">
 
 
 /* Edit settings column */
-<editSettingColumn_title "Configuration">
-<editSettingColumn_themeName "Nom du thème">
-<editSettingColumn_themeDescription "{{ description }}">
-<editSettingColumn_color "Couleur">
-<editSettingColumn_position "Positionnement">
-<editSettingColumn_geolocation "Géolocalisation">
-<editSettingColumn_contribution "Contribution">
-<editSettingColumn_displayHighlightedContributionBtn "Mettre en avant le bouton d'ajout de donnée">
-<editSettingColumn_keepOld "Garder les paramètres configurés">
-<editSettingColumn_setNew "Enregistrer les paramètres actuels">
-<editSettingColumn_autoGeolocateUser "Géolocaliser automatiquement l'utilisateur">
-<editSettingColumn_movementConstraints "Contraintes de mouvement">
-<editSettingColumn_minimumZoom "Zoom minimum">
-<editSettingColumn_maximumZoom "Zoom maximum">
-<editSettingColumn_movementRadius "Rayon de déplacement">
-<editSettingColumn_geocoder "Géocodeur">
+<editSettingColumn_title "Einstellungen">
+<editSettingColumn_themeName "Name des Themas">
+<editSettingColumn_themeDescription "{{ Beschreibung }}">
+<editSettingColumn_color "Frage">
+<editSettingColumn_position "Position">
+<editSettingColumn_geolocation "Geolokalisierung">
+<editSettingColumn_contribution "Beitrag">
+<editSettingColumn_displayHighlightedContributionBtn "Button für Einfügen von Daten hervorheben">
+<editSettingColumn_keepOld "Bearbeitete Parameter beibehalten">
+<editSettingColumn_setNew "Aktuelle Parameter speichern">
+<editSettingColumn_autoGeolocateUser "Nutzer automatisch geolokalisieren">
+<editSettingColumn_movementConstraints "Einschränkung Bewegungen">
+<editSettingColumn_minimumZoom "minimaler Zoom">
+<editSettingColumn_maximumZoom "maximaler Zoom">
+<editSettingColumn_movementRadius "Radius der Bewegung">
+<editSettingColumn_geocoder "Geocoder">
 <editSettingColumn_photon "Photon">
 <editSettingColumn_nominatim "Nominatim">
-<editSettingColumn_infoDisplay "Affichage des informations">
-<editSettingColumn_popup "Infobulle">
-<editSettingColumn_modal "Fenêtre modale">
-<editSettingColumn_column "Colonne">
-<editSettingColumn_themeAnalytics "Statistiques">
-<editSettingColumn_infoAnalyticsPopoverTitle "Intégration">
-<editSettingColumn_infoAnalyticsPopoverContent "Les outils de suivi statistique fournissent un code image à insérer dans les pages du site internet concerné.
+<editSettingColumn_infoDisplay "Anzeige der Informationen">
+<editSettingColumn_popup "Infokasten">
+<editSettingColumn_modal "modales Fenster">
+<editSettingColumn_column "Spalte">
+<editSettingColumn_themeAnalytics "Statistiken">
+<editSettingColumn_infoAnalyticsPopoverTitle "Integration">
+<editSettingColumn_infoAnalyticsPopoverContent "Die Werkzeuge zur statistischen Auswertung erstellen einen Bild-Code, der in der betroffene Webseite integriert werden muss.
 
-Insérez-le juste ici !">
-
-
-/* Edit layer column */
-<editLayerListColumn_title "Couches">
-<editLayerListColumn_addLayer "Ajouter une couche">
+Fügen sie ihn hier ein!">
 
 
 /* Edit layer column */
-<editLayerFormColumn_title "Édition de la couche">
+<editLayerListColumn_title "Layer">
+<editLayerListColumn_addLayer "Einen Layer hinzufügen">
+
+
+/* Edit layer column */
+<editLayerFormColumn_title "Layer bearbeiten">
 <editLayerFormColumn_layerName "{{ name }}">
 <editLayerFormColumn_layerDescription "{{ description }}">
-<editLayerFormColumn_representationType "Représentation">
-<editLayerFormColumn_clusterRepresentation "Points groupables">
-<editLayerFormColumn_heatRepresentation "Carte thermique">
-<editLayerFormColumn_visibility "Visibilité">
-<editLayerFormColumn_visible "Visible par les utilisateurs">
-<editLayerFormColumn_heatOptions "Carte thermique">
-<editLayerFormColumn_heatMapPopoverTitle "Informations">
-<editLayerFormColumn_heatMapPopoverContent "#### Zoom maximum
+<editLayerFormColumn_representationType "Darstellung">
+<editLayerFormColumn_clusterRepresentation "zusammenzufassende Punkte">
+<editLayerFormColumn_heatRepresentation "Thermische Karte">
+<editLayerFormColumn_visibility "Sichtbarkeit">
+<editLayerFormColumn_visible "Durch die Benutzer sichtbar">
+<editLayerFormColumn_heatOptions "Thermische Karte">
+<editLayerFormColumn_heatMapPopoverTitle "Informationen">
+<editLayerFormColumn_heatMapPopoverContent "#### maximaler Zoom
 
-Niveau de zoom à partir duquel les points atteignent leur intensité maximum.
+Zoom-Niveau, ab dem die Punkte ihre maximale Intensität bekommen.
 
-#### Rayon
+#### Radius
 
-Rayon de chacuns des points de la couche.">
-<editLayerFormColumn_heatMinOpacity "Opacité minimum">
-<editLayerFormColumn_heatMaxZoom "Zoom maximum">
-<editLayerFormColumn_heatMax "Intensité maximum">
-<editLayerFormColumn_heatBlur "Quantité de flou">
-<editLayerFormColumn_heatRadius "Rayon">
-<editLayerFormColumn_layerZoomLevel "Zoom minimum">
-<editLayerFormColumn_currentMapZoom "La carte actuelle est au niveau de zoom {{ $currentMapZoom }}">
+Radius aller Punkte des Layers.">
+<editLayerFormColumn_heatMinOpacity "minimale Opazität">
+<editLayerFormColumn_heatMaxZoom "maximaler Zoom">
+<editLayerFormColumn_heatMax "maximale Intensität">
+<editLayerFormColumn_heatBlur "Niveau der Unschärfe">
+<editLayerFormColumn_heatRadius "Radius">
+<editLayerFormColumn_layerZoomLevel "minimaler Zoom">
+<editLayerFormColumn_currentMapZoom "Die aktuelle Karte ist auf dem Zoom-Niveau {{ $currentMapZoom }}">
 <editLayerFormColumn_overPassPopoverTitle "Bounding box">
-<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` est remplacé par la bounding box courante.">
-<editLayerFormColumn_layerOverpassRequest "Requête OverPass">
-<editLayerFormColumn_marker "Marqueur">
-<editLayerFormColumn_infoDisplayPopoverTitle "Valeur des tags">
-<editLayerFormColumn_infoDisplayPopoverContent "Pour afficher la valeur de tags de chaque élément, insérez son nom entre crochets.
+<editLayerFormColumn_overPassPopoverContent "`\{\{bbox\}\}` wird durch die laufende bounding box ersetzt.">
+<editLayerFormColumn_layerOverpassRequest "OverPass-Abfrage">
+<editLayerFormColumn_marker "Marker">
+<editLayerFormColumn_infoDisplayPopoverTitle "Wert des tags">
+<editLayerFormColumn_infoDisplayPopoverContent "Um den Wert des tags jedes Elements anzuzeigen, fügen Sie seinen Namen in Klammern ein.
 
-Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
-<editLayerFormColumn_layerPopupContent "Contenu des bulles">
-<editLayerFormColumn_gpxFile "Fichier GPX">
-<editLayerFormColumn_csvFile "Fichier CSV">
-<editLayerFormColumn_csvDisclaimer "Il doit contenir les latitude et longitude, dans des colonnes nommées <em>latitude</em> et <em>longitude</em>">
-<editLayerFormColumn_geoJsonFile "Fichier GeoJSON">
-<editLayerFormColumn_browse "Parcourir">
+Exemple : `\{foo\}` wird durch den Wert des tags *foo* des Elements ersetzt.">
+<editLayerFormColumn_layerPopupContent "Inhalt der Infokästen">
+<editLayerFormColumn_gpxFile "GPX-Datei">
+<editLayerFormColumn_csvFile "CSV-Datei">
+<editLayerFormColumn_csvDisclaimer "Der Breitengrad und der Längengrad müssen in den mit <em>latitude</em> und <em>longitude</em> bezeichneten Spalten enthalten sein.">
+<editLayerFormColumn_geoJsonFile "GeoJSON-Datei">
+<editLayerFormColumn_browse "Durchblättern">
 <editLayerFormColumn_cache "Cache">
-<editLayerFormColumn_cacheDescription "Il se substitue à la requête OverPass temps réel.">
-<editLayerFormColumn_enableCache "Activer le cache">
-<editLayerFormColumn_enableCacheArchive "Activer l'archivage du cache">
-<editLayerFormColumn_cachePopoverTitle "Limitations">
-<editLayerFormColumn_cachePopoverContent "Les informations sont mises à jour quotidiennement à condition que la requête ne mette pas plus de 3 minutes et que le fichier final ne fasse pas plus d'1 Mo.">
-<editLayerFormColumn_cacheArchivePopoverTitle "Archivage de cache">
-<editLayerFormColumn_cacheArchivePopoverContent "Il permet aux administrateurs de thème de décider de garder ou de supprimer définitivement les POI supprimés d'OSM.">
-<editLayerFormColumn_cacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
-<editLayerFormColumn_cacheErrorTimeout "<i></i> La dernière mise à jour du cache a échoué en raison d'un temps d'exécution trop important.">
-<editLayerFormColumn_cacheErrorMemory "<i></i> La dernière mise à jour du cache a échoué en raison d'un poids de fichier final trop important.">
-<editLayerFormColumn_cacheErrorBadRequest "<i></i> La dernière mise à jour du cache a échoué parce que la requête est erronée.">
-<editLayerFormColumn_cacheErrorUnknown "<i></i> La dernière mise à jour du cache a échoué pour une raison inconnue.">
+<editLayerFormColumn_cacheDescription "Dies ersetzt die OverPass-Suche in Echtzeit.">
+<editLayerFormColumn_enableCache "Den Cache aktivieren">
+<editLayerFormColumn_enableCacheArchive "Archivierung des Caches aktivieren">
+<editLayerFormColumn_cachePopoverTitle "Limits">
+<editLayerFormColumn_cachePopoverContent "Die Informationen werden täglich aktualisiert, unter der Bedingung, dass die Abfrage nicht mehr als 3 Minuten dauert und die resultierende Datei nicht größer ist als 1 Mo.">
+<editLayerFormColumn_cacheArchivePopoverTitle "Archivierung des Caches">
+<editLayerFormColumn_cacheArchivePopoverContent "Dies erlaubt des Administratoren des Themas, zu entscheiden, die aus OSM gelöschten POIS definitiv zu behalten oder zu löschen.">
+<editLayerFormColumn_cacheDate "Letztes Update Tag&nbsp;: {{ $date }}.">
+<editLayerFormColumn_cacheErrorTimeout "<i></i> Das letzte Update des Caches scheiterte, da die Ausführung zu lange dauerte.">
+<editLayerFormColumn_cacheErrorMemory "<i></i> Das letzte Update des Caches scheiterte, da die resultierende Datei zu groß war.">
+<editLayerFormColumn_cacheErrorBadRequest "<i></i> Das letzte Update des Chaches scheiterte, da der Befehl fehlerhaft war.">
+<editLayerFormColumn_cacheErrorUnknown "<i></i> Das letzte Update des Caches scheiterte aus unbekannten Gründen.">
 
 
 /* Edit layer marker modal */
-<editLayerMarkerModal_colorAndShape "Couleur et forme">
-<editLayerMarkerModal_color "Couleur">
-<editLayerMarkerModal_shape "Forme">
-<editLayerMarkerModal_icon "Icône">
-<editLayerMarkerModal_library "Bibliothèque">
+<editLayerMarkerModal_colorAndShape "Farbe und Form">
+<editLayerMarkerModal_color "Farbe">
+<editLayerMarkerModal_shape "Form">
+<editLayerMarkerModal_icon "Icon">
+<editLayerMarkerModal_library "Bibliothek">
 <editLayerMarkerModal_external "Externe">
-<editLayerMarkerModal_iconName "Nom de l'icône">
-<editLayerMarkerModal_iconUrl "Url de l'icône">
-<editLayerMarkerModal_iconDescriptionLibrary1 "Les icônes sont tirées de la bibliothèque Font Awesome.">
-<editLayerMarkerModal_iconDescriptionLibrary2 "Rendez-vous sur <a>cette page</a>, choisissez une icône et relevez son nom, puis saisissez-le dans le champs ci-dessous.">
-<editLayerMarkerModal_iconDescriptionExternal1 "Vous pouvez utiliser votre propre icône si elle est hébergée sur internet.">
-<editLayerMarkerModal_iconDescriptionExternal2 "Renseignez son adresse dans le champs ci-dessous.">
+<editLayerMarkerModal_iconName "Names des Icons">
+<editLayerMarkerModal_iconUrl "Url des Icons">
+<editLayerMarkerModal_iconDescriptionLibrary1 "Die Icons stammen aus der Bibliothek Font Awesome.">
+<editLayerMarkerModal_iconDescriptionLibrary2 "Gehen Sie auf <a>diese Seite</a>, wählen Sie ein Icon und geben Sie seinen Namen in obenstehendes Feld ein.">
+<editLayerMarkerModal_iconDescriptionExternal1 "Sie können auch Ihr eigenes Icon verwenden, wenn dieses im Internet zu finden ist.">
+<editLayerMarkerModal_iconDescriptionExternal2 "Geben Sie seine Adresse in obenstehendes Feld ein.">
 
 
 /* Edit tiles column */
-<editTileColumn_title "Fonds de carte">
-<editTileColumn_maxZoom "Zoom maximum&nbsp;: {{ $maxZoom }}">
+<editTileColumn_title "Kartenhintergrund">
+<editTileColumn_maxZoom "maximaler Zoom&nbsp;: {{ $maxZoom }}">
 
 
 /* Edit administrators column */
-<editAdministratorColumn_title "Administrateurs">
-<editAdministratorColumn_description "Vous pouvez donner les droits d'administration à n'importe quel utilisateur OSM qui a déjà fait au moins une contribution à OSM depuis la création de son compte.">
-<editAdministratorColumn_addAdministrator "Ajouter un administrateur">
-<editAdministratorColumn_typeDisplayName "Saisissez un nom de contributeur OSM">
+<editAdministratorColumn_title "Administratoren">
+<editAdministratorColumn_description "Sie können die Administrator-Rechte an jeden Mapper in OSM geben, der seit Erstellung seines Zugangs schon mindestens einen Beitrag in OSM eingetragen hat.">
+<editAdministratorColumn_addAdministrator "Einen Administrator hinzufügen">
+<editAdministratorColumn_typeDisplayName "Den Namen eines OSM-Mappers eingeben">
 
 
 /* Edit POI column */
-<editPoiColumn_title "Éditer les données">
-<editPoiColumn_movePoi "Déplacer le nœud">
-<editPoiColumn_emptyState "Actualisation des données de l'élément à modifier...">
-<editPoiColumn_remoteValue "Nouvelle valeur distante&nbsp;:<br>{{ $remoteValue }}">
-<editPoiColumn_take "Prendre">
-<editPoiColumn_reject "Rejeter">
+<editPoiColumn_title "Daten bearbeiten">
+<editPoiColumn_movePoi "Den Knoten verschieben">
+<editPoiColumn_emptyState "Die Daten des zu bearbeitenden Elements aktualisieren...">
+<editPoiColumn_remoteValue "Neuer Wert&nbsp;:<br>{{ $remoteValue }}">
+<editPoiColumn_take "Annehmen">
+<editPoiColumn_reject "Ablehnen">
 
 
 /* Zoom notification */
-<zoomNotification_content "Zoomez pour voir les données">
+<zoomNotification_content "Zoomen, um die Daten zu sehen">
 
 
 /* Overpass timeout notification */
-<overpassTimeoutNotification_title "Temps d'attente dépassé">
-<overpassTimeoutNotification_content "Il semblerait que les centres d'intérêts de type <em>{{ $name }}</em> mettent beaucoup de temps à être chargés...">
+<overpassTimeoutNotification_title "Wartezeit überschritten">
+<overpassTimeoutNotification_content "Anscheinend benötigen die Interessensbereiche vom Typ <em>{{ $name }}</em> sehr viel Zeit, um geladen zu werden...">
 
 
 /* Overpass error notification */
-<overpassErrorNotification_title "Erreur">
-<overpassErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+<overpassErrorNotification_title "Fehler">
+<overpassErrorNotification_content "Beim Laden der Interessensbereiche vom Typ <em>{{ $name }}</em> ist ein Fehler aufgetreten.">
 
 
 /* CSV error notification */
-<csvErrorNotification_title "Erreur">
-<csvErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+<csvErrorNotification_title "Fehler">
+<csvErrorNotification_content "Beim Laden der Interessensbereiche vom Typ <em>{{ $name }}</em> ist ein Fehler aufgetreten.">
 
 
 /* GeoJSON error notification */
-<geoJsonErrorNotification_title "Erreur">
-<geoJsonErrorNotification_content "Une erreur est survenue lors du chargement des centres d'intérêts de type <em>{{ $name }}</em>.">
+<geoJsonErrorNotification_title "Fehler">
+<geoJsonErrorNotification_content "Beim Laden der Interessensbereiche vom Typ <em>{{ $name }}</em> ist ein Fehler aufgetreten.">
 
 
 /* GPX error notification */
-<gpxErrorNotification_title "Erreur">
-<gpxErrorNotification_content "Une erreur est survenue lors du chargement de la couche <em>{{ $name }}</em>.">
+<gpxErrorNotification_title "Fehler">
+<gpxErrorNotification_content "Beim Laden des Layers <em>{{ $name }}</em> ist ein Fehler aufgetreten.">
 
 
 /* Contribution error notification */
-<contributionErrorNotification_title "Contribution échouée">
-<contributionErrorNotification_content "Une erreur est survenue lors de l'envoi de votre contribution.">
-<contributionErrorNotification_retry "Retenter l'envoi">
+<contributionErrorNotification_title "Beitrag fehlgeschlagen">
+<contributionErrorNotification_content "Beim Senden Ihres Beitrages ist ein Fehler aufgetreten.">
+<contributionErrorNotification_retry "Senden nocheinmal versuchen">
 
 
 /* Deletion error notification */
-<deletionErrorNotification_title "Suppression échouée">
-<deletionErrorNotification_content "Une erreur est survenue lors de la demande de suppression.">
-<deletionErrorNotification_retry "Retenter la suppression">
+<deletionErrorNotification_title "Löschen fehlgeschlagen">
+<deletionErrorNotification_content "Bei Ihrem Löschauftrag ist ein Fehler aufgetreten.">
+<deletionErrorNotification_retry "Löschen nocheinmal versuchen">
 
 
 /* Node tag field UI */
-<uiFormNodeTags_key "Clef">
+<uiFormNodeTags_key "Schlüssel">
 <uiFormNodeTags_value placeholder:"{{ value }}">
-<uiFormNodeTags_keyReadOnly "Clef en lecture seule">
-<uiFormNodeTags_valueReadOnly "Valeur forcée et en lecture seule">
-<uiFormNodeTags_nonOsmData "Ne pas envoyer ce tag à OSM">
-<uiFormNodeTags_nonOsmContributionWarning "Tag non envoyé à OpenStreetMap">
-<uiFormNodeTags_textInput "Champs texte">
-<uiFormNodeTags_fileInput "Champs fichier">
-<uiFormNodeTags_displayRawTag "Afficher le tag OSM brut">
+<uiFormNodeTags_keyReadOnly "Schreibgeschützter Schlüssel">
+<uiFormNodeTags_valueReadOnly "Schreibgeschützt mit vorgegebenen Wert">
+<uiFormNodeTags_nonOsmData "Diesen tag nicht an OSM schicken">
+<uiFormNodeTags_nonOsmContributionWarning "Tag nicht an OpenStreetMap geschickt">
+<uiFormNodeTags_textInput "Textfeld">
+<uiFormNodeTags_fileInput "Dateifeld">
+<uiFormNodeTags_displayRawTag "Den OSM-tag in Rohversion anzeigen">
 
 /* Color selector UI */
-<uiColorSelector_label "Couleur">
+<uiColorSelector_label "Farbe">
 
 
 /* List group UI */
-<uiListGroup_placeholder "Cliquez ci-dessous">
-<uiListGroup_placeholderNothingToTranslate "Aucun élément à traduire">
+<uiListGroup_placeholder "Hier klicken">
+<uiListGroup_placeholderNothingToTranslate "Kein Element zu übersetzen">
 
 
 /* Contribution form column */
-<contribFormColumn_placeOnMap "Placer sur la carte">
+<contribFormColumn_placeOnMap "Auf die Karte platzieren">
 
 
 /* New POI placement contextual */
-<newPoiPlacementContextual_text "Placez la croix à l'exact endroit du nœud.">
+<newPoiPlacementContextual_text "Platzieren Sie das Kreuz an der exakten Stelle des Knotens.">
 
 
 /* Move POI contextual */
-<movePoiContextual_text "Placez la croix à l'exact endroit du nœud.">
+<movePoiContextual_text "Platzieren Sie das Kreuz an der exakten Stelle des Knotens.">
 
 
 /* Add layer menu column */
-<addLayerMenuColumn_title "Ajouter une couche">
-<addLayerMenuColumn_remoteInformation "Information distante">
-<addLayerMenuColumn_file "Fichier">
+<addLayerMenuColumn_title "Einen Layer hinzufügen">
+<addLayerMenuColumn_remoteInformation "entfernte Information">
+<addLayerMenuColumn_file "Datei">
 <addLayerMenuColumn_overPass "OverPass">
 <addLayerMenuColumn_gpx "GPX">
 <addLayerMenuColumn_csv "CSV">
@@ -447,55 +448,55 @@ Exemple : `\{foo\}` sera remplacé par la valeur du tag *foo* de l'élément.">
 
 
 /* Layer info column */
-<infoLayerColumn_title "Informations">
-<infoLayerColumn_layerName "{{ name }}">
-<infoLayerColumn_layerDescription "{{ description }}">
-<infoLayerColumn_layerSource "Provenance des données">
+<infoLayerColumn_title "Informationen">
+<infoLayerColumn_layerName "{{ Name }}">
+<infoLayerColumn_layerDescription "{{ Beschreibung }}">
+<infoLayerColumn_layerSource "Herkunft der Daten">
 <infoLayerColumn_overPass "OverPass">
-<infoLayerColumn_gpx "<a>Fichier GPX</a>">
-<infoLayerColumn_csv "<a>Fichier CSV</a>">
-<infoLayerColumn_geoJson "<a>Fichier GeoJSON</a>">
-<infoLayerColumn_layerMinZoom "Zoom minimum de mise à jour">
-<infoLayerColumn_layerOverPassRequest "Requête OverPass">
+<infoLayerColumn_gpx "<a>GPX-Datei</a>">
+<infoLayerColumn_csv "<a>CSV-Datei</a>">
+<infoLayerColumn_geoJson "<a>GeoJSON-Datei</a>">
+<infoLayerColumn_layerMinZoom "minimaler Zoom des Updates">
+<infoLayerColumn_layerOverPassRequest "OverPass-Abfrage">
 <infoLayerColumn_layerOverPassCache "Cache">
-<infoLayerColumn_layerOverPassCacheDescription "Les résultats de la requête OverPass sont pré-calculés une fois par jour.">
+<infoLayerColumn_layerOverPassCacheDescription "Die Ergebnisse der OverPass-Abfrage werden einmal pro Tag im Voraus berechnet.">
 <infoLayerColumn_layerOverPassCacheDate "Dernière mise à jour&nbsp;: {{ $date }}.">
-<infoLayerColumn_geoJsonData "Données GeoJSON">
-<infoLayerColumn_downloadData "Télécharger les données">
+<infoLayerColumn_geoJsonData "GeoJSON-Daten">
+<infoLayerColumn_downloadData "Daten herunterladen">
 
 
 /* Info display column */
-<infoDisplayColumn_title "Détails">
-<infoDisplayColumn_relationsTitle "Cet élément fait partie de&nbsp;:">
+<infoDisplayColumn_title "Details">
+<infoDisplayColumn_relationsTitle "Dieses Element gehört zu&nbsp;:">
 
 
 /* Temporary layers column */
-<tempLayerListColumn_title "Couches temporaires">
-<tempLayerListColumn_description "Ces couches sont éphémères. Elles ne sont visibles que par vous et disparaissent après avoir fermé MapContrib.">
+<tempLayerListColumn_title "Temporäre Layer">
+<tempLayerListColumn_description "Diese Layer sind temporär. Sie sind nur für Sie sichtbar und verschwinden, wenn Sie MapContrib schließen.">
 
 
 /* Edit POI preset column */
-<editPoiPresetColumn_title "Type de nœud">
-<editPoiPresetColumn_noThanks "Non merci">
-<editPoiPresetColumn_applyPreset "Voulez-vous automatiquement ajouter les tags d'un de ces types de nœuds ?">
+<editPoiPresetColumn_title "Typ des Knotens">
+<editPoiPresetColumn_noThanks "Nein danke">
+<editPoiPresetColumn_applyPreset "Möchten Sie die tags einer dieser Knoten-Typen automatisch hinzufügen?">
 
 
 /* Admin tag column */
 <adminTagColumn_title "Tags">
-<adminTagColumn_addTag "Ajouter un tag">
-<adminTagColumn_description "Créez vos propres tags, pour remplacer un tag OSM existant ou le rendre uniquement disponible dans cette instance de MapContrib.">
+<adminTagColumn_addTag "Einen tag hinzufügen">
+<adminTagColumn_description "Erstellen Sie Ihre eigenen tags, um einen bestehenden OSM-tag zu ersetzen oder ihn nur in dieser Ausführung von MapContrib verfügbar zu machen.">
 
 
 /* Admin preset column */
-<adminPresetColumn_title "Types de nœuds">
-<adminPresetColumn_addPreset "Ajouter un type de nœud">
-<adminPresetColumn_addPresetCategory "Ajouter une catégorie">
+<adminPresetColumn_title "Typ des Knotes">
+<adminPresetColumn_addPreset "Einen Knotentyp hinzufügen">
+<adminPresetColumn_addPresetCategory "Eine Kategorie hinzufügen">
 
 
 /* Admin edit presets column */
 <adminEditPresetColumn_presetTags "Tags">
-<adminEditPresetColumn_addTag "Ajouter un tag">
+<adminEditPresetColumn_addTag "Einen tag hinzufügen">
 
 
 /* Admin edit preset categories column */
-<adminPresetCategoryColumn_title "Catégorie">
+<adminPresetCategoryColumn_title "Kategorie">
