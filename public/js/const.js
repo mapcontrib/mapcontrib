@@ -425,5 +425,5 @@ export default {
     unknown: 'unknown'
   },
 
-  availableLocales: ['fr', 'en', 'it']
+  availableLocales: ['de', 'en', 'fr', 'it']
 };
