@@ -10,8 +10,8 @@
 <mapcontrib "MapContrib">
 <mapcontribBlog "Blog des Projekts">
 <wiki "Wiki">
-<reportBug "einen Fehler melden">
-<sendFeedback "das Team kontaktieren">
+<reportBug "Einen Fehler melden">
+<sendFeedback "Das Team kontaktieren">
 <slogan "Contribution thématique à <a>OpenStreetMap</a>">
 <inviteToContribute1 "Dieses Element kommt aus der offenen geographischen Datenbank genannt <a href=\"https://openstreetmap.org\">OpenStreetMap</a>.">
 <inviteToContribute2 "Wenn die angezeigten Informationen fehlerhaft oder unvollständig sind, können Sie sie korrigieren, in dem Sie auf den Button darüber klicken.">
@@ -71,11 +71,11 @@
 <by "durch">
 <version "Version">
 <translations "Übersetzungen">
-<presets "Typ Knoten">
+<presets "Knotentyp">
 <presetCategories "Kategorien von Knoten-Typen">
 <tags "Tags">
 <goBackToHome "Zurück zur Startseite">
-<about "À propos de {{ mapcontrib }}">
+<about "Über {{ mapcontrib }}">
 <myThemes "Meine Themen">
 <preferences "Präferenzen">
 <edit "Bearbeiten">
@@ -161,7 +161,7 @@
 
 
 /* About */
-<aboutTitle "A propos">
+<aboutTitle "Über MapContrib">
 <aboutText1 "MapContrib ist eine <a>freie Software</a>, die mit Unterstützung des Département de la Gironde entwickelt wurde, im Rahmen eines Projektaufrufs zu «&nbsp;Déchets et Numériques&nbsp;».">
 <aboutText2 "MapContrib möchte die Kenntnisse über die Anlagen zur Mülltrennung verbessern, indem es sie in der freien kartographischen Datenbank <a>OpenStreetMap</a> referenziert.">
 <aboutText3 "Durch die Nutzung von MapContrib akzeptieren Sie, dass Ihre Einträge <a>lizenziert «&nbsp;ODbL&nbsp;»</a>, werden, so dass sie unter Nennung der Quelle <a>«&nbsp;Contributeurs OSM&nbsp;»</a> wiederverwendet und geteilt werden können.">
@@ -268,7 +268,6 @@
 
 Fügen sie ihn hier ein!">
 
-
 /* Edit layer column */
 <editLayerListColumn_title "Layer">
 <editLayerListColumn_addLayer "Einen Layer hinzufügen">
@@ -277,7 +276,7 @@ Fügen sie ihn hier ein!">
 /* Edit layer column */
 <editLayerFormColumn_title "Layer bearbeiten">
 <editLayerFormColumn_layerName "{{ name }}">
-<editLayerFormColumn_layerDescription "{{ description }}">
+<editLayerFormColumn_layerDescription "{{ Beschreibung }}">
 <editLayerFormColumn_representationType "Darstellung">
 <editLayerFormColumn_clusterRepresentation "zusammenzufassende Punkte">
 <editLayerFormColumn_heatRepresentation "Thermische Karte">
