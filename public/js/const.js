@@ -307,6 +307,16 @@ export default {
         minZoom: 0,
         maxZoom: 20
       },
+      cyclOsm: {
+        name: 'CyclOSM',
+        attribution:
+          'Tiles &copy; <a href="https://www.cyclosm.org" rel="noopener noreferrer" target="_blank">CyclOSM</a> - Data &copy; <a href="http://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a>',
+        urlTemplate: [
+          'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png'
+        ],
+        minZoom: 0,
+        maxZoom: 20
+      },
       hydda: {
         name: 'Hydda',
         attribution:
