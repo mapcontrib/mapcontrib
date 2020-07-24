@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.17.0
+
+* Add the deutsh locale.
+* Add the CyclOSM tiles.
+* When the loading URL of a theme contains the position and zoom lvel, the zoom level is now properly applied.
+
 ## 1.16.0
 
 * Enhance the cache archive by letting the administrators know that a cached element has been modified in OSM. They can refuse or validate the modification. They also can send a new version of the element to OSM by mixing the two versions.
