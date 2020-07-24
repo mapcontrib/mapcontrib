@@ -516,10 +516,7 @@ export default Marionette.LayoutView.extend({
   },
 
   setMapPosition(zoom, lat, lng) {
-    const zoomLevel = MapUi.buildZoomLevelFromLockOptions(
-      zoomLevel,
-      this.model
-    );
+    const zoomLevel = MapUi.buildZoomLevelFromLockOptions(zoom, this.model);
     const position = MapUi.buildPositionFromLockOptions(lat, lng, this.model);
 
     this._initialCenter = position;
