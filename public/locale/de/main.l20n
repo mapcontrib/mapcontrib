@@ -242,7 +242,7 @@
 /* Edit settings column */
 <editSettingColumn_title "Einstellungen">
 <editSettingColumn_themeName "Name des Themas">
-<editSettingColumn_themeDescription "{{ Beschreibung }}">
+<editSettingColumn_themeDescription "{{ description }}">
 <editSettingColumn_color "Frage">
 <editSettingColumn_position "Position">
 <editSettingColumn_geolocation "Geolokalisierung">
