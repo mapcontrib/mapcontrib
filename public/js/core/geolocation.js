@@ -12,6 +12,7 @@ export default class Geolocation {
     this._hasHeadingMarker = false;
     this._lastAutomaticZoom = null;
     this._map = map;
+    this._onOrientationFound = this._onOrientationFound.bind(this);
   }
 
   /**
