@@ -6,6 +6,9 @@
 
 > Thematic OpenStreetMap contribution
 
+2021/04/23 -> we had problems following a fire in a datacenter. Everything is not working properly.
+
+
 [![MapContrib](https://github.com/mapcontrib/mapcontrib/raw/master/screenshot.png)](https://www.mapcontrib.xyz)
 
 
