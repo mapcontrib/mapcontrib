@@ -5,6 +5,7 @@
 # ![MapContrib](https://github.com/mapcontrib/mapcontrib/raw/master/logo.png)
 
 > Thematic OpenStreetMap contribution
+MapContrib is a web application for thematic contributions to OpenStreetMap. Everyone can create themes and then make them available to anyone. Users can use their OpenStreetMap account to contribute to the OSM database through the theme. 
 
 2021/04/23 -> we had problems following a fire in a datacenter. Everything is not working properly.
 
