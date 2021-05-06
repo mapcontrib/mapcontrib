@@ -177,7 +177,7 @@
     "transform-loader": "^0.2.3",
     "typeahead.js": "^0.11.1",
     "typeahead.js-bootstrap-css": "^1.2.1",
-    "underscore": "^1.8.3",
+    "underscore": "^1.12.1",
     "url-loader": "^1.0.1",
     "winston": "^2.4.0",
     "xmldom": "^0.5.0"
