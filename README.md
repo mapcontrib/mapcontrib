@@ -25,7 +25,7 @@
 
 ## Contribution
 
-Informations about contributing are available in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+Information about contributing is available in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 
 ## Installation
