@@ -154,7 +154,7 @@
     "marked": "^0.3.17",
     "math.format": "^1.0.2",
     "method-override": "^2.3.10",
-    "moment-timezone": "^0.5.14",
+    "moment-timezone": "^0.5.35",
     "mongodb": "^2.1.14",
     "morgan": "^1.9.0",
     "multer": "^0.1.8",
