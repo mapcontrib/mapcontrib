@@ -6,7 +6,15 @@
 
 > Thematic OpenStreetMap contribution
 
-**MapContrib is a web application for thematic contributions to OpenStreetMap. Everyone can create themes and then make them available to anyone. Users can use their OpenStreetMap account to contribute to the OSM database through the theme.** [More info](http://wiki.openstreetmap.org/wiki/MapContrib)
+**🛑 2025 update 🛑**
+
+This project has been **abandonned**, as the technical stack is old, and difficult to maintain. The website is **down**. See this (French) thread: https://forum.openstreetmap.fr/t/du-developpement-pour-mapcontrib/23868
+
+
+---
+
+
+MapContrib is a web application for thematic contributions to OpenStreetMap. Everyone can create themes and then make them available to anyone. Users can use their OpenStreetMap account to contribute to the OSM database through the theme. [More info](http://wiki.openstreetmap.org/wiki/MapContrib)
 
 2021/04/23 -> we had problems following a fire in a datacenter. Everything is not working properly.
 
